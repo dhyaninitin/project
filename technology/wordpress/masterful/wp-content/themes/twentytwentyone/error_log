@@ -1,0 +1,8 @@
+[21-Jun-2022 19:56:29 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/shwetaskulkarni/public_html/masterfulglobal.com/wp-content/themes/twentytwentyone/404.php:12
+Stack trace:
+#0 {main}
+  thrown in /home/shwetaskulkarni/public_html/masterfulglobal.com/wp-content/themes/twentytwentyone/404.php on line 12
+[26-Jul-2022 18:53:16 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/shwetaskulkarni/public_html/masterfulglobal.com/wp-content/themes/twentytwentyone/404.php:12
+Stack trace:
+#0 {main}
+  thrown in /home/shwetaskulkarni/public_html/masterfulglobal.com/wp-content/themes/twentytwentyone/404.php on line 12

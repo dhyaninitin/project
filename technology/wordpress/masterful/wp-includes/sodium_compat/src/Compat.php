@@ -126,14 +126,14 @@ class ParagonIE_Sodium_Compat
     const CRYPTO_SECRETBOX_KEYBYTES = 32;
     const CRYPTO_SECRETBOX_MACBYTES = 16;
     const CRYPTO_SECRETBOX_NONCEBYTES = 24;
-    const CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_ABYTES = 17;
-    const CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_HEADERBYTES = 24;
-    const CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_KEYBYTES = 32;
-    const CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_TAG_PUSH = 0;
-    const CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_TAG_PULL = 1;
-    const CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_TAG_REKEY = 2;
-    const CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_TAG_FINAL = 3;
-    const CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_MESSAGEBYTES_MAX = 0x3fffffff80;
+    const CRYPTO_TREAM_XCHACHA20POLY1305_ABYTES = 17;
+    const CRYPTO_TREAM_XCHACHA20POLY1305_HEADERBYTES = 24;
+    const CRYPTO_TREAM_XCHACHA20POLY1305_KEYBYTES = 32;
+    const CRYPTO_TREAM_XCHACHA20POLY1305_TAG_PUSH = 0;
+    const CRYPTO_TREAM_XCHACHA20POLY1305_TAG_PULL = 1;
+    const CRYPTO_TREAM_XCHACHA20POLY1305_TAG_REKEY = 2;
+    const CRYPTO_TREAM_XCHACHA20POLY1305_TAG_FINAL = 3;
+    const CRYPTO_TREAM_XCHACHA20POLY1305_MESSAGEBYTES_MAX = 0x3fffffff80;
     const CRYPTO_SIGN_BYTES = 64;
     const CRYPTO_SIGN_SEEDBYTES = 32;
     const CRYPTO_SIGN_PUBLICKEYBYTES = 32;
@@ -2425,12 +2425,12 @@ class ParagonIE_Sodium_Compat
      * @throws Exception
      * @throws SodiumException
      */
-    public static function crypto_secretstream_xchacha20poly1305_init_push($key)
+    public static function crypto_tream_xchacha20poly1305_init_push($key)
     {
         if (PHP_INT_SIZE === 4) {
-            return ParagonIE_Sodium_Crypto32::secretstream_xchacha20poly1305_init_push($key);
+            return ParagonIE_Sodium_Crypto32::tream_xchacha20poly1305_init_push($key);
         }
-        return ParagonIE_Sodium_Crypto::secretstream_xchacha20poly1305_init_push($key);
+        return ParagonIE_Sodium_Crypto::tream_xchacha20poly1305_init_push($key);
     }
 
     /**
@@ -2439,17 +2439,17 @@ class ParagonIE_Sodium_Compat
      * @return string Returns a state.
      * @throws Exception
      */
-    public static function crypto_secretstream_xchacha20poly1305_init_pull($header, $key)
+    public static function crypto_tream_xchacha20poly1305_init_pull($header, $key)
     {
-        if (ParagonIE_Sodium_Core_Util::strlen($header) < self::CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_HEADERBYTES) {
+        if (ParagonIE_Sodium_Core_Util::strlen($header) < self::CRYPTO_TREAM_XCHACHA20POLY1305_HEADERBYTES) {
             throw new SodiumException(
-                'header size should be SODIUM_CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_HEADERBYTES bytes'
+                'header size should be SODIUM_CRYPTO_TREAM_XCHACHA20POLY1305_HEADERBYTES bytes'
             );
         }
         if (PHP_INT_SIZE === 4) {
-            return ParagonIE_Sodium_Crypto32::secretstream_xchacha20poly1305_init_pull($key, $header);
+            return ParagonIE_Sodium_Crypto32::tream_xchacha20poly1305_init_pull($key, $header);
         }
-        return ParagonIE_Sodium_Crypto::secretstream_xchacha20poly1305_init_pull($key, $header);
+        return ParagonIE_Sodium_Crypto::tream_xchacha20poly1305_init_pull($key, $header);
     }
 
     /**
@@ -2460,17 +2460,17 @@ class ParagonIE_Sodium_Compat
      * @return string
      * @throws SodiumException
      */
-    public static function crypto_secretstream_xchacha20poly1305_push(&$state, $msg, $aad = '', $tag = 0)
+    public static function crypto_tream_xchacha20poly1305_push(&$state, $msg, $aad = '', $tag = 0)
     {
         if (PHP_INT_SIZE === 4) {
-            return ParagonIE_Sodium_Crypto32::secretstream_xchacha20poly1305_push(
+            return ParagonIE_Sodium_Crypto32::tream_xchacha20poly1305_push(
                 $state,
                 $msg,
                 $aad,
                 $tag
             );
         }
-        return ParagonIE_Sodium_Crypto::secretstream_xchacha20poly1305_push(
+        return ParagonIE_Sodium_Crypto::tream_xchacha20poly1305_push(
             $state,
             $msg,
             $aad,
@@ -2485,16 +2485,16 @@ class ParagonIE_Sodium_Compat
      * @return bool|array{0: string, 1: int}
      * @throws SodiumException
      */
-    public static function crypto_secretstream_xchacha20poly1305_pull(&$state, $msg, $aad = '')
+    public static function crypto_tream_xchacha20poly1305_pull(&$state, $msg, $aad = '')
     {
         if (PHP_INT_SIZE === 4) {
-            return ParagonIE_Sodium_Crypto32::secretstream_xchacha20poly1305_pull(
+            return ParagonIE_Sodium_Crypto32::tream_xchacha20poly1305_pull(
                 $state,
                 $msg,
                 $aad
             );
         }
-        return ParagonIE_Sodium_Crypto::secretstream_xchacha20poly1305_pull(
+        return ParagonIE_Sodium_Crypto::tream_xchacha20poly1305_pull(
             $state,
             $msg,
             $aad
@@ -2505,9 +2505,9 @@ class ParagonIE_Sodium_Compat
      * @return string
      * @throws Exception
      */
-    public static function crypto_secretstream_xchacha20poly1305_keygen()
+    public static function crypto_tream_xchacha20poly1305_keygen()
     {
-        return random_bytes(self::CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_KEYBYTES);
+        return random_bytes(self::CRYPTO_TREAM_XCHACHA20POLY1305_KEYBYTES);
     }
 
     /**
@@ -2515,12 +2515,12 @@ class ParagonIE_Sodium_Compat
      * @return void
      * @throws SodiumException
      */
-    public static function crypto_secretstream_xchacha20poly1305_rekey(&$state)
+    public static function crypto_tream_xchacha20poly1305_rekey(&$state)
     {
         if (PHP_INT_SIZE === 4) {
-            ParagonIE_Sodium_Crypto32::secretstream_xchacha20poly1305_rekey($state);
+            ParagonIE_Sodium_Crypto32::tream_xchacha20poly1305_rekey($state);
         } else {
-            ParagonIE_Sodium_Crypto::secretstream_xchacha20poly1305_rekey($state);
+            ParagonIE_Sodium_Crypto::tream_xchacha20poly1305_rekey($state);
         }
     }
 

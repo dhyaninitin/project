@@ -1237,23 +1237,23 @@ abstract class ParagonIE_Sodium_Crypto32
      * @throws Exception
      * @throws SodiumException
      */
-    public static function secretstream_xchacha20poly1305_init_push($key)
+    public static function tream_xchacha20poly1305_init_push($key)
     {
-        # randombytes_buf(out, crypto_secretstream_xchacha20poly1305_HEADERBYTES);
+        # randombytes_buf(out, crypto_tream_xchacha20poly1305_HEADERBYTES);
         $out = random_bytes(24);
 
         # crypto_core_hchacha20(state->k, out, k, NULL);
         $subkey = ParagonIE_Sodium_Core32_HChaCha20::hChaCha20($out, $key);
-        $state = new ParagonIE_Sodium_Core32_SecretStream_State(
+        $state = new ParagonIE_Sodium_Core32_tream_State(
             $subkey,
             ParagonIE_Sodium_Core32_Util::substr($out, 16, 8) . str_repeat("\0", 4)
         );
 
-        # _crypto_secretstream_xchacha20poly1305_counter_reset(state);
+        # _crypto_tream_xchacha20poly1305_counter_reset(state);
         $state->counterReset();
 
         # memcpy(STATE_INONCE(state), out + crypto_core_hchacha20_INPUTBYTES,
-        #        crypto_secretstream_xchacha20poly1305_INONCEBYTES);
+        #        crypto_tream_xchacha20poly1305_INONCEBYTES);
         # memset(state->_pad, 0, sizeof state->_pad);
         return array(
             $state->toString(),
@@ -1267,20 +1267,20 @@ abstract class ParagonIE_Sodium_Crypto32
      * @return string Returns a state.
      * @throws Exception
      */
-    public static function secretstream_xchacha20poly1305_init_pull($key, $header)
+    public static function tream_xchacha20poly1305_init_pull($key, $header)
     {
         # crypto_core_hchacha20(state->k, in, k, NULL);
         $subkey = ParagonIE_Sodium_Core32_HChaCha20::hChaCha20(
             ParagonIE_Sodium_Core32_Util::substr($header, 0, 16),
             $key
         );
-        $state = new ParagonIE_Sodium_Core32_SecretStream_State(
+        $state = new ParagonIE_Sodium_Core32_tream_State(
             $subkey,
             ParagonIE_Sodium_Core32_Util::substr($header, 16)
         );
         $state->counterReset();
         # memcpy(STATE_INONCE(state), in + crypto_core_hchacha20_INPUTBYTES,
-        #     crypto_secretstream_xchacha20poly1305_INONCEBYTES);
+        #     crypto_tream_xchacha20poly1305_INONCEBYTES);
         # memset(state->_pad, 0, sizeof state->_pad);
         # return 0;
         return $state->toString();
@@ -1294,9 +1294,9 @@ abstract class ParagonIE_Sodium_Crypto32
      * @return string
      * @throws SodiumException
      */
-    public static function secretstream_xchacha20poly1305_push(&$state, $msg, $aad = '', $tag = 0)
+    public static function tream_xchacha20poly1305_push(&$state, $msg, $aad = '', $tag = 0)
     {
-        $st = ParagonIE_Sodium_Core32_SecretStream_State::fromString($state);
+        $st = ParagonIE_Sodium_Core32_tream_State::fromString($state);
         # crypto_onetimeauth_poly1305_state poly1305_state;
         # unsigned char                     block[64U];
         # unsigned char                     slen[8U];
@@ -1308,14 +1308,14 @@ abstract class ParagonIE_Sodium_Crypto32
 
         if ((($msglen + 63) >> 6) > 0xfffffffe) {
             throw new SodiumException(
-                'message cannot be larger than SODIUM_CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_MESSAGEBYTES_MAX bytes'
+                'message cannot be larger than SODIUM_CRYPTO_TREAM_XCHACHA20POLY1305_MESSAGEBYTES_MAX bytes'
             );
         }
 
         # if (outlen_p != NULL) {
         #     *outlen_p = 0U;
         # }
-        # if (mlen > crypto_secretstream_xchacha20poly1305_MESSAGEBYTES_MAX) {
+        # if (mlen > crypto_tream_xchacha20poly1305_MESSAGEBYTES_MAX) {
         #     sodium_misuse();
         # }
 
@@ -1390,28 +1390,28 @@ abstract class ParagonIE_Sodium_Crypto32
 
 
         # XOR_BUF(STATE_INONCE(state), mac,
-        #     crypto_secretstream_xchacha20poly1305_INONCEBYTES);
+        #     crypto_tream_xchacha20poly1305_INONCEBYTES);
         $st->xorNonce($mac);
 
         # sodium_increment(STATE_COUNTER(state),
-        #     crypto_secretstream_xchacha20poly1305_COUNTERBYTES);
+        #     crypto_tream_xchacha20poly1305_COUNTERBYTES);
         $st->incrementCounter();
         // Overwrite by reference:
         $state = $st->toString();
 
         /** @var bool $rekey */
-        $rekey = ($tag & ParagonIE_Sodium_Compat::CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_TAG_REKEY) !== 0;
-        # if ((tag & crypto_secretstream_xchacha20poly1305_TAG_REKEY) != 0 ||
+        $rekey = ($tag & ParagonIE_Sodium_Compat::CRYPTO_TREAM_XCHACHA20POLY1305_TAG_REKEY) !== 0;
+        # if ((tag & crypto_tream_xchacha20poly1305_TAG_REKEY) != 0 ||
         #     sodium_is_zero(STATE_COUNTER(state),
-        #         crypto_secretstream_xchacha20poly1305_COUNTERBYTES)) {
-        #     crypto_secretstream_xchacha20poly1305_rekey(state);
+        #         crypto_tream_xchacha20poly1305_COUNTERBYTES)) {
+        #     crypto_tream_xchacha20poly1305_rekey(state);
         # }
         if ($rekey || $st->needsRekey()) {
             // DO REKEY
-            self::secretstream_xchacha20poly1305_rekey($state);
+            self::tream_xchacha20poly1305_rekey($state);
         }
         # if (outlen_p != NULL) {
-        #     *outlen_p = crypto_secretstream_xchacha20poly1305_ABYTES + mlen;
+        #     *outlen_p = crypto_tream_xchacha20poly1305_ABYTES + mlen;
         # }
         return $out;
     }
@@ -1423,21 +1423,21 @@ abstract class ParagonIE_Sodium_Crypto32
      * @return bool|array{0: string, 1: int}
      * @throws SodiumException
      */
-    public static function secretstream_xchacha20poly1305_pull(&$state, $cipher, $aad = '')
+    public static function tream_xchacha20poly1305_pull(&$state, $cipher, $aad = '')
     {
-        $st = ParagonIE_Sodium_Core32_SecretStream_State::fromString($state);
+        $st = ParagonIE_Sodium_Core32_tream_State::fromString($state);
 
         $cipherlen = ParagonIE_Sodium_Core32_Util::strlen($cipher);
-        #     mlen = inlen - crypto_secretstream_xchacha20poly1305_ABYTES;
-        $msglen = $cipherlen - ParagonIE_Sodium_Compat::CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_ABYTES;
+        #     mlen = inlen - crypto_tream_xchacha20poly1305_ABYTES;
+        $msglen = $cipherlen - ParagonIE_Sodium_Compat::CRYPTO_TREAM_XCHACHA20POLY1305_ABYTES;
         $aadlen = ParagonIE_Sodium_Core32_Util::strlen($aad);
 
-        #     if (mlen > crypto_secretstream_xchacha20poly1305_MESSAGEBYTES_MAX) {
+        #     if (mlen > crypto_tream_xchacha20poly1305_MESSAGEBYTES_MAX) {
         #         sodium_misuse();
         #     }
         if ((($msglen + 63) >> 6) > 0xfffffffe) {
             throw new SodiumException(
-                'message cannot be larger than SODIUM_CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_MESSAGEBYTES_MAX bytes'
+                'message cannot be larger than SODIUM_CRYPTO_TREAM_XCHACHA20POLY1305_MESSAGEBYTES_MAX bytes'
             );
         }
 
@@ -1516,27 +1516,27 @@ abstract class ParagonIE_Sodium_Crypto32
         );
 
         #     XOR_BUF(STATE_INONCE(state), mac,
-        #         crypto_secretstream_xchacha20poly1305_INONCEBYTES);
+        #         crypto_tream_xchacha20poly1305_INONCEBYTES);
         $st->xorNonce($mac);
 
         #     sodium_increment(STATE_COUNTER(state),
-        #         crypto_secretstream_xchacha20poly1305_COUNTERBYTES);
+        #         crypto_tream_xchacha20poly1305_COUNTERBYTES);
         $st->incrementCounter();
 
-        #     if ((tag & crypto_secretstream_xchacha20poly1305_TAG_REKEY) != 0 ||
+        #     if ((tag & crypto_tream_xchacha20poly1305_TAG_REKEY) != 0 ||
         #         sodium_is_zero(STATE_COUNTER(state),
-        #             crypto_secretstream_xchacha20poly1305_COUNTERBYTES)) {
-        #         crypto_secretstream_xchacha20poly1305_rekey(state);
+        #             crypto_tream_xchacha20poly1305_COUNTERBYTES)) {
+        #         crypto_tream_xchacha20poly1305_rekey(state);
         #     }
 
         // Overwrite by reference:
         $state = $st->toString();
 
         /** @var bool $rekey */
-        $rekey = ($tag & ParagonIE_Sodium_Compat::CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_TAG_REKEY) !== 0;
+        $rekey = ($tag & ParagonIE_Sodium_Compat::CRYPTO_TREAM_XCHACHA20POLY1305_TAG_REKEY) !== 0;
         if ($rekey || $st->needsRekey()) {
             // DO REKEY
-            self::secretstream_xchacha20poly1305_rekey($state);
+            self::tream_xchacha20poly1305_rekey($state);
         }
         return array($out, $tag);
     }
@@ -1546,18 +1546,18 @@ abstract class ParagonIE_Sodium_Crypto32
      * @return void
      * @throws SodiumException
      */
-    public static function secretstream_xchacha20poly1305_rekey(&$state)
+    public static function tream_xchacha20poly1305_rekey(&$state)
     {
-        $st = ParagonIE_Sodium_Core32_SecretStream_State::fromString($state);
+        $st = ParagonIE_Sodium_Core32_tream_State::fromString($state);
         # unsigned char new_key_and_inonce[crypto_stream_chacha20_ietf_KEYBYTES +
-        # crypto_secretstream_xchacha20poly1305_INONCEBYTES];
+        # crypto_tream_xchacha20poly1305_INONCEBYTES];
         # size_t        i;
         # for (i = 0U; i < crypto_stream_chacha20_ietf_KEYBYTES; i++) {
         #     new_key_and_inonce[i] = state->k[i];
         # }
         $new_key_and_inonce = $st->getKey();
 
-        # for (i = 0U; i < crypto_secretstream_xchacha20poly1305_INONCEBYTES; i++) {
+        # for (i = 0U; i < crypto_tream_xchacha20poly1305_INONCEBYTES; i++) {
         #     new_key_and_inonce[crypto_stream_chacha20_ietf_KEYBYTES + i] =
         #         STATE_INONCE(state)[i];
         # }
@@ -1577,11 +1577,11 @@ abstract class ParagonIE_Sodium_Crypto32
         # for (i = 0U; i < crypto_stream_chacha20_ietf_KEYBYTES; i++) {
         #     state->k[i] = new_key_and_inonce[i];
         # }
-        # for (i = 0U; i < crypto_secretstream_xchacha20poly1305_INONCEBYTES; i++) {
+        # for (i = 0U; i < crypto_tream_xchacha20poly1305_INONCEBYTES; i++) {
         #     STATE_INONCE(state)[i] =
         #          new_key_and_inonce[crypto_stream_chacha20_ietf_KEYBYTES + i];
         # }
-        # _crypto_secretstream_xchacha20poly1305_counter_reset(state);
+        # _crypto_tream_xchacha20poly1305_counter_reset(state);
         $st->counterReset();
 
         $state = $st->toString();

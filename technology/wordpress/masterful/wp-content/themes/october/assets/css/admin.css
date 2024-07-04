@@ -1,0 +1,13 @@
+/* ADMIN CSS */
+
+.login h1 a {
+	width: 200px;
+	background-image: url('../img/logo-admin.png') !important;
+	background-size: 100%;
+}
+
+#adminmenu .menu-icon-team div.wp-menu-image:before { content: '\f307'; }
+#adminmenu .menu-icon-services div.wp-menu-image:before { content: '\f107'; }
+#adminmenu .menu-icon-portfolio div.wp-menu-image:before { content: '\f322'; }
+#adminmenu .menu-icon-clients div.wp-menu-image:before { content: '\f336'; }
+#adminmenu .menu-icon-testimonials div.wp-menu-image:before { content: '\f122'; }

@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class ParagonIE_Sodium_Core_SecretStream_State
+ * Class ParagonIE_Sodium_Core_tream_State
  */
-class ParagonIE_Sodium_Core_SecretStream_State
+class ParagonIE_Sodium_Core_tream_State
 {
     /** @var string $key */
     protected $key;
@@ -18,7 +18,7 @@ class ParagonIE_Sodium_Core_SecretStream_State
     protected $_pad;
 
     /**
-     * ParagonIE_Sodium_Core_SecretStream_State constructor.
+     * ParagonIE_Sodium_Core_tream_State constructor.
      * @param string $key
      * @param string|null $nonce
      */
@@ -139,7 +139,7 @@ class ParagonIE_Sodium_Core_SecretStream_State
      */
     public static function fromString($string)
     {
-        $state = new ParagonIE_Sodium_Core_SecretStream_State(
+        $state = new ParagonIE_Sodium_Core_tream_State(
             ParagonIE_Sodium_Core_Util::substr($string, 0, 32)
         );
         $state->counter = ParagonIE_Sodium_Core_Util::load_4(

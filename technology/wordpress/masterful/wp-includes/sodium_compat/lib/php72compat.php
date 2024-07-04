@@ -79,14 +79,14 @@ foreach (array(
     'CRYPTO_SECRETBOX_KEYBYTES',
     'CRYPTO_SECRETBOX_MACBYTES',
     'CRYPTO_SECRETBOX_NONCEBYTES',
-    'CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_ABYTES',
-    'CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_HEADERBYTES',
-    'CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_KEYBYTES',
-    'CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_TAG_PUSH',
-    'CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_TAG_PULL',
-    'CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_TAG_REKEY',
-    'CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_TAG_FINAL',
-    'CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_MESSAGEBYTES_MAX',
+    'CRYPTO_TREAM_XCHACHA20POLY1305_ABYTES',
+    'CRYPTO_TREAM_XCHACHA20POLY1305_HEADERBYTES',
+    'CRYPTO_TREAM_XCHACHA20POLY1305_KEYBYTES',
+    'CRYPTO_TREAM_XCHACHA20POLY1305_TAG_PUSH',
+    'CRYPTO_TREAM_XCHACHA20POLY1305_TAG_PULL',
+    'CRYPTO_TREAM_XCHACHA20POLY1305_TAG_REKEY',
+    'CRYPTO_TREAM_XCHACHA20POLY1305_TAG_FINAL',
+    'CRYPTO_TREAM_XCHACHA20POLY1305_MESSAGEBYTES_MAX',
     'CRYPTO_SIGN_BYTES',
     'CRYPTO_SIGN_SEEDBYTES',
     'CRYPTO_SIGN_PUBLICKEYBYTES',
@@ -916,18 +916,18 @@ if (!is_callable('sodium_crypto_secretbox_open')) {
         }
     }
 }
-if (!is_callable('sodium_crypto_secretstream_xchacha20poly1305_init_push')) {
+if (!is_callable('sodium_crypto_tream_xchacha20poly1305_init_push')) {
     /**
      * @param string $key
      * @return array<int, string>
      * @throws SodiumException
      */
-    function sodium_crypto_secretstream_xchacha20poly1305_init_push($key)
+    function sodium_crypto_tream_xchacha20poly1305_init_push($key)
     {
-        return ParagonIE_Sodium_Compat::crypto_secretstream_xchacha20poly1305_init_push($key);
+        return ParagonIE_Sodium_Compat::crypto_tream_xchacha20poly1305_init_push($key);
     }
 }
-if (!is_callable('sodium_crypto_secretstream_xchacha20poly1305_push')) {
+if (!is_callable('sodium_crypto_tream_xchacha20poly1305_push')) {
     /**
      * @param string $state
      * @param string $msg
@@ -936,24 +936,24 @@ if (!is_callable('sodium_crypto_secretstream_xchacha20poly1305_push')) {
      * @return string
      * @throws SodiumException
      */
-    function sodium_crypto_secretstream_xchacha20poly1305_push(&$state, $msg, $aad = '', $tag = 0)
+    function sodium_crypto_tream_xchacha20poly1305_push(&$state, $msg, $aad = '', $tag = 0)
     {
-        return ParagonIE_Sodium_Compat::crypto_secretstream_xchacha20poly1305_push($state, $msg, $aad, $tag);
+        return ParagonIE_Sodium_Compat::crypto_tream_xchacha20poly1305_push($state, $msg, $aad, $tag);
     }
 }
-if (!is_callable('sodium_crypto_secretstream_xchacha20poly1305_init_pull')) {
+if (!is_callable('sodium_crypto_tream_xchacha20poly1305_init_pull')) {
     /**
      * @param string $header
      * @param string $key
      * @return string
      * @throws Exception
      */
-    function sodium_crypto_secretstream_xchacha20poly1305_init_pull($header, $key)
+    function sodium_crypto_tream_xchacha20poly1305_init_pull($header, $key)
     {
-        return ParagonIE_Sodium_Compat::crypto_secretstream_xchacha20poly1305_init_pull($header, $key);
+        return ParagonIE_Sodium_Compat::crypto_tream_xchacha20poly1305_init_pull($header, $key);
     }
 }
-if (!is_callable('sodium_crypto_secretstream_xchacha20poly1305_pull')) {
+if (!is_callable('sodium_crypto_tream_xchacha20poly1305_pull')) {
     /**
      * @param string $state
      * @param string $cipher
@@ -961,30 +961,30 @@ if (!is_callable('sodium_crypto_secretstream_xchacha20poly1305_pull')) {
      * @return bool|array{0: string, 1: int}
      * @throws SodiumException
      */
-    function sodium_crypto_secretstream_xchacha20poly1305_pull(&$state, $cipher, $aad = '')
+    function sodium_crypto_tream_xchacha20poly1305_pull(&$state, $cipher, $aad = '')
     {
-        return ParagonIE_Sodium_Compat::crypto_secretstream_xchacha20poly1305_pull($state, $cipher, $aad);
+        return ParagonIE_Sodium_Compat::crypto_tream_xchacha20poly1305_pull($state, $cipher, $aad);
     }
 }
-if (!is_callable('sodium_crypto_secretstream_xchacha20poly1305_rekey')) {
+if (!is_callable('sodium_crypto_tream_xchacha20poly1305_rekey')) {
     /**
      * @param string $state
      * @return void
      * @throws SodiumException
      */
-    function sodium_crypto_secretstream_xchacha20poly1305_rekey(&$state)
+    function sodium_crypto_tream_xchacha20poly1305_rekey(&$state)
     {
-        ParagonIE_Sodium_Compat::crypto_secretstream_xchacha20poly1305_rekey($state);
+        ParagonIE_Sodium_Compat::crypto_tream_xchacha20poly1305_rekey($state);
     }
 }
-if (!is_callable('sodium_crypto_secretstream_xchacha20poly1305_keygen')) {
+if (!is_callable('sodium_crypto_tream_xchacha20poly1305_keygen')) {
     /**
      * @return string
      * @throws Exception
      */
-    function sodium_crypto_secretstream_xchacha20poly1305_keygen()
+    function sodium_crypto_tream_xchacha20poly1305_keygen()
     {
-        return ParagonIE_Sodium_Compat::crypto_secretstream_xchacha20poly1305_keygen();
+        return ParagonIE_Sodium_Compat::crypto_tream_xchacha20poly1305_keygen();
     }
 }
 if (!is_callable('sodium_crypto_shorthash')) {

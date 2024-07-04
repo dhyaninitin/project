@@ -1,0 +1,1644 @@
+# Copyright (C) 2022 Prince
+# This file is distributed under the same license as the Integrate Google Drive plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Integrate Google Drive 1.1.2\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/integrate-google-drive\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2022-04-15T19:00:19+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.6.0\n"
+"X-Domain: integrate-google-drive\n"
+
+#. Plugin Name of the plugin
+#: includes/block/class-block.php:23
+#: includes/class-admin.php:34
+#: includes/elementor/class-elementor.php:35
+msgid "Integrate Google Drive"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://wpmilitary.com/integrate-google-drive"
+msgstr ""
+
+#. Description of the plugin
+msgid "Complete Google Drive solution for WordPress to integrate, embed, display, play, share and download the documents and media files directly from your Google Drive into your WordPress website."
+msgstr ""
+
+#. Author of the plugin
+msgid "Prince"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://wpmilitary.com/"
+msgstr ""
+
+#: app/class-client.php:155
+msgid "Error communicating with API:"
+msgstr ""
+
+#: app/class-private-folders.php:52
+msgid "Guest Users"
+msgstr ""
+
+#: app/class-private-folders.php:53
+msgid "Default folders for guests and non-linked users"
+msgstr ""
+
+#: app/class-private-folders.php:110
+msgctxt "No user roles"
+msgid "None"
+msgstr ""
+
+#: includes/base.php:126
+#: includes/class-admin.php:60
+#: dist/js/admin.js:32640
+#: dist/js/admin.js:33509
+msgid "Settings"
+msgstr ""
+
+#: includes/base.php:127
+msgid "Help"
+msgstr ""
+
+#: includes/class-admin.php:34
+msgid "Google Drive"
+msgstr ""
+
+#: includes/class-admin.php:46
+msgid "Private Folders"
+msgstr ""
+
+#: includes/class-admin.php:53
+msgid "Getting Started"
+msgstr ""
+
+#: includes/class-hooks.php:77
+msgid "Something went wrong! Preview not available"
+msgstr ""
+
+#: includes/class-hooks.php:145
+msgid "Integrate Google Drive Synchronize Interval"
+msgstr ""
+
+#: includes/class-statistics.php:22
+#: dist/js/admin.js:32650
+#: dist/js/admin.js:33469
+#: dist/js/statistics.js:17780
+msgid "Statistics"
+msgstr ""
+
+#: includes/elementor/class-elementor-module-widget.php:17
+#: includes/elementor/class-elementor-module-widget.php:43
+#: dist/js/admin.js:32656
+#: dist/js/admin.js:32661
+#: dist/js/elementor.js:31844
+msgid "Google Drive Module"
+msgstr ""
+
+#: includes/elementor/class-elementor-module-widget.php:49
+msgid "Module Data"
+msgstr ""
+
+#: includes/elementor/class-elementor-shortcodes-widget.php:17
+#: dist/js/admin.js:32656
+#: dist/js/admin.js:32661
+#: dist/js/tinymce.js:17082
+msgid "Module Shortcodes"
+msgstr ""
+
+#: includes/elementor/class-elementor-shortcodes-widget.php:43
+msgid "Module Shortcode"
+msgstr ""
+
+#: includes/elementor/class-elementor-shortcodes-widget.php:50
+msgid "Select Shortcode Module"
+msgstr ""
+
+#: includes/elementor/class-elementor-shortcodes-widget.php:67
+msgid "Please select a shortcode module."
+msgstr ""
+
+#: includes/integrations/class-cf7.php:68
+#: includes/integrations/class-wpforms.php:24
+msgid "Google Drive Upload"
+msgstr ""
+
+#: includes/integrations/class-cf7.php:76
+msgid "Generate a form-tag for this upload field."
+msgstr ""
+
+#: includes/integrations/class-cf7.php:85
+#: includes/integrations/class-cf7.php:88
+msgid "Field type"
+msgstr ""
+
+#: includes/integrations/class-cf7.php:91
+msgid "Required field"
+msgstr ""
+
+#: includes/integrations/class-cf7.php:100
+#: dist/js/admin.js:35733
+#: dist/js/cf7.js:24633
+#: dist/js/elementor.js:33325
+#: dist/js/gravityforms.js:33700
+#: dist/js/wpforms.js:33700
+#: includes/block/build/index.js:1
+msgid "Name"
+msgstr ""
+
+#: includes/integrations/class-cf7.php:112
+msgid "Configure"
+msgstr ""
+
+#: includes/integrations/class-cf7.php:134
+msgid "Insert Tag"
+msgstr ""
+
+#: includes/integrations/class-gravityforms.php:105
+msgid "Configure the uploader field."
+msgstr ""
+
+#: includes/integrations/class-gravityforms.php:113
+msgid "Attach your documents"
+msgstr ""
+
+#: includes/integrations/class-gravityforms.php:178
+msgid "Let users attach files to this form. The files will be stored in the Google Drive"
+msgstr ""
+
+#: includes/integrations/class-gravityforms.php:213
+msgid "This field is not editable"
+msgstr ""
+
+#: includes/integrations/class-gravityforms.php:257
+msgid "This field is required. Please upload your files."
+msgstr ""
+
+#: includes/integrations/class-wpforms.php:168
+msgid "Data"
+msgstr ""
+
+#: plugin.php:17
+msgid "You can't access this page"
+msgstr ""
+
+#: dist/js/admin.js:27472
+#: dist/js/cf7.js:19615
+#: dist/js/edd.js:12222
+#: dist/js/elementor.js:27412
+#: dist/js/frontend.js:17861
+#: dist/js/gravityforms.js:27890
+#: dist/js/tinymce.js:11744
+#: dist/js/woocommerce.js:12222
+#: dist/js/wpforms.js:27890
+#: includes/block/build/index.js:1
+msgid "You didn't add any account yet."
+msgstr ""
+
+#: dist/js/admin.js:27474
+#: dist/js/cf7.js:19617
+#: dist/js/edd.js:12224
+#: dist/js/elementor.js:27414
+#: dist/js/frontend.js:17863
+#: dist/js/gravityforms.js:27892
+#: dist/js/tinymce.js:11746
+#: dist/js/woocommerce.js:12224
+#: dist/js/wpforms.js:27892
+#: includes/block/build/index.js:1
+msgid "Please link to a Google Drive account to continue."
+msgstr ""
+
+#: dist/js/admin.js:27483
+#: dist/js/cf7.js:19626
+#: dist/js/edd.js:12233
+#: dist/js/elementor.js:27423
+#: dist/js/frontend.js:17872
+#: dist/js/gravityforms.js:27901
+#: dist/js/tinymce.js:11755
+#: dist/js/woocommerce.js:12233
+#: dist/js/wpforms.js:27901
+#: includes/block/build/index.js:1
+msgid "Add account"
+msgstr ""
+
+#: dist/js/admin.js:29705
+#: dist/js/cf7.js:21848
+#: dist/js/edd.js:14455
+#: dist/js/elementor.js:29645
+#: dist/js/frontend.js:20094
+#: dist/js/gravityforms.js:30123
+#: dist/js/tinymce.js:13977
+#: dist/js/woocommerce.js:14455
+#: dist/js/wpforms.js:30123
+#: includes/block/build/index.js:1
+msgid "File size exceeds the maximum upload size."
+msgstr ""
+
+#: dist/js/admin.js:29707
+#: dist/js/cf7.js:21850
+#: dist/js/edd.js:14457
+#: dist/js/elementor.js:29647
+#: dist/js/frontend.js:20096
+#: dist/js/gravityforms.js:30125
+#: dist/js/tinymce.js:13979
+#: dist/js/woocommerce.js:14457
+#: dist/js/wpforms.js:30125
+#: includes/block/build/index.js:1
+msgid "This file type is not allowed"
+msgstr ""
+
+#: dist/js/admin.js:29739
+#: dist/js/cf7.js:21882
+#: dist/js/edd.js:14489
+#: dist/js/elementor.js:29679
+#: dist/js/frontend.js:20128
+#: dist/js/gravityforms.js:30157
+#: dist/js/tinymce.js:14011
+#: dist/js/woocommerce.js:14489
+#: dist/js/wpforms.js:30157
+#: includes/block/build/index.js:1
+msgid "File extension error."
+msgstr ""
+
+#: dist/js/admin.js:29804
+#: dist/js/cf7.js:21947
+#: dist/js/edd.js:14554
+#: dist/js/elementor.js:29744
+#: dist/js/frontend.js:20193
+#: dist/js/gravityforms.js:30222
+#: dist/js/tinymce.js:14076
+#: dist/js/woocommerce.js:14554
+#: dist/js/wpforms.js:30222
+#: includes/block/build/index.js:1
+msgid "Drop files or folder here"
+msgstr ""
+
+#: dist/js/admin.js:29804
+#: dist/js/cf7.js:21947
+#: dist/js/edd.js:14554
+#: dist/js/elementor.js:29744
+#: dist/js/frontend.js:20193
+#: dist/js/gravityforms.js:30222
+#: dist/js/tinymce.js:14076
+#: dist/js/woocommerce.js:14554
+#: dist/js/wpforms.js:30222
+#: includes/block/build/index.js:1
+msgid "OR"
+msgstr ""
+
+#: dist/js/admin.js:29813
+#: dist/js/cf7.js:21956
+#: dist/js/edd.js:14563
+#: dist/js/elementor.js:29753
+#: dist/js/frontend.js:20202
+#: dist/js/gravityforms.js:30231
+#: dist/js/tinymce.js:14085
+#: dist/js/woocommerce.js:14563
+#: dist/js/wpforms.js:30231
+#: includes/block/build/index.js:1
+msgid "Browse Files"
+msgstr ""
+
+#: dist/js/admin.js:29818
+#: dist/js/admin.js:36578
+#: dist/js/cf7.js:21961
+#: dist/js/cf7.js:25478
+#: dist/js/edd.js:14568
+#: dist/js/edd.js:17092
+#: dist/js/elementor.js:29758
+#: dist/js/elementor.js:34170
+#: dist/js/frontend.js:20207
+#: dist/js/gravityforms.js:30236
+#: dist/js/gravityforms.js:34545
+#: dist/js/tinymce.js:14090
+#: dist/js/tinymce.js:16614
+#: dist/js/woocommerce.js:14568
+#: dist/js/woocommerce.js:17092
+#: dist/js/wpforms.js:30236
+#: dist/js/wpforms.js:34545
+#: includes/block/build/index.js:1
+msgid "Upload Folder"
+msgstr ""
+
+#: dist/js/admin.js:32622
+msgid "Introduction"
+msgstr ""
+
+#: dist/js/admin.js:32626
+msgid "What's new?"
+msgstr ""
+
+#: dist/js/admin.js:32630
+msgid "Basic Usage"
+msgstr ""
+
+#: dist/js/admin.js:32635
+#: dist/js/admin.js:36825
+msgid "Shortcode Builder"
+msgstr ""
+
+#: dist/js/admin.js:32637
+#: dist/js/admin.js:35538
+#: dist/js/cf7.js:24438
+#: dist/js/elementor.js:33130
+#: dist/js/gravityforms.js:33505
+#: dist/js/wpforms.js:33505
+#: includes/block/build/index.js:1
+msgid "Types"
+msgstr ""
+
+#: dist/js/admin.js:32637
+#: dist/js/admin.js:35539
+#: dist/js/cf7.js:24439
+#: dist/js/elementor.js:33131
+#: dist/js/gravityforms.js:33506
+#: dist/js/wpforms.js:33506
+#: includes/block/build/index.js:1
+msgid "Sources"
+msgstr ""
+
+#: dist/js/admin.js:32637
+#: dist/js/admin.js:35540
+#: dist/js/admin.js:36044
+#: dist/js/cf7.js:24440
+#: dist/js/cf7.js:24944
+#: dist/js/elementor.js:33132
+#: dist/js/elementor.js:33636
+#: dist/js/gravityforms.js:33507
+#: dist/js/gravityforms.js:34011
+#: dist/js/wpforms.js:33507
+#: dist/js/wpforms.js:34011
+#: includes/block/build/index.js:1
+msgid "Excludes"
+msgstr ""
+
+#: dist/js/admin.js:32637
+#: dist/js/admin.js:32642
+#: dist/js/admin.js:33457
+#: dist/js/admin.js:35541
+#: dist/js/cf7.js:24441
+#: dist/js/elementor.js:33133
+#: dist/js/gravityforms.js:33508
+#: dist/js/wpforms.js:33508
+#: includes/block/build/index.js:1
+msgid "Advanced"
+msgstr ""
+
+#: dist/js/admin.js:32637
+#: dist/js/admin.js:35542
+#: dist/js/cf7.js:24442
+#: dist/js/elementor.js:33134
+#: dist/js/gravityforms.js:33509
+#: dist/js/wpforms.js:33509
+#: includes/block/build/index.js:1
+msgid "Permissions"
+msgstr ""
+
+#: dist/js/admin.js:32642
+#: dist/js/admin.js:33453
+msgid "Accounts"
+msgstr ""
+
+#: dist/js/admin.js:32642
+#: dist/js/admin.js:33461
+msgid "Synchronization"
+msgstr ""
+
+#: dist/js/admin.js:32642
+#: dist/js/admin.js:32645
+#: dist/js/admin.js:33465
+msgid "Integrations"
+msgstr ""
+
+#: dist/js/admin.js:32647
+msgid "WooCommerce"
+msgstr ""
+
+#: dist/js/admin.js:32647
+msgid "Easy Digital Downloads"
+msgstr ""
+
+#: dist/js/admin.js:32647
+msgid "Contact Form 7"
+msgstr ""
+
+#: dist/js/admin.js:32647
+msgid "WPForms"
+msgstr ""
+
+#: dist/js/admin.js:32647
+msgid "Gravity Forms"
+msgstr ""
+
+#: dist/js/admin.js:32654
+msgid "Gutenberg Blocks"
+msgstr ""
+
+#: dist/js/admin.js:32659
+msgid "Elementor Widgets"
+msgstr ""
+
+#: dist/js/admin.js:32664
+msgid "Classic Editor"
+msgstr ""
+
+#: dist/js/admin.js:32668
+msgid "Create Own Google App"
+msgstr ""
+
+#: dist/js/admin.js:32672
+msgid "FAQ"
+msgstr ""
+
+#: dist/js/admin.js:33519
+msgid "Saving..."
+msgstr ""
+
+#: dist/js/admin.js:33519
+#: dist/js/admin.js:35694
+#: dist/js/admin.js:36869
+#: dist/js/cf7.js:24594
+#: dist/js/elementor.js:33286
+#: dist/js/gravityforms.js:33661
+#: dist/js/wpforms.js:33661
+#: includes/block/build/index.js:1
+msgid "Save Changes"
+msgstr ""
+
+#: dist/js/admin.js:33645
+msgid "Refresh"
+msgstr ""
+
+#: dist/js/admin.js:33646
+msgid "Remove account"
+msgstr ""
+
+#: dist/js/admin.js:33668
+msgid "You didn't add any Google account."
+msgstr ""
+
+#: dist/js/admin.js:33670
+msgid "Link a Google account to continue."
+msgstr ""
+
+#: dist/js/admin.js:33671
+msgid "Multiple Accounts - PRO"
+msgstr ""
+
+#: dist/js/admin.js:33676
+msgid "Upgrade to PRO to add multiple accounts"
+msgstr ""
+
+#: dist/js/admin.js:33684
+msgid "Add Account"
+msgstr ""
+
+#: dist/js/admin.js:33700
+msgid "See what happens with your data when you authorize?"
+msgstr ""
+
+#: dist/js/admin.js:33752
+msgid "Link Own Google App"
+msgstr ""
+
+#: dist/js/admin.js:33759
+msgid "Upgrade to PRO to use Own Google App."
+msgstr ""
+
+#: dist/js/admin.js:33773
+msgid "Use your own app instead of using the plugin default app."
+msgstr ""
+
+#: dist/js/admin.js:33836
+msgid "Delete Data on Uninstall"
+msgstr ""
+
+#: dist/js/admin.js:33847
+msgid "Delete the plugin data (settings, cache, accounts) on the uninstallation."
+msgstr ""
+
+#: dist/js/admin.js:33886
+msgid "Add Google Drive module, embed documents and insert file view links and download links using the Google Drive button on the classic editor."
+msgstr ""
+
+#: dist/js/admin.js:33890
+msgid "Add Google Drive modules, embed documents and insert file view links and download links using the Google Drive Gutenberg editor blocks"
+msgstr ""
+
+#: dist/js/admin.js:33894
+msgid "Add Google Drive modules, embed documents and insert file view links and download links using the Google Drive Elementor widgets."
+msgstr ""
+
+#: dist/js/admin.js:33898
+msgid "Allows you to serve your digital WooCommerce downloads directly from Google Drive."
+msgstr ""
+
+#: dist/js/admin.js:33903
+msgid "Allows you to serve your Easy Digital Downloads files directly from Google Drive."
+msgstr ""
+
+#: dist/js/admin.js:33908
+msgid "Allows you to upload your files directly to Google Drive from your Contact Form 7 upload field."
+msgstr ""
+
+#: dist/js/admin.js:33913
+msgid "Allows you to upload your files directly to Google Drive from your WPForms upload field."
+msgstr ""
+
+#: dist/js/admin.js:33918
+msgid "Allows you to upload your files directly to Google Drive from your Gravity Forms upload field."
+msgstr ""
+
+#: dist/js/admin.js:33925
+msgid "Integrations Settings"
+msgstr ""
+
+#: dist/js/admin.js:33929
+msgid "Active/ inactive Google Drive integrations for the following plugins:"
+msgstr ""
+
+#: dist/js/admin.js:33950
+msgid "Inactive"
+msgstr ""
+
+#: dist/js/admin.js:33955
+#: dist/js/admin.js:36765
+#: dist/js/cf7.js:25665
+#: dist/js/elementor.js:34357
+#: dist/js/gravityforms.js:34732
+#: dist/js/wpforms.js:34732
+#: includes/block/build/index.js:1
+msgid "Upgrade to PRO to use"
+msgstr ""
+
+#: dist/js/admin.js:33968
+msgid "Active"
+msgstr ""
+
+#: dist/js/admin.js:34013
+msgid "Enable Statistics : "
+msgstr ""
+
+#: dist/js/admin.js:34020
+msgid "Upgrade to PRO to enable the statistics logs."
+msgstr ""
+
+#: dist/js/admin.js:34034
+msgid "Enable/ disable the statistics logs."
+msgstr ""
+
+#: dist/js/admin.js:34067
+msgid "Synchronization Interval :"
+msgstr ""
+
+#: dist/js/admin.js:34095
+msgid "Select the automatic cloud files synchronization interval."
+msgstr ""
+
+#: dist/js/admin.js:34199
+#: dist/js/elementor.js:32034
+#: dist/js/frontend.js:22380
+#: dist/js/gravityforms.js:32409
+#: dist/js/wpforms.js:32409
+#: includes/block/build/index.js:1
+msgid "No embedded files found"
+msgstr ""
+
+#: dist/js/admin.js:35350
+#: dist/js/cf7.js:25804
+#: dist/js/gravityforms.js:34804
+#: dist/js/wpforms.js:34804
+msgid "Upload Files"
+msgstr ""
+
+#: dist/js/admin.js:35557
+#: dist/js/admin.js:36925
+#: dist/js/cf7.js:24457
+#: dist/js/elementor.js:33149
+#: dist/js/gravityforms.js:33524
+#: dist/js/wpforms.js:33524
+#: includes/block/build/index.js:1
+msgid "Shortcode copied to clipboard."
+msgstr ""
+
+#: dist/js/admin.js:35684
+#: dist/js/admin.js:36837
+#: dist/js/cf7.js:24584
+#: dist/js/elementor.js:33276
+#: dist/js/gravityforms.js:33651
+#: dist/js/wpforms.js:33651
+#: includes/block/build/index.js:1
+msgid "Back"
+msgstr ""
+
+#: dist/js/admin.js:35703
+#: dist/js/cf7.js:24603
+#: dist/js/elementor.js:33295
+#: dist/js/gravityforms.js:33670
+#: dist/js/wpforms.js:33670
+#: includes/block/build/index.js:1
+msgid "Next"
+msgstr ""
+
+#: dist/js/admin.js:35734
+#: dist/js/cf7.js:24634
+#: dist/js/elementor.js:33326
+#: dist/js/gravityforms.js:33701
+#: dist/js/wpforms.js:33701
+#: includes/block/build/index.js:1
+msgid "Size"
+msgstr ""
+
+#: dist/js/admin.js:35735
+#: dist/js/cf7.js:24635
+#: dist/js/elementor.js:33327
+#: dist/js/gravityforms.js:33702
+#: dist/js/wpforms.js:33702
+#: includes/block/build/index.js:1
+msgid "Uploaded Date"
+msgstr ""
+
+#: dist/js/admin.js:35736
+#: dist/js/cf7.js:24636
+#: dist/js/elementor.js:33328
+#: dist/js/gravityforms.js:33703
+#: dist/js/wpforms.js:33703
+#: includes/block/build/index.js:1
+msgid "Modified Date"
+msgstr ""
+
+#: dist/js/admin.js:35739
+#: dist/js/cf7.js:24639
+#: dist/js/elementor.js:33331
+#: dist/js/gravityforms.js:33706
+#: dist/js/wpforms.js:33706
+#: includes/block/build/index.js:1
+msgid "Ascending"
+msgstr ""
+
+#: dist/js/admin.js:35740
+#: dist/js/cf7.js:24640
+#: dist/js/elementor.js:33332
+#: dist/js/gravityforms.js:33707
+#: dist/js/wpforms.js:33707
+#: includes/block/build/index.js:1
+msgid "Descending"
+msgstr ""
+
+#: dist/js/admin.js:35770
+#: dist/js/cf7.js:24670
+#: dist/js/elementor.js:33362
+#: dist/js/gravityforms.js:33737
+#: dist/js/wpforms.js:33737
+#: includes/block/build/index.js:1
+msgid "Advanced Settings"
+msgstr ""
+
+#: dist/js/admin.js:35774
+#: dist/js/cf7.js:24674
+#: dist/js/elementor.js:33366
+#: dist/js/gravityforms.js:33741
+#: dist/js/wpforms.js:33741
+#: includes/block/build/index.js:1
+msgid "Browser View"
+msgstr ""
+
+#: dist/js/admin.js:35802
+#: dist/js/cf7.js:24702
+#: dist/js/elementor.js:33394
+#: dist/js/gravityforms.js:33769
+#: dist/js/wpforms.js:33769
+#: includes/block/build/index.js:1
+msgid "Select the file browser view."
+msgstr ""
+
+#: dist/js/admin.js:35806
+#: dist/js/cf7.js:24706
+#: dist/js/elementor.js:33398
+#: dist/js/gravityforms.js:33773
+#: dist/js/wpforms.js:33773
+#: includes/block/build/index.js:1
+msgid "Show Search"
+msgstr ""
+
+#: dist/js/admin.js:35817
+#: dist/js/cf7.js:24717
+#: dist/js/elementor.js:33409
+#: dist/js/gravityforms.js:33784
+#: dist/js/wpforms.js:33784
+#: includes/block/build/index.js:1
+msgid "Show/ hide the header search bar & refresh button at the top of the file browser."
+msgstr ""
+
+#: dist/js/admin.js:35821
+#: dist/js/cf7.js:24721
+#: dist/js/elementor.js:33413
+#: dist/js/gravityforms.js:33788
+#: dist/js/wpforms.js:33788
+#: includes/block/build/index.js:1
+msgid "Show Breadcrumbs"
+msgstr ""
+
+#: dist/js/admin.js:35832
+#: dist/js/cf7.js:24732
+#: dist/js/elementor.js:33424
+#: dist/js/gravityforms.js:33799
+#: dist/js/wpforms.js:33799
+#: includes/block/build/index.js:1
+msgid "Show/ hide the breadcrumbs folder navigation."
+msgstr ""
+
+#: dist/js/admin.js:35836
+#: dist/js/cf7.js:24736
+#: dist/js/elementor.js:33428
+#: dist/js/gravityforms.js:33803
+#: dist/js/wpforms.js:33803
+#: includes/block/build/index.js:1
+msgid "Show File Name"
+msgstr ""
+
+#: dist/js/admin.js:35847
+#: dist/js/cf7.js:24747
+#: dist/js/elementor.js:33439
+#: dist/js/gravityforms.js:33814
+#: dist/js/wpforms.js:33814
+#: includes/block/build/index.js:1
+msgid "Show/ hide the file name at the top of the file."
+msgstr ""
+
+#: dist/js/admin.js:35851
+#: dist/js/cf7.js:24751
+#: dist/js/elementor.js:33443
+#: dist/js/gravityforms.js:33818
+#: dist/js/wpforms.js:33818
+#: includes/block/build/index.js:1
+msgid "File Numbers"
+msgstr ""
+
+#: dist/js/admin.js:35866
+#: dist/js/cf7.js:24766
+#: dist/js/elementor.js:33458
+#: dist/js/gravityforms.js:33833
+#: dist/js/wpforms.js:33833
+#: includes/block/build/index.js:1
+msgid "Enter the number of how many files want to show. Enter -1 or leave empty to show all files."
+msgstr ""
+
+#: dist/js/admin.js:35870
+#: dist/js/cf7.js:24770
+#: dist/js/elementor.js:33462
+#: dist/js/gravityforms.js:33837
+#: dist/js/wpforms.js:33837
+#: includes/block/build/index.js:1
+msgid "Sorting"
+msgstr ""
+
+#: dist/js/admin.js:35876
+#: dist/js/cf7.js:24776
+#: dist/js/elementor.js:33468
+#: dist/js/gravityforms.js:33843
+#: dist/js/wpforms.js:33843
+#: includes/block/build/index.js:1
+msgid "SORT BY"
+msgstr ""
+
+#: dist/js/admin.js:35895
+#: dist/js/cf7.js:24795
+#: dist/js/elementor.js:33487
+#: dist/js/gravityforms.js:33862
+#: dist/js/wpforms.js:33862
+#: includes/block/build/index.js:1
+msgid "SORT DIRECTION"
+msgstr ""
+
+#: dist/js/admin.js:35912
+#: dist/js/cf7.js:24812
+#: dist/js/elementor.js:33504
+#: dist/js/gravityforms.js:33879
+#: dist/js/wpforms.js:33879
+#: includes/block/build/index.js:1
+msgid "Select file sorting and direction."
+msgstr ""
+
+#: dist/js/admin.js:35916
+#: dist/js/cf7.js:24816
+#: dist/js/elementor.js:33508
+#: dist/js/gravityforms.js:33883
+#: dist/js/wpforms.js:33883
+#: includes/block/build/index.js:1
+msgid "Max File Size (MB)"
+msgstr ""
+
+#: dist/js/admin.js:35930
+#: dist/js/cf7.js:24830
+#: dist/js/elementor.js:33522
+#: dist/js/gravityforms.js:33897
+#: dist/js/wpforms.js:33897
+#: includes/block/build/index.js:1
+msgid "Enter the maximum file size in MB for uploading. Leave empty to upload all sizes."
+msgstr ""
+
+#: dist/js/admin.js:35934
+#: dist/js/cf7.js:24834
+#: dist/js/elementor.js:33526
+#: dist/js/gravityforms.js:33901
+#: dist/js/wpforms.js:33901
+#: includes/block/build/index.js:1
+msgid "Enable Folder Upload"
+msgstr ""
+
+#: dist/js/admin.js:35945
+#: dist/js/cf7.js:24845
+#: dist/js/elementor.js:33537
+#: dist/js/gravityforms.js:33912
+#: dist/js/wpforms.js:33912
+#: includes/block/build/index.js:1
+msgid "Allow users to upload folders. A folder upload button will be added."
+msgstr ""
+
+#: dist/js/admin.js:35949
+#: dist/js/cf7.js:24849
+#: dist/js/elementor.js:33541
+#: dist/js/gravityforms.js:33916
+#: dist/js/wpforms.js:33916
+#: includes/block/build/index.js:1
+msgid "Show Upload Label Text"
+msgstr ""
+
+#: dist/js/admin.js:35960
+#: dist/js/cf7.js:24860
+#: dist/js/elementor.js:33552
+#: dist/js/gravityforms.js:33927
+#: dist/js/wpforms.js:33927
+#: includes/block/build/index.js:1
+msgid "Show/ hide the uploader label text."
+msgstr ""
+
+#: dist/js/admin.js:35964
+#: dist/js/cf7.js:24864
+#: dist/js/elementor.js:33556
+#: dist/js/gravityforms.js:33931
+#: dist/js/wpforms.js:33931
+#: includes/block/build/index.js:1
+msgid "Label Text"
+msgstr ""
+
+#: dist/js/admin.js:35977
+#: dist/js/cf7.js:24877
+#: dist/js/elementor.js:33569
+#: dist/js/gravityforms.js:33944
+#: dist/js/wpforms.js:33944
+#: includes/block/build/index.js:1
+msgid "Enter the uploader label text."
+msgstr ""
+
+#: dist/js/admin.js:35981
+#: dist/js/cf7.js:24881
+#: dist/js/elementor.js:33573
+#: dist/js/gravityforms.js:33948
+#: dist/js/wpforms.js:33948
+#: includes/block/build/index.js:1
+msgid "Open in new tab"
+msgstr ""
+
+#: dist/js/admin.js:35992
+#: dist/js/cf7.js:24892
+#: dist/js/elementor.js:33584
+#: dist/js/gravityforms.js:33959
+#: dist/js/wpforms.js:33959
+#: includes/block/build/index.js:1
+msgid "Open a new tab for viewing the file."
+msgstr ""
+
+#: dist/js/admin.js:36032
+#: dist/js/cf7.js:24932
+#: dist/js/elementor.js:33624
+#: dist/js/gravityforms.js:33999
+#: dist/js/wpforms.js:33999
+#: includes/block/build/index.js:1
+msgid "Exclude files and folders by extensions and names."
+msgstr ""
+
+#: dist/js/admin.js:36035
+#: dist/js/cf7.js:24935
+#: dist/js/elementor.js:33627
+#: dist/js/gravityforms.js:34002
+#: dist/js/wpforms.js:34002
+#: includes/block/build/index.js:1
+msgid "Restrict file upload by extension"
+msgstr ""
+
+#: dist/js/admin.js:36048
+#: dist/js/cf7.js:24948
+#: dist/js/elementor.js:33640
+#: dist/js/gravityforms.js:34015
+#: dist/js/wpforms.js:34015
+#: includes/block/build/index.js:1
+msgid "Show Files"
+msgstr ""
+
+#: dist/js/admin.js:36059
+#: dist/js/cf7.js:24959
+#: dist/js/elementor.js:33651
+#: dist/js/gravityforms.js:34026
+#: dist/js/wpforms.js:34026
+#: includes/block/build/index.js:1
+msgid "If turned off, files won't show."
+msgstr ""
+
+#: dist/js/admin.js:36063
+#: dist/js/cf7.js:24963
+#: dist/js/elementor.js:33655
+#: dist/js/gravityforms.js:34030
+#: dist/js/wpforms.js:34030
+#: includes/block/build/index.js:1
+msgid "Show Folders"
+msgstr ""
+
+#: dist/js/admin.js:36074
+#: dist/js/cf7.js:24974
+#: dist/js/elementor.js:33666
+#: dist/js/gravityforms.js:34041
+#: dist/js/wpforms.js:34041
+#: includes/block/build/index.js:1
+msgid "If turned off, folders won't show."
+msgstr ""
+
+#: dist/js/admin.js:36078
+#: dist/js/cf7.js:24978
+#: dist/js/elementor.js:33670
+#: dist/js/gravityforms.js:34045
+#: dist/js/wpforms.js:34045
+#: includes/block/build/index.js:1
+msgid "Exclude Extensions"
+msgstr ""
+
+#: dist/js/admin.js:36100
+#: dist/js/admin.js:36149
+#: dist/js/cf7.js:25000
+#: dist/js/cf7.js:25049
+#: dist/js/elementor.js:33692
+#: dist/js/elementor.js:33741
+#: dist/js/gravityforms.js:34067
+#: dist/js/gravityforms.js:34116
+#: dist/js/wpforms.js:34067
+#: dist/js/wpforms.js:34116
+#: includes/block/build/index.js:1
+msgid "Exclude All :"
+msgstr ""
+
+#: dist/js/admin.js:36111
+#: dist/js/admin.js:36160
+#: dist/js/admin.js:36455
+#: dist/js/cf7.js:25011
+#: dist/js/cf7.js:25060
+#: dist/js/cf7.js:25355
+#: dist/js/elementor.js:33703
+#: dist/js/elementor.js:33752
+#: dist/js/elementor.js:34047
+#: dist/js/gravityforms.js:34078
+#: dist/js/gravityforms.js:34127
+#: dist/js/gravityforms.js:34422
+#: dist/js/wpforms.js:34078
+#: dist/js/wpforms.js:34127
+#: dist/js/wpforms.js:34422
+#: includes/block/build/index.js:1
+msgid "Except"
+msgstr ""
+
+#: dist/js/admin.js:36127
+#: dist/js/cf7.js:25027
+#: dist/js/elementor.js:33719
+#: dist/js/gravityforms.js:34094
+#: dist/js/wpforms.js:34094
+#: includes/block/build/index.js:1
+msgid "Exclude Names"
+msgstr ""
+
+#: dist/js/admin.js:36172
+#: dist/js/cf7.js:25072
+#: dist/js/elementor.js:33764
+#: dist/js/gravityforms.js:34139
+#: dist/js/wpforms.js:34139
+#: includes/block/build/index.js:1
+msgid "When turned ON, Only the exceptions will show."
+msgstr ""
+
+#: dist/js/admin.js:36258
+#: dist/js/admin.js:36394
+#: dist/js/cf7.js:25158
+#: dist/js/cf7.js:25294
+#: dist/js/elementor.js:33850
+#: dist/js/elementor.js:33986
+#: dist/js/gravityforms.js:34225
+#: dist/js/gravityforms.js:34361
+#: dist/js/wpforms.js:34225
+#: dist/js/wpforms.js:34361
+#: includes/block/build/index.js:1
+msgid "Everyone"
+msgstr ""
+
+#: dist/js/admin.js:36280
+#: dist/js/cf7.js:25180
+#: dist/js/elementor.js:33872
+#: dist/js/gravityforms.js:34247
+#: dist/js/wpforms.js:34247
+#: includes/block/build/index.js:1
+msgid "User Permissions Settings"
+msgstr ""
+
+#: dist/js/admin.js:36286
+#: dist/js/cf7.js:25186
+#: dist/js/elementor.js:33878
+#: dist/js/gravityforms.js:34253
+#: dist/js/wpforms.js:34253
+#: includes/block/build/index.js:1
+msgid "File Manipulation"
+msgstr ""
+
+#: dist/js/admin.js:36290
+#: dist/js/cf7.js:25190
+#: dist/js/elementor.js:33882
+#: dist/js/gravityforms.js:34257
+#: dist/js/wpforms.js:34257
+#: includes/block/build/index.js:1
+msgid "Upload"
+msgstr ""
+
+#: dist/js/admin.js:36301
+#: dist/js/cf7.js:25201
+#: dist/js/elementor.js:33893
+#: dist/js/gravityforms.js:34268
+#: dist/js/wpforms.js:34268
+#: includes/block/build/index.js:1
+msgid "Allow users to upload files."
+msgstr ""
+
+#: dist/js/admin.js:36305
+#: dist/js/cf7.js:25205
+#: dist/js/elementor.js:33897
+#: dist/js/gravityforms.js:34272
+#: dist/js/wpforms.js:34272
+#: includes/block/build/index.js:1
+msgid "Download"
+msgstr ""
+
+#: dist/js/admin.js:36316
+#: dist/js/cf7.js:25216
+#: dist/js/elementor.js:33908
+#: dist/js/gravityforms.js:34283
+#: dist/js/wpforms.js:34283
+#: includes/block/build/index.js:1
+msgid "Allow users to download files."
+msgstr ""
+
+#: dist/js/admin.js:36320
+#: dist/js/cf7.js:25220
+#: dist/js/elementor.js:33912
+#: dist/js/gravityforms.js:34287
+#: dist/js/wpforms.js:34287
+#: includes/block/build/index.js:1
+msgid "New Folder"
+msgstr ""
+
+#: dist/js/admin.js:36331
+#: dist/js/cf7.js:25231
+#: dist/js/elementor.js:33923
+#: dist/js/gravityforms.js:34298
+#: dist/js/wpforms.js:34298
+#: includes/block/build/index.js:1
+msgid "Allow users to create new folders."
+msgstr ""
+
+#: dist/js/admin.js:36335
+#: dist/js/cf7.js:25235
+#: dist/js/elementor.js:33927
+#: dist/js/gravityforms.js:34302
+#: dist/js/wpforms.js:34302
+#: includes/block/build/index.js:1
+msgid "Rename"
+msgstr ""
+
+#: dist/js/admin.js:36346
+#: dist/js/cf7.js:25246
+#: dist/js/elementor.js:33938
+#: dist/js/gravityforms.js:34313
+#: dist/js/wpforms.js:34313
+#: includes/block/build/index.js:1
+msgid "Allow users to rename files and folders."
+msgstr ""
+
+#: dist/js/admin.js:36350
+#: dist/js/cf7.js:25250
+#: dist/js/elementor.js:33942
+#: dist/js/gravityforms.js:34317
+#: dist/js/wpforms.js:34317
+#: includes/block/build/index.js:1
+msgid "Move/ Copy"
+msgstr ""
+
+#: dist/js/admin.js:36361
+#: dist/js/cf7.js:25261
+#: dist/js/elementor.js:33953
+#: dist/js/gravityforms.js:34328
+#: dist/js/wpforms.js:34328
+#: includes/block/build/index.js:1
+msgid "Allow users to move/ copy files and folders."
+msgstr ""
+
+#: dist/js/admin.js:36365
+#: dist/js/cf7.js:25265
+#: dist/js/elementor.js:33957
+#: dist/js/gravityforms.js:34332
+#: dist/js/wpforms.js:34332
+#: includes/block/build/index.js:1
+msgid "Delete"
+msgstr ""
+
+#: dist/js/admin.js:36376
+#: dist/js/cf7.js:25276
+#: dist/js/elementor.js:33968
+#: dist/js/gravityforms.js:34343
+#: dist/js/wpforms.js:34343
+#: includes/block/build/index.js:1
+msgid "Allow users to delete files and folders."
+msgstr ""
+
+#: dist/js/admin.js:36378
+#: dist/js/cf7.js:25278
+#: dist/js/elementor.js:33970
+#: dist/js/gravityforms.js:34345
+#: dist/js/wpforms.js:34345
+#: includes/block/build/index.js:1
+msgid "User Permissions"
+msgstr ""
+
+#: dist/js/admin.js:36382
+#: dist/js/cf7.js:25282
+#: dist/js/elementor.js:33974
+#: dist/js/gravityforms.js:34349
+#: dist/js/wpforms.js:34349
+#: includes/block/build/index.js:1
+msgid "Display for"
+msgstr ""
+
+#: dist/js/admin.js:36402
+#: dist/js/cf7.js:25302
+#: dist/js/elementor.js:33994
+#: dist/js/gravityforms.js:34369
+#: dist/js/wpforms.js:34369
+#: includes/block/build/index.js:1
+msgid "Logged In"
+msgstr ""
+
+#: dist/js/admin.js:36410
+#: dist/js/cf7.js:25310
+#: dist/js/elementor.js:34002
+#: dist/js/gravityforms.js:34377
+#: dist/js/wpforms.js:34377
+#: includes/block/build/index.js:1
+msgid "Logged Out"
+msgstr ""
+
+#: dist/js/admin.js:36412
+#: dist/js/cf7.js:25312
+#: dist/js/elementor.js:34004
+#: dist/js/gravityforms.js:34379
+#: dist/js/wpforms.js:34379
+#: includes/block/build/index.js:1
+msgid "Select who can see the module."
+msgstr ""
+
+#: dist/js/admin.js:36416
+#: dist/js/cf7.js:25316
+#: dist/js/elementor.js:34008
+#: dist/js/gravityforms.js:34383
+#: dist/js/wpforms.js:34383
+#: includes/block/build/index.js:1
+msgid "Filter users & roles"
+msgstr ""
+
+#: dist/js/admin.js:36436
+#: dist/js/cf7.js:25336
+#: dist/js/elementor.js:34028
+#: dist/js/gravityforms.js:34403
+#: dist/js/wpforms.js:34403
+#: includes/block/build/index.js:1
+msgid "Select the users and user roles who can see the module."
+msgstr ""
+
+#: dist/js/admin.js:36444
+#: dist/js/cf7.js:25344
+#: dist/js/elementor.js:34036
+#: dist/js/gravityforms.js:34411
+#: dist/js/wpforms.js:34411
+#: includes/block/build/index.js:1
+msgid "Everyone :"
+msgstr ""
+
+#: dist/js/admin.js:36475
+#: dist/js/cf7.js:25375
+#: dist/js/elementor.js:34067
+#: dist/js/gravityforms.js:34442
+#: dist/js/wpforms.js:34442
+#: includes/block/build/index.js:1
+msgid "When turned on, the module will be displayed for the selected exceptions."
+msgstr ""
+
+#: dist/js/admin.js:36573
+#: dist/js/cf7.js:25473
+#: dist/js/edd.js:17087
+#: dist/js/elementor.js:34165
+#: dist/js/gravityforms.js:34540
+#: dist/js/tinymce.js:16609
+#: dist/js/woocommerce.js:17087
+#: dist/js/wpforms.js:34540
+#: includes/block/build/index.js:1
+msgid "Source Folders & Files"
+msgstr ""
+
+#: dist/js/admin.js:36575
+#: dist/js/cf7.js:25475
+#: dist/js/edd.js:17089
+#: dist/js/elementor.js:34167
+#: dist/js/gravityforms.js:34542
+#: dist/js/tinymce.js:16611
+#: dist/js/woocommerce.js:17089
+#: dist/js/wpforms.js:34542
+#: includes/block/build/index.js:1
+msgid "Select the folders & files from which the folders & files will be displayed."
+msgstr ""
+
+#: dist/js/admin.js:36579
+#: dist/js/cf7.js:25479
+#: dist/js/edd.js:17093
+#: dist/js/elementor.js:34171
+#: dist/js/gravityforms.js:34546
+#: dist/js/tinymce.js:16615
+#: dist/js/woocommerce.js:17093
+#: dist/js/wpforms.js:34546
+#: includes/block/build/index.js:1
+msgid "Select the folder where the files will be uploaded."
+msgstr ""
+
+#: dist/js/admin.js:36583
+#: dist/js/cf7.js:25483
+#: dist/js/edd.js:17097
+#: dist/js/elementor.js:34175
+#: dist/js/gravityforms.js:34550
+#: dist/js/tinymce.js:16619
+#: dist/js/woocommerce.js:17097
+#: dist/js/wpforms.js:34550
+#: includes/block/build/index.js:1
+msgid "Select Folders & Files"
+msgstr ""
+
+#: dist/js/admin.js:36584
+#: dist/js/cf7.js:25484
+#: dist/js/edd.js:17098
+#: dist/js/elementor.js:34176
+#: dist/js/gravityforms.js:34551
+#: dist/js/tinymce.js:16620
+#: dist/js/woocommerce.js:17098
+#: dist/js/wpforms.js:34551
+#: includes/block/build/index.js:1
+msgid "Select the folders & files to embed."
+msgstr ""
+
+#: dist/js/admin.js:36614
+#: dist/js/cf7.js:25514
+#: dist/js/edd.js:17128
+#: dist/js/elementor.js:34206
+#: dist/js/gravityforms.js:34581
+#: dist/js/tinymce.js:16650
+#: dist/js/woocommerce.js:17128
+#: dist/js/wpforms.js:34581
+#: includes/block/build/index.js:1
+msgid "All Folders & Files :"
+msgstr ""
+
+#: dist/js/admin.js:36627
+#: dist/js/cf7.js:25527
+#: dist/js/edd.js:17141
+#: dist/js/elementor.js:34219
+#: dist/js/gravityforms.js:34594
+#: dist/js/tinymce.js:16663
+#: dist/js/woocommerce.js:17141
+#: dist/js/wpforms.js:34594
+#: includes/block/build/index.js:1
+msgid "If turned ON, users can navigate through all the folders & files of all the linked Google Drive accounts."
+msgstr ""
+
+#: dist/js/admin.js:36627
+#: dist/js/cf7.js:25527
+#: dist/js/edd.js:17141
+#: dist/js/elementor.js:34219
+#: dist/js/gravityforms.js:34594
+#: dist/js/tinymce.js:16663
+#: dist/js/woocommerce.js:17141
+#: dist/js/wpforms.js:34594
+#: includes/block/build/index.js:1
+msgid "Otherwise, to select specific folders & files turn off this option."
+msgstr ""
+
+#: dist/js/admin.js:36631
+#: dist/js/cf7.js:25531
+#: dist/js/edd.js:17145
+#: dist/js/elementor.js:34223
+#: dist/js/gravityforms.js:34598
+#: dist/js/tinymce.js:16667
+#: dist/js/woocommerce.js:17145
+#: dist/js/wpforms.js:34598
+#: includes/block/build/index.js:1
+msgid "Use Private Folders:"
+msgstr ""
+
+#: dist/js/admin.js:36644
+#: dist/js/cf7.js:25544
+#: dist/js/edd.js:17158
+#: dist/js/elementor.js:34236
+#: dist/js/gravityforms.js:34611
+#: dist/js/tinymce.js:16680
+#: dist/js/woocommerce.js:17158
+#: dist/js/wpforms.js:34611
+#: includes/block/build/index.js:1
+msgid "If turned ON, users can only navigate through the folders, that are linked to their account."
+msgstr ""
+
+#: dist/js/admin.js:36644
+#: dist/js/cf7.js:25544
+#: dist/js/edd.js:17158
+#: dist/js/elementor.js:34236
+#: dist/js/gravityforms.js:34611
+#: dist/js/tinymce.js:16680
+#: dist/js/woocommerce.js:17158
+#: dist/js/wpforms.js:34611
+#: includes/block/build/index.js:1
+msgid "For non-linked users, they can navigate the guest folders."
+msgstr ""
+
+#: dist/js/admin.js:36666
+#: dist/js/cf7.js:25566
+#: dist/js/edd.js:17180
+#: dist/js/elementor.js:34258
+#: dist/js/gravityforms.js:34633
+#: dist/js/tinymce.js:16702
+#: dist/js/woocommerce.js:17180
+#: dist/js/wpforms.js:34633
+#: includes/block/build/index.js:1
+msgid "Selected Files"
+msgstr ""
+
+#: dist/js/admin.js:36677
+#: dist/js/cf7.js:25577
+#: dist/js/edd.js:17191
+#: dist/js/elementor.js:34269
+#: dist/js/gravityforms.js:34644
+#: dist/js/tinymce.js:16713
+#: dist/js/woocommerce.js:17191
+#: dist/js/wpforms.js:34644
+#: includes/block/build/index.js:1
+msgid "Remove all"
+msgstr ""
+
+#: dist/js/admin.js:36707
+#: dist/js/admin.js:36853
+#: dist/js/cf7.js:25607
+#: dist/js/edd.js:17221
+#: dist/js/elementor.js:34299
+#: dist/js/gravityforms.js:34674
+#: dist/js/tinymce.js:16743
+#: dist/js/woocommerce.js:17221
+#: dist/js/wpforms.js:34674
+#: includes/block/build/index.js:1
+msgid "No files selected"
+msgstr ""
+
+#: dist/js/admin.js:36709
+#: dist/js/cf7.js:25609
+#: dist/js/edd.js:17223
+#: dist/js/elementor.js:34301
+#: dist/js/gravityforms.js:34676
+#: dist/js/tinymce.js:16745
+#: dist/js/woocommerce.js:17223
+#: dist/js/wpforms.js:34676
+#: includes/block/build/index.js:1
+msgid "You can select only one upload folder where the files will be uploaded."
+msgstr ""
+
+#: dist/js/admin.js:36711
+#: dist/js/cf7.js:25611
+#: dist/js/edd.js:17225
+#: dist/js/elementor.js:34303
+#: dist/js/gravityforms.js:34678
+#: dist/js/tinymce.js:16747
+#: dist/js/woocommerce.js:17225
+#: dist/js/wpforms.js:34678
+#: includes/block/build/index.js:1
+msgid "To select different folder first remove the selected folder and select the different folder again."
+msgstr ""
+
+#: dist/js/admin.js:36713
+#: dist/js/cf7.js:25613
+#: dist/js/edd.js:17227
+#: dist/js/elementor.js:34305
+#: dist/js/gravityforms.js:34680
+#: dist/js/tinymce.js:16749
+#: dist/js/woocommerce.js:17227
+#: dist/js/wpforms.js:34680
+#: includes/block/build/index.js:1
+msgid "If any folder is selected, then all the files of the folder will be embedded."
+msgstr ""
+
+#: dist/js/admin.js:36715
+#: dist/js/cf7.js:25615
+#: dist/js/edd.js:17229
+#: dist/js/elementor.js:34307
+#: dist/js/gravityforms.js:34682
+#: dist/js/tinymce.js:16751
+#: dist/js/woocommerce.js:17229
+#: dist/js/wpforms.js:34682
+#: includes/block/build/index.js:1
+msgid "Embed files must be public (with link)."
+msgstr ""
+
+#: dist/js/admin.js:36717
+#: dist/js/cf7.js:25617
+#: dist/js/edd.js:17231
+#: dist/js/elementor.js:34309
+#: dist/js/gravityforms.js:34684
+#: dist/js/tinymce.js:16753
+#: dist/js/woocommerce.js:17231
+#: dist/js/wpforms.js:34684
+#: includes/block/build/index.js:1
+msgid "Select the folders to perform search on the selected folders."
+msgstr ""
+
+#: dist/js/admin.js:36719
+#: dist/js/cf7.js:25619
+#: dist/js/edd.js:17233
+#: dist/js/elementor.js:34311
+#: dist/js/gravityforms.js:34686
+#: dist/js/tinymce.js:16755
+#: dist/js/woocommerce.js:17233
+#: dist/js/wpforms.js:34686
+#: includes/block/build/index.js:1
+msgid "If no folders selected, search will be performed all over the drive."
+msgstr ""
+
+#: dist/js/admin.js:36753
+#: dist/js/cf7.js:25653
+#: dist/js/elementor.js:34345
+#: dist/js/gravityforms.js:34720
+#: dist/js/wpforms.js:34720
+#: includes/block/build/index.js:1
+msgid "Module Type"
+msgstr ""
+
+#: dist/js/admin.js:36753
+#: dist/js/cf7.js:25653
+#: dist/js/elementor.js:34345
+#: dist/js/gravityforms.js:34720
+#: dist/js/wpforms.js:34720
+#: includes/block/build/index.js:1
+msgid "Select the module type that you want to use."
+msgstr ""
+
+#: dist/js/admin.js:36850
+#: dist/js/admin.js:37123
+msgid "Preview"
+msgstr ""
+
+#: dist/js/admin.js:36853
+msgid "Preview Shortcode"
+msgstr ""
+
+#: dist/js/admin.js:36879
+#: dist/js/admin.js:37094
+msgid "Add new shortcode"
+msgstr ""
+
+#: dist/js/admin.js:36938
+msgid "Title"
+msgstr ""
+
+#: dist/js/admin.js:36940
+msgid "Type"
+msgstr ""
+
+#: dist/js/admin.js:36942
+msgid "Status"
+msgstr ""
+
+#: dist/js/admin.js:36944
+msgid "Shortcode"
+msgstr ""
+
+#: dist/js/admin.js:36946
+msgid "Created at"
+msgstr ""
+
+#: dist/js/admin.js:36948
+msgid "Actions"
+msgstr ""
+
+#: dist/js/admin.js:36978
+msgid "Status set to"
+msgstr ""
+
+#: dist/js/admin.js:37084
+msgid "You didn't create any shortcode yet!"
+msgstr ""
+
+#: dist/js/cf7.js:25823
+#: dist/js/gravityforms.js:34823
+#: dist/js/gravityforms.js:34900
+#: dist/js/wpforms.js:34823
+msgid "Configure Uploader"
+msgstr ""
+
+#: dist/js/cf7.js:25833
+#: dist/js/edd.js:17442
+#: dist/js/gravityforms.js:34833
+#: dist/js/woocommerce.js:17298
+#: dist/js/wpforms.js:34833
+msgid "Done"
+msgstr ""
+
+#: dist/js/edd.js:17431
+#: dist/js/woocommerce.js:17287
+msgid "Select Files"
+msgstr ""
+
+#: dist/js/elementor.js:31855
+msgid "Update & Preview"
+msgstr ""
+
+#: dist/js/elementor.js:31859
+msgid "Edit Module"
+msgstr ""
+
+#: dist/js/statistics.js:17739
+msgid "Events Chart / Day"
+msgstr ""
+
+#: dist/js/statistics.js:17850
+msgid "Total Downloads"
+msgstr ""
+
+#: dist/js/statistics.js:17858
+msgid "Total Uploads"
+msgstr ""
+
+#: dist/js/statistics.js:17866
+msgid "Total Previews"
+msgstr ""
+
+#: dist/js/statistics.js:17874
+msgid "Total Streams"
+msgstr ""
+
+#: dist/js/tinymce.js:17044
+msgid "Select shortcode:"
+msgstr ""
+
+#: dist/js/tinymce.js:17084
+msgid "Insert module shortcode built with shortcode builder."
+msgstr ""
+
+#: dist/js/tinymce.js:17087
+msgid "Embed Documents"
+msgstr ""
+
+#: dist/js/tinymce.js:17089
+msgid "Embed any documents to your page/ post content."
+msgstr ""
+
+#: dist/js/tinymce.js:17092
+msgid "Download Link"
+msgstr ""
+
+#: dist/js/tinymce.js:17094
+msgid "Insert links to download files."
+msgstr ""
+
+#: dist/js/tinymce.js:17097
+msgid "View Link"
+msgstr ""
+
+#: dist/js/tinymce.js:17099
+msgid "Insert links to view the files."
+msgstr ""
+
+#: dist/js/tinymce.js:17108
+msgid "Select Module Type"
+msgstr ""
+
+#: dist/js/tinymce.js:17108
+msgid "Select the module type that you want to insert."
+msgstr ""
