@@ -1,0 +1,616 @@
+/*
+    DEMO STYLE
+*/
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #fafafa;
+}
+
+p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.7em;
+    color: #999;
+}
+
+a, a:hover, a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.navbar {
+    padding: 15px 10px;
+    background: #fff;
+    border: none;
+    border-radius: 0;
+    margin-bottom: 40px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-btn {
+    box-shadow: none;
+    outline: none !important;
+    border: none;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px dashed #ddd;
+    margin: 40px 0;
+}
+
+.averages {
+    display: flex;
+justify-content: space-evenly;
+}
+
+.averages span {
+
+    display: inline-block;
+    padding: 15px;
+    font-size: 18px;
+    background-color: #d1d1d1;
+    text-align: center;
+    margin-right: 0.5%;
+    flex-grow: 1;
+
+}
+
+.claim a {
+
+    background-color: #c00;
+    color: white;
+    padding: 5px 20px;
+    display: inline-block;
+    margin: 0 0 10px;
+
+}
+
+table {
+    text-align: center;
+}
+
+.approve {
+    color: green;
+}
+
+.decline {
+    color: red;
+}
+
+.dataTables_wrapper .dataTables_length {
+    float: none;
+}
+
+.addBowlerBtn {
+    background-color: #a54c00;
+    color: white;
+    padding: 5px 10px;
+    display: inline-block;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.claimRequests {
+    background-color: #cccbcb;
+    padding: 10px;
+    color: #323232;
+}
+
+#multiSelect {
+    padding: 5px 10px;
+display: inline-block;
+background-color: #484848;
+color: white;
+border-radius: 4px;
+}
+
+.deleteEntries {
+    background-color: red !important;
+    color:white !important;
+}
+
+.presidentClaim a {
+    background-color: #0076cc;
+}
+
+.ownerClaim a {
+    background-color: #3a0069;
+}
+
+.submitroster {
+    background: #00469f;
+    color: white;
+    padding: 10px 30px;
+    display: inline-block;
+}
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+.sidebar-header img {
+
+    max-width: 100%;
+    width: 125px;
+    margin: auto;
+    display: block;
+
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+    perspective: 1500px;
+}
+
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    background: #171717;
+    color: #fff;
+    transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);
+    transform-origin: bottom left;
+}
+
+#sidebar.active {
+    margin-left: -250px;
+    transform: rotateY(100deg);
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    background: #efefef;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #efefef;
+}
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+#sidebar ul li a:hover {
+    color: #000;
+    background: #fff;
+}
+
+#sidebar ul li.active > a, a[aria-expanded="true"] {
+    color: #000;
+    background: #efefef;
+}
+
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #4d2300;
+}
+
+ul.CTAs {
+    padding: 20px;
+}
+
+ul.CTAs a {
+    text-align: center;
+    font-size: 0.9em !important;
+    display: block;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+a.download {
+    background: #fff;
+    color: #7386D5;
+}
+
+a.article, a.article:hover {
+    background: #6d7fcc !important;
+    color: #fff !important;
+}
+
+
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+#content {
+    width: 100%;
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+
+#sidebarCollapse {
+    width: 40px;
+    height: 40px;
+    background: #f5f5f5;
+    cursor: pointer;
+}
+
+#sidebarCollapse span {
+    width: 80%;
+    height: 2px;
+    margin: 0 auto;
+    display: block;
+    background: #555;
+    transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);
+    transition-delay: 0.2s;
+}
+
+#sidebarCollapse span:first-of-type {
+    transform: rotate(45deg) translate(2px, 2px);
+}
+#sidebarCollapse span:nth-of-type(2) {
+    opacity: 0;
+}
+#sidebarCollapse span:last-of-type {
+    transform: rotate(-45deg) translate(1px, -1px);
+}
+
+
+#sidebarCollapse.active span {
+    transform: none;
+    opacity: 1;
+    margin: 5px auto;
+}
+
+.passwordChange h3 {
+    text-decoration: underline;
+}
+
+.passwordChange label {
+    display: block;
+}
+
+.passwordChange input {
+    padding: 10px;
+}
+
+.passwordChange input[type='submit'] {
+    padding: 10px 20px;
+    background-color: #005b86;
+    border: 0;
+    color: white;
+    transition: 0.5s ease;
+    -moz-transition: 0.5s ease;
+    -o-transition: 0.5s ease;
+    -webkit-transition: 0.5s ease;
+}
+
+.passwordChange input[type='submit']:hover {
+    background-color: #590000;
+}
+
+#ui-datepicker-div {
+    background: #cecece;
+    padding: 8px;
+    width: 250px;
+}
+
+.ui-datepicker-header.ui-widget-header.ui-helper-clearfix.ui-corner-all a {
+    margin: 0 20px 0px;
+    background: white;
+    padding: 0 20px;
+    border-radius: 4px;
+}
+
+.ui-datepicker-title {
+    text-align: center;
+    margin: 5px 0;
+}
+
+.ui-datepicker-calendar {
+    width: 100%;
+    text-align: center;
+}
+
+.ui-state-default.ui-state-active {
+    background: white;
+    padding: 0 5px;
+}
+
+.addscore input {
+    padding: 10px;
+    width: 300px;
+    display: block;
+}
+
+.addscore select {
+    padding: 8px 24px;
+    font-size: 16px;
+    /* margin-left: 10px; */
+    display: block;
+}
+
+.addscore select option {
+    font-size: 16px;
+}
+
+.addscore input[type="number"] {
+    width: 80px;
+}
+
+
+.addscore .bowlerScoreEntry {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+}
+
+.addscore .bowlerScoreEntry li {
+    width: 12%;
+}
+
+.addscore .bowlerScoreEntry select {
+    display: inline-block;
+    width: 80px;
+    margin-left: 5px;
+    padding: 5px;
+}
+
+.addscore input[type="number"] {
+    padding: 5px;
+}
+
+#resetInputs, .addscore input[type="submit"] {
+    padding: 10px 40px;
+    border: 0;
+    color: #ddd;
+    background-color: #353535;
+    transition: 0.5s ease;
+    -moz-transition: 0.5s ease;
+    -o-transition: 0.5s ease;
+    -webkit-transition: 0.5s ease;
+}
+
+.addscore input[type='submit']:hover {
+    background-color: #0a0a0a;
+    cursor: pointer
+}
+
+.addSub {
+    padding: 5px 18px;
+    border: 0;
+    background-color: #963400;
+    color: white;
+    font-size: 14px;
+}
+
+.users table {
+    width: 100%;
+    margin-top: 30px;
+}
+.users table td, .users table th {
+    border: 1px solid;
+    text-align: center;
+    padding: 5px;
+}
+
+.users table th {
+    background-color: #a54c00;
+    color: white;
+    border-color: #a54c00;
+}
+
+.users table td:nth-child(2), .users table td:nth-child(3) {
+    text-align: left;
+}
+
+.users input, .users select {
+    display: block;
+    padding: 10px;
+}
+
+.users input[type='submit'] {
+    padding: 10px 40px;
+    border: 0;
+    color: #ddd;
+    background-color: #353535;
+    transition: 0.5s ease;
+    -moz-transition: 0.5s ease;
+    -o-transition: 0.5s ease;
+    -webkit-transition: 0.5s ease;
+}
+
+.users input[type='submit']:hover {
+    background-color: #0a0a0a;
+    cursor: pointer
+}
+
+.users h4 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.users h4 .adduser {
+    font-size: 16px;
+    background-color: #630e0e;
+    padding: 4px 20px;
+    border-radius: 4px;
+    color: white;
+    border: 2px solid #630e0e;
+    transition: 0.5s ease;
+    -moz-transition: 0.5s ease;
+    -o-transition: 0.5s ease;
+    -webkit-transition: 0.5s ease;
+}
+
+.users h4 .adduser:hover {
+    border: 2px solid #500000;
+    background-color: #fff;
+    color: #500000;
+}
+
+.users table td a {
+    color: #a54c00;
+}
+
+.deleteUser {
+    padding: 8px 30px;
+    background-color: #b00000;
+    color: white;
+    transition: 0.5s ease;
+    -moz-transition: 0.5s ease;
+    -o-transition: 0.5s ease;
+    -webkit-transition: 0.5s ease;
+}
+
+.deleteUser:hover {
+    cursor: pointer;
+    color: white;
+    background-color: black;
+}
+
+.deleteUser svg {
+    margin-right: 10px;
+}
+
+.teamSel {
+    border: 1px solid #dfdfdf;
+    padding: 20px 8px;
+    margin: 25px 0;
+}
+
+.addscore .teamSel > div select {
+    display: inline-block;
+    margin-left: 10px;
+    margin-bottom: 20px;
+}   
+
+.addEventBowlerBtn, .deleteEventBowlerBtn {
+    background-color: #005e89;
+    color: white;
+    padding: 10px 25px;
+    display: inline;
+    width: 150px;
+    text-align: center;
+    margin: 0 10px;
+}
+
+.deleteEventBowlerBtn {
+    background-color: #890000
+}
+
+.teamBoxNo {
+    position: relative;
+    top: -30px;
+    font-size: 24px;
+    font-weight: bold;
+    background-color: #005e89;
+    padding: 5px 25px;
+    color: white;
+}
+
+.loadingIcon {
+    display: none;
+}
+
+.loadingIcon img {
+    width: 85px;
+}
+
+.successMsg, .errorMsg {
+    background-color: #009a00;
+    font-weight: 500;
+    color: white;
+    padding: 10px;
+}
+
+.errorMsg {
+    background-color: #df3200;
+}
+
+.backTeamBtn {
+    background-color: #a54c00;
+    padding: 4px 12px;
+    border-radius: 3px;
+    color: white;
+}
+
+.mCSB_inside > .mCSB_container {
+    margin-right: 0 !important;
+}
+
+.addscore.updateData input[type="checkbox"] {
+    width: 35px;
+    display: inline-block;
+}
+
+#selCheckboxs {
+    display: inline-block;
+    margin: 10px 0 25px;
+    background: #d4d4d4;
+    padding: 5px 12px;
+    border: 2px solid gray;
+}
+
+.finaldelete {
+    border: 2px solid #b00000;
+    background: white;
+    color: black;
+}
+
+
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+        transform: rotateY(90deg);
+    }
+    #sidebar.active {
+        margin-left: 0;
+        transform: none;
+    }
+    #sidebarCollapse span:first-of-type,
+    #sidebarCollapse span:nth-of-type(2),
+    #sidebarCollapse span:last-of-type {
+        transform: none;
+        opacity: 1;
+        margin: 5px auto;
+    }
+    #sidebarCollapse.active span {
+        margin: 0 auto;
+    }
+    #sidebarCollapse.active span:first-of-type {
+        transform: rotate(45deg) translate(2px, 2px);
+    }
+    #sidebarCollapse.active span:nth-of-type(2) {
+        opacity: 0;
+    }
+    #sidebarCollapse.active span:last-of-type {
+        transform: rotate(-45deg) translate(1px, -1px);
+    }
+
+}

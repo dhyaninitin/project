@@ -1,0 +1,75 @@
+version: 0.1
+component: build
+timeoutInSeconds: 10000
+shell: bash
+failImmediatelyOnError: true
+
+steps:
+  - type: Command
+    name: "Zip codebase"
+    timeoutInSeconds: 950
+    failImmediatelyOnError: true
+    command: |
+      cd ${OCI_WORKSPACE_DIR}
+      zip -rq portal-api.zip ./${OCI_PRIMARY_SOURCE_NAME}
+    onFailure:
+      - type: Command
+        command: |
+          echo "Handling Failure"
+          echo "Failure successfully handled"
+        timeoutInSeconds: 40
+        runAs: root
+
+#   - type: Command
+#     name: "Install MySQL Server"
+#     timeoutInSeconds: 300
+#     failImmediatelyOnError: true
+#     command: |
+#         pwd
+#         ls -la
+#         wget http://dev.mysql.com/get/mysql80-community-release-el7-11.noarch.rpm
+#         rpm -ivh mysql80-community-release-el7-11.noarch.rpm
+#         yum -y install mysql-server
+#         systemctl status mysqld
+
+#   - type: Command
+#     name: "Install Dependencies & Setup environment"
+#     timeoutInSeconds: 60
+#     failImmediatelyOnError: true
+#     command: |
+#       ls -la
+#       cp .env.example .env
+#       wget https://www.php.net/distributions/php-7.4.3.tar.gz
+#       tar -zxvf php-7.4.3.tar.gz
+#       yum -y groupinstall "Development Tools"
+#       yum -y install openssl-devel libcurl-devel oniguruma-devel libxml2 libxml2-devel sqlite sqlite-devel
+#       php-7.4.3/configure --with-openssl
+#       make
+#       make install
+#       yum -y openssl php-common php-curl php-json php-mbstring php-mysql php-xml php-zip
+#       php -v
+#       composer -v
+#       composer self-update --1
+#       php artisan key:generate
+#       php artisan optimize
+
+#   - type: Command
+#     name: "Create Databases"
+#     timeoutInSeconds: 300
+#     failImmediatelyOnError: true
+#     command: |
+#       mysql -u root -e "CREATE DATABASE testdb1;"
+#       mysql -u root -e "CREATE DATABASE testdb2;"
+#       php artisan db:generate-from-sql-schema
+
+#   - type: Command
+#     name: "Run Tests"
+#     timeoutInSeconds: 120
+#     failImmediatelyOnError: true
+#     command: |
+#       ./vendor/bin/phpunit
+
+outputArtifacts:
+  - name: portal-api
+    type: BINARY
+    location: ../portal-api.zip

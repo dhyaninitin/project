@@ -1,0 +1,541 @@
+
+
+body {
+    background: #ebebeb;
+    font-family: 'Open Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.login-page {
+    width: 360px;
+    padding: 4% 0 0;
+    margin: auto;
+}
+
+.login-page img {
+    max-width: 55%;
+    margin: 0 auto 15px;
+    display: block;
+}
+
+.form {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 360px;
+    margin: 0 auto 100px;
+    padding: 25px 45px 25px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+#email-label, #pass-label {
+    position: relative;
+}
+
+#email-label::before {
+    color: #2c2c2c;
+    content: "\f007";
+    font-family: "Font Awesome 5 Free";
+    position: absolute;
+    top: 9px;
+    left: 10px;
+    font-size: 25px;
+}
+
+#pass-label::before {
+    color: #2c2c2c;
+    content: "\f023";
+    font-family: "Font Awesome 5 Free";
+    position: absolute;
+    top: 9px;
+    left: 10px;
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.form input {
+    /* font-family: "Roboto", sans-serif; */
+    outline: 0;
+    background: #cbcbcb;
+    color: black;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    padding-left: 45px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.form select {
+    margin: 0 0 15px;
+    padding: 10px;
+    display: block;
+    width: 100%;
+}
+
+input[type="submit"] {
+    background-color: #eb2326;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 18px;
+    margin: auto;
+    padding: 15px;
+    transition: 0.4s ease;
+    -o-transition: 0.4s ease;
+    -moz-transition: 0.4s ease;
+    -webkit-transition: 0.4s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #000;
+    color: white;
+}
+
+.register a {
+    background-color: #474747;
+    padding: 10px;
+    margin: 10px;
+    font-weight: bold;
+    float: right;
+    border-radius: 6px;
+    color: #fff;
+    text-decoration: none;
+    transition: 0.4s ease;
+    -o-transition: 0.4s ease;
+    -moz-transition: 0.4s ease;
+    -webkit-transition: 0.4s ease;
+}
+
+.register a:hover {
+    background-color: #000;
+    color: white;
+}
+
+.registerDeets a {
+    font-size: 14px;
+}
+
+.verifiPage .form {
+    padding: 25px 20px 25px;
+}
+
+.verifiPage input[type="submit"] {
+    font-size: 14px;
+}
+
+.resendBtn {
+    padding: 10px;
+background: red;
+color: black;
+width: 100%;
+display: block;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-family: 'Ubuntu', sans-serif;
+}
+
+img {
+    max-width: 100%;
+}
+
+#indBowler {
+    float: right;
+}
+
+#indBowler input[type="submit"] {
+    background-color: #002335;
+    color: white;
+    border: 0;
+    font-size: 16px;
+    padding: 10px 28px;
+}
+
+header img {
+    margin: auto;
+    display: block;
+}
+
+.searchContainer {
+    width: 90%;
+    display: block;
+    margin: auto;
+}
+
+.singlePlayer {
+    cursor: pointer;
+}
+
+.singlePlayer h4 {
+    font-size: 20px;
+}
+
+.team {
+    cursor: pointer;
+}
+
+.team h4 {
+    font-size: 20px;
+}
+
+.teamlist {
+    background: #293c3f;
+    padding: 10px;
+    display: none;
+}
+
+.stats {
+    display: none;
+}
+
+.info {
+    background-color: #00a4bd;
+    color: black;
+    padding: 10px 5px;
+    margin: 12px auto 0;
+}
+
+.teaminfo {
+    background-color: #ea2b2c;
+    color: black;
+    padding: 10px 5px;
+    margin: 12px auto 0;
+}
+
+.teaminfo .name h4 {
+    color: white;
+}
+
+.bowlerInfo span {
+    font-size: 10px;
+    background-color: #002335;
+    color: white;
+    padding: 5px;
+    display: inline-block;
+    margin-bottom: 8px;
+    border-radius: 3px;
+    font-weight: 400;
+}
+
+.bowlerInfo h4 {
+    display: inline-block;
+    font-size: 18px;
+    text-transform: capitalize;
+}
+
+.name h4 {
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    color: #002335;
+}
+
+.stats {
+    background-color: #004550;
+    margin: auto;
+}
+
+.row.stats.even {
+    background-color: #026878;
+}
+
+.stats .col-12, .stats .col-md-6 {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.bowlerStats ul {
+    padding: 0;
+    margin: 0;
+}
+
+.eventType {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: #fff;
+    font-weight: bold;
+    font-size: 22px;
+    padding: 25px 5px;
+}
+
+.headings {
+    font-size: 18px;
+}
+
+.games {
+    text-transform: capitalize !important;
+}
+
+.bowlerStats ul.headings {
+    background-color: #002335;
+}
+
+.bowlerStats ul.headings li {
+    font-weight: bold;
+}
+
+.bowlerStats ul li {
+    margin: 0 2px;
+    display: inline-block;
+    padding: 15px 0px;
+    width: 15%;
+    text-align: center;
+    /* background-color: #002335; */
+    /* border-bottom: 2px solid #000d14; */
+}
+
+.bowlerStats .headings {
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.bowlerStats .headings:hover {
+    background: #00121c;
+}
+
+.bowlerStats ul.eventhighlight {
+    background: #00121c;
+}
+
+.bowlerStats .headings li {
+    width: 85%;
+}
+
+/* .bowlerStats ul li:first-child {
+    width: 40%;
+} */
+
+.bowlerStats .uba li:nth-child(2n+1) {
+    width: 20% !important;
+    padding: 8px;
+}
+
+.bowlerStats ul li.gameIcon {
+    width: 10%;
+}
+
+.games {
+    background: #343434;
+}
+
+.gamesList {
+    cursor: default;
+    font-size: 14px;
+}
+
+.gamesList .games:nth-child(2n+1) {
+    background: #525252;
+}
+
+.games span {
+    width: 12%;
+    display: inline-block;
+    margin: 1% 0.25%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.gamesList .gamesHeading {
+    background: #00121c !important;
+    border-bottom: 2px solid white;
+    border-top: 2px solid white;
+}
+
+/* .games li:first-child {
+    text-transform: capitalize;
+} */
+
+.fas.fa-sort-up {
+    line-height: 25px;
+}
+
+.upBtn {
+    display: none;
+}
+
+.downBtn i, .upBtn i {
+    border-radius: 100px;
+    width: 25px;
+    height: 25px;
+    transition: 0.5s ease;
+}
+
+.bowlerStats .headings:hover .downBtn i, .bowlerStats .headings:hover .upBtn i {
+    background: white;
+    color: black;
+    border-radius: 100px;
+    width: 25px;
+    height: 25px;
+}
+
+/* .bowlerStats ul.headings li:first-child {
+    font-size: 20px;
+    padding: 8px;
+} */
+
+form input[type='text'] {
+    padding: 10px;
+    font-size: 16px;
+    color: black;
+}
+
+/* form .submitBtn {
+    font-size: 18px;
+    display: block;
+    margin-top: 15px;
+    width: 50%;
+    height: 50px;
+    background-color: #ea2b2c;
+    color: white;
+    border: 0;
+    transition: 0.5s ease;
+    -moz-transition: 0.5s ease;
+    -webkit-transition: 0.5s ease;
+    -o-transition: 0.5s ease;
+}
+
+form .submitBtn:hover {
+    background-color: #f4f4f4;
+    color: #ea2b2c;
+} */
+
+.logos {
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.logo {
+    max-width: 275px;
+    display: block;
+    margin: auto;
+        margin-bottom: auto;
+    margin-bottom: 35px;
+}
+
+.eventsHeading {
+    background-color: #002335;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.uba {
+    text-align: center;
+    background-color: #b00203;
+    color: white;
+    padding: 15px 5px 5px;
+    margin: auto;
+    font-weight: bold;
+}
+
+.uba p {
+    font-size: 17px;
+}
+
+.uba p span {
+    font-size: 20px;
+    display: inline-block;
+    padding: 4px 20px;
+}
+
+.highlight {
+    background-color: #560000;
+}
+
+.loginContainer {
+    text-align: center;
+}
+
+.loginContainer label {
+    display: block;
+}
+
+.loginContainer input {
+    padding: 10px 12px;
+    width: 50%;
+}
+
+.loginContainer .submitBtn {
+    margin: auto;
+}
+
+#pdnm, #ednm {
+    display: none;
+}
+
+input[type="checkbox"] {
+    width: inherit;
+    padding: 12px;
+}
+
+/* Reset Select */
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    outline: 0;
+    box-shadow: none;
+    border: 0 !important;
+    background: #2c3e50;
+    background-image: none;
+  }
+  /* Custom Select */
+  .select {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 3em;
+    line-height: 3;
+    background: #2c3e50;
+    overflow: hidden;
+    border-radius: .25em;
+  }
+  select {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0 0 0 .5em !important;
+    color: #fff;
+    cursor: pointer;
+  }
+  select::-ms-expand {
+    display: none;
+  }
+  /* Arrow */
+  .select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0 1em;
+    background: #34495e;
+    pointer-events: none;
+  }
+  /* Transition */
+  .select:hover::after {
+    color: #f39c12;
+  }
+  .select::after {
+    -webkit-transition: .25s all ease;
+    -o-transition: .25s all ease;
+    transition: .25s all ease;
+  }
+
+@media only screen and (max-width: 768px) {
+    .loginContainer input {
+        padding: 10px 12px;
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    body {
+        height: 100vh;
+        max-height: 100%;
+    }
+}
