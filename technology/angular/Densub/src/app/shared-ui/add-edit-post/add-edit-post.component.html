@@ -1,0 +1,1485 @@
+<div class="modal show" id="modalname" tabindex="-1" role="dialog" [ngClass]="globalService.previousRoute ? 'scroll' : ''">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <!-- <h4 class="modal-title text-capitalize text-white"><i class="fa fa-briefcase"></i> {{ newJob._id ? "Edit" : "Post a new"}} job</h4> -->
+        <h4 class="modal-title text-white"><i class="fa fa-briefcase"></i> {{ (modalType?.add) ? 'Post a new' : ( (modalType?.repost) ? 'Repost' : 'Edit' )}}  job </h4>
+
+        <button type="button" class="close text-white"  data-dismiss="modal" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row border-bottom" *ngIf="!(newJob._id || modalType?.repost)" >
+          <!--  [ngClass]="{'display_none':newJob._id}" -->
+          <div class="col-lg-12 mobile-text">
+            <ul class="list-unstyled d-flex pl-2 m-auto">
+              <li class="pr-15">
+                <div class="form-group">
+                  <div class="custom-control custom-radio">
+                    <input name="jobType" type="radio" [(ngModel)]="newJob.jobType" class="custom-control-input"
+                      id="temporary" [value]="jobTypes.TEMPORARY" (ngModelChange)="clear()">
+                    <label class="custom-control-label text-gray" for="temporary">Temporary</label>
+                  </div>
+                </div>
+              </li>
+              <li class="pr-15">
+                <div class="form-group">
+                  <div class="custom-control custom-radio">
+                    <input name="jobType" type="radio" [(ngModel)]="newJob.jobType" class="custom-control-input"
+                      id="permanentFullTime" [value]="jobTypes.PERMANENTFULLTIME" (ngModelChange)="clear()">
+                    <label class="custom-control-label text-capitalize text-gray" for="permanentFullTime">Permanent Full time
+                    </label>
+                  </div>
+                </div>
+              </li>
+              <li class="pr-50">
+                <div class="form-group">
+                  <div class="custom-control custom-radio">
+                    <input name="jobType" type="radio" [(ngModel)]="newJob.jobType" class="custom-control-input"
+                      id="permanentPartTime" [value]="jobTypes.PERMANENTPARTTIME" (ngModelChange)="clear()">
+                    <label class="custom-control-label text-capitalize text-gray" for="permanentPartTime">Permanent
+                      part time
+                    </label>
+                  </div>
+                </div>
+              </li>
+              <li class="pr-15">
+                <!-- <div class="form-group">
+                  <select class="form-control" name="jobStatus" [(ngModel)]="newJob.status">
+                    <option [value]="jobStatus" *ngFor="let jobStatus of jobStatusData">{{jobStatus | uppercase}}
+                    </option>
+                  </select>
+                </div> -->
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- HERE IS TEMPORARY JOB -->
+        <div class="p-2 pt-3" *ngIf="newJob.jobType == jobTypes.TEMPORARY">
+          <accordion [isAnimated]="true">
+            <accordion-group #group heading="Job Details"  [isOpen]="showAccordian[0]" (isOpenChange)="check($event,0)">
+              <span accordion-heading>
+                <i class="pull-right mt-2 pt-1 float-xs-right clr-dark-blue fa"
+                   [ngClass]="{'fa-arrow-up': group?.isOpen, 'fa-arrow-down': !group?.isOpen}"></i>
+              </span>
+              <div class="row">
+            <div class="col-sm-6"  *ngIf="addressList.length == 1">
+              <label for="">Practice Name
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                  [ngClass]="{'text-danger': !practiceName,'clr-blue': practiceName}"></i>
+              </sup>
+              </label>
+              <input type="text" [(ngModel)]="practiceName" class="form-control text-capitalize" placeholder="Practice Name"
+              required name="practiceName" disabled>
+            </div>
+            <div class="col-sm-6" *ngIf="addressList.length > 1">
+              <label for="">Practice Name
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                  [ngClass]="{'text-danger': !newJob.practiceName,'clr-blue': newJob.practiceName}"></i>
+              </sup>
+              </label>
+              <select class="form-control" *ngIf="addressList.length > 1" name="practiceName" [(ngModel)]="newJob.practiceName" (ngModelChange)="filterAddress(newJob.practiceName)">
+                <option value="">Select Practice Name </option>
+                <option class="text-capitalize" [value]="practice._id" *ngFor="let practice of addressList">{{practice.practiceName}}</option>
+              </select>
+            </div>
+            <div class="col-sm-6">
+              <label for="">Job Title
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !newJob.jobTitle,'clr-blue': newJob.jobTitle}"></i>
+                </sup>
+              </label>
+              <input type="text" [(ngModel)]="newJob.jobTitle" class="form-control" placeholder="Job Post Title Here"
+                required name="jobTitle">
+            </div>
+          </div>
+
+          <div class="row pt-3">
+            <div class="col-sm-6">
+              <label for="">Position Type
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !newJob.positionType,'clr-blue': newJob.positionType}"></i>
+                </sup>
+              </label>
+              <select class="form-control" name="positionType" [(ngModel)]="newJob.positionType" (ngModelChange)="getPositionTypeList()">
+                <option value="">Select Position Type </option>
+                <option [value]="positionType" *ngFor="let positionType of PositionTypeData">{{positionType}}
+                </option>
+              </select>
+            </div>
+            </div>
+            <div class="row pt-3">
+              <div class="col-sm-12">
+                <label for="">Job Description
+                  <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                      [ngClass]="{'text-danger': !newJob.description,'clr-blue': newJob.description}"></i>
+                  </sup>
+                </label>
+                <!-- <app-ngx-editor placeholder="Job Description" [resizer]="false" name="jobDescription"
+                  [(ngModel)]="newJob.description" [config]="editorConfig">
+                </app-ngx-editor> -->
+                <ckeditor [config]="ckeConfig" placeholder="Job Description" name="jobDescription" [(ngModel)]="newJob.description" (change)="onEditorChange()" (blur)="onEditorChange()"
+                ></ckeditor>
+                <!-- <pre>{{newJob.description}}</pre> -->
+              </div>
+            </div>
+  
+            <div class="row pt-5">
+             <div class="col-sm-12">
+              <h6 class="heading-color">Schedule</h6>  
+            </div> 
+            <div class="col-sm-6">
+              <label for="" class="mb-4 pb-1" data-toggle="tooltip" title="Select the days you want to post the job for, then select the start and end time of the job. You may select one or multiple days at a time to post a job(s).">Job {{ (newJob._id || modalType.repost)?'Date':'Date(s)'}}
+                <!-- <pre>{{newJob.jobDate}}</pre> -->
+                <sup> <i *ngIf="(newJob._id || modalType.repost)" class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !newJob.jobDate,'clr-blue': newJob.jobDate}"></i>
+
+                    <i *ngIf="!(newJob._id || modalType.repost)" class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !newJob.jobDates.length,'clr-blue': newJob.jobDates.length}"></i>
+                </sup>
+              </label>
+              <br>
+              <dp-date-picker *ngIf="!(newJob._id || modalType.repost)" [(ngModel)]="newJob.jobDates" (ngModelChange)="currentDateAndTime()" placeholder="Select Job dates" [config]="datePickerConfig">
+              </dp-date-picker>
+
+              <dp-date-picker  *ngIf="(newJob._id || modalType.repost)" placeholder="Select Job Start Date" [(ngModel)]="newJob.jobDate" (ngModelChange)="currentDateAndTime()" [config]="datePickerConfig2">
+              </dp-date-picker>
+
+            </div>  
+            <div class="col-sm-6">
+              <div class="row">
+              <div class="col-md-6">
+                <label for="">Start Time</label>
+                </div>
+                <div class="col-md-6">
+                  <label for="" class="pull-right">End Time</label>
+                  </div>
+              </div>
+              <!-- <timepicker [(ngModel)]="newJob.startTime" (ngModelChange)="timeValidation('startTime')"></timepicker> -->
+              <ng5-slider
+              [(value)]="newJob.startTime"
+              [(highValue)]="newJob.endTime"
+              [options]="options"
+              ></ng5-slider>
+            </div>
+          </div>
+          <div class="row pt-3">
+            <div class="col-sm-12">
+              <h6 class="heading-color">Compensation</h6>  
+            </div>
+            <div class="col-sm-6">
+              <label for="" data-toggle="tooltip" title="Regardless of which option you choose to classify the staff as, please consult a tax accountant or financial professional for proper guidance.">Employee Type</label>
+              <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                [ngClass]="{'clr-blue': newJob.employmentType || !newJob.employmentType}"></i>
+            </sup>
+              <ul class="d-flex mb-10 list-unstyled">
+                <li class="py-1 pr-1 pl-0">
+                  <div class="custom-control custom-radio" data-toggle="tooltip" title="Regardless of which option you choose to classify the staff as, please consult a tax accountant or financial professional for proper guidance.">
+                    <input name="emplymentType"  [(ngModel)]="newJob.employmentType" type="radio"
+                      class="custom-control-input" id="employmentType-W2" [value]="true">
+                    <label class="custom-control-label" for="employmentType-W2">W2 </label>
+                  </div>
+                </li>
+                <li class="p-1">
+                  <div class="custom-control custom-radio" data-toggle="tooltip" title="Regardless of which option you choose to classify the staff as, please consult a tax accountant or financial professional for proper guidance.">
+                    <input name="emplymentType"  [(ngModel)]="newJob.employmentType" type="radio" [value]="false"
+                      class="custom-control-input" id="employmentType-1099">
+                    <label class="custom-control-label" for="employmentType-1099">1099 </label>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="col-sm-6 slider-w-80">
+              <label for="">Rate Per Hour
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !newJob.desiredHourlyRate,'clr-blue': newJob.desiredHourlyRate}"></i>
+                </sup>
+              </label>
+              <div class="d-block">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                  </div>
+                  <input
+                            name="desiredHourly"
+                            id="DesiredHourly"
+                            required
+                            [(ngModel)]="newJob.desiredHourlyRate"
+                            placeholder="Please enter rate >10$"
+                            type="number"
+                            class="form-control"
+                            maxlength="4"
+                            pattern = "([1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9])"
+                            (keyup)="checkLength()"
+                          />
+                </div>
+                </div>
+              <!-- <mv-slider id="DesiredHourly" [(value)]="newJob.desiredHourlyRate" [min]="0" [max]="500"
+                [enabled]="enabled"></mv-slider><Span class="ml-20">${{newJob.desiredHourlyRate}}</Span> -->
+            </div>
+            <div class="col-sm-6">
+              <label for="">Select if you offer bonus</label>
+              <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                [ngClass]="{'clr-blue': newJob.offerBonus || !newJob.offerBonus}"></i>
+            </sup>
+              <ul class="d-flex mb-10 list-unstyled">
+                <li class="py-1 pr-1 pl-0">
+                  <div class="custom-control custom-radio">
+                    <input name="offerBonus"  [(ngModel)]="newJob.offerBonus" type="radio"
+                      class="custom-control-input" id="offerBonus-1" [value]="true" (ngModelChange)="clearOfferBonus()">
+                    <label class="custom-control-label" for="offerBonus-1">Yes </label>
+                  </div>
+                </li>
+                <li class="p-1">
+                  <div class="custom-control custom-radio">
+                    <input name="offerBonus"  [(ngModel)]="newJob.offerBonus" type="radio" [value]="false"
+                      class="custom-control-input" id="offerBonus-2" (ngModelChange)="clearOfferBonus()">
+                    <label class="custom-control-label" for="offerBonus-2">No </label>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="col-sm-6 slider-w-80" *ngIf="newJob.offerBonus">
+              <label for="">Bonus
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !newJob.bonusRate,'clr-blue': newJob.bonusRate}"></i>
+                </sup>
+              </label>
+              <div class="d-block">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                  </div>
+                  <input
+                            name="desiredHourly"
+                            id="DesiredHourly"
+                            required
+                            [(ngModel)]="newJob.bonusRate"
+                            placeholder="Please enter bonus rate"
+                            type="number"
+                            class="form-control"
+                           
+                          />
+                </div>
+                </div>
+              <!-- <mv-slider id="DesiredHourly" [(value)]="newJob.desiredHourlyRate" [min]="0" [max]="500"
+                [enabled]="enabled"></mv-slider><Span class="ml-20">${{newJob.desiredHourlyRate}}</Span> -->
+            </div>
+            <div class="col-sm-6">
+              <label for="">Do you offer same day pay?</label>
+              <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                [ngClass]="{'clr-blue': newJob.sameDayPay || !newJob.sameDayPay}"></i>
+            </sup>
+              <ul class="d-flex mb-10 list-unstyled">
+                <li class="py-1 pr-1 pl-0">
+                  <div class="custom-control custom-radio">
+                    <input name="sameDayPay"  [(ngModel)]="newJob.sameDayPay" type="radio"
+                      class="custom-control-input" id="sameDayPay-1" [value]="true">
+                    <label class="custom-control-label" for="sameDayPay-1">Yes </label>
+                  </div>
+                </li>
+                <li class="p-1">
+                  <div class="custom-control custom-radio">
+                    <input name="sameDayPay"  [(ngModel)]="newJob.sameDayPay" type="radio" [value]="false"
+                      class="custom-control-input" id="sameDayPay-2">
+                    <label class="custom-control-label" for="sameDayPay-2">No </label>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="col-sm-6">
+              <label for="" data-toggle="tooltip" title="With Densub’s e-pay option powered by Stripe, you can conveniently make online payments to the staff who have a Stripe account and accept electronic payments.">Do you offer paying wages via e-pay?</label>
+              <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                [ngClass]="{'clr-blue': newJob.availablePayOpt || !newJob.availablePayOpt }"></i>
+            </sup>
+              <ul class="d-flex mb-10 list-unstyled">
+                <li class="py-1 pr-1 pl-0">
+                  <div class="custom-control custom-radio" data-toggle="tooltip" title="With Densub’s e-pay option powered by Stripe, you can conveniently make online payments to the staff who have a Stripe account and accept electronic payments.">
+                    <input name="availablePayOpt"  [(ngModel)]="newJob.availablePayOpt" type="radio"
+                      class="custom-control-input" id="availablePayOpt-ePay" [value]="true">
+                    <label class="custom-control-label" for="availablePayOpt-ePay">Yes </label>
+                  </div>
+                </li>
+                <li class="p-1">
+                  <div class="custom-control custom-radio" data-toggle="tooltip" title="With Densub’s e-pay option powered by Stripe, you can conveniently make online payments to the staff who have a Stripe account and accept electronic payments.">
+                    <input name="availablePayOpt"  [(ngModel)]="newJob.availablePayOpt" type="radio" [value]="false"
+                      class="custom-control-input" id="availablePayOpt-offline">
+                    <label class="custom-control-label" for="availablePayOpt-offline">No </label>
+                  </div>
+                </li>
+              </ul>
+            </div>
+           <!--  <pre [innerHtml]="newJob.startTime | json"> </pre> -->
+            <!-- <div class="col-sm-6">
+              <label for="">End Time
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !newJob.endTime,'clr-blue': newJob.endTime}"></i>
+                </sup>
+              </label>
+              <timepicker [(ngModel)]="newJob.endTime" (ngModelChange)="timeValidation('endTime')"></timepicker>
+            </div> -->
+          </div>
+
+          <div class="row pt-4">
+    
+            <!--  <div class="col-sm-3">
+              <label for="">Budget Per Hour
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !newJob.budgetPerHour,'clr-blue': newJob.budgetPerHour}"></i>
+                </sup>
+              </label>
+              <br>
+              <span class="fa fa-usd doller-symbol"> </span>
+              <input type="text" [(ngModel)]="newJob.budgetPerHour" class="form-control" placeholder="Budget Per Hour"
+                required name="budgetPerHour" numbersOnly>
+            </div> -->
+          </div>
+
+         
+          <div class="row pt-4">
+          <div class="col-md-12">
+            <button type="button" class="btn btn-primary pull-right mobile-btn" (click)="toggleAccordian(1,0)">Next</button>
+          </div>  
+          </div>
+
+        </accordion-group>
+        <accordion-group heading="Qualifications" #group1 [isOpen]="showAccordian[1]" (isOpenChange)="check($event,1)">
+          <span accordion-heading>
+            <i class="pull-right mt-2 pt-1 float-xs-right clr-dark-blue fa"
+               [ngClass]="{'fa-arrow-up': group1?.isOpen, 'fa-arrow-down': !group1?.isOpen}"></i>
+          </span>
+          <accordion [isAnimated]="true">
+            <accordion-group heading="Required" #group11 [isOpen]="requiredSection" (isOpenChange)="changeValues()">
+              <span accordion-heading>
+                <i class="pull-right mt-2 pt-1 float-xs-right clr-dark-blue fa"
+                   [ngClass]="{'fa-arrow-up': group11?.isOpen, 'fa-arrow-down': !group11?.isOpen}"></i>
+              </span>
+              <div class="row">
+              <div class="col-sm-6">
+                <label for="">Required Specialities
+                  <!-- <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                      [ngClass]="{'text-danger': !newJob.specialities.length,'clr-blue': newJob.specialities.length}"></i>
+                  </sup> -->
+                </label>
+                <ng-multiselect-dropdown name="specialities" [data]="requiredSpecialtyList" [placeholder]="'Select Specialities'"
+                  [(ngModel)]="newJob.requiredSpecialities" (ngModelChange)="filterAll(newJob.requiredSpecialities,4)" [settings]="{
+                    singleSelection: false,
+                    idField: '_id',
+                    textField: 'specialty',
+                    selectAllText: 'Select All',
+                    unSelectAllText: 'UnSelect All',
+                    allowSearchFilter: false,
+                    itemsShowLimit: 2,
+                    closeDropDownOnSelection: false,
+                    enableCheckAll: false
+                  }"  [disabled]="disabled">
+                </ng-multiselect-dropdown>
+              </div>
+              <div class="col-sm-6">
+                <label for="">Required Certifications
+                  <!-- <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                      [ngClass]="{'text-danger': !newJob.certificates.length,'clr-blue': newJob.certificates.length}"></i>
+                  </sup> -->
+                </label>
+                <ng-multiselect-dropdown name="ceritificates" [data]="requiredCertificateList" [placeholder]="'Select Certificate'"
+                  [(ngModel)]="newJob.requiredCertificates" (ngModelChange)="filterAll(newJob.requiredCertificates,5)" [settings]="{
+                    singleSelection: false,
+                    idField: '_id',
+                    textField: 'certificate',
+                    selectAllText: 'Select All',
+                    unSelectAllText: 'UnSelect All',
+                    allowSearchFilter: false,
+                    itemsShowLimit: 2,
+                    closeDropDownOnSelection: false,
+                    enableCheckAll: false
+                  }" [disabled]="disabled">
+                </ng-multiselect-dropdown>
+              </div>
+              <div class="col-sm-6 pt-3">
+                <label for="">Required Skills
+                  <!-- <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                      [ngClass]="{'text-danger': !newJob.skills.length,'clr-blue': newJob.skills.length}"></i>
+                  </sup> -->
+                </label>
+                <ng-multiselect-dropdown name="skills" [data]="requiredSkillsList" [placeholder]="'Select Skills'"
+                  [(ngModel)]="newJob.requiredSkills" (ngModelChange)="filterAll(newJob.requiredSkills,6)" [settings]="dropdownSettings" [disabled]="disabled">
+                </ng-multiselect-dropdown>
+              </div>
+              <div class="col-sm-6 py-3">
+                <label for=""> Required Experience
+                  <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                      [ngClass]="{'text-danger': !newJob.experience,'clr-blue': newJob.experience}"></i>
+                  </sup>
+                </label>
+                <select name="experience" [(ngModel)]="newJob.experience" class="form-control" id="Experience">
+                   <option value="">Select Experience</option>
+                  <option [value]="experience" *ngFor="let experience of experienceData">{{experience}}
+                  </option>
+                </select>
+                <div
+              class="form-control-feedback"
+              *ngIf="!newJob.experience"
+            >
+              <p>Experience is required</p>
+            </div>
+              </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12 pt-3">
+                  <p class="pl-1"><b>Other</b></p>
+                  <label for="" class="pl-1">Please select if you require any of the following</label>
+                  <ul class="mb-10 list-unstyled row px-3">
+                    <li class="p-1 col-md-6">
+                      <div class="custom-control custom-checkbox">
+                        <input name="covidVaccine"  [(ngModel)]="newJob.covidVaccine" type="checkbox"
+                          class="custom-control-input" id="covidVaccine">
+                        <label class="custom-control-label" for="covidVaccine">Covid - 19 vaccination</label>
+                      </div>
+                    </li>
+                    <li class="p-1 col-md-6">
+                      <div class="custom-control custom-checkbox">
+                        <input name="childAbuse"  [(ngModel)]="newJob.childAbuse" type="checkbox"
+                          class="custom-control-input" id="childAbuse">
+                        <label class="custom-control-label" for="childAbuse">Child abuse history clearance </label>
+                      </div>
+                    </li>
+                    <li class="p-1 col-md-6">
+                      <div class="custom-control custom-checkbox">
+                        <input name="hepC"  [(ngModel)]="newJob.hepC" type="checkbox"
+                          class="custom-control-input" id="hepC">
+                        <label class="custom-control-label" for="hepC">Hep B vaccination</label>
+                      </div>
+                    </li>
+                    <li class="p-1 col-md-6">
+                      <div class="custom-control custom-checkbox">
+                        <input name="malpractice"  [(ngModel)]="newJob.malpractice" type="checkbox"
+                          class="custom-control-input" id="malpractice">
+                        <label class="custom-control-label" for="malpractice">Professional malpractice insurance</label>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                </div>
+            </accordion-group>
+            <accordion-group heading="Preferred" #group12>
+              <span accordion-heading>
+                <i class="pull-right mt-2 pt-1 float-xs-right clr-dark-blue fa"
+                   [ngClass]="{'fa-arrow-up': group12?.isOpen, 'fa-arrow-down': !group12?.isOpen}"></i>
+              </span>
+              <div class="row">
+              <div class="col-sm-6">
+                <label for="">Preferred Specialities
+                  <!-- <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                      [ngClass]="{'text-danger': !newJob.specialities.length,'clr-blue': newJob.specialities.length}"></i>
+                  </sup> -->
+                </label>
+                <ng-multiselect-dropdown name="specialities"  [data]="preferredSpecialtyList" [placeholder]="'Select Specialities'"
+                  [(ngModel)]="newJob.preferredSpecialities" (ngModelChange)="filterAll(newJob.preferredSpecialities,1)" [settings]="{
+                    singleSelection: false,
+                    idField: '_id',
+                    textField: 'specialty',
+                    selectAllText: 'Select All',
+                    unSelectAllText: 'UnSelect All',
+                    allowSearchFilter: false,
+                    itemsShowLimit: 2,
+                    closeDropDownOnSelection: false,
+                    enableCheckAll: false
+                  }"  [disabled]="disabled">
+                </ng-multiselect-dropdown>
+              </div>
+              <div class="col-sm-6">
+                <label for="">Preferred Certification
+                  <!-- <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                      [ngClass]="{'text-danger': !newJob.certificates.length,'clr-blue': newJob.certificates.length}"></i>
+                  </sup> -->
+                </label>
+                <ng-multiselect-dropdown name="ceritificates" [data]="preferredCertificateList" [placeholder]="'Select Certificate'"
+                  [(ngModel)]="newJob.preferredCertificates" (ngModelChange)="filterAll(newJob.preferredCertificates,2)" [settings]="{
+                    singleSelection: false,
+                    idField: '_id',
+                    textField: 'certificate',
+                    selectAllText: 'Select All',
+                    unSelectAllText: 'UnSelect All',
+                    allowSearchFilter: false,
+                    itemsShowLimit: 2,
+                    closeDropDownOnSelection: false,
+                    enableCheckAll: false
+                  }" [disabled]="disabled">
+                </ng-multiselect-dropdown>
+              </div>
+              <div class="col-sm-6 py-3">
+                <label for="">Preferred Skills
+                  <!-- <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                      [ngClass]="{'text-danger': !newJob.skills.length,'clr-blue': newJob.skills.length}"></i>
+                  </sup> -->
+                </label>
+                <ng-multiselect-dropdown name="skills" [data]="preferredSkillsList" [placeholder]="'Select Skills'"
+                  [(ngModel)]="newJob.preferredSkills" (ngModelChange)="filterAll(newJob.preferredSkills,3)" [settings]="dropdownSettings" [disabled]="disabled">
+                </ng-multiselect-dropdown>
+              </div>
+              <div class="col-sm-6 py-3">
+                <label for="">Other Languages
+                  <!-- <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                      [ngClass]="{'text-danger': !newJob.skills.length,'clr-blue': newJob.skills.length}"></i>
+                  </sup> -->
+                </label>
+                <ng-multiselect-dropdown name="skills" [data]="otherLanguages" [placeholder]="'Select Languages'"
+                  [(ngModel)]="newJob.otherLanguages" [settings]="{singleSelection: false,
+                    idField: '_id',
+                    textField: 'language',
+                    selectAllText: 'Select All',
+                    unSelectAllText: 'UnSelect All',
+                    allowSearchFilter: false,
+                    itemsShowLimit: 2,
+                    closeDropDownOnSelection: false,
+                    enableCheckAll: false
+                  }" [disabled]="disabled">
+                </ng-multiselect-dropdown>
+              </div>
+              </div>
+              </accordion-group>
+          </accordion>
+        
+            <div class="row pt-4">
+              <div class="col-md-12">
+                <button type="button" class="btn btn-primary pull-right mobile-btn" (click)="toggleAccordian(2,0)">Next</button>
+                <button type="button" class="btn btn-primary pull-right mr-2 mobile-btn" (click)="toggleAccordian(0,2)">Previous</button>
+              </div>  
+              </div>
+        </accordion-group>
+        
+        <accordion-group heading="Post" #group3 [isOpen]="showAccordian[2]" (isOpenChange)="check($event,2)">
+          <span accordion-heading>
+            <i class="pull-right mt-2 pt-1 float-xs-right clr-dark-blue fa"
+               [ngClass]="{'fa-arrow-up': group3?.isOpen, 'fa-arrow-down': !group3?.isOpen}"></i>
+          </span>
+          <div class="row">
+            <!--  -->
+            <div class="mobile-text"  [ngClass]="{'col-sm-6':!(jobStatus.EXPIRED === newJob.status || !newJob._id),
+            'col-sm-7' : (jobStatus.EXPIRED === newJob.status || !newJob._id)
+          }">
+              <label for="">Job post visibility
+                <!-- <sup> <i class="fa fa-star star-icon clr-blue" aria-hidden="true"></i> 
+                </sup>-->
+              </label>
+              <br>
+              <ul class="list-unstyled d-flex m-auto">
+                <li class="pr-15">
+                  <div class="form-group">
+                    <div class="custom-control custom-radio"><!-- showAlertMsg(jobVisibility.PUBLIC) -->
+                      <input name="visibility" type="radio" [(ngModel)]="newJob.visibility" class="custom-control-input"
+                        id="public" [value]="jobVisibility.PUBLIC"
+                        >
+                       <label class="custom-control-label" for="public" title="Job will be posted to the job marketplace and it will be visible to all">Marketplace
+                      </label>
+                    </div>
+                  </div>
+                </li>
+                <li class="pr-15">
+                  <div class="form-group"><!-- (change)="showAlertMsg(staffInvitationModal)" -->
+                    <div class="custom-control custom-radio" >
+                      <input name="visibility" type="radio" [(ngModel)]="newJob.visibility" class="custom-control-input"
+                        id="private" [value]="jobVisibility.PRIVATE"
+                        (click)="showOfferModal()">
+                      <label class="custom-control-label" for="private"
+                       title="An invitation will be sent to selected favorite staff(s)" >Only Favorites</label>
+                    </div>
+                  </div>
+                </li>
+                <li class="pr-15">
+                  <div class="form-group"><!-- (change)="showAlertMsg(staffInvitationModal)" -->
+                    <div class="custom-control custom-radio" >
+                      <input name="visibility" type="radio" [(ngModel)]="newJob.visibility" class="custom-control-input"
+                        id="both" [value]="jobVisibility.BOTH"
+                        (click)="showOfferModal()">
+                      <label class="custom-control-label" for="both" title="Job will be posted to the job marketplace and an invitation will be sent to selected favorite staff(s)">Both</label>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <!-- [hidden] = "jobStatus.EXPIRED === newJob.status || !newJob._id" -->
+            <!-- <div class="col-sm-2" *ngIf = "!(jobStatus.EXPIRED === newJob.status || !newJob._id)">
+              <label for=""> Job Status
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                  [ngClass]="{'text-danger': !newJob.status,'clr-blue': newJob.status}"></i>
+              </sup>
+              </label>
+              <div class="form-group">
+                <select class="form-control" name="jobStatus" [(ngModel)]="newJob.status">
+                  <option [value]="jobStatus.OPEN" >OPEN </option>
+                  <option [value]="jobStatus.CLOSED" > CLOSE </option>
+                </select>
+              </div>
+            </div> -->
+          </div>
+          <div class="row pt-4">
+            <div class="col-md-12 text-end">
+              <button type="button" class="btn btn-primary mr-10 mobile-btn" (click)="toggleAccordian(1,2)">Previous</button>
+              <button type="button" *ngIf="!newJob?._id" class="btn btn-secondary mr-10 mobile-btn" (click)="geocodeAddress('draft')">Save as Draft</button>
+              <button *ngIf="!newJob?._id" type="button" class="btn btn-primary mobile-btn" (click)="confirmJobPostOpenModal(confrmModal)">{{ (modalType.repost) ? 'Repost' : (
+                    (newJob.jobType == jobTypes.TEMPORARY  ) ? 'Post' : 'Pay and Post'
+                )}}
+              </button>
+              <button *ngIf="newJob?._id" type="button"  class="btn btn-primary mobile-btn" (click)="confirmJobPostOpenModal(confrmModal)">{{newJob.draft ? 'Post' : 'Update Job Post'}}</button>
+            </div>  
+            </div>
+        </accordion-group>
+      </accordion>
+      
+        </div>
+       
+
+        <!-- HERE IS PERMANENT JOB -->
+        <div class="p-2 pt-3" *ngIf="newJob.jobType == jobTypes.PERMANENTFULLTIME || newJob.jobType == jobTypes.PERMANENTPARTTIME">
+          <accordion [isAnimated]="true">
+            <accordion-group heading="Job Details" #group4 [isOpen]="showAccordian[0]" (isOpenChange)="check($event,0)">
+              <span accordion-heading>
+                <i class="pull-right mt-2 pt-1 float-xs-right clr-dark-blue fa"
+                   [ngClass]="{'fa-arrow-up': group4?.isOpen, 'fa-arrow-down': !group4?.isOpen}"></i>
+              </span>
+          <div class="row">
+            <div class="col-sm-6"  *ngIf="addressList.length == 1">
+              <label for="">Practice Name
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                  [ngClass]="{'text-danger': !practiceName,'clr-blue': practiceName}"></i>
+              </sup>
+              </label>
+              <input type="text" [(ngModel)]="practiceName" class="form-control text-capitalize" placeholder="Practice Name"
+              required name="practiceName" disabled>
+            </div>
+            <div class="col-sm-6" *ngIf="addressList.length > 1">
+              <label for="">Practice Name
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                  [ngClass]="{'text-danger': !newJob.practiceName,'clr-blue': newJob.practiceName}"></i>
+              </sup>
+              </label>
+              <select class="form-control" *ngIf="addressList.length > 1" name="practiceName" [(ngModel)]="newJob.practiceName" (ngModelChange)="filterAddress(newJob.practiceName)">
+                <option value="">Select Practice Name </option>
+                <option class="text-capitalize" [value]="practice._id" *ngFor="let practice of addressList">{{practice.practiceName}}</option>
+              </select>
+            </div>
+            <div class="col-sm-6">
+              <label for="">Job Title
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !newJob.jobTitle,'clr-blue': newJob.jobTitle}"></i>
+                </sup>
+              </label>
+              <input type="text" [(ngModel)]="newJob.jobTitle" class="form-control" placeholder="Job Post Title Here"
+                required name="jobTitle">
+            </div>
+          
+          </div>
+
+          <div class="row pt-3">
+            <div class="col-sm-6">
+              <label for="">Position Type
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !newJob.positionType,'clr-blue': newJob.positionType}"></i>
+                </sup>
+              </label>
+              <select class="form-control" name="positionType" [(ngModel)]="newJob.positionType" (ngModelChange)="getPositionTypeList()">
+                <option value="">Select Position Type </option>
+                <option [value]="positionType" *ngFor="let positionType of PositionTypeData">{{positionType}}
+                </option>
+              </select>
+            </div>
+            <div class="col-sm-6 mobile-top-margin">
+              <label for="" class="d-flex">Job Start Date
+                <sup class="mt-2 pl-1 pr-3"> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !newJob.jobDate,'clr-blue': newJob.jobDate}"></i>
+                </sup>
+                <span class="custom-control custom-checkbox pl-4" data-toggle="tooltip" title="Select this if your start date is flexible.">
+                  <input name="negotiate"  [(ngModel)]="newJob.negotiate" type="checkbox"
+                    class="custom-control-input" id="negotiate">
+                  <label class="custom-control-label" for="negotiate">Flexible</label>
+                </span>   
+              </label>
+             
+              <dp-date-picker placeholder="Select Job Start Date" [(ngModel)]="newJob.jobDate" [config]="datePickerConfig2">
+              </dp-date-picker>
+            </div>
+          </div>
+          <div class="row pt-3">
+            <div class="col-sm-12">
+              <label for="">Job Description
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !newJob.description,'clr-blue': newJob.description}"></i>
+                </sup>
+              </label>
+              <!-- <app-ngx-editor placeholder="Job Description" [resizer]="false" name="jobDescription"
+                [(ngModel)]="newJob.description" [config]="editorConfig">
+              </app-ngx-editor> -->
+              <ckeditor [config]="ckeConfig" placeholder="Job Description" name="jobDescription" [(ngModel)]="newJob.description"></ckeditor>
+            </div>
+          </div>
+          <div class="row pt-3">
+            <div class="col-sm-12 pt-3">
+              <h6 class="heading-color" data-toggle="tooltip" title="Select the days you want to post the job for, then select the start and end time of the job. You may select one or multiple days at a time to post a job(s).">Schedule</h6>
+              </div>
+              <div class="col-md-6">
+                <label for="">Number Of Hours Offered Per Week
+                  <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !newJob.hoursPerWeek,'clr-blue': newJob.hoursPerWeek}"></i>
+                </sup>
+                </label>
+                <input type="number" [(ngModel)]="newJob.hoursPerWeek" class="form-control" placeholder="Number of hours per week"
+                  required name="newJob.hoursPerWeek" [max]="100" pattern="^([0-9]|[1-9][0-9]|100)$">
+              </div>
+          </div>
+          <div class="pt-3">
+            <div>
+              <div class="row pt-3">
+              <label class="col-md-3 col-3 pr-0">Select Days
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !checkSelectedDays,'clr-blue': checkSelectedDays}"></i>
+                </sup>
+              </label>
+              <label class="col-md-3 col-3 pl-0"> <span class="custom-control custom-checkbox">
+                <input name="allDaysAvailable"  [(ngModel)]="allDaysAvailable" type="checkbox"
+                  class="custom-control-input" id="allDaysAvailable" (click)="changeAllWeekDays()">
+                <label class="custom-control-label" for="allDaysAvailable">Select All</label>
+              </span></label>
+              <label class="col-md-3 col-3">Start Time</label>
+              <label class="col-md-3 col-3 text-end pr-3">End Time</label>
+              </div>
+              <div class="row">
+              <ul class="pl-3 mb-10 list-unstyled">
+                <li class="row p-1 px-3" *ngFor="let dayInfo of newJob.availableDays; let i = index;">
+                  <div class="custom-control custom-checkbox col-md-3 col-6 my-auto pr-0">
+                    <input name="dayInfo.available{{i}}"  [(ngModel)]="dayInfo.available" type="checkbox"
+                      class="custom-control-input" id="{{dayInfo.available}}{{i}}" (click)="changeSelectedDays()">
+                    <label class="custom-control-label" for="{{dayInfo.available}}{{i}}">{{dayInfo.day}} </label>
+                  </div>
+                  <div class="custom-control custom-checkbox col-md-3 col-6 my-auto pl-0" data-toggle="tooltip" title="Select if job day is flexible">
+                    <input name="flexible{{i}}"  [(ngModel)]="dayInfo.flexible" type="checkbox"
+                      class="custom-control-input" id="flexible{{i}}">
+                    <label class="custom-control-label" for="flexible{{i}}">Flexible</label>
+                  </div>
+                  <div class="col-md-6 col-sm-6 pr-0 mobile-slider-view">
+                    <ng5-slider
+                    [(value)]="dayInfo.startTime"
+                    [(highValue)]="dayInfo.endTime"
+                    [options]="options"
+                    [ngClass]="!dayInfo.available ? 'disableSlider':''"
+
+                    ></ng5-slider>
+                  </div>
+                </li>
+              </ul>
+              </div>
+            </div>
+          </div>
+          <div class="row pt-3">
+            <div class="col-sm-12">
+            <h6 class="heading-color">Compensation</h6>  
+            </div>
+            <div class="col-sm-6">
+              <label for="">Compensation Type
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !newJob.desiredHourlyRate,'clr-blue': newJob.desiredHourlyRate || newJob.desiredSalaryRate}"></i>
+                </sup>
+              </label>
+              <!-- Hourly -->
+              <div class="form-group">
+                <div class="custom-control custom-radio">
+                  <input name="paymentMethod" type="radio" [(ngModel)]="newJob.paymentMethod" class="custom-control-input"
+                    id="hourly" [value]="paymentMethod.HOURLY" (ngModelChange)="clearCompensation()">
+                  <label class="custom-control-label" for="hourly">Hourly
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-12 slider-w-80 pl-0">
+                <!-- <mv-slider id="DesiredHourly" [(value)]="newJob.desiredHourlyRate" [min]="0" [max]="500" [enabled]="newJob.paymentMethod == paymentMethod.HOURLY" >
+                </mv-slider><Span class="ml-20">${{newJob.desiredHourlyRate}}</Span> -->
+
+                <div class="d-block">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">$</span>
+                    </div>
+                    <input
+                              name="desiredHourly"
+                              id="DesiredHourly"
+                              required
+                              [(ngModel)]="newJob.desiredHourlyRate"
+                              placeholder="Rate per hour"
+                              type="number"
+                              class="form-control"
+                              maxlength="4"
+                              pattern = "([1-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9])"
+                              (keyup)="checkLength()"
+                              [disabled]="(newJob.paymentMethod !== paymentMethod.HOURLY)"
+                            />
+                  </div>
+                  </div>
+              </div>
+              </div>
+             
+              <!-- Salary -->
+              <div class="col-sm-6 pt-2">
+              <div class="form-group mt-20">
+                <div class="custom-control custom-radio">
+                  <input name="paymentMethod" type="radio" [(ngModel)]="newJob.paymentMethod" class="custom-control-input"
+                    id="salary" [value]="paymentMethod.SALARY" (ngModelChange)="clearCompensation()">
+                   <label class="custom-control-label" for="salary">Salary/Year
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-12 pl-0">
+                <div class="d-block">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">$</span>
+                    </div>
+                    <input
+                              name="newJob.desiredSalaryRate"
+                              required
+                              [(ngModel)]="newJob.desiredSalaryRate"
+                              placeholder="Annual Salary"
+                              type="text"
+                              class="form-control"
+                              [disabled]="(newJob.paymentMethod === paymentMethod.HOURLY)"
+                              natualNumbersOnly
+                            />
+                  </div>
+                  </div>
+                <!-- <input type="text" [(ngModel)]="newJob.desiredSalaryRate" class="form-control" placeholder="Annual Salary" [disabled]="(newJob.paymentMethod === paymentMethod.HOURLY)"
+                required name="newJob.desiredSalaryRate" natualNumbersOnly> -->
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <label for="">Pay Cycle</label>
+              <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                [ngClass]="{'text-danger': !newJob.payCycle,'clr-blue': newJob.payCycle}"></i>
+            </sup>
+            <select name="payCycle" [(ngModel)]="newJob.payCycle" class="form-control" id="payCycle">
+              <option value="">Select Any</option>
+             <option [value]="payCycle" *ngFor="let payCycle of payCycleData">{{payCycle}}
+             </option>
+           </select>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-sm-6"> 
+              <div class="form-group mt-4 pb-1">
+                <div class="custom-control custom-checkbox">
+                  <input name="commission"  [(ngModel)]="newJob.commission" type="checkbox"
+                    class="custom-control-input" id="commission">
+                  <label class="custom-control-label" for="commission">Select if you offer commission</label>
+                </div>  
+              </div>
+              <div class="d-block">
+                <div class="input-group mb-3">
+                  
+                  <input
+                            name="commissionRate"
+                            id="commissionRate"
+                            [(ngModel)]="newJob.commissionRate"
+                            placeholder="Commission Rate"
+                            type="text"
+                            class="form-control"
+                            maxlength="3"
+                            [min]="0"
+                            [max]="100"
+                            pattern="^([0-9]|[1-9][0-9]|100)$"
+                            natualNumbersOnly
+                            [disabled]="!newJob.commission"
+                          />
+                          <div class="input-group-append">
+                            <span class="input-group-text">%</span>
+                          </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-sm-6"> 
+              <div class="form-group mt-4 pb-1">
+                <div class="custom-control custom-checkbox">
+                  <input name="bonus"  [(ngModel)]="newJob.bonus" type="checkbox"
+                    class="custom-control-input" id="bonus">
+                  <label class="custom-control-label" for="bonus">Select if you offer performance bonus</label>
+                </div>  
+              </div>
+              <div class="d-block">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                  </div>
+                  <input
+                            name="bonusRate"
+                            id="bonusRate"
+                            required
+                            [(ngModel)]="newJob.bonusRate"
+                            placeholder="Bonus Amount"
+                            type="text"
+                            class="form-control"
+                            natualNumbersOnly
+                            [disabled]="!newJob.bonus"
+                          />
+                </div>
+                </div>
+              <!-- <div class="col-sm-12 pl-0">
+
+                <div class="input-group-prepend">
+                  <span class="input-group-text">$</span>
+                </div>
+                <input type="text" [(ngModel)]="newJob.bonusRate" class="form-control" placeholder="Bonus Amount Here" 
+                required name="bonusRate" >
+              </div> -->
+            </div>
+
+            <!--  <div class="col-sm-6"><label for="">Rate Per Hour
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !newJob.desiredHourlyRate,'clr-blue': newJob.desiredHourlyRate}"></i>
+                </sup>
+              </label>
+              <br>
+              <mv-slider id="DesiredHourly" [(value)]="newJob.desiredHourlyRate" [min]="0" [max]="100" [enabled]="enabled">
+              </mv-slider><Span class="ml-20">${{newJob.desiredHourlyRate}}</Span> </div>-->
+         
+
+          </div>
+          <div class="row pt-3">
+            <div class="col-md-6">
+              <label for="">Benefits
+                <!-- <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !newJob.specialities.length,'clr-blue': newJob.specialities.length}"></i>
+                </sup> -->
+              </label>
+              <ng-multiselect-dropdown name="benefits" [data]="benefitsList" [placeholder]="'Select Benefits'"
+                [(ngModel)]="newJob.benefits" (ngModelChange)="signOnBonusShow()" [settings]="{
+                  singleSelection: false,
+                  idField: '_id',
+                  textField: 'benefits',
+                  selectAllText: 'Select All',
+                  unSelectAllText: 'UnSelect All',
+                  allowSearchFilter: false,
+                  itemsShowLimit: 2,
+                  closeDropDownOnSelection: false,
+                  enableCheckAll: false
+                }"  [disabled]="disabled">
+              </ng-multiselect-dropdown>
+            </div>
+            <div class="col-sm-6" *ngIf="signOnBonus"> 
+              <label for="">Sign On Bonus
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                  [ngClass]="{'text-danger': !newJob.signOnBonus,'clr-blue': newJob.signOnBonus}"></i>
+              </sup>
+              </label>
+              <div class="d-block">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                  </div>
+                  <input
+                            name="signOnBonus"
+                            id="signOnBonus"
+                            required
+                            [(ngModel)]="newJob.signOnBonus"
+                            placeholder="Sign On Bonus Amount"
+                            type="text"
+                            class="form-control"
+                            natualNumbersOnly
+                          />
+                </div>
+                </div>
+            </div>
+          </div>
+         
+          <div class="row pt-4">
+            <div class="col-md-12">
+              <button type="button" class="btn btn-primary pull-right mobile-btn" (click)="toggleAccordian(1,1)">Next</button>
+            </div>  
+            </div>
+            </accordion-group>
+            <accordion-group heading="Qualifications" #group5 [isOpen]="showAccordian[1]" (isOpenChange)="check($event,1)">
+              <span accordion-heading>
+                <i class="pull-right mt-2 pt-1 float-xs-right clr-dark-blue fa"
+                   [ngClass]="{'fa-arrow-up': group5?.isOpen, 'fa-arrow-down': !group5?.isOpen}"></i>
+              </span>
+          <div class="row pb-3">
+            <accordion [isAnimated]="true">
+              <accordion-group #group51 heading="Required" [isOpen]="requiredSection" (isOpenChange)="changeValues()">
+                <span accordion-heading>
+                  <i class="pull-right mt-2 pt-1 float-xs-right clr-dark-blue fa"
+                     [ngClass]="{'fa-arrow-up': group51?.isOpen, 'fa-arrow-down': !group51?.isOpen}"></i>
+                </span>
+                <div class="row">
+                <div class="col-sm-6">
+                  <label for="">Required Specialities
+                    <!-- <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !newJob.specialities.length,'clr-blue': newJob.specialities.length}"></i>
+                    </sup> -->
+                  </label>
+                  <ng-multiselect-dropdown name="specialities" [data]="requiredSpecialtyList" [placeholder]="'Select Specialities'"
+                    [(ngModel)]="newJob.requiredSpecialities" (ngModelChange)="filterAll(newJob.requiredSpecialities,4)" [settings]="{
+                      singleSelection: false,
+                      idField: '_id',
+                      textField: 'specialty',
+                      selectAllText: 'Select All',
+                      unSelectAllText: 'UnSelect All',
+                      allowSearchFilter: false,
+                      itemsShowLimit: 2,
+                      closeDropDownOnSelection: false,
+                      enableCheckAll: false
+                    }"  [disabled]="disabled">
+                  </ng-multiselect-dropdown>
+                </div>
+                <div class="col-sm-6">
+                  <label for="">Required Certifications
+                    <!-- <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !newJob.certificates.length,'clr-blue': newJob.certificates.length}"></i>
+                    </sup> -->
+                  </label>
+                  <ng-multiselect-dropdown name="ceritificates" [data]="requiredCertificateList" [placeholder]="'Select Certificate'"
+                    [(ngModel)]="newJob.requiredCertificates" (ngModelChange)="filterAll(newJob.requiredCertificates,5)" [settings]="{
+                      singleSelection: false,
+                      idField: '_id',
+                      textField: 'certificate',
+                      selectAllText: 'Select All',
+                      unSelectAllText: 'UnSelect All',
+                      allowSearchFilter: false,
+                      itemsShowLimit: 2,
+                      closeDropDownOnSelection: false,
+                      enableCheckAll: false
+                    }" [disabled]="disabled">
+                  </ng-multiselect-dropdown>
+                </div>
+                <div class="col-sm-6 pt-3">
+                  <label for="">Required Skills
+                    <!-- <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !newJob.skills.length,'clr-blue': newJob.skills.length}"></i>
+                    </sup> -->
+                  </label>
+                  <ng-multiselect-dropdown name="skills" [data]="requiredSkillsList" [placeholder]="'Select Skills'"
+                    [(ngModel)]="newJob.requiredSkills" (ngModelChange)="filterAll(newJob.requiredSkills,6)" [settings]="dropdownSettings" [disabled]="disabled">
+                  </ng-multiselect-dropdown>
+                </div>
+                <div class="col-sm-6 py-3">
+                  <label for=""> Required Experience
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !newJob.experience,'clr-blue': newJob.experience}"></i>
+                    </sup>
+                  </label>
+                  <select name="experience" [(ngModel)]="newJob.experience" class="form-control" id="Experience">
+                    <option value="">Select Experience</option>
+                    <option [value]="experience" *ngFor="let experience of experienceData">{{experience}}
+                    </option>
+                  </select>
+                  <div
+                  class="form-control-feedback"
+                  *ngIf="!newJob.experience"
+                >
+                  <p>Experience is required</p>
+                </div>
+                </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 pt-3">
+                    <p class="pl-1"><b>Other</b></p>
+                    <label for="" class="pl-1">Please select if you require any of the following</label>
+                    <ul class="mb-10 list-unstyled row px-3">
+                      <li class="p-1 col-md-6">
+                        <div class="custom-control custom-checkbox">
+                          <input name="covidVaccine"  [(ngModel)]="newJob.covidVaccine" type="checkbox"
+                            class="custom-control-input" id="covidVaccine">
+                          <label class="custom-control-label" for="covidVaccine">Covid - 19 vaccination</label>
+                        </div>
+                      </li>
+                      <li class="p-1 col-md-6">
+                        <div class="custom-control custom-checkbox">
+                          <input name="childAbuse"  [(ngModel)]="newJob.childAbuse" type="checkbox"
+                            class="custom-control-input" id="childAbuse">
+                          <label class="custom-control-label" for="childAbuse">Child abuse history clearance </label>
+                        </div>
+                      </li>
+                      <li class="p-1 col-md-6">
+                        <div class="custom-control custom-checkbox">
+                          <input name="hepC"  [(ngModel)]="newJob.hepC" type="checkbox"
+                            class="custom-control-input" id="hepC">
+                          <label class="custom-control-label" for="hepC">Hep B vaccination</label>
+                        </div>
+                      </li>
+                      <li class="p-1 col-md-6">
+                        <div class="custom-control custom-checkbox">
+                          <input name="malpractice"  [(ngModel)]="newJob.malpractice" type="checkbox"
+                            class="custom-control-input" id="malpractice">
+                          <label class="custom-control-label" for="malpractice">Professional malpractice insurance</label>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  </div>
+              </accordion-group>
+              <accordion-group #group52 heading="Preferred">
+                <span accordion-heading>
+                  <i class="pull-right mt-2 pt-1 float-xs-right clr-dark-blue fa"
+                     [ngClass]="{'fa-arrow-up': group52?.isOpen, 'fa-arrow-down': !group52?.isOpen}"></i>
+                </span>
+                <div class="row">
+                <div class="col-sm-6">
+                  <label for="">Preferred Specialities
+                    <!-- <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !newJob.specialities.length,'clr-blue': newJob.specialities.length}"></i>
+                    </sup> -->
+                  </label>
+                  <ng-multiselect-dropdown name="specialities"  [data]="preferredSpecialtyList" [placeholder]="'Select Specialities'"
+                    [(ngModel)]="newJob.preferredSpecialities" (ngModelChange)="filterAll(newJob.preferredSpecialities,1)" [settings]="{
+                      singleSelection: false,
+                      idField: '_id',
+                      textField: 'specialty',
+                      selectAllText: 'Select All',
+                      unSelectAllText: 'UnSelect All',
+                      allowSearchFilter: false,
+                      itemsShowLimit: 2,
+                      closeDropDownOnSelection: false,
+                      enableCheckAll: false
+                    }"  [disabled]="disabled">
+                  </ng-multiselect-dropdown>
+                </div>
+                <div class="col-sm-6">
+                  <label for="">Preferred Certification
+                    <!-- <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !newJob.certificates.length,'clr-blue': newJob.certificates.length}"></i>
+                    </sup> -->
+                  </label>
+                  <ng-multiselect-dropdown name="ceritificates" [data]="preferredCertificateList" [placeholder]="'Select Certificate'"
+                    [(ngModel)]="newJob.preferredCertificates" (ngModelChange)="filterAll(newJob.preferredCertificates,2)" [settings]="{
+                      singleSelection: false,
+                      idField: '_id',
+                      textField: 'certificate',
+                      selectAllText: 'Select All',
+                      unSelectAllText: 'UnSelect All',
+                      allowSearchFilter: false,
+                      itemsShowLimit: 2,
+                      closeDropDownOnSelection: false,
+                      enableCheckAll: false
+                    }" [disabled]="disabled">
+                  </ng-multiselect-dropdown>
+                </div>
+                <div class="col-sm-6 py-3">
+                  <label for="">Preferred Skills
+                    <!-- <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !newJob.skills.length,'clr-blue': newJob.skills.length}"></i>
+                    </sup> -->
+                  </label>
+                  <ng-multiselect-dropdown name="skills" [data]="preferredSkillsList" [placeholder]="'Select Skills'"
+                    [(ngModel)]="newJob.preferredSkills" (ngModelChange)="filterAll(newJob.preferredSkills,3)" [settings]="dropdownSettings" [disabled]="disabled">
+                  </ng-multiselect-dropdown>
+                </div>
+                <div class="col-sm-6 py-3">
+                  <label for="">Other Languages
+                    <!-- <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !newJob.skills.length,'clr-blue': newJob.skills.length}"></i>
+                    </sup> -->
+                  </label>
+                  <ng-multiselect-dropdown name="skills" [data]="otherLanguages" [placeholder]="'Select Languages'"
+                    [(ngModel)]="newJob.otherLanguages" [settings]="{singleSelection: false,
+                      idField: '_id',
+                      textField: 'language',
+                      selectAllText: 'Select All',
+                      unSelectAllText: 'UnSelect All',
+                      allowSearchFilter: false,
+                      itemsShowLimit: 2,
+                      closeDropDownOnSelection: false,
+                      enableCheckAll: false
+                    }" [disabled]="disabled">
+                  </ng-multiselect-dropdown>
+                </div>
+                </div>
+                </accordion-group>
+            </accordion>
+          </div>
+          <div class="row pt-4">
+            <div class="col-md-12">
+              <button type="button" class="btn btn-primary pull-right mobile-btn" (click)="toggleAccordian(2,1)">Next</button>
+              <button type="button" class="btn btn-primary pull-right mr-2 mobile-btn" (click)="toggleAccordian(0,3)">Previous</button>
+            </div>  
+            </div>
+        </accordion-group>
+       
+        <accordion-group heading="Post" #group6 [isOpen]="showAccordian[2]" (isOpenChange)="check($event,2)">
+          <span accordion-heading>
+            <i class="pull-right mt-2 pt-1 float-xs-right clr-dark-blue fa"
+               [ngClass]="{'fa-arrow-up': group6?.isOpen, 'fa-arrow-down': !group6?.isOpen}"></i>
+          </span>
+        <div class="row border-bottom pb-3">
+            <div  class="mobile-text" [ngClass]="{'col-sm-6':!(jobStatus.EXPIRED === newJob.status || !newJob._id),
+            'col-sm-7' : (jobStatus.EXPIRED === newJob.status || !newJob._id)
+          }">
+              <label for="">Job post visibility
+                <!-- <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !newJob.jobDate,'clr-blue': newJob.jobDate}"></i>
+                </sup> -->
+              </label>
+              <br>
+               <ul class="list-unstyled d-flex col-12 m-auto">
+                <li class="pr-15">
+                  <div class="form-group">
+                    <div class="custom-control custom-radio">
+                      <input name="visibility" type="radio" [(ngModel)]="newJob.visibility" class="custom-control-input"
+                        id="public" [value]="jobVisibility.PUBLIC"
+                         >
+                      <label class="custom-control-label" for="public" title="Job will be posted to the job marketplace and it will be visible to all">Marketplace
+                      </label>
+                    </div>
+                  </div>
+                </li>
+                <li class="pr-15">
+                  <div class="form-group">
+                    <div class="custom-control custom-radio">
+                      <input name="visibility" type="radio" [(ngModel)]="newJob.visibility" class="custom-control-input"
+                        id="private" [value]="jobVisibility.PRIVATE"
+                        (ngModelChange)="showOfferModal()">
+                      <label class="custom-control-label" for="private" title="An invitation will be sent to selected favorite staff(s)">Only Favorites</label>
+                    </div>
+                  </div>
+                </li>
+                <li class="pr-15">
+                  <div class="form-group">
+                    <div class="custom-control custom-radio">
+                      <input name="visibility" type="radio" [(ngModel)]="newJob.visibility" class="custom-control-input"
+                        id="both" [value]="jobVisibility.BOTH"
+                        (ngModelChange)="showOfferModal()" >
+                      <label class="custom-control-label" for="both" title="Job will be posted to the job marketplace and an invitation will be sent to selected favorite staff(s)">Both</label>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <!-- [disabled]="newJob?._id && !newJob?.draft" -->
+            </div>
+          </div>
+          <div class="row pt-4">
+            <div class="row col-md-12">
+              <div class="col-12">
+                <h4>Your Order Details</h4>
+              </div>
+              <div class="col-5">
+                <p class="m-0 clr-dark-blue"><strong>Select Duration</strong></p>
+                <!-- <small class="text-muted">Job Post Type For Permanent</small> -->
+              </div>
+              <div class="col-4">
+                <p class="clr-dark-blue" ><strong>Posting Fee</strong></p>
+             </div>
+              <div class="col-3">
+                <p class="clr-dark-blue" ><strong>${{newJob.activeMonthRate}}</strong></p>
+                <!-- <p class="clr-dark-blue" *ngIf="newJob.jobType == jobTypes.PERMANENTPARTTIME"><strong>$30</strong></p> -->
+              </div>
+  
+              <div class="col-5">
+                <div class="form-group m-0">
+                  <select name="activeMonth" id="ActiveJob" class="form-control" [(ngModel)]="newJob.activeMonth"  (change)="showAmount(newJob.activeMonth)" [disabled] = "newJob?._id">
+                    <option value="1">1 Month</option>
+                    <option value="2">2 Month</option>
+                    <option value="3">3 Month</option>
+                    <option value="4">4 Month</option>
+                    <option value="5">5 Month</option>
+                    <option value="6">6 Month</option>
+                    <option value="7">7 Month</option>
+                    <option value="8">8 Month</option>
+                    <option value="9">9 Month</option>
+                    <option value="10">10 Month</option>
+                    <option value="11">11 Month</option>
+                    <option value="12">12 Month</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-4">
+                <p class="clr-dark-blue" ><strong >
+                  <button *ngIf="!((modalType.edit || this.modalType.repost)  && newJob.status !== jobStatus.EXPIRED)"   class="btn btn-primary" style="padding:4px 8px;border-radius:0px;" (click)="showPromoCodeModal(promoCodeModal)">+</button>
+                   Add Promo Code</strong></p>
+             </div>
+              <div class="col-3">
+                <p class="clr-dark-blue" ><strong>$ {{addPromoCode}} </strong></p>
+              </div>
+  
+              <div class="col-5"></div>
+              <div class="col-3">
+                <p class="clr-dark-blue" ><strong>Total</strong></p>
+             </div>
+              <div class="col-3">
+                <p class="clr-dark-blue" ><strong>$ {{(addPromoCode > 0 ) ? (newJob.activeMonthRate - addPromoCode) : newJob.activeMonthRate}}</strong></p>
+              </div>
+            </div>
+            </div>
+            <div class="row pt-4">
+              <div class="col-md-12 text-end">
+                <button type="button" class="btn btn-primary mr-10 mobile-btn" (click)="toggleAccordian(1,3)">Previous</button>
+                <button type="button" *ngIf="!newJob?._id" class="btn btn-secondary mr-10 mobile-btn" (click)="geocodeAddress('draft')">Save as Draft</button>
+                <button *ngIf="!newJob?._id" type="button" class="btn btn-primary mobile-btn"  (click)="confirmJobPostOpenModal(confrmModal)">{{ (modalType.repost) ? 'Repost' : (
+                      (newJob.jobType == jobTypes.TEMPORARY  ) ? 'Post' : 'Pay and Post'
+                  )}}
+                </button>
+                <button *ngIf="newJob?._id" type="button"  class="btn btn-primary" (click)="confirmJobPostOpenModal(confrmModal)">{{newJob.draft ? 'Post' : 'Update Job Post'}}</button>
+              </div>  
+              </div>
+        </accordion-group>
+        </accordion>
+
+          <!-- <div class="row m-0">
+            <small class="text-danger"  *ngIf="newJob.jobType == jobTypes.PERMANENTFULLTIME"> That will show the Job will be listed for 1 month. A Practice needs to pay $50 (we will change the amount for it after confirming from client) every month to keep the Job as active.</small>
+            <small class="text-danger" *ngIf="newJob.jobType == jobTypes.PERMANENTPARTTIME"> That will show the Job will be listed for 1 month. A Practice needs to pay $30 every month to keep the Job as active.</small>
+          </div> -->
+        </div>
+      </div>
+      <div class="modal-footer justify-content-end">
+        <app-alert></app-alert>
+        <div class="pull-right">
+          <button type="button" class="btn btn-dark mr-10" (click)="showCancelModal()">Cancel</button>
+          <!-- <button type="button" *ngIf="!newJob?._id" class="btn btn-secondary mr-10" (click)="geocodeAddress('draft')">Save as Draft</button>
+          <button *ngIf="!newJob?._id" type="button" class="btn btn-primary" (click)="confirmJobPostOpenModal(confrmModal)">{{ (modalType.repost) ? 'Repost' : (
+                (newJob.jobType == jobTypes.TEMPORARY  ) ? 'Post' : 'Pay and Post'
+            )}}
+          </button>
+          <button *ngIf="newJob?._id" type="button"  class="btn btn-primary" (click)="confirmJobPostOpenModal(confrmModal)">Update</button> -->
+        <!-- <pre [innerHtml]="newJob | json"> </pre> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- {{ newJob._id ? "Edit" : "Add New"}} -->
+<ng-template #confrmModal let-modal>
+  <div class="modal-header text-white">
+    <h4 class="modal-title text-white"> Final Confirmation </h4>
+    <button type="button" class="close text-white" (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h4 *ngIf="!newJob?._id || (newJob?._id && newJob?.draft)">Do you want to {{(modalType?.repost) ? 'repost' : 'post'}} {{ (modalType?.add && newJob?.jobType === jobTypes?.TEMPORARY && newJob?.jobDates.length > 1) ?   'these': 'this' }} job ?</h4>
+
+    <h4 *ngIf="newJob?._id && !newJob?.draft">Are you sure you want to update this job ?</h4>
+    <!-- <p *ngIf="newJob?.startTime && newJob?.endTime"><b>{{newJob.startTime | date : 'hh:mm a'}} - {{newJob.endTime | date : 'hh:mm a'}}</b></p> -->
+  </div>
+  <div class="modal-footer justify-content-end">
+    <button type="button" class="btn btn-dark" (click)="modal.dismiss('Cross click')" >Close</button>
+    <button type="button" class="btn btn-primary" (click)="modal.dismiss('Cross click');confirmResult()">Confirm</button>
+  </div>
+  <!-- (
+        newJob.jobType !== jobTypes.TEMPORARY
+      ) ?  (
+              (
+                (
+                  (
+                    (modalType.add || modalType.draft) && (promoCodeDetails.isApplied &&  promoCodeDetails.discount != 100)
+                  ) || (modalType.edit && newJob.status === jobStatus.EXPIRED)  )
+                ? openStripeModal(stripeModal) :
+                geocodeAddress()
+              )
+           )
+        : geocodeAddress();-->
+</ng-template>
+
+
+<ng-template #cancelModal let-modal>
+  <div class="modal-header text-white">
+    <h4 class="modal-title text-white"> Cancel Confirmation </h4>
+    <button type="button" class="close text-white" (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h4>Are you sure you want to cancel? Updates have not been posted to this job post</h4>
+    <!-- <h4>Are you sure that you want to cancel this post? all data will be lost</h4> -->
+  </div>
+  <div class="modal-footer justify-content-end">
+    <button type="button" class="btn btn-dark" (click)="modal.dismiss('Cross click')" >Close</button>
+    <button type="button" class="btn btn-primary" (click)="modal.dismiss('Cross click');closeModel()">Confirm</button>
+  </div>
+</ng-template>
+
+<ng-template #stripeModal let-modal>
+  <div class="modal-header text-white">
+    <h4 class="modal-title text-white"> Payment </h4>
+    <button type="button" class="close text-white" (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <!-- <ngx-paypal [config]="payPalConfig"></ngx-paypal> -->
+    <div class="row">
+    <p>Please confirm and submit yout payment below to complete the posting process.</p>
+    <p>Powered by Stripe<i class="fa fa-lock ml-2" aria-hidden="true"></i></p>
+    <p class=""> Posting Fee: ${{newJob.activeMonthRate - addPromoCode}} </p>
+    <p class=""> Processing Fee: ${{((globalService.stripeTotalAmt((newJob.activeMonthRate - addPromoCode)) /100 ) - (newJob.activeMonthRate - addPromoCode)).toFixed(2)}}</p>
+    <p class=""> Total Fee: ${{globalService.stripeTotalAmt((newJob.activeMonthRate - addPromoCode))/100}} </p>
+    <p class="" for="card-element mb-20">
+      Credit or debit card
+    </p>
+  </div> 
+    
+
+    <!-- <div *ngIf="invalidError" style="color:red">
+      {{ invalidError.message }}
+    </div> -->
+
+    <!-- [(source)]  = 'source'
+      [(invalid)] = 'invalidError' -->
+
+    <stripe-card #stripeSource
+      (catch)     = '$event'
+      (sourceChange) = "setStripeSource($event)"
+    ></stripe-card>
+
+  </div>
+  <div class="p-3 justify-content-end">
+    <button type="button" class="btn btn-primary pull-right" (click)="stripeSource.createSource()">Pay</button>
+    <button type="button" class="btn btn-dark pull-right mr-2" (click)="modal.dismiss('Cross click')" >Close</button>
+    <!-- <button type="button" class="btn btn-primary" (click)="geocodeAddress()">Pay</button> -->
+   
+  </div>
+</ng-template>
+
+
+<ng-template #staffOfferModal let-modal>
+  <div class="modal-header text-white">
+    <h4 class="modal-title text-white">Send invitation</h4>
+    <button type="button" class="close text-white" (click)="closeOfferModal()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Select the staff you want to send an invitation. Add staff to your favorite list from the marketplace.</p>
+    <ng-multiselect-dropdown name="offerUserId" [data]="staffList" [placeholder]="'Select Staff'"
+    [(ngModel)]="selOfferInvite" [settings]="dropdownSettings2" [disabled]="disabled">
+  </ng-multiselect-dropdown>
+  </div>
+  <div class="modal-footer justify-content-end">
+    <button type="button" class="btn btn-dark" (click)="closeOfferModal()" >Cancel</button>
+    <button type="button" class="btn btn-primary" *ngIf="selOfferInvite.length > 0" (click)="checkSelOffer()">Select</button>
+  </div>
+</ng-template>
+
+<ng-template #promoCodeModal let-modal>
+  <div class="modal-header text-white">
+    <h4 class="modal-title text-white"> Promo code </h4>
+    <button type="button" class="close text-white" (click)="confirmModal.close()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row pt-3">
+      <div class="col-sm-6">
+        <input type="text" [(ngModel)]="promoCode" class="form-control" placeholder="Please Enter promo code"
+          required name="promoCode">
+      </div>
+      <div class="col-sm-6"></div>
+      <p class="ml-15 clr-red text-capitalize" *ngIf="promoCodeStatus.USED === promoCodeDetails.status">Promo code is already used.</p>
+      <p class="ml-15 clr-red " *ngIf="promoCodeStatus.EXPIRED === promoCodeDetails.status">Promo Code is expired.</p>
+      <p class="ml-15 clr-red text-capitalize" *ngIf="promoCodeStatus.INVALID === promoCodeDetails.status">Promo code is not valid.</p>
+    </div>
+  </div>
+  <div class="modal-footer justify-content-end">
+    <button type="button" class="btn btn-dark" (click)="confirmModal.close()" >Close</button>
+    <button type="button" class="btn btn-primary" [disabled]="!promoCode" (click)="checkPromoCode()">Apply</button>
+  </div>
+</ng-template>
+
+
+
+
+

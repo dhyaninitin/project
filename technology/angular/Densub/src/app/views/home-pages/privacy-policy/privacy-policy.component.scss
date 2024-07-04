@@ -1,0 +1,66 @@
+.innerbg-1 {
+    background-image: url('../../../../assets/img/common/dentallist.jpg');
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position: center center;
+    min-height: 250px;
+}
+
+ol.ul-number, ol.ul-number ol {
+  list-style-type: none;
+  counter-reset: item;
+  margin: 0;
+  padding: 0;
+}
+
+ol.ul-number li {
+  /* display: table; */
+  counter-increment: item;
+  margin-bottom: 0.6em;
+  position: relative;
+  padding-left: 30px;
+}
+ol li span.p-bullate {
+    margin-right: 17px;
+    font-weight: bold;
+}
+ol.ul-number li:before {
+    content: counters(item, ".") ".";
+    display: table-cell;
+    padding-right: 0.6em;
+    position: absolute;
+    font-weight: 700;
+    left: 0px;
+}
+
+/*ol.ul-number li li {
+    margin: 0;
+}*/
+ol.ul-number>li {
+    padding-left: 20px;
+}
+ol.ul-number li li:before {
+    content: counters(item, ".") " ";
+    position: absolute;
+    left: 0;
+}
+
+
+
+ul.inner-lower-alpha {
+    list-style-type: lower-alpha;
+    padding-left: 15px;
+}
+
+ul.inner-lower-alpha li {
+    display: list-item;
+    counter-increment: none;
+    margin-bottom: 0.6em;
+}
+ul.inner-lower-alpha li {
+  padding-left: 0px;
+}
+
+ul.inner-lower-alpha li:before {
+    display: none;
+}

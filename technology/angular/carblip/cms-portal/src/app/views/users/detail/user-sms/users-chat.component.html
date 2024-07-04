@@ -1,0 +1,74 @@
+<div class="card mt-6">
+  <div class="px-gutter py-4 border-b flex header-with-btn">
+    <h2 class="title m-0">SMS</h2>
+    <div class="flex">
+      <button
+        mat-icon-button
+        class="ml-4 flex-none"
+        color="primary"
+        matTooltip="Refresh SMS"
+        (click)="refresh()"
+        type="button"
+      >
+        <mat-icon svgIcon="mat:refresh"></mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="px-gutter pt-4 border-b pl-0 justify-content-space-between">
+    <div class="w-full h-full overflow-hidden flex flex-col">
+      <vex-scrollbar [@stagger]="SmsData.length" class="p-4 flex-auto m-height">
+        <ng-container *ngFor="let message of SmsData;">
+          <ng-container *ngIf="message.direction === 'inbound-api'">
+            <div @fadeInUp class="max-w-3/4 me flex justify-end">
+              <div class="">
+                <div class="grid">
+                  <span class="m-1 mr-0 py-2 px-4 shadow rounded-full bg-primary text-primary-contrast">{{ message.body }}</span>
+                  <span class="text-end text-secondary text-sm status-pos">
+                    <span class="tick-pos mr-1">
+                      <mat-icon *ngIf="message.sms_status == 'delivered'" class="tick" mat-list-icon svgIcon="logo:tick"></mat-icon>
+                    </span>
+                    <span class="message-date">{{message.date_sent | date: 'MMM d, y h:mm a'}}</span>
+                  </span> 
+                </div>
+              </div>
+            </div>
+          </ng-container>
+    
+          <ng-container *ngIf="message.direction === 'outbound-api'">
+            <div @fadeInUp class="max-w-3/4 partner flex">
+              <div class="">
+                <div class="grid">
+                  <span class="m-1 mr-0 py-2 px-4 shadow rounded-full receive-msg">{{ message.body }}</span>
+                  <span class="text-end text-secondary text-sm status-pos">
+                    <span class="tick-pos mr-1">
+                      <mat-icon *ngIf="message.sms_status == 'delivered'" class="tick" mat-list-icon svgIcon="logo:tick"></mat-icon>
+                    </span>
+                    <span class="message-date">{{message.date_sent | date: 'MMM d, y h:mm a'}}</span> 
+                  </span> 
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+        <div class="text-center mt-2" *ngIf="SmsData?.length === 0">There are no SMS available</div>
+      </vex-scrollbar>
+      <div class="p-4 border-t">
+        <form (ngSubmit)="sendSms()" [formGroup]="smsForm">
+          <div class="border border-gray-300 rounded-full text-hint overflow-hidden bg-foreground ltr:pl-6 rtl:pr-6 flex-auto flex items-center">
+            <input class="outline-none chat-input border-0 h-12 w-240 placeholder:text-primary body-1 bg-foreground flex-auto"
+                   formControlName="message"
+                   placeholder="Type a message..."
+                   type="text">
+            <button [class.text-primary]="smsForm.get('message').value"
+                    [disabled]="!smsForm.get('message').value"
+                    class="ltr:mr-4 rtl:ml-4 ltr:ml-3 rtl:mr-3"
+                    matTooltip="Send SMS"
+                    mat-icon-button
+                    type="submit">
+              <mat-icon svgIcon="mat:send"></mat-icon>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

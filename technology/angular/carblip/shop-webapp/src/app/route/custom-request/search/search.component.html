@@ -1,0 +1,276 @@
+<section class="container-fluid px-0 custom-request">
+  <div class="cb-container container">
+    <div class="row mx-0">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 px-0">
+        <form
+          class="custom-request-form"
+          [formGroup]="customRequestForm"
+          appFocusFirstInvalidField
+        >
+          <div class="form-group">
+            <label class="form-label mt-1 mb-0" for="price-label"
+              >What is your budget?</label
+            >
+            <div class="payment-type">
+              <label>Monthly Payment?</label>
+              <div class="radio-group">
+                <div class="form-radio cb-check pl-0 pr-3">
+                  <input
+                    class="form-radio-input styled-radio"
+                    [(ngModel)]="paymentType"
+                    [ngModelOptions]="{ standalone: true }"
+                    (change)="onPaymentTypeChange($event)"
+                    type="radio"
+                    name="monthly-payment"
+                    id="monthly-payment-yes"
+                    [value]="true"
+                  />
+                  <label
+                    for="monthly-payment-yes"
+                    class="form-radio-label styled-radio-label p-0 m-0 text-capitalize"
+                  >
+                    Yes
+                  </label>
+                </div>
+                <div class="form-radio cb-check pl-0">
+                  <input
+                    class="form-radio-input styled-radio"
+                    [(ngModel)]="paymentType"
+                    [ngModelOptions]="{ standalone: true }"
+                    (change)="onPaymentTypeChange($event)"
+                    type="radio"
+                    name="monthly-payment"
+                    id="monthly-payment-no"
+                    [value]="false"
+                  />
+                  <label
+                    for="monthly-payment-no"
+                    class="form-radio-label styled-radio-label p-0 m-0 text-capitalize"
+                  >
+                    No
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group slider-group" *ngIf="!paymentType">
+              <div class="slider-group__top">
+                <span>{{ getVehiclePrice() }}</span>
+              </div>
+              <ng5-slider
+                class="custom-slider"
+                [(value)]="vehiclePrice"
+                [options]="vehiclePriceSliderOption"
+              >
+              </ng5-slider>
+            </div>
+            <div class="form-group slider-group" *ngIf="paymentType">
+              <div class="slider-group__top">
+                <span>{{ getVehiclePrice() }}</span>
+              </div>
+              <ng5-slider
+                class="custom-slider"
+                [(value)]="vehicleMonthlyPrice"
+                [options]="vehicleMonthlyPriceSliderOption"
+              ></ng5-slider>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label mt-1 mb-0" for="vehicle-select-id"
+              >What type of car are you looking for?</label
+            >
+            <div class="cst-select vehicle-select">
+              <ng-select
+                [items]="vehicleList"
+                [searchable]="false"
+                bindLabel="label"
+                bindValue="id"
+                placeholder="Select Vehicle"
+                formControlName="vehicleType"
+                (change)="onChangeVehicleType($event)"
+              >
+                <ng-template ng-label-tmp let-item="item">
+                  <img src="assets/img/{{ item.img }}" />
+                  <span>{{ item.label }}</span>
+                </ng-template>
+                <ng-template
+                  ng-option-tmp
+                  let-item="item"
+                  let-index="index"
+                  let-search="searchTerm"
+                >
+                  <img src="assets/img/{{ item.img }}" />
+                  <span [ngOptionHighlight]="search">{{ item.label }}</span>
+                </ng-template>
+              </ng-select>
+              <span
+                *ngIf="
+                  (customRequestForm?.controls)['vehicleType'].touched &&
+                  !(customRequestForm?.controls)['vehicleType'].valid
+                "
+                id="vehicleType-valid"
+                class="validate-message"
+              >
+                <span
+                  *ngIf="
+                    customRequestForm.controls['vehicleType'].errors.required
+                  "
+                  >* This Field is required.</span
+                >
+              </span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>How soon are you looking to buy?</label>
+            <div class="cst-select">
+              <ng-select
+                [items]="buyingTimeList"
+                [searchable]="false"
+                placeholder="Select"
+                bindLabel="label"
+                bindValue="id"
+                formControlName="buyingTime"
+                (change)="onChangeBuyingTime($event)"
+                required
+              >
+              </ng-select>
+              <span
+                *ngIf="
+                  (customRequestForm?.controls)['buyingTime'].touched &&
+                  !(customRequestForm?.controls)['buyingTime'].valid
+                "
+                id="buyingTime-valid"
+                class="validate-message"
+              >
+                <span
+                  *ngIf="
+                    customRequestForm.controls['buyingTime'].errors.required
+                  "
+                  >* This Field is required.</span
+                >
+              </span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>What’s your purchase preference?</label>
+            <div class="cst-select">
+              <ng-select
+                [items]="buyingMethodList"
+                [searchable]="false"
+                placeholder="Select"
+                bindLabel="label"
+                bindValue="id"
+                formControlName="buyingMethod"
+                (change)="onChangeBuyingMethod($event)"
+                required
+              >
+              </ng-select>
+              <span
+                *ngIf="
+                  (customRequestForm?.controls)['buyingMethod'].touched &&
+                  !(customRequestForm?.controls)['buyingMethod'].valid
+                "
+                id="buyingMethod-valid"
+                class="validate-message"
+              >
+                <span
+                  *ngIf="
+                    customRequestForm.controls['buyingMethod'].errors.required
+                  "
+                  >* This Field is required.</span
+                >
+              </span>
+            </div>
+          </div>
+          <div class="btn-div pt-1">
+            <button
+              *ngIf="!promoCode"
+              _ngcontent-c13=""
+              class="btn text-capitalize promo-btn ng-star-inserted"
+              type="button"
+              (click)="onPromoCodeAdd()"
+            >
+              Have a promo code
+            </button>
+            <div class="result-promo" *ngIf="promoCode">
+              <p id="code-count">
+                Promo Code: <b>{{ promoCode }}</b> Added
+              </p>
+              <a (click)="onPromoCodeAdd()" class="edit-btn pt-3"
+                >Edit Promo Code</a
+              >
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- The Modal -->
+<ng-template #addPromoModal let-modal let-c="close" let-d="dismiss">
+  <div>
+    <div class="modal-content cb-model promo-code-modal">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div>
+          <h4 class="modal-title promo-head-text">Add Promo Code</h4>
+          <span class="modal-header_desc"
+            >If you received a promo code for a discount, please enter it
+            here.</span
+          >
+        </div>
+        <a class="close" data-dismiss="modal" (click)="onDismissAddPromoModal()"
+          ><img src="assets/img/close.png" class="ic_close"
+        /></a>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="text-center">
+          <div class="promo-inner">
+            <form
+              id="promo-form"
+              [formGroup]="promoInputForm"
+              appFocusFirstInvalidField
+            >
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="promoCode"
+                  aria-describedby="promoCodeHelp"
+                  placeholder="Enter Promo Code"
+                  formControlName="promoCode"
+                  appNoWhitespace
+                />
+                <span
+                  *ngIf="
+                    (promoInputForm?.controls)['promoCode'].touched &&
+                    !(promoInputForm?.controls)['promoCode'].valid
+                  "
+                  id="promoCode-valid"
+                  class="validate-message"
+                >
+                  <span
+                    *ngIf="promoInputForm.controls['promoCode'].errors.required"
+                    >* The Promo Code is required.</span
+                  >
+                  <span
+                    *ngIf="
+                      promoInputForm.controls['promoCode'].errors.maxlength
+                    "
+                    >* The Promo Code should be less than 16 characters.</span
+                  >
+                </span>
+              </div>
+            </form>
+          </div>
+          <a
+            class="btn btn-secondary ml-auto mr-auto d-block next-btn"
+            (click)="onPromoCodeConfirm()"
+            >{{ getPromoConfirmTitle() }}</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

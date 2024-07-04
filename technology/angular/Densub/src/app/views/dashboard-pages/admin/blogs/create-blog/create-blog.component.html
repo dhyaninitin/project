@@ -1,0 +1,98 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h4 class="text-primary">
+            <b>All Blogs</b>
+        </h4>
+        <hr>
+    </div>
+</div>
+
+<div class="animated fadeIn  pb-40 pt-20 add-blog">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card p-20">
+                <div class="form-group">
+                    <label for="">Add Title
+                        <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                            [ngClass]="{'text-danger': !blog.title, 'text-primary': blog.title}"></i>
+                        </sup>
+                    </label>
+                    <input type="text" name="title" id="title" [(ngModel)]="blog.title" class="form-control" placeholder="Add Title" aria-describedby="helpId">
+                </div>
+                <div class="form-group">
+                    <label for="">Details
+                        <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                            [ngClass]="{'text-danger': !blog.description, 'text-primary': blog.description}"></i>
+                        </sup>
+                    </label>
+                    <!-- <angular-editor [(ngModel)]="blog.description" id="description" name="description" [config]="editorConfig"></angular-editor> -->
+                    <ckeditor 
+                        [(ngModel)]="blog.description" 
+                        #myckeditor="ngModel"
+                        name="myckeditor"
+                        [config]="ckeConfig" 
+                        debounce="500"
+                        >
+                    </ckeditor>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card p-20">
+                <h2 class="hndle ui-sortable-handle"><span>Add Featured Image</span></h2>
+                <hr>
+                <div class="sie-userprofile h-100">
+                    <div class="userprofile_inner">
+                        <div class="user-info text-center text-capitalize">
+                            <div class="position-relative usr-avtar w-100 h-auto" *ngIf="blog?.photo">
+                                <img  src="{{blog?.photo}}" class="img-fluid" alt="Blog Photo">
+                            </div>
+                        </div>
+                        <div class="user-form">
+                            <div class="custom-file mt-3 mb-10">
+                                <input placeholder="Please enter first Name" type="file" class="custom-file-input" id="blogPhoto"
+                                accept="image/*" (change)="uploadFile($event)">
+                                <label class="custom-file-label" for="blogPhoto">Upload Photo</label>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-20">
+                <div id="categorydiv" class="postbox ">
+                    <h2 class="hndle ui-sortable-handle"><span>Categories
+                        <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                            [ngClass]="{'text-danger': !blog.categories, 'text-primary': blog.categories}"></i>
+                        </sup>
+                    </span></h2>
+                    <hr>
+                    <div class="inside">
+                        <div class="categorydiv">
+                            <div class="category-all">
+                                <div class="category-all_inner p-15">
+                                    <select class="form-control" name="category" [(ngModel)]="blog.categories" multiple>
+                                        <option value="">Select Category</option>
+                                        <option value="{{category?._id}}" *ngFor="let category of categories; let i = index;">{{ category?.name }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-20">
+                <div class="publish-btn">
+                    <button class="btn btn-warning" [routerLink]="['/all-blogs']">Cancel</button>
+                    <button class="btn btn-primary" (click)="saveBlog('save')">Save</button>
+                    <button class="btn btn-primary" (click)="saveBlog('publish')">Save & Publish</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

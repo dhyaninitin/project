@@ -1,0 +1,121 @@
+.main-container {
+  overflow: auto;
+  height: auto;
+
+  .container {
+    padding: 12px 18px;
+  }
+
+  .html-invoice {
+    padding: 0px 40px;
+  }
+
+  .footer-btn {
+    padding: 10px 16px;
+
+    .ml-2 {
+      margin-left: 15px;
+    }
+  }
+
+  .email-div {
+    margin: 0em 1em;
+
+    #email-field {
+      width: 22em;
+
+      @media (max-width: 576px) {
+        width: 100%;
+      }
+    }
+  }
+
+  .btns {
+    margin-top: 8px;
+
+    .ml-5 {
+      margin-left: 5px;
+    }
+
+    .ml-10 {
+      margin-left: 10px;
+    }
+
+    button:first-child {
+      margin-right: 10px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .html-invoice {
+      padding: 0px 10px;
+    }
+
+    .footer-btn {
+      display: flex;
+      justify-content: center;
+
+      .ml-2 {
+        margin-left: 0px;
+      }
+    }
+
+    .email-div {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+  }
+
+  @media (min-width: 576px) {
+    .email-div {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      #email-field {
+        width: 100%;
+        margin-right: 1em;
+      }
+
+      .col-4 {
+        width: 50%;
+      }
+    }
+  }
+
+  @media (min-width: 768px) {
+    .html-invoice {
+      padding: 0px 20px;
+    }
+
+    .email-div {
+      #email-field {
+        width: 100%;
+      }
+    }
+  }
+
+  @media (min-width: 992px) {
+    .html-invoice {
+      padding: 0px 30px;
+    }
+
+    .email-div {
+      #email-field {
+        width: 100%;
+      }
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .html-invoice {
+      padding: 0px 40px;
+    }
+
+    .email-div {
+      #email-field {
+        width: 100%;
+      }
+    }
+  }
+}

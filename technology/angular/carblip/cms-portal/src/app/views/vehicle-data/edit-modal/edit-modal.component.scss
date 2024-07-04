@@ -1,0 +1,24 @@
+.preview {
+  width: 290px;
+}
+
+.ptb-15 {
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
+
+.border-img {
+  border: 1px solid lightgrey;
+}
+
+::ng-deep image-cropper {
+  // max-height: 550px !important;
+  // height: 50vh !important;
+  img {
+    display: unset !important;
+  }
+}
+
+::ng-deep .ngx-ic-cropper {
+  display: none !important;
+}

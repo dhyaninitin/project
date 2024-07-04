@@ -1,0 +1,36 @@
+<div class="container mx-auto">
+  <div class="flex justify-center">
+    <img id="del-icon" [src]="statusIcon" class="h-20 w-20" />
+  </div>
+  <div class="content-container mt-2">
+    <div class="flex justify-center">
+      <h3
+        id="content-span"
+        class="text-center text-sm font-semibold"
+        style="color: #000000d1"
+      >
+        Do you want to {{ status }} this user ?
+      </h3>
+    </div>
+  </div>
+  <div class="flex justify-center mt-4">
+    <div class="flex space-x-4">
+      <button
+        style="background-color: #fed10d;"
+        mat-raised-button
+        id="yes"
+        [mat-dialog-close]="true"
+      >
+        Yes
+      </button>
+      <button
+        color="white"
+        mat-raised-button
+        id="no"
+        [mat-dialog-close]="false"
+      >
+        No
+      </button>
+    </div>
+  </div>
+</div>

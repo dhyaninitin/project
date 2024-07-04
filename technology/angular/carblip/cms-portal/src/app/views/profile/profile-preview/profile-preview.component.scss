@@ -1,0 +1,21 @@
+.ptb-15 {
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
+
+.border-img {
+  border: 1px solid lightgrey;
+}
+
+.preview {
+  width: 200px;
+  border-radius: 50%;
+}
+
+::ng-deep image-cropper {
+  max-height: 350px !important;
+
+  img {
+    display: unset !important;
+  }
+}

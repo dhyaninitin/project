@@ -1,0 +1,61 @@
+<mat-card>
+  <div fxLayout="row wrap" fxLayout.lt-sm="column" [ngClass]="workFlowService$?.workflowCloneStatus ? 'disabled-action' : ''">
+    <div fxFlex="100" class="pr-1">
+      <h4 class="title title-header">Enrollment
+        <span class="header-icons">
+          <app-clone-copy-action [actionDetails]="data"></app-clone-copy-action>
+          <mat-icon svgIcon="mat:delete" matTooltip="Delete Enrollment Action" matTooltipPosition="after" class="icons" (click)="deleteTriggerAction(data)"></mat-icon>  
+        </span>
+      </h4>   
+    </div>
+    <div class="trigger-l">
+      <div fxLayout="row wrap" fxLayout.lt-sm="column">
+        <div fxFlex="100" class="box">
+          <div class="box-h"  >
+            <mat-card class="mt-2">
+              {{ removeUnderscores(data?.property.value) | titlecase }} 
+              {{ getConditionValue(data?.condition.value) }}
+              {{ data?.condition_value }}
+              <!-- Type 
+              <b> {{ data?.property.title }}</b>
+              {{data?.condition.value }}
+              <b>{{data?.condition_value}} </b> -->
+              <mat-icon svgIcon="mat:edit" class="icons" matTooltip="Edit Trigger" matTooltipPosition="after" (click)="editTrigger(data, 0, 0)"></mat-icon>
+            </mat-card>
+            <!-- ADD SINGLE CONDITION END -->
+            <!-- ADD MULTI CONDITION START -->
+            <div *ngIf="data?.multivalue?.length">
+              <div class="box-mt" *ngFor="let mulival of data?.multivalue; let x = index;">
+                <p class="uppercase">{{ mulival.conditionname }}</p>
+                <mat-card class="mt-2">
+                  Type 
+                  <b> {{ mulival.property.title }}</b>
+                  {{mulival.condition.value }}
+                  <b>{{mulival.condition_value}} </b>
+                  <div class="condition-icon">
+                    <mat-icon svgIcon="mat:edit" class="icons" matTooltip="Edit Trigger" matTooltipPosition="after" (click)="editTriggerCondition(data, mulival, x)"></mat-icon>
+                    <mat-icon svgIcon="mat:delete" class="icons" matTooltip="Delete Trigger" matTooltipPosition="after" (click)="deleteTriggerCondition(data, x)"></mat-icon>
+                  </div>
+                </mat-card>
+              </div>
+            </div>
+
+            <div class="condition-btn mt-3">
+              <button mat-button mat-raised-button type="button" color="primary" class="ml-4" matTooltip="Add AND Condition" (click)="onAddcondition(data, 'AND',data?.type.id, 0)">AND</button>
+              <button mat-button mat-raised-button type="button" color="primary" matTooltip="Add OR Condition" (click)="onAddcondition(data, 'OR', data?.type.id, 0)">OR</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>
+<div class="line-div here">
+  <button class="ml-4 flex-none" *ngIf="!workFlowService$.workflowCloneStatus" (click)="action(data)" color="primary" mat-mini-fab matTooltip="Add Action" type="button">
+    <mat-icon svgIcon="mat:add"></mat-icon>
+  </button>
+  <button class="ml-4 flex-none clone" *ngIf="workFlowService$.workflowCloneStatus" (click)="actionClone(data)" color="primary" mat-mini-fab matTooltip="Clone Action" type="button"
+  [ngClass]="data?.cloneActionButtonStatus === 1 ? '' : 'disable-clone-action'">
+    <mat-icon svgIcon="mat:add"></mat-icon>
+  </button>
+</div>

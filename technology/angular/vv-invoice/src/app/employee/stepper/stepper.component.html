@@ -1,0 +1,13 @@
+<div class="container-fluid">
+  <mat-stepper [linear]="isLinear" #stepper>
+    <mat-step label="BASIC">
+      <app-basic (nextStep)="checkStep($event)"></app-basic>
+    </mat-step>
+    <mat-step label="COMPONENT">
+      <app-component></app-component>
+    </mat-step>
+    <mat-step label="DESIGN INVOICE">
+      <app-generate-invoice></app-generate-invoice>
+    </mat-step>
+  </mat-stepper>
+</div>

@@ -1,0 +1,153 @@
+<form [formGroup]="sendEmail">
+    <div class="row mt-3 pt-4">
+        <div class="col-6 col-md-6 col-sm-6">
+            <p class="f-14 fw-500 pb-2">Add Receipments Email</p>
+            <div>
+                <mat-form-field appearance="outline">
+                    <input matInput placeholder="Add email here" formControlName="to">
+                    <button mat-icon-button matSuffix (click)="hideCC = !hideCC" [attr.aria-pressed]="hideCC">
+                        <mat-icon class="f-14 icon-text">CC</mat-icon>
+                      </button>
+                      <button mat-icon-button matSuffix (click)="hideBCC = !hideBCC" [attr.aria-pressed]="hideBCC">
+                        <mat-icon class="f-14 icon-text">BCC</mat-icon>
+                      </button>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-6 col-sm-6">
+            <p class="f-14 fw-500 pb-2">Select Template</p>
+            <div>
+                <mat-form-field appearance="outline" *ngIf="emailTempltes">
+                    <mat-select placeholder="Select Location" formControlName="emailTemplate">
+                        <mat-option *ngFor="let template of emailTempltes" [value]="template._id">{{template?.templateName | titlecase}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-6 col-sm-6" *ngIf="hideCC">
+            <div>
+                <mat-form-field class="example-chip-list" appearance="outline">
+                    <mat-label>Add CC</mat-label>
+                    <mat-chip-list #chipList aria-label="CC">
+                      <mat-chip
+                        *ngFor="let cc of allCC"
+                        (removed)="removeCC(cc)">
+                        {{cc}}
+                        <button matChipRemove>
+                          <mat-icon> 
+                            <svg width="20" class="pull-right" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.6668 4.27301L11.7268 3.33301L8.00016 7.05967L4.2735 3.33301L3.3335 4.27301L7.06016 7.99967L3.3335 11.7263L4.2735 12.6663L8.00016 8.93967L11.7268 12.6663L12.6668 11.7263L8.94016 7.99967L12.6668 4.27301Z" fill="#504F54"/>
+                            </svg>
+                        </mat-icon>
+                        </button>
+                      </mat-chip>
+                      <input
+                        placeholder="Add CC"
+                        #CCInput
+                        [matChipInputFor]="chipList"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        (matChipInputTokenEnd)="addCC($event)"
+                        >
+                    </mat-chip-list>
+                  </mat-form-field>
+                  
+            </div>
+        </div>
+
+        <div class="col-6 col-md-6 col-sm-6" *ngIf="hideBCC">
+            <div>
+                <mat-form-field class="example-chip-list" appearance="outline">
+                    <mat-label>Add BCC</mat-label>
+                    <mat-chip-list #chipList1 aria-label="BCC">
+                      <mat-chip
+                        *ngFor="let bcc of allBCC"
+                        (removed)="removeBCC(bcc)">
+                        {{bcc}}
+                        <button matChipRemove>
+                          <mat-icon> 
+                            <svg width="20" class="pull-right" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.6668 4.27301L11.7268 3.33301L8.00016 7.05967L4.2735 3.33301L3.3335 4.27301L7.06016 7.99967L3.3335 11.7263L4.2735 12.6663L8.00016 8.93967L11.7268 12.6663L12.6668 11.7263L8.94016 7.99967L12.6668 4.27301Z" fill="#504F54"/>
+                            </svg>
+                        </mat-icon>
+                        </button>
+                      </mat-chip>
+                      <input
+                        placeholder="Add BCC"
+                        #BCCInput
+                        [matChipInputFor]="chipList1"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        (matChipInputTokenEnd)="addBCC($event)"
+                       >
+                    </mat-chip-list>
+                  </mat-form-field>
+                  
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+    <div class="col-12 col-md-12 col-sm-12">
+        <p class="f-14 fw-500 pb-2">Subject</p>
+        <mat-form-field appearance="outline">
+            <input matInput placeholder="Add email here" formControlName="subject">
+        </mat-form-field>
+    </div>
+    </div>  
+
+    <div class="row">
+        <div class="col-md-12 col-12">
+            <p class="f-14 fw-500 pb-2">Description</p>
+            <div class="">
+                <quill-editor [modules]="config" formControlName="description" [styles]="{'height': '250px'}" class="quill-editor"></quill-editor>
+            </div>
+        </div>
+    </div>
+
+    <div class="row pt-2 pb-3">
+        <div class="col-auto">
+            <p class="f-14 fw-100">Sending From <span style="color: #1F47F5;">talentacquisitionteam@talentrequrite.com</span><span> <a routerLink="#" class="f-14 fw-100"><svg width="8" height="5" viewBox="0 0 8 5" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M1.3225 0.0108337L4 2.6825L6.6775 0.0108337L7.5 0.833334L4 4.33333L0.5 0.833334L1.3225 0.0108337Z"
+                    fill="#84818A" />
+            </svg></a></span></p>
+        </div>
+    </div>
+
+
+    <div class="row">
+            <div class="col">
+                <p class="f-14 fw-500 pb-2">Offer Valid Till Date</p>
+                <mat-form-field appearance="outline">
+                    <input placeholder="Offer Validity" matInput [matDatepicker]="picker" formControlName="validTill">
+                    <mat-datepicker-toggle id="offerdatepicker" matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+        <div class="col">
+                <p class="f-14 fw-500 pb-2">Date Of Joining</p>
+                <mat-form-field appearance="outline">
+                    <input placeholder="Date Of Joining" matInput [matDatepicker]="picker2" formControlName="dateOfJoining">
+                    <mat-datepicker-toggle id="joiningdatepicker" matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+
+    <div class="row mx-0 btn">
+        <ul class="justify-content-end custom-ul-button-frames p-0">
+            <li class="order-0 order-md-1">
+                <button type="button" class="btn btn-previous" mat-raised-button (click)="previous()">Previous</button>
+            </li>
+            <li class="order-1 order-md-1">
+                <button type="button" class="btn btn-primary" mat-raised-button color="primary" [disabled]="!sendEmail.valid" (click)="finalOffer()">Send Offer</button>
+            </li>
+            <li class="order-2 order-md-0">
+                <button type="button" class="btn btn-cancel" mat-raised-button>Cancel</button>
+            </li>
+        </ul>
+    </div>  
+</form>

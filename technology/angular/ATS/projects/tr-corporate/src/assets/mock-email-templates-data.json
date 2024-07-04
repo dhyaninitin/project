@@ -1,0 +1,65 @@
+[
+    { 
+        "templatename": "Offer Letter Template", 
+        "module": "Lead",
+        "country": "India",
+        "subject": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget commodo nisl id eget porta. Arcu elementum pretium nulla tellus interdum ipsum suspendisse.",
+        "message": "Hi {{Candidate Name}} Train hard. Stay dry. This soccer jacket is made of soft, sweat-wicking fabric that keeps you moving on the practice field. Stretch panels at the elbows and sides give you a full range of motion as you work. {Candidate Link will be sent}",
+        "created_on": "2021-03-15T05:52:58.000Z",
+        "last_updated": "2021-12-17T15:22:18.000Z"
+    },
+    { 
+        "templatename": "Job Interview Template", 
+        "module": "Data Privacy",
+        "country": "Austria",
+        "subject": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget commodo nisl id eget porta. Arcu elementum pretium nulla tellus interdum ipsum suspendisse.",
+        "message": "Hi {{Candidate Name}} Train hard. Stay dry. This soccer jacket is made of soft, sweat-wicking fabric that keeps you moving on the practice field. Stretch panels at the elbows and sides give you a full range of motion as you work. {Candidate Link will be sent}",
+        "created_on": "2021-05-10T05:52:58.000Z",
+        "last_updated": "2021-12-17T15:22:18.000Z"
+    },
+    { 
+        "templatename": "Transfer Letter Template", 
+        "module": "Lead",
+        "country": "India",
+        "subject": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget commodo nisl id eget porta. Arcu elementum pretium nulla tellus interdum ipsum suspendisse.",
+        "message": "Hi {{Candidate Name}} Train hard. Stay dry. This soccer jacket is made of soft, sweat-wicking fabric that keeps you moving on the practice field. Stretch panels at the elbows and sides give you a full range of motion as you work. {Candidate Link will be sent}",
+        "created_on": "2021-02-09T05:52:58.000Z",
+        "last_updated": "2021-12-17T15:22:18.000Z"
+    },
+    { 
+        "templatename": "Notice Period Template", 
+        "module": "Job",
+        "country": "Nepal",
+        "subject": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget commodo nisl id eget porta. Arcu elementum pretium nulla tellus interdum ipsum suspendisse.",
+        "message": "Hi {{Candidate Name}} Train hard. Stay dry. This soccer jacket is made of soft, sweat-wicking fabric that keeps you moving on the practice field. Stretch panels at the elbows and sides give you a full range of motion as you work. {Candidate Link will be sent}",
+        "created_on": "2021-08-15T05:52:58.000Z",
+        "last_updated": "2021-10-09T15:22:18.000Z"
+    },
+    { 
+        "templatename": "Transfer Letter Template - 2", 
+        "module": "Lead",
+        "country": "India",
+        "subject": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget commodo nisl id eget porta. Arcu elementum pretium nulla tellus interdum ipsum suspendisse.",
+        "message": "Hi {{Candidate Name}} Train hard. Stay dry. This soccer jacket is made of soft, sweat-wicking fabric that keeps you moving on the practice field. Stretch panels at the elbows and sides give you a full range of motion as you work. {Candidate Link will be sent}",
+        "created_on": "2021-12-01T05:52:58.000Z",
+        "last_updated": "2021-12-13T15:22:18.000Z"
+    },
+    { 
+        "templatename": "Offer Letter Template - 2", 
+        "module": "Lead",
+        "country": "China",
+        "subject": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget commodo nisl id eget porta. Arcu elementum pretium nulla tellus interdum ipsum suspendisse.",
+        "message": "Hi {{Candidate Name}} Train hard. Stay dry. This soccer jacket is made of soft, sweat-wicking fabric that keeps you moving on the practice field. Stretch panels at the elbows and sides give you a full range of motion as you work. {Candidate Link will be sent}",
+        "created_on": "2021-10-25T05:52:58.000Z",
+        "last_updated": "2021-11-11T15:22:18.000Z"
+    },
+    { 
+        "templatename": "Job Interview Template - 2", 
+        "module": "Job",
+        "country": "India",
+        "subject": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget commodo nisl id eget porta. Arcu elementum pretium nulla tellus interdum ipsum suspendisse.",
+        "message": "Hi {{Candidate Name}} Train hard. Stay dry. This soccer jacket is made of soft, sweat-wicking fabric that keeps you moving on the practice field. Stretch panels at the elbows and sides give you a full range of motion as you work. {Candidate Link will be sent}",
+        "created_on": "2021-07-02T05:52:58.000Z",
+        "last_updated": "2021-12-21T15:22:18.000Z"
+    }
+]

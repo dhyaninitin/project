@@ -1,0 +1,9 @@
+<!-- <button (click)="openConfig.emit()" class="config-panel-toggle" color="primary" mat-fab type="button">
+  <mat-icon svgIcon="mat:settings"></mat-icon>
+</button> -->
+
+
+
+<button [class.is-mobile]="!(isDesktop$ | async)" class="config-panel-toggle-help" mat-mini-fab matTooltipPosition="left" matTooltip="CarBlip University" color="primary" type="button" (click)="openHelp()">
+  <mat-icon svgIcon="mat:help_outline"></mat-icon>
+</button>

@@ -1,0 +1,142 @@
+<vex-page-layout>
+	<vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+		<div
+			class="w-full flex flex-col sm:flex-row justify-between">
+			<div>
+				<h1 class="title mt-0 mb-1">Inventory #{{inventory?.stock_no}} Detail</h1>
+				<vex-breadcrumbs [crumbs]="['Inventory', 'Detail']"></vex-breadcrumbs>
+			</div>
+
+		</div>
+	</vex-page-layout-header>
+		<vex-page-layout-content *ngIf="isReady" class="-mt-6">
+			<div class="card overflow-auto -mt-16">
+		<div class="head bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
+			<h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l sm:block flex-none">
+				<span>Actions</span>
+			</h2>
+			<span class="flex-1"></span>
+				<button (click)="location.back()" class="ml-4 flex-none" color="primary" mat-mini-fab matTooltip="Back" type="button">
+					<mat-icon svgIcon="mat:arrow_back"></mat-icon>
+			</button>
+		</div>
+			</div>
+
+			<div class="mt-6 flex flex-col md:flex-row md:items-start">
+				<div class="flex-auto">
+					<div class="card">
+						<div class="px-gutter py-4 border-b flex justify-content-space-between">
+						<h2 class="title m-0">Details</h2> 
+						</div>
+
+						<div class="px-gutter py-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">
+										<a routerLink="./" class="link">{{inventory?.dealer}}</a>
+									</p>
+									<p class="m-0 caption text-hint">Dealer</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{ inventory?.stock_no }}</p>
+									<p class="m-0 caption text-hint">Stock #</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{ inventory?.vin }}</p>
+									<p class="m-0 caption text-hint">VIN</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{ inventory?.is_new ? 'New': '' }}</p>
+									<p class="m-0 caption text-hint">Type</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{ inventory?.year }}</p>
+									<p class="m-0 caption text-hint">Year</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{ inventory?.make }}</p>
+									<p class="m-0 caption text-hint">Make</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{ inventory?.model }}</p>
+									<p class="m-0 caption text-hint">Model</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{ inventory?.desc }}</p>
+									<p class="m-0 caption text-hint">Description</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{ inventory?.model_number }}</p>
+									<p class="m-0 caption text-hint">Model #</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{ inventory?.invoice | currency }}</p>
+									<p class="m-0 caption text-hint">Cost</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{ inventory?.base_msrp | currency }}</p>
+									<p class="m-0 caption text-hint">MSRP</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{ inventory?.exterior_color }}</p>
+									<p class="m-0 caption text-hint">Exterior Color</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{ inventory?.interior_color }}</p>
+									<p class="m-0 caption text-hint">Interior Color</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{ inventory?.current_mileage }}</p>
+									<p class="m-0 caption text-hint">Mileage</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{ inventory?.lot_age }}</p>
+									<p class="m-0 caption text-hint">Lot Age</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{ inventory?.created_at | date:'MM/dd/yyy h:mm a' }}</p>
+									<p class="m-0 caption text-hint">Created At</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{ inventory?.updated_at | date:'MM/dd/yyy h:mm a' }}</p>
+									<p class="m-0 caption text-hint">Updated At</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</vex-page-layout-content>
+</vex-page-layout>

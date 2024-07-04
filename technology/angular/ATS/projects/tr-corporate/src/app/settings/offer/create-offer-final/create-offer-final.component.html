@@ -1,0 +1,303 @@
+<mat-drawer-container (click)="destroy()" autosize class="right-drawer" [class.drawer-lg]="false">
+  <mat-drawer
+    #drawer
+    mode="over"
+    class="drawer-container"
+    position="end"
+    [autoFocus]="false"
+  >
+    <button
+      mat-icon-button
+      (click)="drawer.toggle(); toggleSideMenu()"
+      class="close-btn"
+    >
+      <span class="icon-mc mc-x"></span>
+    </button>
+    <app-library-upload *ngIf="viewLibraryUpload" (addDocumentFromLib)="addDocumentFromLib($event)" [isOpen]="drawer.opened">
+    </app-library-upload>
+    <app-view-library *ngIf="viewLibrary" [documentDetail]="selectedDocumentDetail" [isOpen]="drawer.opened">
+    </app-view-library>
+  </mat-drawer>
+
+  <div class="example-sidenav-content">
+    <div class="user-management">
+      <div class="center" *ngIf="showFileDropOption">
+        <div class="upload-box">
+          <div class="box">
+            <ngx-file-drop
+              [dropZoneClassName]="'upload-background-image'"
+              dropZoneLabel="Drop files here"
+              (onFileDrop)="dropped($event)"
+              (onFileOver)="fileOver($event)"
+              (onFileLeave)="fileLeave($event)"
+            >
+              <ng-template
+                ngx-file-drop-content-tmp
+                let-openFileSelector="openFileSelector"
+              >
+                <div class="drag-file">
+                  <img src="assets/img/cloud_upload.svg" alt="" />
+                  <p (click)="openFileSelector()">Drop file here to upload</p>
+                </div>
+              </ng-template>
+            </ngx-file-drop>
+          </div>
+          <div class="box">
+            <ngx-file-drop
+              [dropZoneClassName]="'upload-background-image'"
+              dropZoneLabel="Drop files here"
+              (onFileDrop)="dropped($event)"
+              (onFileOver)="fileOver($event)"
+              (onFileLeave)="fileLeave($event)"
+            >
+              <ng-template
+                ngx-file-drop-content-tmp
+                let-openFileSelector="openFileSelector"
+              >
+                <div class="drag-file">
+                  <img src="assets/img/import.svg" alt="" />
+                  <p (click)="viewLibraryTemp()">Import from Library</p>
+                </div>
+              </ng-template>
+            </ngx-file-drop>
+          </div>
+        </div>
+      </div>
+      <div class="title-section">
+        <h4>Documents</h4>
+      </div>
+      <div class="table-container">
+        <div class="table-data">
+          <perfect-scrollbar (psYReachEnd)="contentScrollYEvt()">
+            <table
+              mat-table
+              [dataSource]="dataSource"
+              matSort
+              matSortActive="lastupdated"
+              matSortDirection="desc"
+            >
+              <!-- Position Column -->
+              <ng-container matColumnDef="check">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-checkbox
+                    *ngIf="dataSource"
+                    color="primary"
+                    (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                    [aria-label]="checkboxLabel()"
+                  >
+                  </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  <mat-checkbox
+                    color="primary"
+                    (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(element) : null"
+                    [checked]="selection.isSelected(element)"
+                    [aria-label]="checkboxLabel(element)"
+                    [disabled]=""
+                  ></mat-checkbox>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-checkbox
+                    (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                  >
+                  </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-checkbox
+                    (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)"
+                  >
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="document">
+                <th mat-header-cell *matHeaderCellDef>Document Name</th>
+                <td mat-cell *matCellDef="let element">
+                  <div class="user-info">
+                    <div>
+                      <span class="tble-data">
+                        <img [src]="(element.extention === 'PDF' || element.extention === 'pdf')  ? 'assets/img/pdf-img.jpg' : (element.extention === 'DOCX' || element.extention === 'DOC') ? 'assets/img/google-docs.png' : 'assets/img/jpeg-img.svg'" alt="" />
+
+                        <mat-form-field
+                          appearance="outline"
+                          *ngIf="!isEditEnable"
+                        >
+                          <input matInput placeholder="document" [(ngModel)]="documentname"/>
+                        </mat-form-field>
+
+                        <span class="title-new" *ngIf="isEditEnable">
+                          <h4>{{element.documentname}}</h4>
+                        </span>
+                        <span class="type"><p>{{element.extention}}</p></span>
+                        <h4>{{element.size}}</h4>
+                      </span>
+                    </div>
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- Role Column -->
+
+              <!-- Email Column -->
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef>Uploaded By</th>
+                <td mat-cell *matCellDef="let element">
+                  <div class="user-img">
+                    <span class="tble-data">
+                      <span class="user-avatar" >{{element.email.split('')[0].toUpperCase() }}</span>
+                      <h4>{{ element.email }}</h4>
+                    </span>
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- Status Column -->
+
+              <!-- Last Updated Column -->
+              <ng-container matColumnDef="lastupdated">
+                <th mat-header-cell *matHeaderCellDef>Status</th>
+                <td mat-cell class="font-500" *matCellDef="let element">
+                  <mat-slide-toggle [checked]="element.status"></mat-slide-toggle>
+                </td>
+              </ng-container>
+
+              <!-- Action Column -->
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                  <div class="cloud-only align-right actions">
+                    <button
+                      (click)="viewOffer()"
+                      mat-icon-button
+                      matTooltip="{{
+                        ln.TXT_VIEW_DETAILS | translate | titlecase
+                      }}"
+                      matTooltipPosition="left"
+                    >
+                      <i class="icon-mc mc-visibility"></i>
+                    </button>
+
+                    <button
+                      mat-icon-button
+                      matTooltip="{{
+                        ln.TXT_EDIT_USER | translate | titlecase
+                      }}"
+                      matTooltipPosition="left"
+                      *ngIf="isEditEnable"
+                      (click)="onEdit()"
+                    >
+                      <i class="icon-mc mc-create"></i>
+                    </button>
+                    <button
+                      mat-icon-button
+                      matTooltip="{{
+                        ln.TXT_EDIT_USER | translate | titlecase
+                      }}"
+                      matTooltipPosition="left"
+                      *ngIf="!isEditEnable"
+                      (click)="onEdit()"
+                    >
+                      <img src="assets/img/checks.svg" alt=""/>
+                    </button>
+                    <button mat-icon-button (click)="deleteBox()">
+                      <img src="assets/img/trash.svg" alt="" />
+                    </button>
+                    <ng-template #dialogRefs let-mydata>
+                       <delete-popup [popupInfo]="deletePopupText" (confirm)="removeConfirmation($event)"></delete-popup>
+                    </ng-template>
+                  </div>
+                  <div class="mobile-only">
+                    <button
+                      mat-icon-button
+                      [matMenuTriggerFor]="menu"
+                      (click)="hideUserActionMenu = false"
+                    >
+                      <span class="icon-mc mc-more_vert"></span>
+                    </button>
+                    <mat-menu #menu="matMenu" backdropClass="profile-dropdown">
+                      <div class="user-dropdown-submenu">
+                        <button mat-menu-item>
+                          <i class="icon-mc mc-visibility"></i>
+                          <span>{{
+                            ln.TXT_VIEW_DETAILS | translate | titlecase
+                          }}</span>
+                        </button>
+                        <button
+                          mat-menu-item
+                          class="cloud-only"
+                          (click)="viewPermission(element)"
+                        >
+                          <i class="icon-mcf mcf-chrome_reader_mode"></i>
+                          <span>{{
+                            ln.TXT_VIEW_PERMISSION | translate | titlecase
+                          }}</span>
+                        </button>
+                        <button mat-menu-item (click)="editUser(element)">
+                          <i class="icon-mc mc-create"></i>
+                          <span>{{
+                            ln.TXT_EDIT_USER | translate | titlecase
+                          }}</span>
+                        </button>
+                        <button
+                          mat-menu-item
+                          *ngIf="element.status == 0"
+                          (click)="activateUser(element.email)"
+                        >
+                          <i class="icon-mc mc-how_to_reg"></i>
+                          <span>{{
+                            ln.TXT_ACTIVATE_USER | translate | titlecase
+                          }}</span>
+                        </button>
+                        <button
+                          mat-menu-item
+                          *ngIf="
+                            element.status == 1 &&
+                            element.email != loggedinUserEmail
+                          "
+                          (click)="deactivateUser(element.email)"
+                        >
+                          <i class="icon-mc mc-do_not_disturb_on"></i>
+                          <span>{{ ln.TXT_DEACTIVATE_USER | translate }}</span>
+                        </button>
+                        <button
+                          *ngIf="element.status == 0"
+                          mat-menu-item
+                          (click)="deleteUser(element.email, i)"
+                        >
+                          <i class="icon-mc mc-user-x"></i>
+                          <span>{{
+                            ln.TXT_DELETE_USER | translate | titlecase
+                          }}</span>
+                        </button>
+                      </div>
+                    </mat-menu>
+                  </div>
+                </td>
+              </ng-container>
+
+              <tr
+                mat-header-row
+                *matHeaderRowDef="displayedColumns; sticky: true"
+              ></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+          </perfect-scrollbar>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile View -->
+
+    <mat-progress-bar mode="query" *ngIf="isLoadingMore"></mat-progress-bar>
+  </div>
+</mat-drawer-container>

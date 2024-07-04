@@ -1,0 +1,49 @@
+<form [formGroup]="secondaryEmailForm" (click)="$event.stopPropagation();">
+    <div class="flex flex-col md:flex-row md:items-start menu-content">
+        <div class="flex-auto">
+            <h2 class="text-center title">Primary Email</h2>
+
+            <div class="flex items-center">
+                <mat-form-field >
+                    <mat-label>Primary Email</mat-label>
+                    <input matInput autocomplete="new-primaryemail" name="new-primaryemail"
+                    [formControl]="secondaryEmailForm.controls['primary_email']"
+                    placeholder="Primary Email" appNoWhitespace>
+                    <mat-icon class="mr-3" matPrefix svgIcon="mat:email"></mat-icon>
+                </mat-form-field>
+            </div>
+
+            <div class="flex items-center" class="d-grid">
+                <h2 class="text-center title">Secondary Emails</h2>
+                <div fxLayout="row" fxLayoutGap="3px" *ngFor="let emails of secondaryEmails.controls; let i = index" [formGroup]="emails">
+                    <mat-form-field fxFlex="80%">
+                        <mat-label>Secondary Emails</mat-label>
+                        <input type="email" matInput formControlName="additional_email" 
+                        required placeholder="Secondary Emails" 
+                        (blur)="checkForDuplicateEmail($event.target.value,i)">
+                        <mat-icon class="mr-3" matPrefix svgIcon="mat:email"></mat-icon>
+                        <mat-error *ngIf="emails.get('additional_email').errors?.duplicate">This email already exist</mat-error>
+                    </mat-form-field>
+
+                    <button mat-icon-button class="mt-2" matTooltip="Make Primary" (click)="makePrimaryEmail(i,emails)" matTooltipPosition="after">
+                        <mat-icon>swap_vert</mat-icon>
+                    </button>
+
+                    <button mat-icon-button class="mt-2" matTooltip="Remove Email" matTooltipPosition="after" (click)="removeEmail(i)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+                
+            </div>
+            <div class="flex mb-4">
+                <button mat-button mat-raised-button  matTooltip="Add Email" matTooltipPosition="after" type="button" color="primary" (click)="addSecondaryEmail()">Add Email</button>
+            </div>
+
+            <div class="button">
+                <button mat-button type="button" (click)="closeMenu()">Cancel</button>
+                <button mat-button mat-raised-button type="button" color="primary" 
+                [disabled]="secondaryEmailForm.invalid || isLoading" (click)="submit()"> Save </button>
+            </div>
+        </div>
+    </div>
+</form>

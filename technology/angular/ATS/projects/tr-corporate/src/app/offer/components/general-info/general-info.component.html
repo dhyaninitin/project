@@ -1,0 +1,76 @@
+<form  [formGroup]="generalInfoForm">
+    <div class="row mt-3 pt-4 pb-2">
+        <p class="f-14 fw-500">Offer Location</p>
+    </div>
+
+    <div class="row" *ngIf="jobLocation">
+        <div class="col">
+        <mat-form-field appearance="outline">
+            <!-- <mat-select placeholder="Select Location">
+                <mat-option value="one">First option</mat-option>
+                <mat-option value="two">Second option</mat-option>
+            </mat-select> -->
+            <input matInput placeholder="Offer Location" autocomplete="off" formControlName="joblocation">
+            <mat-error *ngIf="joblocation.touched && !joblocation.valid">
+                <span *ngIf="joblocation.errors?.required">
+                    Job Location is required
+                </span>
+              </mat-error>
+        </mat-form-field>
+    </div>
+    </div>
+
+    <div class="row align-items-baseline">
+        <div class="col-auto">
+            <mat-checkbox color="primary" class="example-margin" [checked]="isRemote == 1" (change)="changeIsRemote($event)"></mat-checkbox>
+        </div>
+        <div class="col-auto p-0">
+            <p class="col-md-12 col-sm-12 f-14 checkBox-text fw-500 checkbox">Please check the checkbox if this job is available remote</p>
+        </div>
+    </div>
+
+    <div class="row pt-4 pb-2">
+        <p class="f-14 fw-500">Offer Designation</p>
+    </div>
+    <div class="row ">
+        <div class="col">
+        <mat-form-field appearance="outline">
+            <input matInput placeholder="Designation" autocomplete="off" formControlName="offerdesignation">
+            <mat-error *ngIf="offerdesignation.touched && !offerdesignation.valid">
+                <span *ngIf="offerdesignation.errors?.required">
+                    Offer Designation is required
+                </span>
+            </mat-error>
+        </mat-form-field>
+    </div>
+    </div>
+
+    <div class="row pb-2">
+        <p class="f-14 fw-500">Date Of Joining</p>
+    </div>
+    <div class="row">
+        <div class="col">
+            <mat-form-field appearance="outline">
+                <input placeholder="Date Of Joining" matInput [matDatepicker]="picker2" formControlName="dateofjoining">
+                <mat-datepicker-toggle id="joiningdatepicker" matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+                <mat-error *ngIf="dateofjoining.touched && !dateofjoining.valid">
+                    <span *ngIf="dateofjoining.errors?.required">
+                        Date Of Joining is required
+                    </span>
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="row mx-0 btn">
+        <ul class="justify-content-end custom-ul-button-frames p-0">
+            <li class="order-0 order-md-2">
+                <button type="button" class="btn btn-primary" mat-raised-button color="primary" (click)="next()">Next</button>
+            </li>
+            <li class="order-0 order-md-1">
+                <button type="button" class="btn btn-cancel" mat-raised-button>Cancel</button>
+            </li>
+        </ul>
+    </div>
+</form>

@@ -1,0 +1,42 @@
+.main-container {
+  padding: 12px 12px;
+  #componentState {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .container {
+    padding: 12px 12px;
+    mat-form-field {
+      width: 100%;
+    }
+    #status {
+      margin-left: 2em;
+    }
+    .btn {
+      bottom: 0;
+      left: 50;
+      right: 0;
+      position: fixed;
+    }
+    .my-code-editor {
+      .editor-container {
+        height: calc(100vh - 100px);
+      }
+    }
+  }
+  .header {
+    padding: 12px 12px;
+  }
+
+  @media (max-width: 768px) {
+    .col-md-6 {
+      margin-bottom: 1rem;
+    }
+  }
+  
+  form {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+

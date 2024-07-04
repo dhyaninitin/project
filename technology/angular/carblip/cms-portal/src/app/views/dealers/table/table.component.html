@@ -1,0 +1,76 @@
+<table @stagger *ngIf="dealers" [dataSource]="dealers" matSortActive={{sortKey}} matSortDirection={{sortDirection}} matSortDisableClear matSort (matSortChange)="sortData($event)" class="w-full" mat-table>
+	<ng-container matColumnDef="name">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Name</th>
+		<td *matCellDef="let item" mat-cell>{{ item.name }}</td>
+	</ng-container>
+	<ng-container matColumnDef="street">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Street</th>
+		<td *matCellDef="let item" mat-cell>{{ item.street }}</td>
+	</ng-container>
+	<ng-container matColumnDef="city">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>City</th>
+		<td *matCellDef="let item" mat-cell>{{ item.city }}</td>
+	</ng-container>
+	<ng-container matColumnDef="state">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>State</th>
+		<td *matCellDef="let item" mat-cell>{{ item.state }}</td>
+	</ng-container>
+	<ng-container matColumnDef="zip_code">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Zip Code</th>
+		<td *matCellDef="let item" mat-cell>{{ item.zip_code }}</td>
+	</ng-container>
+	<ng-container matColumnDef="phone">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Phone</th>
+		<td *matCellDef="let item" mat-cell>{{ item.phone | phone:'US' }}</td>
+	</ng-container>
+	<ng-container matColumnDef="website">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Website</th>
+		<td *matCellDef="let item" mat-cell>{{ item.website }}</td>
+	</ng-container>
+	<ng-container matColumnDef="created_at">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Created At</th>
+		<td *matCellDef="let item" mat-cell>{{ item.created_at | date:'MM/dd/yyy h:mm a' }}</td>
+	</ng-container>
+	<ng-container matColumnDef="updated_at">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Updated At</th>
+		<td *matCellDef="let item" mat-cell>{{ item.updated_at | date:'MM/dd/yyy h:mm a' }}</td>
+	</ng-container>
+
+	<ng-container matColumnDef="actions">
+		<th *matHeaderCellDef mat-header-cell></th>
+		<td *matCellDef="let row; let i = index" class="w-10 text-secondary" mat-cell>
+			<button (click)="$event.stopPropagation();getSelectedRecord(row, i)"
+				[matMenuTriggerData]="{ customer: row }"
+				[matMenuTriggerFor]="actionsMenu"
+				mat-icon-button
+				type="button">
+
+				<mat-icon svgIcon="mat:more_horiz"></mat-icon>
+			</button>
+		</td>
+	</ng-container>
+
+	<tr *matHeaderRowDef="getDisplayedColumns(); sticky: true" mat-header-row></tr>
+	<tr
+		*matRowDef="let row; columns: getDisplayedColumns();"
+			routerLink="./{{row.id}}"
+			@fadeInUp
+			class="hover:bg-hover trans-ease-out cursor-pointer"
+			mat-row></tr>
+</table> 
+
+	<div class="text-center mt-2" *ngIf="(didFetch$ | async) && dealers.length === 0">There are no suppliers available. Please enter in a suppliers to view them here</div> 
+
+<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+<ng-template let-customer="customer" matMenuContent>
+	<button mat-menu-item routerLink="./{{selectedRecordDetail?.id}}">
+		<mat-icon svgIcon="mat:edit"></mat-icon>
+		<span>Edit</span>
+	</button>
+	<button mat-menu-item (click)="onDelete(selectedRecordDetail, index)">
+		<mat-icon svgIcon="mat:delete"></mat-icon>
+		<span>Delete</span>
+	</button>
+</ng-template>
+</mat-menu>
+

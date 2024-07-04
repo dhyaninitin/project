@@ -1,0 +1,232 @@
+@import "../../../../../../scss/menu";
+@import "../../../../../../scss/card";
+@import "../../../../../../scss/tabs";
+@import "../../../../../../scss/common";
+
+.boxa:hover {
+  background-color: #f0f3f5;
+}
+// .stripa {
+//   background-color: #f0f3f5;
+// }
+.stripb {
+  background-color: #f0f3f5;
+}
+.stripc {
+  background-color: #f0f3f5;
+}
+.heading {
+  color: #1b4587;
+}
+.statusbar {
+  margin-left: -16px;
+}
+.profile-pic {
+  border-radius: 50%;
+  max-width: 60%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 86px;
+}
+
+.text-l{
+  text-align: left;
+}
+
+.id-pos{
+  text-align: center; 
+  margin-top: -35px;
+}
+
+@media screen and (max-width: 600px) {
+  div.mobileAlignment {
+    text-align: left !important;
+  }
+  
+  .text-l{
+    text-align: center;
+  }  
+  .id-pos{
+    text-align: right; 
+    margin-top: 35px;
+  }
+  .textCenter{
+    text-align: center;
+  }
+}
+.textSizeBold{
+  font-weight: bold;
+}
+.divdisabled{
+  opacity: 0.4;
+}
+.key {
+  font-weight: 700;
+  color: #1b4587;
+}
+.value {
+  // font-weight: 600;
+  color: black;
+}
+.acceptButton {
+  border: 1.5px solid #1b4587;
+  color: #1b4587;
+  border-radius: 60%;
+  transition: 0.3s;
+}
+.declineButton {
+  border: 1.5px solid red;
+  color: red;
+  border-radius: 60%;
+  transition: 0.3s;
+}
+
+.acceptButton:hover {
+  border: 1.5px solid #1b4587;
+  background-color: #1b4587;
+  color: white;
+  border-radius: 60%;
+}
+.declineButton:hover {
+  border: 1.5px solid red;
+  background-color: red;
+  color: white;
+  border-radius: 60%;
+}
+.btn-outline-primary {
+  color: #007bff;
+  border-color: #007bff;
+}
+.btn-option {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid #007bff;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  height: 35px;
+}
+
+
+.pri{
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.oval-shape{
+  border-radius: 20px;
+}
+
+
+.tag{
+  background: lightgray;//#837b7b;
+  padding-top: 3px;
+  border-radius: 20px;
+  padding-bottom: 3px;
+  padding-left: 8px;
+  padding-right: 7px;
+  font-size: 13px;
+  color: black;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+:host ::ng-deep .banner{
+  .item{
+    width: fit-content !important;
+    display: inline-flex;
+    margin-top: 10px;
+  }
+}
+
+.leftRs {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  width: 25px;
+  height: 28px;
+  display: block !important;
+  border-radius: 999px;
+  left: 0;
+  border: 1px solid #2768cf;;
+  background-color: white;
+}
+
+.rightRs {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  width: 25px;
+  height: 28px;
+  display: block !important;
+  border-radius: 999px;
+  right: 0;
+  border: 1px solid #2768cf;;
+  background-color: white;
+}
+
+:host ::ng-deep dp-date-picker div .dp-input-container .dp-picker-input{
+  border-radius: 20px !important;
+}
+
+.box-shad{
+  box-shadow: 0px 2px 18px -4px #d7d7d7;
+}
+
+.box-card{
+  padding-left: 45px;
+  padding-right: 45px;
+  margin-left: 1px;
+  margin-right: 1px;
+}
+
+.clr-dark-gray{
+  color: #404040 !important;
+}
+
+.text-orange{
+  color: orange;
+}
+
+::ng-deep .final-offer {
+  margin: 0 auto;
+  background-color: #1b4587;
+  animation-name: stretch;
+  animation-duration: 2.0s;
+  animation-timing-function: ease-out;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+  animation-play-state: running;
+}
+
+@keyframes stretch {
+  0% {
+      transform: scale(.8);
+      background-color: #1b4581;
+  }
+
+  50% {
+      background-color: #1b4587;
+  }
+
+  100% {
+      
+      background-color: #1b4587;
+  }
+}
+
+.accept-offer-img{
+  height: 91px;
+  width: 92px;
+}

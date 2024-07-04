@@ -1,0 +1,48 @@
+<form [formGroup]="exportForm" (ngSubmit)="export()">
+    <div class="flex items-center" mat-dialog-title>
+        <h2 class="headline m-0 flex-auto">Export</h2>
+
+        <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+            <mat-icon svgIcon="mat:close"></mat-icon>
+        </button>
+    </div>
+
+    <mat-divider class="-mx-6 text-border"></mat-divider>
+
+    <mat-dialog-content class="flex flex-col">
+
+        <mat-form-field class="flex-auto">
+            <mat-label>Select Days</mat-label>
+            <mat-select formControlName="days">
+                <mat-option *ngFor="let day of daysList" [value]="day.id">
+                    {{ day.value }} Days
+                </mat-option>
+            </mat-select>
+
+            <mat-icon class="mr-3" matPrefix svgIcon="mat:schedule"></mat-icon>
+        </mat-form-field>
+
+        <mat-form-field class="mt-6 flex-auto" *ngIf="exportForm.get('days').value == 1">
+            <mat-label>Enter a date range</mat-label>
+            <div class="relative">
+              <mat-date-range-input [rangePicker]="picker">
+                <input matStartDate placeholder="Start date" formControlName="from">
+                <input matEndDate placeholder="End date" formControlName="to">
+              </mat-date-range-input>
+              <div class="absolute right-2 bottom-0"> 
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              </div>
+            </div>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field>
+          
+
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close type="button">Cancel</button>
+        <button color="primary" mat-flat-button type="submit">Export</button>
+    </mat-dialog-actions>
+</form>
+
+<a #downloadLink id="downloadLink" style="display: none;"></a>

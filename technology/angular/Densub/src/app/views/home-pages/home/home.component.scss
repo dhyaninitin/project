@@ -1,0 +1,194 @@
+.footer-home-slider{
+  .owl-carousel .owl-item .item img{
+    height: 250px;
+  }
+}
+
+.ads-slider *{
+  color:#fff;
+  h2 {
+    font-size: 30px;
+  }
+}
+.banner-content {
+  // max-width: 40%;
+  position: absolute;
+  z-index: 9;
+  top: 0;
+  bottom: 0;
+  max-width: 520px;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  h1 {
+    font-size: 32px;
+  }
+  @media (max-width:1200px) {
+    max-width: 45%;
+  }
+  @media (max-width:900px) {
+    max-width: 500px;
+    margin: 0px auto;
+    left: 0;
+    right: 0;
+    padding: 0px 15px;
+    .sm-w-100 {
+      margin-top: 40px !important;
+    }
+  }
+  @media (max-width:500px) {
+    .sm-w-100 {
+      width: 100% !important;
+      a {
+        font-size: 12px;
+        padding: 15px 7px;
+      }
+    }
+  }
+}
+.downloadApp-section {
+  position: absolute;
+    bottom: 20px;
+    z-index: 9;
+    img {
+      max-width: 150px;
+      @media (max-width:500px) {
+        max-width: 120px;
+      }
+    }
+    @media (max-width:900px) { 
+      max-width: 500px;
+      margin: 0px auto;
+      left: 0;
+      right: 0;
+      padding: 0px 15px;
+      &>div {
+        justify-content: center;
+      }
+    
+    }
+}
+.sm-bannerImg-2 {
+  @media (max-width:900px) and (min-width:640px) {
+    background-image: url('../../../../assets/img/common/banner-2.jpg');
+    height: 500px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top right;
+  }
+  .banner-img{
+    @media (max-width:900px) and (min-width:640px) {
+      // max-width: 720px;
+      // margin: 0px auto;
+      display: none;
+    }
+  }
+   .banner-content {
+    max-width: 40%;
+     p{
+      font-size: 16px;
+      line-height: 32px;
+    }
+     @media (max-width:900px) and (min-width:640px) {
+      max-width: 720px;
+      margin: 0px auto !important;
+       .banner-content_inner {
+        // position: relative;
+        background-color: #00000036;
+        padding: 50px 15px;
+        margin: 0px auto;
+        p{
+          color: #fff;
+        }
+      }
+     }
+     @media (max-width:640px) {
+       position: relative;
+       max-width: 720px;
+       width:100%;
+       margin: 0px auto !important;
+       padding: 50px 15px;
+     }
+     h2 {
+       font-size: 30px;
+     }
+   }
+}
+.icon-box-grid {
+  .icon-box {
+    max-width: 300px;
+    margin: 0px auto;
+    img {
+      max-width: 75px;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.bottomCTA {
+  .bottomCTA_inner {
+    height: 500px;
+    @media (max-width:767px) {
+      height: 400px;
+    }
+    &.bg-1 {
+      background-image: url('../../../../assets/img/common/Densub_background.png');
+      background-size: auto;
+      background-repeat: no-repeat;
+    }
+    h2 {
+      font-size: 46px;
+      @media (max-width:900px) {
+        font-size: 36px;
+      }
+      @media (max-width:767px) {
+        font-size: 30px;
+      }
+    }
+    h5 {
+      font-size: 30px;
+      @media(max-width: 800px) {
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+.sm-bannerImg-1 {
+  @media (max-width:900px) {
+    background-image: url('../../../../assets/img/common/banner-1.jpg');
+    height: 500px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top right;
+    &:after {
+      content: '';
+      background: #00000014;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+    }
+    p {
+      color: #fff;
+    }
+  }
+  .banner-img {
+    @media (max-width:900px) {
+      display: none;
+    }
+  }
+  .container {
+    p {
+      max-width: 500px;
+      width: 100%;
+    }
+    @media (max-width:1200px) {
+      max-width: 100%;
+    }
+  }
+}

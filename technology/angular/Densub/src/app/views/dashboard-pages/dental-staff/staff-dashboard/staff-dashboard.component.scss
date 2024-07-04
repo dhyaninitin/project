@@ -1,0 +1,178 @@
+.dashboard-recent{
+  position: relative;
+  top: 22px;
+  z-index: 999;
+  left: 5px;
+  color: white;
+}
+
+.job-highlight {
+    // padding-left: 20px;
+    li {
+        position: relative;
+        padding-left: 15px;
+        margin-bottom: 10px;
+        &:before {
+            content: '';
+            padding: 5px;
+
+            position: absolute;
+            left: 0;
+            top: 4px;
+        }
+        &.orange::before {
+          background-color: #ff8e33;
+          border: 1px solid #ff8e33;
+        }
+        &.green::before{
+            background-color: #5ce15d;
+            border: 1px solid #5ce15d;
+        }
+        &.white::before{
+            background-color: #fff;
+            border: 1px solid #dcdcdc;
+        }
+        &.gray::before{
+          background-color: #f2f2f2;
+          border: 1px solid #dcdbdb;
+        }
+        &.blue::before{
+            background-color: #2768d0;
+            border: 1px solid #2768d0;
+        }
+
+    }
+}
+
+.dash-label{
+    color: #053178;
+}
+
+.customCalendar {
+    .table-responsive {
+        max-height: 500px;
+        overflow: auto;
+    }
+}
+
+.customCalendar {
+    table {
+      tr {
+        border-bottom: 1px solid #e4e7ea;
+        &:last-child {
+          border-width:0px ;
+        }
+        .ngx-timepicker {
+          border:1px solid #e4e7ea;
+          border-radius: 0.25rem;
+          padding: 2px 10px 2px 0px;
+          .ngx-timepicker-control {
+            height: 25px;
+            .ngx-timepicker-control__arrow {
+              line-height: 13px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+.customCalendar {
+    .table-responsive {
+        max-height: 500px;
+        overflow: auto;
+    }
+}
+.fileDiv {
+  display: inline-block;
+  position: relative;
+  .resume-close {
+    position: absolute;
+    right: -8px;
+    line-height: 17px;
+    top: -8px;
+    cursor: pointer;
+    background: #f86c6b !important;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    box-shadow: 0px 0px 3px 0px #000;
+    text-align: center;
+    display: flex;
+    font-size: 10px;
+    justify-content: center;
+    align-items: center;
+  }
+}
+.customCalendar {
+  table {
+    tr {
+      border-bottom: 1px solid #e4e7ea;
+      &:last-child {
+        border-width:0px ;
+      }
+      .ngx-timepicker {
+        border:1px solid #e4e7ea;
+        border-radius: 0.25rem;
+        padding: 2px 10px 2px 0px;
+        .ngx-timepicker-control {
+          height: 25px;
+          .ngx-timepicker-control__arrow {
+            line-height: 13px;
+          }
+        }
+      }
+    }
+  }
+}
+.custom-switch-1 {
+  display: flex;
+}
+.custom-switch-1 label {
+  display: inline-block;
+    width: 53px;
+    padding: 10px;
+    border: solid 1px #ccc;
+    transition: all 0.3s;
+    padding: 5px 10px;
+    text-align: center;
+    color: #222;
+}
+label.br-0p {
+    border-right-color: transparent;
+}
+.custom-switch-1 input[type="radio"] {
+  display: none;
+}
+
+.custom-switch-1 input[type="radio"]:checked + label {
+  background:#053178;
+  color:#fff;
+}
+
+.clockIn {
+  background-color: #4dbd74;
+  border-color: #4dbd74;
+  padding: 10px 18px;
+  color: #f5f5f5;
+  border: 0;
+  border-radius: 25px;
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.clockOut {
+  background-color: #f86c6b;
+  border-color: #f86c6b;
+  padding: 10px 18px;
+  color: #f5f5f5;
+  border: 0;
+  border-radius: 25px;
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+
+

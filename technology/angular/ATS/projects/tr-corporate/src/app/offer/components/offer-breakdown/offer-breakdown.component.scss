@@ -1,0 +1,15 @@
+@import '.././../offer.styles.scss';
+
+.main-container {
+    padding-top: 20px;
+    padding-bottom: 12px;
+}
+
+.middle-container {
+    padding-left: 19px;
+    padding-right: 19px;
+}
+
+:host ::ng-deep .analytics-section {
+    display: none;
+}

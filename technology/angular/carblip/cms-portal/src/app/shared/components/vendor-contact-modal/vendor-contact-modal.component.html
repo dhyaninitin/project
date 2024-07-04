@@ -1,0 +1,46 @@
+<form [formGroup]="itemForm" (ngSubmit)="submit()" autocomplete="new-contactform">
+  <div class="flex items-center" mat-dialog-title>
+    <h2 class="headline m-0 flex-auto">{{data.title}}</h2>
+
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+      <mat-icon svgIcon="mat:close"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+  <mat-dialog-content class="flex flex-col">
+    <div class="flex flex-col sm:flex-row">
+      <mat-form-field class="mt-3 flex-auto">
+        <mat-label>Name</mat-label>
+        <input autocomplete="off" matInput autocomplete="new-name" name="new-name"
+        [formControl]="itemForm.controls['name']" placeholder="Name" appNoWhitespace>
+        <mat-icon class="mr-3" matPrefix svgIcon="mat:person"></mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="flex flex-col sm:flex-row">
+      <mat-form-field class="flex-auto">
+        <mat-label>Email</mat-label>
+        <input autocomplete="off" type="email" matInput autocomplete="new-email" name="new-email" 
+            [formControl]="itemForm.controls['email']" placeholder="Email">
+            <mat-icon class="mr-3" matPrefix svgIcon="mat:email"></mat-icon>
+        </mat-form-field>
+
+      <mat-form-field class="sm:ml-6 flex-auto">
+        <mat-label>Phone</mat-label>
+        <input matInput autocomplete="new-phone" name="new-phone" pattern="^\d{3}[- ]?\d{3}[- ]?\d{4}$"
+            [formControl]="itemForm.controls['phone']" placeholder="Phone" appPhoneNumber>
+            <mat-icon class="mr-3" matPrefix svgIcon="mat:phone"></mat-icon>
+            <span matPrefix class="prefix">+1</span>
+      </mat-form-field>
+    </div>
+
+    <mat-dialog-actions align="end">
+      <div>
+      <button mat-button mat-dialog-close type="button" (click)="dialogRef.close(false)">Cancel</button>
+      <app-button-loading loadingText="Processing..." [loading]="saving" [disabled]="itemForm.invalid || itemForm.pristine" color="primary">{{ saveButtonLabel | translate }}</app-button-loading>
+      <span fxFlex></span>
+      </div>
+    </mat-dialog-actions>
+  </mat-dialog-content>
+</form>

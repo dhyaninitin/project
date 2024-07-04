@@ -1,0 +1,216 @@
+<div class="container">
+  <div class="row mt-2">
+    <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11 col-11">
+      <mat-label>Select Template</mat-label>
+      <mat-form-field appearance="outline" class="mt-2">
+        <mat-label>Select Template</mat-label>
+        <mat-select 
+        (selectionChange)="verifyTemplate($event)"
+        (infiniteScroll)="getNextBatch()" 
+        [complete]="isComplete$ | async"
+        msInfiniteScroll
+        >
+          <mat-option [value]="item"
+          *ngFor="let item of options$ | async" >
+            {{ item.templatename }} &nbsp; ({{ item.templatetype }})
+          </mat-option>
+        </mat-select>
+        <mat-icon matPrefix>file_copy</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-1">
+      <mat-icon 
+      id="add-template" 
+      matTooltip="add template" 
+      routerLink="/dashboard/my-templates"
+      >add</mat-icon>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showVerifyTemplate" class="container">
+ <div class="components">
+    <mat-divider></mat-divider>
+    <h2 class="d-flex justify-content-center heading-text">Components</h2>
+    <mat-divider></mat-divider>
+
+    <div class="show-invoice-btn d-flex justify-content-end">
+      <button mat-stroked-button (click)="showInvoice()">
+        <mat-icon>description</mat-icon>Show Invoice
+      </button>
+    </div>
+
+    <div class="row mt-2" *ngIf="templateType == 'Based On Total Compensation'">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+        <mat-label>Enter Your CTC</mat-label>
+      </div>
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            type="number"
+            [(ngModel)]="this.totalValue"
+            (ngModelChange)="checkInput()"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <form [formGroup]="dividedSalaryForm" class="mt-4">
+      <div *ngFor="let value of componentData; let i = index">
+        <div class="row" *ngIf="!salarySlipBtns">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+            <mat-label>{{ value.componentname | uppercase }}</mat-label>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+            <mat-form-field appearance="outline">
+              <input
+                matInput
+                type="number"
+                placeholder="{{ value.componentname | uppercase }}"
+                (keyup)="calculateOfferTotal()"
+                (change)="calculateOfferTotal()"
+                [formControlName]="value.componentname"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+    
+        <div class="row" *ngIf="value.componenttype == 'Number'">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+            <mat-label>{{ value.componentname | uppercase }}</mat-label>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+            <mat-form-field appearance="outline">
+              <input
+                matInput
+                type="number"
+                placeholder="{{ value.componentname | uppercase }}"
+                [formControlName]="value.componentname"
+                (keyup)="calculateCustomValues($event,value.componentname);customValues($event,value.componentname)"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+    
+        <div class="row" *ngIf="value.componenttype == 'Custom Rule'">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+            <mat-label>{{ value.componentname | uppercase }}</mat-label>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+            <mat-form-field appearance="outline">
+              <input
+                matInput
+                type="number"
+                placeholder="{{ value.componentname | uppercase }}"
+                [formControlName]="value.componentname"
+                [readonly]="true"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+    
+        <div class="row" *ngIf="value.componenttype == 'Boolean'">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+            <mat-label>{{ value.componentname | uppercase }}</mat-label>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+            <mat-radio-group [formControlName]="value.componentname">
+              <mat-radio-button value="true"
+                ><span id="radio-btn-text">True</span></mat-radio-button
+              >
+              <mat-radio-button value="false"
+                ><span id="radio-btn-text">False</span></mat-radio-button
+              >
+            </mat-radio-group>
+          </div>
+        </div>
+    
+        <div class="row" *ngIf="value.componenttype == 'String'">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+            <mat-label>{{ value.componentname | uppercase }}</mat-label>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+            <mat-form-field appearance="outline">
+              <input
+                matInput
+                type="text"
+                placeholder="{{ value.componentname | uppercase }}"
+                [formControlName]="value.componentname"
+              />
+            </mat-form-field>
+          </div>
+        </div>    
+
+        <div class="row" *ngIf="value.componenttype == 'Datetime'">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+            <mat-label>{{ value.componentname | uppercase }}</mat-label>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+            <mat-form-field appearance="outline" class="example-form-field">
+              <mat-label>Choose a date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="datepicker"
+                [formControlName]="value.componentname"
+              />
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="datepicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #datepicker>
+                <mat-datepicker-actions>
+                  <button mat-button matDatepickerCancel>Cancel</button>
+                  <button mat-raised-button color="primary" matDatepickerApply>
+                    Apply
+                  </button>
+                </mat-datepicker-actions>
+              </mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="value.componenttype == 'HTML'">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+            <mat-label>{{ value.componentname | uppercase }}</mat-label>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+            <mat-form-field appearance="outline" class="example-full-width">
+              <textarea
+                matInput
+                placeholder="{{ value.componentname | uppercase }}"
+                [formControlName]="value.componentname"
+              ></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="value.componenttype == 'Buffer'">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+            <mat-label>{{ value.componentname | uppercase }}</mat-label>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+            <mat-form-field appearance="outline" class="example-full-width">
+              <textarea
+                matInput
+                placeholder="{{ value.componentname | uppercase }}"
+                [formControlName]="value.componentname"
+              ></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="row" *ngIf="!salarySlipBtns">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+      <mat-label>TOTAL</mat-label>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Total" value="{{ Total }}" />
+      </mat-form-field>
+    </div>
+  </div>
+</div>

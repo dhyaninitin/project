@@ -1,0 +1,141 @@
+@import "../../../../../../scss/menu";
+@import "../../../../../../scss/card";
+@import "../../../../../../scss/tabs";
+@import "../../../../../../scss/common";
+body {
+    margin: 0;
+    padding-bottom: 60px;
+    overflow-x: hidden;
+    color: #797979;
+    font-size: 15px;
+    background-color: #f1f1f1;
+    font-family: "Quattrocento Sans", sans-serif;
+}
+@media screen and (max-width: 600px) {
+    div.mobileAlignment {
+      text-align: left !important;
+    }
+    span.mobileAlignment {
+        text-align: left !important;
+        float: left !important;
+      }
+    .mv-tab-view{
+        width:72vw !important;
+    }  
+}
+// .nav-tabs .nav-item .nav-link{
+//   background-color: #cccccc;
+//   color: black;
+//   border-bottom: none;
+//   border-top-left-radius: 20px;
+//   border-top-right-radius: 20px;
+// }
+// .nav-tabs .nav-item .nav-link.active{
+//   background-color: #34B7E6;
+//   color: black;
+//   border-top-left-radius: 20px;
+//   border-top-right-radius: 20px;
+// }
+
+.btn-outline-primary {
+    color: #007bff;
+    border-color: #007bff;
+}
+.btn-size{
+    padding: .375rem .75rem;
+}
+.btn-option {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid #007bff;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.dropdown-toggle::after {
+    display: none;
+}
+hr{
+    height: 0.1px;
+    width: 100%;
+    background-color: #f8f8f8;
+    border: none;
+    margin-bottom: 0px;
+}
+.closedJob{
+    // background-color: aliceblue;
+}
+.expiredJob{
+    // background-color: #ffebeb;
+}
+.jobLabelOpen{
+    background-color:#FFFF00;
+    color:hsl(200, 100%, 1%);
+}
+.jobLabelFilled{
+    background-color:#40E0D0;
+    color:hsl(200, 100%, 1%)
+}
+.jobLabelExpired{
+    background-color:#000000;
+    color:hsl(198, 25%, 92%)
+}
+.jobLabelCancelled{
+    background-color:#FF6347;
+    color:hsl(200, 100%, 1%);
+}
+.jobLabelAap{
+    background-color:#FFA500;
+    color:hsl(200, 100%, 1%);
+}
+.jobLabelCompleted{
+    background-color:#008000;
+    color:hsl(198, 25%, 92%)
+}
+.jobLabelCompletedMarkedAsPaid{
+    background-color:#008000;
+    color:hsl(198, 25%, 92%)
+  }
+   
+.JobLabelInProgress{
+    background-color: #F5F5DC;
+    color:hsl(200, 100%, 1%);
+}
+.card-bg:hover{
+    background: #d9d9d95e;
+    transition: all 0.4s cubic-bezier(0.55, 0.06, 0.68, 0.19) 0s;
+}
+.filterBtn{
+    margin-top: 12px;
+}
+.jobLabelClosed{
+    background-color: #cececb;
+    color: #000305;
+}
+
+.oval-shape{
+    border-radius: 20px;
+}
+
+:host ::ng-deep dp-date-picker div .dp-input-container .dp-picker-input{
+    border-radius: 20px !important;
+}
+
+.mt-38{
+    margin-top: 38px;
+}
+
+.invite-list-image{
+    height: 36px;
+    width: 36px !important;
+}
+
+.card{
+    height: 84% !important;
+}

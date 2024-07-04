@@ -1,0 +1,168 @@
+<section class="container-fluid  px-0 credit-assessment-page">
+  <div class="cb-container container" *ngIf="(didFetch$ | async) && isReady">
+    <div class="row">
+      <div class="col-lg-8 col-md-8 col-sm-12 col-12 left-div pb-5">
+        <div class="brand-model-trim-view">
+          <div fxLayoutAlign="space-between center">
+            <div>
+              <p class="brand-model-p">
+                {{ selectedBrand?.name }} {{ selectedModel?.name }}
+              </p>
+              <p class="trim-p">{{ selectedTrim?.trim }}</p>
+            </div>
+            <div>
+              <span class="price-span">{{
+                getVehiclePrice(request?.buying_method) | currency: 'USD':'symbol':'1.0'
+              }}<span *ngIf="request?.buying_method != 1">/month</span></span>
+              <span *ngIf="request?.buying_method == 1" class="price-label-span">Starting MSRP</span>
+              <span *ngIf="request?.buying_method != 1" class="price-label-span">excludes taxes and fees*</span>
+            </div>
+          </div>
+        </div>
+        <div class="img-carousel-wrapper">
+          <div *ngIf="backgroundImages.length === 0" class="img-wrapper">
+            <div class="carousel-vehicle-img" src="{{selectedTrim?.image_url}}" appLazyloader draggable="false" [ngStyle]="{'background-image': 'url(' + selectedTrim?.image_url + ')'}"></div>
+          </div>
+          <div *ngIf="backgroundImages.length === 1" class="img-wrapper">
+            <div class="carousel-vehicle-img" src="{{backgroundImages[0]}}" appLazyloader draggable="false" [ngStyle]="{'background-image': 'url(' + backgroundImages[0] + ')'}"></div>
+          </div>
+          <ui-carousel #uiCarousel *ngIf="backgroundImages.length > 1" class="img-carousel" [autoPlay]="false" [arrows]="false" [infinite]="true" [fade]="false" [speed]="200" height="530px" width="100%">
+            <ui-carousel-item>
+              <div class="carousel-vehicle-img" src="{{backgroundImages[0]}}" appLazyloader draggable="false" [ngStyle]="{'background-image': 'url(' + backgroundImages[0] + ')'}"></div>
+            </ui-carousel-item>
+            <ui-carousel-item>
+              <div class="carousel-vehicle-img" src="{{backgroundImages[1]}}" appLazyloader draggable="false" [ngStyle]="{'background-image': 'url(' + backgroundImages[1] + ')'}"></div>
+            </ui-carousel-item>
+            <ui-carousel-item *ngIf="backgroundImages.length === 3">
+              <div class="carousel-vehicle-img" src="{{backgroundImages[2]}}" appLazyloader draggable="false" [ngStyle]="{'background-image': 'url(' + backgroundImages[2] + ')'}"></div>
+            </ui-carousel-item>
+            <div class="left-arrow" (click)="uiCarousel.prev()">
+              <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon>
+            </div>
+            <div class="right-arrow" (click)="uiCarousel.next()">
+              <fa-icon [icon]="['fas', 'chevron-right']"></fa-icon>
+            </div>
+          </ui-carousel>
+        </div>
+        <div class="option-details">
+          <div class="row">
+            <div
+              class="col-lg-6 col-md-6 col-sm-12 col-12 tech-spec-div detail-block"
+            >
+              <h2>Selected Colors</h2>
+              <div class="color-item disabled">
+                <span class="title">Exterior Color</span>
+                <div class="color-item__right">
+                  <label>
+                    <span
+                      class="background-color-span"
+                      appCircleColor
+                      [hexColor]="selectedExteriorColors?.color_hex_code"
+                    ></span>
+                  </label>
+                  <div class="color-item__detail">
+                    <span class="name">{{
+                      selectedExteriorColors?.color
+                    }}</span>
+                    <span class="price"
+                      >+
+                      {{
+                        selectedExteriorColors?.msrp
+                          | currency: 'USD':'symbol':'1.0'
+                      }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="color-item disabled">
+                <span class="title">Interior Color</span>
+                <div class="color-item__right">
+                  <div class="color-item__detail">
+                    <span class="name">{{
+                      selectedInteriorColors?.color
+                    }}</span>
+                    <span class="price"
+                      >+
+                      {{
+                        selectedInteriorColors?.msrp
+                          | currency: 'USD':'symbol':'1.0'
+                      }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-lg-6 col-md-6 col-sm-12 col-12 tech-spec-div detail-block"
+            >
+              <h2>Preferred Options</h2>
+              <div
+                class="option-item"
+                *ngFor="let item of selectedOptions; let i = index"
+              >
+                <span class="name">{{
+                  (item?.descriptions)[0].description
+                }}</span>
+                <span class="price"
+                  >+ {{ item?.msrp | currency: 'USD':'symbol':'1.0' }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12 col-12 right-div pb-5">
+        <div class="custom-request-credit-wrapper">
+          <div class="custom-request-credit-wrapper__header">
+            <h2>Credit Assessment</h2>
+            <span
+              >In order to expedite your request, it helps us to have an idea of
+              your credit score.</span
+            >
+          </div>
+          <div class="custom-request-credit-wrapper__content">
+            <div
+              class="credit-wrapper"
+              [ngClass]="{ selected: selectedId === item.id }"
+              *ngFor="let item of creditAssessmentList"
+              (click)="onSelectScore(item.id)"
+            >
+              <div class="credit-wrapper__top">
+                <span class="label">{{ item.label }}</span>
+                <span class="score">{{ item.score }}</span>
+              </div>
+              <div class="credit-wrapper__bottom">
+                <span class="detail">{{ item.description }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #requestConfirmationModal let-modal let-c="close" let-d="dismiss">
+  <div class="modal-content cb-model">
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <h4 class="modal-title promo-head-text">Your Request is On the Way</h4>
+    </div>
+
+    <!-- Modal body -->
+    <div class="modal-body">
+      <div class="text-center">
+        <span
+          >Please note that you are not purchasing a car. This is simply a
+          request to purchase and is non-binding.</span
+        >
+        <span class="check-img"></span>
+        <a
+          class="btn btn-secondary ml-auto mr-auto d-block next-btn"
+          (click)="confirmRequest()"
+          >OK</a
+        >
+      </div>
+    </div>
+  </div>
+</ng-template>

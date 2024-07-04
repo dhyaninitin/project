@@ -1,0 +1,251 @@
+@import "~@cloudtalentrecruit/ng-design/assets/styles/1-base/base-dir";
+
+@import "~@cloudtalentrecruit/ng-design/assets/styles/0-plugins/plugins-dir.scss";
+
+.box-container {
+  max-width: 370px;
+
+  .upper-sec {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    h4 {
+      font-weight: 600;
+      font-size: 0.875rem;
+      span {
+        font-size: 1.2rem;
+        vertical-align: text-top;
+      }
+    }
+    .icon-mc {
+      margin-right: 10px;
+      &:before {
+        color: $theme;
+      }
+    }
+    .upper-sec__left {
+      display: flex;
+      align-items: center;
+      mat-icon {
+        color: $theme;
+        margin-right: 10px;
+      }
+    }
+    .upper-sec__right {
+      .close_icon {
+        color: gray;
+      }
+    }
+  }
+  .about-user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #eaeaea;
+    @include media-breakpoint-down(md) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .about-user__left {
+      display: flex;
+      align-items: center;
+      img {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-right: 8px;
+      }
+      .about-user__name {
+        h4 {
+          font-size: 1rem;
+          font-weight: 500;
+          margin-bottom: 8px;
+        }
+        span {
+          font-size: 14px;
+          font-weight: 400;
+          color: #84818a;
+        }
+      }
+    }
+    .about-user__right {
+      button {
+        color: rgb(139, 196, 139);
+      }
+
+      .mat-icon {
+        margin-left: 5px;
+      }
+      .mat-form-field {
+        display: flex;
+        background-color: rgba(20, 177, 59, 0.1);
+        color: #00a46c;
+        font-size: 12px;
+        font-weight: 600 !important;
+        border-radius: 4px;
+        padding: 10px;
+        .mc-icon {
+          color: #504f54;
+          font-size: 15px;
+        }
+      }
+      ::ng-deep .mat-form-field-wrapper {
+        padding-bottom: 0;
+      }
+    }
+    ::ng-deep .mat-form-field-underline {
+      display: none;
+    }
+    //   ::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper {
+    //       margin: 1.5em 0 0 0;
+    //   }
+    //   ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+    //     padding:0 0.7em 0 0.7em;
+    // }
+  }
+  .mid-sec {
+    padding: 0;
+    height: calc(90vh - 10px);
+    .user-details {
+      @include media-breakpoint-down(md) {
+        padding-bottom: 8rem;
+      }
+    }
+    overflow: auto;
+    .personal__details__heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 15px 0 20px;
+      h3 {
+        font-size: 18px;
+        font-weight: 500;
+      }
+    }
+    .personal__details__content {
+      padding: 10px 0 0.8em;
+      // max-height: 250px;
+      // overflow-y: auto;
+      .icon {
+        margin: 0 12px 0 5px;
+        height: 40px;
+        .fa {
+          color: gray;
+          font-size: 12px;
+        }
+      }
+      .label {
+        color: gray;
+        font-size: 14px;
+        margin-bottom: 5px;
+        font-weight: 500;
+      }
+      .value {
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .user_detail_list {
+        .common-div {
+          display: flex;
+          margin: 15px 0;
+          &:first-child {
+            margin: 10px 0 15px 0;
+          }
+          div span {
+            display: inline-block;
+            margin: 10px 0;
+            font-weight: 500;
+          }
+        }
+        mat-label {
+          color: #84818a;
+          margin-bottom: 5px;
+          font-size: 14px;
+          font-weight: 500;
+        }
+      }
+    }
+    form {
+      margin-top: 1rem;
+      padding-bottom: 5rem;
+      @include media-breakpoint-down(md) {
+        padding-bottom: 12rem;
+      }
+    }
+    // this mat-icon styles for edit page part
+    mat-icon {
+      color: gray;
+      font-size: 18px;
+      // margin-right: 7px;
+    }
+    // this label styles for edit page part
+    mat-label {
+      color: gray;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+    .mat-form-field {
+      display: block;
+      width: auto;
+    }
+    // ::ng-deep .mat-form-field-flex {
+    //   width: 90% !important;
+    // }
+    ::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper {
+      margin-bottom: 0.4em !important;
+      .mat-form-field-subscript-wrapper {
+        margin-top: 0.3em;
+      }
+    }
+  }
+
+  .buttons {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fff;
+    padding: 0 0 10px;
+    display: flex;
+    grid-gap: 10px;
+    gap: 10px;
+    width: 100%;
+    padding: 16px;
+  }
+}
+
+.mat-form-field-flex {
+  display: inline-block;
+  width: 90%;
+  .mat-form-field {
+    margin-top: 10px;
+  }
+}
+.update-field-icon {
+  margin-right: 14px;
+  vertical-align: top;
+}
+
+.user_detail_list,
+.editUserForm {
+  .icon-mc,
+  .icon-mcf {
+    font-size: 18px;
+    margin-right: 7px;
+    &::before {
+      color: #b6b4ba;
+    }
+  }
+  ::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 0 !important;
+  }
+  ::ng-deep .mat-form-field-subscript-wrapper {
+    top: 3.2rem;
+  }
+  ::ng-deep .mat-form-field {
+    padding-bottom: 10px;
+  }
+}

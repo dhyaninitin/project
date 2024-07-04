@@ -1,0 +1,72 @@
+<table @stagger *ngIf="yearList" [dataSource]="yearList" multiTemplateDataRows matSort class="w-full" mat-table>
+    <ng-container matColumnDef="{{column.key}}" *ngFor="let column of columnHeaders">
+        <th *matHeaderCellDef mat-header-cell>{{column.label}}</th>
+        <td *matCellDef="let item" mat-cell>
+          <span *ngIf="column?.key == 'year'" class="gap-2 flex">
+            {{item[column.key]}}
+            <!-- <span class="new-addition" *ngIf="item?.is_new === 1">New</span> -->
+          </span>
+
+          <span *ngIf="column?.key == 'is_active'" class="gap-2 flex">
+            <mat-checkbox color="primary" *ngIf="column?.key == 'is_active'" [checked]="item?.is_active === 1" 
+            matTooltip = "Select Year"(click)="$event.stopPropagation()"
+            (change)="changeYearStatus($event.checked, item?.id)">
+            </mat-checkbox>
+          </span>
+
+          <span *ngIf="column?.key == 'is_scrapable'" class="gap-2 flex">
+            <mat-checkbox color="primary" *ngIf="column?.key == 'is_scrapable'" [checked]="item?.is_scrapable === 1" 
+            matTooltip = "Select Year"(click)="$event.stopPropagation()"
+            (change)="enableYearForScraper($event.checked, item?.id)"></mat-checkbox>
+          </span>
+
+          <span *ngIf="column?.key == 'is_default'" class="gap-2 flex">
+            <mat-slide-toggle color="primary" [checked]="item.is_default ? true : false" 
+            (change)="changeDefaultYear($event.checked, item?.id)" (click)="$event.stopPropagation()">
+            </mat-slide-toggle>
+          </span>
+          
+          <span *ngIf="column?.key != 'year' && column?.key != 'is_default' && column?.key != 'is_active'  && column?.key != 'is_scrapable'">
+            {{item[column.key] | date:'MM/dd/yyy h:mm a'}}
+          </span>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="expand">
+      <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+      <td mat-cell *matCellDef="let item">
+        <button mat-icon-button aria-label="expand row" (click)="(expandedElement = expandedElement === item ? null : item); $event.stopPropagation();getSelectedYear(item,expandedElement = expandedElement === item ? null : item)">
+          <mat-icon *ngIf="expandedElement !== item">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="expandedElement === item">keyboard_arrow_up</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+        <div class="example-element-detail"
+           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+          <div class="example-element-description">
+            <app-brand-table *ngIf="isBrandColumnAvailable && element.year == selectedYear" class="display-block w-100 list-table"
+            [brandColumnHeaders]="brandColumnHeaders" [selectedYear] = "selectedYear"></app-brand-table>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+    <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;"
+      class="example-element-row cursor-pointer" [class.example-expanded-row]="expandedElement === element"
+      (click)="getSelectedYear(element, expandedElement)">
+    </tr>
+    <tr mat-row *matRowDef="let element; columns: ['expandedDetail']" class="example-detail-row"></tr>
+</table>
+
+<div class="text-center mt-2" *ngIf="(yearDidFetch$ | async) &&  yearList.length === 0">There are no years available.</div> 
+
+
+
+
+
+
+

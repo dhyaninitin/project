@@ -1,0 +1,98 @@
+// you can add global styles to this file, and also import other style files
+// mainly, with the index barel you probably won't need to import anything
+
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+@import './styles/_index';
+
+@import '~ngx-toastr/toastr';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '~ngx-toastr/toastr-bs4-alert';
+
+body.enable-scroll {
+  overflow: auto !important;
+}
+
+.bs-datepicker-head,
+.bs-datepicker-body {
+  padding: 10px 0px !important;
+}
+
+.bs-datepicker-head button.next span,
+.bs-datepicker-head button.previous span {
+  color: #dedede !important;
+  background-color: #fff !important;
+}
+
+.bs-datepicker-head button.next {
+  margin-left: 5px;
+}
+
+.bs-datepicker-head button.previous {
+  margin-left: -5px;
+}
+
+.theme-orange .bs-datepicker-head {
+  background-color: #fff !important;
+}
+
+.bs-datepicker-head button.current {
+  font-weight: 600;
+}
+
+.bs-datepicker-head button.current span {
+  color: orange !important;
+  font-family: 'Nunito Sans', sans-serif !important;
+}
+
+.bs-datepicker-body table td.week {
+  display: none;
+}
+
+.bs-datepicker-body table th:nth-child(1) {
+  display: none;
+}
+
+.bs-datepicker-body table th {
+  border-bottom: 1px solid #dedede;
+  color: #fff;
+  padding-bottom: 9px;
+}
+
+.bs-datepicker-body table th:first-letter {
+  margin-left: 13px;
+  visibility: visible;
+  color: #9aaec1;
+}
+
+.bs-datepicker-body {
+  border: none !important;
+  border-top: 1px solid #dedede !important;
+}
+
+.bs-datepicker-container {
+  padding: 10px;
+  border-radius: 3px;
+}
+
+.bs-datepicker {
+  border-radius: 5px;
+}
+
+.bs-datepicker-body table td span {
+  border-radius: 10%;
+}
+
+.loading-spin {
+  display: block;
+  flex-direction: column;
+  text-align: center;
+  margin: auto;
+  height: 17px;
+}
+
+.image-lazy-loading {
+  display: none;
+}

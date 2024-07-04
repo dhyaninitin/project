@@ -1,0 +1,46 @@
+<table @stagger *ngIf="dealstages" [dataSource]="dealstages" matSortActive={{sortKey}} matSortDirection={{sortDirection}} matSortDisableClear matSort (matSortChange)="sortData($event)" class="w-full" mat-table>
+  <ng-container matColumnDef="label">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header>Name</th>
+    <td *matCellDef="let item" mat-cell>{{ item.label | titlecase }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="pipeline">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header>Pipeline Name</th>
+    <td *matCellDef="let item" mat-cell>{{ item.pipeline | titlecase }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+      <th *matHeaderCellDef mat-header-cell></th>
+      <td *matCellDef="let row; let i = index" class="w-10 text-secondary" mat-cell>
+        <button (click)="$event.stopPropagation();getSelectedRecord(row)"
+				[matMenuTriggerData]="{ customer: row }"
+				[matMenuTriggerFor]="actionsMenu"
+				mat-icon-button
+				type="button">
+				<mat-icon svgIcon="mat:more_horiz"></mat-icon>
+			</button>
+      </td>
+  </ng-container>
+    
+
+  <tr *matHeaderRowDef="getDisplayedColumns(); sticky: true" mat-header-row></tr>
+  <tr
+    *matRowDef="let row; columns: getDisplayedColumns();"
+      @fadeInUp
+      class="hover:bg-hover trans-ease-out cursor-pointer"
+      mat-row></tr>
+</table> 
+<div class="text-center mt-2" *ngIf="dealstages.length === 0">There are no deal stages available. Please enter in a deal stages to view them here</div>
+
+<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+  <ng-template let-customer="customer" matMenuContent>
+      <button mat-menu-item (click)="onEditItem(selectedRecordDetail)">
+        <mat-icon svgIcon="mat:edit"></mat-icon>
+      <span>Edit</span>
+      </button>
+      <button mat-menu-item *ngxPermissionsOnly="['superadmin']" (click)="onDelete(selectedRecordDetail?.id)">
+          <mat-icon svgIcon="mat:delete"></mat-icon>
+          <span>Delete</span>
+      </button>
+  </ng-template>
+  </mat-menu>

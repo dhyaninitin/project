@@ -1,0 +1,22 @@
+<mat-drawer-container autosize>
+  <mat-drawer #drawer [mode]="drawerMode" [position]="drawerPosition">
+    <app-settings-side-menu (navigateEvent)="drawer.close()"></app-settings-side-menu>
+  </mat-drawer>
+  <div class="sidenav-content">
+    <router-outlet></router-outlet>
+  </div>
+</mat-drawer-container>
+<button 
+  *ngIf="currentUrlPath !== routerConfig.SETTINGS_DASHBOARD" 
+  type="button" 
+  mat-icon-button
+  (click)="drawer.toggle()" 
+  class="togglebtn" 
+  [ngClass]="drawer.opened ? 'right' : 'left'" 
+  [class.hide-sidemenu-btn]="designService?.isDrawerOpen$ | async">
+  <span class="icon-mc" 
+        [class.mc-keyboard_arrow_right]="(!drawer.opened && !isMobile) || (drawer.opened && isMobile)"
+        [class.mc-keyboard_arrow_left]="(drawer.opened && !isMobile) || (!drawer.opened && isMobile)">
+  </span>
+</button>
+<!-- <div *ngIf="currentUrlPath === '/dashboard/settings'"> {{ drawer.close() }} </div> -->

@@ -1,0 +1,788 @@
+<div class="flex items-center" mat-dialog-title>
+  <h2 class="headline m-0 flex-auto">{{data.title}}</h2>
+  <button class="text-secondary" mat-dialog-close mat-icon-button type="button" (click)="close()">
+    <mat-icon svgIcon="mat:close"></mat-icon>
+  </button>
+</div>
+<mat-divider class="-mx-6 text-border"></mat-divider>
+<mat-dialog-content class="flex flex-col">
+  <form [formGroup]="itemForm" class="mt-3">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+      <div fxFlex="100" class="pr-1">
+        <mat-form-field class="w-full">
+          <mat-label>Action</mat-label>
+          <mat-select formControlName="actioname" (selectionChange)="onActionchange($event.value)">
+            <mat-option *ngFor="let action of actionList" [value]="action.id">
+              {{action.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <!-- Delay Section Start -->
+    <span *ngIf="actionValue == 1">
+      <div fxLayout="row wrap" fxLayout.lt-sm="column">
+        <div fxFlex="100" class="pr-1">
+          <mat-form-field class="w-full">
+            <mat-label>Delay Action</mat-label>
+            <mat-select formControlName="delayaction" (selectionChange)="onDelaychange($event.value)">
+              <mat-option *ngFor="let delay of delayList" [value]="delay.delay_id">
+                {{delay.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+  
+      <!-- Delay for a set amount of time section  -->
+      <span *ngIf="delayValue == '1' ">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column">
+          <div fxFlex="50" class="pr-1">
+            <mat-form-field class="w-full">
+              <mat-label>Days</mat-label>
+              <input matInput type="number" formControlName="days" placeholder="Days">
+            </mat-form-field>
+          </div>
+  
+          <div fxFlex="50" class="pr-1">
+            <mat-form-field class="w-full">
+              <mat-label>Hours</mat-label>
+              <input matInput type="number" formControlName="hours" placeholder="Hours">
+            </mat-form-field>
+          </div>
+  
+          <div fxFlex="50" class="pr-1">
+            <mat-form-field class="w-full">
+              <mat-label>Minutes</mat-label>
+              <input matInput type="number" formControlName="minutes" placeholder="Minutes">
+            </mat-form-field>
+          </div>
+  
+          <div fxFlex="50" class="pr-1">
+            <mat-form-field class="w-full">
+              <mat-label>Seconds</mat-label>
+              <input matInput type="number" formControlName="seconds" placeholder="Seconds">
+            </mat-form-field>
+          </div>
+        </div>
+      </span>
+      <!-- Delay until a day or time  -->
+      <span *ngIf="delayValue == '2' ">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column">
+          <div fxFlex="50" class="pr-1">
+            <mat-form-field class="w-full">
+              <mat-label>Date</mat-label>
+              <input matInput type="date" formControlName="date" placeholder="Date">
+            </mat-form-field>
+          </div>
+  
+          <div fxFlex="50" class="pr-1">
+            <mat-form-field class="w-full">
+              <mat-label>Time of day</mat-label>
+              <input matInput type="time" formControlName="timeofday" placeholder="Time of day">
+            </mat-form-field>
+          </div>
+  
+        </div>
+      </span>
+    </span>
+    <!-- Delay Section End -->
+  
+    <!-- Branch Section Start -->
+    <span *ngIf="actionValue == 2">
+      <div fxLayout="row wrap" fxLayout.lt-sm="column">
+  
+        <div fxFlex="190" class="pr-1">
+          <mat-form-field class="w-full">
+            <mat-label>Branch Name</mat-label>
+            <input matInput type="text" formControlName="branch_name" placeholder="Add Value">
+          </mat-form-field>
+        </div>
+  
+        <!-- <div fxFlex="50" class="pr-1">
+          <mat-form-field class="w-full">
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="type" (selectionChange)="onTypechange($event.value)">
+              <mat-option *ngFor="let type of typeList" [value]="type.type_id">
+                {{type.type}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div> -->
+  
+        <div fxFlex="50" class="pr-1" *ngIf="propertyList">
+          <mat-form-field class="w-full">
+            <mat-label>Property</mat-label>
+            <mat-select formControlName="property" (selectionChange)="onPropertychange($event.value)">
+              <mat-option>
+                <ngx-mat-select-search [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches' "
+                [formControl]="propertyFilterCtrl" [preventHomeEndKeyPropagation]="true">
+                <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                </ngx-mat-select-search>
+              </mat-option>
+  
+              <mat-option *ngFor="let property of filteredProperties" [value]="property.field_id">
+                {{property.fields}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+  
+      <!-- show property Conditons -->
+        <div fxFlex="50" class="pr-1" *ngIf="isConditionEnable">
+          <mat-form-field class="w-full">
+            <mat-label>Conditions</mat-label>
+            <mat-select formControlName="condition" (selectionChange)="onConditionchange($event.value)">
+              <mat-option *ngFor="let condition of conditionList" [value]="condition.id">
+                {{condition.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+  
+        <div fxFlex="50" class="pr-1" *ngIf="conditionVal == 1 || conditionVal == 2">
+          <ng-container *ngIf="autoComplete">
+            <mat-form-field class="w-full">
+              <mat-label>Add Value</mat-label>
+              <mat-chip-list #chipListconditionvalue class="phone-list cstm-chip-list" formControlName="condition_value">
+                <mat-chip *ngFor="let onboarding of conditionvaluenames" class="user-chip">
+                  {{ onboarding | translate }}
+                  <mat-icon (click)="removeChipOnboarding(onboarding)">cancel</mat-icon>
+                </mat-chip>
+    
+                <input [matChipInputFor]="chipListconditionvalue" placeholder="Add Value" matInput
+                  (keyup)="searchOnboardingFunction($event)" [matAutocomplete]="autoSuggestionOnboarding">
+              </mat-chip-list>
+    
+              <mat-autocomplete #autoSuggestionOnboarding="matAutocomplete">
+                <mat-option *ngFor="let option of autoCompleteValue" [value]="option.field_name"
+                  (click)="valueChangedFunction(option);">
+                  {{ option.field_name }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </ng-container>
+
+          <ng-container *ngIf="selectOptionValue">
+            <mat-form-field class="w-full">
+              <mat-label>Add Value</mat-label>
+              <mat-select formControlName="condition_value">
+                <mat-option>
+                  <ngx-mat-select-search [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches' "
+                  [formControl]="conditionSelectOptionFilterCtrl" [preventHomeEndKeyPropagation]="true">
+                  <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                  </ngx-mat-select-search>
+                </mat-option>
+      
+                <mat-option *ngFor="let values of filteredConditionSelectOption" [value]="values.id">
+                  {{values.value}}
+                </mat-option>
+              </mat-select>
+    
+            </mat-form-field>
+          </ng-container>
+
+          <ng-container *ngIf="textField">
+            <mat-form-field class="w-full">
+              <mat-label>Add Value</mat-label>
+              <input matInput type="text" formControlName="condition_value" placeholder="Add Value" multiple>
+            </mat-form-field>
+          </ng-container>
+
+          <ng-container *ngIf="dealstageValue || portalDealStageValue">
+            <mat-form-field class="w-full">
+              <mat-label>Add Value</mat-label>
+              <mat-select formControlName="condition_value">
+                <mat-option>
+                  <ngx-mat-select-search [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches' "
+                  [formControl]="dealStageFilterCtrl" [preventHomeEndKeyPropagation]="true">
+                  <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                  </ngx-mat-select-search>
+                </mat-option>
+                <span *ngIf="dealstageValue">
+                  <mat-option *ngFor="let values of filteredDealStageSelectOption" [value]="values.stage_id">
+                    {{values.label}} ({{values.pipeline_name}})
+                  </mat-option>
+                </span>
+                <span *ngIf="portalDealStageValue">
+                  <mat-option *ngFor="let values of filteredDealStageSelectOption" [value]="values.id">
+                    {{values.label}} ({{values.pipeline}})
+                  </mat-option>
+                </span>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+
+
+          <!-- <mat-form-field class="w-full">
+            <mat-label>Add Value</mat-label>
+            <input matInput type="text" formControlName="condition_value" placeholder="Add Value">
+          </mat-form-field> -->
+        </div>
+      </div>
+  
+    </span>
+    <!-- Branch Section End -->
+  
+    <!-- Email Section Start -->
+    <span *ngIf="actionValue == 3">
+      <div fxLayout="row wrap" fxLayout.lt-sm="column">
+        <div fxFlex="100" class="pr-1">
+          <mat-form-field class="w-full">
+            <mat-label>Choose Email</mat-label>
+            <mat-spinner *ngIf="loadingemail" class="input-mat-spinner"  color="primary" [diameter]="20"></mat-spinner>
+            <mat-select formControlName="emailtemp" (infiniteScroll)="getNextBatchOfMarketingEmailTemplates()" [threshold]="'0.5%'" [debounceTime]="150" [complete]="templatesListOffset === totalMarketingTemplatePages" msInfiniteScroll>
+              <mat-option>
+                <ngx-mat-select-search
+                  [placeholderLabel]="'Search...'"
+                  [noEntriesFoundLabel]="'No matches'"
+                  [formControl]="marketingTemplateFilterCtrl"
+                  [preventHomeEndKeyPropagation]="true">
+                <mat-icon ngxMatSelectSearchClear
+                >delete</mat-icon
+                >
+                </ngx-mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="let email of emailTemplateList" [value]="email.id">
+                {{email.name}}
+              </mat-option>
+              <mat-option *ngIf="loadingemail">
+                <mat-spinner class="input-mat-spinner-loader"
+                color="primary"
+                [diameter]="30"></mat-spinner>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </span>
+  
+  
+    <!-- Email Section Start -->
+    <span *ngIf="actionValue == 4">
+      <div fxLayout="row wrap" fxLayout.lt-sm="column">
+        <div fxFlex="100" class="pr-1">
+          <mat-form-field class="w-full">
+            <mat-label>Choose Sms Template</mat-label>
+            <mat-spinner *ngIf="isSmslistEnabled" class="input-mat-spinner" color="primary" [diameter]="20"></mat-spinner>
+            <mat-select formControlName="sms_template">
+              <mat-option *ngFor="let smslist of smsTemplates" [value]="smslist.id">
+                {{smslist.title}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row wrap" fxLayout.lt-sm="column">
+        <div fxFlex="100" class="pr-1">
+          <mat-form-field class="w-full">
+            <mat-label>Send From</mat-label>
+            <mat-select formControlName="send_from">
+              <mat-option *ngFor="let type of sentSmsFromList" [value]="type.id">
+                {{type.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </span>
+    <!-- Email Section End -->
+
+    <!-- Update Property Section Start -->
+  <span *ngIf="actionValue == 6">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+      <div fxFlex="100" class="pr-1">
+        <mat-form-field class="full-width w-full">
+          <mat-label>Property</mat-label>
+          <mat-select formControlName="property" (selectionChange)="onPropertychange($event.value)">
+            <mat-option>
+              <ngx-mat-select-search [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches' "
+                  [formControl]="propertyFilterCtrl" [preventHomeEndKeyPropagation]="true">
+                <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+              </ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let property of filteredProperties" [value]="property.field_id">
+              {{property.fields}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="100" class="pr-1" *ngIf="isConditionEnable">
+        <ng-container *ngIf="autoComplete">
+          <mat-form-field class="w-full">
+            <mat-label>Add Value</mat-label>
+            <mat-chip-list #chipListconditionvalue class="phone-list cstm-chip-list" formControlName="condition_value">
+              <mat-chip *ngFor="let onboarding of conditionvaluenames" class="user-chip">
+                {{ onboarding | translate }}
+                <mat-icon (click)="removeChipOnboarding(onboarding)">cancel</mat-icon>
+              </mat-chip>
+  
+              <input [matChipInputFor]="chipListconditionvalue" placeholder="Add Value" matInput
+                (keyup)="searchOnboardingFunction($event)" [matAutocomplete]="autoSuggestionOnboarding">
+            </mat-chip-list>
+  
+            <mat-autocomplete #autoSuggestionOnboarding="matAutocomplete">
+              <mat-option *ngFor="let option of autoCompleteValue" [value]="option.field_name"
+                (click)="valueChangedFunction(option);">
+                {{ option.field_name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </ng-container>
+
+        <ng-container *ngIf="selectOptionValue">
+          <mat-form-field class="w-full">
+            <mat-label>Add Value</mat-label>
+            <mat-select formControlName="condition_value">
+              <mat-option>
+                <ngx-mat-select-search [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches' "
+                [formControl]="conditionSelectOptionFilterCtrl" [preventHomeEndKeyPropagation]="true">
+                <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                </ngx-mat-select-search>
+              </mat-option>
+    
+              <mat-option *ngFor="let values of filteredConditionSelectOption" [value]="values.id">
+                {{values.value}}
+              </mat-option>
+            </mat-select>
+  
+          </mat-form-field>
+        </ng-container>
+
+        <ng-container *ngIf="textField">
+          <mat-form-field class="w-full">
+            <mat-label>Add Value</mat-label>
+            <input matInput type="text" formControlName="condition_value" placeholder="Add Value" multiple>
+          </mat-form-field>
+        </ng-container>
+
+        <ng-container *ngIf="dealstageValue || portalDealStageValue">
+          <mat-form-field class="w-full">
+            <mat-label>Add Value</mat-label>
+            <mat-select formControlName="condition_value">
+              <mat-option>
+                <ngx-mat-select-search [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches' "
+                [formControl]="dealStageFilterCtrl" [preventHomeEndKeyPropagation]="true">
+                <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                </ngx-mat-select-search>
+              </mat-option>
+              <span *ngIf="dealstageValue">
+                <mat-option *ngFor="let values of filteredDealStageSelectOption" [value]="values.stage_id">
+                  {{values.label}} ({{values.pipeline_name}})
+                </mat-option>
+              </span>
+
+              <span *ngIf="portalDealStageValue">
+                <mat-option *ngFor="let values of filteredDealStageSelectOption" [value]="values.id">
+                  {{values.label}} ({{values.pipeline}})
+                </mat-option>
+              </span>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+      </div>
+    </div>
+  </span>
+  <!-- Update Property Section Ends -->
+
+  <!-- Send Direct Email Section -->
+  <span *ngIf="actionValue == 7">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+      <div fxFlex="100" class="pr-1">
+        <mat-form-field class="w-full">
+          <mat-label>Choose Email</mat-label>
+          <mat-spinner *ngIf="loadingemail" class="input-mat-spinner"  color="primary" [diameter]="20"></mat-spinner>
+          <mat-select formControlName="directEmailTemp" (infiniteScroll)="getNextBatchOfTemplates()" [threshold]="'0.5%'" [debounceTime]="150" [complete]="templateOffset === totalTemplatesPages" msInfiniteScroll>
+            <mat-option>
+              <ngx-mat-select-search
+                [placeholderLabel]="'Search...'"
+                [noEntriesFoundLabel]="'No matches'"
+                [formControl]="templateFilterCtrl"
+                [preventHomeEndKeyPropagation]="true">
+              <mat-icon ngxMatSelectSearchClear
+              >delete</mat-icon
+              >
+              </ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let email of filteredTemplates" [value]="email.id">
+              {{email.title}}
+            </mat-option>
+            <mat-option *ngIf="loadingemail">
+              <mat-spinner class="input-mat-spinner-loader"
+              color="primary"
+              [diameter]="30"></mat-spinner>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </span>
+
+  <!-- Send Direct Email Section Ends-->
+
+  <!-- Create a deal Section -->
+  <span *ngIf="actionValue == 8">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+  
+      <!-- <div fxFlex="100" class="pr-1">
+        <mat-form-field class="w-full">
+          <mat-label>Deal Name</mat-label>
+          <mat-spinner *ngIf="loadingProperty" class="input-mat-spinner"  color="primary" [diameter]="20"></mat-spinner>
+          <mat-select multiple formControlName="dealName">
+            <mat-option>
+              <ngx-mat-select-search [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches' "
+                [formControl]="propertyFilterCtrl" [preventHomeEndKeyPropagation]="true">
+                <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+              </ngx-mat-select-search>
+            </mat-option>
+  
+            <mat-option *ngFor="let property of filteredProperties" [value]="property.field_id">
+              {{property.fields}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> -->
+  
+  
+      <div fxFlex="50" class="pr-1">
+        <mat-form-field class="w-full">
+          <mat-label>Assign deal to</mat-label>
+          <mat-select formControlName="assignTo" (selectionChange)="onAssigneechange($event.value)">
+            <mat-option *ngFor="let assign of assignList" [value]="assign.id">
+              {{assign.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+  
+      <div fxFlex="50" class="pr-1" *ngIf="assigneeType === 2">
+        <mat-form-field class="w-full">
+          <mat-label>Which user</mat-label>
+          <mat-select formControlName="specificUser">
+            <mat-option>
+              <ngx-mat-select-search [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches' "
+                [formControl]="portalUserFilterCtrl" [preventHomeEndKeyPropagation]="true">
+                <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+              </ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let item of filteredPortalUsers" [disabled]="item?.is_active == 0" [value]="item.email"
+              [ngClass]="{'bg-gray-200': item?.is_active == 0}">
+              {{ item?.full_name }} ({{ item?.email }})
+            </mat-option>
+          </mat-select>
+          <mat-icon class="mr-3" matPrefix svgIcon="mat:person_add"></mat-icon>
+        </mat-form-field>
+      </div>
+  
+      <div fxFlex="50" class="pr-1">
+        <mat-form-field class="w-full">
+          <mat-label>Year</mat-label>
+          <mat-select formControlName="year" #yearSelect (selectionChange)="onYearFilterChange($event.value, 'select')">
+            <mat-option>
+              <ngx-mat-select-search [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches' "
+                [formControl]="yearFilterCtrl" [preventHomeEndKeyPropagation]="true">
+                <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+              </ngx-mat-select-search>
+            </mat-option>
+					  <mat-option value="-1">N/A</mat-option>
+            <mat-option *ngFor="let item of filteredYears" [value]="item.id">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="50" class="pr-1">
+  
+        <mat-form-field class="w-full">
+          <mat-label>Make</mat-label>
+          <mat-spinner *ngIf="loadingMake" class="input-mat-spinner"  color="primary" [diameter]="20"></mat-spinner>
+          <mat-select formControlName="make" #makeSelect (selectionChange)="onMakeFilterChange($event.value)">
+            <mat-option>
+              <ngx-mat-select-search [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches' "
+                [formControl]="makeFilterCtrl" [preventHomeEndKeyPropagation]="true">
+                <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+              </ngx-mat-select-search>
+            </mat-option>
+					  <mat-option value="-1">N/A</mat-option>
+            <mat-option *ngFor="let item of filteredMakes" [value]="item.id">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="50" class="pr-1">
+        <mat-form-field class="w-full">
+          <mat-label>Model</mat-label>
+          <mat-spinner *ngIf="loadingModel" class="input-mat-spinner"  color="primary" [diameter]="20"></mat-spinner>
+          <mat-select formControlName="model" #modelSelect (selectionChange)="onModelFilterChange($event.value)">
+            <mat-option>
+              <ngx-mat-select-search [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches' "
+                [formControl]="modelFilterCtrl" [preventHomeEndKeyPropagation]="true">
+                <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+              </ngx-mat-select-search>
+            </mat-option>
+					  <mat-option value="-1">N/A</mat-option>
+            <mat-option *ngFor="let item of filteredModels" [value]="item.id">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="50" class="pr-1">
+  
+        <mat-form-field class="w-full">
+          <mat-label>Trim</mat-label>
+          <mat-spinner *ngIf="loadingTrim" class="input-mat-spinner"  color="primary" [diameter]="20"></mat-spinner>
+          <mat-select formControlName="trim" #trimSelect>
+            <mat-option>
+              <ngx-mat-select-search [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches' "
+                [formControl]="trimFilterCtrl" [preventHomeEndKeyPropagation]="true">
+                <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+              </ngx-mat-select-search>
+            </mat-option>
+					  <mat-option value="-1">N/A</mat-option>
+            <mat-option *ngFor="let item of filteredTrims" [value]="item.id">
+              {{item.trim}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+      </div>
+  
+      <div fxFlex="50" class="pr-1">
+        <mat-form-field class="w-full">
+          <mat-label>Hubspot Deal Stage</mat-label>
+          <mat-select formControlName="dealStage" #dealStageSelect>
+            <mat-option>
+              <ngx-mat-select-search [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches' "
+                [formControl]="dealStageFilterCtrl" [preventHomeEndKeyPropagation]="true">
+                <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+              </ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let item of filteredDealStages" [value]="item.stage_id">
+              {{item.label}} ({{ item?.pipeline_name }})
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+     
+      <div fxFlex="50" class="pr-1">
+        <mat-form-field class="w-full">
+          <mat-label>Portal Deal Stage</mat-label>
+          <mat-select formControlName="portalDealStage" placeholder="Portal Deal Stage" #singleSelect
+            (selectionChange)="onPortalDealStageFilterChange($event.value)" (infiniteScroll)="getNextBatchOfPortalDealStages()" [threshold]="'0.5%'"
+            [debounceTime]="150" [complete]="portalDealStagesOffset === totalPortalDealStagesPages" msInfiniteScroll>
+            <mat-option>
+              <ngx-mat-select-search *ngIf="true" [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches' "
+                [formControl]="portalDealStageFilterCtrl" [preventHomeEndKeyPropagation]="true">
+                <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+              </ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let item of filteredPortalDealStages" [value]="item.id">
+              {{ item?.label }} ({{ item?.pipeline }})
+            </mat-option>
+            <mat-option *ngIf="loadingPortalDealStages">
+              <mat-spinner class="input-mat-spinner-loader" color="primary" [diameter]="30"></mat-spinner>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  
+  </span>
+
+  <!-- Create a deal Section Ends -->
+
+  <!-- Send a Webhook action Start -->
+  <span *ngIf="actionValue == 9">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+      <div fxFlex="100" class="pr-1">
+        <mat-form-field class="w-full">
+          <mat-label>Method</mat-label>
+          <mat-select [formControl]="itemForm.controls['request_type']" required (selectionChange)="onChangeMethod($event.value)">
+            <mat-option *ngFor="let requestType of requestTypes" [value]="requestType.id">
+              {{requestType.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" class="pr-1">
+        <mat-form-field class="w-full">
+          <mat-label>Webhook Url</mat-label>
+          <span matPrefix>https://</span>
+          <input matInput type="text" required [formControl]="itemForm.controls['webhook_url']" placeholder="Enter a webhook url">
+        </mat-form-field>
+      </div>
+
+      <div class="pr-1 webhook-auth mb-5">
+        <button mat-button mat-raised-button type="button" color="primary" (click)="testWebhookUrl()">Test Webhook Url</button>
+        <div *ngIf="isWebhookSendForTest" class="webhook-status mt-1">Status: <span [ngClass]="isWebhookAuthorized == 1 ? 'auth' : 'unauth'">{{isWebhookAuthorized == 1 ? 'Authorized' : isWebhookAuthorized == 2 ? 'Unauthorized' : 'Server Error'}}</span></div>
+      </div>
+
+      <!-- Add property for Get method -->
+      <span *ngIf="itemForm.controls['request_type'].value == 'get'" class="d-grid">
+        <div *ngFor="let property of dynamicProperties.controls; let i = index" fxFlex="100" [formGroup]="property" class="property-row" fxLayout="row" fxLayoutGap="10px">
+          <mat-form-field fxFlex="50%" class="w-full input-width">
+            <mat-label>Key</mat-label>
+            <input matInput formControlName="key" type="text" required placeholder="Key">
+          </mat-form-field>
+      
+          <mat-form-field fxFlex="50%" class="w-full input-width">
+            <mat-label>Select a property</mat-label>
+            <mat-select formControlName="value" (selectionChange)="setProperty($event.value, i)" required>
+              <mat-option>
+                <ngx-mat-select-search [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches' "
+                [formControl]="propertyFilterCtrl" [preventHomeEndKeyPropagation]="true">
+                <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                </ngx-mat-select-search>
+              </mat-option>
+  
+              <mat-option *ngFor="let property of filteredProperties" [value]="property.field_id">
+                {{property.fields}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+      
+          <button mat-icon-button class="mt-2" (click)="removeDynamicProperty(i)" matTooltip="Remove Property" matTooltipPosition="after">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      
+        <div class="flex mb-4">
+          <button mat-button mat-raised-button  matTooltip="Add More Property" matTooltipPosition="after" type="button" color="primary" (click)="addDynamicProperty()">Add Property</button>
+        </div>
+      </span>
+      <!-- Add static property for Get method -->
+      <span *ngIf="itemForm.controls['request_type'].value == 'get'" class="d-grid">
+        <div *ngFor="let property of staticProperties.controls; let i = index" fxFlex="100" [formGroup]="property" class="property-row" fxLayout="row" fxLayoutGap="10px">
+          <mat-form-field fxFlex="50%" class="w-full input-width">
+            <mat-label>Key</mat-label>
+            <input matInput formControlName="key" type="text" required placeholder="Key">
+          </mat-form-field>
+      
+          <mat-form-field fxFlex="50%" class="w-full input-width">
+            <mat-label>Value</mat-label>
+            <input matInput formControlName="value" type="text" required placeholder="Value">
+          </mat-form-field>
+      
+          <button mat-icon-button class="mt-2" (click)="removeStaticProperty(i)" matTooltip="Remove Static Property" matTooltipPosition="after">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      
+        <div class="flex mb-4">
+          <button mat-button mat-raised-button  matTooltip="Add More Static Property" matTooltipPosition="after" type="button" color="primary" (click)="addStaticProperty()">Static Property</button>
+        </div>
+      </span>
+
+      <div fxFlex="100" class="pr-1">
+        <mat-form-field class="w-full">
+          <mat-label>Authentication Type</mat-label>
+          <mat-select [formControl]="itemForm.controls['authentication_type']" required>
+            <mat-option value="none">None</mat-option>
+            <mat-option value="api_key">API Key</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="50" class="pr-1" *ngIf="itemForm.controls['authentication_type'].value == 'api_key'">
+        <mat-form-field class="w-full">
+          <mat-label>API key name</mat-label>
+          <input matInput type="text" [formControl]="itemForm.controls['api_key']" required placeholder="Enter API key Name">
+        </mat-form-field>
+      </div>
+      <div fxFlex="50" class="pr-1" *ngIf="itemForm.controls['authentication_type'].value == 'api_key'">
+        <mat-form-field class="w-full">
+          <mat-label>API key value</mat-label>
+          <input matInput type="text" [formControl]="itemForm.controls['api_value']" required placeholder="Enter API key Value">
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" class="pr-1" *ngIf="itemForm.controls['authentication_type'].value == 'api_key'">
+        <mat-form-field class="w-full">
+          <mat-label>API key location</mat-label>
+          <mat-select [formControl]="itemForm.controls['api_key_location']">
+            <mat-option value="q_param">Query Parameter</mat-option>
+            <mat-option value="req_header">Request Header</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="100" class="pr-1" *ngIf="itemForm.controls['request_type'].value == 'post'">
+        <mat-form-field class="w-full">
+          <mat-label>Request Body</mat-label>
+            <mat-select [formControl]="itemForm.controls['request_body']">
+              <mat-option value="0">Include all contact properties</mat-option>
+              <mat-option value="1">Customize Request body</mat-option>
+            </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Add property for Get method -->
+      <span *ngIf="itemForm.controls['request_type'].value == 'post' && itemForm.controls['request_body'].value == '1'"  class="d-grid">
+        <div *ngFor="let property of dynamicProperties.controls; let i = index" fxFlex="100" [formGroup]="property" class="property-row" fxLayout="row" fxLayoutGap="10px">
+          <mat-form-field fxFlex="50%" class="w-full input-width">
+            <mat-label>Key</mat-label>
+            <input matInput formControlName="key" type="text" required placeholder="Key">
+          </mat-form-field>
+      
+          <mat-form-field fxFlex="50%" class="w-full input-width">
+            <mat-label>Select a property</mat-label>
+            <mat-select formControlName="value" (selectionChange)="setProperty($event.value, i)" required>
+              <mat-option>
+                <ngx-mat-select-search [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches' "
+                [formControl]="propertyFilterCtrl" [preventHomeEndKeyPropagation]="true">
+                <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                </ngx-mat-select-search>
+              </mat-option>
+  
+              <mat-option *ngFor="let property of filteredProperties" [value]="property.field_id">
+                {{property.fields}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+      
+          <button mat-icon-button class="mt-2" (click)="removeDynamicProperty(i)" matTooltip="Remove Property" matTooltipPosition="after">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      
+        <div class="flex mb-4">
+          <button mat-button mat-raised-button  matTooltip="Add More Property" matTooltipPosition="after" type="button" color="primary" (click)="addDynamicProperty()">Add Property</button>
+        </div>
+      </span>
+      <!-- Add static property for Get method -->
+      <span *ngIf="itemForm.controls['request_type'].value == 'post' && itemForm.controls['request_body'].value == '1'" class="d-grid">
+        <div *ngFor="let property of staticProperties.controls; let i = index" fxFlex="100" [formGroup]="property" class="property-row" fxLayout="row" fxLayoutGap="10px">
+          <mat-form-field fxFlex="50%" class="w-full input-width">
+            <mat-label>Key</mat-label>
+            <input matInput formControlName="key" type="text" required placeholder="Key">
+          </mat-form-field>
+      
+          <mat-form-field fxFlex="50%" class="w-full input-width">
+            <mat-label>Value</mat-label>
+            <input matInput formControlName="value" type="text" required placeholder="Value">
+          </mat-form-field>
+      
+          <button mat-icon-button class="mt-2" (click)="removeStaticProperty(i)" matTooltip="Remove Static Property" matTooltipPosition="after">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      
+        <div class="flex mb-4">
+          <button mat-button mat-raised-button  matTooltip="Add More Static Property" matTooltipPosition="after" type="button" color="primary" (click)="addStaticProperty()">Static Property</button>
+        </div>
+      </span>
+    </div>
+  </span>
+
+  <!-- Send a Webhook action End -->
+
+
+  </form>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close type="button" (click)="close()">Cancel</button>
+  <button mat-button mat-raised-button type="button" color="primary" (click)="actionSave()" [disabled]="checkMissingFields()">{{data.isEdit ? 'Update' : 'Save'}}</button>
+</mat-dialog-actions>
+</mat-dialog-content>

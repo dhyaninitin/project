@@ -1,0 +1,45 @@
+<div class="w-full h-full bg-pattern flex flex-col items-center justify-center">
+  <div @fadeInUp class="card overflow-hidden w-full max-w-xs">
+    <mat-progress-bar mode="determinate" class="session-progress"></mat-progress-bar>
+    <div class="p-6 pb-0 flex flex-col items-center justify-center">
+      <div class="fill-current text-center">
+        <img class="w-16" src="assets/images/logo.png">
+      </div>
+    </div>
+    <mat-card>
+      <mat-card-content>
+        <div fxFlex="column" fxFlexWrap="wrap">
+          <div class="text-center mt-4">
+            <h2 class="title m-0">John Doe</h2>
+            <h4 class="body-2 text-secondary m-0">Last seen 1 hour ago</h4>
+          </div>
+          <form #lockscreenForm="ngForm" (ngSubmit)="unlock()">
+            <div class="">
+              <div class="p-6 flex flex-col gap-4 flex-auto flex flex-col">
+                <div class="flex flex-col">
+              <mat-form-field class="flex-1">
+                <input 
+                  type="password"
+                  name="password"
+                  required
+                  matInput
+                  [(ngModel)]="lockscreenData.password"
+                  #password="ngModel"
+                  placeholder="Password">
+                  
+                <mat-error 
+                *ngIf="password.errors && (password.dirty || password.touched) && (password?.errors?.required)" 
+                class="form-error-msg"> Password is required </mat-error>
+              </mat-form-field>
+              <button mat-raised-button type="button" color="primary" [disabled]="lockscreenForm.invalid">Unlock</button>
+              <button mat-raised-button type="button" [routerLink]="'/sessions/signin'" color="primary" class="mt-4">It's not me!</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+

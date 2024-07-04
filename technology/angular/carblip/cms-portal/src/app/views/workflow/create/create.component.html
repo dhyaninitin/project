@@ -1,0 +1,62 @@
+<div class="automation-container">
+  <div class="px-gutter py-4">
+    <form [formGroup]="itemForm">
+
+      <div class="container">
+        <!-- <div style="position: absolute; top: 28%; bottom: 4%; left: 3%; right: 3%;">
+					<pan-zoom [config]="panZoomConfig">
+					  <div class="main-container">
+              <ng-template #container> 
+              </ng-template>
+					  </div>
+					</pan-zoom>
+				</div> -->
+
+
+        <div class="main-container" id="scrollingDiv" appDragScroll>
+          <div fxLayout="row wrap" fxLayout.lt-sm="column" class="input-class dynamic-margin">
+            <div fxFlex="80" class="title">
+              <mat-form-field class="full-width w-full">
+                <input matInput type="text" formControlName="name" placeholder="Workflow Title">
+              </mat-form-field>
+            </div>
+
+            <div fxFlex="20" class="workflow-btn">
+              <div class="w-button">
+                <button class="ml-4 flex-none" *ngIf="triggers.length == 0" (click)="trigger()" color="primary"
+                  mat-mini-fab matTooltip="Add" type="button">
+                  <mat-icon svgIcon="mat:add"></mat-icon>
+                </button>
+                <button class="ml-4 flex-none" (click)="workflow()" color="primary" mat-mini-fab matTooltip="Save"
+                  type="button">
+                  <mat-icon svgIcon="mat:save"></mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="zoom-in-zoom-out">
+            <button (click)="zoomIn()" class="ml-4 flex-none" color="primary" mat-mini-fab matTooltip="Zoom In"
+              type="button">
+              <mat-icon svgIcon="mat:add"></mat-icon>
+            </button>
+            <button (click)="zoomOut()" class="ml-4 flex-none" color="primary" mat-mini-fab matTooltip="Zoom Out"
+              type="button">
+              <mat-icon svgIcon="mat:remove"></mat-icon>
+            </button>
+            <button (click)="resetZoom()" class="ml-4 flex-none" color="primary" mat-mini-fab matTooltip="Reset Zoom"
+              type="button">
+              <mat-icon svgIcon="mat:refresh"></mat-icon>
+            </button>
+          </div>
+          <div class="example-boundary" cdkScrollable>
+            <div cdkDragBoundary=".example-boundary" cdkDrag class="cdkDrag relative">
+              <ng-template #container>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

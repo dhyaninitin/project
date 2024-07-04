@@ -1,0 +1,34 @@
+
+<!-- EMAIL ACTION SECTION -->
+
+  <mat-card>
+    <div fxLayout="row wrap" fxLayout.lt-sm="column" [ngClass]="workFlowService$?.workflowCloneStatus ? 'disabled-action' : ''">
+      <div fxFlex="100" class="pr-1 box-title">
+        <h4 class="title title-header">{{data.action.value}}
+          <span class="header-icons">
+            <app-clone-copy-action [actionDetails]="data"></app-clone-copy-action>
+            <mat-icon svgIcon="mat:delete" matTooltip="Delete Email Action" matTooltipPosition="after" class="icons" (click)="deleteaction(data)"></mat-icon>
+            <mat-icon svgIcon="mat:edit" matTooltip="Edit Email Action" matTooltipPosition="after" class="icons" (click)="editAction(data)"></mat-icon>
+          </span>
+        </h4>
+      </div>
+
+      <div fxFlex="100" class="box">
+        <div class="box-h">
+          <b>{{ data.email.value }}</b>
+        </div>
+      </div>
+      <div fxFlex="100" fxLayoutAlign="end">
+        <app-view-enrollments [actionId]="data?.id"></app-view-enrollments>
+      </div>
+    </div>
+  </mat-card>
+<div class="line-div here">
+  <button class="ml-4 flex-none" *ngIf="!workFlowService$.workflowCloneStatus" (click)="action(data)" color="primary" mat-mini-fab matTooltip="Add Action" type="button">
+    <mat-icon svgIcon="mat:add"></mat-icon>
+  </button>
+  <button class="ml-4 flex-none clone" *ngIf="workFlowService$.workflowCloneStatus" (click)="actionClone(data)" color="primary" mat-mini-fab matTooltip="Clone Action" type="button"
+  [ngClass]="data?.cloneActionButtonStatus === 1 ? '' : 'disable-clone-action'">
+    <mat-icon svgIcon="mat:add"></mat-icon>
+  </button>
+</div>

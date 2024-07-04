@@ -1,0 +1,83 @@
+<!-- <app-header [fixed]="true" -->
+<app-header [navbarBrandRouterLink]="['/home']" [fixed]="true"
+  [navbarBrandFull]="{src: 'assets/img/brand/Densub White.svg', width: 100, height: 50, alt: 'CoreUI Logo'}"
+  [sidebarToggler]="'lg'" [asideMenuToggler]="false" [mobileAsideMenuToggler]="false">
+  <!-- [navbarBrandMinimized]="{src: 'assets/img/brand/sygnet.svg', width: 30, height: 30, alt: 'CoreUI Logo'}" -->
+  <ul class="nav navbar-nav ml-auto">
+    <li class="nav-item dropdown notification" dropdown placement="bottom right">
+      <a class="nav-link text-white" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+        aria-expanded="false" dropdownToggle (click)="false">
+        <i class="fa fa-bell" aria-hidden="true"></i><span *ngIf="notificationCount">{{notificationCount}}</span>
+      </a>
+      <!-- <pre>{{ notificationCount }}-------{{notificationList | json}}</pre> -->
+      <div class="dropdown-menu dropdown-menu-right notification_inner" *dropdownMenu aria-labelledby="simple-dropdown">
+        <div class="m-0 fw-5 fs-16">
+                  {{(notificationList.length > 0)? 'Notifications': 'No Notifcation Available'}}
+          <!-- <span>4</span> --><button class="pull-right" (click)="clearNotifications()"><i class="fa fa-times-circle"></i></button>
+        </div>
+        <ul class="list-unstyled notification_content" *ngIf="notificationList.length > 0">
+          <ng-container  *ngFor="let notification of notificationList;let i=index;">
+            <li *ngIf="i<10"  (click)="updateNotificationStatus(notification)" >
+               <a [ngClass] = "{'text-muted' : (notification.status == notificationStatus.READ)}">
+                 <span  [innerHTML]="notification?.message"></span>
+               </a>
+             </li>
+          </ng-container>
+
+        </ul>
+        <div class="text-center" [routerLink]="['/notifications']" *ngIf="notificationList.length > 5">
+          <a [routerLink]="['/notifications']"><strong>See All Notifications</strong></a>
+        </div>
+      </div>
+    </li>
+    <li class="nav-item dropdown deshProfile" dropdown placement="bottom right">
+      <a class="nav-link text-white text-capitalize" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+        dropdownToggle (click)="false">
+        <img *ngIf="currentUser?.profilePhoto?.length" src="{{currentUser.profilePhoto[0]}}" class="img-avatar img-profile" alt="{{currentUser?.firstName +' '+ currentUser?.lastName}}" />
+        <img *ngIf="!currentUser?.profilePhoto?.length" src="../../../assets/img/brand/densub-logo-final.jpg" class="img-avatar" alt="{{currentUser?.firstName +' '+ currentUser?.lastName}}" />
+        {{currentUser?.firstName}} ({{currentUser?.userType}})
+        <i class="fa fa-angle-down"> </i> &nbsp;&nbsp;
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+        <a class="dropdown-item" href="#" [routerLink]="['/account-settings']"><i class="fa fa-gear"></i> Settings</a>
+        <a class="dropdown-item" href="#" (click)="logout()"><i class="fa fa-lock"></i> Logout</a>
+      </div>
+    </li>
+  </ul>
+</app-header>
+<div class="app-body" id="admin-container">
+  <app-sidebar [fixed]="true" [display]="'lg'">
+    <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="sidebarMinimized"></app-sidebar-nav>
+    <!-- <app-sidebar-minimizer></app-sidebar-minimizer> -->
+  </app-sidebar>
+  <!-- Main content -->
+
+  <main class="main " style="background: #fff;" [ngClass] = "{'license-expired-bar' : expiredLicense.length || showAlertMsg }">
+    <div class="top-bar" *ngIf="expiredLicense.length">
+      <div class="col-12 expired-bar p-0">
+        <div class="increase_div bg-red position-relative p-10">
+          <h5 class="m-0 text-center clr-white">{{ getExipredMessage() }}
+            <a class="clr-white" [routerLink]="['/staff/profile/2']"><u>Click here to update the expiration date</u></a></h5>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="top-bar" *ngIf="showAlertMsg">
+      <div class="col-12 expired-bar">
+        <div class="increase_div bg-red position-relative p-10">
+          <h5 class="m-0 text-center clr-white">{{ alertMessage }}</h5>
+        </div>
+      </div>
+    </div> -->
+    <div class="container-fluid">
+      <br>
+      <app-loading></app-loading>
+      <router-outlet></router-outlet>
+    </div><!-- /.container-fluid -->
+  </main>
+
+</div>
+<app-footer>
+  <span><a href="">DENSUB</a> &copy; {{ fullYear }}</span>
+  <!-- <span class="ml-auto">Powered by <a href="http://www.amwebtech.com/" target="_blank">AM Webtech</a></span> -->
+</app-footer>

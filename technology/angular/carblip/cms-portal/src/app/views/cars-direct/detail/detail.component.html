@@ -1,0 +1,299 @@
+<vex-page-layout *ngIf="isReady" >
+	<vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+		<div
+			class="w-full flex flex-col sm:flex-row justify-between">
+			<div>
+				<h1 class="title mt-0 mb-1">CarsDirect #{{requestId}} Detail</h1>
+				<vex-breadcrumbs [crumbs]="['CB2', 'Detail']"></vex-breadcrumbs>
+			</div>
+		</div>
+	</vex-page-layout-header>
+    <vex-page-layout-content class="-mt-6">
+		<div class="card overflow-auto -mt-16">
+			<div class="head bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
+				<h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l sm:block flex-none">
+					<span>Actions</span>
+				</h2>
+				<span class="flex-1"></span>
+
+                <button (click)="location.back()" class="ml-4 flex-none" color="primary" mat-mini-fab matTooltip="Back" type="button">
+                    <mat-icon svgIcon="mat:arrow_back"></mat-icon>
+				</button>
+			</div>
+        </div>
+        <div class="mt-6 flex flex-col md:flex-row md:items-start">
+            <div class="flex-auto">
+                <div class="card">
+                <div class="px-gutter py-4 border-b flex justify-content-space-between">
+                  <h2 class="title m-0">Customer</h2> 
+                </div>
+                <div class="px-gutter py-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.first_name }}</p>
+                            <p class="m-0 caption text-hint">First Name</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.middle_name }}</p>
+                            <p class="m-0 caption text-hint">Middle Name</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.last_name }}</p>
+                            <p class="m-0 caption text-hint">Last Name</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.email }}</p>
+                            <p class="m-0 caption text-hint">Email</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.email_preferred_contact }}</p>
+                            <p class="m-0 caption text-hint">Email Preferred Contact</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.phone | phone:'US' }}</p>
+                            <p class="m-0 caption text-hint">Phone</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.phone_preferred_contact }}</p>
+                            <p class="m-0 caption text-hint">Phone Preferred Contact</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.phone_preferred_time }}</p>
+                            <p class="m-0 caption text-hint">Phone Preferred Time</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.phone_preferred_type }}</p>
+                            <p class="m-0 caption text-hint">Phone Preferred Type</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.street }}</p>
+                            <p class="m-0 caption text-hint">Street</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.apartment }}</p>
+                            <p class="m-0 caption text-hint">Appartment</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.city }}</p>
+                            <p class="m-0 caption text-hint">City</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.regioncode }}</p>
+                            <p class="m-0 caption text-hint">Region Code</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.postalcode }}</p>
+                            <p class="m-0 caption text-hint">Postal Code</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.timeframe }}</p>
+                            <p class="m-0 caption text-hint">Timeframe</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.contact_owner_email }}</p>
+                            <p class="m-0 caption text-hint">Contact Owner</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-6">
+                <div class="px-gutter py-4 flex border-b justify-content-space-between">
+                    <h2 class="title m-0">Vendor</h2> 
+                </div>
+                <div class="px-gutter py-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.vendor }}</p>
+                            <p class="m-0 caption text-hint">Vendor</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-6">
+                <div class="px-gutter py-4 flex border-b justify-content-space-between">
+                    <h2 class="title m-0">Provider</h2> 
+                </div>
+                <div class="px-gutter py-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.provider_id }}</p>
+                            <p class="m-0 caption text-hint">Provider Id</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.provider_source }}</p>
+                            <p class="m-0 caption text-hint">Provider Source</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.provider_name }}</p>
+                            <p class="m-0 caption text-hint">Provider Name</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.provider_service }}</p>
+                            <p class="m-0 caption text-hint">Provider Service</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.provider_url }}</p>
+                            <p class="m-0 caption text-hint">Provider Url</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-6">
+                <div class="px-gutter py-4 flex justify-content-space-between">
+                    <h2 class="title m-0">Vehicle</h2> 
+                </div>
+                <div class="px-gutter py-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.request_date | date:'MM/dd/yyy h:mm a' }}</p>
+                            <p class="m-0 caption text-hint">Deal date</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.vehicle_interest }}</p>
+                            <p class="m-0 caption text-hint">Vehicle Interest</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.vehicle_status }}</p>
+                            <p class="m-0 caption text-hint">Vehicle Status</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.vehicle_id }}</p>
+                            <p class="m-0 caption text-hint">Vehicle Id</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.source }}</p>
+                            <p class="m-0 caption text-hint">Source</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.year }}</p>
+                            <p class="m-0 caption text-hint">Year</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.make }}</p>
+                            <p class="m-0 caption text-hint">Make</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.model }}</p>
+                            <p class="m-0 caption text-hint">Model</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.trim }}</p>
+                            <p class="m-0 caption text-hint">Trim</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.exterior_colors }}</p>
+                            <p class="m-0 caption text-hint">Exterior Color</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.interior_colors }}</p>
+                            <p class="m-0 caption text-hint">Interior Color</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.preference }}</p>
+                            <p class="m-0 caption text-hint">Preference</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.invoice }}</p>
+                            <p class="m-0 caption text-hint">Invoice</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.msrp }}</p>
+                            <p class="m-0 caption text-hint">Msrp</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.quote }}</p>
+                            <p class="m-0 caption text-hint">Quote</p>
+                        </div>
+                    </div>
+                    <div class="py-3 flex items-center">
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ carsData?.finance_method }}</p>
+                            <p class="m-0 caption text-hint">Finance Method</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="card mt-6" *ngIf="logs.length > 0">
+                <div class="px-gutter py-4 border-b flex justify-content-space-between">
+                    <h2 class="title m-0">History</h2> 
+                  </div>
+
+                  <div class="px-gutter py-4 border-b justify-content-space-between">
+                    <ul class="log-ul">
+                        <li *ngFor="let log of logs">
+                            <span [innerHTML]="log.content"></span>
+                            {{ log.created_at | date:'MM/dd/yyy h:mm a' }}
+                        </li>
+                    </ul>
+					</div>
+					</div> -->
+        </div>
+    </div>
+</vex-page-layout-content>
+</vex-page-layout>

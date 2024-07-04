@@ -1,0 +1,82 @@
+<div class="container main-container d-mobile-none">
+    <div class="row align-items-center">
+        <div class="col-md-9 col-9 col-sm-9 d-flex align-items-center">
+            <span class="rotate">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7V17C3 18.1 3.9 18.99 5 18.99L16 19C16.67 19 17.27 18.67 17.63 18.16L22 12L17.63 5.84Z"
+                        fill="#1F47F5" />
+                </svg>  
+                </span>&nbsp;&nbsp;&nbsp;&nbsp;     
+            <p class="f-14 fw-600">Offer Preview</p>
+        </div>
+        <div class="col-md-3 col-sm-3 col-3">
+            <span class="custom-cursor-pointer" (click)="closeDrawer()">
+            <svg width="20" class="pull-right" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.6668 4.27301L11.7268 3.33301L8.00016 7.05967L4.2735 3.33301L3.3335 4.27301L7.06016 7.99967L3.3335 11.7263L4.2735 12.6663L8.00016 8.93967L11.7268 12.6663L12.6668 11.7263L8.94016 7.99967L12.6668 4.27301Z" fill="#504F54"/>
+            </svg>
+            </span>
+        </div>
+    </div>
+</div>
+<hr class="d-mobile-none">
+
+<div class="middle-container">
+    <div class="row main-container">
+        <div class="col-md-8 col-8 col-sm-8 pl-m-0">
+            <p class="f-18 fw-500 d-mobile-none">Offer Letter Of John Doe</p> 
+            <span class="d-w-none"> <span class="d-flex align-items-center"> 
+                <span class="rotate-180 custom-cursor-pointer" (click)="closeDrawer()">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8.58984 16.59L13.1698 12L8.58984 7.41L9.99984 6L15.9998 12L9.99984 18L8.58984 16.59Z" fill="#84818A"/>
+                    </svg>
+                </span>
+                <span class="rotate">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7V17C3 18.1 3.9 18.99 5 18.99L16 19C16.67 19 17.27 18.67 17.63 18.16L22 12L17.63 5.84Z"
+                        fill="#1F47F5" />
+                </svg>  
+                </span>&nbsp;&nbsp;&nbsp;&nbsp;     
+            <p class="f-14 fw-600">Offer Preview</p></span></span>  
+        </div>
+        <div class="col-md-4 col-4 col-sm-4 text-right my-auto">
+            <div class="d-inline-flex white-space">
+                <span data-toggle="tooltip" title="Share" class="cursor--pointer" (click)="shareDocument()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M18 16.08C17.24 16.08 16.56 16.38 16.04 16.85L8.91 12.7C8.96 12.47 9 12.24 9 12C9 11.76 8.96 11.53 8.91 11.3L15.96 7.19C16.5 7.69 17.21 8 18 8C19.66 8 21 6.66 21 5C21 3.34 19.66 2 18 2C16.34 2 15 3.34 15 5C15 5.24 15.04 5.47 15.09 5.7L8.04 9.81C7.5 9.31 6.79 9 6 9C4.34 9 3 10.34 3 12C3 13.66 4.34 15 6 15C6.79 15 7.5 14.69 8.04 14.19L15.16 18.35C15.11 18.56 15.08 18.78 15.08 19C15.08 20.61 16.39 21.92 18 21.92C19.61 21.92 20.92 20.61 20.92 19C20.92 17.39 19.61 16.08 18 16.08Z"
+                            fill="#1F47F5" />
+                    </svg>
+                </span>
+                <span data-toggle="tooltip" title="Print" class="cursor--pointer" (click)="printDocument()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M19 8H5C3.34 8 2 9.34 2 11V17H6V21H18V17H22V11C22 9.34 20.66 8 19 8ZM16 19H8V14H16V19ZM19 12C18.45 12 18 11.55 18 11C18 10.45 18.45 10 19 10C19.55 10 20 10.45 20 11C20 11.55 19.55 12 19 12ZM18 3H6V7H18V3Z"
+                            fill="#B6B4BA" />
+                    </svg>
+                </span>
+                <span data-toggle="tooltip" title="Download Offer" class="cursor--pointer" (click)="downloadDocument()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 9H15V3H9V9H5L12 16L19 9ZM5 18V20H19V18H5Z" fill="#B6B4BA" />
+                    </svg>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row main-container d-w-none">
+        <div class="col-md-8 col-8 col-sm-8">
+            <p class="f-18 fw-500 d-mobile-none description">Offer Letter Of John Doe</p> 
+        </div>  
+    </div>
+</div>
+
+<div>
+<div class="last-sec">
+    <pdf-viewer [src]="offerService.offerUrl"
+    [render-text]="true"
+    [original-size]="false"
+    style="width: auto; height: 100vh"
+    ></pdf-viewer>
+  </div>
+</div>

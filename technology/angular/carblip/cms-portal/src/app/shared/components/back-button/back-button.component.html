@@ -1,0 +1,10 @@
+<button mat-button [color]="color" class="back-button {{btnClass}}" type="button" (click)="goBack()"
+[ngClass]="{
+    'mat-button': !raised,
+    'mat-raised-button': raised
+  }">
+    <span><mat-icon>arrow_back</mat-icon></span>
+    <span>
+        <ng-content></ng-content>
+    </span>
+</button>

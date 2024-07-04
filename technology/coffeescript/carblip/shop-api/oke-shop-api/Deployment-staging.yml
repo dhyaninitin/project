@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shop-api
+  namespace: shop
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: shop-api
+  template:
+    metadata:
+      labels:
+        app: shop-api
+    spec:
+      containers:
+      - name: carblip-shop-api
+        image: us-phoenix-1.ocir.io/axo7dvhusjw2/shop-api-${ENVIRONMENT}:${BUILDRUN_HASH}
+        imagePullPolicy: Always
+        envFrom:
+        - secretRef:
+            name: shop-api-secret
+        resources:
+          requests:
+            memory: "100M"
+            cpu: "100m"
+          limits:
+            memory: "1000M"
+            cpu: "1000m"
+      imagePullSecrets:
+        - name:  registry-secret-shop
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #       - matchExpressions:
+      #         - key: app
+      #           operator: In
+      #           values:
+      #           - shop

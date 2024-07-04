@@ -1,0 +1,113 @@
+.example-container {
+  width: 100%;
+  height: 100vh;
+
+  .example-sidenav {
+    width: 60%;
+    z-index: 99999;
+  }
+
+  .mat-mdc-form-field + .mat-mdc-form-field {
+    margin-left: 8px;
+  }
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+.content {
+  display: flex;
+  align-items: flex-start;
+}
+
+.calendar {
+  width: 30%;
+  margin-right: 1rem;
+}
+
+.expansion-panel {
+  width: 70%;
+}
+
+table {
+  width: 100%;
+  border-left: 1px solid rgba(128, 128, 128, 0.17) !important;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.example-element-description {
+  padding: 16px;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+
+.customScrollar {
+  height: 69.1vh;
+  overflow: auto;
+}
+
+.vex-page-layout-simple {
+  .vex-page-layout-content {
+    padding-bottom: 0px !important;
+    padding-top: 0px !important;
+  }
+}
+
+.user-data {
+  padding: 1px;
+  mat-card {
+    width: 100% !important;
+    gap: 2.5rem;
+  }
+}
+
+.user-data-container {
+  gap: 6px;
+  display: flex;
+  flex-direction: column;
+}
+
+.spinner {
+  margin-left: 20rem;
+  padding: 15px;
+}
+
+.customScrollarForLogs {
+  max-height: 60vh !important;
+  height: auto;
+  overflow: auto;
+}
+
+::ng-deep .custom-date-field .mat-form-field-wrapper {
+  padding-bottom: 0 !important;
+}

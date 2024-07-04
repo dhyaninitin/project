@@ -1,0 +1,332 @@
+<div class="box-container">
+  <div class="upper-sec">
+    <img src="assets/img/blue-edit.svg" alt="" />
+    <h4>Edit Template</h4>
+  </div>
+  <form [formGroup]="editOfferDetail" >
+  <div class="mid-sec">
+    <div class="user-details">
+      <div class="personal__details__content">
+        <div class="user_detail_list">
+          <div class="common-div">
+            <span class=""></span>
+
+            <div class="d-flex flex-column">
+              <mat-label>Template Name</mat-label>
+              <mat-form-field appearance="outline">
+                <input matInput placeholder="Template Name" formControlName="templatename" required/>
+                <mat-error *ngIf="templatename.touched && !templatename.valid">
+                  <span *ngIf="templatename.errors?.required">
+                    Template Name is required
+                  </span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="common-div">
+            <span class=""></span>
+            <div class="d-flex flex-column">
+              <mat-label>Template Description</mat-label>
+              <mat-form-field appearance="outline">
+                <input matInput placeholder="Template Description" formControlName="description" required/>
+                <mat-error *ngIf="description.touched && !description.valid">
+                  <span *ngIf="description.errors?.required">
+                  The field is required
+                </span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="common-div">
+            <span class=""></span>
+            <div class="d-flex flex-column">
+              <mat-label>Send Offer to</mat-label>
+              <mat-form-field appearance="outline">
+                <mat-select placeholder="Send Offer" formControlName="sendoffer" required>
+                  <mat-option value="Candidate">Candidate</mat-option>
+                  <mat-option value="Agency">Agency</mat-option>
+                </mat-select>
+                <mat-error *ngIf="sendoffer.touched && !sendoffer.valid">
+                  <span *ngIf="sendoffer.errors?.required">
+                  The field is required
+                </span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="common-div">
+            <span class=""></span>
+            <div class="d-flex flex-column">
+              <mat-label>Template Type</mat-label>
+              <mat-form-field appearance="outline">
+                <mat-select placeholder="Template Type" formControlName="templatetype" (selectionChange)="changeTemplateType($event)" required>
+                  <mat-option value="Based on Offer Component">Based on Offer Component</mat-option>
+                  <mat-option value="Based on the Total Compensation Value">Based on the Total Compensation Value</mat-option>                 
+                </mat-select>
+                <mat-error *ngIf="templatetype.touched && !templatetype.valid">
+                  <span *ngIf="templatetype.errors?.required">
+                  The field is required
+                </span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="common-div">
+            <span class=""></span>
+            <div class="d-flex flex-column">
+              <mat-label>Component Type</mat-label>
+              <mat-form-field appearance="outline">
+                <mat-select placeholder="Component Type" formControlName="componentType" required>
+                  <mat-option value="Yearly">Yearly</mat-option>
+                  <mat-option value="Monthly">Monthly</mat-option>
+                  <mat-option value="Weekly">Weekly</mat-option>
+                  <mat-option value="Daily">Daily</mat-option>
+                  <mat-option value="Hourly">Hourly</mat-option>
+                </mat-select>
+                <mat-error *ngIf="componentType.touched && !componentType.valid">
+                  <span *ngIf="componentType.errors?.required">
+                  The field is required
+                </span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="common-div">
+            <div class="d-flex flex-column">
+              <mat-label>Component</mat-label>
+              <!--Here Datatable will come-->
+              <div class="table-container" [formGroup]="editComponentDetail">
+                <table
+                  mat-table
+                  multiTemplateDataRows
+                  [dataSource]="components"
+                >
+                  <!-- Component Column -->
+                  <ng-container matColumnDef="Component">
+                    <th mat-header-cell *matHeaderCellDef>Component</th>
+                    <td mat-cell *matCellDef="let element">
+                      <mat-form-field
+                        appearance="outline"
+                        *ngIf="isEditView == element"
+                      >
+                        <input matInput placeholder="Template" formControlName="fieldname"/>
+                      </mat-form-field>
+                      <span class="title-new" *ngIf="isEditView !== element">
+                        <h4>{{ element.fieldname }}</h4>
+                      </span>
+                    </td>
+                  </ng-container>
+
+                  <!-- Type Of Component Column -->
+                  <ng-container matColumnDef="typeOfComponent">
+                    <th mat-header-cell *matHeaderCellDef>Type Of Component</th>
+                    <td mat-cell *matCellDef="let element">
+                      <mat-form-field
+                        appearance="outline"
+                        *ngIf="isEditView == element"
+                      >
+                        <mat-select placeholder="Component Type" formControlName="componenttype">
+                          <mat-option value="Positive">Positive</mat-option>
+                          <mat-option value="Negative">Negative</mat-option>
+                          <mat-option value="Informative">Informative</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <mat-form-field
+                        appearance="outline"
+                        *ngIf="isEditView == element && onTemplateType"
+                      >
+                        <mat-select placeholder="Select Component" formControlName="selectedcomponent" (selectionChange)="addSelectedComp($event)">
+                          <mat-option *ngFor="let comp of componentsToSelect;" [value]="comp.fieldname">{{comp.fieldname}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <span *ngIf="isEditView !== element">
+                        {{ element.componenttype }}
+                      </span>
+                      <mat-form-field
+                      appearance="outline"
+                      *ngIf="isEditView == element && onTemplateType"
+                    >
+                    <mat-select placeholder="Percentage" formControlName="mathfunction" (selectionChange)="addMathFunction($event)">
+                      <mat-option value="Min">Min</mat-option>
+                      <mat-option value="Max">Max</mat-option>
+                      <mat-option value="Round">Round</mat-option>
+                      <mat-option value="Pow">Pow</mat-option>
+                      <mat-option value="SQRT">SQRT</mat-option>
+                      <mat-option value="ABS">ABS</mat-option>
+                    </mat-select>
+                    </mat-form-field>
+                    <mat-form-field
+                      appearance="outline"
+                      *ngIf="isEditView == element && onTemplateType"
+                    >
+                    <mat-select placeholder="Equals" formControlName="operator" (selectionChange)="addOperator($event)">
+                      <mat-option value="Equals">Equals</mat-option>
+                      <mat-option value="Not Equal">Not Equal</mat-option>
+                      <mat-option value="Greater Than">Greater Than</mat-option>
+                      <mat-option value="Greater Than
+                      Equal">Greater Than
+                      Equal</mat-option>
+                      <mat-option value=" Less Than"> Less Than</mat-option>
+                      <mat-option value=" Less Than Equal"> Less Than Equal</mat-option>
+                      <mat-option value="AND">AND</mat-option>
+                      <mat-option value="OR">OR</mat-option>
+    
+                    </mat-select>
+                    </mat-form-field>
+                    </td>
+                  </ng-container>
+
+                  <!-- Hide If Zero Column -->
+                  <ng-container matColumnDef="hideIfZero">
+                    <th mat-header-cell *matHeaderCellDef>Hide If Zero</th>
+                    <td mat-cell *matCellDef="let element">
+                      <mat-slide-toggle *ngIf="isEditView !== element" [checked]="element.hideifzero == 1"></mat-slide-toggle>
+                      <mat-slide-toggle formControlName="hideifzero" *ngIf="isEditView == element" [checked]="element.hideifzero == 1" (change)="updateComponentStatus()"></mat-slide-toggle>
+                    </td>
+                  </ng-container>
+                  <!-- Rule Column -->
+                  <ng-container matColumnDef="Rule">
+                    <th mat-header-cell *matHeaderCellDef>Rule</th>
+
+                    <td mat-cell *matCellDef="let element">
+                      <span class="box-btn" *ngIf="element.rule && element.rule.length > 0">
+                        Rule Added
+                      </span>
+                      <span class="rules">
+                       
+                        <!-- <mat-form-field
+                        appearance="outline"
+                        *ngIf="isEditView == element && onTemplateType">
+                        <textarea
+                        matInput
+                        placeholder="rule" formControlName="rule"
+                      ></textarea>
+                      </mat-form-field> -->
+                      <div class="common-div"  *ngIf="isEditView == element && onTemplateType">
+                        <span class=""></span>
+                        <div class="d-flex flex-column">
+                          <button mat-icon-button class="full-screen-icon" title="Full-Screen" (click)="openEditorPopup()" matTooltipPosition="left">
+                            <img src="assets/img/fullscreenIcon.svg" alt="" />
+                          </button>
+                            <ngx-monaco-editor class="my-code-editor" formControlName="rule" [options]="editorOptions"></ngx-monaco-editor>
+                        </div>
+                      </div>
+                      </span>
+                    </td>
+                  </ng-container>
+                  <ng-template class="editor" #dialogRefs let-mydata>
+                    <div class="d-flex flex-column" *ngIf="codeResult !== ''">
+                      <p class="output-result">Your output is : {{codeResult}}</p>
+                    </div>
+                        <ngx-monaco-editor class="my-code-editor-full" formControlName="rule" [options]="editorOptions"></ngx-monaco-editor>
+                        <div class="d-flex flex-column">
+                          <button mat-flat-button color="primary" (click)="onCodeChanged()">Execute</button>
+                        </div>
+                  </ng-template>
+                  <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element;">
+                      <span class="action-btns">
+                        <img
+                          *ngIf="isEditView !== element"
+                          src="assets/img/trash.svg"
+                          alt=""
+                          (click)="onDeleteComponent(element.offercomponentid)"
+                        />
+                        <span class="cross">
+                          <img
+                            src="assets/img/cross.svg"
+                            (click)="onCancel()"
+                            *ngIf="isEditView == element"
+                            alt=""
+                          />
+                        </span>
+
+                        <img
+                          src="assets/img/edits.svg"
+                          (click)="onEditComponent(element)"
+                          *ngIf="isEditView !== element"
+                          alt=""
+                        />
+                        <span class="cross">
+                          <img
+                            *ngIf="isEditView == element"
+                            (click)="onCheck(element.offercomponentid)"
+                            src="assets/img/checks.svg"
+                            alt=""
+                          />
+                        </span>
+                      </span>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="textboxContainer">
+                    <td
+                      mat-cell
+                      *matCellDef="let element"
+                      [attr.colspan]="displayedColumns.length"
+                    >
+                      <div
+                        class="example-element-detail inner-table"
+                        *ngIf="!isEditEnable"
+                        [@detailExpand]="
+                          !isEditEnable ? 'expanded' : 'collapsed'
+                        "
+                      >
+                        <span class="textarea">
+                          <textarea
+                            matInput
+                            placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam diam erat et justo. A, eu, facilisis ornare fermentum, auctor. Est cras montes, ipsum, mi laoreet at quam egestas lacus. Magna volutpat ut ultricies ac pulvinar tempor."
+                          ></textarea>
+                        </span>
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr
+                    mat-row
+                    *matRowDef="let element; columns: displayedColumns"
+                    [class.example-detail-row]="isEditEnable"
+                    [class.example-expanded-row]="!isEditEnable"
+                    (click)="toggleRow(element)"
+                  ></tr>
+                  <tr
+                    mat-row
+                    [hidden]="isEditEnable"
+                    *matRowDef="let element; columns: ['textboxContainer']"
+                    class="example-detail-row"
+                  ></tr>
+                </table>
+                <p (click)="onEditAndAdd()">
+                  <span class="icon-mc mc-plus"></span> Add Component
+                </p>
+                
+                <div class="row file-drop" *ngIf="onTemplateType">
+                  <div class="col-md-12">
+                    <div class="center">
+                      <input type="file" id="upload" (change)="onFileChange($event)" hidden/>
+                      <label class="choose-file" for="upload">Choose file</label>
+                    </div>
+                  </div>
+                </div>
+                
+                <span class="buttons">
+                  <div class="box-button">
+                    <button mat-flat-button [disabled]="!editOfferDetail.dirty" (click)="update()" color="primary">Update</button>
+                  </div>
+                  <div class="box-button">
+                    <button mat-flat-button type="reset" (click)="clearComponents()">Cancel</button>
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+</div>

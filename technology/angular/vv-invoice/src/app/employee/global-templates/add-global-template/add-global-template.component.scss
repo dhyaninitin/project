@@ -1,0 +1,43 @@
+.container-fluid {
+  padding: 14px 14px;
+
+  form {
+    padding: 0px 6px;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  mat-card {
+    padding: 12px 6px;
+  }
+
+  #add-new-type {
+    font-size: 25px;
+    margin-left: 10px;
+    margin-top: 0.8rem;
+  }
+
+  #new-type-input-box {
+    width: 94% !important;
+    margin-left: 1rem !important;
+  }
+
+  .btns {
+    padding: 6px 9px;
+  }
+
+  @media screen and (max-width: 768px) {
+    #new-type-input-box {
+      width: 100% !important;
+      margin-left: 0rem !important;
+    }
+  }
+}
+
+.space-between {
+  display: flex !important;
+  flex-direction: row-reverse !important;
+  justify-content: space-between !important;
+}

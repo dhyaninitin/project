@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name:  shop-api
+  namespace: shop
+spec:
+  selector:
+    app:  shop-api
+  type:  ClusterIP
+  ports:
+  - name:  port
+    port:  80
+    targetPort:  3000

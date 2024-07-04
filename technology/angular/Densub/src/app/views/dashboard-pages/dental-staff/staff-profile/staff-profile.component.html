@@ -1,0 +1,3612 @@
+
+
+<div class="col-sm-12 col-md-12">
+  <div class="card-box">
+  <div class="gray-bg mb-20 verify-eligibility">
+    <div class="bg-white p-15">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="">
+            <div class="row pull-right">
+              <h4 class="page-title"></h4>
+              <label
+                class="m-0 clr-white p-1 ml-2 pull-right text-uppercase profile-label"
+                [ngClass]="{
+                  'bg-danger':
+                    staffProfileInfo.profileVerificationStatus ==
+                    profileStatus.REJECTED,
+                  'bg-green':
+                    staffProfileInfo.profileVerificationStatus ==
+                    profileStatus.VERIFIED,
+                  'bg-yellow':
+                    staffProfileInfo.profileVerificationStatus == profileStatus.PENDING ||
+                    staffProfileInfo.profileVerificationStatus == profileStatus.NEW
+                }"
+                *ngIf="staffProfileInfo.profileVerificationStatus"
+              >
+                <i
+                  class="fa fa-check-circle"
+                  *ngIf="
+                    staffProfileInfo.profileVerificationStatus == profileStatus.VERIFIED
+                  "
+                >
+                </i>
+                {{
+                  staffProfileInfo.profileVerificationStatus === profileStatus.NEW
+                    ? 'In Progress'
+                    : staffProfileInfo.profileVerificationStatus
+                }}
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 pt-3">
+        <div class="accordion" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header clr-dark-blue" id="headingOne">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Are you 18 years or older and able to verify your
+                eligibility to work in the United States ?
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <p>
+                  Select to confirm that you are 18 years and older and able to provide the required documentation(s) to establish both your identity and employment authorization to work in the United States.
+                </p>
+                <p>Please refer to the list of acceptable documents</p>
+                <img
+                  (click)="
+                    showFullImage(
+                      '../../../../assets/img/common/staffForm_18_yrs.png'
+                    )
+                  "
+                  src="../../../../assets/img/common/staffForm_18_yrs.png"
+                  alt=""
+                  width="50px"
+                  height="50px"
+                  title="List of acceptable required documents"
+                />
+                <figcaption>
+                  <a
+                    class="fileDiv"
+                    title="List of acceptable required documents"
+                    href="https://www.uscis.gov/sites/default/files/document/forms/i-9-paper-version.pdf"
+                    target="_blank"
+                  >
+                    Source: I-9 Form</a
+                  >
+                </figcaption>
+      
+                <div class="profileRadio">
+                  <div class="custom-control custom-switch-1">
+                    <span class="my-auto mr-2">{{staffProfileInfo.isOlder ? 'Yes' : 'No'}}</span>
+                    <ui-switch
+                      id="yes_18"
+                      name="available_18"
+                      [(ngModel)]="staffProfileInfo.isOlder"
+                      (change)="showOlderAlert()"
+                    ></ui-switch>
+                    
+                    <!-- <ui-switch
+                      id="no_18"
+                      name="available_18"
+                      [(ngModel)]="staffProfileInfo.isOlder"
+                      (change)="showOlderAlert()"
+                    >
+                    </ui-switch> -->
+                    
+                  </div>
+                  <!-- <ui-switch [(ngModel)]="staffProfileInfo.isOlder" (change)="showOlderAlert()"></ui-switch> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>    
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<form
+novalidate
+focusInvalidInput
+class="row"
+#f="ngForm"
+(ngSubmit)="
+  isConnectToStripe = false;
+  f.form.valid;
+"
+*ngIf="staffProfileInfo.isOlder">
+<ng-wizard [config]="config" (stepChanged)="stepChanged($event)">
+ 
+  <ng-wizard-step [title]="'Personal Details'" [description]="''">
+    <span>
+      <div class="row">
+        <div class="col-12 p-0">
+          <!-- staffProfileInfo.licensesDetails.length -->
+        
+            <div class="col-12 mb-3" hidden>
+              <div class="border-bottom">
+                <h2 class="text-primary bl-color d-inline-block profile-heading">
+                  Profile
+                </h2>
+                <label
+                  class="m-0 clr-white p-1 pull-right text-uppercase"
+                  [ngClass]="{
+                    'bg-danger':
+                      staffProfileInfo.profileVerificationStatus ==
+                      profileStatus.REJECTED,
+                    'bg-blue':
+                      staffProfileInfo.profileVerificationStatus ==
+                      profileStatus.VERIFIED,
+                    'bg-yellow':
+                      staffProfileInfo.profileVerificationStatus == 'pending' ||
+                      staffProfileInfo.profileVerificationStatus ==
+                        profileStatus.NEW
+                  }"
+                  *ngIf="staffProfileInfo.profileVerificationStatus"
+                >
+                  <i
+                    class="fa fa-check-circle"
+                    *ngIf="
+                      staffProfileInfo.profileVerificationStatus ==
+                      profileStatus.VERIFIED
+                    "
+                  >
+                  </i>
+                  {{
+                    staffProfileInfo.profileVerificationStatus ===
+                    profileStatus.NEW
+                      ? profileStatus.PENDING
+                      : staffProfileInfo.profileVerificationStatus
+                  }}
+                </label>
+              </div>
+            </div>
+
+            <!-- <div class="col-sm-4 mb-40">
+        <div class="gray-bg sie-userprofile h-100">
+          <div class="userprofile_inner pt-20 mb-pt-40 pr-20 pl-20 pb-40">
+             <div class="user-info text-center text-capitalize">
+              <div class="position-relative usr-avtar img-circle">
+                <button *ngIf="uploadData.profilePhoto.length" class="btn btn-danger pull-right removeProfile"
+                  (click)="removeGallery(uploadData.profilePhoto[0], 'profilePhoto')"><i class="fa fa-remove"></i>
+                </button>
+                <img *ngIf="uploadData.profilePhoto.length" src="{{uploadData.profilePhoto[0].file}}"
+                  class="img-fluid img-circle" alt="">
+                <img *ngIf="!uploadData.profilePhoto.length" src="  "
+                  class="img-fluid img-circle" alt="">
+              </div>
+              <p class="pt-2 text-primary"><strong>{{staffProfileInfo.firstName}} {{staffProfileInfo.lastName}}
+                  ({{staffProfileInfo.userType}})</strong>
+              </p>
+              <p>
+                <span *ngFor="let skill of staffProfileInfo?.skills">{{skill.skill}}, </span>
+                <b class="text-primary">
+                  - ({{ staffProfileInfo.positionType}})
+                </b>
+              </p>
+            </div>
+            <div class="user-form">
+              <div class="custom-file mt-3 mb-3">
+                <input placeholder="Please enter first Name" type="file" class="custom-file-input" id="profilePhoto"
+                  accept="image/*" (change)="selectFiles($event , 'profilePhoto')">
+                <label class="custom-file-label" for="profilePhoto">Upload Photo</label>
+              </div>
+
+              <div class="form-group">
+                <label for="bio">About Me </label>
+               <ckeditor [config]="ckeConfig" placeholder="Please enter about yourself" name="bio" [(ngModel)]="staffProfileInfo.bio" (change)="onEditorChange()" (blur)="onEditorChange()"></ckeditor>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div> -->
+
+       
+
+            <!-- *ngIf="staffProfileInfo?.isOlder" -->
+
+            <div class="" >
+              <div class="p-15 gray-bg mb-30" *ngIf="tabStep == 0">
+                <div class="bg-white p-15">
+                  <div class="border-bottom mb-30 pt-3">
+                    <h3 class="text-primary">Personal Details</h3>
+                  </div>  
+
+
+                  <div class="row p-0" *ngIf="tabStep == 0">
+                    
+                    <div class="col-sm-3 pt-3">
+                      <div class="bg-white p-15">
+                        <div class="border-bottom mb-30">
+                          <h3 class="clr-dark-blue bl-color">Profile Picture</h3>
+                        </div>
+                        <div class="gray-bg sie-userprofile pt-21 pb-21 mb-30">
+                          <div class="userprofile_inner mb-pt-40 row m-0">
+                            <div
+                              class="user-info text-center text-capitalize col-sm-12"
+                            >
+                              <div class="usr-avtar img-circle position-relative">
+                                <button
+                                  type="button"
+                                  *ngIf="uploadData.profilePhoto.length"
+                                  class="btn btn-danger pull-right removeProfile"
+                                  (click)="
+                                    removeGallery(
+                                      uploadData.profilePhoto[0],
+                                      'profilePhoto'
+                                    )
+                                  "
+                                >
+                                  <i class="fa fa-remove"></i>
+                                </button>
+                                <img
+                                  (click)="showFullImage(uploadData.profilePhoto[0])"
+                                  *ngIf="uploadData.profilePhoto.length"
+                                  src="{{ uploadData.profilePhoto[0].file }}"
+                                  class="img-fluid img-circle"
+                                  alt=""
+                                />
+                                <img
+                                  *ngIf="!uploadData.profilePhoto.length"
+                                  src="../../../../../assets/img/brand/densub-logo-final.jpg"
+                                  class="img-fluid img-circle"
+                                  alt=""
+                                />
+                              </div>
+                            </div>
+                            <div class="col-sm-12 text-center mt-20">
+                              <input
+                                hidden
+                                type="file"
+                                #profilePhoto
+                                class="form-control"
+                                name="profilePhoto"
+                                accept="image/*"
+                                (change)="selectFiles($event, 'profilePhoto')"
+                              />
+                              <button
+                                type="button"
+                                class="btn btn-outline-primary ml-auto mr-auto"
+                                (click)="profilePhoto.click()" data-toggle="tooltip"
+                                title="By adding a profile picture you can create a stronger first impression"
+                              >
+                                <i class="fa fa-plus" aria-hidden="true"></i> Upload
+                                Profile Photo
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="col-sm-9 pt-3">
+                      <div class="bg-white p-15">
+                        <div class="border-bottom mb-30">
+                          <h3 class="clr-blue">About Me
+                          <sup>
+                            <i
+                              class="fa fa-star star-icon"
+                              aria-hidden="true"
+                              [ngClass]="{
+                                'text-danger': !staffProfileInfo.bio,
+                                'clr-blue': staffProfileInfo.bio
+                              }"
+                            ></i>
+                          </sup>
+                        </h3>
+                        </div>
+      
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="form-group" >
+                              <textarea
+                                name="bio"
+                                [(ngModel)]="staffProfileInfo.bio"
+                                name="bio"
+                                class="form-control"
+                                id=""
+                                cols="30"
+                                rows="9"
+                                maxlength="1000"
+                                required
+                                #bio="ngModel"
+                                placeholder="In order to help practices to get to know you better, describe your interests, motivations and what drives you in your profession"
+                                oninput="this.value = this.value.replace(/^\s+/g,'')"
+                              >
+                              </textarea>
+                              <div
+                          class="form-control-feedback"
+                          *ngIf="f.submitted && bio.invalid"
+                        >
+                          <p *ngIf="bio.errors.required">
+                            About Me is required
+                          </p>
+                        </div>
+                              <!-- <ckeditor [config]="ckeConfig" placeholder="Please enter about yourself" name="bio" [(ngModel)]="staffProfileInfo.bio" (change)="onEditorChange()" (blur)="onEditorChange()"></ckeditor> -->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="row pt-3">
+                    <!-- <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="isOlder">Are you 18 years or older and able to verify your eligibility to work in the United States?
+                  </label>
+                  <div class="form-group d-flex m-0">
+                      <div class="custom-control custom-radio mr-10">
+                        <input name="isOlder" type="radio" [(ngModel)]="staffProfileInfo.isOlder"
+                          class="custom-control-input" id="older_true" [value]="true" (change)="showOlderAlert()">
+                        <label class="custom-control-label" for="older_true">Yes</label>
+                      </div>
+                      <div class="custom-control custom-radio">
+                        <input name="isOlder"  type="radio" [(ngModel)]="staffProfileInfo.isOlder"
+                          class="custom-control-input" id="older_false" [value]="false" (change)="showOlderAlert()" >
+                        <label class="custom-control-label" for="older_false">No</label>
+                      </div>
+                  </div>
+                </div>
+              </div> -->
+
+                    <div class="col-sm-4">
+                      <div
+                        class="form-group"
+                        [ngClass]="{
+                          'has-danger': f.submitted && firstName.invalid
+                        }"
+                      >
+                        <label for="firstName"
+                          >First Name
+                          <sup>
+                            <i
+                              class="fa fa-star star-icon"
+                              aria-hidden="true"
+                              [ngClass]="{
+                                'text-danger': !staffProfileInfo.firstName,
+                                'clr-blue': staffProfileInfo.firstName
+                              }"
+                            ></i>
+                          </sup>
+                        </label>
+                        <input
+                          name="firstName"
+                          [(ngModel)]="staffProfileInfo.firstName"
+                          characterOnly
+                          placeholder="Please enter first name"
+                          type="text"
+                          class="form-control"
+                          required
+                          oninput="this.value = this.value.replace(/^\s+/g,'')"
+                          #firstName="ngModel"
+                          maxlength="35"
+                        />
+                        <div
+                          class="form-control-feedback"
+                          *ngIf="f.submitted && firstName.invalid"
+                        >
+                          <p *ngIf="firstName.errors.required">
+                            First name is required
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label for="MName">Middle Name </label>
+                        <input
+                          name="middleName"
+                          [(ngModel)]="staffProfileInfo.middleName"
+                          characterOnly
+                          maxlength="35"
+                          placeholder="Please enter middle name"
+                          type="text"
+                          class="form-control"
+                          id="middleName"
+                          oninput="this.value = this.value.replace(/^\s+/g,'')"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                      <div
+                        class="form-group"
+                        [ngClass]="{
+                          'has-danger': f.submitted && lastName.invalid
+                        }"
+                      >
+                        <label for="LName"
+                          >Last Name
+                          <sup>
+                            <i
+                              class="fa fa-star star-icon"
+                              aria-hidden="true"
+                              [ngClass]="{
+                                'text-danger': !staffProfileInfo.lastName,
+                                'clr-blue': staffProfileInfo.lastName
+                              }"
+                            ></i>
+                          </sup>
+                        </label>
+                        <input
+                          name="lastName"
+                          [(ngModel)]="staffProfileInfo.lastName"
+                          characterOnly
+                          placeholder="Please enter last name"
+                          type="text"
+                          class="form-control"
+                          required
+                          #lastName="ngModel"
+                          oninput="this.value = this.value.replace(/^\s+/g,'')"
+                          maxlength="35"
+                        />
+
+                        <div
+                          class="form-control-feedback"
+                          *ngIf="f.submitted && lastName.invalid"
+                        >
+                          <p *ngIf="lastName.errors.required">
+                            Last name is required
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="email"
+                          >Email ID
+                          <!-- <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !staffProfileInfo.email,'clr-blue': staffProfileInfo.email}"></i>
+                    </sup> -->
+                        </label>
+                        <input
+                          name="email"
+                          [ngModel]="staffProfileInfo.email"
+                          placeholder="Please enter email ID"
+                          type="email"
+                          class="form-control"
+                          id="email"
+                          disabled
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div
+                        class="form-group"
+                        [ngClass]="{
+                          'has-danger': f.submitted && phone.invalid
+                        }"
+                      >
+                        <label for="ContactNumber"
+                          >Contact Number
+                          <sup>
+                            <i
+                              class="fa fa-star star-icon"
+                              aria-hidden="true"
+                              [ngClass]="{
+                                'text-danger': !staffProfileInfo.phone,
+                                'clr-blue': staffProfileInfo.phone
+                              }"
+                            ></i>
+                          </sup>
+                        </label>
+                        <input
+                          name="phone"
+                          numbersOnly
+                          required
+                          minlength="8"
+                          maxlength="10"
+                          [(ngModel)]="staffProfileInfo.phone"
+                          placeholder="Please enter contact number"
+                          type="text"
+                          class="form-control"
+                          required
+                          #phone="ngModel"
+                        />
+                      </div>
+                      <div
+                        class="form-control-feedback"
+                        *ngIf="f.submitted && phone.invalid"
+                      >
+                        <p *ngIf="phone.errors.required">
+                          Contact number is required
+                        </p>
+                        <p *ngIf="phone.errors.minlength">
+                          Contact number should be at least 8 characters long
+                        </p>
+                      </div>
+                    </div>
+
+                    <!-- <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="HomeAddress">Address
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !staffProfileInfo.address,'clr-blue': staffProfileInfo.address}"></i>
+                    </sup>
+                  </label>
+                  <input name="address" [(ngModel)]="staffProfileInfo.address" placeholder="Please enter Staff address"
+                    type="text" class="form-control" id="HomeAddress">
+                </div>
+              </div> -->
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="contactNumber"
+                          >Emergency contact name
+                        </label>
+                        <input
+                          name="emergencyContactName"
+                          [(ngModel)]="staffProfileInfo.emergencyContactName"
+                          characterOnly
+                          placeholder="Please enter emergency contact name"
+                          type="text"
+                          class="form-control"
+                          oninput="this.value = this.value.replace(/^\s+/g,'')"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="contactNumber"
+                          >Emergency contact number
+                        </label>
+                        <input
+                          name="emergencyContactNumber"
+                          [(ngModel)]="staffProfileInfo.emergencyContactNumber"
+                          placeholder="Please enter emergency contact number"
+                          type="text"
+                          class="form-control"
+                          numbersOnly
+                          minlength="8"
+                          maxlength="10"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div
+                        class="form-group"
+                        [ngClass]="{
+                          'has-danger': f.submitted && addressLine1.invalid
+                        }"
+                      >
+                        <label for="AddressLine_1"
+                          >Address Line 1
+                          <sup>
+                            <i
+                              class="fa fa-star star-icon"
+                              aria-hidden="true"
+                              [ngClass]="{
+                                'text-danger': !address?.addressLine_1,
+                                'clr-blue': address?.addressLine_1
+                              }"
+                            ></i>
+                          </sup>
+                        </label>
+                        <input
+                          name="addressLine_1"
+                          [(ngModel)]="address.addressLine_1"
+                          placeholder="Enter address line 1"
+                          type="text"
+                          class="form-control"
+                          required
+                          #addressLine1="ngModel"
+                          oninput="this.value = this.value.replace(/^\s+/g,'')"
+                        />
+
+                        <div
+                          class="form-control-feedback"
+                          *ngIf="f.submitted && addressLine1.invalid"
+                        >
+                          <p *ngIf="addressLine1.errors.required">
+                            Address line is required
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="AddressLine_2">Address Line 2 </label>
+                        <input
+                          name="addressLine_2"
+                          [(ngModel)]="address.addressLine_2"
+                          placeholder="Enter address line 2"
+                          type="text"
+                          class="form-control"
+                          oninput="this.value = this.value.replace(/^\s+/g,'')"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div
+                        class="form-group"
+                        [ngClass]="{
+                          'has-danger': f.submitted && state.invalid
+                        }"
+                      >
+                        <label for="State"
+                          >State
+                          <sup>
+                            <i
+                              class="fa fa-star star-icon"
+                              aria-hidden="true"
+                              [ngClass]="{
+                                'text-danger': !address?.state,
+                                'clr-blue': address?.state
+                              }"
+                            ></i>
+                          </sup>
+                        </label>
+                        <select
+                          name="state"
+                          [(ngModel)]="address.state"
+                          class="form-control"
+                          (ngModelChange)="getCityList()"
+                          [disabled]="!address.country"
+                          required
+                          #state="ngModel"
+                        >
+                          <option value="">Select State</option>
+                          <ng-container *ngFor="let value of stateList">
+                            <option
+                              class="text-capitalize"
+                              [value]="value._id"
+                              *ngIf="value.countryId === address.country"
+                            >
+                              {{ value.state }}
+                            </option>
+                          </ng-container>
+                        </select>
+                        <div
+                          class="form-control-feedback"
+                          *ngIf="f.submitted && state.invalid"
+                        >
+                          <p *ngIf="state.errors.required">State is required</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div
+                        class="form-group"
+                        [ngClass]="{
+                          'has-danger': f.submitted && city.invalid
+                        }"
+                      >
+                        <label for="City"
+                          >City
+                          <sup>
+                            <i
+                              class="fa fa-star star-icon"
+                              aria-hidden="true"
+                              [ngClass]="{
+                                'text-danger': !address?.city,
+                                'clr-blue': address?.city
+                              }"
+                            ></i>
+                          </sup>
+                        </label>
+                        <select
+                          name="city"
+                          [(ngModel)]="address.city"
+                          class="form-control text-capitalize"
+                          [disabled]="!address.state"
+                          (ngModelChange)="getZipcodeList()"
+                          required
+                          #city="ngModel"
+                        >
+                          <option value="">Select City</option>
+                          <ng-container *ngFor="let value of cityList">
+                            <option
+                              class="text-capitalize"
+                              [value]="value._id"
+                              *ngIf="value.stateId === address.state"
+                            >
+                              {{ value.city | slice:3:value.city.length}}
+                            </option>
+                          </ng-container>
+                        </select>
+                        <div
+                          class="form-control-feedback"
+                          *ngIf="f.submitted && city.invalid"
+                        >
+                          <p *ngIf="city.errors.required">City is required</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div
+                        class="form-group"
+                        [ngClass]="{
+                          'has-danger': f.submitted && zipcode.invalid
+                        }"
+                      >
+                        <label for="Zipcode"
+                          >Zipcode
+                          <sup>
+                            <i
+                              class="fa fa-star star-icon"
+                              aria-hidden="true"
+                              [ngClass]="{
+                                'text-danger': !address?.zipcode,
+                                'clr-blue': address?.zipcode
+                              }"
+                            ></i>
+                          </sup>
+                        </label>
+                        <select
+                          name="zipcode"
+                          [(ngModel)]="address.zipcode"
+                          class="form-control"
+                          [disabled]="!address.city"
+                          required
+                          #zipcode="ngModel"
+                        >
+                          <option value="">Select Zipcode</option>
+                          <ng-container *ngFor="let value of zipcodeList">
+                            <option
+                              class="text-capitalize"
+                              [value]="value._id"
+                              *ngIf="value.cityId === address.city"
+                            >
+                              {{ value.zipcode }}
+                            </option>
+                          </ng-container>
+                        </select>
+                        <div
+                          class="form-control-feedback"
+                          *ngIf="f.submitted && zipcode.invalid"
+                        >
+                          <p *ngIf="zipcode.errors.required">
+                            Zipcode is required
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div
+                        class="form-group"
+                        [ngClass]="{
+                          'has-danger': f.submitted && country.invalid
+                        }"
+                      >
+                        <label for="Country"
+                          >Country
+                          <sup>
+                            <i
+                              class="fa fa-star star-icon"
+                              aria-hidden="true"
+                              [ngClass]="{
+                                'text-danger': !address?.country,
+                                'clr-blue': address?.country
+                              }"
+                            ></i>
+                          </sup>
+                        </label>
+                        <select
+                          name="country"
+                          [(ngModel)]="address.country"
+                          class="form-control"
+                          (ngModelChange)="getStateList()"
+                          required
+                          #country="ngModel"
+                          disabled
+                        >
+                          <option value="">Select Country</option>
+                          <option
+                            class="text-capitalize"
+                            [value]="value._id"
+                            *ngFor="let value of countryList"
+                          >
+                            {{ value.country }}
+                          </option>
+                        </select>
+                        <div
+                          class="form-control-feedback"
+                          *ngIf="f.submitted && country.invalid"
+                        >
+                          <p *ngIf="country.errors.required">
+                            Country is required
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- <div class="bg-white p-15">
+            <div class="border-bottom mb-30">
+              <h3 class="clr-blue">Address</h3>
+            </div>
+            <div class="row mb-20">
+              <div class="col-12">
+                <div class="increase_div bg-blue position-relative p-10 mb-20">
+                  <h5 class="m-0 color-white">Address</h5>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+                <!-- <div class="bg-white p-15 mt-20">
+            <div class="border-bottom mb-30">
+              <h3 class="text-primary">Other Details</h3>
+            </div>
+            <div class="row mb-20" *ngFor="let license of staffProfileInfo.licensesDetails; let i = index;">
+              <div class="col-12">
+                <div class="increase_div bg-blue position-relative p-10 mb-20">
+                  <h5 class="m-0 color-white">Licenses</h5>
+                  <button class="btn" *ngIf="staffProfileInfo.licensesDetails.length > 1"
+                    (click)="removeMoreLicense(i, license)"><i class="fa fa-times"></i></button>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <h6>Upload all your Licenses and certifications</h6>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="Licenseupload">Dental License
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !license.licensePhoto,'clr-blue': license.licensePhoto}"></i>
+                    </sup>
+                  </label>
+                  <div class="custom-file">
+                    <ul class="list-unstyled imgPreview formImg" *ngIf="license.licensePhoto">
+                      <li>
+                        <span class="justify-content-end" (click)="removeLicense(license.licensePhoto, i)"><i
+                            class="fa fa-times clr-white" aria-hidden="true"></i></span>
+                        <img [src]="license.licensePhoto" width="40px" height="40px" [title]
+                          (click)="showFullImage(license ,'licensePhoto')" />
+                      </li>
+                    </ul>
+
+                    <input name="licensePhoto" *ngIf="!license.licensePhoto" type="file" class="custom-file-input"
+                      (change)="licenseUpload($event, i)" id="licensePhoto_{{i}}" accept="image/*">
+                    <label class="custom-file-label" for="licensePhoto" *ngIf="!license.licensePhoto">Upload Dental
+                      License</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group" [ngClass]="{ 'has-danger': f.submitted && state.invalid }">
+                  <label for="State">State
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                      [ngClass]="{'text-danger': !address?.state,'clr-blue': address?.state }"></i>
+                    </sup>
+                  </label>
+                  <select name="state_{{i}}" [(ngModel)]="address.state" class="form-control" (ngModelChange)="filterCity()" [disabled]="!address.country" required #state="ngModel">
+                    <option value="">Select State</option>
+                    <ng-container *ngFor="let value of stateList">
+                   <option class="text-capitalize" [value]="value._id" *ngIf="value.countryId === address.country">{{value.state}}
+                    </option>
+                  </ng-container>
+                  </select>
+                  <div class="form-control-feedback" *ngIf="f.submitted && state.invalid">
+                    <p *ngIf="state.errors.required">State is required</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="licenseNumber">Dental License Number
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !license.licenseNumber,'clr-blue': license.licenseNumber}"></i>
+                    </sup>
+                  </label>
+                  <input name="licenseNumber_{{i}}" [(ngModel)]="license.licenseNumber" specialNumOnly
+                    placeholder="Enter Dental License Number" type="text" class="form-control" id="licenseNumber">
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="ExpirationLicense">Expiration Date of Dental License
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !license.expirationDate,'clr-blue': license.expirationDate}"></i>
+                    </sup>
+                  </label>
+                  <dp-date-picker placeholder="Enter Expiration Date" name="expirationDate_{{i}}"
+                    [(ngModel)]="license.expirationDate" [config]="datePickerConfig2"></dp-date-picker>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="Stateapplicable">States for which the License is applicable
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !license.applicableState,'clr-blue': license.applicableState}"></i>
+                    </sup>
+                  </label>
+                  <input name="applicableState_{{i}}" [(ngModel)]="license.applicableState"
+                    placeholder="Enter Applicable State" type="text" class="form-control" id="Stateapplicable">
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-end mb-20">
+              <button class="btn btn-primary ml-auto" (click)="addMoreLicense()">Add More</button>
+            </div>
+          </div> -->
+              </div>
+
+              <!-- <div class="p-15 gray-bg mb-30" *ngIf="tabStep == 1">
+          <div class="bg-white p-15">
+            <div class="border-bottom mb-30">
+              <h3 class="">Add Availability</h3>
+            </div>
+            <div class="row">
+              <div class='col-sm-5'>
+
+                <div class="custom-month-btn mb-20">
+
+                  <div class="btn-group w-100 align-items-center justify-content-center">
+                    <div class="btn btn-left" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+                      (viewDateChange)="closeOpenMonthViewDay()">
+                      <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="m-0">{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+                    <div class="btn btn-right" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+                      (viewDateChange)="closeOpenMonthViewDay()">
+                      <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                    </div>
+                  </div>
+                </div>
+
+                <div [ngSwitch]="view" class="custom-calendar">
+                  <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
+                    [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)">
+                  </mwl-calendar-month-view>
+                </div>
+                <div class="mt-30">
+                  <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" id="GeneralCalendar" name="calendarType"
+                      value="generalCalendar" [(ngModel)]="staffProfileInfo.calendarType">
+                    <label class="custom-control-label" for="GeneralCalendar">General Calendar</label>
+                  </div>
+                  <div class="custom-control custom-radio mt-10">
+                    <input type="radio" class="custom-control-input" id="CustomCalendar" name="calendarType"
+                      value="customCalendar" [(ngModel)]="staffProfileInfo.calendarType">
+                    <label class="custom-control-label" for="CustomCalendar">Custom Calendar</label>
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-sm-7" *ngIf="staffProfileInfo.calendarType == 'customCalendar'">
+                <div class="customCalendar">
+                  <div class="mb-30">
+                    <h4 class="">Add Custom Availability</h4>
+                  </div>
+                  <div class="table-responsive pl-0">
+                    <table>
+                      <thead>
+                        <th class="p-10">
+                          <h5>Date</h5>
+                        </th>
+                        <th class="p-10">
+                          <h5>Start Time</h5>
+                        </th>
+                        <th class="p-10">
+                          <h5>End Time</h5>
+                        </th>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let event of events; let i = index;">
+                          <td class="p-10">{{event.start | date:'mediumDate'}}</td>
+                          <td class="p-10">
+                            <div class="form-group mb-0" (click)="changeTime(events)">
+                              <ngx-timepicker-field [controlOnly]="true" [format]="24" name="{{i}}_startTime"
+                                [(ngModel)]="event.startTime"></ngx-timepicker-field>
+
+                            </div>
+                          </td>
+                          <td class="p-10">
+                            <div class="form-group mb-0" (click)="changeTime(events)">
+                              <ngx-timepicker-field [controlOnly]="true" [format]="24" name="{{i}}_endTime"
+                                [(ngModel)]="event.endTime"></ngx-timepicker-field>
+
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div> -->
+
+            
+              <!-- <h5 *ngIf="tabStep == 2">Adding a stripe account will allow you to receive electronic payments.</h5> -->
+            </div>
+         
+        </div>
+      </div>
+    </span>
+  </ng-wizard-step>
+
+  <ng-wizard-step [title]="'Professional Details'" [description]="''">
+    <span>
+      <!-- <div class="bg-white p-15 mt-20" *ngIf="isDentalAssistant">
+        <div class="col-sm-12 verify-eligibility">
+          <div class="row card-box">
+            <div class="col-sm-10">
+              <h3 class="clr-dark-blue mt-1">
+                Do you hold a state issued dental license ?
+              </h3>
+            </div>
+            <div class="col-sm-2">
+              <div class="custom-control pull-right custom-switch-1">
+                <ui-switch
+                  name="availableLicense"
+                  id="availableLicense_yes"
+                  [(ngModel)]="staffProfileInfo.showLicense"
+                  (change)="filteredSpecialty(true)" -->
+                
+                <!-- <label class="br-0p" for="availableLicense_yes">Yes</label>
+
+                <input
+                  type="radio"
+                  name="availableLicense"
+                  id="availableLicense_no"
+                  [(ngModel)]="staffProfileInfo.showLicense"
+                  [value]="false"
+                  (change)="filteredSpecialty(true)"
+                />
+                <label for="availableLicense_no">No </label>
+              </div> -->
+              <!-- <input type="radio" name="availableLicense" id="availableLicense_yes" [(ngModel)]="showLicense" [value]="true" >
+              <label class="br-0p" for="availableLicense_yes">Yes</label>
+
+              <input type="radio" name="availableLicense" id="availableLicense_no" [(ngModel)]="showLicense" [value]="false"> -->
+            <!-- </div>
+
+          </div>
+        </div>
+      </div> -->
+    <div class="row">
+      <div class=" col-md-12 bg-white p-15 mt-20">
+        <div class="border-bottom mb-30">
+          <h3 class="text-primary">Professional Details</h3>
+        </div>
+        
+        
+        <div class="row mt-15">
+          <div class="col-md-12">
+            <div class="bg-white p-15 mt-20" *ngIf="isDentalAssistant">
+              <div class="col-sm-12 verify-eligibility my-4 p-0">
+                <div class="row">
+                  <div class="col-sm-10">
+                    <h3 class="clr-dark-blue mt-1">
+                      Do you hold a state issued dental license ?
+                    </h3>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="custom-control custom-switch-1">
+                      
+                      <input
+                        type="radio"
+                        name="availableLicense"
+                        id="availableLicense_yes"
+                        [(ngModel)]="staffProfileInfo.showLicense"
+                        [value]="true"
+                        (change)="filteredSpecialty(true)"
+                      />
+                     <label class="br-0p" for="availableLicense_yes">Yes</label>
+      
+                      <input
+                        type="radio"
+                        name="availableLicense"
+                        id="availableLicense_no"
+                        [(ngModel)]="staffProfileInfo.showLicense"
+                        [value]="false"
+                        (change)="filteredSpecialty(true)"
+                      />
+                      <label for="availableLicense_no">No </label> 
+                    </div>
+                    <!-- <input type="radio" name="availableLicense" id="availableLicense_yes" [(ngModel)]="showLicense" [value]="true" >
+                    <label class="br-0p" for="availableLicense_yes">Yes</label>
+      
+                    <input type="radio" name="availableLicense" id="availableLicense_no" [(ngModel)]="showLicense" [value]="false"> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="PositionType">Position Type </label>
+              <select
+                class="form-control text-capitalize"
+                name="positionType"
+                [(ngModel)]="staffProfileInfo.positionType"
+                (ngModelChange)="getSpecialtyList();refreshDataList()"
+                [disabled]="staffProfileInfo.profileVerificationStatus === profileStatus.VERIFIED || staffProfileInfo.profileVerificationStatus === profileStatus.PENDING"
+              >
+                <!-- <option value="">Select Position Type</option> -->
+                <option
+                  [value]="positionType._id"
+                  *ngFor="let positionType of positionTypeList"
+                >
+                  {{ positionType.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <div
+              class="form-group"
+              [ngClass]="{ 'has-danger': f.submitted && specialty?.invalid }"
+            >
+              <label for="specialty"
+                >Specialties
+                <sup>
+                  <i
+                    class="fa fa-star star-icon"
+                    aria-hidden="true"
+                    [ngClass]="{
+                      'text-danger': !selectedSpecialty?.length,
+                      'clr-blue': selectedSpecialty?.length
+                    }"
+                  ></i>
+                </sup>
+              </label>
+
+              <ng-multiselect-dropdown
+                #specialty="ngModel"
+                [data]="filteredSpecialtyList"
+                name="specialty"
+                [placeholder]="'Select Specialty'"
+                [(ngModel)]="selectedSpecialty"
+                required
+                [settings]="{
+                  singleSelection: false,
+                  idField: '_id',
+                  textField: 'specialty',
+                  selectAllText: 'Select All',
+                  unSelectAllText: 'UnSelect All',
+                  allowSearchFilter: false,
+                  itemsShowLimit: 2,
+                  closeDropDownOnSelection: false,
+                  enableCheckAll: false
+                }"
+              ></ng-multiselect-dropdown>
+              <div
+                class="form-control-feedback"
+                *ngIf="f.submitted && specialty?.invalid"
+              >
+                <p *ngIf="!specialty?.valid">Specialty is required</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6" *ngIf="showOtherSpecialty()">
+            <div
+              class="form-group"
+              [ngClass]="{
+                'has-danger': f.submitted && otherSpecialty.invalid
+              }"
+            >
+              <label for="otherSpecialty"
+                >Other Specialty
+                <sup>
+                  <i
+                    class="fa fa-star star-icon"
+                    aria-hidden="true"
+                    [ngClass]="{
+                      'text-danger': !staffProfileInfo?.specialty?.other,
+                      'clr-blue': staffProfileInfo?.specialty?.other
+                    }"
+                  ></i>
+                </sup>
+              </label>
+              <input
+                name="otherSpecialty"
+                [(ngModel)]="staffProfileInfo.specialty.other"
+                placeholder="Please enter other specialty"
+                type="text"
+                class="form-control"
+                required
+                #otherSpecialty="ngModel"
+              />
+              <div
+                class="form-control-feedback"
+                *ngIf="f.submitted && otherSpecialty.invalid"
+              >
+                <p *ngIf="otherSpecialty.errors.required">
+                  Add your specialty here
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-12">
+           
+      
+            <div
+              class="bg-white p-15 mt-20 license-section"
+              [ngClass]="{
+                'div-has-danger':
+                  f.submitted && !staffProfileInfo.licensesDetails.length
+              }"
+              *ngIf="
+                (isDentalAssistant && staffProfileInfo.showLicense) ||
+                (!isDentalAssistant && showHideLicenseSection)
+              "
+            >
+              <!--  <div class="bg-white p-15 mt-20 license-section"  [ngClass]="{ 'div-has-danger': f.submitted && !staffProfileInfo.licensesDetails.length }" *ngIf="(isDentalAssistant && showLicense) || ( !isDentalAssistant && showHideLicenseSection )"> -->
+              <div class="border-bottom mb-30">
+                <h3 class="text-primary">Licenses</h3>
+              </div>
+              <!--  *ngFor="let license of staffProfileInfo.licensesDetails; let i = index;" -->
+              <div class="row mb-20">
+                <!-- <div class="col-12">
+                   <div class="increase_div bg-blue position-relative p-10 mb-20">
+                     <h5 class="m-0 color-white">Licenses</h5>
+                   </div>
+                 </div> -->
+                <div class="col-sm-12">
+                  <h6 class="">
+                    Please provide your primary state issued dental license
+                    information.
+                  </h6>
+                </div>
+      
+                <div class="col-sm-12">
+                  <table
+                    class="table table-bordered vertical-align-middle text-center"
+                  >
+                    <thead class="text-primary">
+                      <th>State</th>
+                      <th>License Type</th>
+                      <th>License #</th>
+                      <th>Expiration date</th>
+                      <th>Action</th>
+                    </thead>
+                    <tbody>
+                      <tr
+                        *ngFor="
+                          let license of staffProfileInfo.licensesDetails;
+                          let i = index
+                        "
+                      >
+                        <td>{{ getState(license?.state) }}</td>
+                        <td class="text-captialize">
+                          {{ getLicenseType(license?.licenseType) }}
+                        </td>
+                        <td>{{ license?.licenseNumber }}</td>
+                        <td>{{ license?.expirationDate | date: "mediumDate" }}</td>
+                        <td>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-primary"
+                            title="Edit License"
+                            (click)="showAddEditLicense(i, license)"
+                          >
+                            <i class="fa fa-edit"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-danger"
+                            title="Delete License"
+                            (click)="showRemoveAlert('license', i)"
+                          >
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="d-flex justify-content-end mb-20">
+                <button
+                  type="button"
+                  class="btn btn-outline-primary  ml-auto"
+                  (click)="showAddEditLicense()"
+                >
+                  Add
+                  {{ staffProfileInfo.licensesDetails.length ? "More" : "License" }}
+                </button>
+              </div>
+            </div>
+            <!-- <div class="form-control-feedback" *ngIf="f.submitted && !checkLicenseValid()"> -->
+            <div
+              class="form-control-feedback"
+              *ngIf="
+                f.submitted &&
+                ((isDentalAssistant && showLicense) ||
+                  (!isDentalAssistant && showHideLicenseSection)) &&
+                  !staffProfileInfo.licensesDetails.length
+              "
+            >
+              <p>License is required</p>
+            </div>
+          </div>
+         
+          <!-- title="You will be able to negotiate your hourly at the time of applying for a job" -->
+
+          <!-- <div class="col-sm-6">
+          <div class="form-group">
+            <label for="Skills">Skills
+              <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                  [ngClass]="{'text-danger': !staffProfileInfo.skills.length,'clr-blue': staffProfileInfo.skills.length}"></i>
+              </sup>
+            </label>
+            <ng-multiselect-dropdown name="skills" [data]="skillsList" [placeholder]="'Select Skills'"
+              [(ngModel)]="staffProfileInfo.skills" [settings]="dropdownSettings" [disabled]="disabled">
+            </ng-multiselect-dropdown>
+          </div>
+        </div> -->
+        </div>
+      </div>
+      <div class="col-md-12 bg-white p-15 mt-20">
+        <div class="border-bottom mb-30">
+          <h3 class="text-primary">Certifications</h3>
+        </div>
+        <div class="col-sm-12" *ngIf="staffProfileInfo.certifications.length">
+          <table>
+            <tbody>
+              <ng-container
+                *ngFor="let type of certificateTypeList; let i = index"
+              >
+                <tr *ngIf="showSelectedCertificate(type._id).length">
+                  <td>
+                    <h6>{{ type.certificateType }} <span>:</span></h6>
+                  </td>
+                  <td>
+                    <p>{{ showSelectedCertificate(type._id).join(", ") }}</p>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+
+          <!-- <div *ngFor="let type of certificateTypeList;let i=index;" class="col-sm-6">
+          <h5 class="text-center">{{type.certificateType}} </h5>
+          <p>{{ showSelectedCertificate(type._id) }}</p>
+        </div> -->
+        </div>
+        <div class="d-flex justify-content-end mb-20">
+          <button
+            type="button"
+            class="btn btn-outline-primary  ml-auto"
+            (click)="showCertificatesModal()"
+          >
+          Select Certifications
+          </button>
+        </div>
+      </div>
+
+      <div class="col-md-12 bg-white p-15 mt-20">
+        <div class="border-bottom mb-30">
+          <h3 class="text-primary">Skills</h3>
+        </div>
+        <div class="col-sm-12" *ngIf="address.skill.ids.length">
+          <table>
+            <tbody>
+              <ng-container *ngFor="let type of skillTypeList; let i = index">
+                <tr *ngIf="showSelectedSkill(type._id).length">
+                  <td>
+                    <h6>{{ type.skillType }} <span>:</span></h6>
+                  </td>
+                  <td>
+                    <p>{{ showSelectedSkill(type._id).join(", ") }}</p>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+        <div class="d-flex justify-content-end mb-20">
+          <button
+            type="button"
+            class="btn btn-outline-primary  ml-auto"
+            (click)="showSkillsModal()"
+          >
+            Select Skills
+          </button>
+        </div>
+      </div>
+
+      <div class="col-md-12 bg-white p-15 mt-20">
+        <div class="border-bottom mb-30">
+          <h3 class="text-primary">Education</h3>
+        </div>
+        <!-- *ngFor="let education of staffProfileInfo.educationDetails; let i = index;" -->
+        <div class="row mb-20">
+          <!-- <div class="col-12">
+             <div class="increase_div bg-blue position-relative p-10 mb-20">
+               <h5 class="m-0 color-white">Education</h5>
+             </div>
+           </div> -->
+          <!-- <div class="col-sm-12">
+             <h6>Please provide your primary state issued dental license information. </h6>
+           </div> -->
+
+          <div class="col-sm-12">
+            <table
+              class="table table-bordered vertical-align-middle text-center"
+            >
+              <thead class="text-primary">
+                <th>Name of school</th>
+                <th>Degree earned</th>
+                <th>Number of years attended</th>
+                <th>Graduation year</th>
+                <th>Action</th>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="
+                    let education of staffProfileInfo.educationDetails;
+                    let i = index
+                  "
+                >
+                  <td class="text-capitalize">{{ education?.schoolName }}</td>
+                  <td>{{ education?.degreeEarned }}</td>
+                  <td>{{ education?.yearsAttended }}</td>
+                  <td>{{ education?.graduationYear }}</td>
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline-primary "
+                      title="Edit Education"
+                      (click)="showAddEditEducation(i, education)"
+                    >
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline-danger"
+                      title="Delete Education"
+                      (click)="showRemoveAlert('education', i)"
+                    >
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end mb-20">
+          <button
+            type="button"
+            class="btn btn-outline-primary  ml-auto"
+            (click)="showAddEditEducation()"
+          >
+            Add
+            {{
+              staffProfileInfo.educationDetails.length ? "More" : "Education"
+            }}
+          </button>
+        </div>
+      </div>
+
+
+      <div class="col-md-12 bg-white p-15 mt-20">
+        <div class="border-bottom mb-30">
+          <h3 class="text-primary">Additional Details</h3>
+        </div>
+      <div class="row mt-4 mb-20">
+        <div class="col-sm-6">
+          <div
+            class="form-group"
+            [ngClass]="{ 'has-danger': f.submitted && experience.invalid }"
+          >
+            <label for="Experience"
+              >Experience
+              <sup>
+                <i
+                  class="fa fa-star star-icon"
+                  aria-hidden="true"
+                  [ngClass]="{
+                    'text-danger': !staffProfileInfo.experience,
+                    'clr-blue': staffProfileInfo.experience
+                  }"
+                ></i>
+              </sup>
+            </label>
+            <select
+              name="experience"
+              [(ngModel)]="staffProfileInfo.experience"
+              class="form-control text-capitalize"
+              id="Experience"
+              #experience="ngModel"
+              required
+            >
+              <option value="">Select Experience</option>
+              <option
+                [value]="experience._id"
+                *ngFor="let experience of experienceList"
+              >
+                {{ experience.experience }}
+              </option>
+            </select>
+            <div
+              class="form-control-feedback"
+              *ngIf="f.submitted && experience.invalid"
+            >
+              <p *ngIf="experience.errors.required">Experience is required</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6 slider-w-85">
+          <div class="form-group" [ngClass]="{ 'has-danger': f.submitted && desiredHourly.invalid }">
+            <label
+              for="DesiredHourly"
+              title="You will be able to negotiate your hourly rate at the time of applying for a job"
+              >Preffered hourly rate
+              <sup>
+                <i
+                  class="fa fa-star star-icon"
+                  aria-hidden="true"
+                  [ngClass]="{
+                    'text-danger': !staffProfileInfo.desiredHourlyRate,
+                    'clr-blue': staffProfileInfo.desiredHourlyRate
+                  }"
+                ></i>
+              </sup>
+            </label>
+            <div class="d-block">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">$</span>
+                </div>
+                <input
+                          name="desiredHourly"
+                          id="DesiredHourly"
+                          required
+                          [min]="0"
+                          [max]="350"
+                          [(ngModel)]="staffProfileInfo.desiredHourlyRate"
+                          placeholder="You will be able to negotiate your hourly rate at the time of applying for a job"
+                          type="number"
+                          class="form-control"
+                          required
+                          #desiredHourly="ngModel"
+                        />
+                       
+              </div>
+              <div
+              class="form-control-feedback"
+              *ngIf="f.submitted && desiredHourly.invalid"
+            >
+              <p *ngIf="desiredHourly.errors.required">Hourly rate is required</p>
+            </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div
+            class="form-group"
+            [ngClass]="{ 'has-danger': f.submitted && maxDistance.invalid }"
+          >
+            <label for="MilesWilling"
+              >Maximum distance in miles, willing to travel
+              <sup>
+                <i
+                  class="fa fa-star star-icon"
+                  aria-hidden="true"
+                  [ngClass]="{
+                    'text-danger': !staffProfileInfo.milesTravelRadius,
+                    'clr-blue': staffProfileInfo.milesTravelRadius
+                  }"
+                ></i>
+              </sup>
+            </label>
+            <select
+              name="milesTravelRadius"
+              [(ngModel)]="staffProfileInfo.milesTravelRadius"
+              class="form-control text-capitalize"
+              id="maxDistance"
+              #maxDistance="ngModel"
+              required
+            >
+              <option value="">Select Maximum Distance</option>
+              <option value="5">up to 5 miles</option>
+              <option value="10">up to 10 miles</option>
+              <option value="15">up to 15 miles</option>
+              <option value="20">up to 20 miles</option>
+              <option value="25">up to 25 miles</option>
+              <option value="30">up to 30 miles</option>
+              <option value="40">up to 40 miles</option>
+              <option value="50">up to 50 miles</option>
+              <option value="100">up to 100 miles</option>
+            </select>
+            <!-- <input name="milesTravelRadius" [(ngModel)]="staffProfileInfo.milesTravelRadius"  placeholder="Please enter miles" type="text" class="form-control" numbersOnly > -->
+          </div>
+          <div
+            class="form-control-feedback"
+            *ngIf="f.submitted && maxDistance.invalid"
+          >
+            <p *ngIf="maxDistance.errors.required">
+              Maximum distance is required
+            </p>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="AddResume">Resume</label>
+            <div class="custom-file">
+              <input
+                *ngIf="!uploadData.resume.length"
+                placeholder="Please select resume"
+                type="file"
+                class="custom-file-input"
+                id="resume"
+                accept="application/pdf,application/odt,.doc,.docx"
+                (change)="selectFiles($event, 'resume')"
+              />
+              <label
+                class="custom-file-label"
+                for="resume"
+                *ngIf="!uploadData.resume.length"
+                >Resume</label
+              >
+              <!-- <img   (click)= "showFullImage(uploadData.resume[0] ,'resume')" *ngIf="uploadData.resume.length && !uploadData.resume[0].fileExtensonion" src="{{uploadData.resume[0].file}}" width="50px" height="50px" [title]="uploadData.resume[0].name"
+              /> -->
+
+              <a
+                class="fileDiv"
+                *ngIf="
+                  uploadData.resume.length && !uploadData.resume[0].status
+                "
+                [title]="uploadData.resume[0].name"
+                [href]="uploadData.resume[0].file"
+                target="_blank"
+              >
+                <i
+                  class="fontSize-36 fa fa-file-pdf-o"
+                  aria-hidden="true"
+                ></i>
+                <span
+                  *ngIf="uploadData.resume.length"
+                  class="resume-close"
+                  (click)="removeGallery(uploadData.resume[0], 'resume')"
+                  ><i class="fa fa-times clr-white" aria-hidden="true"></i
+                ></span>
+              </a>
+              <a
+                class="fileDiv"
+                *ngIf="
+                  uploadData.resume.length && uploadData.resume[0].status
+                "
+                [title]="uploadData.resume[0].name"
+              >
+                <i
+                  class="fontSize-36 fa fa-file-pdf-o"
+                  aria-hidden="true"
+                ></i>
+                <span
+                  *ngIf="uploadData.resume.length"
+                  class="resume-close"
+                  (click)="removeGallery(uploadData.resume[0], 'resume')"
+                  ><i class="fa fa-times clr-white" aria-hidden="true"></i
+                ></span>
+              </a>
+            </div>
+          </div>
+        </div>
+        </div>
+     
+        <!--
+          <div class="col-sm-6">
+          <div class="form-group" [ngClass]="{ 'has-danger': licenseForm.submitted && licenseType.invalid }">
+            <label for="licenseType">License Type
+              <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                [ngClass]="{'text-danger': !addNewLicense?.licenseType,'clr-blue': addNewLicense?.licenseType }"></i>
+              </sup>
+            </label>
+            <select name="licenseType" [(ngModel)]="addNewLicense.licenseType" class="form-control text-capitalize" required #licenseType="ngModel">
+              <option value="">Select License Type</option>
+            <option class="text-capitalize" [value]="licenseType._id" *ngFor="let licenseType of licenseTypeList">{{licenseType.licenseType}}
+              </option>
+            </select>
+            <div class="form-control-feedback" *ngIf="licenseForm.submitted && licenseType.invalid">
+              <p *ngIf="licenseType.errors.required">License type is required</p>
+            </div>
+          </div>
+        </div>
+       -->
+        <div class="row mb-20">
+          <div class="col-sm-6">
+            <div
+              class="form-group"
+              [ngClass]="{
+                'has-danger': f.submitted && hepCVaccination.invalid
+              }"
+            >
+              <label for="hepCVaccination"
+                >Have you completed your Hep B vaccination ?
+                <sup>
+                  <i
+                    class="fa fa-star star-icon"
+                    aria-hidden="true"
+                    [ngClass]="{
+                      'text-danger': !staffProfileInfo?.hepCVaccination,
+                      'clr-blue':
+                        staffProfileInfo.hepCVaccination == true ||
+                        staffProfileInfo.hepCVaccination == false
+                    }"
+                  ></i>
+                </sup>
+              </label>
+              <select
+                name="hepCVaccination"
+                [(ngModel)]="staffProfileInfo.hepCVaccination"
+                class="form-control"
+                #hepCVaccination="ngModel"
+                required
+              >
+                <option [ngValue]="undefined">Select</option>
+                <option [ngValue]="true">Yes</option>
+                <option [ngValue]="false">No</option>
+              </select>
+              <!-- <div class="form-group d-flex m-0">
+                  <div class="custom-control custom-radio mr-10">
+                    <input name="hepCVaccination" type="radio" [(ngModel)]="staffProfileInfo.hepCVaccination"
+                      class="custom-control-input" id="hepCVaccination_true" [value]="true"
+                      required #hepCVaccination="ngModel">
+                    <label class="custom-control-label" for="hepCVaccination_true">Yes</label>
+                  </div>
+                  <div class="custom-control custom-radio">
+                    <input name="hepCVaccination"  type="radio" [(ngModel)]="staffProfileInfo.hepCVaccination"
+                      class="custom-control-input" id="hepCVaccination_false" [value]="false"
+                      required #hepCVaccination="ngModel">
+                    <label class="custom-control-label" for="hepCVaccination_false">No</label>
+                  </div>
+              </div> -->
+              <div
+                class="form-control-feedback"
+                *ngIf="f.submitted && hepCVaccination.invalid"
+              >
+                <p *ngIf="hepCVaccination.errors.required">
+                  Hep B vaccination is required
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <div
+              class="form-group"
+              [ngClass]="{
+                'has-danger': f.submitted && covidVaccination.invalid
+              }"
+            >
+              <label for="covidVaccination"
+                >Have you completed your Covid-19 vaccination ?
+                <!-- <sup>
+                  <i
+                    class="fa fa-star star-icon"
+                    aria-hidden="true"
+                    [ngClass]="{
+                      'text-danger': !staffProfileInfo?.covidVaccination,
+                      'clr-blue':
+                        staffProfileInfo.covidVaccination == true ||
+                        staffProfileInfo.covidVaccination == false
+                    }"
+                  ></i>
+                </sup> -->
+              </label>
+              <select
+                name="covidVaccination"
+                [(ngModel)]="staffProfileInfo.covidVaccination"
+                class="form-control"
+                #covidVaccination="ngModel"
+              >
+                <option [ngValue]="undefined">Select</option>
+                <option [ngValue]="true">Yes</option>
+                <option [ngValue]="false">No</option>
+              </select>
+              <!-- <div class="form-group d-flex m-0">
+                  <div class="custom-control custom-radio mr-10">
+                    <input name="hepCVaccination" type="radio" [(ngModel)]="staffProfileInfo.hepCVaccination"
+                      class="custom-control-input" id="hepCVaccination_true" [value]="true"
+                      required #hepCVaccination="ngModel">
+                    <label class="custom-control-label" for="hepCVaccination_true">Yes</label>
+                  </div>
+                  <div class="custom-control custom-radio">
+                    <input name="hepCVaccination"  type="radio" [(ngModel)]="staffProfileInfo.hepCVaccination"
+                      class="custom-control-input" id="hepCVaccination_false" [value]="false"
+                      required #hepCVaccination="ngModel">
+                    <label class="custom-control-label" for="hepCVaccination_false">No</label>
+                  </div>
+              </div> -->
+              <div
+                class="form-control-feedback"
+                *ngIf="f.submitted && covidVaccination.invalid"
+              >
+                <p *ngIf="covidVaccination.errors.required">
+                  Covid-19 vaccination is required
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <div
+              class="form-group"
+              [ngClass]="{
+                'has-danger': f.submitted && childAbuseHistory.invalid
+              }"
+            >
+              <label for="childAbuseHistory"
+                >Do you have a Child Abuse History Clearance ?
+                <sup>
+                  <i
+                    class="fa fa-star star-icon"
+                    aria-hidden="true"
+                    [ngClass]="{
+                      'text-danger': !staffProfileInfo?.childAbuseHistory,
+                      'clr-blue':
+                        staffProfileInfo.childAbuseHistory == true ||
+                        staffProfileInfo.childAbuseHistory == false
+                    }"
+                  ></i>
+                </sup>
+              </label>
+              <select
+                name="childAbuseHistory"
+                [(ngModel)]="staffProfileInfo.childAbuseHistory"
+                class="form-control"
+                #childAbuseHistory="ngModel"
+                required
+              >
+                <option [ngValue]="undefined">Select</option>
+                <option [ngValue]="true">Yes</option>
+                <option [ngValue]="false">No</option>
+              </select>
+              <!-- <div class="form-group d-flex m-0">
+                  <div class="custom-control custom-radio mr-10">
+                    <input name="childAbuseHistory" type="radio" [(ngModel)]="staffProfileInfo.childAbuseHistory"
+                      class="custom-control-input" id="childAbuseHistory_true" [value]="true" required #childAbuseHistory="ngModel">
+                    <label class="custom-control-label" for="childAbuseHistory_true">Yes</label>
+                  </div>
+                  <div class="custom-control custom-radio">
+                    <input name="childAbuseHistory"  type="radio" [(ngModel)]="staffProfileInfo.childAbuseHistory"
+                      class="custom-control-input" id="childAbuseHistory_false" [value]="false" required #childAbuseHistory="ngModel">
+                    <label class="custom-control-label" for="childAbuseHistory_false">No</label>
+                  </div>
+              </div> -->
+              <div
+                class="form-control-feedback"
+                *ngIf="f.submitted && childAbuseHistory.invalid"
+              >
+                <p *ngIf="childAbuseHistory.errors.required">
+                  Child Abuse History Clearance is required
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="col-sm-6">
+            <div class="form-group">
+              <label for="PROMalpracticeIns">Professional Malpractice Insurance</label>
+              <div class="custom-file">
+                <div class="fileDiv" *ngIf="uploadData.proMalpracticeIns.length">
+                  <img (click)="showFullImage(uploadData.proMalpracticeIns[0] ,'proMalpracticeIns')"
+                    src="{{uploadData.proMalpracticeIns[0].file}}" alt="" width="50px" height="50px"
+                    [title]="uploadData.proMalpracticeIns[0].name">
+                  <span class="resume-close" *ngIf="uploadData.proMalpracticeIns.length"
+                    (click)="removeGallery(uploadData.proMalpracticeIns[0], 'proMalpracticeIns')">
+                    <i class="fa fa-times clr-white" aria-hidden="true"></i>
+                  </span>
+                </div>
+                <input *ngIf="!uploadData.proMalpracticeIns.length" type="file" class="custom-file-input"
+                  id="proMalpracticeIns" accept="image/*" (change)="selectFiles($event , 'proMalpracticeIns')">
+                <label class="custom-file-label" for="proMalpracticeIns"
+                  *ngIf="!uploadData.proMalpracticeIns.length"> Upload declaration page</label>
+              </div>
+            </div>
+          </div> -->
+
+          <div class="col-sm-6">
+            <div
+              class="form-group"
+              [ngClass]="{
+                'has-danger': f.submitted && expMalpracticeIns.invalid
+              }"
+            >
+              <label for="expMalpracticeIns">
+                Do you have a valid Malpractice insurance policy ?
+                <sup>
+                  <i
+                    class="fa fa-star star-icon"
+                    aria-hidden="true"
+                    [ngClass]="{
+                      'text-danger': !staffProfileInfo?.expMalpracticeIns,
+                      'clr-blue':
+                        staffProfileInfo.expMalpracticeIns == true ||
+                        staffProfileInfo.expMalpracticeIns == false
+                    }"
+                  ></i>
+                </sup>
+              </label>
+              <select
+                name="expMalpracticeIns"
+                [(ngModel)]="staffProfileInfo.expMalpracticeIns"
+                class="form-control"
+                #expMalpracticeIns="ngModel"
+                required
+              >
+                <option [ngValue]="undefined">Select</option>
+                <option [ngValue]="true">Yes</option>
+                <option [ngValue]="false">No</option>
+              </select>
+              <!-- <div class="form-group d-flex m-0">
+                  <div class="custom-control custom-radio mr-10">
+                    <input name="expMalpracticeIns" type="radio" [(ngModel)]="staffProfileInfo.expMalpracticeIns"
+                      class="custom-control-input" id="expMalpracticeIns_true" [value]="true" required #expMalpracticeIns="ngModel" (change)="changeExpMalpracticeIns()" >
+                    <label class="custom-control-label" for="expMalpracticeIns_true">Yes</label>
+                  </div>
+                  <div class="custom-control custom-radio">
+                    <input name="expMalpracticeIns"  type="radio" [(ngModel)]="staffProfileInfo.expMalpracticeIns"
+                      class="custom-control-input" id="expMalpracticeIns_false" [value]="false" required #expMalpracticeIns="ngModel" (change)="changeExpMalpracticeIns()">
+                    <label class="custom-control-label" for="expMalpracticeIns_false">No</label>
+                  </div>
+              </div> -->
+              <div
+                class="form-control-feedback"
+                *ngIf="f.submitted && expMalpracticeIns.invalid"
+              >
+                <p *ngIf="expMalpracticeIns.errors.required">
+                  Malpractice insurance policy is required
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-sm-6"
+            *ngIf="staffProfileInfo.expMalpracticeIns == true"
+          >
+            <div
+              class="form-group"
+              [ngClass]="{
+                'has-danger': f.submitted && expMalpracticeInsDate.invalid
+              }"
+            >
+              <label for="expMalpracticeInsDate"
+                >Expiration Date of Malpractice Insurance
+                <sup>
+                  <i
+                    class="fa fa-star star-icon"
+                    aria-hidden="true"
+                    [ngClass]="{
+                      'text-danger': !staffProfileInfo?.expMalpracticeInsDate,
+                      'clr-blue': staffProfileInfo?.expMalpracticeInsDate
+                    }"
+                  ></i>
+                </sup>
+              </label>
+              <input
+                type="text"
+                [(ngModel)]="staffProfileInfo.expMalpracticeInsDate"
+                name="expMalpracticeInsDate"
+                placeholder="Enter expiration date of malpractice insurance"
+                class="form-control"
+                bsDatepicker
+                [bsConfig]="{
+                  adaptivePosition: true,
+                  containerClass: 'theme-dark-blue',
+                  dateInputFormat: 'MMM DD,YYYY'
+                }"
+                required
+                #expMalpracticeInsDate="ngModel"
+              />
+
+              <div
+                class="form-control-feedback"
+                *ngIf="f.submitted && expMalpracticeInsDate.invalid"
+              >
+                <p *ngIf="expMalpracticeInsDate.errors.required">
+                  Expiration Date of Malpractice Insurance is required
+                </p>
+              </div>
+              <!-- <dp-date-picker placeholder="Enter expiration date of malpractice insurance"
+                name="expMalpracticeInsDate" [(ngModel)]="staffProfileInfo.expMalpracticeInsDate"
+                [config]="datePickerConfig2"></dp-date-picker> -->
+            </div>
+          </div>
+      
+        </div>
+      </div>
+</div>
+      
+    </span>
+  </ng-wizard-step>
+
+  <ng-wizard-step [title]="'General Availability'" [description]="''">
+     
+    <!--------------------- General Availability Calendar Starts  ------------------------------ -->
+
+     <div
+     class="row bg-white p-15 mt-20"
+   >
+     <div class="border-bottom mb-30 p-0">
+       <h3 class="text-primary">General Availability</h3>
+     </div>
+     <div class="row p-0">
+       <div class="col-sm-12 mb-20">
+         <h6>
+          Set up your general availability by indicating the days and hours you are generally available to work
+           </h6>
+         <p>
+          To ensure the greatest number of matches, by default you are available to work for the whole day.  However, you are able to specify the hours of your general availability by selecting the “Specify” option and setting the exact hours you are generally available to work.”  Furthermore, on the following page , “My Calendar”, you can modify your availability on a specific day(s) up to one year in advance.
+         </p>
+       </div>
+
+       <div class="col-sm-12">
+         <div class="customCalendar">
+           <div class="table-responsive pl-0">
+             <table class="w-100">
+               <thead>
+                 <th class="p-10" width="40px"></th>
+                 <th class="p-10 text-primary th-align">Available</th>
+                 <th class="p-10 text-primary">Hours</th>
+                 <th class="p-10 text-primary">Start Time</th>
+                 <th class="p-10 text-primary pull-right m-0">End Time</th>
+               </thead>
+               <tbody>
+                 <tr
+                   *ngFor="
+                     let day of staffProfileInfo.genCalAvailableDays;
+                     let i = index
+                   "
+                 >
+                   <td class="p-10" width="40px">
+                     <h5>{{ day.day }}</h5>
+                   </td>
+                   <td class="p-10">
+                     <div class="custom-control custom-switch-1">
+                      <span class="my-auto mr-2">{{day.available ? 'On' : 'Off'}}</span>
+                       <ui-switch
+                         id="{{i}}_yes"
+                         name="{{i}}_available"
+                         [(ngModel)]="day.available"
+                         (change)="updateGeneralCalDateTime(i)"
+                       ></ui-switch>
+                       <!-- <label class="br-0p" for="{{ i }}_yes">Yes</label> -->
+
+                       <!-- <input
+                         type="radio"
+                         id="{{ i }}_no"
+                         name="{{ i }}_available"
+                         [(ngModel)]="day.available"
+                         [value]="false"
+                         (change)="updateGeneralCalDateTime(i)"
+                       />
+                       <label for="{{ i }}_no">No </label> -->
+                     </div>
+                   </td>
+                   <td class="p-10">
+                     <div class="form-group d-flex m-0">
+                       <div class="custom-control custom-radio mr-10">
+                         <input
+                           name="{{ i }}_availableType"
+                           type="radio"
+                           [(ngModel)]="day.availableType"
+                           class="custom-control-input"
+                           id="{{ i }}_any"
+                           value="any"
+                           (change)="updateGeneralCalDateTime(i)"
+                         />
+                         <label
+                           class="custom-control-label"
+                           for="{{ i }}_any"
+                           title="Available all hours (Recommended)"
+                           >Any</label
+                         >
+                       </div>
+                       <!-- showAvailTimeAlert('any'); -->
+                       <div class="custom-control custom-radio">
+                         <input
+                           name="{{ i }}_availableType"
+                           type="radio"
+                           [(ngModel)]="day.availableType"
+                           class="custom-control-input"
+                           id="{{ i }}_specify"
+                           value="specify"
+                           (change)="updateGeneralCalDateTime(i)"
+                           [disabled]="!day.available"
+                         />
+                         <label
+                           class="custom-control-label"
+                           for="{{ i }}_specify"
+                           title="Limiting the hours of your availability may result in fewer job opportunities available to you"
+                           >Specify</label
+                         >
+                       </div>
+                       <!-- showAvailTimeAlert('specify'); -->
+                     </div>
+                   </td>
+
+                   <td class="p-10" colspan="2">
+                     <div class="form-group d-flex m-0">
+                       <ng5-slider
+                         [(value)]="day.startTime"
+                         [(highValue)]="day.endTime"
+                         [options]="{
+                           floor: startTime,
+                           ceil: endTime,
+                           step: 900000,
+                           translate: createSliderLabel,
+                           disabled:
+                             !day.available || day.availableType === 'any'
+                         }"
+                         [ngClass]="day.available && day.availableType === 'any' ? 'anyDis':''"
+                       ></ng5-slider>
+                     </div>
+                   </td>
+                   <!--  <td class="p-10">
+                   <div class="form-group mb-0">
+
+                     <ngx-timepicker-field [controlOnly]="true" [format]="12" name="{{i}}_startTime"
+                       id="{{i}}_startTime" [(ngModel)]="day.startTime" [disabled]="day.availableType == 'any' || !day.available"
+                       (ngModelChange)="calendarValidations('start', i ,i+'_startTime')">
+                     </ngx-timepicker-field>
+
+                   </div>
+                 </td>
+                 <td class="p-10">
+                   <div class="form-group mb-0">
+                     <ngx-timepicker-field [controlOnly]="true" [format]="12" name="{{i}}_endTime"
+                       id="{{i}}_endTime" [(ngModel)]="day.endTime" [disabled]="day.availableType == 'any' || !day.available"
+                       (ngModelChange)="calendarValidations('end',i ,i+'_endTime')">
+                     </ngx-timepicker-field>
+                   </div>
+                 </td> -->
+                 </tr>
+               </tbody>
+             </table>
+           </div>
+         </div>
+       </div>
+       <!-- <a class="clr-blue" (click)="staffProfileInfo.calendarType = 'customCalendar';updateGeneralToCustomCal()">Click here</a> -->
+       <!-- <div class="col-12 mt-20">
+         <h6>
+          Set up your general availability for up to 12 months in advance!
+            Click here If you need to add any exceptions to your general
+           availability for up to 12 months in advance ( I.e. Due to
+           vacations, appointments, booked through another other sources
+           and etc.)
+         </h6>
+       </div> -->
+       <!-- <button
+         type="button"
+         class="btn btn-outline-primary  ml-10"
+         (click)="
+           staffProfileInfo.calendarType = 'customCalendar';
+           updateGeneralToCustomCal()
+         " style="width: 130px;"
+       >
+         My Calendar
+       </button> -->
+     </div>
+   </div>
+
+   <!--------------------- General Availability Calendar Ends  ------------------------------ -->
+  </ng-wizard-step>
+  <ng-wizard-step [title]="'My Calendar (Optional)'" [description]="''">
+    <span>
+      <div class="row p-15 gray-bg mb-30" *ngIf="tabStep == 3">
+       
+
+        <!--------------------- My Calendar Starts  ------------------------------ -->
+
+        <div
+          class="bg-white p-15"
+        >
+          <div class="col-md-12 border-bottom mb-30 p-0">
+            <h3 class="">My Calendar</h3>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 mb-20">
+              <!-- <h6>Select Day(s) to update your schedule.</h6> -->
+              <p>
+                <!-- To update your availability for the upcoming 12 months (I.e. for
+                vacation, appointments, bookings through another source, and
+                etc.) simply select the date(s) that you would like to modify.
+                You can mark the entire day as unavailable or change the hours
+                of your availability. -->
+                You can add any exceptions to your general availability (I.e. vacations, appointments, jobs booked through other sources, and etc.) upto one year in advance.  Simply select the date(s) that you would like to modify and indicate your availability on that specific date(s).
+                </p>
+            </div>
+            <div class="col-sm-12">
+              <div class="calender-middle">
+                <div class="custom-month-btn mb-20">
+                  <div
+                    class="
+                      btn-group
+                      w-100
+                      align-items-center
+                      justify-content-center
+                    "
+                  >
+                    <div
+                      class="btn btn-left"
+                      mwlCalendarPreviousView
+                      [view]="view"
+                      [(viewDate)]="viewDate"
+                    >
+                      <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="m-0">
+                      {{ viewDate | calendarDate: view + "ViewTitle":"en" }}
+                    </h3>
+                    <div
+                      class="btn btn-right"
+                      mwlCalendarNextView
+                      [view]="view"
+                      [(viewDate)]="viewDate"
+                    >
+                      <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                    </div>
+                  </div>
+                </div>
+
+                <ng-template
+                  #customCellTemplate
+                  let-day="day"
+                  let-locale="locale"
+                >
+                  <div class="cal-cell-top" [title]="getCalendarTitle(day)">
+                    <!-- <ng-template #customCellTemplate let-day="day" let-locale="locale">
+                <div class="cal-cell-top" title="{{ getCalendarTitle(day)(day?.events[0]?.status === calendarStatus.AVAILABLE) ? day?.events[0]?.title:''}}"> -->
+                    <span class="cal-day-number">{{
+                      day.date | calendarDate: "monthViewDayNumber":locale
+                    }}</span>
+                    <small *ngIf="day?.events[0]?.status === 'available' && day?.events[0]?.availableType === 'specify'" class="clr-white" style="margin: 5px"
+                      >Modified Availability 
+                      </small>
+                      <br>
+                    <small class="clr-white" style="margin: 5px"
+                      >{{ getCalendarTitle(day) }}
+                    </small>
+                  </div>
+                </ng-template>
+
+                <div [ngSwitch]="view" class="custom-calendar">
+                  <mwl-calendar-month-view
+                    *ngSwitchCase="CalendarView.Month"
+                    [viewDate]="viewDate"
+                    [cellTemplate]="customCellTemplate"
+                    [events]="customCalendarDates"
+                    (beforeViewRender)="beforeMonthViewRender($event)"
+                    [refresh]="refresh"
+                    [activeDayIsOpen]="false"
+                    (dayClicked)="dayClicked($event.day)"
+                  >
+                  </mwl-calendar-month-view>
+                </div>
+                <div class="row">
+                <div class="col-md-5 mt-30">
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary  w-20 btn-round"
+                    (click)="next('back'); this.ngWizardService.previous();"
+                  >
+                  Back to General Availability
+                  </button>
+                  <!-- updateCustCalDates(); -->
+                </div>
+                <div class="col-md-7">
+                  <ul class="list-unstyled job-highlight mt-30 d-flex justify-content-end">
+                    <li class="green mr-3">Available</li>
+                    <li class="orange mr-3">Modified Availability</li>
+                    <li class="red mr-3">Not Available</li>
+                    <li class="gray">Past</li>
+                  </ul>
+                </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="col-sm-7" *ngIf="staffProfileInfo.calendarType == 'customCalendar'">
+            <div class="customCalendar">
+              <div class="table-responsive pl-0">
+                <table class="w-100">
+                  <thead>
+                    <th class="p-10">
+                      <h5>Date</h5>
+                    </th>
+                    <th class="p-10">
+                      <h5>Start Time</h5>
+                    </th>
+                    <th class="p-10">
+                      <h5>End Time</h5>
+                    </th>
+                  </thead>
+                  <tbody>
+                    <ng-container *ngFor="let day of customCalendarDates; let i = index;">
+                      <tr *ngIf="day?.available && day?.status != 'booked'">
+                        <td class="p-10">{{day.start | date:'mediumDate'}}</td>
+                        <td class="p-10">
+                          <div class="form-group mb-0">
+                            <ngx-timepicker-field [controlOnly]="true" [format]="12" name="{{i}}_startTime"
+                              id="{{i}}_startTime" [(ngModel)]="day.startTime"
+                              (ngModelChange)="calendarValidations('start', i ,i+'_startTime')"
+                              >
+                            </ngx-timepicker-field>
+                          </div>
+                        </td>
+                        <td class="p-10">
+                          <div class="form-group mb-0">
+                            <ngx-timepicker-field [controlOnly]="true" [format]="12" name="{{i}}_endTime"
+                              id="{{i}}_endTime" [(ngModel)]="day.endTime"
+                              (ngModelChange)="calendarValidations('end', i ,i+'_endTime')">
+                            </ngx-timepicker-field>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-container>
+
+                  </tbody>
+                </table>
+
+
+              </div>
+            </div>
+          </div> -->
+          </div>
+        </div>
+
+        <!--------------------- My Calendar Ends  ------------------------------ -->
+      </div>
+    </span>
+  </ng-wizard-step>
+
+  <ng-wizard-step [title]="'e-Pay (Optional)'" [description]="''">
+    <span>
+      <div class="row p-15 gray-bg mb-30" *ngIf="tabStep == 4">
+        <div class="bg-white p-15">
+          <div class="col-md-12 border-bottom mb-30 p-0">
+            <h3 class="clr-dark-blue">Set up an e-Pay account (Powered by Stripe) <i class="fa fa-lock"></i></h3>
+          </div>
+          <div class="row">
+            <div
+              class="col-md-12 text-center mb-30"
+              *ngIf="!staffProfileInfo?.stripeId"
+            >
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-round  w-50"
+                (click)="stripeConfirmPopup('connectWithStripe')"
+              >
+                Connect Stripe Account
+              </button>
+            </div>
+            <div
+              class="col-md-12 text-center mb-30 p-0"
+              *ngIf="staffProfileInfo?.stripeId"
+            >
+              <button type="button" class="btn btn-outline-primary btn-round  w-50">
+                Connected
+              </button>
+              <p class="mt-10">
+                Do you want to make changes to your Stripe Account?
+                <a class="clr-blue" (click)="stripeConfirmPopup('changeStripe')"
+                  >Click Here</a
+                >
+              </p>
+            </div>
+            <p class="ml-10" *ngIf="tabStep == 4">
+              Densub utilizes Stripe’s secure payment platform to facilitate direct deposit of your gross wages to your bank account.  If a dental practice prefers to pay you via e-Pay, your earnings can be directly deposited to the bank account that is connected to your Stripe account. Set up your Stripe account now!
+            </p>
+            <!-- <h5 class="ml-10" *ngIf="tabStep == 2">By setting up a Stripe account you will be able to receive your wages directly in to your bank account. This is both convenient and hassle free.</h5> -->
+            <!-- <div class="col-sm-6" [hidden]="isShow">
+            <div class="form-group">
+              <label for="email">Paypal Email ID </label>
+              <input name="email" [(ngModel)]="staffProfileInfo.paypalEmail"
+                placeholder="Please enter paypal email ID" type="email" class="form-control" id="email">
+            </div>
+          </div> -->
+          </div>
+        </div>
+      </div>
+    </span>
+  </ng-wizard-step>
+</ng-wizard>
+
+<div class="col-md-12">
+    <div class="row pr-5">
+<div class="p-15 mb-30 col-12">
+  <div class="bg-white p-15">
+    <app-alert></app-alert>
+    <div class="d-flex justify-content-end">
+      <!-- staffProfileInfo.licensesDetails.length -->
+      <!-- <button class="btn btn-dark flex-nowrap mr-1" (click)="createProfile()">Save</button> -->
+      <button
+        type="button"
+        class="btn btn-outline-primary btn-round ml-1"
+        (click)="this.ngWizardService.previous();"
+        *ngIf="tabStep > 0"
+      >
+        Back
+      </button>
+      <button
+        type="button"
+        *ngIf="tabStep == 4"
+        class="btn btn-outline-primary btn-round  ml-1"
+        (click)="
+          isConnectToStripe = false;
+          f.submitted = true;
+          ispreviewProfile = true;
+          f.form.valid && checkLicenseValid() && validateForm();
+        "
+      >
+        Preview
+      </button>
+      <!-- <button type="button" class="btn btn-secondary ml-1" (click)="f.submitted = true;ispreviewProfile = true;f.form.valid && staffProfileInfo.licensesDetails.length && validateForm()">
+  {{(staffProfileInfo.profileVerificationStatus === profileStatus.NEW) ? 'Save' : 'Update' }} & Preview</button> -->
+      <!-- <button type="submit" class="btn btn-primary ml-1" (click)="staffValidation()">Save</button>
+<button type="button" class="btn btn-primary ml-1" (click)="staffValidation('next')"
+*ngIf="tabStep < 2" >Next</button> -->
+      <button
+        type="submit" (click)="gotToNextStep()"
+        class="ml-1 btn btn-outline-primary btn-round "
+        *ngIf="tabStep < 4"
+      >
+        Continue
+      </button>
+      <!-- <button class="btn btn-secondary ml-1" (click)="next('next')" *ngIf="tabStep < 2">Next</button> -->
+      <button
+        type="submit"
+        class="btn btn-outline-primary btn-round  ml-1"
+        *ngIf="tabStep == 4" (click)="gotToNextStep();submitAll();"
+      >
+        Submit
+      </button>
+    </div>
+    <!-- <pre [innerHtml]="uploadData | json"> </pre>
+<pre [innerHtml]="DeleteGalleryData | json"> </pre>
+<pre [innerHtml]="images | json"> </pre> -->
+    <!-- <pre [innerHtml]="events | json"> </pre> -->
+  </div>
+</div>
+</div>
+</div>
+</form>
+<!-- SHOW FULL IMAGE MODAL -->
+<!-- <div bsModal #showImageModal="bs-modal" class="modal fade lightBox_img" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-body">
+      <button type="button" class="close text-white" (click)="showImageModal.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <img src="{{viewImage}}" height="500" width="500" class="img-fluid">
+    </div>
+  </div>
+</div> -->
+<!-- SHOW FULL IMAGE MODAL -->
+
+<!-- ------------------- Calendar Day Clicked Popup Start ----------------------------------------------  -->
+
+<div
+  bsModal
+  #dayClickedPopup="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+  [config]="{ backdrop: 'static', keyboard: false }"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="clr-white">Update Calendar</h3>
+        <button
+          type="button"
+          class="close text-white"
+          (click)="dayClickedPopup.hide()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive pl-0">
+          <table class="w-100">
+            <thead>
+              <th class="p-10 text-primary th-align">Available</th>
+              <th class="p-10 text-primary">Hours</th>
+              <th class="p-10 text-primary">Start Time</th>
+              <th class="p-10 text-primary">End Time</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="p-10">
+                  <div class="custom-control custom-switch-1">
+                    <span class="my-auto mr-2">{{selectedCustomCalDate.toggleStatus ? 'On' : 'Off'}}</span>
+                    <ui-switch
+                      id="yes"
+                      name="available"
+                      [(ngModel)]="selectedCustomCalDate.toggleStatus"
+                      (change)="onDayToggle($event);updateCustomCalDateTime()"
+                    ></ui-switch>
+                    <!-- <input
+                      type="radio"
+                      id="yes"
+                      name="available"
+                      [(ngModel)]="selectedCustomCalDate.status"
+                      [value]="calendarStatus.AVAILABLE"
+                      (change)="updateCustomCalDateTime()"
+                    />
+                    <label class="br-0p" for="yes">Yes</label> 
+                    <input
+                      type="radio"
+                      id="no"
+                      name="available"
+                      [(ngModel)]="selectedCustomCalDate.status"
+                      [value]="calendarStatus.UNAVAILABLE"
+                      (change)="updateCustomCalDateTime()"
+                    />
+                    <label for="no">No </label> -->
+                  </div>
+                </td>
+                <td class="p-10">
+                  <div class="form-group d-flex m-0">
+                    <div class="custom-control custom-radio mr-10">
+                      <input
+                        name="availableType"
+                        type="radio"
+                        [(ngModel)]="selectedCustomCalDate.availableType"
+                        class="custom-control-input"
+                        id="any"
+                        value="any"
+                        (change)="updateCustomCalDateTime()"
+                      />
+                      <label
+                        class="custom-control-label"
+                        for="any"
+                        title="Available all hours (Recommended)"
+                        >Any</label
+                      >
+                    </div>
+                    <div class="custom-control custom-radio">
+                      <input
+                        name="availableType"
+                        type="radio"
+                        [(ngModel)]="selectedCustomCalDate.availableType"
+                        class="custom-control-input"
+                        id="specify"
+                        value="specify"
+                        (change)="updateCustomCalDateTime()"
+                        [disabled]="
+                          !(
+                            selectedCustomCalDate.status === calendarStatus.AVAILABLE 
+                          )
+                        "
+                      />
+                      <label
+                        class="custom-control-label"
+                        for="specify"
+                        title="Limiting the hours of your availability may result in fewer job opportunities available to you"
+                        >Specify</label
+                      >
+                    </div>
+                  </div>
+                </td>
+
+                <td class="p-10" colspan="2">
+                  <div class="form-group d-flex m-0">
+                    <ng5-slider
+                      [(value)]="selectedCustomCalDate.startTime"
+                      [(highValue)]="selectedCustomCalDate.endTime"
+                      [options]="{
+                        floor: customCalStartTime,
+                        ceil: customCalEndTime,
+                        step: 900000,
+                        translate: createSliderLabel,
+                        disabled:
+                          !(
+                            selectedCustomCalDate.status === calendarStatus.AVAILABLE
+                          )  || selectedCustomCalDate.availableType === 'any'
+                      }"
+
+                      [ngClass]="selectedCustomCalDate.status === calendarStatus.AVAILABLE && selectedCustomCalDate.availableType === 'any' ? 'anyDis':''"
+                    ></ng5-slider>
+                  </div>
+                  <!-- <pre>{{customCalStartTime +" = "+ selectedCustomCalDate.startTime + '=======' + customCalEndTime +"====="+ selectedCustomCalDate.endTime}}</pre> -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-round "
+          (click)="dayClickedPopup.hide()"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-round "
+          (click)="updateCustomCalendardate()"
+        >
+          Update Date
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ------------------- Calendar Day Clicked Popup Start ----------------------------------------------  -->
+
+<!-- ------------------- Calendar Popup Start ----------------------------------------------  -->
+
+<!-- <div bsModal #stripeConfirmPopup="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static', keyboard: false}">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="clr-white">Warning</h3>
+        <button type="button" class="close  text-white" (click)="stripeConfirmPopup.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3>Do you want to save the Profile Before Connecting to Stripe?</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="connectStripe(true)">Yes</button>
+        <button type="button" class="btn btn-primary" (click)="connectStripe(false)">No</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- ------------------- Calendar Popup Ends ----------------------------------------------  -->
+
+<!-- ------------------- Add License Popup ----------------------------------------------  -->
+<div
+  bsModal
+  #addEditLicenseModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+  [config]="{ backdrop: 'static', keyboard: false }"
+>
+  <form
+    novalidate
+    class="row"
+    #licenseForm="ngForm"
+    (ngSubmit)="licenseForm.form.valid && saveLicense()"
+  >
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="clr-white">
+            {{ selectedIndex > -1 ? "Edit" : "Add" }} License
+          </h3>
+          <button
+            type="button"
+            class="close text-white"
+            (click)="addEditLicenseModal.hide(); licenseForm.resetForm()"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="col-sm-12">
+            <div class="row">
+              <div class="col-sm-6">
+                <div
+                  class="form-group"
+                  [ngClass]="{
+                    'has-danger': licenseForm.submitted && licenseState.invalid
+                  }"
+                >
+                  <label for="State"
+                    >State
+                    <sup>
+                      <i
+                        class="fa fa-star star-icon"
+                        aria-hidden="true"
+                        [ngClass]="{
+                          'text-danger': !addNewLicense?.state,
+                          'clr-blue': addNewLicense?.state
+                        }"
+                      ></i>
+                    </sup>
+                  </label>
+                  <select
+                    name="licenseState"
+                    [(ngModel)]="addNewLicense.state"
+                    class="form-control text-capitalize"
+                    required
+                    #licenseState="ngModel"
+                  >
+                    <option value="">Select State</option>
+                    <option
+                      class="text-capitalize"
+                      [value]="value._id"
+                      *ngFor="let value of licenseStateList"
+                    >
+                      {{ value.state }}
+                    </option>
+                  </select>
+                  <div
+                    class="form-control-feedback"
+                    *ngIf="licenseForm.submitted && licenseState.invalid"
+                  >
+                    <p *ngIf="licenseState.errors.required">
+                      State is required
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div
+                  class="form-group"
+                  [ngClass]="{
+                    'has-danger': licenseForm.submitted && licenseType.invalid
+                  }"
+                >
+                  <label for="licenseType"
+                    >License Type
+                    <sup>
+                      <i
+                        class="fa fa-star star-icon"
+                        aria-hidden="true"
+                        [ngClass]="{
+                          'text-danger': !addNewLicense?.licenseType,
+                          'clr-blue': addNewLicense?.licenseType
+                        }"
+                      ></i>
+                    </sup>
+                  </label>
+                  <select
+                    name="licenseType"
+                    [(ngModel)]="addNewLicense.licenseType"
+                    
+                    class="form-control text-capitalize"
+                    required
+                    #licenseType="ngModel"
+                  >
+                    <option value="">Select License Type</option>
+                    <option
+                      class="text-capitalize"
+                      [value]="licenseType._id"
+                      *ngFor="let licenseType of licenseTypeList"
+                    >
+                      {{ licenseType.licenseType }}
+                    </option>
+                  </select>
+                  <div
+                    class="form-control-feedback"
+                    *ngIf="licenseForm.submitted && licenseType.invalid"
+                  >
+                    <p *ngIf="licenseType.errors.required">
+                      License type is required
+                    </p>
+                  </div>
+                  <!-- <pre>{{addNewLicense.licenseType}} {{ licenseTypeList | json}}</pre> -->
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div
+                  class="form-group"
+                  [ngClass]="{
+                    'has-danger': licenseForm.submitted && licenseNumber.invalid
+                  }"
+                >
+                  <label for="licenseNumber"
+                    >Dental License Number
+                    <sup>
+                      <i
+                        class="fa fa-star star-icon"
+                        aria-hidden="true"
+                        [ngClass]="{
+                          'text-danger': !addNewLicense?.licenseNumber,
+                          'clr-blue': addNewLicense?.licenseNumber
+                        }"
+                      ></i>
+                    </sup>
+                  </label>
+                  <input
+                    name="licenseNumber"
+                    [(ngModel)]="addNewLicense.licenseNumber"
+                    placeholder="Enter Dental License Number"
+                    type="text"
+                    class="form-control"
+                    required
+                    #licenseNumber="ngModel"
+                    
+                  />
+
+                  <div
+                    class="form-control-feedback"
+                    *ngIf="licenseForm.submitted && licenseNumber.invalid"
+                  >
+                    <p *ngIf="licenseNumber.errors.required">
+                      License number is required
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div
+                  class="form-group"
+                  [ngClass]="{
+                    'has-danger':
+                      licenseForm.submitted && expirationDate.invalid
+                  }"
+                >
+                  <label for="ExpirationLicense"
+                    >Expiration Date of Dental License
+                    <sup>
+                      <i
+                        class="fa fa-star star-icon"
+                        aria-hidden="true"
+                        [ngClass]="{
+                          'text-danger': !addNewLicense.expirationDate,
+                          'clr-blue': addNewLicense.expirationDate
+                        }"
+                      ></i>
+                    </sup>
+                  </label>
+                  <input
+                    type="text"
+                    [(ngModel)]="addNewLicense.expirationDate"
+                    name="expirationDate"
+                    placeholder="Enter Expiration Date"
+                    class="form-control"
+                    [minDate]="todayDate"
+                    bsDatepicker
+                    [bsConfig]="{
+                      adaptivePosition: true,
+                      containerClass: 'theme-dark-blue',
+                      dateInputFormat: 'MMM DD,YYYY'
+                    }"
+                    required
+                    #expirationDate="ngModel"
+                  />
+                  <!-- <dp-date-picker placeholder="Enter Expiration Date" name="expirationDate"
+                  [(ngModel)]="addNewLicense.expirationDate" [config]="datePickerConfig2" required #expirationDate="ngModel"></dp-date-picker> -->
+                  <div
+                    class="form-control-feedback"
+                    *ngIf="licenseForm.submitted && expirationDate.invalid"
+                  >
+                    <p *ngIf="expirationDate.errors.required">
+                      Expiration date is required
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-round "
+            (click)="addEditLicenseModal.hide(); licenseForm.reset()"
+          >
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-outline-primary btn-round ">Submit</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- ------------------- Add License Popup ----------------------------------------------  -->
+
+<!-- ------------------- Add Education Popup ----------------------------------------------  -->
+<div
+  bsModal
+  #addEditEducationModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+  [config]="{ backdrop: 'static', keyboard: false }"
+>
+  <form
+    novalidate
+    class="row"
+    #educationForm="ngForm"
+    (ngSubmit)="educationForm.form.valid && saveEducation()"
+  >
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="clr-white">
+            {{ selectedIndex > -1 ? "Edit" : "Add" }} Education
+          </h3>
+          <button
+            type="button"
+            class="close text-white"
+            (click)="addEditEducationModal.hide(); educationForm.resetForm()"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="col-sm-12">
+            <div class="row">
+              <div class="col-sm-6">
+                <div
+                  class="form-group"
+                  [ngClass]="{
+                    'has-danger': educationForm.submitted && schoolName.invalid
+                  }"
+                >
+                  <label for="schoolName"
+                    >Name of school
+                    <sup>
+                      <i
+                        class="fa fa-star star-icon"
+                        aria-hidden="true"
+                        [ngClass]="{
+                          'text-danger': !addNewEducation?.schoolName,
+                          'clr-blue': addNewEducation?.schoolName
+                        }"
+                      ></i>
+                    </sup>
+                  </label>
+                  <input
+                    name="schoolName"
+                    [(ngModel)]="addNewEducation.schoolName"
+                    placeholder="Enter name of school"
+                    type="text"
+                    class="form-control"
+                    id="schoolName"
+                    required
+                    #schoolName="ngModel"
+                  />
+                  <div
+                    class="form-control-feedback"
+                    *ngIf="educationForm.submitted && schoolName.invalid"
+                  >
+                    <p *ngIf="schoolName.errors.required">
+                      School name is required
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div
+                  class="form-group"
+                  [ngClass]="{
+                    'has-danger':
+                      educationForm.submitted && degreeEarned.invalid
+                  }"
+                >
+                  <label for="degreeEarned"
+                    >Degree earned
+                    <sup>
+                      <i
+                        class="fa fa-star star-icon"
+                        aria-hidden="true"
+                        [ngClass]="{
+                          'text-danger': !addNewEducation?.degreeEarned,
+                          'clr-blue': addNewEducation?.degreeEarned
+                        }"
+                      ></i>
+                    </sup>
+                  </label>
+                  <input
+                    name="degreeEarned"
+                    [(ngModel)]="addNewEducation.degreeEarned"
+                    placeholder="Enter degree earned"
+                    type="text"
+                    class="form-control"
+                    required
+                    #degreeEarned="ngModel"
+                    id="degreeEarned"
+                  />
+                  <div
+                    class="form-control-feedback"
+                    *ngIf="educationForm.submitted && degreeEarned.invalid"
+                  >
+                    <p *ngIf="degreeEarned.errors.required">
+                      Degree earned is required
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div
+                  class="form-group"
+                  [ngClass]="{
+                    'has-danger':
+                      educationForm.submitted && yearsAttended.invalid
+                  }"
+                >
+                  <label for="yearsAttended"
+                    >Number of years attended
+                    <sup>
+                      <i
+                        class="fa fa-star star-icon"
+                        aria-hidden="true"
+                        [ngClass]="{
+                          'text-danger': !addNewEducation?.yearsAttended,
+                          'clr-blue': addNewEducation?.yearsAttended
+                        }"
+                      ></i>
+                    </sup>
+                  </label>
+                  <input
+                    name="yearsAttended"
+                    [(ngModel)]="addNewEducation.yearsAttended"
+                    numbersOnly
+                    maxlength="1"
+                    placeholder="Enter number of years attended"
+                    type="text"
+                    class="form-control"
+                    required
+                    #yearsAttended="ngModel"
+                  />
+                  <div
+                    class="form-control-feedback"
+                    *ngIf="educationForm.submitted && yearsAttended.invalid"
+                  >
+                    <p *ngIf="yearsAttended.errors.required">
+                      Years attended is required
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div
+                  class="form-group"
+                  [ngClass]="{
+                    'has-danger':
+                      educationForm.submitted && graduationYear.invalid
+                  }"
+                >
+                  <label for="graduationYear"
+                    >Graduation year
+                    <sup>
+                      <i
+                        class="fa fa-star star-icon"
+                        aria-hidden="true"
+                        [ngClass]="{
+                          'text-danger': !addNewEducation?.graduationYear,
+                          'clr-blue': addNewEducation?.graduationYear
+                        }"
+                      ></i>
+                    </sup>
+                  </label>
+                  <select
+                    name="graduationYear"
+                    [(ngModel)]="addNewEducation.graduationYear"
+                    class="form-control"
+                    required
+                    #graduationYear="ngModel"
+                  >
+                    <option value="">Select Year</option>
+                    <option
+                      class="text-capitalize"
+                      [value]="year"
+                      *ngFor="let year of graduationYearList"
+                    >
+                      {{ year }}
+                    </option>
+                  </select>
+                  <div
+                    class="form-control-feedback"
+                    *ngIf="educationForm.submitted && graduationYear.invalid"
+                  >
+                    <p *ngIf="graduationYear.errors.required">
+                      Graduation year is required
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-round "
+            (click)="addEditEducationModal.hide(); educationForm.resetForm()"
+          >
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-outline-primary btn-round ">Submit</button>
+          <!--  (click)="addEditEducation()" -->
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<!-- ------------------- Add Education Popup ----------------------------------------------  -->
+
+<!-- ------------------- Add Education Popup ----------------------------------------------  -->
+<!-- <div bsModal #calendarDateClickModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static', keyboard: false}">
+  <form novalidate class="row" #educationForm="ngForm" (ngSubmit)="educationForm.form.valid && saveEducation()
+  && educationForm.reset()" >
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="clr-white">Add Edit Education</h3>
+        <button type="button" class="close text-white" (click)="addEditEducationModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="col-sm-12">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group" [ngClass]="{ 'has-danger': educationForm.submitted && schoolName.invalid }">
+                <label for="schoolName">Name of school
+                  <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !addNewEducation?.schoolName,'clr-blue': addNewEducation?.schoolName }"></i>
+                  </sup>
+                </label>
+                <input name="schoolName" [(ngModel)]="addNewEducation.schoolName"
+                  placeholder="Enter name of school" type="text" class="form-control" id="schoolName" required
+                  #schoolName="ngModel">
+                  <div class="form-control-feedback" *ngIf="educationForm.submitted && schoolName.invalid">
+                    <p *ngIf="schoolName.errors.required">School name is required</p>
+                  </div>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group" [ngClass]="{ 'has-danger': educationForm.submitted && degreeEarned.invalid }">
+                <label for="degreeEarned">Degree earned
+                  <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !addNewEducation?.degreeEarned,'clr-blue': addNewEducation?.degreeEarned }"></i>
+                  </sup>
+                </label>
+                <input name="degreeEarned" [(ngModel)]="addNewEducation.degreeEarned" placeholder="Enter degree earned" type="text" class="form-control" required  #degreeEarned="ngModel" id="degreeEarned">
+                  <div class="form-control-feedback" *ngIf="educationForm.submitted && degreeEarned.invalid">
+                    <p *ngIf="degreeEarned.errors.required">Degree earned is required</p>
+                  </div>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group" [ngClass]="{ 'has-danger': educationForm.submitted && yearsAttended.invalid }">
+                <label for="yearsAttended">Number of years attended
+                  <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !addNewEducation?.yearsAttended,'clr-blue': addNewEducation?.yearsAttended }"></i>
+                  </sup>
+                </label>
+                <input name="yearsAttended" [(ngModel)]="addNewEducation.yearsAttended" numbersOnly maxlength="1"  placeholder="Enter number of years attended" type="text" class="form-control" required
+                #yearsAttended="ngModel">
+                  <div class="form-control-feedback" *ngIf="educationForm.submitted && yearsAttended.invalid">
+                    <p *ngIf="yearsAttended.errors.required">Years attended is required</p>
+                  </div>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group" [ngClass]="{ 'has-danger': educationForm.submitted && graduationYear.invalid }">
+                <label for="graduationYear">Graduation year
+                  <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !addNewEducation?.graduationYear,'clr-blue': addNewEducation?.graduationYear }"></i>
+                  </sup>
+                </label>
+                <select name="graduationYear" [(ngModel)]="addNewEducation.graduationYear" class="form-control" required
+                #graduationYear="ngModel">
+                  <option value="">Select Year</option>
+                <option class="text-capitalize" [value]="year" *ngFor="let year of graduationYearList">{{year}}
+                  </option>
+                </select>
+                <div class="form-control-feedback" *ngIf="educationForm.submitted && graduationYear.invalid">
+                  <p *ngIf="graduationYear.errors.required">Graduation year is required</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="addEditEducationModal.hide()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Add Education</button>
+      </div>
+    </div>
+  </div>
+</form>
+</div> -->
+<!-- ------------------- Add Education Popup ----------------------------------------------  -->
+
+<!-- ------------------- Add Certification Popup ----------------------------------------------  -->
+<div
+  bsModal
+  #addEditCertificationModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+  [config]="{ backdrop: 'static', keyboard: false }"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="clr-white m-0">Certifications</h3>
+        <button
+          type="button"
+          class="close text-white"
+          (click)="addEditCertificationModal.hide()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="col-sm-12">
+          <div class="row"> 
+            <div
+             *ngIf="typecertification && type"
+              class="col-sm-6 mb-20"
+            >
+              <h5>{{ typecertification?.certificateType }}</h5>
+              <ul class="list-group list-unstyled">
+                <ng-container
+                  *ngFor="let certificate of certificateList; let j = index"
+                >
+                  <li *ngIf="certificate.certificateType === typecertification?._id">
+                    <div class="custom-control custom-checkbox">
+                      <input
+                        name="certificate_{{ i }}_{{ j }}"
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="certificate_{{ i }}_{{ j }}"
+                        (change)="
+                          onChangeCertificate(
+                            certificate._id,
+                            $event.target.checked
+                          )
+                        "
+                        [checked]="
+                          checkAlreadyExistsCertifiate(certificate._id)
+                        "
+                      />
+                      <label
+                        class="custom-control-label"
+                        for="certificate_{{ i }}_{{ j }}"
+                        >{{ certificate.certificate }}
+                      </label>
+                    </div>
+                  </li>
+                </ng-container>
+              </ul>
+            </div>
+            
+            <div
+            *ngIf="generalTypecertification && general"
+             class="col-sm-6 mb-20"
+           >
+             <h5>{{ generalTypecertification?.certificateType }}</h5>
+             <ul class="list-group list-unstyled">
+               <ng-container
+                 *ngFor="let certificate of certificateList; let j = index"
+               >
+                 <li *ngIf="certificate.certificateType === generalTypecertification?._id">
+                   <div class="custom-control custom-checkbox">
+                     <input
+                       name="certificate_{{ i }}_{{ j }}"
+                       type="checkbox"
+                       class="custom-control-input"
+                       id="certificate_{{ i }}_{{ j }}"
+                       (change)="
+                         onChangeCertificate(
+                           certificate._id,
+                           $event.target.checked
+                         )
+                       "
+                       [checked]="
+                         checkAlreadyExistsCertifiate(certificate._id)
+                       "
+                     />
+                     <label
+                       class="custom-control-label"
+                       for="certificate_{{ i }}_{{ j }}"
+                       >{{ certificate.certificate }}
+                     </label>
+                   </div>
+                 </li>
+               </ng-container>
+             </ul>
+           </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-round "
+          (click)="addEditCertificationModal.hide()"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-round "
+          *ngIf="showAddCertificateButton()"
+          (click)="addCertificates()"
+        >
+          Add Certifications
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ------------------- Add Education Popup ----------------------------------------------  -->
+
+<!-- ------------------- Add Skills Popup ----------------------------------------------  -->
+<div
+  bsModal
+  #addEditSkillsModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+  [config]="{ backdrop: 'static', keyboard: false }"
+>
+  <form
+    novalidate
+    #skillForm="ngForm"
+    (ngSubmit)="skillForm.form.valid && addSkills()"
+  >
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="clr-white m-0">Skills</h3>
+          <button
+            type="button"
+            class="close text-white"
+            (click)="addEditSkillsModal.hide()"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="col-sm-12">
+            <div class="row">
+              <div
+                *ngFor="let type of skillTypeList; let i = index"
+                class="col-sm-4"
+              >
+                <h5 [ngClass]="i > 2 ? 'mt-3' : ''">{{ type.skillType }}</h5>
+                <ul class="list-group list-unstyled">
+                  <ng-container *ngFor="let skill of skillsList; let j = index">
+                    <li *ngIf="skill.skillType === type._id">
+                      <div class="custom-control custom-checkbox">
+                        <input
+                          name="skill_{{ i }}_{{ j }}"
+                          type="checkbox"
+                          class="custom-control-input"
+                          id="skill_{{ i }}_{{ j }}"
+                          (change)="
+                            onChangeSkill(skill._id, $event.target.checked)
+                          "
+                          [checked]="checkAlreadyExistsSkill(skill._id)"
+                        />
+                        <label
+                          class="custom-control-label text-capitalize"
+                          for="skill_{{ i }}_{{ j }}"
+                          >{{ skill.skill }}
+                        </label>
+                      </div>
+                    </li>
+                    <li
+                      class="mt-5p"
+                      *ngIf="
+                        othersId.administrationOther === skill._id &&
+                        type.skillType.toLowerCase() === 'administration' &&
+                        selectedSkills.includes(othersId.administrationOther)
+                      "
+                    >
+                      <div
+                        class="form-group"
+                        [ngClass]="{
+                          'has-danger':
+                            skillForm.submitted && otherAdministration.invalid
+                        }"
+                      >
+                        <input
+                          name="otherAdministration"
+                          [(ngModel)]="address.skill.administrationOther"
+                          placeholder="Please enter other administration"
+                          type="text"
+                          class="form-control"
+                          required
+                          #otherAdministration="ngModel"
+                        />
+                        <div
+                          class="form-control-feedback"
+                          *ngIf="
+                            skillForm.submitted && otherAdministration.invalid
+                          "
+                        >
+                          <p *ngIf="otherAdministration.errors.required">
+                            Other administration name is required
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                    <li
+                      class="mt-5p"
+                      *ngIf="
+                        othersId.clinicalOther === skill._id &&
+                        type.skillType.toLowerCase() === 'clinical' &&
+                        selectedSkills.includes(othersId.clinicalOther)
+                      "
+                    >
+                      <div
+                        class="form-group"
+                        [ngClass]="{
+                          'has-danger':
+                            skillForm.submitted && clinicalOther.invalid
+                        }"
+                      >
+                        <input
+                          name="clinicalOther"
+                          [(ngModel)]="address.skill.clinicalOther"
+                          placeholder="Please enter other clinical"
+                          type="text"
+                          class="form-control"
+                          required
+                          #clinicalOther="ngModel"
+                        />
+                        <div
+                          class="form-control-feedback"
+                          *ngIf="skillForm.submitted && clinicalOther.invalid"
+                        >
+                          <p *ngIf="clinicalOther.errors.required">
+                            Other clinical name is required
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                    <li
+                      class="mt-5p"
+                      *ngIf="
+                        othersId.softwaresOther === skill._id &&
+                        type.skillType.toLowerCase() === 'softwares' &&
+                        selectedSkills.includes(othersId.softwaresOther)
+                      "
+                    >
+                      <div
+                        class="form-group"
+                        [ngClass]="{
+                          'has-danger':
+                            skillForm.submitted && softwaresOther.invalid
+                        }"
+                      >
+                        <input
+                          name="softwaresOther"
+                          [(ngModel)]="address.skill.softwaresOther"
+                          placeholder="Please enter other software"
+                          type="text"
+                          class="form-control"
+                          required
+                          #softwaresOther="ngModel"
+                        />
+                        <div
+                          class="form-control-feedback"
+                          *ngIf="skillForm.submitted && softwaresOther.invalid"
+                        >
+                          <p *ngIf="softwaresOther.errors.required">
+                            Other software name is required
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                  </ng-container>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-round "
+            (click)="addEditSkillsModal.hide()"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="btn btn-outline-primary btn-round "
+            *ngIf="showAddSkillButton()"
+          >
+            Add Skills
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<!-- ------------------- Add Skills Popup ----------------------------------------------  -->
+
+
+
+<!-- ------------------- Add Stripe Account Popup ----------------------------------------------  -->
+<div
+  bsModal
+  #addStripeAccountPopup="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+  [config]="{ backdrop: 'static', keyboard: false }"
+>
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="clr-white m-0">Alert</h3>
+          <button
+            type="button"
+            class="close text-white"
+            (click)="addStripeAccountPopup.hide()"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p style="font-size: 18px;">{{stripePopupMsg}}</p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline-primary btn-round "
+              (click)="addStripeAccountPopup.hide()"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="btn btn-outline-primary btn-round "
+              (click)="connectStripe(true)"
+            >
+              Ok
+            </button>
+          </div>
+      </div>
+    </div>
+</div>

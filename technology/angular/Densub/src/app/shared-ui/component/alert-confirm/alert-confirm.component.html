@@ -1,0 +1,88 @@
+<div class="modal show" id="modalname" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title  text-white">{{ alertDetails?.title }}</h4>
+        <button type="button" class="close  text-white" (click)="close()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body" *ngIf="alertDetails?.message?.show">
+        <h4>{{alertDetails?.message?.message}}</h4>
+      </div>
+
+      <div class="modal-body" *ngIf= "alertDetails?.selectInput?.show || alertDetails?.inputText?.show">
+        <div class="form-group row" *ngIf="alertDetails?.selectInput?.show">
+					<div class="col-12">
+            <div class="col-6">
+						  <label><b>{{ alertDetails?.selectInput?.label }}
+								<sup *ngIf="alertDetails?.selectInput?.show"> <i class="fa fa-star star-icon" aria-hidden="true"
+										[ngClass]="{'text-danger': !alertDetails?.currentSelection[alertDetails?.selectInput?.name] , 'text-primary': alertDetails?.currentSelection[alertDetails?.selectInput?.name] }"></i>
+								</sup>
+              </b></label>
+
+              <select *ngIf="alertDetails?.selectInput?.dropdownSettings?.selectSingle" name="{{alertDetails?.selectInput?.name}}" [(ngModel)]="alertDetails?.currentSelection[alertDetails?.selectInput?.name]" class="form-control">
+                <option value="">{{ alertDetails?.selectInput?.placeholder }}</option>
+                <option class="text-capitalize" [value]="value[alertDetails?.selectInput?.dropdownSettings?.idField]" *ngFor="let value of (alertDetails?.selectInput?.list)">{{value[alertDetails?.selectInput?.dropdownSettings?.textField]}}
+                </option>
+              </select>
+              <ng-multiselect-dropdown *ngIf="!alertDetails?.selectInput?.dropdownSettings?.selectSingle" name="{{alertDetails?.selectInput?.name}}" [data]="alertDetails?.selectInput?.list" [placeholder]="alertDetails?.selectInput?.placeholder" class="text-capitalize"
+                [(ngModel)]="alertDetails?.currentSelection[alertDetails?.selectInput?.name]" [settings]="
+                {
+                  singleSelection: alertDetails?.selectInput?.dropdownSettings?.selectSingle,
+                  idField: alertDetails?.selectInput?.dropdownSettings?.idField ,
+                  textField: alertDetails?.selectInput?.dropdownSettings?.textField,
+                  selectAllText: 'Select All',
+                  enableCheckAll: true,
+                  unSelectAllText: 'UnSelect All',
+                  allowSearchFilter: false,
+                  itemsShowLimit: 2,
+                  closeDropDownOnSelection: false
+                }" >
+                <!--   alertDetails?.selectInput?.dropdownSettings?.idField -->
+              </ng-multiselect-dropdown>
+            </div>
+					</div>
+        </div>
+
+        <div class="form-group row" *ngIf="alertDetails?.inputText?.show">
+					<div class="col-12">
+            <div class="col-6">
+						 <label><b>{{ alertDetails?.inputText?.label }}
+								<sup *ngIf="alertDetails?.inputText?.show"> <i class="fa fa-star star-icon" aria-hidden="true"
+										[ngClass]="{'text-danger': !alertDetails?.currentSelection[alertDetails?.inputText?.name] , 'text-primary': alertDetails?.currentSelection[alertDetails?.inputText?.name] }"></i>
+								</sup>
+              </b></label>
+             <!-- <input type="text" *ngIf="alertDetails?.inputText?.characterOnly" name="{{alertDetails?.inputText?.name}}" [(ngModel)]="alertDetails?.currentSelection[alertDetails?.inputText?.name]" class="form-control" characterOnly
+							placeholder="{{alertDetails?.inputText?.placeholder}}" required (ngModelChange)="checkIsAlreadyExit()" oninput="this.value = this.value.replace(/^\s+/g,'')"> -->
+              <!-- *ngIf="!alertDetails?.inputText?.characterOnly" -->
+              <input type="text" name="{{alertDetails?.inputText?.name}}" [(ngModel)]="alertDetails?.currentSelection[alertDetails?.inputText?.name]" class="form-control"
+							placeholder="{{alertDetails?.inputText?.placeholder}}" required (ngModelChange)="checkIsAlreadyExit()" oninput="this.value = this.value.replace(/^\s+/g,'')">
+             <div class="text-danger" role="alert" *ngIf="isAlreadyExist">
+                {{alertDetails?.errorMsg}}
+             </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row" *ngIf="alertDetails?.checkboxInput?.show">
+					<div class="col-12">
+            <div class="col-6">
+              <div class="custom-control custom-checkbox">
+                <input name="{{ alertDetails?.checkboxInput?.name }}"  [(ngModel)]="alertDetails?.currentSelection[alertDetails?.checkboxInput?.name]" type="checkbox" id="inputcheckbox" class="custom-control-input">
+                <label class="custom-control-label" for="inputcheckbox"> {{ alertDetails?.checkboxInput?.label }}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer justify-content-end">
+        <button type="button" *ngIf="alertDetails?.cancelButton?.show" class="btn btn-secondary" (click)="close()">{{ alertDetails?.cancelButton?.name }}</button>
+        <button type="button" class="btn btn-primary" *ngIf="showConfirmBtn()" (click)="confirm()">{{ alertDetails?.confirmButton?.name }}</button>
+      </div>
+    </div>
+  </div>
+</div>

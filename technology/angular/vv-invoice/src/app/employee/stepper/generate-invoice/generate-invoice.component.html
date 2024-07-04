@@ -1,0 +1,77 @@
+<div class="main-container">
+  <div class="container-fluid d-flex mt-1">
+    <form [formGroup]="dropdownForm">
+      <mat-form-field appearance="outline" id="select_global_template">
+        <mat-label>Select Global Template</mat-label>
+        <mat-select
+          formControlName="select_global_template"
+          (selectionChange)="selectGlobalTemplate($event)"
+          (infiniteScroll)="getNextBatch()"
+          [complete]="isComplete$ | async"
+          msInfiniteScroll
+        >
+          <mat-option
+            value="{{ item.html }}"
+            *ngFor="let item of options$ | async"
+            >{{ item.templatename }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" id="dropdown">
+        <mat-label>Select Component</mat-label>
+        <mat-select
+          (selectionChange)="placeholderChange($event)"
+          formControlName="select_component"
+        >
+          <mat-option value="{{ item }}" *ngFor="let item of componentData">{{
+            item
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+    <div class="browse-template-div">
+      <button
+        id="increase-height"
+        mat-stroked-button
+        (click)="browseTemplates()"
+      >
+        Browse Templates
+      </button>
+    </div>
+  </div>
+
+  <div class="container-fluid editor-container">
+    <div class="row">
+      <app-custom-editor 
+      (getCustomEditorsData)="getCustomEditorsData($event)"
+      ></app-custom-editor>
+    </div>
+  </div>
+
+  <div class="btns d-flex justify-content-end">
+    <button mat-flat-button matStepperPrevious id="prv-btn">Previous</button>
+    <div>
+      <button
+        mat-stroked-button
+        matStepperNext
+        *ngIf="!showUpdateBtn"
+        (click)="onSaveTemplate()"
+        [style.margin-left]="'10px'"
+        [disabled]="!editorHasBeenEdited"
+        >
+        Save
+      </button>
+      <button
+        mat-stroked-button
+        matStepperNext
+        *ngIf="showUpdateBtn"
+        (click)="onUpdateTemplate()"
+        [style.margin-left]="'10px'"
+        [disabled]="disableButton"
+      >
+        Update
+      </button>
+    </div>
+  </div>
+</div>

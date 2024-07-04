@@ -1,0 +1,481 @@
+<!-- <Section class="innerbg-1 position-relative bg-overlay d-flex align-items-center"
+	*ngIf="!viewChecked.favoritesStaff && !viewChecked.dashboardStaff && !viewChecked.hiredStaff">
+	<div class="container">
+		<div class="row mb-30 align-center">
+			<div class="col-12 text-center">
+				<h1 class="fs-50 clr-white position-relative z-index">Marketplace</h1>
+			</div>
+		</div>
+	</div>
+</Section> -->
+<!-- <pre [innerHtml]="viewChecked | json"> </pre> -->
+
+<div>
+<div [ngClass]="hideSideNav ? 'fil': ''" (click)="closePopup()">
+</div>
+<section class="listing-page pt-8 pb-70 sm-pb-50 gray-bg">
+	<div style="text-align: center; margin-bottom: 10px;" *ngIf="!paymentCardExists" [ngClass]="!paymentCardExists ? 'mt-3': ''">
+		Complete your profile to join Densub’s job marketplace to post temporary and permanent jobs and hire talented
+		candidates
+		<button class="btn btn-primary" (click)="navigateTosavePaymentCard()">Complete Now</button>
+	</div>
+	
+	<div class="container-fluid filter-container" [ngClass]="!isCollapsed ? 'px-0': 'mt-3'">
+		<div class="row listing_inner pt-30 pr-15 pl-15 pb-10 m-0" [ngClass]="!isCollapsed ? 'box-shadow-1 bg-white' : 'pt-0'"
+			*ngIf="!viewChecked.favoritesStaff && !viewChecked.hiredStaff">
+			<!-- <button class="btn make-fav pull-right mt-0" *ngIf="!viewChecked.hiredStaff"><span class="fa fa-star"
+					[ngClass]="{'favorited': viewChecked.favoritesStaff}"></span></button> -->
+			<div class="col-md-12 pr-5p pl-5p">
+				<div class="row">
+				<div class="m-0 col-md-12 pb-3 pl-2 d-flex" [ngClass]="!isCollapsed ? 'mt--12 pl-3 pr-4' : 'mt--12'">
+					<button type="button" class="btn btn-primary " (click)="isCollapsed = !isCollapsed;closeAllDropdowns()"
+					[attr.aria-expanded]="!isCollapsed" aria-controls="collapseSearch" [ngClass]="!isCollapsed ? '' : 'filter1'"
+					style="height: 35px; padding: 6px;border-radius: 20px;width: 92px;"><i class="fa fa-sliders"
+					  aria-hidden="true"></i> Filters
+				  </button> 
+					<div class="form-group mb-0 ml-2">
+						<select style="border-radius: 20px;border-color: #007bff;width: 83px;height: 35px;font-size: 14px;
+						padding-left: 8px; background-color: white !important;" class="sortSelection" name="SortBy" (change)="sortStaff()" [(ngModel)]="FilterStaffList.sort">
+							<option value="">Sort By 
+							</option>
+							<option value="">Newest</option>
+							<option value="ratings">Ratings</option>
+							<option value="price">Hourly Rate</option>
+							<option value="proximity">Proximity By Location</option>
+						</select>
+					</div>
+					</div>
+				</div>
+				<div class="row m-0" [ngbCollapse]="isCollapsed">
+					<div class="col-md-2 col-sm-6 pr-5p pl-0 xx-pr-0">
+						<div class="form-group">
+							<select class="form-control round-box" name="positionType" [(ngModel)]="FilterStaffList.positionType" (ngModelChange)="getPositionDetails(FilterStaffList.positionType)">
+								<option value="">Position Type</option>
+								<option [value]="positionType._id" *ngFor="let positionType of positionTypes">
+									{{positionType.name}}
+								</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-2 col-sm-6 pr-5p pl-5p xs-pr-0 xx-pl-0">
+						<div class="form-group">
+							<input name="Address" placeholder="Location (City, state or zipcode)" type="text" class="form-control round-box"
+								id="Address" [(ngModel)]="FilterStaffList.address">
+						</div>
+
+					</div>
+					<div class="col-md-2 col-sm-6 pr-5p pl-5p xs-pr-0 xx-pl-0">
+						<div class="form-group">
+						<div class="d-block">
+							<div class="input-group">
+								<div class="input-group-append">
+									<span class="input-group-text" style=" border-radius: 20px 0px 0px 20px !important;">within</span>
+								  </div>
+							  <input
+										name="miles"
+										id="miles"
+										[(ngModel)]="FilterStaffList.miles"
+										placeholder="Distance (Radius by miles)"
+										type="text"
+										class="form-control round-with-text"
+										natualNumbersOnly
+									  />
+									  <div class="input-group-append">
+										<span class="input-group-text" style="border-radius: 0px 20px 20px 0px !important;">miles</span>
+									  </div>
+							</div>
+							</div>
+							</div>
+					</div>
+					<div class="col-md-2 col-sm-6 pr-5p pl-5p xs-pl-0 xx-pr-0">
+						<div class="form-group">
+							<input type="text" name="dates" placeholder="Availability" class="form-control round-box"
+								[(ngModel)]="FilterStaffList.dates" bsDaterangepicker [minDate]="today"
+								[bsConfig]="rangeDatepickerConfig">
+							<!-- <dp-date-picker placeholder="Date" name="date" [(ngModel)]="FilterStaffList.dates" [config]="datePickerConfig2">
+							</dp-date-picker> -->
+						</div>
+					</div>
+					<div class="col-md-2 col-sm-6 pr-5p pl-0 xx-pr-0 px-1 mobile-px d-grid">
+						<div class="btn-group">
+							<button class="btn form-control dropdown-toggle dropdown-btn text-left round-box" type="button" [ngClass]="!isCollapse ? 'rotation': ''" (click)="isCollapse = !isCollapse"
+							[attr.aria-expanded]="!isCollapse" aria-controls="collapseSearch" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							  Qualifications
+							</button>
+							<div class="dropdown-menu" [ngbCollapse]="isCollapse" style="width: -webkit-fill-available;">
+								<div class="row px-3 py-3">
+								<div class="col-md-12 col-sm-12">
+									<div class="form-group">
+										<ng-multiselect-dropdown name="specialty" [data]="specialtyList" [placeholder]="'Specialities'"
+										[(ngModel)]="FilterStaffList.specialty"  [settings]="{
+										  singleSelection: false,
+										  idField: '_id',
+										  textField: 'specialty',
+										  selectAllText: 'Select All',
+										  unSelectAllText: 'UnSelect All',
+										  allowSearchFilter: false,
+										  itemsShowLimit: 2,
+										  closeDropDownOnSelection: false,
+										  enableCheckAll: false,
+										  noDataAvailablePlaceholderText : 'Please select a position type'
+										}"  [disabled]="disabled">
+									  </ng-multiselect-dropdown>
+									</div>
+								</div>
+								<div class="col-md-12 col-sm-12">
+								<div class="form-group">
+								<ng-multiselect-dropdown name="certificates" [data]="certificatesList" [placeholder]="'Certifications'"
+									[(ngModel)]="FilterStaffList.certificates"  [settings]="{
+							  singleSelection: false,
+							  idField: '_id',
+							  textField: 'certificate',
+							  selectAllText: 'Select All',
+							  unSelectAllText: 'UnSelect All',
+							  allowSearchFilter: false,
+							  itemsShowLimit: 2,
+							  closeDropDownOnSelection: false,
+							  enableCheckAll: false
+							}"  [disabled]="disabled">
+								  </ng-multiselect-dropdown>
+								</div>
+								</div>
+								<div class="col-md-12 col-sm-12">
+						<div class="form-group">
+							<ng-multiselect-dropdown name="skills" [data]="skillsList" [placeholder]="'Skills'"
+							[(ngModel)]="FilterStaffList.skills"  [settings]="{
+							  singleSelection: false,
+							  idField: '_id',
+							  textField: 'skill',
+							  selectAllText: 'Select All',
+							  unSelectAllText: 'UnSelect All',
+							  allowSearchFilter: false,
+							  itemsShowLimit: 2,
+							  closeDropDownOnSelection: false,
+							  enableCheckAll: false
+							}"  [disabled]="disabled">
+						  </ng-multiselect-dropdown>
+						</div>
+								</div>
+								<div class="col-md-12 col-sm-12">
+								<div class="custom-control custom-checkbox pt-2">
+									<input name="favorite"  [(ngModel)]="FilterStaffList.childAbuse" type="checkbox"
+									  class="custom-control-input" id="childAbuse">
+									<label class="custom-control-label" for="childAbuse">Child Abuse History Clearance</label>
+								  </div>
+								</div>
+								</div>
+							  </div>
+						  </div>
+					</div>				
+					<div class="col-md-2 col-sm-3 pr-5p pl-5p xs-pl-0 xx-pr-0">
+						<div class="form-group">
+							<select name="experience" [(ngModel)]="FilterStaffList.experience" class="form-control round-box"
+								id="Experience">
+								<option value="">Any Experience</option>
+								<option [value]="experience._id" *ngFor="let experience of experienceLists">{{experience.experience}}
+								</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-2 col-sm-6 pr-5p pl-5p xs-pr-0 xx-pl-0 pl-0">
+						<div class="form-group">
+						<div class="d-flex">
+							<div class="input-group mr-2">
+								<div class="input-group-append">
+									<span class="input-group-text" style=" border-radius: 20px 0px 0px 20px !important">Min</span>
+								  </div>
+							  <input
+										name="minHourlyRate"
+										id="minHourlyRate"
+										[(ngModel)]="FilterStaffList.minHourlyRate"
+										placeholder="Rate"
+										type="text"
+										class="form-control round-with-text"
+										natualNumbersOnly
+									  />
+							</div>
+							<div class="input-group">
+								<div class="input-group-append">
+									<span class="input-group-text" style="border-radius: 20px 0px 0px 20px !important">Max</span>
+								  </div>
+							  <input
+										name="maxHourlyRate"
+										id="maxHourlyRate"
+										[(ngModel)]="FilterStaffList.maxHourlyRate"
+										placeholder="Rate"
+										type="text"
+										class="form-control round-with-text"
+										natualNumbersOnly
+									  />
+							</div>
+							</div>
+							</div>
+
+					</div>
+					<div class="col-md-2 col-sm-3 pr-5p pl-5p xs-pl-0 xx-pr-0 col-6">
+						<div class="custom-control custom-checkbox pt-2 mr-5 pr-5">
+							<input name="favorite"  [(ngModel)]="favorites" type="checkbox"
+							  class="custom-control-input" id="favorite">
+							<label class="custom-control-label" for="favorite">Favorites</label>
+						  </div>
+						</div>
+						<div class="col-md-2 col-sm-3 pr-5p pl-5p xs-pl-0 xx-pr-0 col-6">
+							<button class="btn btn-outline-success mr-2" type="button" (click)="searchStaff()">Apply</button>
+							<button class="btn btn-outline-danger" type="button" (click)="clearFilters();searchStaff()">Reset</button>
+							</div>
+					
+				</div>
+			</div>
+		</div>
+						</div>
+						<div class="container"  [ngClass]="!isCollapsed ? 'mt-25': 'mt-8'">
+		<div class="row pt-4" *ngIf="staffList.length">
+			<div class="col-md-4 col-lg-4 col-6 custom-grid mb-30"
+				*ngFor="let staff of staffList | paginate: { itemsPerPage: itemsPerPage, currentPage: p } | grdFilter: setDataFilter; let i = index">
+				<div class="listing_inner box-shadow-1 bg-white text-center">
+					<div class="d-flex justify-content-end pr-3 pt-2">
+					<button class="btn"
+						*ngIf="currentUser.profileVerificationStatus === profileStatus.VERIFIED">
+						<span class="fa fa-heart-o" title="Favorite Staff" *ngIf="!staff?.favoriteInfo?._id" (click)="showConfirmationModal(staff,i)"></span>
+						<span class="fa fa-heart" title="Favorite Staff" *ngIf="staff?.favoriteInfo?._id" (click)="showConfirmationModal(staff,i)"
+							[ngClass]="{'checked' :staff?.favoriteInfo?._id}"></span></button>
+							<!-- <button class="btn" type="button" (click)="openUrl(staff._id)"><i class="fa fa-external-link clr-blue" title="Open details in a new tab" aria-hidden="true"></i></button>		 -->
+							<button class="btn btn-primary form-group py-0 mb-0 mt-1"
+							*ngIf="currentUser.profileVerificationStatus === profileStatus.VERIFIED" (click)="showOfferModal(staff)">
+							Invite</button>
+							</div>
+					<!-- <button class="btn make-fav pull-right mt-0" *ngIf="!viewChecked.hiredStaff"><span class="fa fa-star" [ngClass]="{'favorited': viewChecked.favoritesStaff}"></span></button> -->
+						<a>
+						<div class="row px-4 pb-3 pt-2">
+						<div class="listing-img col-md-4 pr-0 pl-0 my-auto" (click)="openPopup(staff._id)">
+							<img *ngIf="staff?.profilePhoto?.length" class="img-fluid w-75 img-circle"
+								src="{{staff.profilePhoto[0]}}" alt="">
+							<img *ngIf="!staff?.profilePhoto?.length"
+								src="../../../assets/img/brand/densub-logo-final.jpg"
+								class="img-fluid img-circle w-75" alt="">
+								<p class="text-muted">
+									<span *ngFor=" let in of numToArrConverter(5); let i = index;" class="fa fa-star"
+										[ngClass]="{'checked': (i+1) <=  staff?.avgRating}"></span>
+										<span *ngIf="staff?.ratingCount" style="color: black;">({{staff.ratingCount}})</span>
+								</p>
+						</div>
+						<div class="listing-content p-15 col-md-8 pl-0 pt-0 pb-0" (click)="openPopup(staff._id)">
+							<h2 class="mb-0 text-capitalize text-l">{{staff.firstName}} {{staff.lastName.charAt(0)}}</h2>
+							<p class="mb-0 text-capitalize text-l" *ngIf="staff.positionType"><i class="fa fa-user-md mr-2 clr-blue pr-1" title="Position Type" aria-hidden="true"></i>{{staff.positionType}}</p>
+							<p class="text-capitalize text-l mb-1" *ngIf="staff?.city"><i class="fa fa-map-marker mr-2 clr-blue" title="Location" aria-hidden="true"></i>
+								{{staff?.city | slice:3:staff?.city.length}}, {{staff.state}}</p>
+							<p class="text-l mb-1"><span class="mr-3"> <i class="fa fa-dollar clr-blue mr-2 pr-1" aria-hidden="true" title="Preferred hourly rate"></i>
+								{{ staff?.desiredHourlyRate ? staff?.desiredHourlyRate : '0' }}</span><span class="text-capitalize"
+									*ngIf="staff?.experience"><i class="fa fa-briefcase mr-1 clr-blue pl-1" title="Experience" aria-hidden="true"></i>
+								{{staff.experience[0]?.experience === 'More than 10 years' ? '>10 years' : staff.experience[0]?.experience }}
+								</span> <span class="text-capitalize"
+								*ngIf="!staff?.experience"><i class="fa fa-briefcase mr-1 clr-blue pl-1" title="Experience" aria-hidden="true"></i> 0 years
+							</span> </p>
+								<p class="text-capitalize text-l"><span class="mr-3">{{staff.jobCount ? staff.jobCount : 0}} Jobs</span><span>{{staff.cancelledJobs ? staff.cancelledJobs : 0}}  Cancellations</span></p>
+						</div>
+						 <div class="">
+							<ngx-carousel 
+							[inputs]="carouselOne"
+							(carouselLoad)="myfunc($event)" style="padding-left: 26px;
+							padding-right: 19px;">
+							  <ngx-item class="" NgxCarouselItem data-toggle="tooltip" title="Specialty" *ngFor="let spec of staff.specialty.ids">
+								<span *ngIf="staff.specialty.ids.length > 0">
+							  <span *ngIf="staff.specialty.ids.length"><p *ngIf="spec.specialty !=='Other'" class="tag mr-2">{{spec.specialty}}</p></span></span>
+							</ngx-item>
+							  <ngx-item class="" NgxCarouselItem data-toggle="tooltip" title="Certificate" *ngFor="let cert of staff.certifications">
+								  <span *ngIf="staff.certifications.length > 0">
+								<span *ngIf="staff.certifications.length"><p *ngIf="cert.certificate !=='Other'" class="tag mr-2">{{cert.certificate}}</p></span></span>
+							  </ngx-item>
+							   <ngx-item class="" NgxCarouselItem data-toggle="tooltip" title="Skill" *ngFor="let ski of staff?.skill?.ids">
+									  <span *ngIf="staff && staff.skill && staff.skill.ids.length > 0"> 
+								<span *ngIf="staff.skill.ids.length">
+									<p *ngIf="ski.skill !=='Other'" class="tag mr-2">{{ski.skill}}</p>
+									<p *ngIf="ski.skill ==='Other'" class="tag mr-2">{{staff.skill.softwaresOther}}</p>
+									</span></span>
+							  </ngx-item> 
+							   <ngx-item  class="" NgxCarouselItem *ngIf="staff.covidVaccination">
+								<p class="tag mr-2"  data-toggle="tooltip" title="Covid-19 Vaccination">Covide-19 Vaccination</p>
+							  </ngx-item>
+							  <ngx-item class="" NgxCarouselItem *ngIf="staff.hepCVaccination">
+								<p class="tag mr-2"  data-toggle="tooltip" title="Hep-B Vaccination">Hep-B Vaccinationp</p>
+							  </ngx-item>
+							  <ngx-item class="" NgxCarouselItem *ngIf="staff.expMalpracticeIns">
+								<p class="tag mr-2"  data-toggle="tooltip" title="Valid Malpractice insurance policy">Valid Malpractice insurance policy</p>
+							  </ngx-item>
+							  <ngx-item class="" NgxCarouselItem *ngIf="staff.childAbuseHistory">
+								<p class="tag mr-2"  data-toggle="tooltip" title="Child Abuse History Clearance">Child Abuse History Clearance</p>
+							  </ngx-item>	
+							  <ngx-item class="" NgxCarouselItem></ngx-item>		
+							  <ngx-item class="" NgxCarouselItem></ngx-item>
+							  <ngx-item class="" NgxCarouselItem></ngx-item>
+							  <ngx-item class="" NgxCarouselItem></ngx-item>		
+							  <button type="button" NgxCarouselPrev class='leftRs'>&lt;</button>
+							  <button type="button" NgxCarouselNext class='rightRs'>&gt;</button>
+						</ngx-carousel>
+					
+						</div>
+						<div class="custom-cursor-pointer" (click)="openPopup(staff._id)">
+							<p class="text-left mb-0 text-muted">General Availability</p>
+							<div class="d-flex pt-2">
+								<div class="calender-weekDays" data-toggle="tooltip" [title]="staff.genCalAvailableDays[0].available && staff.genCalAvailableDays[0].availableType === 'any'? 'Available' : staff.genCalAvailableDays[0].availableType === 'specify' ? 'Partially Available' : 'Not Available' " [ngClass]="staff.genCalAvailableDays[0].available && staff.genCalAvailableDays[0].availableType === 'any' ? 'cal-day-available' : staff.genCalAvailableDays[0].availableType === 'specify' ? 'cal-day-partial-available' : 'cal-day-unavailable' ">
+									Sun
+									</div>
+							<div class="calender-weekDays" data-toggle="tooltip" [title]="staff.genCalAvailableDays[1].available && staff.genCalAvailableDays[1].availableType === 'any' ? 'Available' : staff.genCalAvailableDays[1].availableType === 'specify' ? 'Partially Available' : 'Not Available' " [ngClass]="staff.genCalAvailableDays[1].available && staff.genCalAvailableDays[1].availableType === 'any' ? 'cal-day-available' : staff.genCalAvailableDays[1].availableType === 'specify' ? 'cal-day-partial-available' : 'cal-day-unavailable' ">
+								Mon
+								</div>
+								<div class="calender-weekDays" data-toggle="tooltip" [title]="staff.genCalAvailableDays[2].available && staff.genCalAvailableDays[2].availableType === 'any' ? 'Available' : staff.genCalAvailableDays[2].availableType === 'specify' ? 'Partially Available' : 'Not Available' " [ngClass]="staff.genCalAvailableDays[2].available && staff.genCalAvailableDays[2].availableType === 'any' ? 'cal-day-available' : staff.genCalAvailableDays[2].availableType === 'specify' ? 'cal-day-partial-available' : 'cal-day-unavailable' ">
+									Tue
+									</div>
+									<div class="calender-weekDays" data-toggle="tooltip" [title]="staff.genCalAvailableDays[3].available && staff.genCalAvailableDays[3].availableType === 'any' ? 'Available' : staff.genCalAvailableDays[3].availableType === 'specify' ? 'Partially Available' : 'Not Available' " [ngClass]="staff.genCalAvailableDays[3].available && staff.genCalAvailableDays[3].availableType === 'any' ? 'cal-day-available' : staff.genCalAvailableDays[3].availableType === 'specify' ? 'cal-day-partial-available' : 'cal-day-unavailable' ">
+										Wed
+										</div>
+										<div class="calender-weekDays" data-toggle="tooltip" [title]="staff.genCalAvailableDays[4].available && staff.genCalAvailableDays[4].availableType === 'any'? 'Available' : staff.genCalAvailableDays[4].availableType === 'specify' ? 'Partially Available' : 'Not Available' " [ngClass]="staff.genCalAvailableDays[4].available && staff.genCalAvailableDays[4].availableType === 'any' ? 'cal-day-available' : staff.genCalAvailableDays[4].availableType === 'specify' ? 'cal-day-partial-available' : 'cal-day-unavailable' ">
+											Thu
+											</div>
+											<div class="calender-weekDays" data-toggle="tooltip" [title]="staff.genCalAvailableDays[5].available && staff.genCalAvailableDays[5].availableType === 'any' ? 'Available' : staff.genCalAvailableDays[5].availableType === 'specify' ? 'Partially Available' : 'Not Available' " [ngClass]="staff.genCalAvailableDays[5].available && staff.genCalAvailableDays[5].availableType === 'any' ? 'cal-day-available' : staff.genCalAvailableDays[5].availableType === 'specify' ? 'cal-day-partial-available' : 'cal-day-unavailable' ">
+												Fri
+												</div>
+												<div class="calender-weekDays" data-toggle="tooltip" [title]="staff.genCalAvailableDays[6].available && staff.genCalAvailableDays[6].availableType === 'any' ? 'Available' : staff.genCalAvailableDays[6].availableType === 'specify' ? 'Partially Available' : 'Not Available' " [ngClass]="staff.genCalAvailableDays[6].available && staff.genCalAvailableDays[6].availableType === 'any'? 'cal-day-available' : staff.genCalAvailableDays[6].availableType === 'specify' ? 'cal-day-partial-available' : 'cal-day-unavailable' ">
+													Sat
+													</div>
+												
+							</div>
+						</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="row" *ngIf="!staffList.length">
+			<div class="col-12 custom-grid mb-30 text-center">
+				<h4>No Result Found</h4>
+			</div>
+		</div>
+
+		<ul class="pagination justify-content-end mt-10" *ngIf="itemsPerPage < staffList.length">
+			<pagination-controls (pageChange)="p = $event"></pagination-controls>
+		</ul>
+	</div>
+</section>
+</div>
+
+<ng-template #confirmationModal let-modal>
+	<div class="modal-header text-white">
+	  <h4 class="modal-title text-white">Confirmation</h4>
+	  <button type="button" class="close text-white" (click)="modal.dismiss('Cross click')" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+	<div class="modal-body">
+	  <h4>{{confirmationMessage}}</h4>
+	  <!-- <h4>Are you sure that you want to cancel this post? all data will be lost</h4> -->
+	</div>
+	<div class="modal-footer justify-content-end">
+	  <button type="button" class="btn btn-dark" (click)="modal.dismiss('Cross click')" >Close</button>
+	  <button type="button" class="btn btn-primary" (click)="modal.dismiss('Cross click-Confirmation')">Confirm</button>
+	</div>
+  </ng-template>
+
+
+  
+<!-- START Invite Staff MODAL -->
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #sendInviteOfferModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+aria-hidden="true">
+<div class="modal-dialog modal-height" role="document">
+  <div class="modal-content">
+	<div class="modal-header">
+	  <h4 class="modal-title text-white">Send An Invitation</h4>
+	  <button type="button" class="close text-white" (click)="sendInviteOfferModal.hide();closeInvite();" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+	<div class="modal-body">
+
+		<div class="row">
+			<div class="row pb-3">
+				<div class="col-md-3">
+				<div>
+				<div class="usr-avtar img-circle overflow-hidden text-center">
+					<img *ngIf="!staffDetails?.profilePhoto?.length"
+					  src="../../../../assets/img/brand/densub-logo-final.jpg" width="60" class="img-fluid img-circle" alt="">
+					<img *ngIf="staffDetails?.profilePhoto?.length" src="{{staffDetails?.profilePhoto[0]}}"
+					  width="60" height="60" class="img-fluid img-circle invite-image" alt="{{staffDetails.firstName}}">
+				  </div>
+				  </div>
+				  <div class="text-center f-14">
+					<span class="text-muted">
+					  <span *ngFor=" let in of numToArrConverter(5); let i = index;" class="fa fa-star " [ngClass]="{'checked': (i+1) <=  staffDetails?.avgRating}"></span>
+					</span> <span *ngIf="ratingCount">({{ratingCount}})</span>
+					</div>
+				  </div>
+				<div class="col-md-9">
+				<h2 class="mb-0 text-capitalize" data-toggle="tooltip" title="Staff">{{receiverName}}</h2>
+				<p data-toggle="tooltip" class="text-capitalize" title="Position">{{positionName}}</p>	
+				</div>
+			</div>
+			<div class="col-md-12">
+				<p><b>Message</b></p>	
+			</div>
+				<div class="col-md-12 text-muted" style="font-style: italic;">
+					<p>Hi!,</p>
+					<p>I would like to invite you to take a look at this job that I have posted. Please submit an application if you are available and interested to apply for this job.</p>
+					<p>{{senderName}}</p>
+				</div>	
+		</div>
+		<br>
+	  <ng-multiselect-dropdown name="offerJobId" class="text-capitalize" [data]="jobList" [placeholder]="'Select Job'"
+		  [(ngModel)]="selOfferInvite" [settings]="dropdownSettings2" [disabled]="false">
+		</ng-multiselect-dropdown>
+		<button type="button" class="btn btn-primary mt-3 pull-right mobile-btn" *ngIf="jobList.length == 0" (click)="sendInviteOfferModal.hide();fetchRoute()" [routerLink]="['/practice/post-job']">Create a Job Post</button>	
+	</div>
+	<div class="modal-footer justify-content-end">
+	  <button type="button" class="btn btn-dark" (click)="sendInviteOfferModal.hide();closeInvite();" >Close</button>
+	  <button type="button" class="btn btn-primary" *ngIf="selOfferInvite.length > 0" (click)="sendInviteOffer()">Send</button>
+	</div>
+  </div>
+</div>
+</div>
+<!-- END Invite Staff MODAL -->
+
+
+
+<div class="wrapper" *ngIf="hideSideNav">
+    <nav id="sidebar">
+        <div id="dismiss" class="pt-2 custom-cursor-pointer" (click)="openPopup()">
+            <i class="fas fa-arrow-left clr-blue" title="Close" style="font-size: 25px;"></i>
+        </div>
+		<div id="dismiss1" class="pt-2 custom-cursor-pointer" (click)="openUrl()">
+            <i class="fa fa-external-link clr-blue" title="Open the profile in new tab" style="font-size: 20px;"></i>
+        </div>
+		<!-- <div>
+            <button class="btn" type="button" (click)="openUrl(staff._id)"></button>
+        </div> -->
+	<div>
+	<app-staff-preview [staffPreviewId]="staffPreview"></app-staff-preview>
+	</div>
+    </nav>
+</div>
+
+
+
+<div class="modal show" id="warningPracticeVerificationModel" tabindex="-1" role="dialog" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+	<div class="modal-header text-white">
+	  <h4 class="modal-title text-white">Message From Admin</h4>
+	  <button type="button" class="close text-white" (click)="closeAndRedirect()" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+	<div class="modal-body">
+	  <p>Thank you for your patience!</p>
+    <p>Your profile is currently under the verification process. This process may take up to 48 hours to complete. We will send you 
+    an email confirmation when your profile is verified.</p>
+	</div>
+	<div class="modal-footer justify-content-end py-2">
+	  <button type="button" class="btn btn-dark" (click)="closeAndRedirect()" >Close</button>
+	</div>
+  </div>
+  </div>
+  </div>

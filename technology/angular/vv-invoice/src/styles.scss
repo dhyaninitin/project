@@ -1,0 +1,70 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+@import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+@import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+mat-icon {
+  cursor: pointer;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#action-icon {
+  font-size: 18px;
+  justify-content: space-between;
+}
+
+mat-label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.success-snackbar {
+  --mdc-snackbar-container-color: #20923b;
+
+  .mat-mdc-button .mdc-button__label {
+    color: #fff !important;
+  }
+}
+
+.error-snackbar {
+  --mdc-snackbar-container-color: #b43434;
+
+  .mat-mdc-button .mdc-button__label {
+    color: #fff !important;
+  }
+}
+
+::-webkit-scrollbar {
+  height: 7px;
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(#919191, #919191);
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-image: linear-gradient(#919191, #919191);
+}

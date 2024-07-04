@@ -1,0 +1,367 @@
+@import "~@cloudtalentrecruit/ng-design/assets/styles/0-plugins/plugins-dir";
+@import "~@cloudtalentrecruit/ng-design/assets/styles/1-base/variable";
+
+.box-container {
+  margin: 5px 1.3rem 0 1.3rem;
+
+  .user-details {
+    .header {
+      display: flex;
+    }
+    mat-label {
+      font-family: Manrope;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      margin: 2px 0 4px 0;
+      color: #84818a;
+    }
+    .value {
+      font-family: Manrope;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      color: #25364d;
+    }
+  }
+  .table-container {
+    table {
+      width: 100%;
+      top: 10px;
+      tr.mat-row {
+        height: 80px;
+        @include media-breakpoint-down(md) {
+          height: auto !important;
+          border: 1px solid #ebeaed;
+          display: flex;
+          width: 100%;
+          position: relative;
+          border-radius: 4px;
+        }
+      }
+      th {
+        background: #fbfafc;
+
+        font-family: Manrope;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 13px;
+        color: #84818a;
+        margin: 5px 8px 0 0px;
+        padding: 20px 0px 0 7px;
+      }
+      td {
+        font-family: Manrope;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 13px;
+        padding-top: 10px;
+        color: #25364d;
+
+        mat-form-field {
+          width: 85px;
+          ::ng-deep .mat-form-field-flex > .mat-form-field-infix {
+            padding: 0.4em 0px !important;
+          }
+          ::ng-deep .mat-form-field-label-wrapper {
+            top: -1.5em;
+          }
+
+          ::ng-deep
+            .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float
+            .mat-form-field-label {
+            transform: translateY(-1.1em) scale(0.75);
+          }
+        }
+
+        button {
+          width: 2px;
+        }
+        .box-btn {
+          background: rgba(20, 177, 59, 0.1);
+          height: 40px;
+          color: #00a46c;
+        }
+      }
+    }
+  }
+  .buttons {
+    display: flex;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+}
+p {
+  font-family: Manrope;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 18px;
+  color: #1f47f5;
+  margin: 10px;
+}
+.action-btns {
+  margin-left: 2px;
+
+  .cross {
+    img {
+      width: 16px;
+      margin: 47px 0 0 28px;
+    }
+  }
+  img {
+    width: 19px;
+    padding: 0px 0 0 5px;
+    margin-top: 18px;
+  }
+}
+::ng-deep
+  .mat-slide-toggle.mat-checked:not(.mat-disabled)
+  .mat-slide-toggle-thumb {
+  background-color: rgb(235, 232, 232);
+}
+::ng-deep
+  .mat-slide-toggle.mat-checked:not(.mat-disabled)
+  .mat-slide-toggle-bar {
+  background-color: #00a46c;
+}
+
+.editDetailsOne {
+  display: flex;
+}
+
+table {
+  width: 100%;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: #777;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.example-element-diagram {
+  min-width: 80px;
+  border: 2px solid black;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
+}
+
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.example-element-description {
+  padding: 16px;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+
+.inner-table {
+  width: 100%;
+}
+
+.inner-table mat-form-field {
+  margin-top: 15px;
+  width: 100%;
+}
+.rules {
+  mat-form-field {
+    margin-top: 25px;
+    width: 97px;
+  }
+}
+
+table {
+  width: 100%;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: #777;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.example-element-diagram {
+  min-width: 80px;
+  border: 2px solid black;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
+}
+
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.example-element-description {
+  padding: 16px;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+
+.inner-table {
+  width: 100%;
+}
+
+.inner-table mat-form-field {
+  margin-top: 15px;
+  width: 100%;
+}
+.textarea {
+  padding: 5px 7px 15px 7px;
+  border: 1px solid #ebeaed;
+  box-sizing: border-box;
+  border-radius: 4px;
+  margin-bottom: 7px;
+  overflow: hidden !important;
+  textarea {
+    font-family: Manrope;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    width: 430px;
+    height: 58px;
+    color: #84818a;
+  }
+}
+
+.table-container {
+  mat-select {
+    font-family: Manrope;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 20px;
+    color: #1b1b1d;
+  }
+}
+.box-container {
+  .upper-sec {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    h4 {
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+    img {
+      width: 20px;
+      margin: 0px 10px 0 0px;
+    }
+    .icon-mc {
+      margin-right: 10px;
+      &:before {
+        color: $theme;
+      }
+    }
+  }
+
+  .mid-sec {
+    padding: 0;
+    height: calc(90vh - 10px);
+    overflow: scroll;
+  }
+}
+.mid-sec::-webkit-scrollbar {
+  display: none;
+}
+
+.full-screen-icon {
+  width: 18px !important;
+  height: 18px;
+  // position: absolute;
+  right: 38px;
+}
+
+::ng-deep ngx-monaco-editor.my-code-editor-full {
+  height: 70vh !important;
+}
+
+::ng-deep ngx-monaco-editor.my-code-editor-full .editor-container .monaco-editor{
+  height: 70vh !important;
+}
+
+::ng-deep ngx-monaco-editor.my-code-editor-full .editor-container .monaco-editor .overflow-guard{
+  height: 70vh !important;
+}
+
+::ng-deep .mat-dialog-container {
+  overflow: unset !important;
+}
+
+.output-result {
+  background: #1f47f5;
+  color: white;
+  font-size: 26px;
+  padding: 12px;
+  margin: 0;
+}
+
+
+.file-drop {
+  height: 90px;
+  text-align: center;
+  border: 1px solid #1F47F5;
+  width: 100%;
+  position: relative;
+  left: 11px;
+  padding: 13px;
+  border-radius: 5px;
+}
+
+label.choose-file{
+  display: inline-block;
+  background-color: #1F47F5;
+  color: white;
+  padding: 0.5rem;
+  font-family: sans-serif;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  margin-top: 1rem;
+}

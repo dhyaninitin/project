@@ -1,0 +1,98 @@
+<div class="row">
+    <div class="col-sm-12">
+      <h4 class="text-primary"> <b>Manage: Email Templates</b> </h4>
+      <hr />
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-cogs"></i> Listings
+          <button class="btn btn-primary pull-right btn-sm mr-1" [routerLink]="['/email-templates/add']"> <i class="fa fa-plus"> </i> Add New Template</button>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table table-bordered">
+            <thead class="nowrap">
+              <tr>
+                <th>#</th>
+                <th>Template Name</th>
+                <th>Subject</th>
+                <th>Content</th>
+                <th>Created On</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="templates.length">
+              <tr
+                *ngFor="let template of templates; let i = index;">
+                <td>{{ i+1 }}</td>
+                <td>{{ template?.type }}</td>
+                <td>{{ template?.subject }}</td>
+                <td><p [innerHtml]="template?.content"></p></td>
+                <td>{{ template?.createdAt | date:'MMM dd, yyyy' }}</td>
+                <td>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-warning" (click)="preview(template);" ><i class="fa fa-eye"></i></button>
+                    <button type="button" class="btn btn-sm btn-outline-primary" [routerLink]="['/email-templates/edit/', template?._id]"><i class="fa fa-edit"></i></button>
+                    <button type="button" class="btn btn-sm btn-outline-danger" (click)="showDeleteTemplate(template)"><i class="fa fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tr class="text-center" *ngIf="!templates.length">
+              <td colspan="15">
+                <h6>No Record Found !</h6>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div bsModal  #previewModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white"> <i class="fa fa-eye"> </i> Template Preview</h4>
+        <button type="button" class="close text-white" (click)="previewModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body template-style">
+        <div [innerHtml]="previewHtml" class="template-style"></div>
+        <!-- <div [innerHtml]="previewHtml" class="template-style"></div> -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="previewModal.hide()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal [config]="{backdrop: 'static', keyboard: false}" #deleteTemplateModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white"><i class="fa fa-trash"></i> Delete Template</h4>
+        <button type="button" class="close text-white" (click)="deleteTemplateModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure want to delete this template?</p>
+        <p>
+          <b>Template Name:</b> {{currentTemplate?.type}}<br />
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="deleteTemplateModal.hide()">Close</button>
+        <button type="button" class="btn btn-danger" (click)="deleteTemplate()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

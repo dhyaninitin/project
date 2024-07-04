@@ -1,0 +1,349 @@
+@import "../../../../../scss/menu";
+@import "../../../../../scss/card";
+.customCalendar {
+    .table-responsive {
+        // max-height: 500px;
+        // overflow: auto;
+    }
+}
+.fileDiv {
+  display: inline-block;
+  position: relative;
+  .resume-close {
+    position: absolute;
+    right: -8px;
+    line-height: 17px;
+    top: -8px;
+    cursor: pointer;
+    background: #f86c6b !important;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    box-shadow: 0px 0px 3px 0px #000;
+    text-align: center;
+    display: flex;
+    font-size: 10px;
+    justify-content: center;
+    align-items: center;
+  }
+}
+.custom-switch-1 {
+  display: flex;
+}
+.custom-switch-1 label {
+  display: inline-block;
+    width: 53px;
+    padding: 10px;
+    border: solid 1px #ccc;
+    transition: all 0.3s;
+    padding: 5px 10px;
+    text-align: center;
+    color: #222;
+}
+label.br-0p {
+    border-right-color: transparent;
+}
+.custom-switch-1 input[type="radio"] {
+  display: none;
+}
+
+.custom-switch-1 input[type="radio"]:checked + label {
+  background:#053178;
+  color:#fff;
+}
+
+
+.div-has-danger {
+  border: red 1px solid !important;
+}
+
+table {
+  td {
+    h6 {
+      position: relative;
+      padding-right: 30px;
+      span {
+        position: absolute;
+        right: 9px;
+        top: 2px;
+      }
+    }
+  }
+}
+.th-align {
+  padding-left: 2rem !important;
+}
+.modal-header {
+   .clr-white {
+     margin-bottom: 0;;
+   }
+}
+
+.form-group {
+   label {
+     font-size: 15px;
+   }
+}
+.border-bottom {
+  h3 {
+    color: black !important;
+  }
+  h2.profile-heading {
+    font-size: 22px;
+  }
+}
+.license-section {
+   h6 {
+    font-weight: normal;
+   }
+}
+
+.table-bordered {
+  font-size: 16px;
+  thead {
+    th {
+      color: black !important;
+    }
+  }
+}
+
+.verify-eligibility {
+    h3,h4,h5,h6 {
+       margin: 0;
+       line-height: 42px;
+       font-weight: normal;
+    }
+    .col-sm-2 {
+       display: flex;
+       align-items: center;
+       label {
+         margin: 0;
+       }
+    }
+}
+
+.cal-month-view {
+  .cal-day-cell {
+    display: table;
+    height: 100%;
+
+    .cal-cell-top {
+      text-align: center;
+      display: table-cell;
+      height: 100%;
+      vertical-align: middle;
+
+      small {
+        @media (max-width:768px) {
+          font-size: 60%;
+        }
+      }
+    }
+  }
+}
+
+:host ::ng-deep .ng-wizard-theme-arrows .ng-wizard-toolbar {
+   padding: 0px;
+  margin-bottom: 0;
+}
+
+:host ::ng-deep .ng-wizard-main {
+  margin: 29px;
+}
+
+:host ::ng-deep .gray-bg{
+ background: none !important;
+}
+
+:host ::ng-deep .tab-content {
+  border: none;
+}
+
+:host ::ng-deep .p-15{
+  padding: 0px 0px 0px 0px !important;
+}
+
+:host ::ng-deep .ng-wizard-theme-dots>ul.step-anchor:before{
+  top:45px;
+  width: 100%;
+  //margin-left: 14px;
+}
+
+:host ::ng-deep .btn-outline-primary {
+  color: #007bff;
+  background-color: white;
+  border-color: #007bff;
+  padding: 8px 25px 8px 25px;
+}
+
+:host ::ng-deep .btn-round{
+  border-radius: 25px !important; 
+}
+
+:host ::ng-deep .btn-outline-primary:hover {
+  background: #007bff !important;
+  color:#fff !important;
+  transition: all 0.4s cubic-bezier(0.55, 0.06, 0.68, 0.19) 0s !important;
+}
+
+:host ::ng-deep .ng-wizard-theme-dots>ul.step-anchor>li.active>a {
+  color: #007bff;
+}
+
+:host ::ng-deep .ng-wizard-theme-dots>ul.step-anchor>li.done>a {
+  color: #5cb85c;
+}
+
+:host ::ng-deep .ng-wizard-theme-dots>ul.step-anchor>li>a:before {
+  color: #007bff;
+}
+
+
+:host ::ng-deep .checked{
+  background: #1b4587 !important;
+}
+
+:host ::ng-deep .profileRadio{
+  position: absolute;
+  bottom: 40px;
+  right: 0;
+  margin-right: 35px;
+}
+
+:host ::ng-deep .h1,h2,h3,h4,h5,h6{
+  color: black ;
+}
+
+:host ::ng-deep .nav-tabs .nav-item .nav-link {
+  border-top-left-radius: 0px; 
+  border-top-right-radius: 0px; 
+  background-color: transparent;
+  color: #053178;
+}
+
+
+:host ::ng-deep label{
+  color: black;
+}
+
+:host ::ng-deep .clr-white, .white-clr {
+  color: #fff;
+}
+
+:host ::ng-deep .profile-label{
+  width: auto;
+}
+
+:host ::ng-deep .ng5-slider[disabled] .ng5-slider-pointer {
+  background-color: #8b91a2;
+}
+
+.nav-link:before{
+  content:" (Optional)";
+  font-size:.7em
+}
+
+// :host ::ng-deep small, .small {
+//   font-size: 80%;
+//   font-weight: 400;
+//   position: absolute;
+//   top: 11px;
+//   right: -40px;
+// }
+
+:host ::ng-deep .ng-wizard-theme-dots>ul.step-anchor {
+  justify-content: center;      
+}
+
+.custom-month-btn .btn-group h3{
+  color: #053178 !important;
+}
+
+:host ::ng-deep .cal-cell.cal-day-cell{
+  text-align: center;
+}
+
+:host ::ng-deep .nav.nav-tabs.step-anchor{
+  z-index: 1;
+}
+
+.job-highlight {
+  // padding-left: 20px;
+  li {
+      position: relative;
+      padding-left: 15px;
+      margin-bottom: 10px;
+      &:before {
+          content: '';
+          padding: 5px;
+
+          position: absolute;
+          left: 0;
+          top: 4px;
+      }
+      &.orange::before {
+        background-color: orange;
+        border: 1px solid orange;
+      }
+      &.green::before{
+          background-color: #1A9900;
+          border: 1px solid #1A9900;
+      }
+      &.white::before{
+          background-color: #fff;
+          border: 1px solid #dcdcdc;
+      }
+      &.gray::before{
+        background-color: #f2f2f2;
+        border: 1px solid #dcdbdb;
+      }
+      &.blue::before{
+          background-color: #2768d0;
+          border: 1px solid #2768d0;
+      }
+      &.lightBlue::before{
+          background-color: #2cb7df;
+          border: 1px solid #2cb7df;
+      }
+      &.lightRed::before{
+        background-color: #f86c6b;
+        border:1px solid #f86c6b;
+      } 
+      &.densubBlue::before{
+        background-color: #053178;
+        border: 1px solid #053178;
+      } 
+      &.red::before{
+        background-color: red;
+        border: 1px solid red;
+      }
+
+  }
+  .fontSize-40 {
+    font-size: 40 px;
+  }
+}
+
+
+:host ::ng-deep .anyDis.ng5-slider[disabled] .ng5-slider-selection {
+  background: #1b4587;
+}
+
+:host ::ng-deep .anyDis.ng5-slider[disabled] .ng5-slider-pointer {
+  background-color: #1b4587;
+}
+
+@media screen and (max-width: 768px){
+  
+:host ::ng-deep .ng-wizard-theme-dots>ul.step-anchor:before {
+  background-color: white;
+  top: 0;
+}
+
+:host ::ng-deep .ng-wizard-theme-dots>ul.step-anchor>li>a:before {
+  background-color: white;
+}
+:host ::ng-deep .ng-wizard-theme-dots>ul.step-anchor>li>a:after {
+  margin-top: 20px;
+}
+}

@@ -1,0 +1,236 @@
+@import "~@cloudtalentrecruit/ng-design/assets/styles/0-plugins/plugins-dir";
+@import "~@cloudtalentrecruit/ng-design/assets/styles/1-base/variable";
+
+.box-container {
+  margin: 5px 1.3rem 0 1.3rem;
+
+  .user-details {
+    .header {
+      display: flex;
+    }
+    .title {
+      display: flex;
+
+      p {
+        font-family: Manrope;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 20px;
+        color: #1f47f5;
+        margin: 20px 0px 0 75%;
+      }
+    }
+    mat-label {
+      font-family: Manrope;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      margin: 20px 0 0px 0;
+      color: #84818a;
+    }
+    .value {
+      font-family: Manrope;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      color: #25364d;
+      margin: 3px 0 0 0;
+    }
+  }
+  .table-container {
+    table {
+      width: 100%;
+      top: 20px;
+      th {
+        background: #fbfafc;
+
+        font-family: Manrope;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 13px;
+        color: #84818a;
+        margin: 5px 9px 0 9px;
+        padding-top: 20px;
+      }
+      td {
+        font-family: Manrope;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 18px;
+        padding-top: 10px;
+        color: #25364d;
+        .box-btn {
+          background: rgba(20, 177, 59, 0.1);
+          height: 40px;
+          color: #00a46c;
+        }
+      }
+    }
+  }
+  .buttons {
+    display: flex;
+    margin-top: 30px;
+  }
+}
+p {
+  font-family: Manrope;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 18px;
+  color: #1f47f5;
+  margin: 10px;
+}
+::ng-deep
+  .mat-slide-toggle.mat-checked:not(.mat-disabled)
+  .mat-slide-toggle-thumb {
+  background-color: rgb(235, 232, 232);
+}
+::ng-deep
+  .mat-slide-toggle.mat-checked:not(.mat-disabled)
+  .mat-slide-toggle-bar {
+  background-color: #00a46c;
+}
+
+table {
+  width: 100%;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: #777;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.example-element-diagram {
+  min-width: 80px;
+  border: 2px solid black;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
+}
+
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.example-element-description {
+  padding: 16px;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+
+.inner-table {
+  width: 100%;
+}
+
+.inner-table mat-form-field {
+  margin-top: 15px;
+  width: 100%;
+}
+mat-drawer-container {
+  background-color: white;
+
+  &[cdk-scrollable],
+  &[cdkScrollable] {
+    .mat-drawer-container {
+      overflow: hidden !important;
+      width: 590px;
+      height: 100% !important;
+    }
+  }
+  margin: 0 0px 0 0px;
+  height: auto;
+  width: 100%;
+}
+.right-drawers {
+  // background-color: $white;
+  // z-index: 2 !important;
+  .mat-drawer-container {
+    position: absolute;
+    right: 0px;
+    width: 570px;
+    height: 100% !important;
+    padding: 0 2px 0 5px;
+    overflow: hidden !important;
+
+    @include media-breakpoint-down(md) {
+      width: 100%;
+    }
+  }
+  .mat-drawer-backdrop.mat-drawer-shown {
+  }
+  &.drawer-lg {
+    mat-drawer {
+      width: 550px;
+      .drawer-btn {
+        .mat-flat-button {
+          transition: all 0.5s ease;
+          // width: calc(500px - 2rem) !important;
+        }
+      }
+    }
+  }
+}
+.close-btn {
+  position: absolute;
+  margin-top: 2px;
+  right: 30px;
+  font-size: 0.75rem;
+  z-index: 10;
+}
+
+.box-container {
+  .upper-sec {
+    display: flex;
+    align-items: center;
+    margin-top: 13px;
+    h4 {
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+    img {
+      width: 20px;
+      margin: 0px 10px 0 0px;
+    }
+    .icon-mc {
+      margin-right: 10px;
+      &:before {
+        color: $theme;
+      }
+    }
+  }
+
+  .mid-sec {
+    padding: 0;
+    height: calc(90vh - 10px);
+    overflow: scroll;
+  }
+}
+.mid-sec::-webkit-scrollbar {
+  display: none;
+}

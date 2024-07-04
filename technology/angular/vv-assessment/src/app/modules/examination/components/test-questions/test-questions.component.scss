@@ -1,0 +1,127 @@
+/* Styles for the header */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  width: 100%;
+  background-color: #dfdfdf;
+  color: #f0a400;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Styles for the question list */
+.question-list {
+  margin-top: 50px;
+  padding: 20px;
+  overflow-y: auto;
+  height: calc(100vh - 50px);
+  background-color: #f9f9f9;
+}
+
+/* Styles for the question container */
+.question-header-container {
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.question-container {
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+}
+
+/* Styles for the question */
+.question {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* Styles for the options */
+.options {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+/* Styles for the radio button label */
+label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+/* Styles for the radio button */
+input[type="radio"] {
+  margin-right: 5px;
+}
+
+/* Styles for the submit button */
+.submit-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+.description-container {
+  margin-top: 8%;
+  text-align: center;
+}
+
+.intro-text {
+  margin-bottom: 20px;
+}
+
+.structure {
+  margin-top: 2%;
+  margin-left: 5%;
+  margin-right: 5%;
+  padding-bottom: 5%;
+  user-select: none;
+}
+
+.structure h3 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.structure ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.structure li {
+  margin-bottom: 5px;
+}
+
+.custom-btn-style {
+  border: 1px solid #f9f9f9 !important;
+  background-color: #f0a400 !important;
+  color: #f9f9f9 !important;
+  transition-duration: 300ms;
+}
+
+.custom-btn-style:hover {
+  box-shadow: 0px 15px 10px -15px #f0a400 !important;
+  transform: translateY(-1px);
+}

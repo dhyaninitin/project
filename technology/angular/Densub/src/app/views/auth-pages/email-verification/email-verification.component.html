@@ -1,0 +1,64 @@
+<!-- <div class="app-body">
+  <main class="main d-flex align-items-center">
+    <div class="container">
+      <br> <br> <br>
+      <div class="row">
+        <div class="col-md-7 mx-auto">
+          <div class="card-group pt-5 pb-5">
+            <br>
+            <div class="card">
+              <div class="card-body text-center">
+                <h4 class="themes-text-color">Email Verification</h4>
+                <div class="alert alert-success" role="alert" *ngIf="emailVerificationSccessMsg">
+                  Your Email Verification has been verify successfully. Please login to Continue.
+                </div>
+                <div class="alert alert-danger" role="alert" *ngIf="emailVerificationErrorMsg">
+                   Already You have done Email Verification you don't need to again. Please login to Continue.
+                </div>
+                <div class="alert alert-danger" role="alert" *ngIf="emailVerificationInvalidMsg">
+                   This Email Verification link is not valid. Please check link
+                </div>
+                <button type="button" routerLink="/login" class="btn btn-primary px-4">Login</button>
+              </div>
+            </div>
+            <br>
+          </div>
+        </div>
+      </div>
+      <br> <br> <br>
+    </div>
+  </main>
+</div> -->
+
+<div class="app-body auth-bg">
+  <main class="main form-design-1 d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-8 col-md-8 mx-auto">
+          <div class="pt-30 pb-70 sm-pb-50">
+            <div class="no-border ">
+              <div class="text-center">
+                <a class="navbar-brand mb-60" [routerLink]="['/']"><img alt="" class="max-width-305" src="../../../../assets/img/brand/Densub_Logo.png" width="320"></a>
+                <h1 class="clr-white m-0 text-uppercase title">Email Verification</h1>
+                <br>
+                <div class="alert alert-success" role="alert" *ngIf="emailVerificationSccessMsg">
+                  Your Email has been verified successfully. Please login to Continue.
+                </div>
+                <!-- <div class="alert alert-success" role="alert" *ngIf="emailVerificationSccessMsg">
+                  Your Email Verification has been verify successfully. Please login to Continue.
+                </div> -->
+                <div class="alert alert-danger" role="alert" *ngIf="emailVerificationErrorMsg">
+                   Already You have done Email Verification you don't need to again. Please login to Continue.
+                </div>
+                <div class="alert alert-danger" role="alert" *ngIf="emailVerificationInvalidMsg">
+                   This Email Verification link is not valid. Please check link
+                </div>
+                <button type="button" routerLink="/login" class="btn btn-primary px-4">Login</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

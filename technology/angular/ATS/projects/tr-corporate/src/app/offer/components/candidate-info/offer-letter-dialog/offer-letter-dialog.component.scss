@@ -1,0 +1,35 @@
+@import '../../../offer.styles.scss';
+
+.main-container {
+    padding-top: 20px;
+    padding-bottom: 12px;
+}
+
+hr {
+    opacity: 0.3;
+}
+
+.middle-container {
+    padding-left: 19px;
+    padding-right: 19px;
+}
+
+.rotate {
+    transform: rotate(180deg);
+}
+
+.rotate {
+    transform: rotate(230deg);
+}
+
+.f-14 {
+    font-size: 14px !important;
+}
+
+.white-space {
+    gap: 15px;
+}
+
+.cursor--pointer {
+    cursor: pointer;
+}

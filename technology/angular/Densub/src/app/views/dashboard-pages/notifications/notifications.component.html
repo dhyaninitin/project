@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-sm-12">
+    <h4 class="text-primary"> <b>Notifications</b> </h4>
+    <hr />
+  </div>
+</div>
+
+<div class="row pt-3">
+  <div class="col-lg-12">
+    <div class="card">
+      <!-- <div class="card-header">
+        <i class="fa fa-cogs"></i> Listings
+      </div> -->
+      <div class="card-body table-responsive">
+        <ul class="list-unstyled notification_content" *ngIf="notificationList.length > 0">
+          <li *ngFor="let notification of notificationList" class="text-capitalize" (click)="updateNotificationStatus(notification)" >
+          <!--  href="{{notification?.redirectLink}}" -->
+           <a [ngClass] = "{'text-muted' : (notification.status == notificationStatus.READ)}">
+             <span  [innerHTML]="notification?.message"></span>
+           </a>
+          </li>
+        </ul>
+        <h3 *ngIf="notificationList.length == 0" class="text-center"> No Notification Available</h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+

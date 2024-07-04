@@ -1,0 +1,679 @@
+<div class="row">
+  <div class="col-sm-12">
+    <h4 class="text-primary"> <b>My Contract </b> </h4>
+    <hr />
+  </div>
+</div>
+<div class="row  pb-3 mt-30">
+  <div class="staff-bid-received col-12 pb-30">
+    <div class="bid-received_inner overflow-scroll row">
+      <div class="staff-bid-list pb-5  col-xl-12">
+
+        <div class=" d-flex flex-wrap staff-bid-list_inner w-100">
+          <div class="col-12">
+            <div>
+              <div class="d-flex justify-content-between align-items-center">
+                <h6 class="clr-black m-0"> <b>Contract Details </b> </h6>
+                <!-- " -->
+                <div class="d-flex bid-btn-div justify-content-end" *ngIf="true">
+                  <button class="btn btn-primary mr-20"
+                    *ngIf="contractDetail?.contractStatus == contractStatus.UPCOMING" type="button"
+                    (click)="stripeModal.show()"> Pay to Activate</button>
+                  <button *ngIf="contractDetail.contractStatus === contractStatus.CANCELLED" class="btn btn-dark"
+                    type="button" (click)="repostJob()">Repost Job</button>
+                </div>
+              </div>
+              <hr />
+            </div>
+          </div>
+          <div class="col-md-4 mt-10">
+            <p *ngIf="contractDetail?.staffId?._id"> <span class=" fw-6">Contract ID : </span> #{{contractDetail?._id |
+              slice:18:24}}</p>
+            <!-- <p *ngIf="contractDetail?.staffId?._id"> <span class=" fw-6" >Contract ID : </span> #{{contractDetail?.staffId?._id | slice:18:24}}</p> -->
+
+            <p class="text-capitalize" *ngIf="contractDetail?.contractTime"> <span class=" fw-6">Contract Date : </span>
+              {{contractDetail?.contractTime | date:'mediumDate'}}</p>
+
+
+            <p class="text-capitalize" *ngIf="contractDetail?.jobPostId?.jobDate"> <span class=" fw-6">Job Location :
+              </span> {{contractDetail?.jobPostId?.location}}</p>
+
+
+            <p class="text-capitalize" *ngIf="contractDetail?.jobPostId?.jobDate"> <span class=" fw-6">Date of Service :
+              </span> {{contractDetail?.jobPostId?.jobDate | date : 'mediumDate'}}</p>
+
+            <p class="text-capitalize" *ngIf="contractDetail?.jobPostId?.startTime"> <strong class=" fw-6">Start Time :
+              </strong>
+              {{((contractDetail.sendOfferByPractice)? contractDetail?.jobPostId?.startTime :
+              contractDetail.offerSteps.initial.startTime ) | date:'hh:mm a'}}</p>
+
+            <p class="text-capitalize" *ngIf="contractDetail?.jobPostId?.endTime"> <strong class=" fw-6">End Time :
+              </strong> {{((contractDetail.sendOfferByPractice)? contractDetail?.jobPostId?.endTime :
+              contractDetail.offerSteps.initial.endTime ) | date:'hh:mm a'}}</p>
+
+            <p class="text-capitalize" *ngIf="contractDetail?.duration"> <span class=" fw-6">Duration : </span>
+              {{contractDetail?.duration}} Hours</p>
+
+            <p *ngIf="contractDetail?.jobPostId?._id"> <span class=" fw-6">Job ID :
+              </span> #{{contractDetail?.jobPostId?._id | slice:18:24}}</p>
+
+            <p class="text-capitalize" *ngIf="contractDetail?.jobPostId?.jobTitle"> <span class=" fw-6">Job Title :
+              </span> {{contractDetail?.jobPostId?.jobTitle }}</p>
+
+            <p class="text-capitalize" *ngIf="contractDetail?.jobPostId?.jobType"> <span class=" fw-6">Job Type :
+              </span> {{jobTypeLabel[contractDetail?.jobPostId?.jobType]}} Job</p>
+
+            <p class="text-capitalize" *ngIf="contractDetail?.jobPostId?.positionType"> <span class=" fw-6">Position
+                Type : </span>
+              {{contractDetail?.jobPostId?.positionType}}</p>
+
+
+
+            <p class="text-capitalize" *ngIf="contractDetail?.finalRate"> <span class=" fw-6">Agreed Upon :
+              </span> ${{contractDetail?.finalRate}}{{(contractDetail?.jobPostId?.paymentMethod == paymentMethod.HOURLY)
+              ? '/hour' : ''}}</p>
+          </div>
+
+          <div class="col-md-4 mt-10" *ngIf="contractDetail?.practiceId">
+            <p class="clr-dark-blue text-capitalize">
+              <b>Practice Name</b>
+              <!-- <b>Practice Name & Address</b> -->
+            </p>
+            <p class="text-capitalize" *ngIf="contractDetail?.practiceId">
+              {{contractDetail?.practiceId?.firstName +' '+ contractDetail?.practiceId?.lastName}}
+            </p>
+            <!-- <p class="text-capitalize" *ngIf="contractDetail?.practiceId?.address"> <span class="fw-6">Address : </span>
+              {{contractDetail?.practiceId?.address}}</p> -->
+          </div>
+          <div class="col-md-4 mt-10">
+            <p class="clr-dark-blue text-capitalize">
+              <b>Staff Name</b>
+              <!-- <b>Practice Name & Address</b> -->
+            </p>
+            <!-- <a class="clr-dark-blue" *ngIf="contractDetail?.staffId" [routerLink]="['../../../../staff-profile',contractDetail.staffId._id]"><b>Staff Name & Address</b></a> </p> -->
+            <p class="text-capitalize">
+              <a class="clr-primary" *ngIf="contractDetail?.staffId"
+                [routerLink]="['../../../../staff-profile',contractDetail.staffId._id]">{{contractDetail?.staffId?.firstName
+                +' '+ contractDetail?.staffId?.lastName}}</a>
+            </p>
+            <!-- <p class="text-capitalize" *ngIf="contractDetail?.staffId">
+              </p> -->
+            <!-- <p class="text-capitalize" *ngIf="contractDetail?.staffId?.address"> <span class="fw-6"
+                >Address : </span> {{contractDetail?.staffId?.address}}</p> -->
+          </div>
+          <div class="col-sm-12 mt-20">
+            <div class="d-flex bid-btn-div justify-content-end"
+              *ngIf="contractDetail?.contractStatus !== contractStatus.UPCOMING && contractDetail?.contractStatus !== contractStatus.REVOKE && contractDetail?.contractStatus !== contractStatus.EXPIRED">
+              <button
+                [routerLink]="['../../../../messaging',contractDetail?.staffId?._id,contractDetail?.jobPostId?._id]"
+                class="btn btn-primary mr-20" type="button"><i class="fa fa-comment-o" aria-hidden="true"></i>
+                Message</button>
+              <!-- *ngIf="!contractDetail?.disputeStatus" -->
+              <button class="btn btn-primary mr-20" type="button" (click)="showModal('dispute')"><i
+                  class="fa fa-exclamation" aria-hidden="true"></i>
+                Dispute</button>
+            </div>
+            <div class="d-flex bid-btn-div justify-content-end"
+              *ngIf="contractDetail?.contractStatus == contractStatus.UPCOMING">
+              <!-- <button class="btn btn-primary mr-20" type="button" (click)="stripeModal.show()"> Pay to Activate</button> <br> -->
+              <button class="btn btn-dark mr-20" type="button" (click)="openRevokeModal()">Cancel Contract</button>
+            </div>
+            <div class="col-sm-12 mt-20" *ngIf="contractDetail?.contractStatus === contractStatus.REVOKE">
+              <h5 class="bg-danger text-center p-10">Contract has been cancelled</h5>
+            </div>
+            <div class="col-sm-12 mt-20" *ngIf="contractDetail?.contractStatus === contractStatus.EXPIRED">
+              <h5 class="text-white bg-danger p-10 text-center">This job is expired</h5>
+              <!-- <p><strong>Reason : </strong> <span>Job is no longer available</span> </p> -->
+            </div>
+          </div>
+        </div>
+        <hr>
+      </div>
+
+      <div class="staff-bid-list pb-5  col-xl-12"
+        *ngIf="(contractDetail?.contractStatus !== contractStatus.UPCOMING) && (contractDetail?.contractStatus !== contractStatus.REVOKE) && (contractDetail?.contractStatus !== contractStatus.EXPIRED) && (contractDetail?.jobPostId?.paymentMethod !== paymentMethod?.SALARY) ">
+        <div class=" d-flex flex-wrap staff-bid-list_inner w-100">
+          <h4 class="text-primary"> <b>Timesheets</b> </h4>
+          <div class="card-body table-responsive">
+            <table class="table table-bordered-1 table-striped">
+              <thead class="nowrap">
+                <tr>
+                  <th>Total Hours</th>
+                  <th>Amount</th>
+                  <th>Paid Status</th>
+                  <th>Received Date</th>
+                  <th>Payment Date</th>
+                  <th>Action</th>
+
+                </tr>
+              </thead>
+              <tbody *ngIf="timesheet.length">
+                <tr *ngFor="let work of timesheet; let i = index;">
+                  <td>{{work?.totalTime?.hours}} hours, {{work?.totalTime?.minutes}} minutes</td>
+                  <td>${{(work.totalAmount)? work.totalAmount : 0}}</td>
+                  <!-- <td>${{contractDetail?.finalRate}}</td> -->
+                  <td>{{work?.paidStatus | uppercase}} </td>
+                  <td [ngClass]="{'text-center':(!work?.createdAt)}">{{(work?.createdAt)? (work.createdAt | date:
+                    'mediumDate') : '-' }}</td>
+                  <td [ngClass]="{'text-center':(!work?.paidDate)}">{{(work?.paidDate)? (work.paidDate | date:
+                    'mediumDate') : '-' }}</td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-outline-primary mr-2"
+                      (click)="showModal('viewTimesheet',work)">View</button>
+                    <button type="button" class="btn btn-sm btn-outline-primary" (click)="showModal('timesheet',work,i)"
+                      *ngIf="(contractDetail.contractStatus === contractStatus.INPROGRESS || contractDetail.contractStatus === contractStatus.PAYTOACTIVATE || contractDetail.contractStatus === contractStatus.COMPLETED) && work.paidStatus === workDiaryPaidStatus.PENDING">Pay</button>
+                    <button type="button" class="btn btn-sm btn-outline-primary"
+                      *ngIf="(contractDetail.contractStatus === contractStatus.INPROGRESS || contractDetail.contractStatus === contractStatus.PAYTOACTIVATE || contractDetail.contractStatus === contractStatus.COMPLETED) && work.paidStatus === workDiaryPaidStatus.PAID">Paid</button>
+                  </td>
+                </tr>
+
+              </tbody>
+              <tr class="text-center" *ngIf="!timesheet.length">
+                <td colspan="6">
+                  <h6>No Record Found !</h6>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-sm-12 mt-20">
+            <div class="d-flex bid-btn-div justify-content-end"
+              *ngIf="contractDetail.contractStatus !== contractStatus.CANCELLED">
+              <button class="btn btn-primary mr-20" *ngIf="!(isRated.staff) && timesheet.length"
+                (click)="endContractModal.show()" type="button">{{(contractDetail.contractStatus ===
+                contractStatus.COMPLETED) ? 'Rate Staff': 'Close Contract'}}</button>
+              <button class="btn btn-dark" type="button"
+                *ngIf="contractDetail.contractStatus !== contractStatus.COMPLETED && timesheet.length === 0"
+                (click)="cancelContractModal.show()">Cancel Contract</button>
+            </div>
+            <!-- <div class="d-flex bid-btn-div justify-content-end" *ngIf="contractDetail.contractStatus === contractStatus.CANCELLED">
+              <button class="btn btn-dark" type="button" (click)="repostJob()">Repost Job</button>
+            </div> -->
+            <div
+              *ngIf="isRated.staff && isRated.practice && (contractDetail.contractStatus === contractStatus.COMPLETED)">
+              <h5 class="bg-success text-center p-10">Contract Successfully Completed</h5>
+              <p class="text-muted mt-20" *ngIf="ratedDetails?.practice && ratedDetails?.practice?.rating"> <strong
+                  class="text-primary"> Rating Given By Staff : </strong>
+                <span *ngFor=" let in of numToArrConverter(5); let i = index;" class="fa fa-star"
+                  [ngClass]="{'checked': (i+1) <=  ratedDetails?.practice?.rating}"></span>
+              </p>
+              <p class="text-muted mt-20" *ngIf="ratedDetails?.staff && ratedDetails?.staff?.rating">
+                <strong class="text-primary"> Rating Given By You : </strong>
+                <span *ngFor=" let in of numToArrConverter(5); let i = index;" class="fa fa-star"
+                  [ngClass]="{'checked': (i+1) <=  ratedDetails?.staff?.rating}"></span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal [config]="{backdrop: 'static', keyboard: false}" #disputeModal="bs-modal" class="modal fade" tabindex="-1"
+  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title  text-white">Add Dispute</h4>
+        <button type="button" class="close  text-white" (click)="closeModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group row">
+          <div class="col-12">
+            <label><b>Reason
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !disputeDetail.reason, 'text-primary': disputeDetail.reason}"></i>
+                </sup>
+              </b></label>
+            <select name="reason" [(ngModel)]="disputeDetail.reason" class="form-control" id="reason">
+              <option value="">Select</option>
+              <option value="Payement Issue">Payement Issue</option>
+              <option value="Scheduling">Scheduling</option>
+              <option value="Others">Others</option>
+            </select>
+          </div>
+          <div class="col-12 mt-10">
+            <label><b>Detail
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !disputeDetail.detail, 'text-primary': disputeDetail.detail}"></i>
+                </sup>
+              </b></label>
+            <!-- <app-ngx-editor placeholder="Please enter the details" [resizer]="false" name="detail"
+              [(ngModel)]="disputeDetail.detail" [config]="editorConfig" name="detail">
+            </app-ngx-editor> -->
+            <ckeditor [config]="ckeConfig" placeholder="Please enter the details" name="detail"
+              [(ngModel)]="disputeDetail.detail" (change)="onEditorChange()" (blur)="onEditorChange()"></ckeditor>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        <button type="button" class="btn btn-primary" [disabled]="!(disputeDetail?.detail && disputeDetail?.reason)"
+          (click)="addDisputes()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div bsModal [config]="{backdrop: 'static', keyboard: false}" #stripeModal="bs-modal" class="modal fade" tabindex="-1"
+  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title  text-white">Mode of Payment</h4>
+        <button type="button" class="close  text-white" (click)="stripeModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="col-6">
+          <h6> Activate Fee: ${{comissionAmount}} </h6>
+          <h6> Processing Fee: ${{(getStripeAmount(comissionAmount) - (comissionAmount)).toFixed(2)}}</h6>
+          <h6> Total Fee: ${{getStripeAmount(comissionAmount)}} </h6>
+
+          <h6 for="card-element mb-20">
+            Credit or debit card
+          </h6>
+          <!-- <div *ngIf="invalidError" style="color:red">
+            {{ invalidError.message }}
+          </div> -->
+          <!-- [(source)]  = 'source'
+            [(invalid)] = 'invalidError' -->
+          <stripe-card #stripeSource (catch)="$event" (sourceChange)="setStripeSource($event)"></stripe-card>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" (click)="stripeModal.hide()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="stripeSource.createSource()">Pay</button>
+        <!-- <button type="button" class="btn btn-primary" (click)="payToActivateJob()" >Pay</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div bsModal [config]="{backdrop: 'static', keyboard: false}" #timesheetPayModal="bs-modal" class="modal fade"
+  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title  text-white">Payment</h4>
+        <button type="button" class="close  text-white" (click)="closeModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group row">
+          <div class="col-12">
+            <label><b>Mode of Payment</b></label>
+            <div class="form-group">
+              <div class="custom-control custom-radio">
+                <input name="paymentType" type="radio" [value]="workDiaryPaymentType.OFFLINE"
+                  class="custom-control-input" [disabled]="!contractDetail?.staffId?.stripeId" id="offline"
+                  [(ngModel)]="selectedWork.paymentDetails.paymentType">
+                <label class="custom-control-label" for="offline">Offline</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="custom-control custom-radio">
+                <input name="paymentType" type="radio" [value]="workDiaryPaymentType.ONLINE"
+                  class="custom-control-input" [disabled]="!contractDetail?.staffId?.stripeId" id="online"
+                  [(ngModel)]="selectedWork.paymentDetails.paymentType">
+                <label class="custom-control-label" for="online">Online</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6 mt-10" *ngIf="selectedWork.paymentDetails.paymentType == workDiaryPaymentType.OFFLINE">
+            <label><b>Payment Description
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !selectedWork.paymentDetails.paymentDesc, 'text-primary': selectedWork.paymentDetails.paymentDesc}"></i>
+                </sup>
+              </b></label>
+            <input type="text" name="paymentDesc" class="form-control" placeholder="Add Payment Desciption Here"
+              [(ngModel)]="selectedWork.paymentDetails.paymentDesc" required name="paymentDesc">
+          </div>
+
+          <div class="col-6 mt-10" *ngIf="selectedWork.paymentDetails.paymentType == workDiaryPaymentType.ONLINE">
+            <h6> Work Fee: ${{(selectedWork?.totalAmount) ? selectedWork?.totalAmount : 0 }} </h6>
+            <h6> Processing Fee: ${{((globalService.stripeTotalAmt(selectedWork?.totalAmount) /100 ) -
+              (selectedWork?.totalAmount)).toFixed(2)}}</h6>
+            <h6> Total Fee: ${{globalService.stripeTotalAmt(selectedWork?.totalAmount)/100}} </h6>
+
+            <h6><b>Credit or debit card</b></h6>
+            <stripe-card #stripeSource1 (catch)="$event" (sourceChange)="setStripeSource($event)"></stripe-card>
+            <!--
+                          [(source)]  = 'source'
+                          [(invalid)] = 'invalidError' -->
+          </div>
+          <!-- </div> -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        <button type="button" class="btn btn-primary"
+          [disabled]="(selectedWork.paymentDetails.paymentType == workDiaryPaymentType.OFFLINE && !selectedWork.paymentDetails.paymentDesc)"
+          (click)="timesheetPayModal.hide();confirmTimesheetModal.show()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--  Confirm TimeSheet MODAL -->
+<div bsModal [config]="{backdrop: 'static', keyboard: false}" #confirmTimesheetModal="bs-modal" class="modal fade"
+  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-white">
+        <h4 class="modal-title text-white"> Payment Confirmation</h4>
+        <button type="button" class="close text-white" (click)="confirmTimesheetModal.hide();timesheetPayModal.show();"
+          aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to pay {{selectedWork.paymentDetails.paymentType}}?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary"
+          (click)="confirmTimesheetModal.hide();timesheetPayModal.show();">Close</button>
+        <button type="button" class="btn btn-primary"
+          (click)="confirmTimesheetModal.hide();submitTimesheetPayment()">Confirm</button>
+        <!-- <pre [innerHtml]="newJob | json"> </pre> -->
+      </div>
+    </div>
+  </div>
+</div>
+<!--  Confirm TimeSheet MODAL -->
+
+<div bsModal [config]="{backdrop: 'static', keyboard: false}" #viewTimesheet="bs-modal" class="modal fade" tabindex="-1"
+  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white"><i class="fa fa-eye"></i> View Timesheet details</h4>
+        <button type="button" class="close text-white" (click)="viewTimesheet.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p> <b>Date :</b> {{selectedWork?.date | date:'mediumDate'}} </p>
+        <p> <b>Start Time :</b> {{selectedWork.startTime | date: 'hh:mm a'}} </p>
+        <p> <b>End Time :</b> {{selectedWork.endTime | date:'hh:mm a'}}
+        </p>
+        <p> <b>Break Time :</b> {{selectedWork?.breakTime?.hours}} hours, {{selectedWork?.breakTime?.minutes}} minutes
+          <span class="btn btn-sm btn-trans-blue mr-10" style="cursor: pointer;" (click)="viewBreakDetail.show()">
+            <i class="fa fa-eye"></i></span>
+        </p>
+        <p> <b>Total Work Hours :</b> {{selectedWork?.totalTime?.hours}} hours, {{selectedWork?.totalTime?.minutes}}
+          minutes </p>
+        <p> <b>Total Work Amount :</b> ${{(selectedWork?.totalAmount) ? selectedWork?.totalAmount : 0 }} </p>
+        <p> <b>Paid Status :</b> {{selectedWork?.paidStatus | uppercase}} </p>
+        <!--  <p> <b>Paid Date :</b> {{(selectedWork?.paidDate)? (selectedWork.paidDate | date: 'mediumDate')  : '-' }} </p> -->
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="viewTimesheet.hide()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal [config]="{backdrop: 'static', keyboard: false}" #viewBreakDetail="bs-modal" class="modal fade"
+  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white"><i class="fa fa-eye"></i> View BreakTime details</h4>
+        <button type="button" class="close text-white" (click)="viewBreakDetail.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div *ngFor="let duration of durations;">
+          <div>{{ duration.clockIn }} - {{ duration.clockOut }} = {{ duration.duration.hour }}
+            hours, {{ duration.duration.minute }} minute </div>
+        </div>
+        <div>Total Break: {{selectedWork?.breakTime?.hours}} hours, {{selectedWork?.breakTime?.minutes}} minutes</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="viewBreakDetail.hide()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--  <p> <b>Paid Recipt :</b> {{currentUser?.userType}} </p> -->
+<!-- <div   bsModal [config]="{backdrop: 'static', keyboard: false}" #endContractModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title  text-white">Close Contract</h4>
+        <button type="button" class="close  text-white" (click)="closeModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group row">
+          <div class="col-12">
+              <h3><b>How likely will you work for this Staff again?</b></h3>
+              <label><b>Rate Your overall experience from your completed assignment here Thanks for helping us to build a strong community</b></label>
+              <div class="form-group">
+                <div class="custom-control custom-radio">
+                  <input name="rating" type="radio" [value]="5" class="custom-control-input" id="rating_5" [(ngModel)]="ratingDetail.rating">
+                  <label class="custom-control-label" for="rating_5">Highly Like</label>
+                  <p class="text-muted">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="custom-control custom-radio">
+                  <input name="rating" type="radio" [value]="4" class="custom-control-input" id="rating_4" [(ngModel)]="ratingDetail.rating">
+                  <label class="custom-control-label" for="rating_4">Very Likely</label>
+                  <p class="text-muted">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="custom-control custom-radio">
+                  <input name="rating" type="radio" [value]="3" class="custom-control-input" id="rating_3" [(ngModel)]="ratingDetail.rating">
+                  <label class="custom-control-label" for="rating_3">Neutral</label>
+                  <p class="text-muted">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="custom-control custom-radio">
+                  <input name="rating" type="radio" [value]="2" class="custom-control-input" id="rating_2" [(ngModel)]="ratingDetail.rating">
+                  <label class="custom-control-label" for="rating_2">Unlikely</label>
+                  <p class="text-muted">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="custom-control custom-radio">
+                  <input name="rating" type="radio" [value]="1" class="custom-control-input" id="rating_1" [(ngModel)]="ratingDetail.rating">
+                  <label class="custom-control-label" for="rating_1">Highly Unlikely</label>
+                  <p class="text-muted">
+                    <span class="fa fa-star checked"></span>
+                  </p>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" >
+        <button type="button" class="btn btn-primary" (click)="submitRating(false)" >SUBMIT</button>
+        <button type="button" class="btn btn-secondary" (click)="submitRating(true)">RATE LATER</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+
+
+<div bsModal [config]="{backdrop: 'static', keyboard: false}" #endContractModal="bs-modal" class="modal fade"
+  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title  text-white">Close Contract</h4>
+        <button type="button" class="close  text-white" (click)="closeModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+
+
+
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group row">
+          <div class="col-12">
+            <div class="text-center mt-20">
+              <h4 class="clr-black"><b>How likely will you hire this Staff again?</b></h4>
+              <label class="clr-black fs-13 fw-400">Rate your overall experience from your hired staff here.
+                <br>Thanks for helping us to build a strong marketplace.</label>
+            </div>
+            <div class="row mt-40">
+              <div class="form-group col-custom">
+                <div class="custom-control custom-radio rating-1 text-center">
+                  <input name="rating" type="radio" [value]="5" class="custom-control-input" id="rating_5"
+                    [(ngModel)]="ratingDetail.rating">
+                  <label class="custom-control-label" for="rating_5">Highly Like</label>
+                  <p class="text-muted">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group col-custom">
+                <div class="custom-control custom-radio rating-1 text-center">
+                  <input name="rating" type="radio" [value]="4" class="custom-control-input" id="rating_4"
+                    [(ngModel)]="ratingDetail.rating">
+                  <label class="custom-control-label" for="rating_4">Very Likely</label>
+                  <p class="text-muted">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group col-custom">
+                <div class="custom-control custom-radio rating-1 text-center">
+                  <input name="rating" type="radio" [value]="3" class="custom-control-input" id="rating_3"
+                    [(ngModel)]="ratingDetail.rating">
+                  <label class="custom-control-label" for="rating_3">Neutral</label>
+                  <p class="text-muted">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group col-custom">
+                <div class="custom-control custom-radio rating-1 text-center">
+                  <input name="rating" type="radio" [value]="2" class="custom-control-input" id="rating_2"
+                    [(ngModel)]="ratingDetail.rating">
+                  <label class="custom-control-label" for="rating_2">Unlikely</label>
+                  <p class="text-muted">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group col-custom">
+                <div class="custom-control custom-radio rating-1 text-center">
+                  <input name="rating" type="radio" [value]="1" class="custom-control-input" id="rating_1"
+                    [(ngModel)]="ratingDetail.rating">
+                  <label class="custom-control-label" for="rating_1">Highly Unlikely</label>
+                  <p class="text-muted">
+                    <span class="fa fa-star checked"></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="submitRating(false)">SUBMIT</button>
+        <button type="button" class="btn btn-secondary" (click)="submitRating(true)">RATE LATER</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div bsModal [config]="{backdrop: 'static', keyboard: false}" #cancelContractModal="bs-modal" class="modal fade"
+  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title  text-white">Cancel Contract</h4>
+        <button type="button" class="close  text-white" (click)="closeModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group row">
+          <div class="col-12">
+            <label><b>Reason
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !cancelContractDetail.reason, 'text-primary': cancelContractDetail.reason}"></i>
+                </sup>
+              </b></label>
+            <!-- <app-ngx-editor placeholder="State the reason that you are cancelling the contract" [resizer]="false" name="reason"
+            [(ngModel)]="cancelContractDetail.reason" [config]="editorConfig" name="reason">
+          </app-ngx-editor> -->
+            <ckeditor [config]="ckeConfig" placeholder="State the reason that you are cancelling the contract"
+              name="reason" [(ngModel)]="cancelContractDetail.reason"></ckeditor>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        <button type="button" class="btn btn-primary" [disabled]="!(cancelContractDetail?.reason )"
+          (click)="cancelContract()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

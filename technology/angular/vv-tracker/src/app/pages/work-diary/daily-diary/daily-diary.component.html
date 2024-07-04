@@ -1,0 +1,45 @@
+<div class="main-container my-12">
+    <div class="flex items-center header">
+        <mat-icon svgIcon="mat:arrow_back_ios" class="cursor-pointer" (click)="goBack()"></mat-icon>
+        <h2 class="headline text-sm m-0 flex-auto" style="padding: 12px 0px; margin-left: 10px;">{{ userData?.date |
+            date: 'EEEE, MMMM d' }}</h2>
+    </div>
+    <div class="total-hours mt-5 flex">
+        <h2>Total: {{ convertDecimalToHoursMinutes(userData?.data?.length * 10 / 60) }}</h2>
+        <div class="green-ball"></div>
+        <h3>Tracked ({{ convertDecimalToHoursMinutes(userData?.data?.length * 10 / 60) }})</h3>
+        <mat-icon 
+            class="ml-2 cursor-pointer" 
+            matTooltip="Delete selected screenshots ?" 
+            svgIcon="mat:delete" 
+            *ngIf="showDeleteAllSSIcon"
+            (click)="deleteSelectedScreenshots()"
+        ></mat-icon>
+        <div class="mt-1">
+            <span style="vertical-align: middle; margin-top: 2px;" *ngIf="selectedScreenshotsLength == 1">{{selectedScreenshotsLength}} Screenshot selected</span>
+            <span style="vertical-align: middle; margin-top: 2px;" *ngIf="selectedScreenshotsLength > 1">{{selectedScreenshotsLength}} Screenshots selected</span>
+        </div>
+    </div>
+    <div class="screenshots customScrollar">
+    <div *ngFor="let data of sortedData; let i = index">
+        <div class="flex ss-timing">
+            <div class="green-ball" *ngIf="data?.length > 0"></div>
+            <div *ngIf="data.length > 0">{{ data[data.length-1].timerstartedat.slice(11, 16)}} - {{data[0].createdat.slice(11, 16)}} ({{convertMinutesToHHMM(data.length * 10)}})</div>
+        </div>
+        <div class="container mb-2">
+            <div class="flex flex-wrap -mx-2 justify-start">
+                <ng-container *ngFor="let item of data; let i = index">
+                    <div class="w-1/4 p-1 flex flex-col items-end">
+                        <img [src]="item?.screen" alt="Screenshot" class="w-full h-auto cursor-pointer"
+                            (click)="viewScreenShot(item)" data-toggle="tooltip"
+                            [title]="'Mouse Clicks: ' + item?.mouseclicks + ', Key Presses: ' + item?.keypresses" />
+                        <div style="font-size: 12px; color: gray;">
+                            {{ item?.createdat.slice(11, 16) }}
+                            <input *ngIf="role == 1" style="vertical-align: middle; border: none !important;" class="ml-1 cursor-pointer" type="checkbox" (change)="onCheckboxChange($event, item)">
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>

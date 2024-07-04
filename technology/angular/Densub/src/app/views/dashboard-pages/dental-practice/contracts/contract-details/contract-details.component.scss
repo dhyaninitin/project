@@ -1,0 +1,114 @@
+.staff-bid-list_inner  {
+  @media (max-width:500px) {
+      text-align: center;
+  }
+  p{
+      margin-bottom: 5px;
+      // @media (min-width:767px) {
+      //     font-size: 18px;
+      // }
+  }
+  .col-md-9 {
+      @media (max-width:1130px) {
+          flex: 0 0 70%;
+          max-width: 70%;
+      }
+      @media (max-width:690px) {
+          flex: 0 0 100%;
+          max-width: 100%;
+      }
+
+      .col-sm-3 {
+          .user-avtar {
+              @media (max-width:500px) {
+                  max-width: 250px;
+                  margin: 0px auto;
+              }
+          }
+          @media (max-width:1130px) {
+              max-width: 30%;
+              flex: 0 0 30%;
+          }
+          @media (max-width:767px) {
+              flex: 0 0 38%;
+              max-width: 38%;
+          }
+          @media (max-width:500px) {
+              flex: 0 0 100%;
+              max-width: 100%;
+          }
+      }
+      .col-sm-9 {
+          @media (max-width:1130px) {
+              flex: 0 0 70%;
+              max-width: 70%;
+          }
+          @media (max-width:767px) {
+              flex: 0 0 62%;
+              max-width: 62%;
+          }
+          @media (max-width:500px) {
+              flex: 0 0 100%;
+              max-width: 100%;
+          }
+      }
+  }
+  .col-md-3 {
+      @media (max-width:1130px) {
+          max-width: 30%;
+          flex: 0 0 30%;
+      }
+      @media (max-width:1130px) {
+          max-width: 100%;
+          flex: 0 0 100%;
+          text-align: left !important;
+      }
+      @media (max-width:500px) {
+          flex: 0 0 100%;
+          text-align: center !important;
+      }
+  }
+}
+
+.btn-trans-green {
+  color: #446110;
+  padding: 0;
+  font-size: 16px;
+}
+.btn-trans-danger {
+  color: #fe0201;
+  padding: 0;
+  font-size: 16px;
+}
+
+.form-group .col-custom {
+  flex: 0 0 20%;
+  max-width: 20%;;
+  padding: 0 15px;
+  @media (max-width:991px) {
+    flex: 0 0 33.333%;
+    max-width: 33.333%;
+  }
+  @media (max-width:420px) {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+.custom-control.rating-1 {
+  padding: 0px 0 15px;
+}
+
+.custom-control.rating-1 label::before, .custom-control.rating-1 label::after {
+  bottom: 5px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  top: inherit;
+}
+
+
+.custom-control.rating-1  label.custom-control-label {
+  position: static;
+  color: #000;
+}

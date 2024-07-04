@@ -1,0 +1,314 @@
+<div class="add-user" [@fadeInOut]>
+    <div class="border-0">
+      <div class="d-flex justify-content-between">
+        <div class="form-title">
+          <span class="icon-mc mc-person_add_alt_1"></span>
+          <h2 class="text-dark">
+            {{ ln.TXT_ADD_USER | translate | titlecase }}
+          </h2>
+        </div>
+        <button mat-icon-button mat-dialog-close>
+          <i class="icon-mc mc-x"></i>
+        </button>
+      </div>
+      <form [formGroup]="addUserForm">
+        <div class="row row-cols-1 row-cols-lg-2 mt-4">
+          <div class="col-md-6">
+            <div>
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>{{ ln.TXT_FIRST_NAME | translate }}</mat-label>
+                <input
+                  matInput
+                  formControlName="firstname"
+                  placeholder="{{ ln.TXT_FIRST_NAME | translate }}"
+                />
+                <!--<mat-icon class="text-muted h5" matSuffix>person</mat-icon>-->
+                <mat-error *ngIf="firstname.invalid && firstname.touched">
+                  <span *ngIf="firstname.errors?.required">
+                    {{ ln.TXT_FIRST_NAME_REQUIRED | translate }}
+                  </span>
+                  <span
+                    *ngIf="
+                      !firstname.errors?.required && firstname.errors?.minlength
+                    "
+                  >
+                    {{ ln.TXT_FIRST_NAME_3ATLEAST_LETTERS | translate }}s
+                  </span>
+                  <span *ngIf="firstname.errors?.maxlength">
+                    {{ ln.TXT_FIRST_NAME_20MAX_LETTERS | translate }}
+                  </span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+  
+          <div class="col-md-6">
+            <div>
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>{{ ln.TXT_MIDDLE_NAME | translate }}</mat-label>
+                <input
+                  matInput
+                  formControlName="middlename"
+                  placeholder="{{ ln.TXT_MIDDLE_NAME | translate }}"
+                />
+                <!--<mat-icon class="text-muted h5" matSuffix>person</mat-icon>-->
+                <mat-error *ngIf="middlename.invalid && middlename.touched">
+                  <span *ngIf="middlename.errors?.minlength">
+                    {{ ln.TXT_MIDDLE_NAME_3_LETTERS | translate }}
+                  </span>
+                  <span *ngIf="middlename.errors?.maxlength">
+                    {{ ln.TXT_MIDDLE_NAME_20_LETTERS | translate }}
+                  </span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div>
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>{{ ln.TXT_LAST_NAME | translate }}</mat-label>
+                <input
+                  matInput
+                  formControlName="lastname"
+                  placeholder="{{ ln.TXT_LAST_NAME | translate }}"
+                />
+                <!--<mat-icon class="text-muted h5" matSuffix>person</mat-icon>-->
+                <mat-error *ngIf="lastname.invalid && lastname.touched">
+                  <span *ngIf="lastname.errors?.required">
+                    {{ ln.TXT_LAST_NAME_REQUIRED | translate }}
+                  </span>
+                  <span
+                    *ngIf="
+                      !lastname.errors?.required && lastname.errors?.minlength
+                    "
+                  >
+                    {{ ln.TXT_LAST_NAME_3_LETTERS | translate }}
+                  </span>
+                  <span *ngIf="lastname.errors?.maxlength">
+                    {{ ln.TXT_LAST_NAME_20_LETTERS | translate }}
+                  </span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- <div class="col-md-6">
+            <div>
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>User Name</mat-label>
+                <input matInput formControlName="userName" placeholder="xyz">
+               </mat-form-field>
+            </div>
+          </div> -->
+          <div class="col-md-6">
+            <div>
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>{{ ln.TXT_EMAIL | translate }}</mat-label>
+                <input
+                  type="email"
+                  matInput
+                  formControlName="email"
+                  placeholder="{{ ln.TXT_EMAIL_SAMPLE | translate }}"
+                />
+                <!--<mat-icon class="text-muted h5" matSuffix>email</mat-icon>-->
+                <mat-error *ngIf="email.invalid && email.touched">
+                  <span *ngIf="email.errors?.required">
+                    {{ ln.TXT_EMAIL_REQUIRED | translate }}
+                  </span>
+                  <span *ngIf="!email.errors?.required && email.errors?.pattern">
+                    {{ ln.TXT_EMAIL_NOT_VALID | translate }}
+                  </span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div>
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>{{ ln.TXT_USER_ROLE | translate }}</mat-label>
+                <mat-select disableOptionCentering formControlName="roletypeid">
+                  <!-- TODO: needs to remove the inline css -->
+                  <perfect-scrollbar style="height: 250px">
+                    <ng-container *ngFor="let role of roles; let last = last">
+                      <mat-option [value]="role">
+                        {{ role.name | translate }}
+                      </mat-option>
+                      <mat-divider *ngIf="!last"></mat-divider>
+                    </ng-container>
+                  </perfect-scrollbar>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div>
+              <mat-form-field appearance="outline" class="w-100">
+                <input
+                  type="text"
+                  [(ngModel)]="searchValue"
+                  matInput
+                  formControlName="designationname"
+                  placeholder="{{ ln.TXT_DESIGNATION | translate }}"
+                  (keyup)="autoSearchDesignation()"
+                  [matAutocomplete]="auto"
+                />
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option
+                    *ngFor="let option of designationData"
+                    [value]="option.designation.name"
+                  >
+                    {{ option.designation.name }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div>
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>{{ ln.TXT_BUSINESS_VERTICAL | translate }}</mat-label>
+                <mat-select
+                  disableOptionCentering
+                  formControlName="businessverticalid"
+                >
+                  <!-- TODO: change the inline css -->
+                  <perfect-scrollbar style="height: 250px">
+                    <ng-container
+                      *ngFor="
+                        let businessvertical of businessverticals;
+                        let last = last
+                      "
+                    >
+                      <mat-option [value]="businessvertical.businessverticalid">
+                        {{ businessvertical.name | translate }}
+                      </mat-option>
+                      <mat-divider *ngIf="!last"></mat-divider>
+                    </ng-container>
+                  </perfect-scrollbar>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- <div class="col-md-6">
+            <div>
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>{{ln.TXT_PRACTICE | translate}}</mat-label>
+                <input matInput formControlName="practicename" placeholder="{{ln.TXT_PRACTICE | translate}}">
+              </mat-form-field>
+            </div>
+          </div> -->
+  
+          <div class="col-md-6">
+            <div>
+              <mat-form-field appearance="outline" class="w-100">
+                <input
+                  type="text"
+                  [(ngModel)]="searchPracticeValue"
+                  matInput
+                  formControlName="practicename"
+                  placeholder="{{ ln.TXT_PRACTICE | translate }}"
+                  [matAutocomplete]="auto"
+                />
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option
+                    *ngFor="let option of practiceData"
+                    [value]="option.practice.name"
+                  >
+                    {{ option.practice.name }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-6" style="display: flex">
+            <div style="width: 35%;margin-right: 5px;">
+              <mat-form-field appearance="outline">
+                <mat-label>ISD</mat-label>
+                <mat-select (selectionChange)="getCountryCode($event.value)">
+                  <mat-option
+                    *ngFor="let code of countrycodes"
+                    value="{{ code.dial_code }}"
+                    >({{ code.dial_code }}){{ code.flag }}{{ code.name }}
+                  </mat-option>
+                </mat-select>
+  
+                <!-- <mat-error *ngIf="countrycode.touched && !countrycode.valid">
+                  <span *ngIf="countrycode.errors?.required">
+                    ISD code required
+                  </span>
+                  
+                </mat-error> -->
+              </mat-form-field>
+            </div>
+            <div style="width: 64%">
+              <mat-form-field appearance="outline">
+                <mat-label>{{ ln.TXT_PHONE | translate }}</mat-label>
+                <input
+                  matInput
+                  formControlName="mobilenumber"
+                  placeholder="{{ ln.TXT_PHONE_SAMPLE | translate }}"
+                />
+                <mat-error *ngIf="mobilenumber.touched && !mobilenumber.valid">
+                  <span *ngIf="mobilenumber.errors?.required">
+                    {{ ln.TXT_FIELD_REQUIRED | translate }}
+                  </span>
+                  <span
+                    *ngIf="
+                      !mobilenumber.errors?.required &&
+                      mobilenumber.errors?.minlength
+                    "
+                  >
+                    <!-- Mobile number should be of minimum 8 digits -->
+                    {{ ln.TXT_MINIMUM_8_DIGITS_REQUIRED | translate }}
+                  </span>
+                  <span
+                    *ngIf="
+                      mobilenumber.errors?.pattern &&
+                      !mobilenumber.errors?.minlength
+                    "
+                  >
+                    <!-- Mobile number is not valid -->
+                    {{ ln.TXT_MOBILE_INVALID | translate }}
+                  </span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div>
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>{{ ln.TXT_LOCATION | translate }}</mat-label>
+                <input
+                  matInput
+                  formControlName="locationname"
+                  placeholder="{{ ln.TXT_LOCATION | translate }}"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="d-flex justify-content-end mt-2">
+        <button
+          class="btn-lg text-dark ms-3"
+          mat-flat-button
+          (click)="addUserForm.reset()"
+        >
+          {{ ln.TXT_RESET | translate }}
+        </button>
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="addUser()"
+          [disabled]="isLoading"
+        >
+          <span>{{ ln.TXT_INVITE | translate }}</span>
+          <mat-spinner
+            diameter="20"
+            *ngIf="isLoading"
+            class="btn-loader"
+          ></mat-spinner>
+        </button>
+      </div>
+    </div>
+  </div>
+  

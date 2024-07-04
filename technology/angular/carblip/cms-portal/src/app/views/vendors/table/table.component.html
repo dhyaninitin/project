@@ -1,0 +1,78 @@
+<table @stagger *ngIf="vendors" [dataSource]="vendors" matSortActive={{sortKey}} matSortDirection={{sortDirection}} matSortDisableClear matSort (matSortChange)="sortData($event)" class="w-full" mat-table>
+	<ng-container matColumnDef="name">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Name</th>
+		<td *matCellDef="let item" mat-cell>{{ item.name }}</td>
+	</ng-container>
+
+	<ng-container matColumnDef="street_address">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Address</th>
+		<td *matCellDef="let item" mat-cell>{{ item.street_address }}</td>
+	</ng-container>
+
+	<ng-container matColumnDef="city">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>City</th>
+		<td *matCellDef="let item" mat-cell>{{ item.city }}</td>
+	</ng-container>
+
+	<ng-container matColumnDef="state">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>State</th>
+		<td *matCellDef="let item" mat-cell>{{ item.state }}</td>
+	</ng-container>
+
+	<ng-container matColumnDef="zip">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Zip</th>
+		<td *matCellDef="let item" mat-cell>{{ item.zip }}</td>
+	</ng-container>
+
+	<ng-container matColumnDef="website">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Website</th>
+		<td *matCellDef="let item" mat-cell>{{ item.website }}</td>
+	</ng-container>
+
+	<ng-container matColumnDef="company_phone">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Company Phone Number</th>
+		<td *matCellDef="let item" mat-cell>{{ item.company_phone | phone:'US' }}</td>
+	</ng-container>
+
+	<ng-container matColumnDef="actions">
+		<th *matHeaderCellDef mat-header-cell></th>
+		<td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
+			<button (click)="$event.stopPropagation();getSelectedRecord(row)"
+				[matMenuTriggerData]="{ customer: row }"
+				[matMenuTriggerFor]="actionsMenu"
+				mat-icon-button
+				type="button">
+
+				<mat-icon svgIcon="mat:more_horiz"></mat-icon>
+			</button>
+		</td>
+	</ng-container>
+
+	<tr *matHeaderRowDef="getDisplayedColumns(); sticky: true" mat-header-row></tr>
+	<tr
+		*matRowDef="let row; columns: getDisplayedColumns();"
+			routerLink="./{{row.id}}"
+			@fadeInUp
+			class="hover:bg-hover trans-ease-out cursor-pointer"
+			mat-row></tr>
+</table> 
+
+	<div class="text-center mt-2" *ngIf="(didFetch$ | async) && vendors.length === 0">There are no vendors available. Please enter in a vendors to view them here</div> 
+
+	<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+	<ng-template let-customer="customer" matMenuContent>
+	<!-- <button mat-menu-item routerLink="./{{selectedRecordDetail?.id}}">
+		<mat-icon svgIcon="mat:remove_red_eye"></mat-icon>
+		<span>View</span>
+	</button> -->
+	<button mat-menu-item *ngIf="isAllowUpdate" routerLink="./{{selectedRecordDetail?.id}}">
+		<mat-icon svgIcon="mat:edit"></mat-icon>
+		<span>Edit</span>
+	</button>
+	<button mat-menu-item *ngIf="isAllowUpdate" (click)="onDelete(selectedRecordDetail)">
+		<mat-icon svgIcon="mat:delete"></mat-icon>
+		<span>Delete</span>
+	</button>
+	</ng-template>
+	</mat-menu>
+

@@ -1,0 +1,135 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h4 class="text-primary"> <b>Manage: Categories</b> </h4>
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+<div class="col-lg-12">
+    <div class="card">
+    <div class="card-header">
+        <i class="fa fa-cogs"></i> Listings
+        <button class="btn btn-primary pull-right btn-sm mr-1" (click)="showSaveCategoryModal()"> <i class="fa fa-plus">
+        </i> Add New Category</button>
+    </div>
+    <div class="card-body table-responsive">
+        <table class="table table-bordered">
+        <thead class="nowrap">
+            <tr>
+            <th>S.NO</th>
+            <th [class.active]="order === 'name'" (click)="setOrder('name')">
+                Name
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+            </th>
+            <th [class.active]="order === 'description'" (click)="setOrder('description')">
+                Description
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+            </th>
+            <!-- <th> Count </th> -->
+            <th> Action </th>
+            </tr>
+        </thead>
+        <tbody *ngIf="categoryList?.length">
+            <tr
+            *ngFor="let category of categoryList | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index;">
+            <td>{{i+1}}</td>
+            <td>{{ category?.name }}</td>
+            <td>{{ category?.description}}</td>
+            <!-- <td>{{ category?.count }}</td> -->
+            <td>
+                <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-primary"
+                    (click)="showSaveCategoryModal(category)"><i class="fa fa-edit"></i></button>
+                <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal"
+                    (click)="showDeleteCategory(category)"><i class="fa fa-trash"></i></button>
+                </div>
+            </td>
+            </tr>
+        </tbody>
+        <tr class="text-center" *ngIf="!categoryList?.length">
+            <td colspan="15">
+            <h6>No Record Found !</h6>
+            </td>
+        </tr>
+        </table>
+
+        <ul class="pagination" *ngIf="itemsPerPage < categoryList?.length">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+    </div>
+    </div>
+</div>
+</div>
+
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #deleteCategoryModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title text-white"><i class="fa fa-trash"></i> Delete Category</h4>
+        <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>Are you sure want to delete this category?</p>
+        <p>
+			<b>Name:</b> {{currentCategory?.name}}<br />
+			<b>Description:</b> {{currentCategory?.description}}<br />
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+        <button type="button" class="btn btn-danger" (click)="deleteCategory()">Delete</button>
+    </div>
+    </div>
+</div>
+</div>
+
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #addEditCategory="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title text-white"> {{currentCategory._id ? 'Edit' :'Add'}} Category</h4>
+            <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group row">
+            <div class="col-12">
+                <label><b>Name
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !currentCategory?.name, 'text-primary': currentCategory?.name}"></i>
+                    </sup>
+                </b></label>
+                <input type="text" id="name" name="name" [(ngModel)]="currentCategory.name" class="form-control"
+                placeholder="Please enter category name" required>
+            </div>
+            </div>
+            <div class="form-group row">
+            <div class="col-12">
+                <label><b>Description
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !currentCategory?.description, 'text-primary': currentCategory?.description}"></i>
+                    </sup>
+                </b></label>
+                <textarea id="description" name="description" class="form-control"
+                placeholder="Please enter description" [(ngModel)]="currentCategory.description" required> </textarea>
+            </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+            <button type="button" class="btn btn-primary" [disabled]="!currentCategory.name || !currentCategory.description"
+            (click)="saveCategoryData()">{{currentCategory._id ? 'Update' :'Save'}}</button>
+            <!-- <pre [innerHtml]="validLinkUrl | json"> </pre> -->
+        </div>
+        </div>
+    </div>
+</div>
+  

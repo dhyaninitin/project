@@ -1,0 +1,258 @@
+<section class="container-fluid request-page register-page px-0">
+  <div class="cb-container container">
+    <div class="row mx-0">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-content px-sm-0 px-md-0">
+         <div class="row mx-0 d-block d-sm-none ">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12 px-0">
+              <div class="form-head-text">
+                <h3 *ngIf="count">Great news! We have cars that match your search.</h3>
+                <p> Please note that you are not purchasing a car. This is simply a request to purchase and is
+                  non-binding.</p>
+              </div>
+            </div>
+          </div>
+        <div class="row mx-0">
+          <div *ngIf="storesCompleted()" class="col-lg-8 col-md-7 col-sm-12 col-12 pr-0  order-lg-2  order-md-2 product-desc real-data">
+            <div class="row mx-0 product-title">
+              <div class="title-p text-left px-0">
+                <p class="title text-uppercase">{{selectedBrandName}} {{selectedModelInfo.name}}</p>
+              </div>
+              <div class="msrp-div text-right px-0">
+                <p class="amount ml-auto mr-0">
+                  <span class="triange-sect"></span>
+                  <span>{{
+                    msrp | currency: 'USD':'symbol':'1.0'
+                  }}</span>
+                  <span class="text-capitalize sub">Starting MSRP</span>
+                </p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 right-div">
+                <ul class="product-specs">
+                  <li>
+                    <div class="item">
+                      <p class="item-label text-capitalize mb-0">year</p>
+                      <p class="item-value text-uppercase mb-0">{{selectedTrim.year}}</p>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="item">
+                      <p class="item-label text-capitalize mb-0">make</p>
+                      <p class="item-value text-uppercase mb-0">{{selectedBrandName}}</p>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="item">
+                      <p class="item-label text-capitalize mb-0">model</p>
+                      <p class="item-value text-uppercase mb-0">{{selectedModelInfo.name}}</p>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="item">
+                      <p class="item-label text-capitalize mb-0">trim</p>
+                      <p class="item-value text-uppercase mb-0">{{selectedTrim.name}}</p>
+                    </div>
+                  </li>
+                </ul>
+                <div class="clearfix"></div>
+                <div class="img-carousel-wrapper">
+                  <ui-carousel #uiCarousel class="img-carousel" [autoPlay]="false" [arrows]="false" [infinite]="true" [fade]="false" [speed]="200" height="530px" width="100%">
+                    <ui-carousel-item>
+                      <img src="{{backgroundImages[0]}}" appLazyloader alt="" draggable="false" width="100%">
+                    </ui-carousel-item>
+                    <ui-carousel-item>
+                      <img src="{{backgroundImages[1]}}" appLazyloader alt="" draggable="false" width="100%">
+                    </ui-carousel-item>
+                    <ui-carousel-item>
+                      <img src="{{backgroundImages[2]}}" appLazyloader alt="" draggable="false" width="100%">
+                    </ui-carousel-item>
+                    <div class="left-arrow" (click)="uiCarousel.prev()">
+                      <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon>
+                    </div>
+                    <div class="right-arrow" (click)="uiCarousel.next()">
+                      <fa-icon [icon]="['fas', 'chevron-right']"></fa-icon>
+                    </div>
+                  </ui-carousel>
+                </div>
+                <div class="clearfix"></div>
+                <div class="color-sub-section">
+                  <div class="color-selection">
+                    <div class="ext-color" *ngIf="selectedExteriorColors.length">
+                      <legend class="">Exterior color</legend>
+                      <ng-container *ngFor="let color of selectedExteriorColors">
+                        <div class="circle" [ngStyle]="{'background-color': '#' + color.color_hex_code.toString()}">
+                        </div>
+                      </ng-container>
+                    </div>
+                    <div class="int-color">
+                      <div class="int-color" *ngIf="selectedInteriorColors.length">
+                        <legend class="">Interior color</legend>
+                        <ng-container *ngFor="let color of selectedInteriorColors">
+                          <div class="circle" [ngStyle]="{'background-color': '#' + color.color_hex_code.toString()}">
+                          </div>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+          </div>
+          <!-- static page -->
+          <div *ngIf="!storesCompleted()" class="col-lg-8 col-md-7 col-sm-12 col-12 pr-0  order-lg-2  order-md-2 product-desc static-data">
+            <div class="row mx-0 product-title">
+              <div class="text-left px-0 title-p">
+                <p class="title text-left text-uppercase">Audi a4</p>
+              </div>
+              <div class="text-right msrp-div">
+                <p class="amount ml-auto mr-0">
+                  <span class="triange-sect"></span>
+                  <span>$25,585</span>
+                  <span class="text-capitalize sub">Starting MSRP</span>
+                </p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <ul class="product-specs">
+                  <li>
+                    <div class="item">
+                      <p class="item-label text-capitalize mb-0">year</p>
+                      <p class="item-value text-uppercase mb-0">2018</p>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="item">
+                      <p class="item-label text-capitalize mb-0">make</p>
+                      <p class="item-value text-uppercase mb-0">audi</p>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="item">
+                      <p class="item-label text-capitalize mb-0">model</p>
+                      <p class="item-value text-uppercase mb-0">a4</p>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="item">
+                      <p class="item-label text-capitalize mb-0">trim</p>
+                      <p class="item-value text-uppercase mb-0">premium</p>
+                    </div>
+                  </li>
+                </ul>
+                <div class="clearfix"></div>
+                <div class="img-container">
+                  <img src="assets/img/ic-a-3.png" class="ic_A3">
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-5 col-sm-12 col-12 order-lg-1 order-md-1 product-filters">
+            <form class="phone-input-form" [formGroup]="phoneInputForm" #form="ngForm">
+              <div class="form-group form-head-text d-none d-sm-block ">
+                <h3 *ngIf="count">Great news! We have {{count}} cars that match your search.</h3>
+                <p> Please note that you are not purchasing a car. This is simply a request to purchase and is non-binding.</p>
+              </div>
+              <div class="form-group">
+                <label for="validationServerPhone">Phone Number</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="phone_number_input">+1</span>
+                  </div>
+                  <input type="text" class="form-control" id="validationServerPhone" formControlName="phone" pattern="^\d{3}[- ]?\d{3}[- ]?\d{4}$" placeholder="310-555-1212"
+                    aria-describedby="phone_number_input" required appAutofocus appNoSpace appPhoneNumber>
+                </div>
+                <span *ngIf="phoneInputForm?.controls['phone'].touched && !phoneInputForm?.controls['phone'].valid"
+                  id="phone-valid" class="validate-message">
+                  <span *ngIf="phoneInputForm.controls['phone'].hasError('required')">* The phone number is required.</span>
+                  <span *ngIf="phoneInputForm.controls['phone'].hasError('pattern')">* The phone number is invalid.</span>
+                </span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- The Modal -->
+<ng-template #registerInputModal let-modal let-c="close" let-d="dismiss">
+  <div class="modal-content cb-model">
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <h4 class="modal-title register-head-text">Registration</h4>
+      <a class="close" (click)="onDismissPhoneInputDialog()"><img src="assets/img/close.png" class="ic_close"></a>
+    </div>
+    <!-- Modal body -->
+    <div class="modal-body">
+      <div class="">
+        <p class="welcome_text text-center">Welcome to Carblip!</p>
+        <form id="register-form" class="register-form" [formGroup]="registerInputForm">
+          <div class="form-group">
+            <label for="first_name">What's your name?</label>
+            <input type="text" class="form-control" id="first_name" aria-describedby="firstHelp"
+              placeholder="First Name" formControlName="firstName"
+              appNoWhitespace appNoSepcialchar/>
+            <span *ngIf="registerInputForm?.controls['firstName'].touched && !registerInputForm?.controls['firstName'].valid"
+              id="firstname-valid" class="validate-message">
+              <span *ngIf="registerInputForm.controls['firstName'].errors.required">* The First name is required.</span>
+            </span>
+          </div>
+          <div class="form-group border-bottom-0">
+            <label for="user_email">And your email?</label>
+            <input type="email" class="form-control" id="user_email" aria-describedby="emailHelp"
+              placeholder="Email" formControlName="email" pattern="[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,64}"
+              appNoWhitespace/>
+            <span *ngIf="registerInputForm?.controls['email'].touched && !registerInputForm?.controls['email'].valid"
+              id="email-valid" class="validate-message">
+              <span *ngIf="registerInputForm.controls['email'].errors.required">* The email address is required.</span>
+              <span *ngIf="registerInputForm.controls['email'].errors.pattern">* The email address is invalid.</span>
+            </span>
+          </div>
+        </form>
+        <a class="btn btn-secondary ml-auto mr-auto d-block next-btn" (click)="onRegisterPhone()">Submit</a>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #smsVerificationModal let-modal let-c="close" let-d="dismiss">
+  <div class="modal-content cb-model">
+
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <h4 class="modal-title promo-head-text">SMS Verification</h4>
+      <a class="close" (click)="onDismissVerificationModal()">
+        <img src="assets/img/close.png" class="ic_close">
+      </a>
+    </div>
+
+    <!-- Modal body -->
+    <div class="modal-body">
+      <div class="text-center">
+        <p *ngIf="!is_new_user" class="welcome_text">Welcome back, <span>{{firstName}}!</span></p>
+        <p *ngIf="is_new_user" class="welcome_text">Welcome to Carblip!</p>
+        <img src="assets/img/img-sms-verification.png" class="img_sms_verification">
+
+        <form id="promo-form" [formGroup]="otpForm">
+          <div class="form-group verify-code-input">
+            <input type="text" class="form-control" formControlName="otp1" (keyup)="autoFocusInputField($event)" maxlength="1" required appAutofocus appNoWhitespace>
+            <input type="text" class="form-control" formControlName="otp2" (keyup)="autoFocusInputField($event)" maxlength="1" required appNoWhitespace>
+            <input type="text" class="form-control" formControlName="otp3" (keyup)="autoFocusInputField($event)" maxlength="1" required appNoWhitespace>
+            <input type="text" class="form-control" formControlName="otp4" (keyup)="autoFocusInputField($event)" maxlength="1" required appNoWhitespace>
+            <input type="text" class="form-control" formControlName="otp5" (keyup)="autoFocusInputField($event)" maxlength="1" required appNoWhitespace>
+          </div>
+        </form>
+        <a class="btn btn-secondary ml-auto mr-auto d-block next-btn" (click)="onVerifyOtp()">Submit</a>
+        <a *ngIf="!is_new_user" class="btn btn-secondary ml-auto mr-auto d-block existng-user-btn" (click)="onDismissVerificationModal()">I am not
+            &lt;{{firstName}}&gt;</a>
+        <p class="dont-receive-label ">Didn’t receive the code?</p>
+        <a class="resend-link" (click)="onResendCode()">Re-send Code</a>
+      </div>
+    </div>
+  </div>
+</ng-template>

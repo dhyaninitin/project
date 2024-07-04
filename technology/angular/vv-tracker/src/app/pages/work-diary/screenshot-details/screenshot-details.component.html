@@ -1,0 +1,54 @@
+<div class="main-container">
+  <div class="main-container">
+    <div class="heading flex justify-between">
+      <h1>Screenshot Details</h1>
+      <mat-icon
+        svgIcon="mat:close"
+        class="cursor-pointer"
+        (click)="onClose()"
+      ></mat-icon>
+    </div>
+  </div>
+
+  <div class="screenshot" [ngClass]="{ 'cursor-pointer': role === 1 }">
+    <img [src]="userData?.screenshot?.screen" (click)="role === 1 && viewFullScreenshot(userData?.screenshot?.screen)"/>
+  </div>
+
+  <div class="ss-timing flex justify-between mt-3">
+    <h1>{{ userData?.screenshot?.createdat.slice(11, 16) }}</h1>
+    <a (click)="onDeleteScreenshot(userData?.screenshot)" *ngIf="role == 1">
+      <mat-icon
+        svgIcon="mat:delete"
+        matTooltip="Delete this screenshot?"
+      ></mat-icon>
+    </a>
+  </div>
+
+  <div class="project-name">
+    <h2>Project Name</h2>
+    <p>{{ userData?.screenshot?.projectname || "--" }}</p>
+  </div>
+
+  <div class="memo">
+    <h2>Memo</h2>
+    <p>{{ userData?.screenshot?.task || "--"}}</p>
+  </div>
+
+  <div class="footer">
+    <div class="user-events">
+      <table>
+        <tr>
+          <th>Time</th>
+          <th>Keyboard</th>
+          <th>Mouse</th>
+        </tr>
+
+        <tr>
+          <td>{{ userData?.screenshot?.createdat.slice(11, 16) }}</td>
+          <td>{{ userData?.screenshot?.keypresses }}</td>
+          <td>{{ userData?.screenshot?.mouseclicks }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

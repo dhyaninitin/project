@@ -1,0 +1,18 @@
+.container-fluid {
+  padding: 12px 14px;
+  .mat-stepper-horizontal {
+    margin-top: 8px;
+  }
+
+  .mat-mdc-form-field {
+    margin-top: 16px;
+  }
+
+  mat-stepper {
+    height: auto !important;
+  }
+}
+
+::ng-deep .mat-horizontal-stepper-header {
+  pointer-events: none !important;
+}

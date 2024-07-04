@@ -1,0 +1,154 @@
+<div class="main-container">
+  <div class="header row">
+    <div class="col-md-6 col-12">
+      <span id="componentState">{{ componentState }} Component</span>
+    </div>
+  </div>
+
+  <div class="container">
+    <div *ngIf="templateType !== 'Based On Total Compensation'">
+      <form [formGroup]="basedOnOfferForm">
+        <div class="row">        
+          <div class="form-group">
+            <mat-label *ngIf="templateType == 'Based On Offer'  || templateType == 'Based On Total Compensation'">Component Name</mat-label>
+            <mat-label  *ngIf="templateType !== 'Based On Offer' && templateType !== 'Based On Total Compensation'">Field Name</mat-label>
+            <div class="form-group">
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Component Name" formControlName="componentname" />
+            </mat-form-field>
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <mat-label *ngIf="templateType == 'Based On Offer'  || templateType == 'Based On Total Compensation'">Component Type</mat-label>
+            <mat-label  *ngIf="templateType !== 'Based On Offer' && templateType !== 'Based On Total Compensation'">Field Type</mat-label>
+            <div *ngIf="templateType !== 'Based On Offer'">
+              <div class="form-group">
+              <mat-form-field appearance="outline">
+                <mat-select formControlName="componenttype" placeholder="Component Type">
+                  <mat-option value="{{ item.name }}" *ngFor="let item of field_type">{{ item.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              </div>
+
+              <div *ngIf="basedOnOfferForm?.get('componenttype')?.value === 'Custom Rule'">
+              <div class="form-group" *ngIf="showSelectComDropdown">
+                <mat-label>Select Component</mat-label>
+                <mat-form-field appearance="outline">
+                  <mat-select (selectionChange)="onSelectComponent($event)" formControlName="selectcomponent">
+                  <ng-container *ngFor="let item of _empSer.employeeData">
+                    <mat-option [value]="item.componentname" *ngIf="item.componentid">{{ item.componentname }}</mat-option>
+                  </ng-container>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+    
+              <div class="form-group">
+                <mat-form-field appearance="outline">
+                <mat-label>Custom Rule</mat-label>
+                <textarea
+                  matInput
+                  placeholder="Custom Rule"
+                  formControlName="customrule"
+                ></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+    
+            <div *ngIf="templateType == 'Based On Offer'">
+              <div class="form-group">
+              <mat-form-field appearance="outline">
+                <mat-select formControlName="componenttype" placeholder="Component Type">
+                  <mat-option value="{{ item.name }}" *ngFor="let item of componenttype">{{ item.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              </div>
+    
+              <div class="form-group">
+              <mat-label>Hide If Zero</mat-label>
+              <mat-slide-toggle id="status" formControlName="hideifzero"></mat-slide-toggle>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    
+    <div *ngIf="templateType == 'Based On Total Compensation'">
+      <form [formGroup]="basedOnCompensationForm">
+        
+        <div class="form-group">
+          <mat-label>Component Name</mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="Component Name" formControlName="componentname"/>
+          </mat-form-field>
+        </div>
+    
+        <div class="form-group">
+          <mat-label>Component Type</mat-label>
+          <mat-form-field appearance="outline">
+            <mat-select formControlName="componenttype" placeholder="Component Type">
+              <mat-option value="{{ item.name }}" *ngFor="let item of componenttype">{{ item.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group" *ngIf="showSelectComDropdown">
+          <mat-label>Select Component</mat-label>
+          <mat-form-field appearance="outline">
+            <mat-select (selectionChange)="onSelectComponent($event)" formControlName="selectcomponent">
+            <ng-container *ngFor="let item of _empSer.employeeData">
+              <mat-option [value]="item.componentname" *ngIf="item.componentid">{{ item.componentname }}</mat-option>
+            </ng-container>
+            </mat-select>
+          </mat-form-field>
+        </div>
+    
+        <div class="form-group">
+          <mat-label>Math Operator</mat-label>
+          <mat-form-field appearance="outline">
+            <mat-select formControlName="mathoperator" (selectionChange)="change($event)" placeholder="Math Operator">
+              <mat-option value="{{ item.name }}" *ngFor="let item of mathoperator">{{ item.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+    
+        <div class="form-group">
+          <mat-label>Rule</mat-label>
+          <mat-form-field appearance="outline">
+            <textarea matInput placeholder="Set rule" formControlName="rule" class="my-code-editor"></textarea>
+          </mat-form-field>
+        </div>
+    
+        <div class="form-group">
+          <mat-label>Hide If Zero</mat-label>
+          <mat-slide-toggle id="status" formControlName="hideifzero"></mat-slide-toggle>
+        </div>
+    
+      </form>
+    </div>
+  </div>
+
+  <div class="container d-flex justify-content-end flex-wrap">
+    <button mat-flat-button (click)="onCancel()" [style.margin-right]="'10px'">Cancel</button>
+    
+    <div class="button-container">
+      <button 
+      mat-stroked-button 
+      (click)="onSave()" 
+      *ngIf="!showUpdateBtn" 
+      [disabled]="!(basedOnCompensationForm.valid || basedOnOfferForm.valid)">
+        Save
+      </button>
+      
+      <button 
+      mat-stroked-button 
+      *ngIf="showUpdateBtn" 
+      (click)="onUpdate()" 
+      [disabled]="!(basedOnCompensationForm.valid || basedOnOfferForm.valid) || !(basedOnCompensationForm.dirty || basedOnOfferForm.dirty)">
+        Update
+      </button>
+    </div>
+  </div>
+</div>

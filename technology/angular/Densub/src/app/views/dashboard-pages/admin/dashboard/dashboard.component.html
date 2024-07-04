@@ -1,0 +1,866 @@
+<div class="row">
+  <div class="col-sm-12">
+    <h4 class="text-primary">
+      <b>Dashboard</b>
+    </h4>
+    <hr>
+  </div>
+</div>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-6 col-lg-3 custom-cursor-pointer"
+      (click)="showUserViewListModal(practiceUsersList, userTypes.PRACTICE)">
+      <b class="dashboard-recent"><i class="fa fa-eye"> </i> Recent</b>
+      <div class="card text-white bg-primary">
+        <div class="card-body p-0 pt-3 pb-4">
+          <div class="text-center">
+            <span class="font-size-25"> {{practiceUsersList.length?practiceUsersList.length:0}} </span>
+            <div class="font-size-14">Dental Practice Registered</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!--/.col-->
+    <div class="col-sm-6 col-lg-3 custom-cursor-pointer"
+      (click)="showUserViewListModal(staffUsersList, userTypes.STAFF)">
+      <b class="dashboard-recent"><i class="fa fa-eye"> </i> Recent</b>
+      <div class="card text-white bg-warning">
+        <div class="card-body p-0 pt-3 pb-4">
+          <div class="text-center">
+            <span class="font-size-25"> {{staffUsersList.length?staffUsersList.length:0}} </span>
+            <div class="font-size-14">Dental Staff Registered</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!--/.col-->
+    <!--/.col-->
+    <div class="col-sm-6 col-lg-3 custom-cursor-pointer" (click)="showPaymentListListModal()">
+      <b class="dashboard-recent"><i class="fa fa-eye"> </i> Recent</b>
+      <div class="card text-white bg-danger">
+        <div class="card-body p-0 pt-3 pb-4">
+          <div class="text-center">
+            <span class="font-size-25"> {{totalData.totalUsers?totalData.totalUsers:0}} </span>
+            <div class="font-size-14">Payments Received</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3 custom-cursor-pointer" (click)="showContractListListModal('Contracts')">
+      <b class="dashboard-recent"><i class="fa fa-eye"> </i> Recent</b>
+      <div class="card text-white bg-info">
+        <div class="card-body p-0 pt-3 pb-4">
+          <div class="text-center">
+            <span class="font-size-25"> {{totalData.totalUsers?totalData.totalUsers:0}} </span>
+            <div class="font-size-14">Finalized Contracts</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3 custom-cursor-pointer"
+      (click)="showUserViewListModal(UsersProfileList,'Profile Verification Requests')">
+      <b class="dashboard-recent"><i class="fa fa-eye"> </i> Recent</b>
+      <div class="card text-white bg-info">
+        <div class="card-body p-0 pt-3 pb-4">
+          <div class="text-center">
+            <span class="font-size-25"> {{UsersProfileList.length?UsersProfileList.length:0}} </span>
+            <div class="font-size-14">Profile Verification Requests</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3 custom-cursor-pointer" (click)="showUserViewListModal(UsersVerifiedList,'Profile Verified Users')">
+      <b class="dashboard-recent"><i class="fa fa-eye"> </i> Recent</b>
+      <div class="card text-white bg-danger">
+        <div class="card-body p-0 pt-3 pb-4">
+          <div class="text-center">
+            <span class="font-size-25"> {{UsersVerifiedList.length?UsersVerifiedList.length:0}} </span>
+            <div class="font-size-14">Profile Verified Users</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3 custom-cursor-pointer" (click)="showContractListListModal('Hiring request Notified')">
+      <b class="dashboard-recent"><i class="fa fa-eye"> </i> Recent</b>
+      <div class="card text-white bg-success">
+        <div class="card-body p-0 pt-3 pb-4">
+          <div class="text-center">
+            <span class="font-size-25"> {{totalData.totalUsers?totalData.totalUsers:0}} </span>
+            <div class="font-size-14">Hiring request Notified</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3 custom-cursor-pointer" (click)="showUserViewListModal(usersList,'')">
+      <b class="dashboard-recent"><i class="fa fa-eye"> </i> Recent</b>
+      <div class="card text-white bg-warning">
+        <div class="card-body p-0 pt-3 pb-4">
+          <div class="text-center">
+            <span class="font-size-25"> {{usersList.length?usersList.length:0}} </span>
+            <div class="font-size-14">Total Users</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
+</div>
+
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #viewUserList="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-capitalize text-white"><i class="fa fa-list"></i> Recent
+          {{TypeOfUser?TypeOfUser:'All'}}</h4>
+        <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card-body table-responsive">
+              <table class="table table-bordered">
+                <thead class="nowrap">
+                  <tr class="text-primary">
+                    <th>S.NO</th>
+                    <th [class.active]="order === 'firstName'" (click)="setOrder('firstName')">
+                      First Name
+                      <span [hidden]="reverse">▼</span>
+                      <span [hidden]="!reverse">▲</span>
+                    </th>
+                    <th [class.active]="order === 'lastName'" (click)="setOrder('lastName')">
+                      Last Name
+                      <span [hidden]="reverse">▼</span>
+                      <span [hidden]="!reverse">▲</span>
+                    </th>
+                    <th> Email </th>
+                    <!-- <th [class.active]="order === 'email'" (click)="setOrder('email')">
+                      Email
+                      <span [hidden]="reverse">▼</span>
+                      <span [hidden]="!reverse">▲</span>
+                    </th> -->
+                    <th>
+                      Phone
+                    </th>
+                    <th>
+                      Role
+                    </th>
+                    <th (click)="setOrder('userType')"
+                    *ngIf="TypeOfUser !== 'Profile Verification Requests' && TypeOfUser !== 'Profile Verified Users'">
+                    Created
+                      On </th>
+                    <th (click)="setOrder('userType')"
+                    *ngIf="TypeOfUser === 'Profile Verification Requests' || TypeOfUser === 'Profile Verified Users'">
+                    View Profile </th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="currentUserList.length">
+                  <tr
+                    *ngFor="let user of currentUserList | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index;">
+                    <td>{{i+1}}</td>
+                    <td>{{ user?.firstName }} </td>
+                    <td>{{ user?.lastName }}</td>
+                    <td>{{ user?.email }}</td>
+                    <td>{{ user?.phone }}</td>
+                    <td>{{ user?.userType }}</td>
+                    <td *ngIf="TypeOfUser !== 'Profile Verification Requests' && TypeOfUser !== 'Profile Verified Users'">
+                      {{ user?.createdAt | date:'mediumDate' }}</td>
+                    <td *ngIf="TypeOfUser === 'Profile Verification Requests' || TypeOfUser === 'Profile Verified Users'" class="text-uppercase">
+                      <button type="button" class="btn btn-primary btn-sm" (click)="viewProfile(user)">View
+                        Profile</button>
+                    </td>
+                  </tr>
+                </tbody>
+                <tr class="text-center" *ngIf="!currentUserList.length">
+                  <td colspan="15">
+                    <h6>No Record Found !</h6>
+                  </td>
+                </tr>
+              </table>
+              <ul class="pagination" *ngIf='itemsPerPage < currentUserList.length'>
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #viewPaymentList="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-capitalize text-white"><i class="fa fa-money"></i> Recent Payment</h4>
+        <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card-body table-responsive">
+              <table class="table table-bordered">
+                <thead class="nowrap">
+                  <tr class="text-primary">
+                    <th>S.No.</th>
+                    <th> Recieved by </th>
+                    <th> Amount </th>
+                    <th> Pay method </th>
+                    <th> Status </th>
+                    <th> Date Time </th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="paymentList.length">
+                  <tr
+                    *ngFor="let user of paymentList |  orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index;">
+                    <td>{{i+1}}</td>
+                    <td>{{ user?.firstName }}</td>
+                    <td>{{ user?.amount }}</td>
+                    <td>{{ user?.method }}</td>
+                    <td>{{ user?.status }}</td>
+                    <td>{{ user?.createdAt | date:'mediumDate' }}</td>
+                  </tr>
+                </tbody>
+                <tr class="text-center" *ngIf="!paymentList.length">
+                  <td colspan="15">
+                    <h6>No Record Found !</h6>
+                  </td>
+                </tr>
+              </table>
+              <ul class="pagination" *ngIf="itemsPerPage < paymentList.length">
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #viewContractList="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-capitalize text-white"><i class="fa fa-list"></i> Recent {{customType}}</h4>
+        <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card-body table-responsive">
+              <table class="table table-bordered">
+                <!-- <thead class="nowrap">
+                  <tr class="text-primary">
+                      <th>S.NO</th>
+                      <th> Recieved by </th>
+                      <th> Amount </th>
+                      <th> Pay method </th>
+                      <th> Status </th>
+                      <th>  Date Time </th>
+                  </tr>
+                </thead> -->
+                <tbody *ngIf="paymentList.length">
+                  <tr
+                    *ngFor="let user of paymentList |  orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index;">
+                    <td>{{i+1}}</td>
+                    <td>{{ user?.firstName }}</td>
+                    <td>{{ user?.amount }}</td>
+                    <td>{{ user?.method }}</td>
+                    <td>{{ user?.status }}</td>
+                    <td>{{ user?.createdAt | date:'mediumDate' }}</td>
+                  </tr>
+                </tbody>
+                <tr class="text-center" *ngIf="!paymentList.length">
+                  <td colspan="15">
+                    <h6>No Record Found !</h6>
+                  </td>
+                </tr>
+              </table>
+              <ul class="pagination" *ngIf="itemsPerPage < paymentList.length">
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- -------------------------------------PRACTICE & STAFF POPUP -->
+
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #viewprofileModal="bs-modal" class="modal btn-float fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 *ngIf="TypeOfUser && TypeOfUser !== 'Profile Verified Users'"class="modal-title text-capitalize text-white"><i class="fa fa-list"></i> View Profile</h4>
+        <h4 *ngIf="TypeOfUser && TypeOfUser === 'Profile Verified Users'" class="modal-title text-capitalize text-white"><i class="fa fa-list"></i> View Verified Profile</h4>
+        <div class="pull-right text-white">
+          <!-- showUserViewListModal(UsersProfileList,'Profile Verification Requests') -->
+          <button  *ngIf="TypeOfUser && TypeOfUser === 'Profile Verification Requests'"  type="button" class="btn btn-primary pull-right ml-1"
+            (click)="showUpdatedProfilePopup(profileStatus.VERIFIED)">VERIFY</button>
+          <button  *ngIf="TypeOfUser && TypeOfUser === 'Profile Verification Requests'"  type="button" class="btn btn-primary pull-right ml-1"
+            (click)="showUpdatedProfilePopup(profileStatus.REJECTED)">REJECT</button>
+
+            <button *ngIf="TypeOfUser && TypeOfUser === 'Profile Verification Requests'" type="button" class="btn btn-primary pull-right" (click)="showUserViewListModal(UsersProfileList,'Profile Verification Requests')">CLOSE</button>
+        <button *ngIf="TypeOfUser && TypeOfUser === 'Profile Verified Users'" type="button" class="btn btn-primary pull-right" (click)="showUserViewListModal(UsersVerifiedList,'Profile Verified Users')">CLOSE</button>
+        </div>
+      </div>
+      <div class="modal-body gray-bg">
+        <!-- --------------------------------PRACTICE------------------------------------------- -->
+        <div class="row" *ngIf="staffProfileInfo?.userType == userTypes?.PRACTICE">
+          <div class="col-xl-3 col-lg-4 col-12 mb-10">
+            <div class="white-bg box-shadow-1 sie-userprofile mb-30">
+              <div class="userprofile_inner pt-20 mb-pt-40 pr-20 pl-20 pb-10">
+                <div class="user-info text-center text-capitalize">
+                  <div class="usr-avtar img-circle overflow-hidden">
+                      <img *ngIf="staffProfileInfo.profilePhoto.length" src="{{staffProfileInfo.profilePhoto[0]}}"
+                      class="img-fluid img-circle" alt="">
+                    <img *ngIf="!staffProfileInfo?.profilePhoto?.length" src="../../../../../assets/img/brand/densub-logo-final.jpg"
+                      class="img-fluid img-circle" alt="">
+                  </div>
+                  <p class="pt-2 text-primary"><strong>
+                    {{staffProfileInfo?.firstName +( staffProfileInfo.middleName ? ' '+ staffProfileInfo?.middleName + ' ' : ' ')+ staffProfileInfo?.lastName}}
+                  </strong>
+                </p>
+                <p *ngIf="staffProfileInfo.userType" class="text-primary">
+                  <strong>({{staffProfileInfo.userType}})</strong></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-9 col-lg-8 col-12">
+            <div class="p-15 box-shadow-1 white-bg mb-30">
+              <div class="bg-white p-15">
+                <div class="border-bottom mb-30 pb-10">
+
+                  <h3 class="clr-blue">
+                    {{staffProfileInfo?.firstName +( staffProfileInfo.middleName ? ' '+ staffProfileInfo?.middleName + ' ' : ' ')+ staffProfileInfo?.lastName }}</h3>
+                  <!-- <ul class="list-unstyled d-flex"> -->
+                    <div class="row">
+                      <div class="col-12 table-header">
+                        <table class="colnDiv">
+                          <tbody>
+                            <tr class="text-primary" *ngIf="staffProfileInfo?.email">
+                              <td>Email-ID <span>:</span></td>
+                              <td class="black">{{staffProfileInfo.email}}</td>
+                            </tr>
+                            <tr  *ngIf="staffProfileInfo?.phone">
+                              <td class="text-primary"> Contact Number <span>:</span> </td>
+                              <td> {{staffProfileInfo.phone}} </td>
+                            </tr>
+                            <!-- <tr *ngIf="userTypes?.STAFF === staffProfileInfo.userType && addressList?.length">
+                              <td class="text-primary"><i class="fa fa-map-marker text-primary" aria-hidden="true"></i> Address <span>:</span>
+                              </td>
+                              <td> <i class="fa fa-map-marker clr-blue mr-5p" aria-hidden="true"></i>
+                                {{
+                                  addressList[0]?.addressLine_1 +
+                                  ( addressList[0].addressLine_2 ? ', '+ addressList[0].addressLine_2 : '' ) +
+                                  ', ' + addressList[0]?.city?.city +
+                                  ', ' + addressList[0]?.state?.state + ' '+ addressList[0]?.zipcode?.zipcode +', '+ addressList[0]?.country?.country
+                                  }}
+                              </td>
+                            </tr> -->
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="border-bottom mb-30 pb-10" *ngIf="staffProfileInfo?.bio">
+                  <h3 class="clr-blue">About Me</h3>
+                  <p class="text-break" [innerHTML]="staffProfileInfo?.bio"></p>
+                </div>
+
+                <div class="border-bottom mb-30 pb-10 text-capitalize practice-details" *ngIf="userTypes?.PRACTICE === staffProfileInfo.userType">
+                  <h3 class="clr-blue">Practice Details</h3>
+                    <div class="table-responsive address-list">
+                      <table class="colnDiv">
+                        <tbody>
+                          <tr *ngIf="staffProfileInfo?.companyName" class="single-row">
+                            <td class="text-primary">Company name <span>:</span></td>
+                            <td>{{staffProfileInfo?.companyName}}</td>
+                          </tr>
+                          <tr *ngIf="staffProfileInfo?.websiteUrl" class="single-row">
+                            <td class="text-primary site-name">Website <span>:</span></td>
+                            <td class="text-lowercase"><a href="{{staffProfileInfo?.websiteUrl}}" target="_blank">
+                              {{staffProfileInfo?.websiteUrl}}</a></td>
+                          </tr>
+
+                          <tr *ngFor="let address of addressList;let i = index;">
+                            <table>
+                              <tbody>
+                                <tr *ngIf="addressList.length > 1">
+                                  <td class="text-primary"> <label>Location {{ (addressList.length > 1) ? i+1 : ''}}</label> </td>
+                                </tr>
+                                <tr *ngIf="address?.practiceName">
+                                  <td class="text-primary">Practice Name <span>:</span></td>
+                                  <td> {{address?.practiceName }}</td>
+                                </tr>
+                                <tr *ngIf="address?.practiceType?.practiceType">
+                                  <td class="text-primary">Practice Type <span>:</span></td>
+                                  <td>{{address?.practiceType?.practiceType}}</td>
+                                </tr>
+                                <tr>
+                                  <td class="text-primary"> Address <span>:</span></td>
+                                  <td>
+                                    <i class="fa fa-map-marker clr-blue mr-5p" aria-hidden="true"></i>{{
+                                      address?.addressLine_1 +
+                                      ( address.addressLine_2 ? ', '+ address?.addressLine_2 : '' ) +
+                                      ', ' + address?.city?.city +
+                                      ', ' + address?.state?.state + ' '+ address?.zipcode?.zipcode +', '+ address?.country?.country
+                                      }}
+                                  </td>
+                                </tr>
+                                <tr *ngIf="address?.providedPPE">
+                                  <td class="text-primary">Provided PPE in our office <span>:</span></td>
+                                  <td>{{address?.providedPPE}}</td>
+                                </tr>
+                                <tr *ngIf="address?.skills?.softwares?.ids?.length">
+                                  <td class="text-primary">Softwares used in our office <span>:</span></td>
+                                  <td>
+                                    <ng-container *ngFor="let software of address?.skills?.softwares?.ids;
+                                    let i = index;">
+                                              {{ otherText.includes(
+                                              software?.skill?.toLowerCase() ) ?
+                                              address?.skills?.softwares?.other :
+                                              software?.skill
+                                              }}
+                                            <span *ngIf="(address?.skills?.softwares?.ids?.length > 0
+                                              && (address?.skills?.softwares?.ids?.length - 1) !== i)">
+                                              ,</span>
+                                    </ng-container>
+                                  </td>
+                                </tr>
+                                <tr *ngIf="address?.radiograph">
+                                  <td class="text-primary">Radiograph <span>:</span></td>
+                                  <td>{{ otherText.includes(
+                                    address?.radiograph?.id?.name?.toLowerCase() ) ?
+                                    address.radiograph.other :
+                                    address.radiograph.id.name
+                                    }}
+                                  </td>
+                                </tr >
+                                <tr *ngIf="address?.recordMaintained">
+                                  <td class="text-primary">Types of records maintained <span>:</span></td>
+                                  <td>{{ address?.recordMaintained?.name }}</td>
+                                </tr>
+                                <tr *ngIf="address?.adultProphy">
+                                  <td class="text-primary"> Time allotted for adult prophy <span>:</span></td>
+                                  <td>{{address?.adultProphy}}</td>
+                                </tr>
+                                <tr *ngIf="address?.childProphy">
+                                  <td class="text-primary"> Time allotted for child prophy <span>:</span></td>
+                                  <td>{{address?.childProphy}}</td>
+                                </tr>
+                                <tr>
+                                  <td class="text-primary">Left handed accomodation <span>:</span></td>
+                                  <td>{{address.leftHandedAccomodation ? 'Yes' : 'No'}}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                </div>
+
+                <!-- <div class="border-bottom mb-30 pb-10" *ngIf="addressList?.length && userTypes?.PRACTICE === staffProfileInfo.userType">
+                  <h3 class="clr-blue">Additional Details</h3>
+                  <div class="table-responsive">
+                    <table>
+                      <tbody>
+                        <tr *ngIf="staffProfileInfo?.providedPPE">
+                          <td class="text-primary">Provided PPE in our office <span>:</span></td>
+                          <td>{{staffProfileInfo?.providedPPE}}</td>
+                        </tr>
+                        <tr *ngIf="staffProfileInfo?.skills?.softwares?.ids?.length">
+                          <td class="text-primary">Softwares used in our office <span>:</span></td>
+                          <td>
+                            <ng-container *ngFor="let software of staffProfileInfo?.skills?.softwares?.ids;
+                            let i = index;">
+                                      {{ otherText.includes(
+                                      software?.skill?.toLowerCase() ) ?
+                                      staffProfileInfo?.skills?.softwares?.other :
+                                      software?.skill
+                                      }}
+                                    <span *ngIf="(staffProfileInfo?.skills?.softwares?.ids?.length > 0
+                                      && (staffProfileInfo?.skills?.softwares?.ids?.length - 1) !== i)">
+                                      ,</span>
+                            </ng-container>
+                          </td>
+                        </tr>
+                        <tr *ngIf="staffProfileInfo?.radiograph">
+                          <td class="text-primary">Radiograph <span>:</span></td>
+                          <td>{{ otherText.includes(
+                            staffProfileInfo?.radiograph?.id?.name?.toLowerCase() ) ?
+                            staffProfileInfo.radiograph.other :
+                            staffProfileInfo.radiograph.id.name
+                            }}
+                          </td>
+                        </tr >
+                        <tr *ngIf="staffProfileInfo?.recordMaintained">
+                          <td class="text-primary">Types of records maintained <span>:</span></td>
+                          <td>{{ staffProfileInfo?.recordMaintained?.name }}</td>
+                        </tr>
+                        <tr *ngIf="staffProfileInfo?.adultProphy">
+                          <td class="text-primary"> Time allotted for adult prophy <span>:</span></td>
+                          <td>{{staffProfileInfo?.adultProphy}}</td>
+                        </tr>
+                        <tr *ngIf="staffProfileInfo?.childProphy">
+                          <td class="text-primary"> Time allotted for child prophy <span>:</span></td>
+                          <td>{{staffProfileInfo?.childProphy}}</td>
+                        </tr>
+                        <tr>
+                          <td class="text-primary">Left handed accomodation <span>:</span></td>
+                          <td>{{staffProfileInfo.leftHandedAccomodation ? 'Yes' : 'No'}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div> -->
+
+                <!-- <pre>{{staffProfileInfo.websiteUrl}}</pre> -->
+                <!-- <div class="border-bottom mb-10"
+                *ngIf="staffProfileInfo?.licensesDetails?.length && userTypes?.STAFF === staffProfileInfo.userType">
+                  <h3 class="clr-blue">Dental Licences</h3>
+                  <ul class="list-unstyled adminImg custom-cursor-pointer">
+                    <li *ngFor="let license of staffProfileInfo.licensesDetails">
+                      <img *ngIf="license?.licensePhoto.length" [src]="license?.licensePhoto" width="80px" height="80px"
+                        (click)="viewDownload(license?.licensePhoto)" />
+                        <p class="mt-10"><span class="clr-blue" *ngIf="license?.licenseNumber"> Dental License Number: </span> {{license?.licenseNumber}}</p>
+                        <p><span class="clr-blue" *ngIf="license?.expirationDate">Expiration date of Dental License: </span> {{license?.expirationDate}}</p>
+                        <p><span class="clr-blue" *ngIf="license?.applicableState">States for which the License is applicable : </span> {{license?.applicableState}}</p>
+                    </li>
+                  </ul>
+                </div> -->
+                <!-- <div class="border-bottom mb-10" *ngIf="staffProfileInfo?.docs?.length">
+                  <h3 class="clr-blue">Documents</h3>
+                  <ul class="list-unstyled imgPreview adminImg custom-cursor-pointer">
+                    <li *ngFor="let doc of staffProfileInfo.docs">
+                      <img *ngIf ="!doc.includes('.pdf')" [src]="doc" width="80px" height="80px"
+                        (click)="viewDownload(doc)" />
+                      <a *ngIf="doc.includes('.pdf')"  [title]="doc" [href] = "doc" target="_blank">
+                        <i class="fontSize-80 fa fa-file-pdf-o" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                  </ul>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- -----------------------------------STAFF -------------------------------------------------------  -->
+        <div class="row" *ngIf="staffProfileInfo?.userType == userTypes?.STAFF">
+          <div class="col-xl-3 col-lg-4 col-12 mb-10">
+            <b class="pull-right text-primary m-1 pt-1" *ngIf="staffProfileInfo?.desiredHourlyRate">${{staffProfileInfo?.desiredHourlyRate}}</b>
+            <div class="white-bg box-shadow-1 sie-userprofile mb-30">
+              <div class="userprofile_inner pt-20 mb-pt-40 pr-20 pl-20 pb-10">
+                <div class="user-info text-center text-capitalize">
+                  <br>
+                  <div class="usr-avtar img-circle overflow-hidden">
+                    <img *ngIf="staffProfileInfo?.profilePhoto?.length" src="{{staffProfileInfo.profilePhoto[0]}}"
+                      class="img-fluid img-circle" alt="">
+                    <img *ngIf="!staffProfileInfo?.profilePhoto?.length" src="../../../../../assets/img/brand/densub-logo-final.jpg"
+                      class="img-fluid img-circle" alt="">
+                  </div>
+                  <h3 class="pt-2">{{staffProfileInfo?.firstName +( staffProfileInfo.middleName ? ' '+ staffProfileInfo?.middleName + ' ' : ' ')+ staffProfileInfo?.lastName }} (Staff)</h3>
+                  <p class="text-muted">{{staffProfileInfo?.positionType?.name}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-9 col-lg-8 col-12">
+            <div class="p-15 box-shadow-1 white-bg mb-30">
+              <div class="bg-white p-15">
+                <div class="border-bottom pb-10 mb-30 text-capitalize">
+                  <h3 class="clr-blue">{{staffProfileInfo?.firstName +( staffProfileInfo.middleName ? ' '+ staffProfileInfo?.middleName + ' ' : ' ')+ staffProfileInfo?.lastName }}</h3>
+                  <!-- <ul class="list-unstyled d-flex">
+                    <li class="pl-10">
+                      <i class="fa fa-envelope-o text-primary" aria-hidden="true"></i>
+                      <b class="text-primary"> Email-ID:</b> {{staffProfileInfo?.email}}
+                    </li>
+                  </ul> -->
+                  <div class="row">
+                    <div class="col-xl-12 col-12 table-header">
+                      <table class="colnDiv">
+                        <tbody>
+                          <tr *ngIf="staffProfileInfo?.email">
+                            <td *ngIf="staffProfileInfo?.email" class="text-primary"> Email-ID <span>:</span></td>
+                            <td class="text-lowercase">{{ staffProfileInfo?.email }}</td>
+                          </tr>
+                          <tr  *ngIf=" staffProfileInfo?.phone">
+                            <td *ngIf="staffProfileInfo?.phone" class="text-primary">Contact Number <span>:</span></td>
+                            <td>  {{staffProfileInfo?.phone}} </td>
+                          </tr>
+                          <!-- || staffProfileInfo?.emergencyContactNumber -->
+                          <tr *ngIf="staffProfileInfo?.emergencyContactName">
+                            <td *ngIf="staffProfileInfo?.emergencyContactName" class="text-primary">Emergency Contact Name <span>:</span></td>
+                            <td>  {{staffProfileInfo?.emergencyContactName}} </td>
+
+                          </tr>
+                          <tr *ngIf="staffProfileInfo?.emergencyContactNumber">
+                            <td class="text-primary">Emergency Contact Number <span>:</span></td>
+                            <td>  {{staffProfileInfo?.emergencyContactNumber}} </td>
+                          </tr>
+                          <tr *ngIf="addressList.length">
+                            <td *ngIf="addressList.length" class="text-primary">Address <span>:</span></td>
+                            <td>  <i class="fa fa-map-marker clr-blue mr-5p" aria-hidden="true"></i> {{
+                              addressList[0]?.addressLine_1 +
+                              ( addressList[0]?.addressLine_2 ? ', '+ addressList[0]?.addressLine_2 : '' ) +
+                              ', ' + addressList[0]?.city?.city +
+                              ', ' + addressList[0]?.state?.state + ' '+ addressList[0]?.zipcode?.zipcode +', '+ addressList[0]?.country?.country
+                              }} </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="border-bottom pb-10 mb-30" *ngIf="staffProfileInfo?.bio">
+                  <h3 class="clr-blue">About Me</h3>
+                  <p class="text-break" [innerHTML]="staffProfileInfo?.bio"></p>
+                </div>
+
+
+                <!-- <div class="border-bottom mb-10 text-capitalize" *ngIf="staffProfileInfo?.skills?.length">
+                  <h3 class="clr-blue">Skills (Specializations)</h3>
+                  <ul class="list-unstyled custom-li d-flex flex-wrap">
+                    <li  *ngFor=" let skill of staffProfileInfo.skills">{{skill.skill}}</li>
+                  </ul>
+                </div> -->
+
+                <div class="border-bottom pb-10 mb-30" *ngIf="customCalendarDates?.length">
+                  <h3 class="clr-blue">Schedule</h3>
+                  <div class="col-sm-12 mb-10">
+                    <div class="custom-month-btn">
+
+                      <div class="btn-group w-100 align-items-center justify-content-center">
+                        <div class="btn btn-left" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate">
+                          <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="m-0">{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+                        <div class="btn btn-right" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate">
+                          <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <ng-template #customCellTemplate let-day="day" let-locale="locale">
+                      <div class="cal-cell-top" [title]="getCalendarTitle(day)">
+                      <!-- <div class="cal-cell-top" title="{{(day?.events[0]?.available) ? day?.events[0]?.title:''}}"> -->
+                        <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
+                      </div>
+                    </ng-template>
+                    <div [ngSwitch]="view" class="custom-calendar" *ngIf="customCalendarDates?.length">
+                      <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate"
+                        [cellTemplate]="customCellTemplate" [events]="customCalendarDates"
+                        (beforeViewRender)="beforeMonthViewRender($event)">
+                      </mwl-calendar-month-view>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="border-bottom pb-10 mb-30 staff-dashboard-table">
+                  <h3 class="clr-blue">Professional Details</h3>
+                  <table class="colnDiv">
+                    <tbody>
+                      <tr>
+                        <td *ngIf="staffProfileInfo?.positionType?.name" class="text-primary"> Position Type <span>:</span></td>
+                        <td>{{ staffProfileInfo?.positionType?.name }}</td>
+                        <td *ngIf="staffProfileInfo?.experience?.experience" class="text-primary pl-30" >Experience <span>:</span></td>
+                        <td>  {{staffProfileInfo?.experience?.experience}} </td>
+                      </tr>
+                      <tr>
+                        <td *ngIf="staffProfileInfo?.milesTravelRadius" class="text-primary">Maximum distance in miles <span>:</span></td>
+                        <td>  {{staffProfileInfo?.milesTravelRadius}} Miles </td>
+                        <td *ngIf="staffProfileInfo?.specialty?.ids?.length" class="text-primary pl-30">Specialties <span>:</span></td>
+                        <td>{{ getSpecialty(staffProfileInfo?.specialty)}}  </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="border-bottom pb-10 mb-10 staff-dashboard-table" *ngIf="addressList[0]?.skill?.ids.length">
+                  <h3 class="clr-blue">Skills</h3>
+                  <table class="semicolon-align">
+                    <tbody>
+                      <ng-container *ngFor="let type of skillTypeList;let i=index;">
+                        <tr *ngIf="showSelectedSkill(type).length" >
+                          <td> <h6>{{type.skillType}} <span>:</span> </h6> </td>
+                          <td><p>{{ showSelectedSkill(type).join(', ') }}</p></td>
+                        </tr>
+                      </ng-container>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="border-bottom pb-10 mb-10 staff-dashboard-table staff-personal" *ngIf="staffProfileInfo?.certifications?.length">
+                  <h3 class="clr-blue">Certifications</h3>
+                  <table class="semicolon-align">
+                <tbody>
+                  <ng-container *ngFor="let type of certificateTypeList; let i=index;">
+                    <tr *ngIf="showSelectedCertificate(type._id).length" class="single-row">
+                      <td>{{type.certificateType}} <span>:</span></td>
+                      <td><p> {{ showSelectedCertificate(type._id).join(', ') }} </p></td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+                  </table>
+                </div>
+
+
+                <div class="border-bottom pb-10 mb-10" *ngIf="staffProfileInfo?.licensesDetails?.length">
+                  <h3 class="clr-blue">Dental Licences</h3>
+                  <div class="table-overflow">
+                    <table class="table table-bordered vertical-align-middle text-center">
+                      <thead class="text-primary">
+                        <th>State</th>
+                        <th>License Type</th>
+                        <th>License #</th>
+                        <th>Expiration date</th>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let license of staffProfileInfo.licensesDetails; let i = index;">
+                          <td>{{license?.state?.state}}</td>
+                          <td class="text-captialize">{{ license?.licenseType?.licenseType}}</td>
+                          <td>{{license?.licenseNumber}}</td>
+                          <td>{{license?.expirationDate | date:'mediumDate'}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="border-bottom pb-10 mb-10" *ngIf="staffProfileInfo?.educationDetails?.length">
+                  <h3 class="clr-blue">Education</h3>
+                  <div class="table-overflow">
+                    <table class="table table-bordered vertical-align-middle text-center">
+                      <thead class="text-primary">
+                        <th>Name of school</th>
+                        <th>Degree earned</th>
+                        <th>Number of years attended</th>
+                        <th>Graduation Year</th>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let education of staffProfileInfo.educationDetails; let i = index;">
+                          <td class="text-capitalize">{{education?.schoolName}}</td>
+                          <td>{{education?.degreeEarned}}</td>
+                          <td>{{education?.yearsAttended}}</td>
+                          <td>{{education?.graduationYear}}</td>
+                           </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="border-bottom pb-10 mb-10 staff-dashboard-table address-d text-capitalize">
+                  <h3 class="clr-blue">Additional details</h3>
+                  <table class="colnDiv">
+                    <tbody>
+                      <tr>
+                        <td class="text-primary"> Completed your Hep C vaccination <span>:</span></td>
+                        <td> {{(staffProfileInfo?.hepCVaccination) ? 'Yes' : 'No' }} </td>
+                        <td class="text-primary pl-30"> Child Abuse History Clearance <span>:</span></td>
+                        <td> {{(staffProfileInfo?.childAbuseHistory) ? 'Yes' : 'No' }} </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="border-bottom pb-10 mb-10 text-capitalize professional-d" *ngIf="staffProfileInfo?.expMalpracticeInsDate && staffProfileInfo?.expMalpracticeIns">
+                  <h3 class="clr-blue">Professional Malpractice Insurance</h3>
+                  <table class="colnDiv">
+                    <tbody>
+                      <!-- <tr>
+                        <img src="{{staffProfileInfo.proMalpracticeIns}}" width="80px" height="80px"
+                        (click)="viewDownload(staffProfileInfo?.proMalpracticeIns[0])"/>
+                      </tr> -->
+                      <tr>
+                        <td class="text-primary pt-10">Expiration Date <span>:</span></td>
+                        <td> {{staffProfileInfo.expMalpracticeInsDate | date:'mediumDate'}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="border-bottom pb-10 mb-10 text-capitalize" *ngIf="staffProfileInfo?.resume?.length">
+                  <h3 class="clr-blue">Resume</h3>
+                  <table>
+                    <tbody>
+                      <tr>
+                        <a *ngIf="staffProfileInfo.resume[0]?.length"  [title]="staffProfileInfo.resume[0]" [href] = "staffProfileInfo.resume[0]" target="_blank">
+                          <i class="fontSize-80 fa fa-file-pdf-o" aria-hidden="true"></i>
+                        </a>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      <div class="modal-footer text-center">
+        <button *ngIf="TypeOfUser && TypeOfUser === 'Profile Verification Requests'" type="button" class="btn btn-primary pull-right" (click)="showUserViewListModal(UsersProfileList,'Profile Verification Requests')">CLOSE</button>
+        <button *ngIf="TypeOfUser && TypeOfUser === 'Profile Verified Users'" type="button" class="btn btn-primary pull-right" (click)="showUserViewListModal(UsersVerifiedList,'Profile Verified Users')">CLOSE</button>
+        <button  *ngIf="TypeOfUser && TypeOfUser === 'Profile Verification Requests'"  type="button" class="btn btn-primary pull-right ml-1"
+        (click)="showUpdatedProfilePopup(profileStatus.REJECTED)">REJECT</button>
+        <button  *ngIf="TypeOfUser && TypeOfUser === 'Profile Verification Requests'"  type="button" class="btn btn-primary pull-right ml-1"
+            (click)="showUpdatedProfilePopup(profileStatus.VERIFIED)">VERIFY</button>
+
+
+      </div>
+      <!-- <pre [innerHtml]="staffProfileInfo | json"> </pre> -->
+      <!-- <pre [innerHtml]="TypeOfUser | json"> </pre> -->
+    </div>
+  </div>
+</div>
+
+
+
+
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #ViewImages="bs-modal" class="modal fade app-images-preview" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body app-images-preview">
+        <button type="button" class="close" (click)="ViewImages.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="item">
+          <div class="text-center">
+            <img [src]="viewFileInfo" class="img-fluid" style="width: 100% !important" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

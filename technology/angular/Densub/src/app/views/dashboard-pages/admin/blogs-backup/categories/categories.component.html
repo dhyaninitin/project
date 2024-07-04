@@ -1,0 +1,227 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h4 class="text-primary">
+            <b>Categories</b>
+        </h4>
+        <hr>
+    </div>
+</div>
+
+<div class="animated fadeIn pb-40 pt-20">
+    <div class="row">
+        <div class="col-md-6 col-lg-4">
+            <div class="card p-20">
+                <b class="dashboard-recent">Add New Category</b>
+                <hr>
+                <div class="card-body p-0 pt-3 pb-2">
+                    <div class="form-group">
+                        <label for="firstName">Name
+                            <sup> <i aria-hidden="true" class="fa fa-star star-icon"></i>
+                            </sup>
+                        </label>
+                        <input characteronly="" class="form-control" type="text">
+                    </div>
+
+                    <!-- <div class="form-group">
+                        <label for="tag-slug">Slug</label>
+                        <input name="slug" id="tag-slug" class="form-control" type="text" value="" size="40">
+                        <p class="line-h-normal fs-12 clr-gray">The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters,
+                            numbers, and hyphens.</p>
+                    </div> -->
+
+                    <div class="form-group">
+                        <label for="PositionType">Parent Category
+                            <sup> <i aria-hidden="true" class="fa fa-star star-icon"></i>
+                            </sup>
+                        </label>
+                        <select class="form-control" name="positionType">
+                            <option value="-1">None</option>
+                            <option class="level-0" value="16">Agency leadership</option>
+                            <option class="level-0" value="17">Business</option>
+                            <option class="level-0" value="18">Carporate Solutions</option>
+                            <option class="level-0" value="19">Digital Strategies</option>
+                            <option class="level-0" value="20">Marketing</option>
+                            <option class="level-0" value="1">Uncategorized</option>
+                            <option class="level-0" value="25">Workshops</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field term-description-wrap">
+                        <label for="tag-description">Description</label>
+                        <textarea name="description" id="tag-description" class="form-control min-h-100" rows="5" cols="40"></textarea>
+                        <p class="line-h-normal fs-12 clr-gray">The description is not prominent by default; however, some themes may show it.</p>
+                    </div>
+
+                    <div class="submit mt-30">
+                        <button class="btn btn-primary">Add New Category</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--/.col-->
+
+        <div class="col-md-6 col-lg-8">
+            <div class="card p-20">
+                <b class="dashboard-recent">All Category</b>
+                <hr>
+                <div class="card-body p-0 pt-3 pb-2">
+                    <div class="col-wrap">
+                                          
+                        <div class="tablenav top">
+                
+                            <div class="alignleft actions d-flex">
+                                <select class="form-control w-50 mr-10" name="action" id="bulk-action-selector-top">
+                                    <option value="-1">Bulk Actions</option>
+                                    <option value="delete">Delete</option>
+                                </select>
+                                <button class="btn btn-primary">Apply</button>
+                            </div>
+                            <div class="tablenav-pages one-page">
+                                <span class="displaying-num">14 items</span>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered-1 table-striped vertical-align-top fixed">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 10px;">
+                                                <input id="cb-select-all-1" type="checkbox">
+                                            </th>
+                                            <th style="min-width:250px;width: 50%;">Name</th>
+                                            <th style="min-width:250px;width: 50%;">Description</th>
+                                            <th style="width: 20px;">Count</th>
+                                        </tr>
+                                    </thead>
+                        
+                                    <tbody id="the-list" data-wp-lists="list:tag">
+                                        <tr id="tag-16" class="level-0">
+                                            <th scope="row" class="check-column">
+                                                <input type="checkbox" class="">
+                                                </th>
+                                            <td>— Agency leadership
+                                                <div class="row-actions">
+                                                    <span class="edit"><button class="pl-0 pr-0 btn-transparent clr-dark-blue">Edit</button> | </span>
+                                                    <span class="delete"><button class=" btn-transparent clr-red pl-0 pr-0">Delete</button> | </span>
+                                                    <span class="view"><button class="btn-transparent clr-dark-blue pl-0 pr-0">View</button></span>
+                                                </div>
+                                            </td>
+                                            <td class="description column-description" data-colname="Description"><span
+                                                    aria-hidden="true">—</span></td>
+                                            <td class="posts column-posts" data-colname="Count">3</td>
+                                        </tr>
+
+                                        <tr id="tag-16" class="level-0">
+                                            <th scope="row" class="check-column">
+                                                <input type="checkbox" class="">
+                                            </th>
+                                            <td>Agency leadership
+                                                <div class="row-actions">
+                                                    <span class="edit"><button class="pl-0 pr-0 btn-transparent clr-dark-blue">Edit</button> | </span>
+                                                    <span class="delete"><button class=" btn-transparent clr-red pl-0 pr-0">Delete</button> | </span>
+                                                    <span class="view"><button class="btn-transparent clr-dark-blue pl-0 pr-0">View</button></span>
+                                                </div>
+                                            </td>
+                                            <td class="description column-description" data-colname="Description"><span aria-hidden="true">—</span></td>
+                                            <td class="posts column-posts" data-colname="Count">3</td>
+                                        </tr>
+
+                                        <tr id="tag-16" class="level-0">
+                                            <th scope="row" class="check-column">
+                                                <input type="checkbox" class="">
+                                            </th>
+                                            <td>Agency leadership
+                                                <div class="row-actions">
+                                                    <span class="edit"><button class="pl-0 pr-0 btn-transparent clr-dark-blue">Edit</button> | </span>
+                                                    <span class="delete"><button class=" btn-transparent clr-red pl-0 pr-0">Delete</button> | </span>
+                                                    <span class="view"><button class="btn-transparent clr-dark-blue pl-0 pr-0">View</button></span>
+                                                </div>
+                                            </td>
+                                            <td class="description column-description" data-colname="Description"><span aria-hidden="true">—</span></td>
+                                            <td class="posts column-posts" data-colname="Count">3</td>
+                                        </tr>
+
+                                        <tr id="tag-16" class="level-0">
+                                            <th scope="row" class="check-column">
+                                                <input type="checkbox" class="">
+                                            </th>
+                                            <td>Agency leadership
+                                                <div class="row-actions">
+                                                    <span class="edit"><button class="pl-0 pr-0 btn-transparent clr-dark-blue">Edit</button> | </span>
+                                                    <span class="delete"><button class=" btn-transparent clr-red pl-0 pr-0">Delete</button> | </span>
+                                                    <span class="view"><button class="btn-transparent clr-dark-blue pl-0 pr-0">View</button></span>
+                                                </div>
+                                            </td>
+                                            <td class="description column-description" data-colname="Description"><span aria-hidden="true">—</span></td>
+                                            <td class="posts column-posts" data-colname="Count">3</td>
+                                        </tr>
+
+
+                                        <tr id="tag-16" class="level-0">
+                                            <th scope="row" class="check-column">
+                                                <input type="checkbox" class="">
+                                            </th>
+                                            <td>Agency leadership
+                                                <div class="row-actions">
+                                                    <span class="edit"><button class="pl-0 pr-0 btn-transparent clr-dark-blue">Edit</button> | </span>
+                                                    <span class="delete"><button class=" btn-transparent clr-red pl-0 pr-0">Delete</button> | </span>
+                                                    <span class="view"><button class="btn-transparent clr-dark-blue pl-0 pr-0">View</button></span>
+                                                </div>
+                                            </td>
+                                            <td class="description column-description" data-colname="Description"><span aria-hidden="true">—</span></td>
+                                            <td class="posts column-posts" data-colname="Count">3</td>
+                                        </tr>
+
+                                        <tr id="tag-16" class="level-0">
+                                            <th scope="row" class="check-column">
+                                                <input type="checkbox" class="">
+                                            </th>
+                                            <td>Agency leadership
+                                                <div class="row-actions">
+                                                    <span class="edit"><button class="pl-0 pr-0 btn-transparent clr-dark-blue">Edit</button> | </span>
+                                                    <span class="delete"><button class=" btn-transparent clr-red pl-0 pr-0">Delete</button> | </span>
+                                                    <span class="view"><button class="btn-transparent clr-dark-blue pl-0 pr-0">View</button></span>
+                                                </div>
+                                            </td>
+                                            <td class="description column-description" data-colname="Description"><span aria-hidden="true">—</span></td>
+                                            <td class="posts column-posts" data-colname="Count">3</td>
+                                        </tr>
+
+                                        <tr id="tag-16" class="level-0">
+                                            <th scope="row" class="check-column">
+                                                <input type="checkbox" class="">
+                                            </th>
+                                            <td>Agency leadership
+                                                <div class="row-actions">
+                                                    <span class="edit"><button class="pl-0 pr-0 btn-transparent clr-dark-blue">Edit</button> | </span>
+                                                    <span class="delete"><button class=" btn-transparent clr-red pl-0 pr-0">Delete</button> | </span>
+                                                    <span class="view"><button class="btn-transparent clr-dark-blue pl-0 pr-0">View</button></span>
+                                                </div>
+                                            </td>
+                                            <td class="description column-description" data-colname="Description"><span aria-hidden="true">—</span></td>
+                                            <td class="posts column-posts" data-colname="Count">3</td>
+                                        </tr>
+                                    </tbody>
+                        
+                                    
+                        
+                                </table>
+                            </div>
+            
+                    
+                            <div class="form-wrap edit-term-notes">
+                                <p class="line-h-normal fs-12 clr-gray">
+                                    Deleting a category does not delete the posts in that category. Instead, posts that were only assigned to
+                                    the deleted category are set to the default category <strong>Uncategorized</strong>. The default category
+                                    cannot be deleted.</p>
+                                <p class="line-h-normal fs-12 clr-gray">
+                                    Categories can be selectively converted to tags using the category to tag converter. </p>
+                            </div>
+                        </div>
+                    </div>
+        
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/.row-->
+</div>

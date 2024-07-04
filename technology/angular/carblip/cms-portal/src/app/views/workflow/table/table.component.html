@@ -1,0 +1,77 @@
+<table @stagger *ngIf="workflows" [dataSource]="workflows" matSortActive={{sortKey}} matSortDirection={{sortDirection}}
+matSortDisableClear matSort (matSortChange)="sortData($event)" class="w-full" mat-table>
+	<ng-container matColumnDef="name">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Name</th>
+		<td *matCellDef="let item" mat-cell>{{ item.title }}</td>
+	</ng-container>
+
+	<ng-container matColumnDef="type">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Type</th>
+		<td *matCellDef="let item" mat-cell>{{ item.type }}</td>
+	</ng-container>
+
+	<ng-container matColumnDef="status">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Status</th>
+		<td *matCellDef="let item" mat-cell (click)="$event.stopPropagation();">
+			<mat-slide-toggle color="primary" [checked]="item.is_active == 0 ? true : false"
+				(change)="toggleIsWorkflowActive($event, item)">
+			</mat-slide-toggle>
+		</td>
+	</ng-container>
+
+	<ng-container matColumnDef="added_by">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Added By</th>
+		<td *matCellDef="let item" mat-cell>{{ item.added_by }}</td>
+	</ng-container>
+
+	<ng-container matColumnDef="created_at">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Created At</th>
+		<td *matCellDef="let item" mat-cell>{{ item?.created_at | date:'MM/dd/yyy h:mm a' }}</td>
+	</ng-container>
+
+	<ng-container matColumnDef="updated_at">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Updated At</th>
+		<td *matCellDef="let item" mat-cell>{{ item?.updated_at | date:'MM/dd/yyy h:mm a' }}</td>
+	</ng-container>
+
+	<ng-container matColumnDef="actions">
+		<th *matHeaderCellDef mat-header-cell></th>
+		<td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
+			<button (click)="$event.stopPropagation();getSelectedRecord(row)" [matMenuTriggerData]="{ customer: row }"
+				[matMenuTriggerFor]="actionsMenu" mat-icon-button type="button">
+
+				<mat-icon svgIcon="mat:more_horiz"></mat-icon>
+			</button>
+		</td>
+	</ng-container>
+
+	<tr *matHeaderRowDef="getDisplayedColumns(); sticky: true" mat-header-row></tr>
+	<tr *matRowDef="let row; columns: getDisplayedColumns();" routerLink="./{{row.id}}" @fadeInUp
+		class="hover:bg-hover trans-ease-out cursor-pointer" mat-row></tr>
+</table>
+
+<div class="text-center mt-2" *ngIf="(didFetch$ | async) && workflows.length === 0">There are no workflows available.
+	Please enter in a workflows to view them here</div>
+
+<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+	<ng-template let-customer="customer" matMenuContent>
+
+		<button mat-menu-item (click)="settingWorkflow(selectedRecordDetail)">
+			<mat-icon svgIcon="mat:settings"></mat-icon>
+			<span>Settings</span>
+		</button>
+
+		<button mat-menu-item routerLink="./{{selectedRecordDetail?.id}}">
+			<mat-icon svgIcon="mat:edit"></mat-icon>
+			<span>Edit</span>
+		</button>
+		<button mat-menu-item (click)="deleteWorkflow(selectedRecordDetail)">
+			<mat-icon svgIcon="mat:delete"></mat-icon>
+			<span>Delete</span>
+		</button>
+		<button mat-menu-item (click)="cloneWorkflow(selectedRecordDetail)">
+			<mat-icon svgIcon="mat:shop_two"></mat-icon>
+			<span>Clone</span>
+		</button>
+	</ng-template>
+</mat-menu>

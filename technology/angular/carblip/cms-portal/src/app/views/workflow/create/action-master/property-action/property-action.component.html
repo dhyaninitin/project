@@ -1,0 +1,38 @@
+
+<!-- PROPERTY ACTION SECTION -->
+
+<mat-card>
+    <div fxLayout="row wrap" fxLayout.lt-sm="column" [ngClass]="workFlowService$?.workflowCloneStatus ? 'disabled-action' : ''">
+      <div fxFlex="100" class="pr-1 box-title">
+        <h4 class="title title-header">{{data.action.value}}
+          <span class="header-icons">
+            <app-clone-copy-action [actionDetails]="data"></app-clone-copy-action>
+            <mat-icon svgIcon="mat:delete" matTooltip="Delete Property Action" matTooltipPosition="after" class="icons" (click)="deleteaction(data)"></mat-icon>
+            <mat-icon svgIcon="mat:add" matTooltip="Add More Property Action" matTooltipPosition="after" class="icons" (click)="addPropertyItem(data)"></mat-icon>
+          </span>
+        </h4>
+      </div>
+
+      <div class="property-item">
+        <div class="box" *ngFor="let item of data?.property; let i = index;">
+          <div class="box-h">
+            {{data?.actionName}} {{item.value}} to <b>{{ item.condition_value }}</b>
+            <mat-icon svgIcon="mat:delete" matTooltip="Delete Property" matTooltipPosition="after" class="icons inner-box" (click)="deletePropertyItem(data, i)"></mat-icon>
+            <mat-icon svgIcon="mat:edit" matTooltip="Edit Property" matTooltipPosition="after" class="icons inner-box" (click)="editPropertyItem(data, i)"></mat-icon>
+          </div>
+        </div>
+      </div>
+      <div fxFlex="100" fxLayoutAlign="end">
+        <app-view-enrollments [actionId]="data?.id"></app-view-enrollments>
+      </div>
+    </div>
+  </mat-card>
+<div class="line-div here">
+  <button class="ml-4 flex-none" *ngIf="!workFlowService$.workflowCloneStatus" (click)="action(data)" color="primary" mat-mini-fab matTooltip="Add Action" type="button">
+    <mat-icon svgIcon="mat:add"></mat-icon>
+  </button>
+  <button class="ml-4 flex-none clone" *ngIf="workFlowService$.workflowCloneStatus" (click)="actionClone(data)" color="primary" mat-mini-fab matTooltip="Clone Action" type="button"
+  [ngClass]="data?.cloneActionButtonStatus === 1 ? '' : 'disable-clone-action'">
+    <mat-icon svgIcon="mat:add"></mat-icon>
+  </button>
+</div>

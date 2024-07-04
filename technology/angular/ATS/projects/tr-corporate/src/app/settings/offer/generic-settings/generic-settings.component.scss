@@ -1,0 +1,165 @@
+.container {
+  margin: 0px 0 0% 0px;
+  padding-bottom: 3%;
+  .upper-section {
+    margin-bottom: 50px;
+    h2 {
+      font-family: Manrope;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 36px;
+      line-height: 48px;
+      color: #2e2c34;
+    }
+  }
+  .common-div {
+    margin: 20px 0 30px 12px;
+    .last-details {
+      display: flex;
+      mat-checkbox {
+        display: block;
+      }
+      mat-radio-group {
+        font-family: Manrope;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 20px;
+        padding: 5px 0 5px 0;
+
+        color: #504f54;
+        mat-radio-button {
+          padding: 5px 0 5px 0;
+        }
+        hr {
+          color: #e3e1e5;
+          height: 2px;
+        }
+        p {
+          font-family: Manrope;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 13px;
+          line-height: 18px;
+          margin-left: 28px;
+          color: #84818a;
+        }
+      }
+      mat-label {
+        font-family: Manrope;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 20px;
+        color: #25364d;
+        width: 27%;
+        margin: 0px 0px 0 0px;
+      }
+      mat-form-field {
+        width: 35%;
+      }
+    }
+    .input-box {
+      mat-form-field {
+        width: 450px;
+        padding-top: 15px;
+      }
+    }
+  }
+}
+.code {
+  display: flex;
+  p {
+    font-family: Manrope;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 25px;
+    color: hsl(260, 4%, 52%);
+    margin: 20px 10px 0 0px;
+  }
+  mat-form-field {
+    width: 90px;
+    margin: 0 5px 0 5px;
+  }
+}
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin: 3% 0 4% 0;
+  .box-button {
+    margin-right: 22px;
+  }
+  .box-btn {
+    border: 1px solid #e5e5e5;
+  }
+}
+.check-box {
+  margin: 0px 0 12px 0;
+  mat-checkbox {
+    margin-right: 17px;
+  }
+  mat-slide-toggle {
+    margin-bottom: 10px;
+  }
+  h6 {
+    font-family: Manrope;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 18px;
+    color: #84818a !important;
+    display: flex;
+    margin: 0px 0px 12px 0px;
+  }
+  h5 {
+    font-family: Manrope;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 18px;
+    color: #84818a !important;
+    display: flex;
+    margin: 0px 0px 12px 0px;
+  }
+  h3 {
+    font-family: Manrope;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 18px;
+    color: #504f54;
+    margin: 0px 0 14px 0;
+  }
+  mat-form-field {
+    width: 100%;
+  }
+}
+.chck {
+  color: #25364d !important;
+}
+::ng-deep
+  .mat-slide-toggle.mat-checked:not(.mat-disabled)
+  .mat-slide-toggle-thumb {
+  background-color: rgb(235, 232, 232);
+}
+::ng-deep
+  .mat-slide-toggle.mat-checked:not(.mat-disabled)
+  .mat-slide-toggle-bar {
+  background-color: #00a46c;
+}
+::ng-deep
+  .mat-checkbox-checked.mat-accent
+  .mat-checkbox-ripple
+  .mat-ripple-element {
+  opacity: 0.03 !important;
+  background-color: #1f47f5 !important;
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: #1f47f5;
+}
+mat-error{
+  font-size: 10px;
+}

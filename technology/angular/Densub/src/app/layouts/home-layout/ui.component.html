@@ -1,0 +1,295 @@
+<div class="site-overlay"></div>
+<div id="container" class="body-wrap home-page ">
+  <div class="header-affix-clone"></div>
+  <!-- desktop Menu -->
+  <div class="header-wrap bg-black header-menuTop  affix w-100" data-spy="affix" data-offset-top="0"
+    data-offset-bottom="" style="position: fixed;">
+    <header id="header">
+      <div class="header-main">
+        <nav class="navbar navbar-expand-lg bg-black navbar-dark">
+          <a *ngIf="!staffMarketPlace && !practiceMarketPlace" class="navbar-brand full-logo" href="#"><img src="../../../assets/img/brand/Densub_Logo.png" width="150" alt=""></a>
+          <a *ngIf="staffMarketPlace || practiceMarketPlace" class="navbar-brand ml-3 p-0 half-logo" href="#"><img src="../../../assets/img/brand/markteplaceLogo1.png" width="42" height="42" alt="" class="p-0"></a>
+          <ul class="navbar-nav margin-both colla ml-3" *ngIf="staffMarketPlace">
+            <li class="nav-item">
+                <div class="searchbar">
+                  <input class="search_input" type="text" (keyup)="onsubmitText($event)" name="" placeholder="Search by Name or Position type" [(ngModel)]="searchPositionTypeOrName">
+                  <a class="search_icon" (click)="firstComponentFunction()"><i class="fas fa-search"></i></a>
+                </div>
+            </li>
+            </ul>
+            <ul class="navbar-nav margin-both colla ml-3 pl-1" *ngIf="practiceMarketPlace">
+              <li class="nav-item">
+                  <div class="searchbar">
+                    <input class="search_input" type="text" (keyup)="searchJobs($event)" name="" placeholder="Search by Name or Position Type" [(ngModel)]="searchPositionTypeOrJobs">
+                    <a class="search_icon" (click)="secondComponentFunction()"><i class="fas fa-search"></i></a>
+                  </div>
+              </li>
+              </ul>
+          <div class="searchLi searchDiv d-lg-none dropdown text-capitalize" dropdown placement="bottom left" *ngIf="!staffMarketPlace && !practiceMarketPlace">
+            <a class="nav-link p-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+              dropdownToggle (click)="false">
+              <div class="searchbox p-0 ml-auto">
+                <div class="d-flex align-items-center">
+                  <div class="d-flex">
+                    <span class="btn no-effect">
+                      <!-- <img src="../../../assets/img/common/searchIcon-white.png" class="img-fluid" alt=""> -->
+                      <i class="fa fa-search"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+              <a *ngIf="!currentUser?._id" class="dropdown-item text-primary" [routerLink]="['/login']"><i
+                  class="fa fa-search text-primary"></i>Search Staff</a>
+              <a *ngIf="currentUser?._id && currentUser.userType == userType.PRACTICE" class="dropdown-item text-primary"
+                [routerLink]="['/dental-staffs']"><i class="fa fa-search text-primary"></i>Search Staff</a>
+
+              <a *ngIf="!currentUser?._id" class="dropdown-item text-primary" [routerLink]="['/login']"><i
+                  class="fa fa-search text-primary"></i>Search Job</a>
+              <a *ngIf="currentUser?._id && currentUser.userType == userType.STAFF" class="dropdown-item text-primary"
+                [routerLink]="['/job-listing']"><i class="fa fa-search text-primary"></i>Search Job</a>
+            </div>
+          </div>
+
+          <div class="searchLi searchMobileDiv d-lg-none dropdown text-capitalize" dropdown placement="bottom left" *ngIf="staffMarketPlace || practiceMarketPlace">
+            <a class="nav-link p-0" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+              dropdownToggle (click)="mobileSearchView = !mobileSearchView">
+              <div class="searchbox p-0 ml-auto">
+                <div class="d-flex align-items-center">
+                  <div class="d-flex">
+                    <span class="btn no-effect">
+                      <!-- <img src="../../../assets/img/common/searchIcon-white.png" class="img-fluid" alt=""> -->
+                      <i class="fa fa-search"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <button (click)="shouldShow = !shouldShow" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+          </button>
+          <div class="d-flex ml-auto">
+
+            <div class="collapse navbar-collapse  " id="navbarSupportedContent"
+              [ngClass]="{show: shouldShow, hide: !shouldShow}">
+
+              <ul class="navbar-nav ml-auto">
+                <li class="searchLi d-lg-block d-none dropdown text-capitalize" dropdown placement="bottom right" *ngIf="!staffMarketPlace && !practiceMarketPlace">
+                  <a class="nav-link p-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                    aria-expanded="false" dropdownToggle (click)="false">
+                    <div class="searchbox p-0 mr-auto">
+                      <div class="d-flex align-items-center">
+                        <div class="d-flex">
+                          <span class="btn no-effect">
+                            <img src="../../../assets/img/common/searchIcon-white.png" class="img-fluid" alt="">
+                          </span>
+                        </div>
+                        <span>Search</span>
+                      </div>
+                    </div>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-left" *dropdownMenu aria-labelledby="simple-dropdown">
+
+                    <a *ngIf="!currentUser?._id" class="dropdown-item text-primary" [routerLink]="['/login']"><i
+                      class="fa fa-search text-primary"></i>Search Staff</a>
+
+                    <a *ngIf="currentUser?._id && currentUser.userType == userType.PRACTICE" class="dropdown-item text-primary" (click)="searchRedirection()"><i class="fa fa-search text-primary"></i>Search Staff</a>
+
+                    <a *ngIf="!currentUser?._id" class="dropdown-item text-primary" [routerLink]="['/login']"><i
+                      class="fa fa-search text-primary"></i>Search Job</a>
+
+                     <a *ngIf="currentUser?._id && currentUser.userType == userType.STAFF" class="dropdown-item text-primary" (click)="searchRedirection()"><i
+                        class="fa fa-search text-primary"></i>Search Job</a>
+
+
+                    <!-- <a *ngIf="!currentUser?._id" class="dropdown-item text-primary" [routerLink]="['/login']"><i
+                        class="fa fa-search text-primary"></i>Search Staff</a>
+                    <a *ngIf="currentUser?._id && currentUser.userType == userType.PRACTICE" class="dropdown-item text-primary" [routerLink]="['/dental-staffs']"><i
+                        class="fa fa-search text-primary"></i>Search Staff</a>
+
+                    <a *ngIf="!currentUser?._id" class="dropdown-item text-primary" [routerLink]="['/login']"><i
+                        class="fa fa-search text-primary"></i>Search Job</a>
+                    <a *ngIf="currentUser?._id && currentUser.userType == userType.STAFF" class="dropdown-item text-primary" [routerLink]="['/job-listing']"><i
+                        class="fa fa-search text-primary"></i>Search Job</a> -->
+                  </div>
+                </li>
+
+                <li class="nav-item">
+                  <a *ngIf="!currentUser?._id" class="nav-link" [routerLink]="['/login']"><span><img src="../../../assets/img/common/post.png"
+                        class="post img-fluid" alt=""></span>Post a job</a>
+                  <a *ngIf="currentUser?._id && currentUser.userType == userType.PRACTICE" class="nav-link" [routerLink]="['/practice/post-job']"><span><img src="../../../assets/img/common/post.png"
+                        class="post img-fluid" alt=""></span>Post a job</a>
+                </li>
+                <li>
+                  <a *ngIf="currentUser?._id " class="nav-link" href="{{dashboardLink}}"><i class="fa fa-tachometer"></i> Dashboard</a>
+                </li>
+
+                <li class="nav-item" *ngIf="!currentUser?._id">
+                    <!-- (click)='ShowSignUpModal()' -->
+                  <a class="nav-link" [routerLink]="['/signup/practice']"><span><img
+                        src="../../../assets/img/common/signup.png" class="img-fluid user" alt=""></span>Sign Up</a>
+                </li>
+
+                <li class="nav-item" *ngIf="!currentUser?._id">
+                  <a class="nav-link" href="#" [routerLink]="['/login']">
+                    <span><img src="../../../assets/img/common/login.png" class="img-fluid" alt=""></span>Login </a>
+                </li>
+                <li class="nav-item dropdown text-capitalize" dropdown placement="bottom right" *ngIf="currentUser?._id">
+                  <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                    aria-expanded="false" dropdownToggle (click)="false">
+                    <img *ngIf="currentUser?.profilePhoto?.length" src="{{currentUser.profilePhoto[0]}}" class="img-avatar" alt="{{currentUser?.firstName +' '+ currentUser?.lastName}}" width="25" style="height: 25px !important;"/>
+                    <img *ngIf="!currentUser?.profilePhoto?.length" src="../../../assets/img/brand/densub-logo-final.jpg" width="25" class="img-avatar" alt="{{currentUser?.firstName +' '+ currentUser?.lastName}}"/>
+                    <!-- <img src="assets/img/avatars/" class="img-avatar" alt="admin@gmail.com" width="25" /> -->
+                    {{currentUser?.firstName}} ({{currentUser?.userType}})
+                    <i class="fa fa-angle-down"> </i>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+                    <!-- <a class="dropdown-item text-primary" href="{{dashboardLink}}"><i
+                        class="fa fa-tachometer text-primary"></i> Dashboard</a> -->
+                    <a class="dropdown-item text-primary" href="#" [routerLink]="['/account-settings']"><i
+                        class="fa fa-gear text-primary"></i> Settings</a>
+                    <a class="dropdown-item text-primary" href="#" (click)="logout()"><i
+                        class="fa fa-lock text-primary"></i> Logout</a>
+                  </div>
+                </li>
+              </ul>
+
+            </div>
+            <div class="collapse navbar-collapse  " id="navbarSupportedContent"
+            [ngClass]="{show: mobileSearchView, hide: !mobileSearchView}">
+
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item colp" *ngIf="staffMarketPlace">
+                  <div class="searchbar">
+                    <input class="search_input" type="text" (keyup)="onsubmitText($event)" name="" placeholder="Search by Name or Position type" [(ngModel)]="searchPositionTypeOrName">
+                    <a class="search_icon" (click)="firstComponentFunction()"><i class="fas fa-search"></i></a>
+                  </div>
+              </li>
+              <li class="nav-item colp" *ngIf="practiceMarketPlace">
+                <div class="searchbar">
+                  <input class="search_input" type="text" name=""  (keyup)="searchJobs($event)" placeholder="Search by Name or Position Type" [(ngModel)]="searchPositionTypeOrJobs">
+                  <a class="search_icon"><i class="fas fa-search" (click)="secondComponentFunction()"></i></a>
+                </div>
+            </li>
+            </ul>
+
+          </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+  </div>
+
+  <div class="pt-74">
+    <app-loading></app-loading>
+    <router-outlet></router-outlet>
+  </div>
+
+  <footer id="footer" class="footer bg-dark pt-80 pb-50">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 col-sm-6 mb-30">
+          <h3>ABOUT</h3>
+          <ul class="list-unstyled">
+            <li><a [routerLink]="['/about-us']">About Us</a></li>
+            <li><a [routerLink]="['/privacy-policy']">Privacy Policy</a></li>
+            <li><a [routerLink]="['/contact-us']">Contact Us</a></li>
+            <li><a [routerLink]="['/testimonials']">Testimonial</a></li>
+            <li><a [routerLink]="['/terms-of-use']">Terms of Use</a></li>
+            <li><a [routerLink]="['/faq']">FAQ</a></li>
+            <li><a [routerLink]="['/blogs']">Blog</a></li>
+          </ul>
+        </div>
+
+        <div class="col-md-3 col-sm-6 mb-30">
+          <h3>DENTAL STAFF</h3>
+          <ul class="list-unstyled">
+            <li><a href="#">Learn More</a></li>
+            <li>
+              <a [routerLink]="['/signup/practice']">Register</a>
+            </li>
+            <li>
+              <a *ngIf="!currentUser?._id " [routerLink]="['/login']">Search Job</a>
+              <a *ngIf="currentUser?._id && currentUser.userType == userType.STAFF " [routerLink]="['/job-listing']">Search Job</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-md-3 col-sm-6 mb-30">
+          <h3>DENTAL PRACTICE</h3>
+          <ul class="list-unstyled">
+            <li>
+              <a *ngIf="!currentUser?._id " [routerLink]="['/login']">Search Staff</a>
+              <a *ngIf="currentUser?._id && currentUser.userType == userType.PRACTICE " [routerLink]="['/dental-staffs']">Search Staff</a>
+            </li>
+            <li><a href="#">Learn More</a></li>
+            <li *ngIf="!currentUser?._id "><a [routerLink]="['/login']">Post Job</a></li>
+            <li *ngIf="currentUser?._id && currentUser.userType == userType.PRACTICE"><a [routerLink]="['/practice/post-job']">Post Job</a></li>
+          </ul>
+        </div>
+
+        <div class="text-white col-md-3 col-sm-6 mb-30">
+          <h3>COMMUNITY</h3>
+          <ul class="footer-social-media list-unstyled d-flex social-icons rounded noEffect flex-wrap">
+            <!-- <li class="linkedin"><a target="_blank" href="#"><i class="fa fa-linkedin"
+                  aria-hidden="true"></i></a></li> -->
+            <li class="instagram"><a target="_blank" href="https://instagram.com/densub_marketplace/"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+            <li class="facebook"><a target="_blank" href="https://www.facebook.com/Densub-100635311362505/"><i
+                  class="fa fa-facebook-official" aria-hidden="true"></i></a></li>
+            <li class="twitter"><a target="_blank" href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            </li>
+
+            <li class="pinterest">
+              <a href=""><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+            </li>
+            <li class="youtube">
+              <a href=""><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
+            </li>
+
+          </ul>
+        </div>
+        <div class="col-12 text-center">
+          <p>&copy; {{fullYear}} All Rights Reserved. Densub</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- Modal -->
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #signUpDen="bs-modal" class="modal fade design-1" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white">Join Densub Today!</h4>
+        <button type="button" class="close text-white" (click)="signUpDen.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted text-center mb-20">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Unde omnis
+          magnam delectus.</p>
+        <div class="row">
+          <div class="col-sm-6">
+            <button class="btn btn-primary  btn-block" style="line-height: 2.5;"
+              (click)="redirectToRegister('practice')">DENTAL PRACTICE</button>
+          </div>
+          <div class="col-sm-6">
+            <button class="btn btn-primary  btn-block" style="line-height: 2.5;"
+              (click)="redirectToRegister('staff')">DENTAL STAFF</button>
+          </div>
+        </div>
+        <br>
+        <p class="text-center">Already registered? <a [routerLink]="['/login']" (click)="signUpDen.hide()">Log in</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>

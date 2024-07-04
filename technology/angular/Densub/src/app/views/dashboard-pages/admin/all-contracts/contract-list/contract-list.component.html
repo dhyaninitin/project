@@ -1,0 +1,121 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h4 class="text-primary"> <b>All Contracts</b> </h4>
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-2">
+    <div class="form-group">
+      <select class="form-control" name="jobType" [(ngModel)]="dataFilter.jobPostId.jobType">
+        <option value="">All Job Type</option>
+        <option value="{{jobTypes.TEMPORARY}}">Temporary</option>
+        <option value="{{jobTypes.PERMANENTFULLTIME}}">Permanent Full Time</option>
+        <option value="{{jobTypes.PERMANENTPARTTIME}}">Permanent Part Time</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <div class="form-group">
+      <input type="text" class="form-control" name="jobTitle" [(ngModel)]="dataFilter.jobPostId.jobTitle" id="jobTitle" placeholder="Job Title">
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <div class="form-group">
+      <dp-date-picker  [(ngModel)]="dataFilter.jobPostId.jobDate" placeholder="Select Job date" [config]="datePickerConfig">
+      </dp-date-picker>
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <div class="form-group">
+      <select class="form-control text-capitalize" name="jobType" [(ngModel)]="dataFilter.contractListStatus">
+        <option value="">All Status</option>
+        <option [value]="status" *ngFor="let status of contractListStatusArr">{{(status === contractListStatus.PAYTOACTIVATE) ? 'Not Approved' : status}}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary btn-sm" (click)="setFilter()">Search</button>
+      <button type="button" class="btn btn-danger btn-sm" (click)="resetFilter()">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="row pt-3">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-cogs"></i> Listings
+            </div>
+            <div class="card-body table-responsive">
+                <table class="table table-bordered">
+                    <thead class="nowrap">
+                        <tr>
+                            <th>Contract ID</th>
+                            <th [class.active]="order === 'jobPostId.jobTitle'" (click)="setOrder('jobPostId.jobTitle')" >
+                               Job Title
+                              <span [hidden]="reverse">▼</span>
+                              <span [hidden]="!reverse">▲</span>
+                            </th>
+                            <th [class.active]="order === 'jobPostId.jobType'" (click)="setOrder('jobPostId.jobType')" >
+                               Job Type
+                              <span [hidden]="reverse">▼</span>
+                              <span [hidden]="!reverse">▲</span>
+                            </th>
+                            <th [class.active]="order === 'staffId.firstName'" (click)="setOrder('staffId.firstName')" >
+                              Staff Name
+                              <span [hidden]="reverse">▼</span>
+                              <span [hidden]="!reverse">▲</span>
+                            </th>
+                            <th [class.active]="order === 'jobPostId.duration'" (click)="setOrder('jobPostId.duration')" >
+                              Contract Duration
+                              <span [hidden]="reverse">▼</span>
+                              <span [hidden]="!reverse">▲</span>
+                            </th>
+                            <th [class.active]="order === 'jobPostId.jobDate'" (click)="setOrder('jobPostId.jobDate')">Date of Assignment
+                              <span [hidden]="reverse">▼</span>
+                              <span [hidden]="!reverse">▲</span>
+                            </th>
+                            <th [class.active]="order === 'finalRate'" (click)="setOrder('finalRate')" >
+                              Rate
+                              <span [hidden]="reverse">▼</span>
+                              <span [hidden]="!reverse">▲</span></th>
+                            <th [class.active]="order === 'contractListStatus'" (click)="setOrder('contractListStatus')">
+                              Status
+                              <span [hidden]="reverse">▼</span>
+                              <span [hidden]="!reverse">▲</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="contractList.length">
+                        <tr *ngFor="let contract of contractList | grdFilter: setDataFilter: false: ['jobPostId']| orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p}; let i = index;">
+                            <td><a [routerLink]="['/allContracts/details',contract?._id]" data-toggle="tooltip" title="{{contract?._id}}">#{{ contract?._id | slice:18:24}}
+                             </a></td>
+                            <td class="text-capitalize">{{contract?.jobPostId?.jobTitle?.toLowerCase()}}</td>
+                            <td class="text-capitalize">{{jobLabel[contract?.jobPostId?.jobType]?.toLowerCase()}}</td>
+                            <td class="text-capitalize">{{contract?.staffId?.firstName +' '+ contract?.staffId?.lastName}}</td>
+                            <td class="text-capitalize">{{getContractDuration(contract)}} Hours</td>
+                            <td class="text-capitalize">{{contract?.jobPostId?.jobDate | date : 'mediumDate'}}</td>
+                            <td class="text-capitalize">{{contract?.finalRate}}</td>
+                            <td class="text-capitalize">
+                              <i [class]="contractListStatusColor[contract?.contractListStatus]"
+                              aria-hidden="true"></i> {{(contract?.contractListStatus === contractListStatus.PAYTOACTIVATE)?  'Not Approved'    :contract?.contractListStatus}}</td>
+                        </tr>
+                    </tbody>
+                    <tr class="text-center" *ngIf="!contractList.length">
+                        <td colspan="7">
+                            <h6>No Record Found !</h6>
+                        </td>
+                    </tr>
+                </table>
+                <ul class="pagination justify-content-end" *ngIf="itemsPerPage < contractList.length">
+                  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+

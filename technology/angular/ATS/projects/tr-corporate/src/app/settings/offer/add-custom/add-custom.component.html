@@ -1,0 +1,152 @@
+<mat-drawer-container autosize class="right-drawers" [class.drawer-lg]="false">
+  <mat-drawer
+    #drawer
+    mode="over"
+    class="mat-drawer-container"
+    position="end"
+    [autoFocus]="false"
+  >
+    <button
+      mat-icon-button
+      (click)="drawer.toggle(); toggleSideMenu()"
+      class="close-btn"
+    >
+      <span class="icon-mc mc-x"></span>
+    </button>
+
+    <app-config-dropdown *ngIf="configDropdown"  (loadAppCustom)="getConfigurationValues($event)" [showLayout]="caseTitle"  [showLayout2]="caseTitle2" [masterValues]="masterDropDownValues"  [isOpen]="drawer.opened" (onSave)="getConfigurationValues($event)">
+    </app-config-dropdown>
+
+    <app-config-textbox *ngIf="configText" (loadAppCustom)="getConfigurationValues($event)" [showLayout]="caseTitle"  [showLayout2]="caseTitle2" [isOpen]="drawer.opened" (onSave)="getConfigurationValues($event)">
+    </app-config-textbox>
+
+  </mat-drawer>
+  <form [formGroup]="addCustomFields">
+  <div class="box-container">
+    <div>
+      <div class="upper-sec">
+        <div>
+          <h4>
+            <img src="assets/img/color-add.svg" alt="" />
+
+            Add Custom
+          </h4>
+        </div>
+      </div>
+    </div>
+    <div class="mid-sec">
+      <div class="common-div">
+        <span class=""></span>
+        <div class="d-flex flex-column">
+          <mat-label>Field Name</mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="Field Name " formControlName="fieldname"/>
+            <mat-error *ngIf="fieldname.touched && !fieldname.valid">
+              <span *ngIf="fieldname.errors?.required">
+                Field name is required
+              </span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="common-div">
+        <span class=""></span>
+        <div class="d-flex flex-column">
+          <mat-form-field appearance="outline">
+            <mat-label>Template For</mat-label>
+            <mat-select formControlName="offertemplateid" multiple>
+              <mat-option *ngFor="let offerTemplate of templateList" [value]="offerTemplate.templateid">{{offerTemplate.templatename}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="offertemplateid.touched && !offertemplateid.valid">
+              <span *ngIf="offertemplateid.errors?.required">
+                Template for is required
+              </span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="common-div" *ngIf="fieldtype.value == 'Text-Box' || fieldtype.value == 'Drop-Down'">
+        <span class=""></span>
+        <div class="d-flex flex-column">
+          <div class="title">
+            <img
+              src="assets/img/custom.svg"
+              alt=""
+              (click)="configure()"
+            />
+            <h4>configure</h4>
+          </div>
+        </div>
+      </div>
+      <div class="common-div">
+        <span class=""></span>
+        <div class="d-flex flex-column">
+          <mat-label>Field Type</mat-label>
+          <mat-form-field appearance="outline">
+            <mat-select placeholder="Field Type" formControlName="fieldtype" >
+              <mat-option value="Text-Box">Text-Box</mat-option>
+              <mat-option value="Drop-Down">Drop-Down</mat-option>
+              <mat-option value="Date-Picker">Date-Picker</mat-option>
+            </mat-select>
+            <mat-error *ngIf="fieldtype.touched && !fieldtype.valid">
+              <span *ngIf="fieldtype.errors?.required">
+                Field type is required
+              </span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="common-div">
+        <span class=""></span>
+        <div class="d-flex flex-column">
+          <mat-label>Parent</mat-label>
+          <mat-form-field appearance="outline">
+            <mat-select placeholder="Parent" formControlName="parentid">
+              <mat-option *ngFor="let customField of customFields" [value]="customField.customfieldid" (click)="getConfigureMasterValues(customField)">{{customField.fieldname}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="common-div">
+        <span class=""></span>
+        <div class="d-flex flex-column">
+          <mat-label>Help Text</mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="Text to guide the user" formControlName="helptext"/>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="common-div">
+        <span class=""></span>
+        <div class="d-flex flex-column">
+          <h5>
+            <mat-checkbox class="example-margin" (checked)="isMandatory" formControlName="ismandatory"> </mat-checkbox>
+            <h6>Mandetory Option</h6>
+          </h5>
+        </div>
+      </div>     
+      <div class="common-div">
+        <span class=""></span>
+        <div class="d-flex flex-column">
+          <h5>
+            <mat-checkbox class="example-margin" formControlName="isactive"> </mat-checkbox>
+            <h6>Is Active</h6>
+          </h5>
+        </div>
+      </div>     
+      <div class="common-div">
+        <div class="d-flex flex-column">
+          <span class="buttons">
+            <div class="box-button">
+              <button mat-flat-button color="primary" [disabled]="addCustomFields.invalid" (click)="onSave()" >Save</button>
+            </div>
+            <div class="box-button">
+              <button mat-flat-button (click)="onCancel()">Cancel</button>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+</mat-drawer-container>

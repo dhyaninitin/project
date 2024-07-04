@@ -1,0 +1,31 @@
+version: 0.2
+
+phases:
+    install:
+        runtime-versions:
+           nodejs: 16
+        commands:
+            - echo Installing source NPM dependencies...
+            - npm install -g @angular/cli
+            - rm package-lock.json
+    pre_build:
+        commands:
+            - echo Installing source NPM dependencies...
+            - npm config set legacy-peer-deps true
+            - npm install
+    build:
+        commands:
+            - echo Build started on `date`
+            - ng build --configuration=$BUILD_ENV
+            - echo copy assets to dist
+            - cp server.js ./dist
+            - cp bootstrap.js ./dist
+            - cp package-server.json ./dist/package.json
+    post_build:
+         commands:
+            - echo Build completed on `date`
+artifacts:
+    files:
+        - '**/*'
+    base-directory: 'dist'
+

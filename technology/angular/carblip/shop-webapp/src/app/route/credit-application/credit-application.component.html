@@ -1,0 +1,1378 @@
+<section class="container-fluid px-0 py-3 credit-application" *ngIf="isReady">
+  <div class="cb-container container">
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-12 col-12 left-div">
+        <div class="mb-3 box-shadow credit-app-block vehicle-div">
+          <h2>Vehicle Information</h2>
+          <div class="row" *ngIf="selectedMyRequest.request_type == 1">
+            <div class="product-img col-12">
+              <! –– If there isn't any vehicle images, show default one ––>
+              <div *ngIf="!getImage(id).length">
+                <div class="carousel-vehicle-img" src="{{commingSoonImg}}" appLazyloader draggable="false" [ngStyle]="{'background-image': 'url(' + commingSoonImg + ')'}"></div>
+              </div>
+              <! –– If there is only one vehicle image, show image div ––>
+              <div *ngIf="getImage(id).length === 1">
+                <div class="carousel-vehicle-img" src="{{getImage(id)[0]}}" appLazyloader draggable="false" [ngStyle]="{'background-image': 'url(' + getImage(id)[0] + ')'}"></div>
+              </div>
+              <! –– If there are more than one vehicle image, show image gallery ––>
+              <ui-carousel #uiCarousel *ngIf="getImage(id).length > 1" class="img-carousel" [autoPlay]="false" [arrows]="false" [infinite]="true" [fade]="false" [speed]="200" width="100%" height="300px">
+                <ui-carousel-item>
+                  <div class="carousel-vehicle-img" src="{{getImage(id)[0]}}" appLazyloader draggable="false" [ngStyle]="{'background-image': 'url(' + getImage(id)[0] + ')'}"></div>
+                </ui-carousel-item>
+                <ui-carousel-item>
+                  <div class="carousel-vehicle-img" src="{{getImage(id)[1]}}" appLazyloader draggable="false" [ngStyle]="{'background-image': 'url(' + getImage(id)[1] + ')'}"></div>
+                </ui-carousel-item>
+                <ui-carousel-item *ngIf="getImage(id).length === 3">
+                  <div class="carousel-vehicle-img" src="{{getImage(id)[2]}}" appLazyloader draggable="false" [ngStyle]="{'background-image': 'url(' + getImage(id)[2] + ')'}"></div>
+                </ui-carousel-item>
+              </ui-carousel>
+            </div>
+            <div class="product-details col-12">
+              <div>
+                <p class="product-brand-name">
+                  {{ selectedMyRequest?.Vehicle.Brand.name }}
+                </p>
+                <h3 class="product-model-name">
+                  {{ selectedMyRequest?.Vehicle.Model.name }}
+                </h3>
+              </div>
+              <div>
+                <p class="product-model-amt">
+                  {{ getVehiclePrice(selectedMyRequest) | currency: 'USD':'symbol':'1.0' }}
+                  <span *ngIf="selectedMyRequest?.buying_method != 1">/month</span>
+                </p>
+                <p *ngIf="selectedMyRequest?.buying_method == 1" class="product-model-amt-label">Starting MSRP</p>
+                <p *ngIf="selectedMyRequest?.buying_method != 1" class="product-model-amt-label">excludes taxes and fees*</p>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="selectedMyRequest.request_type == 2">
+            <div class="product-img col-12">
+              <img [src]="commingSoonImg" alt="" draggable="false" width="100%" appLazyloader>
+            </div>
+            <div class="product-details col-12">
+              <div>
+                <p class="product-brand-name">
+                  {{ selectedMyRequest?.vehicle_type }}
+                </p>
+              </div>
+              <div>
+                <p class="product-model-amt">{{ getPrice(selectedMyRequest) }}<span *ngIf="selectedMyRequest.price_type == 1" class="type">/ mo</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="box-shadow credit-app-block progress-div">
+          <h2>Progress</h2>
+          <div class="bs-stepper vertical w-100">
+            <div class="row mx-0 bs-stepper-content p-0 w-100 d-block">
+              <div class="bs-stepper-header" role="tablist">
+                <ng-container *ngFor="let step of steps; let i = index" >
+                  <div *ngIf="i > 0" class="line"></div>
+                  <div
+                    [ngClass]="{
+                      'custom-step': completed(step.step, currentStep),
+                      'completed': completed(step.step, currentStep),
+                      'incompleted': !completed(step.step, currentStep),
+                      'active': step.step === currentStep
+                    }"
+                    [attr.data-target]="'#' + step.label"
+                  >
+                    <a (click)="redirectTo(step)" class="btn btn-link step-trigger" role="tab" id="stepper{{i + 1}}trigger{{i + 1}}" [attr.aria-controls]="step.label">
+                      <span class="bs-stepper-circle"></span>
+                      <span class="bs-stepper-label">{{step.label}}</span>
+                    </a>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8 col-md-8 col-sm-12 col-12 right-div">
+        <div class="box-shadow credit-app-block type-select-wrapper">
+          <div class="credit-app-block__inner" *ngIf="isPage('personal')">
+            <h2>How Will You Be Applying?</h2>
+            <div class="row pt-3">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="credit-app-type-select" (click)="onApplyingSelect(1)" [ngClass]="{'selected': wayOfApplying === 1}">
+                  <span class="icon-div"><fa-icon [icon]="['fas', 'user']"></fa-icon></span>
+                  <div class="detail-div">
+                    <span class="title">Individual Application</span>
+                    <span>You are appliying individually without another applicant.</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="credit-app-type-select" (click)="onApplyingSelect(2)" [ngClass]="{'selected': wayOfApplying === 2}">
+                  <span class="icon-div"><fa-icon [icon]="['fas', 'user-friends']"></fa-icon></span>
+                  <div class="detail-div">
+                    <span class="title">Joint Application</span>
+                    <span>You and your co-applicant are jointly applying for credit and equally responsible for the loan.</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12 description-div" *ngIf="wayOfApplying === 2">
+                <span>A joint application means that both you and your co-applicant are jointly applying for credit, 
+                  and that both of you are equally responsible for the loan. Applying for joint credit may increase your chances of 
+                  being approved for credit if you or your co-applicant alone would have too little income, 
+                  too much debt in relation to your income, or little or no credit history.</span>
+              </div>
+            </div>
+            <div *ngIf="wayOfApplying === 1 || wayOfApplying === 2">
+              <h2 class="mt-4">{{getSubTitle('primary')}}</h2>
+              <form class="credit-form personal-form" [formGroup]="personalFormPrimary" appFocusFirstInvalidField>
+                <div class="row pt-3">
+                  <div class="form-group col-md-4">
+                    <label for="firstName">First Name*</label>
+                    <input type="text" class="form-control" aria-describedby="firstNameHelp"
+                      placeholder="" formControlName="firstName"
+                      appNoWhitespace appNoSepcialchar/>
+                    <span *ngIf="personalFormPrimary?.controls['firstName'].touched && !personalFormPrimary?.controls['firstName'].valid"
+                      class="validate-message">
+                      <span *ngIf="personalFormPrimary.controls['firstName'].errors.required">* The First Name is required.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label for="mi">MI</label>
+                    <input type="text" class="form-control" aria-describedby="miHelp"
+                      placeholder="" formControlName="mi"/>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="lastName">Last Name*</label>
+                    <input type="text" class="form-control" aria-describedby="lastNameHelp"
+                      placeholder="" formControlName="lastName"
+                      appNoWhitespace appNoSepcialchar/>
+                    <span *ngIf="personalFormPrimary?.controls['lastName'].touched && !personalFormPrimary?.controls['lastName'].valid"
+                      class="validate-message">
+                      <span *ngIf="personalFormPrimary.controls['lastName'].errors.required">* The Last Name is required.</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="form-group col-md-4">
+                    <label for="phoneNumber">Phone Number*</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">+1</span>
+                      </div>
+                      <input type="text" class="form-control" aria-describedby="phoneNumberHelp" pattern="^\d{3}[- ]?\d{3}[- ]?\d{4}$"
+                      placeholder="" formControlName="phoneNumber"
+                      appNoSpace appPhoneNumber/>
+                    </div>
+                    <span *ngIf="personalFormPrimary?.controls['phoneNumber'].touched && !personalFormPrimary?.controls['phoneNumber'].valid"
+                      class="validate-message">
+                      <span *ngIf="personalFormPrimary.controls['phoneNumber'].hasError('required')">* The phone number is required.</span>
+                      <span *ngIf="personalFormPrimary.controls['phoneNumber'].hasError('pattern')">* The phone number is invalid.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-8">
+                    <label for="emailAddress">Email Address*</label>
+                    <input type="email" class="form-control" aria-describedby="emailAddressHelp"
+                      placeholder="" formControlName="emailAddress" pattern="[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,64}"
+                      appNoWhitespace/>
+                    <span *ngIf="personalFormPrimary?.controls['emailAddress'].touched && !personalFormPrimary?.controls['emailAddress'].valid"
+                      class="validate-message">
+                      <span *ngIf="personalFormPrimary.controls['emailAddress'].hasError('required')">* The Email Address is required.</span>
+                      <span *ngIf="personalFormPrimary.controls['emailAddress'].hasError('pattern')">* The Email Address is invalid.</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="form-group col-md-12">
+                    <label for="dateOfBirth">Date of Birth*</label>
+                    <input type="text" class="form-control" aria-describedby="dateOfBirthHelp"
+                      placeholder=""
+                      bsDatepicker
+                      [bsConfig]="dateOfBirthConfig"
+                      formControlName="dateOfBirth"
+                      appNoWhitespace
+                      readonly
+                      required/>
+                    <span *ngIf="personalFormPrimary?.controls['dateOfBirth'].touched && !personalFormPrimary?.controls['dateOfBirth'].valid"
+                      class="validate-message">
+                      <span *ngIf="personalFormPrimary.controls['dateOfBirth'].errors.required">* The Date Of Birth is required.</span>
+                    </span>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div *ngIf="wayOfApplying === 2">
+              <h2 class="mt-4">{{getSubTitle('co')}}</h2>
+              <form class="credit-form personal-form" [formGroup]="personalFormCo" appFocusFirstInvalidField>
+                <div class="row pt-3">
+                  <div class="form-group col-md-4">
+                    <label for="firstName">First Name*</label>
+                    <input type="text" class="form-control" aria-describedby="firstNameHelp"
+                      placeholder="" formControlName="firstName"
+                      appNoWhitespace appNoSepcialchar/>
+                    <span *ngIf="personalFormCo?.controls['firstName'].touched && !personalFormCo?.controls['firstName'].valid"
+                      class="validate-message">
+                      <span *ngIf="personalFormCo.controls['firstName'].errors.required">* The First Name is required.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label for="mi">MI</label>
+                    <input type="text" class="form-control" aria-describedby="miHelp"
+                      placeholder="" formControlName="mi"/>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="lastName">Last Name*</label>
+                    <input type="text" class="form-control" aria-describedby="lastNameHelp"
+                      placeholder="" formControlName="lastName"
+                      appNoWhitespace appNoSepcialchar/>
+                    <span *ngIf="personalFormCo?.controls['lastName'].touched && !personalFormCo?.controls['lastName'].valid"
+                      class="validate-message">
+                      <span *ngIf="personalFormCo.controls['lastName'].errors.required">* The Last Name is required.</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="form-group col-md-4">
+                    <label for="phoneNumber">Phone Number*</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">+1</span>
+                      </div>
+                      <input type="text" class="form-control" aria-describedby="phoneNumberHelp" pattern="^\d{3}[- ]?\d{3}[- ]?\d{4}$"
+                      placeholder="" formControlName="phoneNumber"
+                      appNoSpace appPhoneNumber/>
+                    </div>
+                    <span *ngIf="personalFormCo?.controls['phoneNumber'].touched && !personalFormCo?.controls['phoneNumber'].valid"
+                      class="validate-message">
+                      <span *ngIf="personalFormCo.controls['phoneNumber'].hasError('required')">* The phone number is required.</span>
+                      <span *ngIf="personalFormCo.controls['phoneNumber'].hasError('pattern')">* The phone number is invalid.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-8">
+                    <label for="emailAddress">Email Address*</label>
+                    <input type="email" class="form-control" aria-describedby="emailAddressHelp"
+                      placeholder="" formControlName="emailAddress" pattern="[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,64}"
+                      appNoWhitespace/>
+                    <span *ngIf="personalFormCo?.controls['emailAddress'].touched && !personalFormCo?.controls['emailAddress'].valid"
+                      class="validate-message">
+                      <span *ngIf="personalFormCo.controls['emailAddress'].hasError('required')">* The Email Address is required.</span>
+                      <span *ngIf="personalFormCo.controls['emailAddress'].hasError('pattern')">* The Email Address is invalid.</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="form-group col-md-12">
+                    <label for="dateOfBirth">Date of Birth*</label>
+                    <input type="text" class="form-control" aria-describedby="dateOfBirthHelp"
+                      placeholder=""
+                      bsDatepicker
+                      [bsConfig]="dateOfBirthConfig"
+                      formControlName="dateOfBirth"
+                      appNoWhitespace
+                      readonly
+                      required/>
+                    <span *ngIf="personalFormCo?.controls['dateOfBirth'].touched && !personalFormCo?.controls['dateOfBirth'].valid"
+                      class="validate-message">
+                      <span *ngIf="personalFormCo.controls['dateOfBirth'].errors.required">* The Date Of Birth is required.</span>
+                    </span>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="credit-app-block__inner" *ngIf="isPage('residence')">
+            <div *ngIf="wayOfApplying === 1 || wayOfApplying === 2">
+              <h2 class="mt-4">{{getSubTitle('primary')}}</h2>
+              <form class="credit-form residence-form" [formGroup]="residenceFormPrimary" appFocusFirstInvalidField>
+                <div class="row pt-3">
+                  <div class="form-group col-md-6">
+                    <label>Residence Type*</label>
+                    <ng-select
+                      [items]="residenceTypeList"
+                      placeholder="Select"
+                      [searchable]="false"
+                      bindLabel="label"
+                      bindValue="id"
+                      formControlName="residenceType"
+                      (change)="onChangeResidenceType($event, 'primary')"
+                      required
+                    >
+                    </ng-select>
+                    <span *ngIf="residenceFormPrimary?.controls['residenceType'].touched && !residenceFormPrimary?.controls['residenceType'].valid"
+                      class="validate-message">
+                      <span *ngIf="residenceFormPrimary?.controls['residenceType'].errors.required">* The Residence Type is required.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="apr">Monthly Rent/Mortgage*</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input 
+                        currencyMask
+                        class="form-control"
+                        min="0"
+                        formControlName="mortage"
+                        [options]="{
+                          align: 'left',
+                          prefix: '',
+                          thousands: ',',
+                          precision: 0
+                        }"
+                        appNoSpace
+                      >
+                    </div>
+                    <span *ngIf="residenceFormPrimary?.controls['mortage'].touched && !residenceFormPrimary?.controls['mortage'].valid"
+                      class="validate-message">
+                      <span *ngIf="residenceFormPrimary?.controls['mortage'].errors.required">* Required.</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="form-group col-md-7">
+                    <label for="streetAddress">Current Street Address</label>
+                    <input type="text" class="form-control" aria-describedby="streetAddressHelp"
+                      placeholder="" formControlName="streetAddress"
+                      appNoWhitespace/>
+                  </div>
+                  <div class="form-group col-md-5">
+                    <label for="Apt">Apt/suite/other</label>
+                    <input type="text" class="form-control" aria-describedby="AptHelp"
+                      placeholder="" formControlName="apt"
+                      appNoWhitespace/>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="form-group col-md-5">
+                    <label for="city">City*</label>
+                    <input type="text" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="city"
+                      appNoWhitespace/>
+                    <span *ngIf="residenceFormPrimary?.controls['city'].touched && !residenceFormPrimary?.controls['city'].valid"
+                      class="validate-message">
+                      <span *ngIf="residenceFormPrimary?.controls['city'].errors.required">* The City is required.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-5">
+                    <label>State*</label>
+                    <ng-select
+                      [items]="stateList"
+                      placeholder="Select"
+                      [searchable]="false"
+                      bindLabel="label"
+                      bindValue="id"
+                      formControlName="state"
+                      (change)="onChangeResidenceState($event, 'primary')"
+                      required
+                    >
+                    </ng-select>
+                    <span *ngIf="residenceFormPrimary?.controls['state'].touched && !residenceFormPrimary?.controls['state'].valid"
+                      class="validate-message">
+                      <span *ngIf="residenceFormPrimary?.controls['state'].errors.required">* The State is required.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label for="zipCode">Zip Code*</label>
+                    <input type="text" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="zipCode" pattern="[0-9]{5}" 
+                      appNoWhitespace/>
+                    <span *ngIf="residenceFormPrimary?.controls['zipCode'].touched && !residenceFormPrimary?.controls['zipCode'].valid"
+                      class="validate-message">
+                      <span *ngIf="residenceFormPrimary?.controls['zipCode'].hasError('required')">* Required.</span>
+                      <span *ngIf="residenceFormPrimary?.controls['zipCode'].hasError('pattern')">* Invalid.</span>
+                    </span>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div *ngIf="wayOfApplying === 2">
+              <h2 class="mt-4">{{getSubTitle(2)}}</h2>
+              <form class="credit-form residence-form" [formGroup]="residenceFormCo" appFocusFirstInvalidField>
+                <div class="row pt-3">
+                  <div class="form-group col-md-6">
+                    <label>Residence Type*</label>
+                    <ng-select
+                      [items]="residenceTypeList"
+                      placeholder="Select"
+                      [searchable]="false"
+                      bindLabel="label"
+                      bindValue="id"
+                      formControlName="residenceType"
+                      (change)="onChangeResidenceType($event, 'co')"
+                      required
+                    >
+                    </ng-select>
+                    <span *ngIf="residenceFormCo?.controls['residenceType'].touched && !residenceFormCo?.controls['residenceType'].valid"
+                      class="validate-message">
+                      <span *ngIf="residenceFormCo?.controls['residenceType'].errors.required">* The Residence Type is required.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="apr">Monthly Rent/Mortgage*</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input 
+                        currencyMask
+                        class="form-control"
+                        min="0"
+                        [options]="{
+                          align: 'left',
+                          prefix: '',
+                          thousands: ',',
+                          precision: 0
+                        }"
+                        formControlName="mortage"
+                        appNoSpace
+                      >
+                    </div>
+                    <span *ngIf="residenceFormCo?.controls['mortage'].touched && !residenceFormCo?.controls['mortage'].valid"
+                      class="validate-message">
+                      <span *ngIf="residenceFormCo?.controls['mortage'].errors.required">* Required.</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="form-group col-md-7">
+                    <label for="streetAddress">Current Street Address</label>
+                    <input type="text" class="form-control" aria-describedby="streetAddressHelp"
+                      placeholder="" formControlName="streetAddress"
+                      appNoWhitespace/>
+                  </div>
+                  <div class="form-group col-md-5">
+                    <label for="Apt">Apt/suite/other</label>
+                    <input type="text" class="form-control" aria-describedby="AptHelp"
+                      placeholder="" formControlName="apt"
+                      appNoWhitespace/>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="form-group col-md-5">
+                    <label for="city">City*</label>
+                    <input type="text" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="city"
+                      appNoWhitespace/>
+                    <span *ngIf="residenceFormCo?.controls['city'].touched && !residenceFormCo?.controls['city'].valid"
+                      class="validate-message">
+                      <span *ngIf="residenceFormCo?.controls['city'].errors.required">* The City is required.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-5">
+                    <label>State*</label>
+                    <ng-select
+                      [items]="stateList"
+                      placeholder="Select"
+                      [searchable]="false"
+                      bindLabel="label"
+                      bindValue="id"
+                      formControlName="state"
+                      (change)="onChangeResidenceState($event, 'co')"
+                      required
+                    >
+                    </ng-select>
+                    <span *ngIf="residenceFormCo?.controls['state'].touched && !residenceFormCo?.controls['state'].valid"
+                      class="validate-message">
+                      <span *ngIf="residenceFormCo?.controls['state'].errors.required">* The State is required.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label for="zipCode">Zip Code*</label>
+                    <input type="text" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="zipCode" pattern="[0-9]{5}"
+                      appNoWhitespace/>
+                    <span *ngIf="residenceFormCo?.controls['zipCode'].touched && !residenceFormCo?.controls['zipCode'].valid"
+                      class="validate-message">
+                      <span *ngIf="residenceFormCo?.controls['zipCode'].hasError('required')">* Required.</span>
+                      <span *ngIf="residenceFormCo?.controls['zipCode'].hasError('pattern')">* Invalid.</span>
+                    </span>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="credit-app-block__inner" *ngIf="isPage('employment')">
+            <div *ngIf="wayOfApplying === 1 || wayOfApplying === 2">
+              <h2 class="mt-4">{{getSubTitle('primary')}}</h2>
+              <form class="credit-form employment-form" [formGroup]="employmentFormPrimary" appFocusFirstInvalidField>
+                <div class="row pt-3">
+                  <div class="form-group col-md-6">
+                    <label for="employerName">Present Employer Name*</label>
+                    <input type="text" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="employerName"
+                      appNoWhitespace/>
+                    <span *ngIf="employmentFormPrimary?.controls['employerName'].touched && !employmentFormPrimary?.controls['employerName'].valid"
+                      class="validate-message">
+                      <span *ngIf="employmentFormPrimary?.controls['employerName'].errors.required">* The Name is Required.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="employerAddress">Employer Address*</label>
+                    <input type="text" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="employerAddress"
+                      appNoWhitespace/>
+                    <span *ngIf="employmentFormPrimary?.controls['employerAddress'].touched && !employmentFormPrimary?.controls['employerAddress'].valid"
+                      class="validate-message">
+                      <span *ngIf="employmentFormPrimary?.controls['employerAddress'].errors.required">* The Address is Required.</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="form-group col-md-6">
+                    <label for="employer_phone">Employer Phone*</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">+1</span>
+                      </div>
+                      <input type="text" class="form-control" aria-describedby="employerPhoneHelp" pattern="^\d{3}[- ]?\d{3}[- ]?\d{4}$"
+                      placeholder="" formControlName="employerPhone"
+                      appNoSpace appPhoneNumber/>
+                    </div>
+                    <span *ngIf="employmentFormPrimary?.controls['employerPhone'].touched && !employmentFormPrimary?.controls['employerPhone'].valid"
+                      class="validate-message">
+                      <span *ngIf="employmentFormPrimary.controls['employerPhone'].hasError('required')">* The phone number is required.</span>
+                      <span *ngIf="employmentFormPrimary.controls['employerPhone'].hasError('pattern')">* The phone number is invalid.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="apr">Gross Monthly Income*</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input 
+                        currencyMask
+                        class="form-control"
+                        min="0"
+                        formControlName="grossIncome"
+                        [options]="{
+                          align: 'left',
+                          prefix: '',
+                          thousands: ',',
+                          precision: 0
+                        }"
+                        appNoSpace
+                      >
+                    </div>
+                    <span *ngIf="employmentFormPrimary?.controls['grossIncome'].touched && !employmentFormPrimary?.controls['grossIncome'].valid"
+                      class="validate-message">
+                      <span *ngIf="employmentFormPrimary?.controls['grossIncome'].errors.required">* Required.</span>
+                    </span>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div *ngIf="wayOfApplying === 2">
+              <h2 class="mt-4">{{getSubTitle(2)}}</h2>
+              <form class="credit-form employment-form" [formGroup]="employmentFormCo" appFocusFirstInvalidField>
+                <div class="row pt-3">
+                  <div class="form-group col-md-6">
+                    <label for="employerName">Present Employer Name*</label>
+                    <input type="text" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="employerName"
+                      appNoWhitespace/>
+                    <span *ngIf="employmentFormCo?.controls['employerName'].touched && !employmentFormCo?.controls['employerName'].valid"
+                      class="validate-message">
+                      <span *ngIf="employmentFormCo?.controls['employerName'].errors.required">* The Name is Required.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="employerAddress">Employer Address*</label>
+                    <input type="text" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="employerAddress"
+                      appNoWhitespace/>
+                    <span *ngIf="employmentFormCo?.controls['employerAddress'].touched && !employmentFormCo?.controls['employerAddress'].valid"
+                      class="validate-message">
+                      <span *ngIf="employmentFormCo?.controls['employerAddress'].errors.required">* The Address is Required.</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                <div class="form-group col-md-6">
+                    <label for="employer_phone">Employer Phone*</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">+1</span>
+                      </div>
+                      <input type="text" class="form-control" aria-describedby="employerPhoneHelp" pattern="^\d{3}[- ]?\d{3}[- ]?\d{4}$"
+                      placeholder="" formControlName="employerPhone"
+                      appNoSpace appPhoneNumber/>
+                    </div>
+                    <span *ngIf="employmentFormCo?.controls['employerPhone'].touched && !employmentFormCo?.controls['employerPhone'].valid"
+                      class="validate-message">
+                      <span *ngIf="employmentFormCo.controls['employerPhone'].hasError('required')">* The phone number is required.</span>
+                      <span *ngIf="employmentFormCo.controls['employerPhone'].hasError('pattern')">* The phone number is invalid.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="apr">Gross Monthly Income*</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input 
+                        currencyMask
+                        class="form-control"
+                        min="0"
+                        formControlName="grossIncome"
+                        [options]="{
+                          align: 'left',
+                          prefix: '',
+                          thousands: ',',
+                          precision: 0
+                        }"
+                        appNoSpace
+                      >
+                    </div>
+                    <span *ngIf="employmentFormCo?.controls['grossIncome'].touched && !employmentFormCo?.controls['grossIncome'].valid"
+                      class="validate-message">
+                      <span *ngIf="employmentFormCo?.controls['grossIncome'].errors.required">* Required.</span>
+                    </span>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="credit-app-block__inner" *ngIf="isPage('identification')">
+            <div *ngIf="wayOfApplying === 1 || wayOfApplying === 2">
+              <h2 class="mt-4">{{getSubTitle('primary')}}</h2>
+              <form class="credit-form identification-form" [formGroup]="identificationFormPrimary" appFocusFirstInvalidField>
+                <div class="row pt-3">
+                  <div class="form-group col-md-6">
+                    <label for="securityNumber">Social Security Number*</label>
+                    <input type="password" class="form-control" aria-describedby="cityHelp" required
+                    placeholder="" formControlName="securityNumber"
+                    pattern="[0-9]*" inputmode="numeric" minlength="9" maxlength="9" appDigitOnly
+                    appNoWhitespace appShowPassword/>
+                    <span *ngIf="identificationFormPrimary?.controls['securityNumber'].touched && !identificationFormPrimary?.controls['securityNumber'].valid"
+                       class="validate-message">
+                      <span *ngIf="identificationFormPrimary?.controls['securityNumber'].errors.required">* The Security Number is Required.</span>
+                      <span *ngIf="identificationFormPrimary?.controls['securityNumber'].errors.minlength">* The Security Number must be 9 digits.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="confirmSecurityNumber">Confirm Social Security Number*</label>
+                    <input type="password" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="confirmSecurityNumber"
+                      inputmode="numeric" minlength="9" maxlength="9" appDigitOnly
+                      appNoWhitespace appShowPassword/>
+                    <span *ngIf="identificationFormPrimary?.controls['confirmSecurityNumber'].touched && !identificationFormPrimary?.controls['confirmSecurityNumber'].valid"
+                      class="validate-message">
+                      <span *ngIf="identificationFormPrimary?.controls['confirmSecurityNumber'].errors.required">* The Confirm Number is Required.</span>
+                      <span *ngIf="identificationFormPrimary?.controls['confirmSecurityNumber'].errors.equalTo">* The Confirm Number does not match.</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="form-group col-md-6">
+                    <label>Driver’s License State</label>
+                    <ng-select
+                      [items]="stateList"
+                      placeholder="Select"
+                      [searchable]="false"
+                      bindLabel="label"
+                      bindValue="id"
+                      (change)="onChangeDriverLicenseState($event, 'primary')"
+                      formControlName="driverLicenseState"
+                    >
+                    </ng-select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="driverLicenseNumber">Driver’s License Number*</label>
+                    <input type="text" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="driverLicenseNumber"
+                      appNoWhitespace/>
+                    <span *ngIf="identificationFormPrimary?.controls['driverLicenseNumber'].touched && !identificationFormPrimary?.controls['driverLicenseNumber'].valid"
+                      class="validate-message">
+                      <span *ngIf="identificationFormPrimary?.controls['driverLicenseNumber'].errors.required">* The Number is Required.</span>
+                    </span>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div *ngIf="wayOfApplying === 2">
+              <h2 class="mt-4">{{getSubTitle(2)}}</h2>
+              <form class="credit-form identification-form" [formGroup]="identificationFormCo" appFocusFirstInvalidField>
+                <div class="row pt-3">
+                  <div class="form-group col-md-6">
+                    <label for="securityNumber">Social Security Number*</label>
+                    <input type="password" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="securityNumber"
+                      pattern="[0-9]*" inputmode="numeric" minlength="9" maxlength="9" appDigitOnly
+                      appNoWhitespace appShowPassword/>
+                    <span *ngIf="identificationFormCo?.controls['securityNumber'].touched && !identificationFormCo?.controls['securityNumber'].valid"
+                       class="validate-message">
+                      <span *ngIf="identificationFormCo?.controls['securityNumber'].errors.required">* The Security Number is Required.</span>
+                      <span *ngIf="identificationFormCo?.controls['securityNumber'].errors.minlength">* The Security Number must be 9 digits.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="confirmSecurityNumber">Confirm Social Security Number*</label>
+                    <input type="password" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="confirmSecurityNumber"
+                      inputmode="numeric" minlength="9" maxlength="9" appDigitOnly
+                      appNoWhitespace appShowPassword/>
+                    <span *ngIf="identificationFormCo?.controls['confirmSecurityNumber'].touched && !identificationFormCo?.controls['confirmSecurityNumber'].valid"
+                      class="validate-message">
+                      <span *ngIf="identificationFormCo?.controls['confirmSecurityNumber'].errors.required">* The Confirm Number is Required.</span>
+                      <span *ngIf="identificationFormCo?.controls['confirmSecurityNumber'].errors.equalTo">* The Confirm Number does not match.</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="form-group col-md-6">
+                    <label>Driver’s License State</label>
+                    <ng-select
+                      [items]="stateList"
+                      placeholder="Select"
+                      [searchable]="false"
+                      bindLabel="label"
+                      bindValue="id"
+                      (change)="onChangeDriverLicenseState($event, 'co')"
+                      formControlName="driverLicenseState"
+                    >
+                    </ng-select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="driverLicenseNumber">Driver’s License Number*</label>
+                    <input type="text" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="driverLicenseNumber"
+                      appNoWhitespace/>
+                    <span *ngIf="identificationFormCo?.controls['driverLicenseNumber'].touched && !identificationFormCo?.controls['driverLicenseNumber'].valid"
+                      class="validate-message">
+                      <span *ngIf="identificationFormCo?.controls['driverLicenseNumber'].errors.required">* The Number is Required.</span>
+                    </span>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="credit-app-block__inner" *ngIf="isPage('review')">
+            <div *ngIf="wayOfApplying === 1 || wayOfApplying === 2">
+              <h2 class="mt-4">{{getSubTitle('primary')}}</h2>
+              <form class="credit-form personal-form" [formGroup]="personalFormPrimary" appFocusFirstInvalidField>
+                <div class="row pt-3">
+                  <div class="form-group col-md-4">
+                    <label for="firstName">First Name*</label>
+                    <input type="text" class="form-control" aria-describedby="firstNameHelp"
+                      placeholder="" formControlName="firstName"
+                      appNoWhitespace appNoSepcialchar/>
+                    <span *ngIf="personalFormPrimary?.controls['firstName'].touched && !personalFormPrimary?.controls['firstName'].valid"
+                      class="validate-message">
+                      <span *ngIf="personalFormPrimary.controls['firstName'].errors.required">* The First Name is required.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label for="mi">MI</label>
+                    <input type="text" class="form-control" aria-describedby="miHelp"
+                      placeholder="" formControlName="mi"/>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="lastName">Last Name*</label>
+                    <input type="text" class="form-control" aria-describedby="lastNameHelp"
+                      placeholder="" formControlName="lastName"
+                      appNoWhitespace appNoSepcialchar/>
+                    <span *ngIf="personalFormPrimary?.controls['lastName'].touched && !personalFormPrimary?.controls['lastName'].valid"
+                      class="validate-message">
+                      <span *ngIf="personalFormPrimary.controls['lastName'].errors.required">* The Last Name is required.</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="form-group col-md-4">
+                    <label for="phoneNumber">Phone Number*</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">+1</span>
+                      </div>
+                      <input type="text" class="form-control" aria-describedby="phoneNumberHelp" pattern="^\d{3}[- ]?\d{3}[- ]?\d{4}$"
+                      placeholder="" formControlName="phoneNumber"
+                      appNoSpace appPhoneNumber/>
+                    </div>
+                    <span *ngIf="personalFormPrimary?.controls['phoneNumber'].touched && !personalFormPrimary?.controls['phoneNumber'].valid"
+                      class="validate-message">
+                      <span *ngIf="personalFormPrimary.controls['phoneNumber'].hasError('required')">* The phone number is required.</span>
+                      <span *ngIf="personalFormPrimary.controls['phoneNumber'].hasError('pattern')">* The phone number is invalid.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-8">
+                    <label for="emailAddress">Email Address*</label>
+                    <input type="email" class="form-control" aria-describedby="emailAddressHelp"
+                      placeholder="" formControlName="emailAddress" pattern="[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,64}"
+                      appNoWhitespace/>
+                    <span *ngIf="personalFormPrimary?.controls['emailAddress'].touched && !personalFormPrimary?.controls['emailAddress'].valid"
+                      class="validate-message">
+                      <span *ngIf="personalFormPrimary.controls['emailAddress'].hasError('required')">* The Email Address is required.</span>
+                      <span *ngIf="personalFormPrimary.controls['emailAddress'].hasError('pattern')">* The Email Address is invalid.</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="form-group col-md-12">
+                    <label for="dateOfBirth">Date of Birth*</label>
+                    <input type="text" class="form-control" aria-describedby="dateOfBirthHelp"
+                      placeholder=""
+                      bsDatepicker
+                      [bsConfig]="dateOfBirthConfig"
+                      formControlName="dateOfBirth"
+                      appNoWhitespace
+                      readonly
+                      required/>
+                    <span *ngIf="personalFormPrimary?.controls['dateOfBirth'].touched && !personalFormPrimary?.controls['dateOfBirth'].valid"
+                      class="validate-message">
+                      <span *ngIf="personalFormPrimary.controls['dateOfBirth'].errors.required">* The Date Of Birth is required.</span>
+                    </span>
+                  </div>
+                </div>
+              </form>
+              <form class="credit-form residence-form" [formGroup]="residenceFormPrimary" appFocusFirstInvalidField>
+                <div class="row pt-3">
+                  <div class="form-group col-md-6">
+                    <label>Residence Type*</label>
+                    <ng-select
+                      [items]="residenceTypeList"
+                      placeholder="Select"
+                      [searchable]="false"
+                      bindLabel="label"
+                      bindValue="id"
+                      formControlName="residenceType"
+                      (change)="onChangeResidenceType($event, 'primary')"
+                      required
+                    >
+                    </ng-select>
+                    <span *ngIf="residenceFormPrimary?.controls['residenceType'].touched && !residenceFormPrimary?.controls['residenceType'].valid"
+                      class="validate-message">
+                      <span *ngIf="residenceFormPrimary?.controls['residenceType'].errors.required">* The Residence Type is required.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="apr">Monthly Rent/Mortgage*</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input
+                        currencyMask 
+                        class="form-control"
+                        min="0"
+                        [options]="{
+                          align: 'left',
+                          prefix: '',
+                          thousands: ',',
+                          precision: 0
+                        }"
+                        formControlName="mortage"
+                        appNoSpace
+                      >
+                    </div>
+                    <span *ngIf="residenceFormPrimary?.controls['mortage'].touched && !residenceFormPrimary?.controls['mortage'].valid"
+                      class="validate-message">
+                      <span *ngIf="residenceFormPrimary?.controls['mortage'].errors.required">* Required.</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="form-group col-md-7">
+                    <label for="streetAddress">Current Street Address</label>
+                    <input type="text" class="form-control" aria-describedby="streetAddressHelp"
+                      placeholder="" formControlName="streetAddress"
+                      appNoWhitespace/>
+                  </div>
+                  <div class="form-group col-md-5">
+                    <label for="Apt">Apt/suite/other</label>
+                    <input type="text" class="form-control" aria-describedby="AptHelp"
+                      placeholder="" formControlName="apt"
+                      appNoWhitespace/>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="form-group col-md-5">
+                    <label for="city">City*</label>
+                    <input type="text" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="city"
+                      appNoWhitespace/>
+                    <span *ngIf="residenceFormPrimary?.controls['city'].touched && !residenceFormPrimary?.controls['city'].valid"
+                      class="validate-message">
+                      <span *ngIf="residenceFormPrimary?.controls['city'].errors.required">* The City is required.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-5">
+                    <label>State*</label>
+                    <ng-select
+                      [items]="stateList"
+                      placeholder="Select"
+                      [searchable]="false"
+                      bindLabel="label"
+                      bindValue="id"
+                      formControlName="state"
+                      (change)="onChangeResidenceState($event, 'primary')"
+                      required
+                    >
+                    </ng-select>
+                    <span *ngIf="residenceFormPrimary?.controls['state'].touched && !residenceFormPrimary?.controls['state'].valid"
+                      class="validate-message">
+                      <span *ngIf="residenceFormPrimary?.controls['state'].errors.required">* The State is required.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label for="zipCode">Zip Code*</label>
+                    <input type="text" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="zipCode" pattern="[0-9]{5}" 
+                      appNoWhitespace/>
+                    <span *ngIf="residenceFormPrimary?.controls['zipCode'].touched && !residenceFormPrimary?.controls['zipCode'].valid"
+                      class="validate-message">
+                      <span *ngIf="residenceFormPrimary?.controls['zipCode'].hasError('required')">* Required.</span>
+                      <span *ngIf="residenceFormPrimary?.controls['zipCode'].hasError('pattern')">* Invalid.</span>
+                    </span>
+                  </div>
+                </div>
+              </form>
+              <form class="credit-form employment-form" [formGroup]="employmentFormPrimary" appFocusFirstInvalidField>
+                <div class="row pt-3">
+                  <div class="form-group col-md-6">
+                    <label for="employerName">Present Employer Name*</label>
+                    <input type="text" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="employerName"
+                      appNoWhitespace/>
+                    <span *ngIf="employmentFormPrimary?.controls['employerName'].touched && !employmentFormPrimary?.controls['employerName'].valid"
+                      class="validate-message">
+                      <span *ngIf="employmentFormPrimary?.controls['employerName'].errors.required">* The Name is Required.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="employerAddress">Employer Address*</label>
+                    <input type="text" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="employerAddress"
+                      appNoWhitespace/>
+                    <span *ngIf="employmentFormPrimary?.controls['employerAddress'].touched && !employmentFormPrimary?.controls['employerAddress'].valid"
+                      class="validate-message">
+                      <span *ngIf="employmentFormPrimary?.controls['employerAddress'].errors.required">* The Address is Required.</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="form-group col-md-6">
+                    <label for="employer_phone">Employer Phone*</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">+1</span>
+                      </div>
+                      <input type="text" class="form-control" aria-describedby="employerPhoneHelp" pattern="^\d{3}[- ]?\d{3}[- ]?\d{4}$"
+                      placeholder="" formControlName="employerPhone"
+                      appNoSpace appPhoneNumber/>
+                    </div>
+                    <span *ngIf="employmentFormPrimary?.controls['employerPhone'].touched && !employmentFormPrimary?.controls['employerPhone'].valid"
+                      class="validate-message">
+                      <span *ngIf="employmentFormPrimary.controls['employerPhone'].hasError('required')">* The phone number is required.</span>
+                      <span *ngIf="employmentFormPrimary.controls['employerPhone'].hasError('pattern')">* The phone number is invalid.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="apr">Gross Monthly Income*</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input 
+                        currencyMask
+                        class="form-control"
+                        min="0"
+                        formControlName="grossIncome"
+                        [options]="{
+                          align: 'left',
+                          prefix: '',
+                          thousands: ',',
+                          precision: 0
+                        }"
+                        appNoSpace
+                      >
+                    </div>
+                    <span *ngIf="employmentFormPrimary?.controls['grossIncome'].touched && !employmentFormPrimary?.controls['grossIncome'].valid"
+                      class="validate-message">
+                      <span *ngIf="employmentFormPrimary?.controls['grossIncome'].errors.required">* Required.</span>
+                    </span>
+                  </div>
+                </div>
+              </form>
+              <form class="credit-form identification-form" [formGroup]="identificationFormPrimary" appFocusFirstInvalidField>
+                <div class="row pt-3">
+                  <div class="form-group col-md-6">
+                    <label for="securityNumber">Social Security Number*</label>
+                    <input type="password" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="securityNumber"
+                      pattern="[0-9]*" inputmode="numeric" minlength="9" maxlength="9" appDigitOnly
+                      appNoWhitespace appShowPassword/>
+                    <span *ngIf="identificationFormPrimary?.controls['securityNumber'].touched && !identificationFormPrimary?.controls['securityNumber'].valid"
+                       class="validate-message">
+                      <span *ngIf="identificationFormPrimary?.controls['securityNumber'].errors.required">* The Security Number is Required.</span>
+                      <span *ngIf="identificationFormPrimary?.controls['securityNumber'].errors.minlength">* The Security Number must be 9 digits.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="confirmSecurityNumber">Confirm Social Security Number*</label>
+                    <input type="password" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="confirmSecurityNumber"
+                      inputmode="numeric" minlength="9" maxlength="9" appDigitOnly
+                      appNoWhitespace appShowPassword/>
+                    <span *ngIf="identificationFormPrimary?.controls['confirmSecurityNumber'].touched && !identificationFormPrimary?.controls['confirmSecurityNumber'].valid"
+                      class="validate-message">
+                      <span *ngIf="identificationFormPrimary?.controls['confirmSecurityNumber'].errors.required">* The Confirm Number is Required.</span>
+                      <span *ngIf="identificationFormPrimary?.controls['confirmSecurityNumber'].errors.equalTo">* The Confirm Number does not match.</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="form-group col-md-6">
+                    <label>Driver’s License State</label>
+                    <ng-select
+                      [items]="stateList"
+                      placeholder="Select"
+                      [searchable]="false"
+                      bindLabel="label"
+                      bindValue="id"
+                      (change)="onChangeDriverLicenseState($event, 'primary')"
+                      formControlName="driverLicenseState"
+                    >
+                    </ng-select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="driverLicenseNumber">Driver’s License Number*</label>
+                    <input type="text" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="driverLicenseNumber"
+                      appNoWhitespace/>
+                    <span *ngIf="identificationFormPrimary?.controls['driverLicenseNumber'].touched && !identificationFormPrimary?.controls['driverLicenseNumber'].valid"
+                      class="validate-message">
+                      <span *ngIf="identificationFormPrimary?.controls['driverLicenseNumber'].errors.required">* The Number is Required.</span>
+                    </span>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div *ngIf="wayOfApplying === 2">
+              <h2 class="mt-4">{{getSubTitle(2)}}</h2>
+              <form class="credit-form personal-form" [formGroup]="personalFormCo" appFocusFirstInvalidField>
+                <div class="row pt-3">
+                  <div class="form-group col-md-4">
+                    <label for="firstName">First Name*</label>
+                    <input type="text" class="form-control" aria-describedby="firstNameHelp"
+                      placeholder="" formControlName="firstName"
+                      appNoWhitespace appNoSepcialchar/>
+                    <span *ngIf="personalFormCo?.controls['firstName'].touched && !personalFormCo?.controls['firstName'].valid"
+                      class="validate-message">
+                      <span *ngIf="personalFormCo.controls['firstName'].errors.required">* The First Name is required.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label for="mi">MI</label>
+                    <input type="text" class="form-control" aria-describedby="miHelp"
+                      placeholder="" formControlName="mi"/>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="lastName">Last Name*</label>
+                    <input type="text" class="form-control" aria-describedby="lastNameHelp"
+                      placeholder="" formControlName="lastName"
+                      appNoWhitespace appNoSepcialchar/>
+                    <span *ngIf="personalFormCo?.controls['lastName'].touched && !personalFormCo?.controls['lastName'].valid"
+                      class="validate-message">
+                      <span *ngIf="personalFormCo.controls['lastName'].errors.required">* The Last Name is required.</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="form-group col-md-4">
+                    <label for="phoneNumber">Phone Number*</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">+1</span>
+                      </div>
+                      <input type="text" class="form-control" aria-describedby="phoneNumberHelp" pattern="^\d{3}[- ]?\d{3}[- ]?\d{4}$"
+                      placeholder="" formControlName="phoneNumber"
+                      appNoSpace appPhoneNumber/>
+                    </div>
+                    <span *ngIf="personalFormCo?.controls['phoneNumber'].touched && !personalFormCo?.controls['phoneNumber'].valid"
+                      class="validate-message">
+                      <span *ngIf="personalFormCo.controls['phoneNumber'].hasError('required')">* The phone number is required.</span>
+                      <span *ngIf="personalFormCo.controls['phoneNumber'].hasError('pattern')">* The phone number is invalid.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-8">
+                    <label for="emailAddress">Email Address*</label>
+                    <input type="email" class="form-control" aria-describedby="emailAddressHelp"
+                      placeholder="" formControlName="emailAddress" pattern="[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,64}"
+                      appNoWhitespace/>
+                    <span *ngIf="personalFormCo?.controls['emailAddress'].touched && !personalFormCo?.controls['emailAddress'].valid"
+                      class="validate-message">
+                      <span *ngIf="personalFormCo.controls['emailAddress'].hasError('required')">* The Email Address is required.</span>
+                      <span *ngIf="personalFormCo.controls['emailAddress'].hasError('pattern')">* The Email Address is invalid.</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="form-group col-md-12">
+                    <label for="dateOfBirth">Date of Birth*</label>
+                    <input type="text" class="form-control" aria-describedby="dateOfBirthHelp"
+                      placeholder=""
+                      bsDatepicker
+                      [bsConfig]="dateOfBirthConfig"
+                      formControlName="dateOfBirth"
+                      appNoWhitespace
+                      readonly
+                      required/>
+                    <span *ngIf="personalFormCo?.controls['dateOfBirth'].touched && !personalFormCo?.controls['dateOfBirth'].valid"
+                      class="validate-message">
+                      <span *ngIf="personalFormCo.controls['dateOfBirth'].errors.required">* The Date Of Birth is required.</span>
+                    </span>
+                  </div>
+                </div>
+              </form>
+              <form class="credit-form residence-form" [formGroup]="residenceFormCo" appFocusFirstInvalidField>
+                <div class="row pt-3">
+                  <div class="form-group col-md-6">
+                    <label>Residence Type*</label>
+                    <ng-select
+                      [items]="residenceTypeList"
+                      placeholder="Select"
+                      [searchable]="false"
+                      bindLabel="label"
+                      bindValue="id"
+                      formControlName="residenceType"
+                      (change)="onChangeResidenceType($event, 'co')"
+                      required
+                    >
+                    </ng-select>
+                    <span *ngIf="residenceFormCo?.controls['residenceType'].touched && !residenceFormCo?.controls['residenceType'].valid"
+                      class="validate-message">
+                      <span *ngIf="residenceFormCo?.controls['residenceType'].errors.required">* The Residence Type is required.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="apr">Monthly Rent/Mortgage*</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input 
+                        currencyMask
+                        class="form-control"
+                        min="0"
+                        [options]="{
+                          align: 'left',
+                          prefix: '',
+                          thousands: ',',
+                          precision: 0
+                        }"
+                        formControlName="mortage"
+                        appNoSpace
+                      >
+                    </div>
+                    <span *ngIf="residenceFormCo?.controls['mortage'].touched && !residenceFormCo?.controls['mortage'].valid"
+                      class="validate-message">
+                      <span *ngIf="residenceFormCo?.controls['mortage'].errors.required">* Required.</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="form-group col-md-7">
+                    <label for="streetAddress">Current Street Address</label>
+                    <input type="text" class="form-control" aria-describedby="streetAddressHelp"
+                      placeholder="" formControlName="streetAddress"
+                      appNoWhitespace/>
+                  </div>
+                  <div class="form-group col-md-5">
+                    <label for="Apt">Apt/suite/other</label>
+                    <input type="text" class="form-control" aria-describedby="AptHelp"
+                      placeholder="" formControlName="apt"
+                      appNoWhitespace/>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="form-group col-md-5">
+                    <label for="city">City*</label>
+                    <input type="text" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="city"
+                      appNoWhitespace/>
+                    <span *ngIf="residenceFormCo?.controls['city'].touched && !residenceFormCo?.controls['city'].valid"
+                      class="validate-message">
+                      <span *ngIf="residenceFormCo?.controls['city'].errors.required">* The City is required.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-5">
+                    <label>State*</label>
+                    <ng-select
+                      [items]="stateList"
+                      placeholder="Select"
+                      [searchable]="false"
+                      bindLabel="label"
+                      bindValue="id"
+                      formControlName="state"
+                      (change)="onChangeResidenceState($event, 'co')"
+                      required
+                    >
+                    </ng-select>
+                    <span *ngIf="residenceFormCo?.controls['state'].touched && !residenceFormCo?.controls['state'].valid"
+                      class="validate-message">
+                      <span *ngIf="residenceFormCo?.controls['state'].errors.required">* The State is required.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label for="zipCode">Zip Code*</label>
+                    <input type="text" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="zipCode" pattern="[0-9]{5}" 
+                      appNoWhitespace/>
+                    <span *ngIf="residenceFormCo?.controls['zipCode'].touched && !residenceFormCo?.controls['zipCode'].valid"
+                      class="validate-message">
+                      <span *ngIf="residenceFormCo?.controls['zipCode'].hasError('pattern')">* Invalid.</span>
+                      <span *ngIf="residenceFormCo?.controls['zipCode'].errors.required">* Required.</span>
+                    </span>
+                  </div>
+                </div>
+              </form>
+              <form class="credit-form employment-form" [formGroup]="employmentFormCo" appFocusFirstInvalidField>
+                <div class="row pt-3">
+                  <div class="form-group col-md-6">
+                    <label for="employerName">Present Employer Name*</label>
+                    <input type="text" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="employerName"
+                      appNoWhitespace/>
+                    <span *ngIf="employmentFormCo?.controls['employerName'].touched && !employmentFormCo?.controls['employerName'].valid"
+                      class="validate-message">
+                      <span *ngIf="employmentFormCo?.controls['employerName'].errors.required">* The Name is Required.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="employerAddress">Employer Address*</label>
+                    <input type="text" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="employerAddress"
+                      appNoWhitespace/>
+                    <span *ngIf="employmentFormCo?.controls['employerAddress'].touched && !employmentFormCo?.controls['employerAddress'].valid"
+                      class="validate-message">
+                      <span *ngIf="employmentFormCo?.controls['employerAddress'].errors.required">* The Address is Required.</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                <div class="form-group col-md-6">
+                    <label for="employer_phone">Employer Phone*</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">+1</span>
+                      </div>
+                      <input type="text" class="form-control" aria-describedby="employerPhoneHelp" pattern="^\d{3}[- ]?\d{3}[- ]?\d{4}$"
+                      placeholder="" formControlName="employerPhone"
+                      appNoSpace appPhoneNumber/>
+                    </div>
+                    <span *ngIf="employmentFormCo?.controls['employerPhone'].touched && !employmentFormCo?.controls['employerPhone'].valid"
+                      class="validate-message">
+                      <span *ngIf="employmentFormCo.controls['employerPhone'].hasError('required')">* The phone number is required.</span>
+                      <span *ngIf="employmentFormCo.controls['employerPhone'].hasError('pattern')">* The phone number is invalid.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="apr">Gross Monthly Income*</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input 
+                        currencyMask
+                        class="form-control"
+                        min="0"
+                        formControlName="grossIncome"
+                        [options]="{
+                          align: 'left',
+                          prefix: '',
+                          thousands: ',',
+                          precision: 0
+                        }"
+                        appNoSpace
+                      >
+                    </div>
+                    <span *ngIf="employmentFormCo?.controls['grossIncome'].touched && !employmentFormCo?.controls['grossIncome'].valid"
+                      class="validate-message">
+                      <span *ngIf="employmentFormCo?.controls['grossIncome'].errors.required">* Required.</span>
+                    </span>
+                  </div>
+                </div>
+              </form>
+              <form class="credit-form identification-form" [formGroup]="identificationFormCo" appFocusFirstInvalidField>
+                <div class="row pt-3">
+                  <div class="form-group col-md-6">
+                    <label for="securityNumber">Social Security Number*</label>
+                    <input type="password" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="securityNumber"
+                      pattern="[0-9]*" inputmode="numeric" minlength="9" maxlength="9" appDigitOnly
+                      appNoWhitespace appShowPassword/>
+                    <span *ngIf="identificationFormCo?.controls['securityNumber'].touched && !identificationFormCo?.controls['securityNumber'].valid"
+                       class="validate-message">
+                      <span *ngIf="identificationFormCo?.controls['securityNumber'].errors.required">* The Security Number is Required.</span>
+                      <span *ngIf="identificationFormCo?.controls['securityNumber'].errors.minlength">* The Security Number must be 9 digits.</span>
+                    </span>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="confirmSecurityNumber">Confirm Social Security Number*</label>
+                    <input type="password" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="confirmSecurityNumber"
+                      inputmode="numeric" minlength="9" maxlength="9" appDigitOnly
+                      appNoWhitespace appShowPassword/>
+                    <span *ngIf="identificationFormCo?.controls['confirmSecurityNumber'].touched && !identificationFormCo?.controls['confirmSecurityNumber'].valid"
+                      class="validate-message">
+                      <span *ngIf="identificationFormCo?.controls['confirmSecurityNumber'].errors.required">* The Confirm Number is Required.</span>
+                      <span *ngIf="identificationFormCo?.controls['confirmSecurityNumber'].errors.equalTo">* The Confirm Number does not match.</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="form-group col-md-6">
+                    <label>Driver’s License State</label>
+                    <ng-select
+                      [items]="stateList"
+                      placeholder="Select"
+                      [searchable]="false"
+                      bindLabel="label"
+                      bindValue="id"
+                      (change)="onChangeDriverLicenseState($event, 'co')"
+                      formControlName="driverLicenseState"
+                    >
+                    </ng-select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="driverLicenseNumber">Driver’s License Number*</label>
+                    <input type="text" class="form-control" aria-describedby="cityHelp"
+                      placeholder="" formControlName="driverLicenseNumber"
+                      appNoWhitespace/>
+                    <span *ngIf="identificationFormCo?.controls['driverLicenseNumber'].touched && !identificationFormCo?.controls['driverLicenseNumber'].valid"
+                      class="validate-message">
+                      <span *ngIf="identificationFormCo?.controls['driverLicenseNumber'].errors.required">* The Number is Required.</span>
+                    </span>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #requestConfirmationModal let-modal let-c="close" let-d="dismiss">
+  <div class="modal-content cb-model">
+
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <h4 class="modal-title promo-head-text">Agreement & Disclosure</h4>
+      <a class="close" data-dismiss="modal" (click)="onDismissConfirmModal()"
+        ><img
+          src="../../../assets/img/ic-close.png"
+          class="ic_close"
+      /></a>
+    </div>
+
+    <!-- Modal body -->
+    <div class="modal-body">
+      <div class="text-center">
+        <span>I, the undersigned (1) make the previous representations, which are certified correct, for the purpose of securing credit; (2) authorize financial institutions to obtain consumer credit reports on me periodically and to gather employment history as they consider necessary and appropriate; (3) authorize your affiliates to obtain consumer credit reports on me, I authorize the dealer and any assignee or other person to whom this application is submitted to share and use information about me, including information in my application, with other entities that are related to them by common ownership or affiliated by common control. (4) Understands that we or any financial institution to whom it is submitted will retain this application whether or not it is approved, and that it is the applicant’s responsibility to notify the creditor of any change of name, address or employment.</span>
+        <div class="flex-shrink-0 d-md-block mt-5">
+          <button class="btn btn-default navigation-btn" (click)="confirmSubmit()"><span class="label">I AGREE</span><span class="image-container"><img src="assets/img/icon/ic-select.svg"></span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

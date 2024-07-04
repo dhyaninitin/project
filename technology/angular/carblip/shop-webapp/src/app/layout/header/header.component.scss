@@ -1,0 +1,233 @@
+@import '../../../styles/shared/_shared';
+
+.menu-bgr {
+  backface-visibility: hidden;
+  transition: background-color 0.25s ease-in-out;
+  box-shadow: 0 2px 4px 0 rgba(150, 162, 189, 0.2);
+  color: #303a4b;
+  position: fixed;
+  z-index: 100;
+  background-color: #fff;
+  top: 0px;
+  .navbar__content {
+    transition: all 0.25s ease-in-out;
+  }
+  .navbar {
+    padding: 0px;
+
+    .navbar-brand {
+      img {
+        width: 200px;
+      }
+    }
+    .back-icon {
+      cursor: pointer;
+      position: absolute;
+      left: 10px;
+      display: none;
+    }
+
+    &__content {
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-nav {
+      li {
+        position: relative;
+        cursor: pointer;
+        a {
+          font-family: 'Nunito Sans', sans-serif;
+          transition: all 0.25s ease-in-out;
+          font-size: rem(16);
+          font-weight: normal;
+          font-style: normal;
+          font-stretch: normal;
+          line-height: normal;
+          letter-spacing: normal;
+          span {
+            img {
+              padding-right: 10px;
+            }
+          }
+        }
+
+        &.active > .nav-link {
+          font-weight: 600;
+          color: #f59300;
+
+          &:after {
+            content: ' ';
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            background: #f59300;
+          }
+        }
+      }
+    }
+  }
+
+  .mobile-title {
+    font-size: rem(18);
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 45px;
+    letter-spacing: normal;
+    text-align: center;
+    color: rgb(48, 58, 75);
+  }
+}
+
+.menu-bgr.sticky {
+  opacity: 0.95;
+  .navbar {
+    .navbar-nav {
+      li {
+        a {
+          &:hover {
+            color: #f59300;
+          }
+        }
+      }
+    }
+  }
+}
+
+.mobil-menu-items .navbar-toggler {
+  right: 10px;
+}
+
+@media (min-width: 992px) {
+  .menu-bgr {
+    .navbar {
+      .navbar-nav li a span img {
+        display: none;
+      }
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .menu-bgr {
+    .navbar {
+      justify-content: center;
+
+      .navbar-nav {
+        li {
+          a {
+            margin-left: 10px;
+            span {
+              display: inline-block;
+              width: 57px;
+              text-align: center;
+              margin-right: 10px;
+            }
+          }
+        }
+      }
+    }
+
+    ul.navbar-nav {
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
+
+    .copy-right-text {
+      display: block !important;
+    }
+
+    .navbar-nav {
+      border-top: 1px solid rgba(150, 162, 189, 0.2);
+      border-bottom: 1px solid rgba(150, 162, 189, 0.2);
+    }
+
+    .navbar__content {
+      padding: 12px 0px;
+    }
+  }
+
+  .menu-bgr.sticky {
+    .navbar__content {
+      padding: 4px 0px;
+    }
+  }
+  .navbar-collapse {
+    overflow: hidden;
+    max-height: 0;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-timing-function: cubic-bezier(0.5, 1, 0.5, 1);
+    &.show {
+      max-height: 650px;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .menu-bgr {
+    .navbar-nav {
+      .navbar-nav li a span img {
+        padding-right: 17px;
+        display: inline-block;
+      }
+    }
+  }
+
+  .menu-bgr.sticky {
+    .navbar__content {
+      padding: 0px;
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  .menu-bgr {
+    padding: 0px;
+
+    .navbar__content {
+      padding: 0px;
+    }
+
+    nav {
+      padding: 18px 0 13px 0;
+    }
+
+    .navbar__content {
+      height: 63px;
+    }
+
+    .back-icon {
+      display: block !important;
+    }
+  }
+
+  .mobile-hide {
+    display: none !important;
+  }
+
+  .navbar-toggler span.navbar-icon {
+    width: 18px;
+    margin: 4.5px auto;
+    height: 2px;
+  }
+
+  .navbar-toggler:not(.collapsed) ~ .navbar-brand {
+    display: block !important;
+  }
+
+  .navbar-toggler:not(.collapsed) ~ .mobile-title {
+    display: none !important;
+  }
+
+  .navbar-toggler:not(.collapsed) ~ .back-icon {
+    display: none !important;
+  }
+
+  .navbar-brand img {
+    width: 150px !important;
+  }
+}

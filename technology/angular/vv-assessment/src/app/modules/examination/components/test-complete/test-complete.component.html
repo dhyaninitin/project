@@ -1,0 +1,35 @@
+<div style="height: 100%;">
+  <div class="message-container" style=" box-shadow: 0px 0px 3px 3px #f0a400 !important;">
+    <h1>You are all set!</h1>
+    <p>Congratulations! You have successfully completed the test.</p>
+  </div>
+
+  <div class="message-container" *ngIf="feedbackSubmitted" style="box-shadow: 0px 0px 3px 3px #f0a400 !important;">
+    <h1>Feedback Submitted</h1>
+    <p>Thanks for submitting the feedback.</p>
+  </div>
+
+  <div class="rating-container" style="text-align: center; margin-top: 3%;" *ngIf="!feedbackSubmitted">
+    <h2>Rate Your Experience</h2>
+    <p>Please rate your experience.</p>
+    <div class="rating-stars">
+      <input type="radio" id="star5" name="rating" value="5" [(ngModel)]="selectedRating">
+      <label for="star5">&#9733;</label>
+      <input type="radio" id="star4" name="rating" value="4" [(ngModel)]="selectedRating">
+      <label for="star4">&#9733;</label>
+      <input type="radio" id="star3" name="rating" value="3" [(ngModel)]="selectedRating">
+      <label for="star3">&#9733;</label>
+      <input type="radio" id="star2" name="rating" value="2" [(ngModel)]="selectedRating">
+      <label for="star2">&#9733;</label>
+      <input type="radio" id="star1" name="rating" value="1" [(ngModel)]="selectedRating">
+      <label for="star1">&#9733;</label>
+    </div>
+    <div style="margin-top: 1%;">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Comment</mat-label>
+        <input matInput [(ngModel)]="comment" maxlength="256" placeholder="Add some comments">
+      </mat-form-field>
+    </div>
+    <button class="custom-btn-style" type="submit" mat-stroked-button (click)="sendFeedback()">Submit Rating </button>
+  </div>
+</div>

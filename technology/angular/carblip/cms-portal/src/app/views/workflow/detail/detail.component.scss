@@ -1,0 +1,14 @@
+.h-100-vh {
+    height: 100vh;
+    overflow-x: auto;
+}
+
+
+.h-100-vh::-webkit-scrollbar {
+    width: 0px;
+    display: none;
+}
+
+.bg-foreground{
+    float: right;
+}

@@ -1,0 +1,19 @@
+<tr-page-header [showBackBtn]="false">
+  <div page-title class="title">
+    <h2>{{ ln.TXT_SETTINGS | translate }}</h2>
+  </div>
+</tr-page-header>
+<div class="row" [@fadeInOut]>
+  <tr-brief-newline-card
+    class="col-sm-3 dashboard-card"
+    [routerLink]="routerConfig.PERMISSION"
+  >
+    <i mc-card-logo class="icon-mc mc-grading"></i>
+    <p mc-card-title class="h-fnts">
+      {{ ln.TXT_PERMISSIONS | translate | titlecase }}
+    </p>
+    <p mc-card-subtitle class="p-fnts">
+      {{ ln.TXT_MANAGE_LEVEL_ACCESS | translate }}
+    </p>
+  </tr-brief-newline-card>
+</div>

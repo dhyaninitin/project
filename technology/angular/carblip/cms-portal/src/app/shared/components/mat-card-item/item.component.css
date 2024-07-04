@@ -1,0 +1,17 @@
+.mat-card-title.light{
+    background-color: #f3f3f3;
+}
+
+.mat-card-title.blue{
+    background-color: #2196f3 !important;
+}
+
+
+.mat-card.light{
+    color: rgba(0, 0, 0, .52) !important;
+}
+
+.mat-card.blue{
+    background-color: #9dd0fa !important;
+    color: rgba(255, 255, 255, .8) !important;
+}

@@ -1,0 +1,652 @@
+<section class="container-fluid px-0 py-3">
+  <div class="cb-container container">
+    <div class="row mx-0">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 px-0">
+        <tabset [justified]="true" class="calculator-wrapper">
+          <tab heading="Finance" (select)="onSelectTab('finance')">
+            <div class="tab-wrapper">
+              <div class="result-div popover-wrapper">
+                <span class="price">{{
+                  financePrice() | currency: 'USD':'symbol':'1.0'
+                }}</span>
+                <span class="desc">estimated monthly payment</span>
+                <div class="detail">
+                  <div class="detail__group">
+                    <span class="label"
+                      >Estimated Total Cost
+                      <img
+                        src="assets/img/ic-info.png"
+                        srcset="
+                          assets/img/ic-info@2x.png 2x,
+                          assets/img/ic-info@3x.png 3x
+                        "
+                        class="ic_info"
+                        popover="{{ calculatorInfo.estimatedTotalCost }}"
+                        popoverTitle="Estimated Total Cost"
+                        triggers="mouseenter:mouseleave"
+                        placement="bottom auto"
+                      /><i>(including taxes and interest)</i></span
+                    >
+                    <span class="value">{{
+                      financeTotalCost() | currency: 'USD':'symbol':'1.0'
+                    }}</span>
+                  </div>
+                  <div class="detail__group">
+                    <span class="label"
+                      >Interest
+                      <img
+                        src="assets/img/ic-info.png"
+                        srcset="
+                          assets/img/ic-info@2x.png 2x,
+                          assets/img/ic-info@3x.png 3x
+                        "
+                        class="ic_info"
+                        popover="{{ calculatorInfo.interest }}"
+                        popoverTitle="Interest"
+                        triggers="mouseenter:mouseleave"
+                        placement="bottom auto"
+                    /></span>
+                    <span class="value">{{
+                      financeInterest() | currency: 'USD':'symbol':'1.0'
+                    }}</span>
+                  </div>
+                  <div class="detail__group">
+                    <span class="label"
+                      >Tax
+                      <img
+                        src="assets/img/ic-info.png"
+                        srcset="
+                          assets/img/ic-info@2x.png 2x,
+                          assets/img/ic-info@3x.png 3x
+                        "
+                        class="ic_info"
+                        popover="{{ calculatorInfo.tax }}"
+                        popoverTitle="Tax"
+                        triggers="mouseenter:mouseleave"
+                        placement="bottom auto"
+                    /></span>
+                    <span class="value">{{
+                      financeTax() | currency: 'USD':'symbol':'1.0'
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="">
+                <div class="form-group slider-group popover-wrapper">
+                  <div class="slider-group__top">
+                    <label
+                      >Vehicle Price
+                      <img
+                        src="assets/img/ic-info.png"
+                        srcset="
+                          assets/img/ic-info@2x.png 2x,
+                          assets/img/ic-info@3x.png 3x
+                        "
+                        class="ic_info"
+                        popover="{{ calculatorInfo.financeVehiclePrice }}"
+                        popoverTitle="Vehicle Price"
+                        triggers="mouseenter:mouseleave"
+                        placement="bottom auto"
+                    /></label>
+                    <div class="detail">
+                      <span class="dolar">$</span
+                      >
+                      <input 
+                        currencyMask
+                        class="value-input"
+                        min="0"
+                        [(ngModel)]="userFinanceValues.vehiclePrice"
+                        [options]="{
+                          align: 'left',
+                          prefix: '',
+                          thousands: ',',
+                          precision: 0
+                        }"
+                        appNoSpace
+                        (blur)="onUserValueChange($event, 'finance', 'vehiclePrice')"
+                      >
+                    </div>
+                  </div>
+                  <ng5-slider
+                    class="custom-slider"
+                    [(value)]="financeModel.vehiclePrice"
+                    [options]="vehicleSliderOption"
+                    (userChange)="onFormSliderChange('finance', 'vehiclePrice')"
+                  ></ng5-slider>
+                </div>
+                <div class="form-group slider-group popover-wrapper">
+                  <div class="slider-group__top">
+                    <label
+                      >Down Payment
+                      <img
+                        src="assets/img/ic-info.png"
+                        srcset="
+                          assets/img/ic-info@2x.png 2x,
+                          assets/img/ic-info@3x.png 3x
+                        "
+                        class="ic_info"
+                        popover="{{ calculatorInfo.financeCashDownPayment }}"
+                        popoverTitle="Cash Down Payment"
+                        triggers="mouseenter:mouseleave"
+                        placement="bottom auto"
+                    /></label>
+                    <div class="detail">
+                      <span class="dolar">$</span
+                      >
+                      <input 
+                        currencyMask
+                        class="value-input"
+                        min="0"
+                        [(ngModel)]="userFinanceValues.downPayment"
+                        [options]="{
+                          align: 'left',
+                          prefix: '',
+                          thousands: ',',
+                          precision: 0
+                        }"
+                        appNoSpace
+                        (blur)="onUserValueChange($event, 'finance', 'downPayment')"
+                      >
+                    </div>
+                  </div>
+                  <ng5-slider
+                    class="custom-slider"
+                    [(value)]="financeModel.downPayment"
+                    [options]="downSliderOption"
+                    (userChange)="onFormSliderChange('finance', 'downPayment')"
+                  ></ng5-slider>
+                </div>
+                <div class="form-group slider-group popover-wrapper">
+                  <div class="slider-group__top">
+                    <label
+                      >Terms (in months)
+                      <img
+                        src="assets/img/ic-info.png"
+                        srcset="
+                          assets/img/ic-info@2x.png 2x,
+                          assets/img/ic-info@3x.png 3x
+                        "
+                        class="ic_info"
+                        popover="{{ calculatorInfo.financeTerm }}"
+                        popoverTitle="Term"
+                        triggers="mouseenter:mouseleave"
+                        placement="bottom auto"
+                    /></label>
+                    <div class="detail">
+                      <input 
+                        currencyMask
+                        class="value-input"
+                        min="0"
+                        [(ngModel)]="userFinanceValues.term"
+                        [options]="{
+                          align: 'left',
+                          prefix: '',
+                          thousands: ',',
+                          precision: 0
+                        }"
+                        appNoSpace
+                        (blur)="onUserValueChange($event, 'finance', 'term')"
+                      ><span class="month">mo</span>
+                    </div>
+                  </div>
+                  <ng5-slider
+                    class="custom-slider"
+                    [(value)]="financeModel.term"
+                    [options]="financeTermSliderOption"
+                    (userChange)="onFormSliderChange('finance', 'term')"
+                  ></ng5-slider>
+                </div>
+                <div class="form-group slider-group popover-wrapper">
+                  <div class="slider-group__top">
+                    <label
+                      >Trade-In Value
+                      <img
+                        src="assets/img/ic-info.png"
+                        srcset="
+                          assets/img/ic-info@2x.png 2x,
+                          assets/img/ic-info@3x.png 3x
+                        "
+                        class="ic_info"
+                        popover="{{ calculatorInfo.financeTradeInValue }}"
+                        popoverTitle="Trade-In Value"
+                        triggers="mouseenter:mouseleave"
+                        placement="bottom auto"
+                    /></label>
+                    <div class="detail">
+                      <span class="dolar">$</span
+                      >
+                      <input 
+                        currencyMask
+                        class="value-input"
+                        min="0"
+                        [(ngModel)]="userFinanceValues.tradeInValue"
+                        [options]="{
+                          align: 'left',
+                          prefix: '',
+                          thousands: ',',
+                          precision: 0
+                        }"
+                        appNoSpace
+                        (blur)="onUserValueChange($event, 'finance', 'tradeInValue')"
+                      >
+                    </div>
+                  </div>
+                  <ng5-slider
+                    class="custom-slider"
+                    [(value)]="financeModel.tradeInValue"
+                    [options]="tradeInValueSliderOption"
+                    (userChange)="onFormSliderChange('finance', 'tradeInValue')"
+                  ></ng5-slider>
+                </div>
+                <div class="form-group popover-wrapper">
+                  <div class="row">
+                    <div class="col-md-6 apr">
+                      <label for="apr"
+                        >APR
+                        <img
+                          src="assets/img/ic-info.png"
+                          srcset="
+                            assets/img/ic-info@2x.png 2x,
+                            assets/img/ic-info@3x.png 3x
+                          "
+                          class="ic_info"
+                          popover="{{ calculatorInfo.financeAPR }}"
+                          popoverTitle="APR"
+                          triggers="mouseenter:mouseleave"
+                          placement="bottom auto"
+                      /></label>
+                      <div class="input-group">
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="apr"
+                          min="0"
+                          [(ngModel)]="financeModel.interestRate"
+                          appNoSpace
+                        />
+                        <div class="input-group-append">
+                          <span class="input-group-text">%</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="sales_tax"
+                        >Sales Tax
+                        <img
+                          src="assets/img/ic-info.png"
+                          srcset="
+                            assets/img/ic-info@2x.png 2x,
+                            assets/img/ic-info@3x.png 3x
+                          "
+                          class="ic_info"
+                          popover="{{ calculatorInfo.financeTaxRate }}"
+                          popoverTitle="Sales Tax"
+                          triggers="mouseenter:mouseleave"
+                          placement="bottom auto"
+                      /></label>
+                      <div class="input-group">
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="sales_tax"
+                          min="0"
+                          [(ngModel)]="financeModel.salesTax"
+                          appNoSpace
+                        />
+                        <div class="input-group-append">
+                          <span class="input-group-text">%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </tab>
+          <tab heading="Lease" (select)="onSelectTab('lease')">
+            <div class="tab-wrapper">
+              <div class="result-div popover-wrapper">
+                <span class="price">{{
+                  leasePrice() | currency: 'USD':'symbol':'1.0'
+                }}</span>
+                <span class="desc">estimated monthly payment</span>
+                <div class="detail">
+                  <div class="detail__group">
+                    <span class="label"
+                      >Depreciation
+                      <img
+                        src="assets/img/ic-info.png"
+                        srcset="
+                          assets/img/ic-info@2x.png 2x,
+                          assets/img/ic-info@3x.png 3x
+                        "
+                        class="ic_info"
+                        popover="{{ calculatorInfo.depreciation }}"
+                        popoverTitle="Depreciation"
+                        triggers="mouseenter:mouseleave"
+                        placement="bottom auto"
+                    /></span>
+                    <span class="lease-value">{{
+                      leaseDepreciation() | currency: 'USD':'symbol':'1.0'
+                    }}</span
+                    ><span class="per-month">/MO</span>
+                  </div>
+                  <div class="detail__group">
+                    <span class="label"
+                      >Rent Charge
+                      <img
+                        src="assets/img/ic-info.png"
+                        srcset="
+                          assets/img/ic-info@2x.png 2x,
+                          assets/img/ic-info@3x.png 3x
+                        "
+                        class="ic_info"
+                        popover="{{ calculatorInfo.rentCharge }}"
+                        popoverTitle="Rent Charge"
+                        triggers="mouseenter:mouseleave"
+                        placement="bottom auto"
+                    /></span>
+                    <span class="lease-value">{{
+                      leaseRentCharge() | currency: 'USD':'symbol':'1.0'
+                    }}</span
+                    ><span class="per-month">/MO</span>
+                  </div>
+                  <div class="detail__group">
+                    <span class="label"
+                      >Tax
+                      <img
+                        src="assets/img/ic-info.png"
+                        srcset="
+                          assets/img/ic-info@2x.png 2x,
+                          assets/img/ic-info@3x.png 3x
+                        "
+                        class="ic_info"
+                        popover="{{ calculatorInfo.tax }}"
+                        popoverTitle="Tax"
+                        triggers="mouseenter:mouseleave"
+                        placement="bottom auto"
+                    /></span>
+                    <span class="lease-value">{{
+                      leaseTax() | currency: 'USD':'symbol':'1.0'
+                    }}</span
+                    ><span class="per-month">/MO</span>
+                  </div>
+                </div>
+              </div>
+              <div class="">
+                <div class="form-group slider-group popover-wrapper">
+                  <div class="slider-group__top">
+                    <label
+                      >Vehicle Price
+                      <img
+                        src="assets/img/ic-info.png"
+                        srcset="
+                          assets/img/ic-info@2x.png 2x,
+                          assets/img/ic-info@3x.png 3x
+                        "
+                        class="ic_info"
+                        popover="{{ calculatorInfo.leaseVehiclePrice }}"
+                        popoverTitle="Vehicle Price"
+                        triggers="mouseenter:mouseleave"
+                        placement="bottom auto"
+                    /></label>
+                    <div class="detail">
+                      <span class="dolar">$</span
+                      >
+                      <input 
+                        currencyMask
+                        class="value-input"
+                        min="0"
+                        [(ngModel)]="userLeaseValues.vehiclePrice"
+                        [options]="{
+                          align: 'left',
+                          prefix: '',
+                          thousands: ',',
+                          precision: 0
+                        }"
+                        appNoSpace
+                        (blur)="onUserValueChange($event, 'lease', 'vehiclePrice')"
+                      >
+                    </div>
+                  </div>
+                  <ng5-slider
+                    class="custom-slider"
+                    [(value)]="leaseModel.vehiclePrice"
+                    [options]="vehicleSliderOption"
+                    (userChange)="onFormSliderChange('lease', 'vehiclePrice')"
+                  ></ng5-slider>
+                </div>
+                <div class="form-group slider-group popover-wrapper">
+                  <div class="slider-group__top">
+                    <label
+                      >Down Payment
+                      <img
+                        src="assets/img/ic-info.png"
+                        srcset="
+                          assets/img/ic-info@2x.png 2x,
+                          assets/img/ic-info@3x.png 3x
+                        "
+                        class="ic_info"
+                        popover="{{ calculatorInfo.leaseDownPayment }}"
+                        popoverTitle="Cash Down Payment"
+                        triggers="mouseenter:mouseleave"
+                        placement="bottom auto"
+                    /></label>
+                    <div class="detail">
+                      <span class="dolar">$</span
+                      ><input 
+                        currencyMask
+                        class="value-input"
+                        min="0"
+                        [(ngModel)]="userLeaseValues.downPayment"
+                        [options]="{
+                          align: 'left',
+                          prefix: '',
+                          thousands: ',',
+                          precision: 0
+                        }"
+                        appNoSpace
+                        (blur)="onUserValueChange($event, 'lease', 'downPayment')"
+                      >
+                    </div>
+                  </div>
+                  <ng5-slider
+                    class="custom-slider"
+                    [(value)]="leaseModel.downPayment"
+                    [options]="downSliderOption"
+                    (userChange)="onFormSliderChange('lease', 'downPayment')"
+                  ></ng5-slider>
+                </div>
+                <div class="form-group slider-group popover-wrapper">
+                  <div class="slider-group__top">
+                    <label
+                      >Terms (in months)
+                      <img
+                        src="assets/img/ic-info.png"
+                        srcset="
+                          assets/img/ic-info@2x.png 2x,
+                          assets/img/ic-info@3x.png 3x
+                        "
+                        class="ic_info"
+                        popover="{{ calculatorInfo.leaseTerm }}"
+                        popoverTitle="Term"
+                        triggers="mouseenter:mouseleave"
+                        placement="bottom auto"
+                    /></label>
+                    <div class="detail">
+                      <input 
+                        currencyMask
+                        class="value-input"
+                        min="0"
+                        [(ngModel)]="userLeaseValues.term"
+                        [options]="{
+                          align: 'left',
+                          prefix: '',
+                          thousands: ',',
+                          precision: 0
+                        }"
+                        appNoSpace
+                        (blur)="onUserValueChange($event, 'lease', 'term')"
+                      ><span class="month">mo</span>
+                    </div>
+                  </div>
+                  <ng5-slider
+                    class="custom-slider"
+                    [(value)]="leaseModel.term"
+                    [options]="leaseTermSliderOption"
+                    (userChange)="onFormSliderChange('lease', 'term')"
+                  ></ng5-slider>
+                </div>
+                <div class="form-group slider-group popover-wrapper">
+                  <div class="slider-group__top">
+                    <label
+                      >Annual Mileage
+                      <img
+                        src="assets/img/ic-info.png"
+                        srcset="
+                          assets/img/ic-info@2x.png 2x,
+                          assets/img/ic-info@3x.png 3x
+                        "
+                        class="ic_info"
+                        popover="{{ calculatorInfo.leaseAnnualMileage }}"
+                        popoverTitle="Annual Mileage"
+                        triggers="mouseenter:mouseleave"
+                        placement="bottom auto"
+                    /></label>
+                    <div class="detail">
+                      <input 
+                        currencyMask
+                        class="value-input"
+                        min="0"
+                        [(ngModel)]="userLeaseValues.annualMileage"
+                        [options]="{
+                          align: 'left',
+                          prefix: '',
+                          thousands: ',',
+                          precision: 0
+                        }"
+                        appNoSpace
+                        (blur)="onUserValueChange($event, 'lease', 'annualMileage')"
+                      ><span class="month">mi</span>
+                    </div>
+                  </div>
+                  <ng5-slider
+                    class="custom-slider"
+                    [(value)]="leaseModel.annualMileage"
+                    [options]="annualMileageSliderOption"
+                    (userChange)="onFormSliderChange('lease', 'annualMileage')"
+                  ></ng5-slider>
+                </div>
+                <div class="form-group slider-group popover-wrapper">
+                  <div class="slider-group__top">
+                    <label
+                      >Trade-In Value
+                      <img
+                        src="assets/img/ic-info.png"
+                        srcset="
+                          assets/img/ic-info@2x.png 2x,
+                          assets/img/ic-info@3x.png 3x
+                        "
+                        class="ic_info"
+                        popover="{{ calculatorInfo.leaseTradeInValue }}"
+                        popoverTitle="Trade-In Value"
+                        triggers="mouseenter:mouseleave"
+                        placement="bottom auto"
+                      />
+                    </label>
+                    <div class="detail">
+                      <span class="dolar">$</span
+                      >
+                      <input 
+                        currencyMask
+                        class="value-input"
+                        min="0"
+                        [(ngModel)]="userLeaseValues.tradeInValue"
+                        [options]="{
+                          align: 'left',
+                          prefix: '',
+                          thousands: ',',
+                          precision: 0
+                        }"
+                        appNoSpace
+                        (blur)="onUserValueChange($event, 'lease', 'tradeInValue')"
+                      >
+                    </div>
+                  </div>
+                  <ng5-slider
+                    class="custom-slider"
+                    [(value)]="leaseModel.tradeInValue"
+                    [options]="tradeInValueSliderOption"
+                    (userChange)="onFormSliderChange('lease', 'tradeInValue')"
+                  ></ng5-slider>
+                </div>
+                <div class="form-group popover-wrapper">
+                  <div class="row">
+                    <div class="col-md-6 apr">
+                      <label for="apr"
+                        >APR
+                        <img
+                          src="assets/img/ic-info.png"
+                          srcset="
+                            assets/img/ic-info@2x.png 2x,
+                            assets/img/ic-info@3x.png 3x
+                          "
+                          class="ic_info"
+                          popover="{{ calculatorInfo.leaseAPR }}"
+                          popoverTitle="APR"
+                          triggers="mouseenter:mouseleave"
+                          placement="bottom auto"
+                      /></label>
+                      <div class="input-group">
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="apr"
+                          min="0"
+                          [(ngModel)]="leaseModel.interestRate"
+                          appNoSpace
+                        />
+                        <div class="input-group-append">
+                          <span class="input-group-text">%</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="sales_tax"
+                        >Sales Tax
+                        <img
+                          src="assets/img/ic-info.png"
+                          srcset="
+                            assets/img/ic-info@2x.png 2x,
+                            assets/img/ic-info@3x.png 3x
+                          "
+                          class="ic_info"
+                          popover="{{ calculatorInfo.leaseTaxRate }}"
+                          popoverTitle="Tax Rate"
+                          triggers="mouseenter:mouseleave"
+                          placement="bottom auto"
+                      /></label>
+                      <div class="input-group">
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="sales_tax"
+                          min="0"
+                          [(ngModel)]="leaseModel.salesTax"
+                          appNoSpace
+                        />
+                        <div class="input-group-append">
+                          <span class="input-group-text">%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,118 @@
+<div class="container-fluid">
+  <mat-card>
+    <form [formGroup]="globalTemplateForm">
+      <div class="card-container">
+        <div class="row">
+          <div class="col-lg-4 col-md-4">
+            <mat-form-field appearance="outline">
+              <mat-label>Template Name</mat-label>
+              <input
+                matInput
+                placeholder="Template Name"
+                formControlName="templatename"
+                (focusout)="checkTemplateNameExist($event)"
+              />
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-4 col-md-4">
+            <mat-form-field appearance="outline">
+              <mat-label>Description</mat-label>
+              <input
+                matInput
+                placeholder="Description"
+                formControlName="description"
+              />
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-4 col-md-4 d-flex">
+              <mat-form-field appearance="outline" id="templateTypeDropdown">
+                <mat-label>Template Type</mat-label>
+                <mat-select formControlName="templatetype"
+                (selectionChange)="onTemplateTypeChange($event)"
+                >
+                  <mat-option
+                    value="{{ item.templatetype }}"
+                    *ngFor="let item of globalPlaceholderTypes"
+                    [ngClass]="item.userid ? 'space-between' : ''"
+                  >
+                    <span>{{ item.templatetype }}</span>
+                    <mat-icon
+                      matTooltip="delete"
+                      *ngIf="item.userid"
+                      (click)="onDeleteGlobalPlaceholderType(item._id)"
+                      >close</mat-icon
+                    >
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-icon
+                id="add-new-type"
+                matTooltip="add template type"
+                (click)="onAddNewType()"
+                >add</mat-icon
+              >
+          </div>
+          <div class="row d-flex justify-content-end" *ngIf="showNewTemplateTypeField">
+            <div class="col-lg-4 col-md-4">
+              <mat-form-field appearance="outline" id="new-type-input-box">
+                <input
+                  matInput
+                  placeholder="Enter new type here"
+                  formControlName="newglobaltemplatetype"
+                />
+                <mat-icon
+                  matSuffix
+                  matTooltip="add"
+                  (click)="AddNewPlaceholderType()"
+                  >done</mat-icon
+                >
+                <mat-icon
+                  matSuffix
+                  matTooltip="cancel"
+                  (click)="onCancelNewPlaceholderType()"
+                  >close</mat-icon
+                >
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-fluid editor-container">
+        <div class="row">
+          <app-custom-editor 
+          (getCustomEditorsData)="getCustomEditorsData($event)"
+          ></app-custom-editor>
+        </div>
+      </div>
+    </form>
+  </mat-card>
+
+  <div class="btns d-flex justify-content-end mt-2">
+    <button id="prv-btn" mat-flat-button routerLink="/dashboard/global-templates" (click)="onCancel()">Cancel</button>
+    <div>
+      <button
+        id="prv-btn"
+        mat-stroked-button
+        [style.margin-left]="'10px'"
+        (click)="onSaveGlobalTemplate()"
+        *ngIf="!showUpdateBtn"
+        [disabled]="(!globalTemplateForm.valid || !editorHasBeenEdited)"
+      >
+        Save
+      </button>
+      <button
+        id="prv-btn"
+        mat-stroked-button
+        *ngIf="showUpdateBtn"
+        [disabled]="(!globalTemplateForm.dirty && disableUpdateBtn)"
+        [style.margin-left]="'10px'"
+        (click)="onUpdateGlobalTemplate()"
+      >
+        Update
+      </button>
+    </div>
+  </div>
+</div>

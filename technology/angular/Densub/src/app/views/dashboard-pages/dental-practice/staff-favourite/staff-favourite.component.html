@@ -1,0 +1,150 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h4 class="text-primary"> <b>Favorite Staff</b> </h4>
+        <hr />
+    </div>
+</div>
+
+<div class="row pt-3">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+
+            </div>
+            <div class="card-body table-responsive">
+                <table class="table table-bordered-1 vertical-align-middle text-center">
+                    <thead class="nowrap">
+                        <tr class="text-primary">
+                            <!-- <th></th> -->
+                            <!-- [class.active]="order === 'jobDate'" (click)="setOrder('jobDate')" -->
+                            <th>
+                                Name
+                                <!-- <span [hidden]="reverse">▼</span>
+                                <span [hidden]="!reverse">▲</span> -->
+                            </th>
+                            <!-- [class.active]="order === 'jobTitle'" (click)="setOrder('jobTitle')" -->
+                            <th>
+                                Position Type
+                                <!-- <span [hidden]="reverse">▼</span>
+                                <span [hidden]="!reverse">▲</span> -->
+                            </th>
+                            <!-- <th> Job Position Type</th> -->
+                            <th>Experience</th>
+                            <th>Rating</th>
+                            <th></th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                     <tbody *ngIf="favoriteList?.length" >
+                        <!-- *ngFor="let job of jobList | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage,      currentPage: p }; let i = index;" -->
+                        <tr *ngFor="let favStaff of favoriteList | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index;">
+                            <td class="text-capitalize">
+
+                                <img *ngIf="!favStaff?.favoriteId?.profilePhoto?.length" class="img-circle" src="../../../../../assets/img/brand/densub-logo-final.jpg" width="50" height="50" alt=">{{favStaff?.favoriteId?.firstName}} {{favStaff?.favoriteId?.lastName}}">
+                                <img *ngIf="favStaff?.favoriteId?.profilePhoto?.length" class="img-circle" [src]="favStaff?.favoriteId?.profilePhoto[0]" width="50" height="50" style="height: 50px;" alt=">{{favStaff?.favoriteId?.firstName}} {{favStaff?.favoriteId?.lastName}}">
+                                <a class="ml-7 text-primary" (click)="showStaffProfile(favStaff?.favoriteId?._id)"><strong>{{favStaff?.favoriteId?.firstName}} {{favStaff?.favoriteId?.lastName}}</strong></a>
+                            </td>
+                            <td class="text-capitalize">{{favStaff?.favoriteId?.positionType}}</td>
+                             <td class="text-capitalize">
+                                <div *ngIf="favStaff?.staffInfo?.experience" >
+                                    <p>{{favStaff.staffInfo.experience[0].experience}}</p>
+                                 </div>
+                                 <div *ngIf="!favStaff?.staffInfo?.experience" >
+                                    <p> 0 years </p>
+                                 </div>
+                            </td>
+                            <td>
+                              <p class="text-muted m-0">
+                                <span *ngFor=" let in of numToArrConverter(5); let i = index;" class="fa fa-star" [ngClass]="{'checked': (i+1) <=  favStaff?.favoriteId?.avgRating}"></span>
+                              </p>
+                                <!-- <p class="text-muted m-0 noword-wrap">
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                </p> -->
+                            </td>
+                            <td>
+                                <p class="text-muted m-0" (click)="removeFavorite(favStaff , i)">
+                                    <span class="fa fa-heart checked fs-18"></span>
+                                </p>
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" (click)="showInviteOfferModal(favStaff)">Invite</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tr *ngIf="!favoriteList.length" class="text-center border-bottom-1px">
+                        <td colspan="15">
+                            <h6 class="m-0">No Record Found !</h6>
+                        </td>
+                    </tr>
+                </table>
+                <ul class="pagination justify-content-end" *ngIf="itemsPerPage < favoriteList.length">
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- START Invite Staff MODAL -->
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #sendInviteOfferModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-white">Send An Invitation</h4>
+          <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="row pb-3">
+                  <div class="col-md-3">
+                  <div>
+                  <div class="usr-avtar img-circle overflow-hidden text-center">
+                    <img *ngIf="!staffDetails?.profilePhoto?.length"
+                      src="../../../../../assets/img/brand/densub-logo-final.jpg" width="60" class="img-fluid img-circle invite-image" alt="">
+                    <img *ngIf="staffDetails?.profilePhoto?.length" src="{{staffDetails?.profilePhoto[0]}}"
+                      width="60" style="height: 60px !important;" class="img-circle invite-image" alt="{{staffDetails.firstName}}">
+                    </div>
+                    </div>
+                    <div class="text-center f-14">
+                    <span class="text-muted">
+                      <span *ngFor=" let in of numToArrConverter(5); let i = index;" class="fa fa-star " [ngClass]="{'checked': (i+1) <=  staffDetails?.avgRating}"></span>
+                    </span> <span *ngIf="ratingCount">({{ratingCount}})</span>
+                    </div>
+                    </div>
+                  <div class="col-md-9">
+                    <h2 class="mb-0 text-capitalize" data-toggle="tooltip" title="Staff">{{staffDetails?.firstName}} {{staffDetails?.lastName.charAt(0)}}</h2>
+                    <p data-toggle="tooltip" class="text-capitalize" title="Position">{{positionTypeName}}</p>	
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <p><b>Message</b></p>	
+                </div>
+                  <div class="col-md-12 text-muted" style="font-style: italic;">
+                    <p>Hi!,</p>
+                    <p>I would like to invite you to take a look at this job that I have posted. Please submit an application if you are available and interested to apply for this job.</p>
+                    <p>{{currentUser.firstName}} {{currentUser.lastName}}</p>
+                  </div>	
+              </div>
+              <br>
+          <ng-multiselect-dropdown name="offerJobId" class="text-capitalize" [data]="jobList" [placeholder]="'Select Job'"
+              [(ngModel)]="selOfferInvite" [settings]="dropdownSettings2" [disabled]="false">
+            </ng-multiselect-dropdown>
+            <button type="button" class="btn btn-primary mt-3 pull-right mobile-btn" *ngIf="jobList.length == 0" (click)="sendInviteOfferModal.hide();fetchRoute()" [routerLink]="['/practice/post-job']">Create a Job Post</button>	
+        </div>
+        <div class="modal-footer justify-content-end">
+          <button type="button" class="btn btn-dark" (click)="closeModel()" >Close</button>
+          <button type="button" class="btn btn-primary" *ngIf="selOfferInvite.length > 0" (click)="sendInviteOfferModal.hide();sendInviteOffer()">Send</button>
+        </div>
+      </div>
+    </div>
+</div>
+<!-- END Invite Staff MODAL -->

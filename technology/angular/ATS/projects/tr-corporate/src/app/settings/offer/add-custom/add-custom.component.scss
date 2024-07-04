@@ -1,0 +1,138 @@
+@import "~@cloudtalentrecruit/ng-design/assets/styles/0-plugins/plugins-dir";
+@import "~@cloudtalentrecruit/ng-design/assets/styles/1-base/variable";
+.box-container {
+  margin: 5px 0rem 0 0rem;
+
+  .mid-sec {
+    h5 {
+      display: flex;
+      margin: 5px 0 7px;
+      h6 {
+        margin-left: 10px;
+        font-family: Manrope;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 20px;
+
+        color: #504f54;
+      }
+    }
+    mat-label {
+      font-family: Manrope;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      padding-bottom: 5px;
+      color: #504f54;
+    }
+    p {
+      font-family: Manrope;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+
+      color: #504f54;
+    }
+  }
+}
+.title {
+  display: flex;
+  img {
+    margin-left: 82%;
+  }
+  h4 {
+    font-family: Manrope;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #1f47f5;
+    margin: 2px 0px 0 7px;
+  }
+}
+.buttons {
+  display: flex;
+  margin: 30% 0px 15px 0;
+  .box-button {
+    margin-right: 14px;
+  }
+}
+mat-drawer-container {
+  background-color: white;
+
+  &[cdk-scrollable],
+  &[cdkScrollable] {
+    .mat-drawer-container {
+      overflow: visible !important;
+      width: 590px;
+      padding: 0;
+      margin: 0px;
+    }
+  }
+  margin: 0 0px 0 0px;
+  height: auto;
+  width: 100%;
+}
+.right-drawers {
+  // background-color: $white;
+  // z-index: 2 !important;
+  .mat-drawer-container {
+    position: absolute;
+    right: 0px;
+    width: 550px;
+    @include media-breakpoint-down(md) {
+      width: 100%;
+    }
+  }
+  .mat-drawer-backdrop.mat-drawer-shown {
+  }
+  &.drawer-lg {
+    mat-drawer {
+      width: 550px;
+      .drawer-btn {
+        .mat-flat-button {
+          transition: all 0.5s ease;
+          // width: calc(500px - 2rem) !important;
+        }
+      }
+    }
+  }
+}
+.close-btn {
+  margin-left: 88%;
+}
+.box-container {
+  .upper-sec {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 18px 20px 19px;
+    h4 {
+      font-weight: 600;
+      font-size: 0.875rem;
+      img {
+        width: 15px;
+        margin: 13px 13px 0 0px;
+      }
+    }
+    .icon-mc {
+      margin-right: 10px;
+      &:before {
+        color: $theme;
+      }
+    }
+  }
+
+  .mid-sec {
+    padding: 0;
+    margin: 0 1.3rem 0 1.3rem;
+    height: calc(90vh - 10px);
+    overflow: scroll;
+  }
+}
+.mid-sec::-webkit-scrollbar {
+  display: none;
+}

@@ -1,0 +1,47 @@
+<section class="container-fluid px-0 py-3">
+  <div class="cb-container container">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-12 px-0">
+      <div id="model" role="tabpanel" class="content">
+        <div class="row mx-0">
+          <div class="product-cntnr" *ngFor="let item of vehicles">
+            <div
+              class="model-contianer row"
+              (click)="onSelectVehicle(item)"
+            > 
+              <span class="year">{{ item.year }}</span>
+              <div class="model-img px-0 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                <img
+                  src="{{ item?.image_url_640 }}"
+                  srcset="
+                    {{item?.image_url_640}}   640w,
+                    {{item?.image_url_1280}} 1280w
+                  "
+                  sizes="(max-width: 767px) 100vw, (max-width: 1320) 33vw, 25vw"
+                  class="image-lazy-loading"
+                  appLazyloader
+                />
+              </div>
+              <div
+                class="model-desc px-3 col-md-12 col-sm-12 col-12"
+                fxLayoutAlign="space-between end"
+              >
+                <div class="brand-div">
+                  <span>{{ getVehicleName(item) }}</span>
+                  <h2>{{ item.trim }}</h2>
+                </div>
+                <div class="price-div">
+                  <div>
+                    <p class="amt">
+                      {{ item.price | currency: 'USD':'symbol':'1.0' }}
+                    </p>
+                    <p class="amt-label">Starting MSRP</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

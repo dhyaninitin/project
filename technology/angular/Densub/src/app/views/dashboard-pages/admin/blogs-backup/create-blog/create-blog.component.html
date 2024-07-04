@@ -1,0 +1,174 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h4 class="text-primary">
+            <b>All Blogs</b>
+        </h4>
+        <hr>
+    </div>
+</div>
+
+
+<div class="animated fadeIn  pb-40 pt-20 add-blog">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card p-20">
+                <div class="form-group">
+                    <label for="">Add Title</label>
+                    <input type="text" name="" id="" class="form-control" placeholder="Add Title" aria-describedby="helpId">
+                </div>
+                <angular-editor formControlName="htmlContent" [config]="editorConfig"></angular-editor>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card p-20">
+                <h2 class="hndle ui-sortable-handle"><span>Add Featured Image</span></h2>
+                <hr>
+                <div class="sie-userprofile h-100">
+                    <div class="userprofile_inner">
+
+                        <div class="user-info text-center text-capitalize">
+                            <!-- <br> -->
+                            <div class="position-relative usr-avtar w-100 h-auto">
+                                <button  class="btn btn-danger pull-right removeProfile"><i class="fa fa-remove"></i>
+                                </button>
+                                <!-- <img *ngIf="uploadData.profilePhoto.length" src="{{uploadData.profilePhoto[0].file}}" class="img-fluid img-circle" alt=""> -->
+
+                                <img  src="../../../../../../assets/img/common/default-img.jpg" class="img-fluid" alt="">
+                            </div>
+
+                        </div>
+                        <div class="user-form">
+                            <div class="custom-file mt-3 mb-10">
+                                <input placeholder="Please enter first Name" type="file" class="custom-file-input" id="profilePhoto"
+                                    accept="image/*" >
+                                    <!-- (change)="selectFiles($event , 'profilePhoto')" -->
+                                <label class="custom-file-label" for="profilePhoto">Upload Photo</label>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-20">
+                <div id="categorydiv" class="postbox ">
+                    <h2 class="hndle ui-sortable-handle"><span>Categories</span></h2>
+                    <hr>
+                    <div class="inside">
+                        <div class="categorydiv">
+                            <div class="category-all">
+                                <div class="category-all_inner p-15">
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <label class="selectit"><input value="16" type="checkbox" name="" id=""> Agency leadership</label>
+                                            <ul class="children list-unstyled">
+                                                <li>
+                                                    <label class="selectit"><input value="27" type="checkbox" name="post_category[]" id="in-category-27">
+                                                        Agency leadership</label>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li>
+                                            <label class="selectit"><input value="17" type="checkbox" name="post_category[]" id="in-category-17">
+                                                Business</label>
+                                        </li>
+
+                                        <li>
+                                            <label class="selectit"><input value="18" type="checkbox" name="post_category[]" id="in-category-18"> Carporate
+                                                Solutions</label>
+                                        </li>
+
+                                        <li>
+                                            <label class="selectit"><input value="19" type="checkbox" name="post_category[]" id="in-category-19"> Digital
+                                                Strategies</label>
+                                        </li>
+
+                                        <li>
+                                            <label class="selectit"><input value="20" type="checkbox" name="post_category[]" id="in-category-20">
+                                                Marketing</label>
+                                        </li>
+
+                                        <li>
+                                            <label class="selectit"><input value="1" type="checkbox" name="post_category[]" id="in-category-1">
+                                                Uncategorized</label>
+                                        </li>
+
+                                        <li>
+                                            <label class="selectit"><input value="21" type="checkbox" name="post_category[]" id="in-category-21">
+                                                Uncategorized @bg</label>
+                                        </li>
+
+                                        <li>
+                                            <label class="selectit"><input value="22" type="checkbox" name="post_category[]" id="in-category-22">
+                                                Uncategorized @bs</label>
+                                        </li>
+
+                                        <li>
+                                            <label class="selectit"><input value="23" type="checkbox" name="post_category[]" id="in-category-23">
+                                                Uncategorized @eu</label>
+                                        </li>
+
+                                        <li>
+                                            <label class="selectit"><input value="24" type="checkbox" name="post_category[]" id="in-category-24">
+                                                Uncategorized @hi</label>
+                                        </li>
+
+                                        <li>
+                                            <label class="selectit"><input value="25" type="checkbox" name="post_category[]" id="in-category-25">
+                                                Workshops</label>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="category-adder mt-20">
+                                <a (click)="showDiv.previous = !showDiv.previous;">
+                                    + Add New Category </a>
+                                <div *ngIf="showDiv.previous" id="category-add" class="category-add wp-hidden-child">
+                                    <!-- <label class="screen-reader-text" for="newcategory">Add New Category</label> -->
+                                    <input type="text" name="newcategory" class="mt-15 form-required form-control" value="New Category Name" placeholder="Add New Category">
+                                    <!-- <label class="screen-reader-text" for="newcategory_parent">Parent Category: </label> -->
+                                    <select name="newcategory_parent" class="postform form-control mt-15">
+                                        <option value="-1">— Parent Category —</option>
+                                        <option class="level-0" value="16">Agency leadership</option>
+                                        <option class="level-1" value="27">&nbsp;&nbsp;&nbsp;ללא קטגוריה</option>
+                                        <option class="level-0" value="17">Business</option>
+                                        <option class="level-0" value="18">Carporate Solutions</option>
+                                        <option class="level-0" value="19">Digital Strategies</option>
+                                        <option class="level-0" value="20">Marketing</option>
+                                        <option class="level-0" value="1">Uncategorized</option>
+                                        <option class="level-0" value="21">Uncategorized @bg</option>
+                                        <option class="level-0" value="22">Uncategorized @bs</option>
+                                        <option class="level-0" value="23">Uncategorized @eu</option>
+                                        <option class="level-0" value="24">Uncategorized @hi</option>
+                                        <option class="level-0" value="25">Workshops</option>
+                                        <option class="level-0" value="26">Μη κατηγοριοποιημένο</option>
+                                        <option class="level-0" value="28">غير مصنف</option>
+                                    </select>
+                                    <button type="button" class="btn btn-primary mt-15" ng-click="click()">
+                                        Add New Category
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+            <div class="card p-20">
+                <div class="publish-btn">
+                    <button class="btn btn-primary w-75">Publish</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

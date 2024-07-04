@@ -1,0 +1,55 @@
+<div class="box-container">
+  <div class="upper-sec">
+    <img src="assets/img/activity.svg" alt="" />
+    <h4>Activity ({{activites.length}})</h4>
+  </div>
+  <div class="mid-sec">
+    <form [formGroup]="activity">
+      <span class="title">
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="custom" formControlName="selectDropdown">
+            <mat-option value="custom">custom</mat-option>
+            <mat-option value="Rating">Rating</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <img src="assets/img/button.svg" (click)="filter()" />
+      </span>
+      <mat-form-field appearance="outline">
+        <mat-label>From date</mat-label>
+        <input matInput 
+        [matDatepicker]="picker" 
+        formControlName="fromDate" 
+        required
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="fromDate.touched && !fromDate.valid">
+          <span *ngIf="fromDate.errors?.required">
+            From Date is required
+          </span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>To date</mat-label>
+        <input matInput 
+        [matDatepicker]="picker2" 
+        formControlName="toDate" 
+        required
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+        <mat-error *ngIf="toDate.touched && !toDate.valid">
+          <span *ngIf="toDate.errors?.required">
+            To Date is required
+          </span>
+        </mat-error>
+      </mat-form-field>
+      <h4>{{ today | date : 'EEE d MMMM y'}}</h4>
+      <ng-container *ngFor="let activity of activites">
+        <h2><span class="title">{{loggedUserName}}</span> {{activity.actiontext}}</h2>
+        <p>{{ activity.activitytime | date : 'MMM d, y'}} at {{ activity.activitytime | date : 'h:mm a'}}</p>
+      </ng-container>
+    </form>
+  </div>
+</div>

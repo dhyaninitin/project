@@ -1,0 +1,55 @@
+<section class="navigation-container container-fluid" id="sub-header-section">
+  <div class="cb-container container ">
+    <div class="row mx-0">
+      <div class="col-sm-12 col-12  text-sm-center text-md-left text-left d-none d-sm-block px-0" [ngClass]="{'col-lg-4 col-md-4': showRightBlock, 'col-lg-12 col-md-12 ': !showRightBlock}">
+        <h2 class="navigation-title text-capitalize mb-0">
+          {{subHeaderTitle}}
+        </h2>
+      </div>
+      <div class="col-lg-8 col-md-8 col-sm-12 col-12  text-left px-0 d-flex justify-content-end" *ngIf="showRightBlock">
+        <div class="row mx-0 w-100">
+          <div class="col-lg-8 col-md-8 col-sm-12 col-12" *ngIf="showStepper">
+            <div id="stepper" class="bs-stepper w-100">
+              <div class="row mx-0 bs-stepper-content p-0 w-100 d-block">
+                <div class="bs-stepper-header" role="tablist">
+                  <ng-container *ngFor="let step of steps; let i = index" >
+                    <div *ngIf="i > 0" class="line"></div>
+                    <div
+                      [ngClass]="{
+                        'custom-step': completed(step.step, currentStep),
+                        'completed': completed(step.step, currentStep),
+                        'incompleted': !completed(step.step, currentStep),
+                        'active': step.step === currentStep
+                      }"
+                      [attr.data-target]="'#' + step.label"
+                    >
+                      <a (click)="redirectTo(step.step)" class="btn btn-link step-trigger" role="tab" id="stepper{{i + 1}}trigger{{i + 1}}" [attr.aria-controls]="step.label">
+                        <span class="bs-stepper-circle"></span>
+                        <span class="bs-stepper-label">{{step.label}}</span>
+                      </a>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-12 text-right" [ngClass]="{'col-lg-12 col-md-12': showCancelSearch || !showStepper, 'col-lg-4 col-md-4 ': !showCancelSearch}">
+            <div *ngIf="showSearchBox" class="search-box-wrapper" >
+              <button *ngIf="showCancelSearch" class="btn btn-default navigation-btn-back float-right ml-2" (click)="cancelSearch()"><span class="image-container"><img src="assets/img/icon/right-arrow.svg"></span><span class="label">Cancel</span></button>
+              <div class="search-box" [ngClass]="{'show': showCancelSearch}">
+                <input [(ngModel)]="searchString" placeholder="Search" (keyup)="onKeyUp()" (keydown)="keyDown = true">
+                <img src="assets/img/search-button@3x.png" (click)="search()">
+              </div>
+            </div>
+            <div class="ml-5 flex-shrink-0 d-none d-md-block float-right" *ngIf="showNextButton">
+              <button class="btn btn-default navigation-btn" (click)="onNextButtonClick()" [ngClass]="{'disabled': !activeNextButton}"><span class="label">{{nextLabel}}</span><span class="image-container"><img src="assets/img/icon/right-arrow.svg"></span></button>
+            </div>
+            <div class="ml-5 flex-shrink-0 d-none d-md-block float-right" *ngIf="showPrevButton">
+              <button class="btn btn-default navigation-btn-back btn" (click)="onPrevButtonClick()" [ngClass]="{'disabled': !activePrevButton}"><span class="image-container"><img src="assets/img/icon/right-arrow.svg"></span><span class="label">Back</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

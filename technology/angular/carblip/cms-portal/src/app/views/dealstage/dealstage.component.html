@@ -1,0 +1,71 @@
+<vex-page-layout>
+	<vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+		<div class="w-full flex flex-col sm:flex-row justify-between">
+			<div>
+				<h1 class="title mt-0 mb-1">Hubspot Deal Stages</h1>
+				<vex-breadcrumbs [crumbs]="['Hubspot Deal Stages']"></vex-breadcrumbs>
+			</div>
+		</div>
+	</vex-page-layout-header>
+
+	<vex-page-layout-content class="-mt-6">
+		<div class="card -mt-16">
+			<div class="head bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
+				<h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
+					<span>Hubspot Deal Stages</span>
+				</h2>
+				<div class="bg-foreground rounded-full border px-4 max-w-[300px] flex-auto flex items-center border border-gray-300">
+					<mat-icon class="icon-sm text-secondary search-icon" svgIcon="mat:search"></mat-icon>
+					<input [(ngModel)]="search"
+						class="px-4 py-2 border-0 outline-none w-full bg-transparent"
+						placeholder="Search..."
+						name="searchSource"
+						type="search"
+						#searchInput
+						(ngModelChange)="onClearSearch($event)">
+				</div>
+				<span class="flex-1"></span>
+				<button
+					[matMenuTriggerFor]="columnFilterMenu"
+					mat-icon-button
+					class="ml-4 flex-none"
+					color="primary"
+					matTooltip="Column Filters"
+					type="button">
+					<mat-icon svgIcon="mat:settings"></mat-icon>
+				</button>
+				<button (click)="onRefresh()"
+					class="ml-4 flex-none"
+					color="primary"
+					mat-mini-fab
+					matTooltip="Refresh"
+					type="button">
+					<mat-icon svgIcon="mat:refresh"></mat-icon>
+				</button>
+			</div>
+				<mat-progress-bar *ngIf="(fetching$ | async)" mode="indeterminate"></mat-progress-bar>
+			<div class="overflow-auto h-full-vh sticky">
+				<app-dealstage-table class="display-block w-100 list-table" *ngIf="isColumnAvailable" [columnHeaders]="columnHeaders"></app-dealstage-table>
+			</div>
+				<mat-paginator
+				#paginator
+				[length]="tablePagination.length"
+				[pageSize]="tablePagination.pageSize"
+				[pageIndex]="tablePagination.pageIndex"
+				[pageSizeOptions]="[20, 50, 100]"
+				[showFirstLastButtons]="true"
+				(page)="onPaginateChange($event)"
+				>
+				</mat-paginator>
+				<!-- Column Filters -->
+				<mat-menu #columnFilterMenu="matMenu" xPosition="before" yPosition="below">
+					<button (click)="toggleColumnVisibility(column, $event);$event.stopPropagation()" *ngFor="let column of columnHeaders"
+							class="checkbox-item mat-menu-item">
+					<mat-checkbox (click)="$event.stopPropagation()" (change)="toggleColumnVisibility(column, $event)" [checked]="column.visible" color="primary">
+						{{ column.label }}
+					</mat-checkbox>
+					</button>
+				</mat-menu>
+				</div>
+				</vex-page-layout-content>
+</vex-page-layout>

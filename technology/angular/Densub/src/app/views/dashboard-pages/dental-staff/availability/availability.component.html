@@ -1,0 +1,92 @@
+<br />
+<br />
+<div class="row text-center">
+  <div class="col-md-4">
+    <div class="btn-group">
+      <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+        (viewDateChange)="closeOpenMonthViewDay()">
+        Previous
+      </div>
+      <div class="btn btn-outline-primary" mwlCalendarToday [(viewDate)]="viewDate">
+        Today
+      </div>
+      <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+        (viewDateChange)="closeOpenMonthViewDay()">
+        Next
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+  </div>
+  <div class="col-md-4">
+    <div class="btn-group">
+      <div class="btn btn-primary" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">
+        Month
+      </div>
+      <div class="btn btn-primary" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">
+        Week
+      </div>
+      <div class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">
+        Day
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+<div [ngSwitch]="view">
+  <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
+    [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
+    >
+  </mwl-calendar-month-view>
+  <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events" [refresh]="refresh"
+    >
+  </mwl-calendar-week-view>
+  <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events" [refresh]="refresh"
+    >
+  </mwl-calendar-day-view>
+</div>
+
+<!-- <pre [innerHtml]="events | json"> </pre> -->
+
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #availabilityModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white"> <i class="fa fa-clock-o"> </i> Add Availability</h4>
+        <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-unstyled row col-12 m-auto">
+          <li class="pr-15">
+            <div class="form-group">
+              <div class="custom-control custom-radio">
+                <input name="available" type="radio" [(ngModel)]="availabilityInfo.available"
+                  class="custom-control-input" id="temporary" [value]="true">
+                <label class="custom-control-label" for="temporary">Available</label>
+              </div>
+            </div>
+          </li>
+          <li class="pr-15">
+            <div class="form-group">
+              <div class="custom-control custom-radio">
+                <input name="available" type="radio" [(ngModel)]="availabilityInfo.available"
+                  class="custom-control-input" id="permanentFullTime" [value]="false">
+                <label class="custom-control-label text-capitalize" for="permanentFullTime">Not Available
+                </label>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <!-- <pre [innerHtml]="availabilityInfo | json"> </pre> -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="addEvent(availabilityInfo)">Custom Availability</button>
+      </div>
+    </div>
+  </div>
+</div>

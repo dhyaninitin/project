@@ -1,0 +1,43 @@
+<vex-page-layout>
+	<vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+		<div class="w-full flex flex-col sm:flex-row justify-between">
+			<div>
+				<h1 class="title mt-0 mb-1">Reports</h1>
+				<vex-breadcrumbs [crumbs]="['Reports']"></vex-breadcrumbs>
+			</div>
+		</div>
+	</vex-page-layout-header>
+
+	<vex-page-layout-content class="-mt-6">
+		<div class="card -mt-16">
+			<div class="head head-padding bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
+				<h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l sm:block flex-none">
+					<span>Reports</span>
+				</h2>
+				<span class="flex-1"></span>
+			</div>
+		</div>
+        <div class="card mt-6">
+            <app-registered-users [view]="view" [sources]="listOfSources"></app-registered-users>
+        </div>
+        <div class="card mt-6">
+            <app-requests [view]="view" [sources]="listOfSources"></app-requests>
+        </div>
+        <div class="card mt-6">
+            <app-car-quotes [view]="view" [sources]="listOfSources"></app-car-quotes>
+        </div>
+        <div class="card mt-6">
+            <app-quote-revenue [view]="view" [sources]="listOfSources"></app-quote-revenue>
+        </div>
+        <div class="card mt-6">
+            <app-wholesalequotes [view]="view" [sources]="listOfSources"></app-wholesalequotes>
+        </div>
+        <div class="card mt-6">
+            <app-wholesalequotes-revenue [view]="view" [sources]="listOfSources"></app-wholesalequotes-revenue>
+        </div>
+        <div class="card mt-6">
+            <app-purchaseorders [view]="view"></app-purchaseorders>
+        </div>
+            
+	</vex-page-layout-content>
+</vex-page-layout>

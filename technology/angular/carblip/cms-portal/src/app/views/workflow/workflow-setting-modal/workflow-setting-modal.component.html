@@ -1,0 +1,74 @@
+<div class="flex items-center" mat-dialog-title>
+    <h2 class="headline m-0 flex-auto">{{data.title}}</h2>
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button" (click)="dialogRef.close(false)">
+        <mat-icon svgIcon="mat:close"></mat-icon>
+    </button>
+</div>
+
+<mat-divider class="-mx-6 text-border"></mat-divider>
+
+<mat-dialog-content class="flex flex-col">
+    <form [formGroup]="settingForm">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" class="mt-3">
+            <div fxFlex="100" class="pr-1">
+                <mat-radio-group aria-label="Select an option" formControlName="executionTime" (change)="onExecutionTimeChange($event.value)">
+                    <mat-radio-button color="primary" value="0" [checked]="data.value.execute_time == 0 ? true : false">Any Time</mat-radio-button>
+                    <mat-radio-button color="primary" value="1" [checked]="data.value.execute_time == 1 ? true : false">Specific</mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+            <div fxFlex="100" class="pr-1" *ngIf="showScheduleList" formArrayName="scheduleList">
+                <div *ngFor="let scheduler of schedule.controls; let i=index">
+                    <div class="form-container" [formGroup]="scheduler">
+                        <div fxLayout="row wrap" fxLayout.lt-sm="column" class="mt-3">
+                            <div fxFlex="30" class="pr-1">
+                                <mat-form-field class="full-width">
+                                    <mat-label>Select Day</mat-label>
+                                    <mat-select formControlName="day" multiple>
+                                        <mat-option *ngFor="let values of dayList" [value]="values.value" >
+                                            {{values.title}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <p class="setting-text">From</p>
+
+                            <div fxFlex="30" class="pr-1">
+                                <mat-form-field class="full-width">
+                                    <mat-label>Select Time</mat-label>
+                                    <mat-select formControlName="startTime" >
+                                        <mat-option *ngFor="let time of timeList" [value]="time">
+                                            {{time}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <p class="setting-text" >To</p>
+                            
+                            <div fxFlex="30" class="pr-1">
+                                <mat-form-field class="full-width">
+                                    <mat-label>Select Time</mat-label>
+                                    <mat-select formControlName="endTime" >
+                                        <mat-option *ngFor="let time of timeList" [value]="time">
+                                            {{time}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <!-- <p><mat-icon class="pointer" (click)="removeScheduler(i)">delete</mat-icon></p> -->
+                            <!-- <div fxFlex="100" class="pr-1" *ngIf="showScheduleList">
+                                <h3 class="pointer" (click)="addScheduler()"> + Add hours</h3>
+                            </div> -->
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close type="button" (click)="dialogRef.close(false)">Cancel</button>
+        <button mat-button mat-raised-button type="button" color="primary" (click)="updateWorkflowSettings()">Save</button>
+    </mat-dialog-actions>
+</mat-dialog-content>

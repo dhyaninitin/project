@@ -1,0 +1,153 @@
+<div class="row">
+  <div class="col-sm-12">
+    <h4 class="text-primary"> <b>Manage: Promo Code</b> </h4>
+    <hr />
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-cogs"></i> Listings
+        <button class="btn btn-primary pull-right btn-sm mr-1" (click)="addEditModal.show()"> <i class="fa fa-plus">
+        </i> Add New Promo Code</button>
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table table-bordered">
+          <thead class="nowrap">
+            <tr>
+              <th>S.NO
+
+              </th>
+              <th>Title</th>
+              <th [class.active]="order === 'percentage'" (click)="setOrder('percentage')">Discount %
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'createdAt'" (click)="setOrder('createdAt')">Created At
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'expireDate'" (click)="setOrder('expireDate')">Expire At
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="promoCodeList.length">
+            <!--  | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p } -->
+            <tr
+              *ngFor="let promoCode of promoCodeList | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index;">
+              <td>{{i+1}}</td>
+              <td class="text-capitalize">{{ promoCode?.title }}</td>
+              <td>{{ promoCode?.percentage | number}}%</td>
+              <td>{{ promoCode?.createdAt | date:'mediumDate' }}</td>
+              <td>{{ promoCode?.expireDate | date:'mediumDate' }}</td>
+              <td>
+                <div class="btn-group">
+                  <!-- <button type="button" class="btn btn-sm btn-outline-primary"
+                    (click)="showModal(promoCode,'addEditModal')"><i class="fa fa-edit"></i></button> -->
+                  <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal"
+                    (click)="showModal(promoCode ,'deleteModal',i)"><i class="fa fa-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tr class="text-center" *ngIf="!promoCodeList.length">
+            <td colspan="15">
+              <h6>No Record Found !</h6>
+            </td>
+          </tr>
+        </table>
+
+        <ul class="pagination" *ngIf="itemsPerPage < promoCodeList.length">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+ <div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #deleteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white"><i class="fa fa-trash"></i> Delete Promo Code</h4>
+        <button type="button" class="close text-white" (click)="closeModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure want to delete this promo code?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        <button type="button" class="btn btn-danger" (click)="deletePromoCode()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #addEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white"> {{promoCodeDetails._id ? 'Edit' :'Add'}} Promo Code</h4>
+        <button type="button" class="close text-white" (click)="closeModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row pt-3">
+          <div class="col-sm-6">
+            <label for="">Title
+              <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                  [ngClass]="{'text-danger': !promoCodeDetails.title,'clr-blue': promoCodeDetails.title}"></i>
+              </sup>
+            </label>
+            <input type="text" [(ngModel)]="promoCodeDetails.title" class="form-control" placeholder="Enter Title Here"
+              required name="title">
+          </div>
+          <div class="col-sm-6">
+            <label for="">Discount Percentage
+              <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                  [ngClass]="{'text-danger': !promoCodeDetails.percentage,'clr-blue': promoCodeDetails.percentage}"></i>
+              </sup>
+            </label>
+            <mv-slider id="DesiredHourly" [(value)]="promoCodeDetails.percentage" [min]="0" [max]="100" enabled="true">
+            </mv-slider><Span class="ml-20">{{promoCodeDetails.percentage}}%</Span>
+          </div>
+          <div class="col-sm-6">
+            <label for="">Expire Date
+              <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                  [ngClass]="{'text-danger': !promoCodeDetails.expireDate,'clr-blue': promoCodeDetails.expireDate}"></i>
+              </sup>
+            </label>
+            <dp-date-picker placeholder="Select Expire Date" [(ngModel)]="promoCodeDetails.expireDate" [config]="datePickerConfig2">
+            </dp-date-picker>
+          </div>
+
+          <div class="col-sm-6">
+            <label for="">Select Practioner
+              <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                  [ngClass]="{'text-danger': !promoCodeDetails.expireDate,'clr-blue': promoCodeDetails.expireDate}"></i>
+              </sup>
+            </label>
+            <ng-multiselect-dropdown name="offerUserId" [data]="usersList" [placeholder]="'Select Practice'"
+              [(ngModel)]="selUsersList" [settings]="dropdownSettings2" class="text-capitalize">
+            </ng-multiselect-dropdown>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        <button type="button" class="btn btn-primary" [disabled] = "isDisabled()"
+          (click)="addPromoCode()">{{promoCodeDetails._id ? 'Update' :'Send'}}</button>
+      </div>
+    </div>
+  </div>
+</div>

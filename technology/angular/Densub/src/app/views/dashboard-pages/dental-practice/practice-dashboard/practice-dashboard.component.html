@@ -1,0 +1,539 @@
+<div class="row">
+  <div class="col-sm-12">
+    <h4 class="text-primary  d-inline-block">
+      <b>Dashboard</b>
+      <!-- <button class="btn btn-primary pull-right btn-sm mr-1" (click)="checkAvailability()"> <i class="fa fa-clock-o"> </i> Availability</button> -->
+    </h4>
+    <label class="m-0 clr-white p-1 pull-right text-uppercase" [ngClass]="{ 'bg-danger': currentUser.profileVerificationStatus == profileStatus.REJECTED,
+                        'bg-blue': currentUser.profileVerificationStatus == profileStatus.VERIFIED,
+                        'bg-yellow': (currentUser.profileVerificationStatus == 'pending' || currentUser.profileVerificationStatus == profileStatus.NEW)
+                      }" *ngIf="currentUser.profileVerificationStatus">
+      <i class="fa fa-check-circle" *ngIf="currentUser.profileVerificationStatus == profileStatus.VERIFIED"></i>
+      {{ (currentUser.profileVerificationStatus === profileStatus.NEW) ? 'IN PROGRESS' :
+      currentUser.profileVerificationStatus }}
+    </label>
+    <hr>
+  </div>
+</div>
+
+<div class="animated fadeIn pb-50">
+  <div style="text-align: center; margin-bottom: 10px;" *ngIf="!paymentCardExists">
+    Complete your profile to join Densub’s job marketplace to post temporary and permanent jobs and hire talented
+    candidates
+    <button class="btn btn-primary" (click)="navigateTosavePaymentCard()">Complete Now</button>
+  </div>
+  <div class="row pt-20 pb-20">
+
+    <div class="col-sm-6 col-lg-3 custom-cursor-pointer" [routerLink]="['/practice/contracts']">
+      <!-- <b class="dashboard-recent"><i class="fa fa-eye"> </i> Recent</b> -->
+      <div class="card text-white bg-info">
+        <div class="card-body p-0 pt-3 pb-4">
+          <div class="text-center">
+            <span class="font-size-25">{{ upcommingContracts?.length }}</span>
+            <div class="font-size-14">Upcoming Contracts</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!--/.col-->
+    <div class="col-sm-6 col-lg-3 custom-cursor-pointer" [routerLink]="['/practice/sent-offers']">
+      <!-- <b class="dashboard-recent"><i class="fa fa-eye"> </i> Recent</b> -->
+      <div class="card text-white  bg-danger">
+        <div class="card-body p-0 pt-3 pb-4">
+          <div class="text-center">
+            <span class="font-size-25"> {{ sentOffers?.length }} </span>
+            <div class="font-size-14">Sent Offers</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!--/.col-->
+    <!--/.col-->
+    <div class="col-sm-6 col-lg-3 custom-cursor-pointer" [routerLink]="['/practice/contracts']">
+      <!-- <b class="dashboard-recent"><i class="fa fa-eye"> </i> Recent</b> -->
+      <div class="card text-white bg-primary">
+        <div class="card-body p-0 pt-3 pb-4">
+          <div class="text-center">
+            <span class="font-size-25"> {{ timesheet?.length }} </span>
+            <div class="font-size-14">Time Sheets</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3 custom-cursor-pointer" [routerLink]="['/practice/contracts']">
+      <!-- <b class="dashboard-recent"><i class="fa fa-eye"> </i> Recent</b> -->
+      <div class="card text-white bg-warning">
+        <div class="card-body p-0 pt-3 pb-4">
+          <div class="text-center">
+            <span class="font-size-25"> {{ pendingRatings?.length }} </span>
+            <div class="font-size-14">Pending Rating</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
+
+  <div class="row row pb-20">
+    <div class="col-12">
+      <h4>My Calendar</h4>
+    </div>
+    <div class="col-md-6">
+
+
+
+
+      <div [ngSwitch]="view" class="custom-calendar view-calendar row">
+        <div class="col-7">
+          <div class="custom-month-btn mb-20">
+            <div class="btn-group w-100 align-items-center justify-content-center">
+              <div class="btn btn-left" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+              </div>
+              <h3 class="m-0">{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+              <div class="btn btn-right" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate">
+                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #customCellTemplate let-day="day" let-locale="locale">
+            <div class="cal-cell-top" title="{{(day?.events[0]?.title) ? day?.events[0]?.title:'TITLE'}}">
+              <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
+            </div>
+            <!-- <pre>{{day?.events[0]|json}}</pre> -->
+          </ng-template>
+
+          <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [refresh]="refresh" [viewDate]="viewDate"
+            [cellTemplate]="customCellTemplate" (beforeViewRender)="beforeMonthViewRender($event)">
+          </mwl-calendar-month-view>
+          <!-- [events]="calende=arDays" -->
+        </div>
+        <div class="col-5">
+          <ul class="list-unstyled job-highlight">
+            <li class="green">Open Job</li>
+            <li class="blue">Upcoming Contracts</li>
+            <li class="gray">Past</li>
+          </ul>
+        </div>
+      </div>
+
+
+
+    </div>
+    <div class="col-md-6">
+      <h4><a [routerLink]="['/practice/bided']" class="dash-label">Activities Analytics</a></h4>
+      <div class="table-responsive">
+        <table class="table table-bordered-1 vertical-align-middle table-striped">
+          <thead class="nowrap">
+            <tr class="dark-blue-clr">
+              <th width="200px"></th>
+              <th> Weekly</th>
+              <th> Monthly</th>
+              <th> Annual </th>
+            </tr>
+          </thead>
+          <tbody class="">
+            <!--bindings={
+            "ng-reflect-ng-for-of": "[object Object],[object Object"
+          }-->
+            <tr class="">
+              <td>Total Wages Paid</td>
+              <td>${{analytics?.totalWagesPaid?.weekly}}</td>
+              <td>${{analytics?.totalWagesPaid?.monthly}}</td>
+              <td>${{analytics?.totalWagesPaid?.annual}}</td>
+            </tr>
+
+            <tr class="">
+              <td>Total Hours Hired</td>
+              <td>{{analytics?.totalHoursHired?.weekly}}</td>
+              <td>{{analytics?.totalHoursHired?.monthly}}</td>
+              <td>{{analytics?.totalHoursHired?.annual}}</td>
+            </tr>
+
+            <tr class="">
+              <td>Total Days Hired</td>
+              <td>{{analytics?.totalDaysHired?.weekly.length}}</td>
+              <td>{{analytics?.totalDaysHired?.monthly.length}}</td>
+              <td>{{analytics?.totalDaysHired?.annual.length}}</td>
+            </tr>
+
+            <tr class="">
+              <td>Number of Staff Hired</td>
+              <td>{{analytics?.totalStaffHired?.weekly}}</td>
+              <td>{{analytics?.totalStaffHired?.monthly}}</td>
+              <td>{{analytics?.totalStaffHired?.annual}}</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row pb-20">
+    <div class="col-12 pb-20">
+      <h4><a [routerLink]="['/practice/contracts']" class="dash-label">Upcoming Contracts</a></h4>
+      <div class="table-responsive">
+        <table class="table table-bordered-1 vertical-align-middle table-striped">
+          <thead class="nowrap">
+            <tr class="dark-blue-clr">
+              <th>Contract ID</th>
+              <th>Date</th>
+              <th>Staff Name</th>
+              <th> Start Time </th>
+              <th> End Time </th>
+              <th> Rate </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let upcommingContract of upcommingContracts | paginate: { itemsPerPage: contractsPerPage, currentPage: p }; let i = index;">
+              <td><a [routerLink]="['/practice/contracts/details',upcommingContract?.contractId?._id ]"
+                  data-toggle="tooltip" title="{{upcommingContract?.contractId?._id }}">#{{
+                  upcommingContract?.contractId?._id | slice:18:24}}</a></td>
+              <td>{{ upcommingContract?.jobDate | date: 'MMM dd,yyyy' }}</td>
+              <td>{{ upcommingContract?.contractId?.staffId?.firstName }} {{
+                upcommingContract?.contractId?.staffId?.lastName }}</td>
+              <td>{{ upcommingContract?.startTime | date: 'hh:mm a'}}</td>
+              <td>{{ upcommingContract?.endTime | date: 'hh:mm a'}}</td>
+              <td>${{ upcommingContract?.contractId?.finalRate }}/hrs</td>
+            </tr>
+          </tbody>
+          <tr class="text-center" *ngIf="!upcommingContracts?.length">
+            <td colspan="8">
+              <h6>No Record Found !</h6>
+            </td>
+          </tr>
+        </table>
+        <ul class="pagination justify-content-end" *ngIf="contractsPerPage < upcommingContracts.length">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-12 pb-20">
+      <h4><a [routerLink]="['/practice/job-posts']" class="dash-label">My Posted Jobs</a></h4>
+      <div class="table-responsive">
+        <table class="table table-bordered-1 vertical-align-middle table-striped text-center">
+          <thead class="nowrap">
+            <tr class="dark-blue-clr">
+              <th [class.active]="order === '_id'" (click)="setOrder('_id')">Job Id
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'jobType'" (click)="setOrder('jobType')">Job Type
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'positionType'" (click)="setOrder('positionType')">Position Type
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'createdAt'" (click)="setOrder('createdAt')"> Job Posted Date
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'total.sentStaffOffers'" (click)="setOrder('total.sentStaffOffers')"> No. of
+                Offers Received
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'status'" (click)="setOrder('status')"> Job Status
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'jobTitle'" (click)="setOrder('jobTitle')"> Contract ID
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'jobTitle'" (click)="setOrder('jobTitle')"> Contract Status
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody class="" *ngIf="myPostedjobs?.length">
+            <tr
+              *ngFor="let job of myPostedjobs | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: jobsPerPage, currentPage: q}; let i = index;">
+              <td><a [routerLink]="['/practice/job-details',job?._id]" data-toggle="tooltip" title="{{job?._id}}">#{{
+                  job?._id | slice:18:24}}</a></td>
+              <td class="text-capitalize">{{ jobLabel[job?.jobType] }}</td>
+              <td>{{ job?.positionType }}</td>
+              <td>{{ job?.createdAt | date: 'MMM dd,yyyy' }}</td>
+              <td>{{(job?.total?.sentStaffOffers) ? job?.total?.sentStaffOffers : 0 }}</td>
+              <td class="text-capitalize">{{job?.status}}</td>
+              <td *ngIf="job?.contractId?._id"><a [routerLink]="['/practice/contracts/details',job?.contractId?._id]"
+                  data-toggle="tooltip" title="{{job?.contractId?._id}}" *ngIf="job?.contractId?._id">#{{
+                  job?.contractId?._id | slice:18:24}} </a> <span></span></td>
+
+              <td class="text-capitalize" *ngIf="job?.contractId?._id"> <i
+                  [class]="contractListStatusColor[job?.contractId?.contractListStatus]" aria-hidden="true"></i> {{
+                job?.contractId?.contractListStatus }}</td>
+
+              <td *ngIf="!job?.contractId?._id">-</td>
+              <td *ngIf="!job?.contractId?._id">-</td>
+            </tr>
+
+          </tbody>
+          <tr class="text-center" *ngIf="!myPostedjobs?.length">
+            <td colspan="8">
+              <h6>No Record Found !</h6>
+            </td>
+          </tr>
+        </table>
+        <ul class="pagination justify-content-end" *ngIf="jobsPerPage < myPostedjobs.length">
+          <pagination-controls (pageChange)="q = $event"></pagination-controls>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-12 pb-20">
+      <h4><a [routerLink]="['/practice/sent-offers']" class="dash-label">Sent Offers</a></h4>
+      <div class="table-responsive">
+        <table class="table table-bordered-1 vertical-align-middle table-striped">
+          <thead class="nowrap">
+            <tr class="dark-blue-clr">
+              <th>Offer Id</th>
+              <th>Date</th>
+              <th width="40%">Job Title</th>
+              <th> Staff Name </th>
+            </tr>
+          </thead>
+          <tbody class="" *ngIf="sentOffers?.length">
+            <tr class=""
+              *ngFor="let offer of sentOffers | paginate: { itemsPerPage: offersPerPage, currentPage: r}; let i = index;">
+              <td><a [routerLink]="['/practice/offer-details',offer?._id]" data-toggle="tooltip"
+                  title="{{offer?._id}}">#{{ offer?._id | slice:18:24}}</a></td>
+              <td>{{ offer?.createdAt | date: 'MMM dd,yyyy' }}</td>
+              <td class="text-capitalize">{{offer?.jobPostId?.jobTitle}}</td>
+              <td class="text-capitalize">{{offer?.staffId?.firstName +' '+ offer?.staffId?.lastName}}</td>
+            </tr>
+
+
+          </tbody>
+          <tr class="text-center" *ngIf="!sentOffers?.length">
+            <td colspan="8">
+              <h6>No Record Found !</h6>
+            </td>
+          </tr>
+        </table>
+        <ul class="pagination justify-content-end" *ngIf="offersPerPage < sentOffers.length">
+          <pagination-controls (pageChange)="r = $event"></pagination-controls>
+        </ul>
+      </div>
+    </div>
+
+
+    <div class="col-12 pb-20">
+      <h4><a [routerLink]="['/practice/contracts']" class="dash-label">Timesheets</a></h4>
+      <div class="table-responsive">
+        <table class="table table-bordered-1 vertical-align-middle table-striped">
+          <thead class="nowrap">
+            <tr class="dark-blue-clr">
+              <th>Contract ID</th>
+              <th>Date</th>
+              <th>Staff Name</th>
+              <th> Total Work Hours</th>
+              <th> Total Wage</th>
+              <th> Status </th>
+              <th width="50px"></th>
+            </tr>
+          </thead>
+          <tbody class="" *ngIf="timesheet?.length">
+            <tr class=""
+              *ngFor="let work of timesheet | paginate: { itemsPerPage: timesheetPerPage, currentPage: s}; let i = index;">
+              <td><a [routerLink]="['/practice/contracts/details',work?.contractId?._id ]" data-toggle="tooltip"
+                  title="{{work?._id }}">#{{ work?._id | slice:18:24}}</a></td>
+              <td>{{ work?.createdAt | date: 'MMM dd,yyyy'}}</td>
+              <td class="text-capitalize">{{ work?.staffId?.firstName}} {{ work?.staffId?.lastName}}</td>
+              <td>{{work?.totalTime?.hours}} hours, {{work?.totalTime?.minutes}} minutes</td>
+              <td>${{ timesheetAmountCal(work?.totalTime , work?.contractId?.finalRate) }}</td>
+              <td>{{work?.paidStatus | uppercase}} </td>
+              <td>
+                <button class="btn btn-primary pr-20 pl-20 pt-5p pb-5p"
+                  *ngIf="work?.contractId?.contractStatus === contractStatus.INPROGRESS && work?.paidStatus === workDiaryPaidStatus?.PENDING"
+                  (click)="showModal(work,i)">Pay</button>
+              </td>
+            </tr>
+
+          </tbody>
+          <tr class="text-center" *ngIf="!timesheet?.length">
+            <td colspan="8">
+              <h6>No Record Found !</h6>
+            </td>
+          </tr>
+        </table>
+        <ul class="pagination justify-content-end" *ngIf="timesheetPerPage < timesheet.length">
+          <pagination-controls (pageChange)="s = $event"></pagination-controls>
+        </ul>
+      </div>
+    </div>
+
+
+    <div class="col-12 pb-20">
+      <h4><a [routerLink]="['/practice/contracts']" class="dash-label">Pending Ratings</a></h4>
+      <div class="table-responsive">
+        <table class="table table-bordered-1 vertical-align-middle table-striped">
+          <thead class="nowrap">
+            <tr class="dark-blue-clr">
+              <th>Contract ID</th>
+              <th>Date</th>
+              <th>Staff Name</th>
+            </tr>
+          </thead>
+          <tbody class="">
+            <tr class=""
+              *ngFor="let rating of pendingRatings | paginate: { itemsPerPage: pendingRatingsPerPage, currentPage: t}; let i = index;">
+              <td><a [routerLink]="['/practice/contracts/details',rating?.contractId]" data-toggle="tooltip"
+                  title="{{rating?.contractId}}">#{{ rating?.contractId | slice:18:24}}</a></td>
+              <td>{{ rating?.createdAt | date: 'MMM dd,yyyy' }}</td>
+              <td>{{ rating?.staffId.firstName }} {{ rating?.staffId.lastName }}</td>
+            </tr>
+          </tbody>
+          <tr class="text-center" *ngIf="!pendingRatings?.length">
+            <td colspan="8">
+              <h6>No Record Found !</h6>
+            </td>
+          </tr>
+        </table>
+        <ul class="pagination justify-content-end" *ngIf="pendingRatingsPerPage < pendingRatings.length">
+          <pagination-controls (pageChange)="t = $event"></pagination-controls>
+        </ul>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<div bsModal [config]="{backdrop: 'static', keyboard: false}" #availabilityModal="bs-modal" class="modal fade"
+  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white"> <i class="fa fa-clock-o"> </i> Availability</h4>
+        <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="text-primary">Showing more flexibility increases chance of finding a candidate for your job post.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+        <a [routerLink]="['/staff/customize-availability']">
+          <button type="button" class="btn btn-primary">Check Availability</button>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div bsModal [config]="{backdrop: 'static', keyboard: false}" #timesheetPayModal="bs-modal" class="modal fade"
+  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title  text-white">Payment</h4>
+        <button type="button" class="close  text-white" (click)="timesheetPayModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group row">
+          <div class="col-12">
+            <label><b>Mode of Payment</b></label>
+            <div class="form-group">
+              <div class="custom-control custom-radio">
+                <input name="paymentType" type="radio" [value]="workDiaryPaymentType.OFFLINE"
+                  class="custom-control-input" [disabled]="!selectedWork?.contractId?.staffId?.stripeId" id="offline"
+                  [(ngModel)]="selectedWork.paymentDetails.paymentType">
+                <label class="custom-control-label" for="offline">Offline</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="custom-control custom-radio">
+                <input name="paymentType" type="radio" [value]="workDiaryPaymentType.ONLINE"
+                  class="custom-control-input" [disabled]="!selectedWork?.contractId?.staffId?.stripeId" id="online"
+                  [(ngModel)]="selectedWork.paymentDetails.paymentType">
+                <label class="custom-control-label" for="online">Online</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6 mt-10" *ngIf="selectedWork.paymentDetails.paymentType == workDiaryPaymentType.OFFLINE">
+            <label><b>Payment Description
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !selectedWork.paymentDetails.paymentDesc, 'text-primary': selectedWork.paymentDetails.paymentDesc}"></i>
+                </sup>
+              </b></label>
+            <input type="text" name="paymentDesc" class="form-control" placeholder="Add Payment Desciption Here"
+              [(ngModel)]="selectedWork.paymentDetails.paymentDesc" required name="paymentDesc">
+          </div>
+
+          <div class="col-6 mt-10" *ngIf="selectedWork.paymentDetails.paymentType == workDiaryPaymentType.ONLINE">
+            <h6> Work Fee: ${{timesheetAmountCal(selectedWork.totalTime,selectedWork?.contractId.finalRate)}} </h6>
+            <h6> Processing Fee:
+              ${{((globalService.stripeTotalAmt((timesheetAmountCal(selectedWork.totalTime,selectedWork?.contractId.finalRate)))
+              /100 ) - (timesheetAmountCal(selectedWork.totalTime,selectedWork?.contractId.finalRate))).toFixed(2)}}
+            </h6>
+            <h6> Total Fee:
+              ${{globalService.stripeTotalAmt((timesheetAmountCal(selectedWork.totalTime,selectedWork?.contractId.finalRate)))/100}}
+            </h6>
+
+            <h6><b>Credit or debit card</b></h6>
+            <stripe-card #stripeSource1 (catch)="$event" (sourceChange)="setStripeSource($event)"></stripe-card>
+            <!--
+                          [(source)]  = 'source'
+                          [(invalid)] = 'invalidError' -->
+          </div>
+          <!-- </div> -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="timesheetPayModal.hide()">Close</button>
+        <button type="button" class="btn btn-primary"
+          [disabled]="(selectedWork.paymentDetails.paymentType == workDiaryPaymentType.OFFLINE && !selectedWork.paymentDetails.paymentDesc)"
+          (click)="timesheetPayModal.hide();confirmTimesheetModal.show()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--  Confirm TimeSheet MODAL -->
+<div bsModal [config]="{backdrop: 'static', keyboard: false}" #confirmTimesheetModal="bs-modal" class="modal fade"
+  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-white">
+        <h4 class="modal-title text-white"> Payment Confirmation</h4>
+        <button type="button" class="close text-white" (click)="confirmTimesheetModal.hide();timesheetPayModal.show();"
+          aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to pay {{selectedWork.paymentDetails.paymentType}}?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary"
+          (click)="confirmTimesheetModal.hide();timesheetPayModal.show();">Close</button>
+        <button type="button" class="btn btn-primary"
+          (click)="confirmTimesheetModal.hide();submitTimesheetPayment()">Confirm</button>
+        <!-- <pre [innerHtml]="newJob | json"> </pre> -->
+      </div>
+    </div>
+  </div>
+</div>
+<!--  Confirm TimeSheet MODAL -->

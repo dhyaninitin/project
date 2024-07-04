@@ -1,0 +1,62 @@
+@import "~@cloudtalentrecruit/ng-design/assets/styles/0-plugins/plugins-dir";
+@import "~@cloudtalentrecruit/ng-design/assets/styles/1-base/variable";
+
+.dialouge-delete {
+    width: 550px;
+    height: 350px;
+
+    .delete-box {
+        img {
+            margin: 33px 0 0px 45%;
+        }
+        h2 {
+            margin: 15px 0 7px 0;
+        }
+    }
+    .buttons {
+        margin: 10% 0 0 31%;
+        display: flex;
+        .box-button {
+            margin-left: 15px;
+            background: #ffffff;
+            border-radius: 8px;
+            width: 80px;
+        }
+    }
+
+    .upload-box {
+        margin: 0 50px 0 50px;
+        img {
+            margin: 0 0 0 40%;
+        }
+        p {
+            font-family: Manrope;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 20px;
+            text-align: center;
+            color: #84818a;
+        }
+    }
+    h5 {
+        margin: 10px 0 30px 0;
+        font-family: Manrope;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 20px;
+        text-align: center;
+        color: #84818a;
+    }
+    h2 {
+        margin: 30px 0 20px 0;
+        font-family: Manrope;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 25px;
+        text-align: center;
+        color: #25364d;
+    }
+}

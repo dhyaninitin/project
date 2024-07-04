@@ -1,0 +1,187 @@
+@import "../../../../../scss/menu";
+@import "../../../../../scss/card";
+
+.fr {
+    float: right;
+}
+
+.row.profile-section{
+    margin: 0;
+}
+
+.form-group {
+    label {
+        font-size: 15px;
+    }
+}
+
+.border-bottom {
+    h2.profile-heading {
+      font-size: 22px;
+    }
+  }
+
+  .custom-switch-1 {
+    display: flex;
+  }
+  .custom-switch-1 label {
+    display: inline-block;
+      width: 53px;
+      padding: 10px;
+      border: solid 1px #ccc;
+      transition: all 0.3s;
+      padding: 5px 10px;
+      text-align: center;
+      color: #222;
+  }
+  label.br-0p {
+      border-right-color: transparent;
+  }
+  .custom-switch-1 input[type="radio"] {
+    display: none;
+  }
+
+  .custom-switch-1 input[type="radio"]:checked + label {
+    background:#053178;
+    color:#fff !important;
+  }
+
+
+  .verify-eligibility {
+    h3,h4,h5,h6  {
+       margin: 0;
+       line-height: 42px;
+       font-weight: normal;
+    }
+    .col-sm-2 {
+       display: flex;
+       align-items: center;
+       label {
+         margin: 0;
+       }
+    }
+}
+
+.primaryCard {
+  font-family: "ProximaNova";
+  font-weight: 600;
+  color: #fafafa;
+  margin: 0
+}
+
+.primaryCardGreen {
+  font-family: "ProximaNova";
+  font-weight: 600;
+  color: greenyellow;
+  margin: 0;
+}
+
+:host ::ng-deep .nav-tabs .nav-item .nav-link {
+  border-top-left-radius: 0px !important; 
+  border-top-right-radius: 0px !important; 
+  background-color: transparent !important;
+  color: #053178;
+ }
+
+h1,h2,h3,h4,h5.h6{
+  color: black !important;
+}
+
+label{
+  color: black !important;
+}
+
+.clr-dark-blue{
+  color: black !important;
+}
+
+:host ::ng-deep .ng-wizard-theme-arrows .ng-wizard-toolbar {
+  padding: 0px;
+ margin-bottom: 0;
+}
+
+:host ::ng-deep .ng-wizard-main {
+ margin: 29px;
+}
+
+:host ::ng-deep .gray-bg{
+background: none !important;
+}
+
+:host ::ng-deep .tab-content {
+ border: none;
+}
+
+:host ::ng-deep .ng-wizard-theme-dots>ul.step-anchor:before{
+ top:45px;
+ width: 100%;
+ //margin-left: 14px;
+}
+
+:host ::ng-deep .ng-wizard-theme-dots>ul.step-anchor>li.active>a {
+ color: #007bff !important;
+}
+:host ::ng-deep .ng-wizard-theme-dots>ul.step-anchor>li.done>a {
+ color: #5cb85c !important;
+}
+
+:host ::ng-deep .ng-wizard-theme-dots>ul.step-anchor>li>a:before {
+ color: #007bff !important;
+}
+
+:host ::ng-deep .ng-wizard-theme-dots>ul.step-anchor {
+ justify-content: center !important;
+}
+
+
+:host ::ng-deep .switch.checked{
+ background: #1b4587;
+}
+
+:host ::ng-deep .clr-white, .white-clr {
+  color: #fff !important;
+}
+
+.subHeading{
+  color: #adb9ce;
+  text-align: center;
+}
+
+
+input.largerCheckbox {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 1px;
+}
+
+.primaryText{
+  left: 40px;
+  position: absolute;
+  color: white !important;
+}
+
+:host ::ng-deep .disabledbtn{
+  background: lightgray !important;
+}
+
+
+@media screen and (max-width: 768px){
+  
+  :host ::ng-deep .ng-wizard-theme-dots>ul.step-anchor:before {
+    background-color: white;
+    top: 0;
+  }
+  
+  :host ::ng-deep .ng-wizard-theme-dots>ul.step-anchor>li>a:before {
+    background-color: white;
+  }
+  :host ::ng-deep .ng-wizard-theme-dots>ul.step-anchor>li>a:after {
+    margin-top: 20px;
+  }
+}
+
+
+.f-25{
+  font-size: 25px;
+}

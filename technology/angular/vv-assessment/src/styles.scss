@@ -1,0 +1,15 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.custom-btn-style {
+    border: 1px solid #f0a400 !important;
+    color: #f0a400 !important;
+    transition-duration: 300ms;
+}
+
+.custom-btn-style:hover {
+    box-shadow: 0px 15px 10px -15px #f0a400 !important;
+    transform: translateY(-1px);
+}

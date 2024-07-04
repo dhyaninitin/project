@@ -1,0 +1,79 @@
+.c-pagination {
+  display: block;
+  margin-top: 20px;
+  text-align: center;
+  ul.ngx-pagination {
+    padding: 0;
+    li {
+      cursor: pointer;
+      font-size: 14px;
+      text-align: center;
+      text-decoration: none;
+      transition: background 250ms;
+      text-transform: uppercase;
+      margin: 0 3px 6px;
+      height: 38px;
+      min-width: 38px;
+      border-radius: 38px;
+      padding: 0;
+      border: 2px solid #f59300;
+      line-height: 38px;
+      color: #f59300;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      outline: none;
+      &:not(.disabled):hover {
+        background-color: #f59300;
+        color: #fff;
+      }
+
+      a,
+      button {
+        outline: none;
+        display: block;
+        color: unset;
+        padding: unset;
+        border-radius: unset;
+        &:hover {
+          background-color: unset;
+          color: unset;
+        }
+      }
+
+      &.current {
+        border: 2px solid #d07d00;
+        background-color: #f59300;
+        color: #fff;
+        cursor: default;
+      }
+
+      &.disabled {
+        border: 2px solid #f5930080;
+        color: #f5930080;
+        cursor: default;
+      }
+
+      &.small-screen {
+        padding: 0 10px;
+      }
+    }
+
+    .pagination-previous a::before,
+    .pagination-previous.disabled::before {
+      display: none;
+    }
+
+    .pagination-next a::after,
+    .pagination-next.disabled::after {
+      display: none;
+    }
+
+    .pagination-next,
+    .pagination-previous {
+      a,
+      &.disabled {
+        padding: 0px 15px !important;
+      }
+    }
+  }
+}

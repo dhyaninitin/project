@@ -1,0 +1,7 @@
+<div class="delete-dialog-container">
+    <div class="content" [innerHTML]="data.contentHTML"></div>
+    <div class="action-btns">
+      <button mat-stroked-button class="cancel-btn" (click)="cancel()" type="button">Cancel</button>
+      <button mat-flat-button color="warn" (click)="delete()">Delete</button>
+    </div>
+  </div>

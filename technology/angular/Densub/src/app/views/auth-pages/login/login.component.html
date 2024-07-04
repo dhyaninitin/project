@@ -1,0 +1,151 @@
+<div class="app-body auth-bg">
+  <main class="main form-design-1 d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-5 col-11 col-md-8 mx-auto">
+          <div class="pt-30 pb-70 sm-pb-50">
+            <div class="no-border">
+              <div class="text-center">
+                  <a class="navbar-brand mb-60" [routerLink]="['/']"><img alt="" class="max-width-220" src="../../../../assets/img/brand/Densub_Logo.png" width="320"></a>
+                  <h1 class="clr-white m-0 text-uppercase title">Sign In</h1>
+              </div>
+              <div class="card-body pr-25 pl-25 pb-25 pt-10 xs-pr-0 xs-pl-0">
+
+                <app-alert></app-alert>
+                <div class="input-group form-group mb-0 after-borer">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <img src="../../../../assets/img/common/email.png" alt="">
+                    </span>
+                  </div>
+                  <input type="email" [(ngModel)]="loginInfo.email" class="form-control" placeholder="Email" required
+                    id="email">
+                </div>
+                <div class="input-group form-group mb-10 mt-0">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <img src="../../../../assets/img/common/lock.png" alt="">
+                    </span>
+                  </div>
+                  <input type="password" [(ngModel)]="loginInfo.password" class="form-control" placeholder="Password"
+                    required id="password" maxlength="15">
+                </div>
+
+                <div class="row">
+                  <div class="col-12">
+                    <!-- <a *ngIf="showResendVerificationLink" (click)="resendVerificationMail()" >If you have not received verification mail, please <b>Click here.</b> <br><br></a> -->
+                    <!-- <a href="{{emailLink}}" *ngIf="emailLink">Sorry now you will not able to receive email Please click
+                      here for email Verification. <br><br></a> -->
+                    <button (click)="doSignin()" [disabled]="loginInfo.email == '' || loginInfo.password == ''"
+                      type="button" class="btn btn-secondary w-100 btn-round btn-style-2">
+                      SIGN IN
+                    </button>
+                    <p *ngIf="showResendVerificationLink" class="text-center clr-white fs-13 mt-2">If you have not received verification mail, please <a class="gp-link clr-blue" (click)="resendVerificationMail()"><b>Click Here</b></a></p>
+                  </div>
+                </div>
+
+
+                <div>
+                    <p class="text-center mt-10 mb-0"><a routerLink="/forgot-password" class="text-muted text-center ps-13"><img width="18" src="../../../../assets/img/common/padlock2.png" alt="" style="margin-top: -4px;"><span class="pt-5p">Forgot Password?</span></a></p>
+                  <div class="gp-fancy-center login pt-10">
+                    <span class="inner-text clr-orange">OR</span>
+                  </div>
+
+                  <div class="gp-social-wrapper">
+                    <div class="social login">
+                      <p>
+                        <a (click)="showNewJobModal('facebook')" class="gp-btn btn-gray w-100 text-center gp-social-button btn">
+                          <span class="icon-holder">
+                            <i class="fa fa-facebook"></i>
+                          </span>
+                          <span class="btn-text">Continue With Facebook</span>
+                        </a>
+                      </p>
+                      <p>
+                        <a (click)="showNewJobModal('google')" class="gp-btn btn-white w-100 text-center gp-social-button btn">
+                          <span class="icon-holder">
+                            <!-- <i class="fa fa-google-plus"></i> -->
+                            <img src="../../../../assets/img/common/google.png" class="img-fluid" width="20" alt="">
+                          </span>
+                          <span class="btn-text">Sign In With Google</span>
+                        </a>
+                      </p>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="gp-alt-link text-center">
+                    <p class="clr-white fs-13">New to Densub? <a class="gp-link" id="gptest-signup-link" [routerLink]="['/signup/practice']">Sign up for free</a></p>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+
+<!-- Social SignUp MODAL -->
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #createSocialLoginModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-white">
+        <h4 class="modal-title text-white"><i class="fa fa-sign-in"></i> Sign in As</h4>
+        <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul class="listunstyled row col-12 m-auto">
+          <li class="pr-15">
+            <div class="form-group">
+
+              <div class="custom-control custom-radio radio-design-1">
+                <input class="custom-control-input ng-valid ng-dirty ng-touched" id="DentalPractice" name="userType" [(ngModel)]="userType" value="practice" type="radio">
+                <label class="custom-control-label clr-black" for="DentalPractice">Dental Practice</label>
+              </div>
+            </div>
+          </li>
+          <li class="pr-15">
+            <div class="form-group">
+              <div class="custom-control custom-radio radio-design-1">
+                <input class="custom-control-input ng-valid ng-dirty ng-touched" id="DentalStaff" name="userType" type="radio" [(ngModel)]="userType" value="staff">
+                <label class="custom-control-label clr-black" for="DentalStaff">Dental Staff
+                </label>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <div class="form-group" *ngIf="userType == userTypes.STAFF">
+          <select class="form-control" name="positionType" [(ngModel)]="positionType">
+            <option value="">Select Position Type</option>
+            <option [value]="positionType" *ngFor="let positionType of PositionTypeData">{{positionType}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+        <button type="button" class="btn btn-primary" [disabled]="userType == userTypes.STAFF && !positionType" (click)="socialSignUp()">Continue</button>
+        <!-- <pre [innerHtml]="newJob | json"> </pre> -->
+      </div>
+    </div>
+  </div>
+</div>
+<!--  Social SignUp MODAL -->
+
+
+<!-- cokie popup -->
+
+<div class="position-fixed bottom-0 left-0 right-0 cookie-popup" *ngIf = "!isShow">
+  <div class="position-relative text-center flash-message">
+    <p class="m-0 clr-white fs-11">We use cookies to improve your experience on this site and help us serve relevant advertising to you. To find out more about cookies, please read <a href="">here</a>. By continuing to use this site. you are consenting to our use of cookies</p>
+
+  </div>
+  <button class="btn-transparent cookie-ok" (click) = toggleDisplay()>Ok</button>
+</div>

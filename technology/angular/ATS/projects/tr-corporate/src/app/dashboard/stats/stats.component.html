@@ -1,0 +1,11 @@
+<div [@fadeInOut]>
+<img src="assets/images/under_construction.svg" alt="" srcset="">
+<!-- <h2 class="construction-title">Under Construction <br>
+  <a button mat-flat-button color="primary" class="mx-3 xs mt-3" [routerLink]="SETTINS_ROUTE">Visit Settings</a>
+</h2> -->
+<h2 class="construction-title">{{ln.TXT_UNDER_CONSTRUCTION | translate}} <br>
+  <a button mat-flat-button color="primary" class="mx-3 xs mt-3" [routerLink]="SETTINS_ROUTE">
+    {{ln.TXT_VISIT_SETTINGS | translate}}
+  </a>
+</h2>
+</div>

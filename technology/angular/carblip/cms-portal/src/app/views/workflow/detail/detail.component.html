@@ -1,0 +1,148 @@
+<!-- <h1>Wheel Directive Demo</h1>
+<input zoomInZoomOut type="text" value="Ctrl + mouse scroll wheel" /> -->
+<vex-page-layout>
+	<vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+		<div class="w-full flex flex-col sm:flex-row justify-between">
+			<div>
+				<h1 class="title mt-0 mb-1">Workflow Details</h1>
+				<vex-breadcrumbs [crumbs]="['Workflow', 'Detail']"></vex-breadcrumbs>
+			</div>
+
+		</div>
+	</vex-page-layout-header>
+	<vex-page-layout-content class="-mt-6">
+		<div class="card overflow-auto -mt-16">
+			<div class="head bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
+				<h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l sm:block flex-none">
+					<span>Actions</span>
+				</h2>
+				<span class="flex-1"></span>
+				<span *ngIf="isEdit">
+					<mat-slide-toggle color="primary" [checked]="workflow_data?.is_active == 0 ? true : false"
+						[matTooltip]="workflow_data?.is_active == 0 ? 'Deactivate Workflow' : 'Activate Workflow'"
+						(change)="changeWorkflowStatus($event, workflow_data)">
+					</mat-slide-toggle>
+					<button *ngxPermissionsExcept="['concierge']" class="ml-4 flex-none" color="warn" mat-mini-fab
+						matTooltip="Delete Workflow" type="button" (click)="deleteWorkflow()">
+						<mat-icon svgIcon="mat:delete"></mat-icon>
+					</button>
+				</span>
+
+				<button (click)="location.back()" class="ml-4 flex-none" color="primary" mat-mini-fab matTooltip="Back"
+					type="button">
+					<mat-icon svgIcon="mat:arrow_back"></mat-icon>
+				</button>
+			</div>
+		</div>
+
+		<div class="mt-6 flex flex-col md:flex-row md:items-start">
+			<div class="flex-auto">
+				<div class="card overflow-auto h-100-vh" appDragScroll>
+					<div class="px-gutter py-4 border-b flex justify-content-space-between">
+						<h2 class="title m-0">Workflow Details</h2>
+					</div>
+					<div>
+						<app-create #appCreateComponent (workflow_data)="workflowData($event)"></app-create>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="mt-6 flex flex-col md:flex-row md:items-start">
+			<div class="flex-auto">
+				<div class="card">
+					<mat-tab-group class="px-gutter" animationDuration="1000ms"
+						(selectedTabChange)="ontabChange($event)">
+						<mat-tab label="Workflow's History">
+							<div class="flex flex-col mt-3 sm:flex-row">
+								<mat-progress-bar *ngIf="(logFetching$ | async)"
+									mode="indeterminate"></mat-progress-bar>
+								<ul class="log-ul" *ngIf="logs?.length > 0">
+									<li *ngFor="let log of logs" @fadeInUp>
+										<span [innerHTML]="log.content"></span>
+										{{ formatLogMessage(log.content) }} {{ log.created_at | date:'MM/dd/yyy \'at\'
+										hh:mm a'}}
+									</li>
+								</ul>
+							</div>
+
+							<div class="text-center mt-2" *ngIf="(logDidFetch$ | async) && logs?.length == 0">There are
+								no contact's history available.</div>
+
+							<div class="flex flex-col sm:flex-row justify-content-end">
+								<mat-paginator #paginator [length]="logPagination.length"
+									[pageSize]="logPagination.pageSize" [pageIndex]="logPagination.pageIndex"
+									[pageSizeOptions]="[20, 50, 100]" [showFirstLastButtons]="true"
+									(page)="onLogPaginateChange($event)">
+								</mat-paginator>
+							</div>
+
+						</mat-tab>
+
+						<mat-tab label="Enrollment History">
+							<mat-progress-bar *ngIf="(enrollmentHistoryFetching$ | async)"
+								mode="indeterminate"></mat-progress-bar>
+							<div class="overflow-auto h-full-vh sticky">
+								<form [formGroup]="filterForm" class="w-full mt-3 pl-3">
+									<div class="grid grid-cols-3 sm:grid-cols-3 gap-4">
+										<div class="flex items-center">
+											<mat-form-field class="filter">
+												<mat-label>Enrollment Type</mat-label>
+												<mat-select formControlName="enrolledType"
+													(selectionChange)="onEnrolledType($event.value)">
+													<mat-option *ngFor="let type of enrollmentType"
+														[value]="type.value">
+														{{type.label}}
+													</mat-option>
+												</mat-select>
+											</mat-form-field>
+										</div>
+										<div class="flex items-center">
+											<mat-form-field class="filter">
+												<mat-label>Search</mat-label>
+												<mat-select formControlName="search" placeholder="Serach" #singleSelect
+													(selectionChange)="onFilterChange($event.value)"
+													(infiniteScroll)="getNextBatch()" [threshold]="'0.5%'"
+													[debounceTime]="150"
+													[complete]="enrolledOffset === totalEnrolledPages" msInfiniteScroll>
+													<mat-option>
+														<ngx-mat-select-search *ngIf="true"
+															[placeholderLabel]="'Search...'"
+															[noEntriesFoundLabel]="'No matches' "
+															[formControl]="enrolledFilterCtrl"
+															[preventHomeEndKeyPropagation]="true">
+															<mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+														</ngx-mat-select-search>
+													</mat-option>
+													<mat-option value="-1">All</mat-option>
+													<mat-option *ngFor="let enrollType of filteredEnrolledList"
+														[value]="enrollType.id">
+														{{ formatText(enrollType)}}
+													</mat-option>
+													<mat-option *ngIf="loadingEnrolled">
+														<mat-spinner class="input-mat-spinner-loader" color="primary"
+															[diameter]="30"></mat-spinner>
+													</mat-option>
+												</mat-select>
+											</mat-form-field>
+										</div>
+									</div>
+								</form>
+								<app-enrollment-history [columnHeaders]="columnHeaders"></app-enrollment-history>
+							</div>
+							<mat-paginator #paginator [length]="enrollmentHistoryPagination.length"
+								[pageSize]="enrollmentHistoryPagination.pageSize"
+								[pageIndex]="enrollmentHistoryPagination.pageIndex" [pageSizeOptions]="[20, 50, 100]"
+								[showFirstLastButtons]="true" (page)="onPaginateChange($event)">
+							</mat-paginator>
+
+						</mat-tab>
+					</mat-tab-group>
+
+
+				</div>
+			</div>
+		</div>
+	</vex-page-layout-content>
+
+</vex-page-layout>

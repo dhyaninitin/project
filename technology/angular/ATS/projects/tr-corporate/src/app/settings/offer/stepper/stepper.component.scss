@@ -1,0 +1,214 @@
+@import "~@cloudtalentrecruit/ng-design/assets/styles/0-plugins/plugins-dir";
+@import "~@cloudtalentrecruit/ng-design/assets/styles/1-base/variable";
+.container {
+  margin-bottom: 50px;
+  overflow-x: hidden !important;
+  .auth-step {
+    display: flex;
+    justify-content: center;
+    width: 55%;
+    margin: 5px 0 9px 0px;
+    font-family: Manrope;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    color: #504f54;
+  }
+  h2 {
+    font-family: Manrope;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 48px;
+    color: #2e2c34;
+    margin: 3% 0 5% 4px;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin: 3% 0 4% 0;
+    .box-button {
+      margin-left: 10px;
+      border-radius: 4px;
+    }
+    .box-btn {
+      margin-left: 10px;
+      border: 1px solid #e3e1e5;
+    }
+    .prev-button {
+      margin-left: 2px;
+      p {
+        color: #1f47f5;
+        padding: 2px 15px 2px 15px;
+        border: 1px solid #1f47f5;
+        border-radius: 4px;
+      }
+    }
+  }
+}
+
+.stepper-label {
+  font-weight: bolder !important;
+}
+//second offer page work
+.container-box {
+  margin-top: 3%;
+  padding: 0;
+  .title {
+    display: flex;
+    justify-content: space-between;
+    h3 {
+      font-family: Manrope;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 22px;
+      color: #25364d;
+      margin: 3% 0 2% 1%;
+    }
+    button {
+      height: 30px;
+      width: 170px;
+    }
+  }
+  table {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
+    tr.mat-row {
+      height: 80px;
+    }
+    .mat-column-Type {
+      width: 25%;
+    }
+    .mat-column-Action {
+      width: 20%;
+    }
+    .mat-column-component {
+      width: 35%;
+    }
+    .mat-column-Rule {
+      width: 20%;
+    }
+    th {
+      font-family: Manrope;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 20px;
+      color: #84818a;
+      mat-checkbox {
+        margin-left: 0px;
+      }
+    }
+    td {
+      font-family: Manrope;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 20px;
+      color: #504f54;
+      padding-top: 20px;
+      .title {
+        font-family: Manrope;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 20px;
+
+        color: #2e2c34;
+      }
+      .box-btn {
+        background: rgba(20, 177, 59, 0.1);
+        height: 70px;
+        color: #00a46c;
+        padding: 4px 5px 4px 5px;
+        border-radius: 4px;
+      }
+      .actions {
+        display: flex;
+        justify-content: flex-end;
+        img {
+          padding: 0 16px 0 2px;
+        }
+      }
+    }
+  }
+}
+.close-btn {
+  position: absolute;
+  margin-top: 5px;
+  right: 15px;
+  font-size: 1.3rem;
+  z-index: 8;
+}
+mat-drawer-container {
+  background-color: white;
+
+  &[cdk-scrollable],
+  &[cdkScrollable] {
+    .mat-drawer-container {
+      overflow: visible !important;
+      width: 590px;
+      padding: 0;
+      margin: 0px;
+    }
+  }
+  margin: 0 0px 0 0px;
+  height: auto !important;
+  width: 100%;
+}
+.right-drawers {
+  // background-color: $white;
+  // z-index: 2 !important;
+  .drawer-container {
+    position: absolute;
+    right: 0px;
+    padding-top: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    width: 600px;
+    height: 100%;
+
+    @include media-breakpoint-down(md) {
+      width: 100%;
+    }
+  }
+  .mat-drawer-backdrop.mat-drawer-shown {
+  }
+  &.drawer-lg {
+    mat-drawer {
+      width: 550px;
+      .drawer-btn {
+        .mat-flat-button {
+          transition: all 0.5s ease;
+          // width: calc(500px - 2rem) !important;
+        }
+      }
+    }
+  }
+}
+::ng-deep
+  .mat-slide-toggle.mat-checked:not(.mat-disabled)
+  .mat-slide-toggle-thumb {
+  background-color: rgb(235, 232, 232);
+}
+::ng-deep
+  .mat-slide-toggle.mat-checked:not(.mat-disabled)
+  .mat-slide-toggle-bar {
+  background-color: #00a46c;
+}
+::ng-deep
+  .mat-checkbox-checked.mat-accent
+  .mat-checkbox-ripple
+  .mat-ripple-element {
+  opacity: 0.03 !important;
+  background-color: #1f47f5 !important;
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: #1f47f5;
+}

@@ -1,0 +1,333 @@
+.innerbg-1 {
+  background-image: url('../../../assets/img/common/job-list-bg.jpg');
+  background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center 22%;
+  min-height: 250px;
+}
+/* .innerbg-1 {
+  background-image: url('../../../assets/img/common/job-list-bg.jpg');
+  // background-image: url('../../../assets/img/common/dentallist.jpg');
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position: center center;
+  min-height: 250px;
+} */
+.make-fav {
+  position: absolute;
+  top: 2px;
+  right: 18px;
+  background: #eeeeee;
+  border-radius: 50%;
+  width: 25px;
+  padding: 0;
+  height: 25px;
+}
+
+.listing_inner  {
+  height: 100%;
+  .listing-img {
+    img {
+    @media (min-width:551px) {
+      max-width: 83px;
+      max-height: 80px;
+      height: 80px !important;
+    }
+    @media (max-width:550px) {
+      max-width: 160px;
+      max-height: 160px;
+      height: 145px !important;
+    }
+    }
+  }
+  .listing-content {
+    .text-l {
+    @media (min-width:768px) {
+      text-align: left !important;
+    }
+    @media (max-width:767px) {
+      text-align: center !important;
+    }
+    }
+  }
+}
+
+////SIDE NAV
+
+.wrapper {
+  display: block;
+}
+
+#sidebar {
+  overflow-y: scroll;
+  min-width: 1058px;
+  max-width: 1058px;
+  height: 92vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 9999;
+  margin-top: 78px;
+  @media (max-width:600px) {
+    min-width: 100%;
+    max-width: 100%;
+  }
+}
+
+#dismiss {
+  width: 35px;
+  height: 35px;
+  position: absolute;
+  top: 10px;
+  left: 18px;
+}
+
+#dismiss1 {
+  width: 35px;
+  height: 35px;
+  position: absolute;
+  top: 20px;
+  left: 95%;
+}
+
+.dropdown-btn{
+  border-radius: 5px;
+  border: 1px solid #e4e5e6;
+  //width: 255px;
+}
+
+.dropdown-btn:focus{
+  border-color: #8ad4ee;
+}
+
+.dropdown-toggle::after{
+  float: right;
+  margin-top: 9px;
+}
+
+.rotation.dropdown-toggle::after{
+    float: right;
+    margin-top: 9px;
+    transform: rotate(180deg);
+  }
+
+
+
+input.empty {
+font-family: FontAwesome;
+padding: 7px;
+font-size: 14px;
+line-height:24px;
+}
+
+
+.bannerStyle h1 {
+  background-color: #ccc;
+  min-height: 200px;
+  text-align: center;
+  line-height: 300px;
+}
+
+:host ::ng-deep .banner{
+  .item{
+    width: fit-content !important;
+    display: inline-flex;
+    margin-top: 10px;
+  }
+}
+
+.leftRs {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  width: 25px;
+  height: 28px;
+  display: block !important;
+  border-radius: 999px;
+  left: 0;
+  border: 1px solid #2768cf;;
+  background-color: white;
+}
+
+.rightRs {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  width: 25px;
+  height: 28px;
+  display: block !important;
+  border-radius: 999px;
+  right: 0;
+  border: 1px solid #2768cf;;
+  background-color: white;
+}
+
+
+.tag{
+  background: lightgray;//#837b7b;
+  padding-top: 3px;
+  border-radius: 20px;
+  padding-bottom: 3px;
+  padding-left: 8px;
+  padding-right: 7px;
+  font-size: 14px;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+
+:host ::ng-deep label{
+  color: black;
+}
+
+
+.top-margin{
+  width: 103px;
+  margin-top: -8px;
+
+  // @media (max-width:575px){
+  //   margin-top: 8px;
+  // }
+}
+
+.round-box{
+  border-radius: 20px;
+}
+
+.calender-weekDays{
+  width: 44px !important;
+  height: 31px;
+  text-align: center;
+  padding: 4px;
+  color: white;
+}
+
+
+.fil{
+  //filter: blur(1px);
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.5)!important;
+}
+
+// .card-opacity{
+//   opacity: 0.5;
+// }
+
+
+.mt-8{
+  margin-top: 4% !important;
+  @media (max-width:575px){
+    margin-top: 15% !important;
+  }
+}
+.mt-25{
+  margin-top: 16% !important;
+  @media (max-width:575px){
+    margin-top: 136% !important;
+  }
+}
+
+.filter-container{
+  position: fixed;
+  z-index: 9;
+}
+
+.filter1{
+  margin-left: 7% !important;
+  padding-left: 7px !important;
+  @media (max-width:600px){
+    margin-left: 0px !important;
+    padding-left: 7px !important;
+  }
+}
+
+
+.pt-8{
+  padding-top: 1px !important;
+}
+
+
+.mt--12{
+  @media (max-width:600px){
+  margin-top: 0px !important;
+  }
+}
+.sortSelection {
+  color: #007bff; // color of the selected option
+
+  option {
+    color: gray; // color of all the other options
+  }
+}
+
+.f-14{
+  font-size: 14px;
+}
+
+@media screen and (max-width:600px){
+  .mobile-px{
+    padding-left: 0px !important;
+    padding-right: 0px;
+    margin-bottom: 12px !important;
+  }
+  .mobile-btn{
+    font-size: 12px !important;
+    padding: 8px !important;
+  }
+  #dismiss1 {
+    left: 90%;
+  }
+}
+
+.modal-height{
+  margin-top: 78px;
+}
+
+.round-with-text{
+  border-radius: 0px 20px 20px 0px;
+}
+
+
+:host ::ng-deep .multiselect-dropdown .dropdown-btn {
+  border: 1px solid #e4e7ea !important;
+}
+
+:host ::ng-deep .multiselect-dropdown .dropdown-btn:focus{
+  border-color: #8ad4ee !important;
+}
+
+.flip-arrow{
+  transform: rotate(180deg);
+}
+
+:host ::ng-deep .multiselect-dropdown .dropdown-btn .dropdown-down{
+  border-top: 5px solid black !important;
+  border-left: 5px solid transparent !important;
+  border-right: 5px solid transparent !important;
+}
+
+
+:host ::ng-deep .multiselect-dropdown .dropdown-list .item2 .no-data h5{
+  font-size: 14px;
+  font-weight: 500;
+  color: black;
+}
+
+// :host ::ng-deep .multiselect-dropdown .dropdown-btn .dropdown-up{
+//   border-top: 5px solid black !important;
+//   border-left: 5px solid transparent !important;
+//   border-right: 5px solid transparent !important;
+// }
+
+:host ::ng-deep .invite-image{
+  height: 60px !important;
+}
+

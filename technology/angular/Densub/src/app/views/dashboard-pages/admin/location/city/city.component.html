@@ -1,0 +1,165 @@
+<div class="row">
+  <div class="col-sm-12">
+    <h4 class="text-primary"> <b>Manage: State</b> </h4>
+    <hr />
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-2">
+    <div class="form-group">
+      <input type="text" class="form-control" name="countryStr" [(ngModel)]="dataFilter.countryStr" placeholder="Country">
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <div class="form-group">
+      <input type="text" class="form-control" name="stateStr" [(ngModel)]="dataFilter.stateStr" placeholder="State">
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <div class="form-group">
+      <input type="text" class="form-control" name="city" [(ngModel)]="dataFilter.city" placeholder="City">
+    </div>
+  </div>
+
+  <div class="col-sm-2">
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary btn-sm" (click)="setFilter()">Search</button>
+      <button type="button" class="btn btn-danger btn-sm" (click)="resetFilter()">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-cogs"></i> Listings
+        <button class="btn btn-primary pull-right btn-sm mr-1" (click)="showSaveModal()"> <i class="fa fa-plus">
+        </i> Add New City</button>
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table table-bordered">
+          <thead class="nowrap">
+            <tr>
+              <th>S.No</th>
+              <th [class.active]="order == 'countryStr'" (click)="setOrder('countryStr')">
+                Country
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order == 'stateStr'" (click)="setOrder('stateStr')">
+                State
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order == 'city'" (click)="setOrder('city')">
+                City
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+
+              <th> Created On </th>
+              <th> Updated On </th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="cityList.length">
+            <tr
+              *ngFor="let city of cityList | grdFilter: setDataFilter: false | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index;">
+              <td>{{(itemsPerPage * (p - 1) + (i + 1) )}}</td>
+              <td>{{ findCountry( city?.countryId, (itemsPerPage * (p - 1) + (i) ) ) }}</td>
+              <td>{{ findState( city?.stateId, (itemsPerPage * (p - 1) + (i) ) ) }}</td>
+              <td class="text-capitalize">{{ city?.city }}</td>
+              <td>{{ city?.createdAt | date:'mediumDate' }}</td>
+              <td>{{ city?.updatedAt | date:'mediumDate' }}</td>
+              <td>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-primary" (click)="showSaveModal(city)"><i
+                      class="fa fa-edit"></i></button>
+                  <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal"
+                    (click)="showDeleteModal(city )"><i class="fa fa-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tr class="text-center" *ngIf="!cityList.length">
+            <td colspan="7">
+              <h6>No Record Found !</h6>
+            </td>
+          </tr>
+        </table>
+
+        <ul class="pagination" *ngIf="itemsPerPage < cityList.length">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #addEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white"> {{currentCity?._id ? 'Edit' :'Add'}} City</h4>
+        <button type="button" class="close text-white" (click)="closeModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row pt-3">
+
+          <div class="col-sm-6">
+            <label for="">Country
+              <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                  [ngClass]="{'text-danger': !currentCity.countryId,'clr-blue': currentCity.countryId}"></i>
+              </sup>
+            </label>
+            <select name="country" [(ngModel)]="currentCity.countryId" class="form-control" (change)="filterState()">
+              <option value="">Select Country</option>
+             <option class="text-capitalize" [value]="value._id" *ngFor="let value of countryList">{{value.country}}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-sm-6">
+            <label for="">State
+              <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                  [ngClass]="{'text-danger': !currentCity.stateId,'clr-blue': currentCity.stateId}"></i>
+              </sup>
+            </label>
+            <select name="state" [(ngModel)]="currentCity.stateId" class="form-control" [disabled]="!filteredState.length">
+              <option value="">Select State</option>
+             <option class="text-capitalize" [value]="value._id" *ngFor="let value of filteredState">{{value.state}}
+              </option>
+            </select>
+          </div>
+
+
+          <div class="col-sm-6 mt-10">
+            <label for="">City
+              <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                  [ngClass]="{'text-danger': !currentCity.city,'clr-blue': currentCity.city}"></i>
+              </sup>
+            </label>
+            <input type="text" [(ngModel)]="currentCity.city" class="form-control" placeholder="Enter City"
+            required (ngModelChange)="checkIsAlreadyExit()" name="city" oninput="this.value = this.value.replace(/^\s+/g,'')">
+            <div class="text-danger" role="alert" *ngIf="isAlreadyExist">
+              Already Exist
+           </div>
+          </div>
+
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        <button type="button" class="btn btn-primary" *ngIf="showButton()"
+          (click)="saveCity()">{{currentCity._id ? 'Update' :'Save'}}</button>
+      </div>
+    </div>
+  </div>
+</div>

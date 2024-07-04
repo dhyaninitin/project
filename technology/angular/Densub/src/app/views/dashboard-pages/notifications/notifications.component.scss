@@ -1,0 +1,25 @@
+.notification_content {
+   padding: 7px 0px;
+  //height: 400px;
+  overflow: auto;
+  li {
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.4s ease 0s;
+    // font-size: 16px;
+    border-bottom: 1px solid #e3e3e3;
+    &:first-child {
+      padding-top: 10px;
+    }
+    &:last-child {
+      border: 0px;
+      padding-bottom: 10px;
+    }
+    &:hover {
+      background: #f5f5f5;
+    }
+    a {
+      color: #222;
+    }
+  }
+}

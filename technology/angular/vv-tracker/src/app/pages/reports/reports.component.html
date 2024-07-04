@@ -1,0 +1,40 @@
+<vex-page-layout>
+  <vex-page-layout-header class="flex flex-col items-start justify-center py-4">
+  </vex-page-layout-header>
+
+  <vex-page-layout-content [class.container]="layoutCtrl.value === 'boxed'"
+    [class.px-gutter]="layoutCtrl.value === 'fullwidth'" class="-mt-6">
+    <div class="card -mt-16">
+      <div class="bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
+        <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
+          <span>User Reports</span>
+        </h2>
+        <span *ngIf="radioValue != '1'" class="ml-auto">
+            <mat-form-field class="mt-6 flex-auto" appearance="outline">
+              <mat-date-range-input [rangePicker]="picker" placeholder="Enter a date range">
+                <input matStartDate placeholder="Start date" [formControl]="From">
+                <input matEndDate placeholder="End date" [formControl]="To">
+              </mat-date-range-input>
+            </mat-form-field>
+            <mat-datepicker-toggle matTooltip="Add Filter" matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+        </span>
+        <i class="fa-brands fa-github"></i>
+      </div>
+    </div>
+  </vex-page-layout-content>
+
+  <div class="chart-div">
+    <div class="container">
+      <mat-radio-group color="primary" (change)="onRadioBtnSelection($event.value)" [(ngModel)]="chosenItem">
+        <mat-radio-button value="1">Daily</mat-radio-button>
+        <mat-radio-button value="2">Weekly</mat-radio-button>
+        <mat-radio-button value="3">Monthly</mat-radio-button>
+      </mat-radio-group>
+      <mat-card>
+        <vex-chart [options]="options" [series]="series"></vex-chart>
+      </mat-card>
+    </div>
+  </div>
+
+</vex-page-layout>

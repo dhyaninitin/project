@@ -1,0 +1,46 @@
+<div
+  class="container customScroller"
+  class="container customScroller"
+  infiniteScroll
+  [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="500"
+  (scrolled)="onScroll()"
+  [scrollWindow]="false"
+>
+  <!-- <div *ngFor="let outerArray of todayData" class="row">
+    <div *ngFor="let group of outerArray" class="col mt-1"> -->
+  <div *ngFor="let item of sorteData">
+    <p>
+      Time: {{ item.from | date : "HH:mm a" }} to
+      {{ item.to | date : "HH:mm a" }}
+    </p>
+    <div>
+      <div class="container mb-2">
+        <div class="flex flex-wrap -mx-2 justify-start">
+          <ng-container
+            *ngFor="let screenshot of item.screenShots; let i = index"
+          >
+            <div class="w-1/6 p-1">
+              <img
+                [src]="screenshot.screen"
+                alt="Screenshot"
+                class="w-full h-auto cursor-pointer"
+                (click)="viewScreenShot(screenshot.screen)"
+                data-toggle="tooltip"
+                [title]="
+                  'Mouse Clicks: ' +
+                  screenshot.mouseclicks +
+                  ', Key Presses: ' +
+                  screenshot.keypresses
+                "
+              />
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <!-- </div>
+      </div> -->
+    </div>
+    <!-- <ng-container *ngIf="isLoading">Loading...</ng-container> -->
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+  <g id="stream" transform="translate(-3 -3)">
+    <path id="Path_64" data-name="Path 64" d="M30,21a3,3,0,1,0-3-3A3,3,0,0,0,30,21Z" fill="#1f47f5"/>
+    <path id="Path_65" data-name="Path 65" d="M6,21a3,3,0,1,0-3-3A3,3,0,0,0,6,21Z" fill="#1f47f5"/>
+    <path id="Path_66" data-name="Path 66" d="M18,33a3,3,0,1,0-3-3A3,3,0,0,0,18,33Z" fill="#1f47f5"/>
+    <path id="Path_67" data-name="Path 67" d="M15.075,12.885l-6.03-6.06H9.03l-.465-.48L6.435,8.46l6.03,6.075.015-.015.465.48Zm5.84.04,6.608-6.588L29.64,8.46,23.033,15.05Zm-5.9,10.115-2.13-2.115L6.84,26.94l-.48.495L8.475,29.55l6.045-6.03ZM29.64,27.45l-5.985-6.015-.54-.525L21,23.025l5.985,6.015.525.525Z" fill="#1f47f5"/>
+    <path id="Path_68" data-name="Path 68" d="M18,9a3,3,0,1,0-3-3A3,3,0,0,0,18,9Z" fill="#1f47f5"/>
+  </g>
+</svg>

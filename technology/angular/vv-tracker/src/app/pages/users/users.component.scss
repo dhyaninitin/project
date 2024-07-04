@@ -1,0 +1,15 @@
+.customScrollar {
+  max-height: 64vh !important;
+  height: auto;
+  overflow: auto;
+}
+
+.customScrollarForLogs {
+  max-height: 60vh !important;
+  height: auto;
+  overflow: auto;
+}
+
+::ng-deep .custom-date-field .mat-form-field-wrapper {
+  padding-bottom: 0 !important;
+}

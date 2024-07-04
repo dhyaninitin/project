@@ -1,0 +1,192 @@
+<div class="outer-container" *ngIf="show">
+  <div class="inner-panel" [@inOutAnimation]>
+    <div class="panel-header">
+      <div class="heading-icon-text"><span class="icon-mcf mcf-book"></span>View {{ type }} Template</div>
+      <div class="icon-mc mc-x" (click)="hide.emit()"></div>
+    </div>
+    <div class="sec-hdr">
+      <div class="hdr">Template Details</div>
+      <div class="edit" (click)="edit.emit( ['Questionnaire', 'Evaluation', 'Job Approval', 'Offer Approval', 'Candidate Engagement'].includes(type) ? data.templatename : data['Template Name'] )">Edit</div>
+    </div>
+    <div *ngIf="['Job Approval', 'Offer Approval', 'Candidate Engagement'].includes(type)" class="meta-data">
+      <div class="meta-row">
+        <div class="meta-label">Template Name</div>
+        <div class="meta-value">{{ data.templatename }}</div>
+      </div>
+      <div class="meta-row">
+        <div class="meta-label">Description</div>
+        <div class="meta-value">{{ data.description }}</div>
+      </div>
+      <div class="meta-row" *ngIf="type !== 'Candidate Engagement'">
+        <div class="meta-label">Department</div>
+        <div class="meta-value">{{ data.department }}</div>
+      </div>
+      <div *ngIf="type === 'Candidate Engagement'">
+        <div class="meta-row level" *ngFor="let step of data.steps">
+          <div class="level-header">
+            <div class="name">{{ step.name }}</div>
+          </div>
+          <div class="level-users">
+            <div class="user" *ngFor="let substep of step.substeps; let last = last;" [ngClass]="{ 'last': last }">
+              <div>{{ substep.name }}</div>
+              <div>{{ substep.type }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="type !== 'Candidate Engagement'">
+        <div class="meta-row level" *ngFor="let level of data.levels">
+          <div class="level-header">
+            <div class="name">{{ level.name }}</div>
+            <div class="actions">
+              <div>All Users Need to Approve</div>
+              <div class="rule-icons">
+                <span class="icon-mc mc-eye"></span>
+                Rule
+                <span class="icon-mc mc-down-arrow" (click)="expandCollapseRules($event)"></span>
+              </div>
+            </div>
+          </div>
+          <div class="level-rules">
+            <div class="rules-header">
+              <div>Field Name</div>
+              <div>Operator</div>
+              <div>Value</div>
+            </div>
+            <div class="rule" *ngFor="let rule of level.rules; let last = last;" [ngClass]="{ 'last': last }">
+              <div>{{ rule.field_name }}</div>
+              <div>{{ rule.operator }}</div>
+              <div>{{ rule.value }}</div>
+            </div>
+            <div class="rules-config-wrapper" *ngIf="level.rules_config === 'All'">
+              <span class="icon-mc mc-info_outline"></span>
+              All rules are mandatory
+            </div>
+          </div>
+          <div class="level-users">
+            <div class="user" *ngFor="let user of level.users; let last = last;" [ngClass]="{ 'last': last }">
+              <img [src]="user.img" alt="">
+              <div>{{ user.name }}</div>
+              <div>{{ user.email }}</div>
+              <div>Recruiter</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!['Questionnaire', 'Evaluation', 'Job Approval', 'Offer Approval', 'Candidate Engagement'].includes(type)" class="meta-data">
+      <div class="meta-row" *ngFor="let key of objectKeys(data)">
+        <div class="meta-label">{{ key }}</div>
+        <div class="meta-value">{{ data[key] }}</div>
+      </div>
+    </div>
+    <div *ngIf="['Questionnaire', 'Evaluation'].includes(type)" class="meta-data">
+      <div class="meta-row">
+        <div class="meta-label">Template Name</div>
+        <div class="meta-value">{{ data.templatename }}</div>
+      </div>
+      <div class="meta-row">
+        <div class="meta-label">Module</div>
+        <div class="meta-value">{{ data.module }}</div>
+      </div>
+      <div *ngIf="type === 'Evaluation'" class="meta-row">
+        <div class="meta-label">Category</div>
+        <div class="meta-value">{{ data.category }}</div>
+      </div>
+      <div class="meta-row">
+        <div class="meta-label">Description</div>
+        <div class="meta-value">{{ data.description }}</div>
+      </div>
+      <div class="meta-row section" *ngFor="let section of data.sections">
+        <div class="section-name">{{ section.name }}</div>
+        <div class="section-desc">{{ section.description }}</div>
+        <div class="sub-section" *ngFor="let subsection of section.subsections">
+          <div class="sub-section-name">{{ subsection.name }}</div>
+          <div class="control" *ngFor="let control of subsection.controls">
+            <div class="control-label">{{ control.label }}</div>
+            <div *ngIf="control.controlType === 'existing'" class="control-field">
+              <div class="text-group">
+                <mat-form-field appearance="legacy">
+                  <input matInput [placeholder]="control.placeholderText">
+                </mat-form-field>
+              </div>
+              <div *ngIf="type === 'Evaluation'" class="text-group">
+                <mat-form-field appearance="legacy">
+                  <input matInput placeholder="Comments">
+                </mat-form-field>
+              </div>
+            </div>
+            <div *ngIf="control.controlType === 'new'" class="control-field">
+              <div *ngIf="control.inputType === 'radio'">
+                <mat-radio-group class="radio-group">
+                  <mat-radio-button *ngFor="let option of control.options" [value]="option.value" color="primary">{{ option.label }}</mat-radio-button>
+                </mat-radio-group>
+              </div>
+              <div *ngIf="control.inputType === 'checkbox'" class="checkbox-group">
+                <mat-checkbox *ngFor="let option of control.options" [value]="option.value" color="primary">{{ option.label }}</mat-checkbox>
+              </div>
+              <div *ngIf="control.inputType === 'dropdown'" class="dropdown-group">
+                <mat-form-field appearance="outline">
+                  <mat-select [placeholder]="control.placeholderText"><mat-option *ngFor="let option of control.options" [value]="option.value">{{ option.label }}</mat-option></mat-select>
+                </mat-form-field>
+              </div>
+              <div *ngIf="control.inputType === 'short-answer'" class="text-group">
+                <mat-form-field appearance="legacy">
+                  <input matInput [placeholder]="control.placeholderText">
+                </mat-form-field>
+              </div>
+              <div *ngIf="control.inputType === 'paragraph'" class="text-group">
+                <mat-form-field appearance="legacy">
+                  <textarea matInput [placeholder]="control.placeholderText"></textarea>
+                </mat-form-field>
+              </div>
+              <div *ngIf="control.inputType === 'email'" class="text-group">
+                <mat-form-field appearance="legacy">
+                  <input matInput [placeholder]="control.placeholderText">
+                </mat-form-field>
+              </div>
+              <div *ngIf="['url', 'date', 'time', 'date-time'].includes(control.inputType)" class="text-group">
+                <mat-form-field appearance="legacy">
+                  <input matInput [placeholder]="control.placeholderText"  [matDatepicker]="picker">
+                  <span matSuffix class="field-icon" [ngClass]="getControlOptionIcon(control.inputType)" (click)="picker.open()"></span>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div *ngIf="control.inputType === 'star'" class="star-group">
+                <div class="star-rating-wrapper">
+                  <span *ngFor="let index of [0, 1, 2, 3, 4]" class="icon-mc mc-star_border"  (mouseenter)="onEnterStarElement($event)" (mouseleave)="onLeaveStarElement($event)" (click)="starClicked($event, index)"></span>
+                </div>
+              </div>
+              <div *ngIf="control.inputType === 'linear'" class="linear-group">
+                <div class="linear-rating-wrapper">
+                  <mat-slider [max]="10" [min]="0" [step]="1" color="primary" [thumbLabel]="true" [tickInterval]="'auto'"></mat-slider>
+                </div>
+              </div>
+              <div *ngIf="control.inputType === 'upload'" class="upload-group">
+                <div class="upload-wrapper">
+                  <div class="selected-file-name">{{fileInput.files && fileInput.files.length > 0 ? fileInput.files[0].name : ''}}</div>
+                  <button mat-flat-button color="primary" type="button" (click)="fileInput.click()">
+                    <div class="upload-button-content">
+                      <span matIcon class="icon-mcf mcf-backup"></span>
+                      Upload
+                    </div>
+                  </button>
+                  <input hidden #fileInput type="file" id="file">
+                </div>
+              </div>
+              <div *ngIf="type === 'Evaluation'">
+                <mat-form-field appearance="legacy">
+                  <input matInput placeholder="Comments">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="action-btns">
+      <button mat-flat-button color="primary" type="button" (click)="edit.emit( ['Questionnaire', 'Evaluation', 'Job Approval', 'Offer Approval', 'Candidate Engagement'].includes(type) ? data.templatename : data['Template Name'] )">Edit</button>
+      <button mat-stroked-button class="cancel-btn" (click)="hide.emit()" type="button">Back</button>
+    </div>
+  </div>
+</div>

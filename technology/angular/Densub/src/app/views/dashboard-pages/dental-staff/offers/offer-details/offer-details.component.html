@@ -1,0 +1,407 @@
+<div class="row">
+  <div class="col-sm-12">
+      <h4 class="text-primary"> <b>{{(!offerDetails.sendOfferByPractice) ? 'Applications' : 'Received Offer' }}</b> </h4>
+      <hr />
+  </div>
+</div>
+<!-- pt-3 -->
+<div class="row  pb-3">
+<!--  pt-30 -->
+  <div class="staff-bid-received col-12 pb-30">
+      <div class="bid-received_inner overflow-scroll row">
+          <!-- pt-15 -->
+          <div class="staff-bid-list pb-5  col-xl-12">
+              <div class=" d-flex flex-wrap staff-bid-list_inner w-100">
+                <!-- col-md-5 -->
+                <div class="col-md-4">
+                    <div class="row">
+                       <!-- mt-10 -->
+                        <div class="col-sm-12  mt-10">
+                                <h3 class="text-capitalize" *ngIf="offerDetails?.practiceId?.firstName || offerDetails?.practiceId?.lastName">{{offerDetails?.practiceId?.firstName}}  {{offerDetails?.practiceId?.lastName}} </h3>
+                                <p class="text-capitalize" *ngIf="offerDetails?.jobPostId && offerDetails?.practiceId && offerDetails?.practiceId?.address">
+                              {{offerDetails?.practiceId?.address}}</p>
+                                  <!-- *ngIf="offerDetails?.practiceId?.avgRating" -->
+                              <p class="text-muted">
+                                <span *ngFor=" let in of numToArrConverter(5); let i = index;" class="fa fa-star" [ngClass]="{'checked': (i+1) <=  offerDetails?.practiceId?.avgRating}"></span>
+                              </p>
+
+                        </div>
+                       <!--  <div class="col-sm-9 mt-10">
+                              <a *ngIf="bidDetails?.jobPostId && bidDetails?.jobPostId?._id" href= "#/job-details/{{bidDetails?.jobPostId?._id}}">
+                                <h3 class="text-capitalize">
+                                  <b>{{bidDetails?.jobPostId?.jobTitle}}</b> </h3>
+                              </a>
+                              <a *ngIf="!bidDetails?.jobPostId && bidDetails?.jobPostId?._id" href= "job-details/{{bidDetails?.jobPostId?._id}}">
+                                <h3 class="text-capitalize">
+                                  <b>{{bidDetails?.jobPostId?.jobTitle}}</b> </h3>
+                              </a>
+                            <p class="text-capitalize" *ngIf="bidDetails?.jobPostId && bidDetails?.jobPostId?.jobType">
+                              {{(bidDetails?.jobPostId?.jobType == jobTypes.TEMPORARY) ? 'Temporary' :(bidDetails?.jobPostId?.jobType == jobTypes.PERMANENTPARTTIME) ? 'Permanent Part Time': 'Permanent Full Time'}}</p>
+                            <p class="text-capitalize"*ngIf="bidDetails?.jobPostId && bidDetails?.jobPostId?.positionType">
+                              {{bidDetails?.jobPostId?.positionType}}</p>
+                            <p class="text-capitalize" *ngIf="bidDetails?.jobPostId && bidDetails?.jobPostId?.jobDate">
+                              {{bidDetails?.jobPostId?.jobDate}}</p>
+                            <p class="text-capitalize" *ngIf="bidDetails?.jobPostId && bidDetails?.jobPostId?.experience">
+                              {{bidDetails?.jobPostId?.experience}}</p>
+                            <p class="text-muted">
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star"></span>
+                                <span class="fa fa-star"></span>
+                            </p>
+                        </div> -->
+                    </div>
+                </div>
+
+                <div class="col-md-4 mt-10">
+                  <h4 class="text-capitalize text-primary ">
+                    {{(!offerDetails.sendOfferByPractice) ? 'Applications' : 'Offer Received' }} Date</h4>
+                    <p  class= "text-capitalize"> {{offerDetails.createdAt | date:'mediumDate'}}</p>
+                </div>
+                   <div class="col-md-4 mt-10  ">
+                      <h4 class="text-capitalize">
+                      <b>Job Post Summary</b> </h4>
+                      <p  class= "text-capitalize" *ngIf="offerDetails?.jobPostId?.jobTitle"> <span class="text-primary fw-6">Job Title: </span> {{offerDetails?.jobPostId?.jobTitle}}</p>
+                      <p  *ngIf="offerDetails?.jobPostId?._id"> <span class="text-primary fw-6">Job ID: </span>
+                      <a href= "#/job-details/{{offerDetails?.jobPostId?._id}}">
+                      #{{offerDetails?.jobPostId?._id | slice:18:24}}</a></p>
+                      <p  class= "text-capitalize" *ngIf="offerDetails?.jobPostId?.positionType"> <span class="text-primary fw-6">Position: </span> {{offerDetails?.jobPostId?.positionType}}</p>
+                      <p  class= "text-capitalize" *ngIf="offerDetails?.jobPostId?.jobType"> <span class="text-primary fw-6">Job Type: </span> {{jobTypeLabel[offerDetails?.jobPostId?.jobType]}} Job</p>
+                      <p  class= "text-capitalize" *ngIf="offerDetails?.jobPostId?.paymentMethod && offerDetails?.jobPostId?.paymentMethod !== paymentMethod.SALARY"> <span class="text-primary fw-6">Rate: </span>${{offerDetails?.jobPostId?.desiredHourlyRate}} /Per Hour</p>
+                      <p  class= "text-capitalize" *ngIf="offerDetails?.jobPostId?.paymentMethod && offerDetails?.jobPostId?.paymentMethod === paymentMethod.SALARY"> <span class="text-primary fw-6">Salary: </span>${{offerDetails?.jobPostId?.desiredSalaryRate}} </p>
+                      <p  class= "text-capitalize" *ngIf="offerDetails?.jobPostId?.location"> <span class="text-primary fw-6">Location: </span> {{offerDetails?.jobPostId?.location}}</p>
+                      <p  class= "text-capitalize" *ngIf="offerDetails?.jobPostId?.jobDate"> <span class="text-primary fw-6">Job Date: </span> {{offerDetails?.jobPostId?.jobDate | date : 'mediumDate'}}</p>
+                      <p  class= "text-capitalize" *ngIf="offerDetails?.jobPostId?.startTime"> <span class="text-primary fw-6">Start Time: </span> {{offerDetails?.jobPostId?.startTime | date: 'hh:mm a'}}</p>
+                      <p  class= "text-capitalize" *ngIf="offerDetails?.jobPostId?.endTime"> <span class="text-primary fw-6">End Time: </span> {{offerDetails?.jobPostId?.endTime | date: 'hh:mm a'}}</p>
+                  </div>
+
+                  <!-- <div class="col-sm-12 mt-20" *ngIf = "bidDetails?.bidSteps && bidDetails?.bidSteps?.initial?.amount && bidDetails?.bidSteps?.initial?.message">
+                    <h5 class="text-capitalize text-primary"> Initial Offer - ${{bidDetails.bidSteps.initial.amount}}
+                      {{(bidDetails.jobPostId.paymentMethod && bidDetails.jobPostId.paymentMethod === paymentMethod.SALARY) ? '' : '/Per Hour'}}</h5>
+                    <div class="bid-description text-capitalize" >
+                      <p [innerHTML]="bidDetails.bidSteps.initial.message"></p>
+                     </div>
+                  </div>
+
+                  <div class="col-sm-12 mt-20" *ngIf = "bidDetails?.bidSteps && bidDetails?.bidSteps?.counter?.amount && bidDetails?.bidSteps?.counter?.message">
+                    <h5 class="text-capitalize text-primary">Counter Offer - ${{bidDetails.bidSteps.counter.amount}} {{(bidDetails.jobPostId.paymentMethod && bidDetails.jobPostId.paymentMethod === paymentMethod.SALARY) ? '' : '/Per Hour'}}</h5>
+                    <div class="bid-description text-capitalize" >
+                      <p [innerHTML]="bidDetails.bidSteps.counter.message"></p>
+                     </div>
+                  </div>
+
+                  <div class="col-sm-12 mt-20" *ngIf = "bidDetails?.bidSteps && bidDetails?.bidSteps?.final?.amount && bidDetails?.bidSteps?.final?.message">
+                    <h5 class="text-capitalize text-primary">Final Offer - ${{bidDetails.bidSteps.final.amount}} {{(bidDetails.jobPostId.paymentMethod && bidDetails.jobPostId.paymentMethod === paymentMethod.SALARY) ? '' : '/Per Hour'}}</h5>
+                    <div class="bid-description text-capitalize" >
+                      <p [innerHTML]="bidDetails.bidSteps.final.message"></p>
+                     </div>
+                  </div> -->
+                  <div class="col-sm-12 mt-50" *ngIf = "!offerDetails.sendOfferByPractice && offerDetails?.offerSteps && offerDetails?.offerSteps?.initial?.amount && offerDetails?.offerSteps?.initial?.message">
+                    <h5 class="text-capitalize text-primary"> Initial Offer - ${{offerDetails.offerSteps.initial.amount}} {{(offerDetails.jobPostId.paymentMethod && offerDetails.jobPostId.paymentMethod === paymentMethod.SALARY) ? '' : '/Per Hour'}} </h5>
+                    <p  class= "text-capitalize" *ngIf="offerDetails?.offerSteps?.initial?.startTime"> <span class="text-primary fw-6">Start Time: </span> {{offerDetails.offerSteps.initial.startTime | date: 'hh:mm a' }}</p>
+                    <p  class= "text-capitalize" *ngIf="offerDetails?.offerSteps?.initial?.endTime"> <span class="text-primary fw-6">End Time:  </span> {{offerDetails.offerSteps.initial.endTime | date: 'hh:mm a'}}</p>
+                    <div class="bid-description text-capitalize" >
+                      <p [innerHTML]="offerDetails.offerSteps.initial.message"></p>
+                     </div>
+                  </div>
+
+                  <div class="col-sm-12 mt-20" *ngIf = "offerDetails?.offerSteps && offerDetails?.offerSteps?.counter?.amount && offerDetails?.offerSteps?.counter?.message">
+                    <h5 class="text-capitalize text-primary">Counter Offer - ${{offerDetails.offerSteps.counter.amount}} {{(offerDetails.jobPostId.paymentMethod && offerDetails.jobPostId.paymentMethod === paymentMethod.SALARY) ? '' : '/Per Hour'}}</h5>
+                    <p  class= "text-capitalize" *ngIf="offerDetails?.offerSteps?.counter?.startTime"> <span class="text-primary fw-6">Start Time: </span> {{offerDetails.offerSteps.counter.startTime | date: 'hh:mm a' }}</p>
+                    <p  class= "text-capitalize" *ngIf="offerDetails?.offerSteps?.counter?.endTime"> <span class="text-primary fw-6">End Time:  </span> {{offerDetails.offerSteps.counter.endTime | date: 'hh:mm a'}}</p>
+                    <div class="bid-description text-capitalize" >
+                      <p [innerHTML]="offerDetails.offerSteps.counter.message"></p>
+                     </div>
+                  </div>
+
+                  <!-- <div class="col-sm-12 mt-20" *ngIf = "offerDetails?.offerSteps && offerDetails?.offerSteps?.final?.amount && offerDetails?.offerSteps?.final?.message">
+                    <h5 class="text-capitalize text-primary">Final Offer - ${{offerDetails.offerSteps.final.amount}} {{(offerDetails.jobPostId.paymentMethod && offerDetails.jobPostId.paymentMethod === paymentMethod.SALARY) ? '' : '/Per Hour'}}</h5>
+                    <p  class= "text-capitalize" *ngIf="offerDetails?.offerSteps?.final?.startTime"> <span class="text-primary fw-6">Start Time: </span> {{offerDetails.offerSteps.final.startTime | date: 'hh:mm a' }}</p>
+                    <p  class= "text-capitalize" *ngIf="offerDetails?.offerSteps?.final?.endTime"> <span class="text-primary fw-6">End Time:  </span> {{offerDetails.offerSteps.final.endTime | date: 'hh:mm a'}}</p>
+                    <div class="bid-description text-capitalize" >
+                      <p [innerHTML]="offerDetails.offerSteps.final.message"></p>
+                     </div>
+                  </div> -->
+
+                  <div class="col-sm-12 mt-20">
+                    <!--  || showButtonCond.finalOffer -->
+                    <div class="d-flex bid-btn-div" *ngIf="showButtonCond.acceptOffer || showButtonCond.declineOffer || showButtonCond.counterOffer">
+                      <button *ngIf="showButtonCond.acceptOffer" class="btn btn-primary mr-20" type="button" (click) = "offerJobModal1.show()">Accept</button>
+                      <!-- checkCalendar('acceptOffer') -->
+                      <!-- <button *ngIf="showButtonCond.acceptOffer" class="btn btn-primary mr-20" type="button" (click) = "acceptOffer()">Accept</button> -->
+
+                      <button *ngIf="showButtonCond.declineOffer" class="btn btn-primary mr-20" type="button" (click) = "declineJobModal.show()">Decline</button>
+
+                      <button *ngIf="showButtonCond.counterOffer" class="btn btn-primary mr-20" type="button" (click)="offerJobModal.show()">Submit Counter Offer</button>
+
+                      <!-- <button *ngIf="showButtonCond.finalOffer" class="btn btn-primary mr-20" type="button" (click)="offerJobModal.show()">Submit Final Offer</button> -->
+
+                      <button hidden [routerLink]="['../../../messaging',offerDetails?.practiceId?._id, offerDetails?.jobPostId?._id]" class="btn btn-primary" type="button" hidden ><i class="fa fa-comment-o" aria-hidden="true"
+                        ></i> Message </button>
+
+                    </div>
+
+                    <div  class="d-flex bid-btn-div" *ngIf="showButtonCond.waitingMsg">
+                      <button class="btn btn-primary mr-20" type="button" [disabled]="true">Waiting For Approval</button>
+
+                      <button (click)="deleteOfferModal.show()" *ngIf="showButtonCond.deleteOffer" class="btn btn-primary mr-20" type="button"><i class="fa fa-trash" aria-hidden="true"
+                        ></i> Delete </button>
+
+                      <button hidden [routerLink]="['../../../messaging',offerDetails?.practiceId?._id, offerDetails?.jobPostId?._id]" class="btn btn-primary" type="button" hidden><i class="fa fa-comment-o" aria-hidden="true"
+                        ></i> Message </button>
+                    </div>
+
+                    <div   *ngIf="showButtonCond.declineMsg">
+                      <p class="text-white bg-danger p-10 text-center">Declined Offer</p>
+                      <p><strong>Reason : </strong> <span [innerHTML]="offerDetails?.offerDecline?.reason "></span> </p>
+                      <!-- | titleCase -->
+                    </div>
+                    <div   *ngIf="showButtonCond.expiredMsg">
+                      <p class="text-white bg-danger p-10 text-center">This job is expired</p>
+                      <!-- <p><strong>Reason : </strong> <span>Job is no longer available</span> </p> -->
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #offerJobModal1="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title  text-white"> Accept invitation</h4>
+        <!-- <h4 class="modal-title  text-white">{{(showButtonCond.counterOffer) ? 'Counter' : 'Final'}} Offer Price</h4> -->
+        <button type="button" class="close  text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group row">
+          <div class="col-12 pull-right">
+            <label><b>
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true" hidden
+                    [ngClass]="{'text-danger': !sendOffer?.amount, 'text-primary': sendOffer?.amount}"></i>
+                </sup>
+              </b></label>
+              <input type="text" id="amount" hidden name="amount" [(ngModel)]="sendOffer.amount" natualNumbersOnly class="form-control w-25"
+              placeholder="Enter Amount" required>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-12 pull-right">
+            <label><b>Start Time
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !sendOffer?.startTime, 'text-primary': sendOffer?.startTime}"></i>
+                </sup>
+              </b></label>
+              <timepicker [(ngModel)]="sendOffer.startTime" (ngModelChange)="timeValidation('startTime')"></timepicker>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-12 pull-right">
+            <label><b>End Time
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !sendOffer?.endTime, 'text-primary': sendOffer?.endTime}"></i>
+                </sup>
+              </b></label>
+              <timepicker [(ngModel)]="sendOffer.endTime" (ngModelChange)="timeValidation('endTime')"></timepicker>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-12">
+            <label><b>Proposal
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !sendOffer?.message, 'text-primary': sendOffer?.message}"></i>
+                </sup>
+              </b></label>
+              <!-- <app-ngx-editor placeholder="Please enter message" [resizer]="false" name="message"
+              [(ngModel)]="sendOffer.message" [config]="editorConfig" name="message">
+            </app-ngx-editor> -->
+            <ckeditor [config]="ckeConfig" placeholder="Please enter message" name="message" [(ngModel)]="sendOffer.message" (change)="onEditorChange()" (blur)="onEditorChange()"></ckeditor>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+        <button type="button" class="btn btn-primary" [disabled]="!(sendOffer?.message && sendOffer?.amount)" (click)="checkCalendar('acceptOffer')">Send</button>
+        <!-- <button type="button" class="btn btn-primary" [disabled]="!(sendOffer?.message && sendOffer?.amount)" (click)="sendOfferType()">Send</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div bsModal [config]="{backdrop: 'static', keyboard: false}"  #offerJobModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title  text-white"> Counter Offer</h4>
+        <!-- <h4 class="modal-title  text-white">{{(showButtonCond.counterOffer) ? 'Counter' : 'Final'}} Offer Price</h4> -->
+        <button type="button" class="close  text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group row">
+          <div class="col-12 pull-right">
+            <label><b>Pro tip:
+              </b></label>
+               <p> You are able to negotiate the start / end time and rate. However, this may reduce your chance of having your application chosen by the practice.</p>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-12 pull-right">
+            <label><b>Enter Amount
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !sendOffer?.amount, 'text-primary': sendOffer?.amount}"></i>
+                </sup>
+              </b></label>
+              <input type="text" id="amount" name="amount" [(ngModel)]="sendOffer.amount" natualNumbersOnly class="form-control w-25"
+              placeholder="Enter Amount" required>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-12 pull-right">
+            <label><b>Start Time
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !sendOffer?.startTime, 'text-primary': sendOffer?.startTime}"></i>
+                </sup>
+              </b></label>
+              <timepicker [(ngModel)]="sendOffer.startTime" (ngModelChange)="timeValidation('startTime')"></timepicker>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-12 pull-right">
+            <label><b>End Time
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !sendOffer?.endTime, 'text-primary': sendOffer?.endTime}"></i>
+                </sup>
+              </b></label>
+              <timepicker [(ngModel)]="sendOffer.endTime" (ngModelChange)="timeValidation('endTime')"></timepicker>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-12">
+            <label><b>Message
+                <sup> <i hidden class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !sendOffer?.message, 'text-primary': sendOffer?.message}"></i>
+                </sup>
+              </b></label>
+              <!-- <app-ngx-editor placeholder="Please enter message" [resizer]="false" name="message"
+              [(ngModel)]="sendOffer.message" [config]="editorConfig" name="message">
+            </app-ngx-editor> -->
+            <ckeditor [config]="ckeConfig" placeholder="Please enter message" name="message" [(ngModel)]="sendOffer.message" (change)="onEditorChange()" (blur)="onEditorChange()"></ckeditor>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+        <button type="button" class="btn btn-primary" [disabled]="!(sendOffer?.message && sendOffer?.amount)" (click)="checkCalendar('counterOffer')">Send</button>
+        <!-- <button type="button" class="btn btn-primary" [disabled]="!(sendOffer?.message && sendOffer?.amount)" (click)="sendOfferType()">Send</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #declineJobModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title  text-white">Decline</h4>
+        <button type="button" class="close  text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group row">
+          <div class="col-12">
+            <label><b>Reason
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !declinedMessage, 'text-primary': declinedMessage}"></i>
+                </sup>
+              </b></label>
+              <!-- <app-ngx-editor placeholder="Describe the reason for declining the offer here" [resizer]="false" name="message"
+              [(ngModel)]="declinedMessage" [config]="editorConfig" name="message">
+            </app-ngx-editor> -->
+            <ckeditor [config]="ckeConfig" placeholder="Describe the reason for declining the offer here" name="message" [(ngModel)]="declinedMessage"></ckeditor>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+        <button type="button" class="btn" [ngClass]="{'btn-primary' : declinedMessage , 'btn-dark':!declinedMessage}" [disabled]="!declinedMessage"  (click)="declineOffer()">Submit</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-------------------------- START DELETE OFFER MODAL ------------------------------------------------->
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #deleteOfferModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-white">
+        <h4 class="modal-title text-white"><i class="fa fa-trash"></i> Delete Offer</h4>
+        <button type="button" class="close text-white" (click)="deleteOfferModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure want to delete send offer?</p>
+        <p class="text-capitalize">
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="deleteOfferModal.hide()">Close</button>
+        <button type="button" class="btn btn-danger" (click)="deleteOffer()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!----------------------------------------------------------------------------------------------------->
+
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #errorModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title  text-white">{{errorModalDetails.title}}</h4>
+        <button type="button" class="close  text-white" (click)="errorModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <h4>{{errorModalDetails.message}}</h4>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" *ngIf="errorModalDetails.type === 'counterOffer'" (click)="errorModal.hide();offerJobModal.show()">Close</button>
+        <button type="button" class="btn btn-secondary" *ngIf="errorModalDetails.type === 'acceptOffer'" (click)="errorModal.hide();">Close</button>
+        <button type="button" class="btn btn-primary" *ngIf="!errorModalDetails.isAlreadyBooked" [routerLink]="['/staff/profile/1']">Update Calendar</button>
+      </div>
+    </div>
+  </div>
+</div>

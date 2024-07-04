@@ -1,0 +1,39 @@
+.nav-tabs-2 {
+    padding-bottom: 10px;
+    // border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    li {
+      position: relative;
+      a {
+        font-weight: bold;
+        font-size: 16px;
+
+        &.active {
+          color: #053178;
+          &:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: #053178;
+            bottom: -11px;
+
+          }
+        }
+      }
+      &:first-child {
+        a {
+          padding-left: 0px;
+        }
+      }
+    }
+}
+
+.text-inactive{
+  color: red !important;
+  font-weight: 600 !important;
+}
+.text-active{
+  color: #12b912 !important;
+  font-weight: 600 !important;
+}

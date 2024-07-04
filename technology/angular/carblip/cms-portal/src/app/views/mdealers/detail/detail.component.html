@@ -1,0 +1,86 @@
+<vex-page-layout *ngIf="isReady">
+	<vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+		<div
+			class="w-full flex flex-col sm:flex-row justify-between">
+			<div>
+				<h1 class="title mt-0 mb-1">Dealer #{{dealer.id}} Detail</h1>
+				<vex-breadcrumbs [crumbs]="['mPortal Dealers', 'Detail']"></vex-breadcrumbs>
+			</div>
+
+		</div>
+	</vex-page-layout-header>
+		<vex-page-layout-content class="-mt-6">
+			<div class="card overflow-auto -mt-16">
+		<div class="head bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
+			<h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l sm:block flex-none">
+				<span>Actions</span>
+			</h2>
+			<span class="flex-1"></span>
+				<button (click)="location.back()" class="ml-4 flex-none" color="primary" mat-mini-fab matTooltip="Back" type="button">
+					<mat-icon svgIcon="mat:arrow_back"></mat-icon>
+			</button>
+		</div>
+			</div>
+
+			<div class="mt-6 flex flex-col md:flex-row md:items-start">
+				<div class="flex-auto">
+					<div class="card">
+						<div class="px-gutter py-4 border-b flex justify-content-space-between">
+						<h2 class="title m-0">Details</h2> 
+						</div>
+
+						<div class="px-gutter py-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{dealer?.name}}</p>
+									<p class="m-0 caption text-hint">Name</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{dealer?.phone | phone: 'US' }}</p>
+									<p class="m-0 caption text-hint">Phone</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{dealer?.address}}</p>
+									<p class="m-0 caption text-hint">Address</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{dealer?.city}}</p>
+									<p class="m-0 caption text-hint">City</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{dealer?.state}}</p>
+									<p class="m-0 caption text-hint">State</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{dealer?.zip}}</p>
+									<p class="m-0 caption text-hint">Zip</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{dealer?.created_at | date:'MM/dd/yyy h:mm a'}}</p>
+									<p class="m-0 caption text-hint">Created At</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{dealer?.updated_at | date:'MM/dd/yyy h:mm a'}}</p>
+									<p class="m-0 caption text-hint">Updated At</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</vex-page-layout-content>
+</vex-page-layout>

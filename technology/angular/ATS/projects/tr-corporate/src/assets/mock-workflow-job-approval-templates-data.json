@@ -1,0 +1,425 @@
+[
+    { 
+        "templatename": "Workflow Job Approval Template 1", 
+        "department": "Management",
+        "description": "Internationalized and accessible components for everyone. Internationalized and accessible components for everyone. Internationalized and accessible components for everyone. Internationalized and accessible components for everyone. Well tested to ensure performance and reliability.",
+        "levels": [
+            {
+                "name": "Level 1",
+                "approval_all": true,
+                "users": [
+                    {
+                        "name": "User A",
+                        "email": "userA@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": true,
+                        "type": "Default"
+                    },
+                    {
+                        "name": "User B",
+                        "email": "userB@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": false,
+                        "type": "Default"
+                    },
+                    {
+                        "name": "User C",
+                        "email": "userC@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": true,
+                        "type": "Optional"
+                    }
+                ],
+                "rules_config": "All",
+                "rules": [
+                    {
+                        "field_name": "Salary",
+                        "operator": "Equals",
+                        "value": "200000"
+                    },
+                    {
+                        "field_name": "Name",
+                        "operator": "Includes",
+                        "value": "Dan"
+                    },
+                    {
+                        "field_name": "Erika Rating",
+                        "operator": "Equals or More",
+                        "value": "4.5"
+                    }
+                ]
+            },
+            {
+                "name": "Level 1",
+                "approval_all": true,
+                "users": [
+                    {
+                        "name": "User YTS",
+                        "email": "userYTS@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": true,
+                        "type": "Default"
+                    },
+                    {
+                        "name": "User BK",
+                        "email": "userBK@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": false,
+                        "type": "Default"
+                    },
+                    {
+                        "name": "User PYU",
+                        "email": "userPYU@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": true,
+                        "type": "Optional"
+                    }
+                ],
+                "rules_config": "Any",
+                "rules": [
+                    {
+                        "field_name": "Salary",
+                        "operator": "Equals",
+                        "value": "200000"
+                    },
+                    {
+                        "field_name": "Name",
+                        "operator": "Includes",
+                        "value": "Dan"
+                    },
+                    {
+                        "field_name": "Erika Rating",
+                        "operator": "Equals or More",
+                        "value": "4.5"
+                    }
+                ]
+            }
+        ],
+        "created_on": "2021-03-15T05:52:58.000Z",
+        "last_updated": "2021-12-17T15:22:18.000Z"
+    },
+    { 
+        "templatename": "Workflow Job Approval 2", 
+        "department": "Information Technology",
+        "description": "Internationalized and accessible components for everyone. Internationalized and accessible components for everyone. Internationalized and accessible components for everyone. Internationalized and accessible components for everyone. Well tested to ensure performance and reliability.",
+        "levels": [
+            {
+                "name": "Level 1",
+                "approval_all": true,
+                "users": [
+                    {
+                        "name": "User A",
+                        "email": "userA@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": true,
+                        "type": "Default"
+                    },
+                    {
+                        "name": "User B",
+                        "email": "userB@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": false,
+                        "type": "Default"
+                    },
+                    {
+                        "name": "User C",
+                        "email": "userC@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": true,
+                        "type": "Optional"
+                    }
+                ],
+                "rules_config": "All",
+                "rules": [
+                    {
+                        "field_name": "Salary",
+                        "operator": "Equals",
+                        "value": "200000"
+                    },
+                    {
+                        "field_name": "Name",
+                        "operator": "Includes",
+                        "value": "Dan"
+                    },
+                    {
+                        "field_name": "Erika Rating",
+                        "operator": "Equals or More",
+                        "value": "4.5"
+                    }
+                ]
+            }
+        ],
+        "created_on": "2021-05-10T05:52:58.000Z",
+        "last_updated": "2021-12-17T15:22:18.000Z"
+    },
+    { 
+        "templatename": "Workflow Job Approval 3", 
+        "department": "Information Technology",
+        "description": "Internationalized and accessible components for everyone. Internationalized and accessible components for everyone. Internationalized and accessible components for everyone. Internationalized and accessible components for everyone. Well tested to ensure performance and reliability.",
+        "levels": [
+            {
+                "name": "Level 1",
+                "approval_all": true,
+                "users": [
+                    {
+                        "name": "User A",
+                        "email": "userA@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": true,
+                        "type": "Default"
+                    },
+                    {
+                        "name": "User B",
+                        "email": "userB@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": false,
+                        "type": "Default"
+                    },
+                    {
+                        "name": "User C",
+                        "email": "userC@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": true,
+                        "type": "Optional"
+                    }
+                ],
+                "rules_config": "Any",
+                "rules": [
+                    {
+                        "field_name": "Salary",
+                        "operator": "Equals",
+                        "value": "200000"
+                    },
+                    {
+                        "field_name": "Name",
+                        "operator": "Includes",
+                        "value": "Dan"
+                    },
+                    {
+                        "field_name": "Erika Rating",
+                        "operator": "Equals or More",
+                        "value": "4.5"
+                    }
+                ]
+            }
+        ],
+        "created_on": "2021-02-09T05:52:58.000Z",
+        "last_updated": "2021-12-17T15:22:18.000Z"
+    },
+    { 
+        "templatename": "Workflow Job Approval 4", 
+        "department": "Management",
+        "description": "Internationalized and accessible components for everyone. Internationalized and accessible components for everyone. Internationalized and accessible components for everyone. Internationalized and accessible components for everyone. Well tested to ensure performance and reliability.",
+        "levels": [
+            {
+                "name": "Level 1",
+                "approval_all": true,
+                "users": [
+                    {
+                        "name": "User A",
+                        "email": "userA@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": true,
+                        "type": "Default"
+                    },
+                    {
+                        "name": "User B",
+                        "email": "userB@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": false,
+                        "type": "Default"
+                    },
+                    {
+                        "name": "User C",
+                        "email": "userC@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": true,
+                        "type": "Optional"
+                    }
+                ],
+                "rules_config": "Any",
+                "rules": [
+                    {
+                        "field_name": "Salary",
+                        "operator": "Equals",
+                        "value": "200000"
+                    },
+                    {
+                        "field_name": "Name",
+                        "operator": "Includes",
+                        "value": "Dan"
+                    },
+                    {
+                        "field_name": "Erika Rating",
+                        "operator": "Equals or More",
+                        "value": "4.5"
+                    }
+                ]
+            }
+        ],
+        "created_on": "2021-08-15T05:52:58.000Z",
+        "last_updated": "2021-10-09T15:22:18.000Z"
+    },
+    { 
+        "templatename": "Workflow Job Approval 5", 
+        "department": "Information Technology",
+        "description": "Internationalized and accessible components for everyone. Internationalized and accessible components for everyone. Internationalized and accessible components for everyone. Internationalized and accessible components for everyone. Well tested to ensure performance and reliability.",
+        "levels": [
+            {
+                "name": "Level 1",
+                "approval_all": true,
+                "users": [
+                    {
+                        "name": "User A",
+                        "email": "userA@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": true,
+                        "type": "Default"
+                    },
+                    {
+                        "name": "User B",
+                        "email": "userB@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": false,
+                        "type": "Default"
+                    },
+                    {
+                        "name": "User C",
+                        "email": "userC@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": true,
+                        "type": "Optional"
+                    }
+                ],
+                "rules_config": "Any",
+                "rules": [
+                    {
+                        "field_name": "Salary",
+                        "operator": "Equals",
+                        "value": "200000"
+                    },
+                    {
+                        "field_name": "Name",
+                        "operator": "Includes",
+                        "value": "Dan"
+                    },
+                    {
+                        "field_name": "Erika Rating",
+                        "operator": "Equals or More",
+                        "value": "4.5"
+                    }
+                ]
+            }
+        ],
+        "created_on": "2021-12-01T05:52:58.000Z",
+        "last_updated": "2021-12-13T15:22:18.000Z"
+    },
+    { 
+        "templatename": "Workflow Job Approval 6", 
+        "department": "Recruitment",
+        "description": "Internationalized and accessible components for everyone. Internationalized and accessible components for everyone. Internationalized and accessible components for everyone. Internationalized and accessible components for everyone. Well tested to ensure performance and reliability.",
+        "levels": [
+            {
+                "name": "Level 1",
+                "approval_all": true,
+                "users": [
+                    {
+                        "name": "User A",
+                        "email": "userA@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": true,
+                        "type": "Default"
+                    },
+                    {
+                        "name": "User B",
+                        "email": "userB@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": false,
+                        "type": "Default"
+                    },
+                    {
+                        "name": "User C",
+                        "email": "userC@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": true,
+                        "type": "Optional"
+                    }
+                ],
+                "rules_config": "Any",
+                "rules": [
+                    {
+                        "field_name": "Salary",
+                        "operator": "Equals",
+                        "value": "200000"
+                    },
+                    {
+                        "field_name": "Name",
+                        "operator": "Includes",
+                        "value": "Dan"
+                    },
+                    {
+                        "field_name": "Erika Rating",
+                        "operator": "Equals or More",
+                        "value": "4.5"
+                    }
+                ]
+            }
+        ],
+        "created_on": "2021-10-25T05:52:58.000Z",
+        "last_updated": "2021-11-11T15:22:18.000Z"
+    },
+    { 
+        "templatename": "Workflow Job Approval 7", 
+        "department": "Information Technology",
+        "description": "Internationalized and accessible components for everyone. Internationalized and accessible components for everyone. Internationalized and accessible components for everyone. Internationalized and accessible components for everyone. Well tested to ensure performance and reliability.",
+        "levels": [
+            {
+                "name": "Level 1",
+                "approval_all": true,
+                "users": [
+                    {
+                        "name": "User A",
+                        "email": "userA@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": true,
+                        "type": "Default"
+                    },
+                    {
+                        "name": "User B",
+                        "email": "userB@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": false,
+                        "type": "Default"
+                    },
+                    {
+                        "name": "User C",
+                        "email": "userC@test.org",
+                        "img": "assets/img/user.jpg",
+                        "apply_rule": true,
+                        "type": "Optional"
+                    }
+                ],
+                "rules_config": "Any",
+                "rules": [
+                    {
+                        "field_name": "Salary",
+                        "operator": "Equals",
+                        "value": "200000"
+                    },
+                    {
+                        "field_name": "Name",
+                        "operator": "Includes",
+                        "value": "Dan"
+                    },
+                    {
+                        "field_name": "Erika Rating",
+                        "operator": "Equals or More",
+                        "value": "4.5"
+                    }
+                ]
+            }
+        ],
+        "created_on": "2021-07-02T05:52:58.000Z",
+        "last_updated": "2021-12-21T15:22:18.000Z"
+    }
+]

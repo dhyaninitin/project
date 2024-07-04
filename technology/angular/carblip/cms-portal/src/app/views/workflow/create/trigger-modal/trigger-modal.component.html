@@ -1,0 +1,132 @@
+<div class="flex items-center" mat-dialog-title>
+  <h2 class="headline m-0 flex-auto">{{data.title}}</h2>
+
+  <button class="text-secondary" mat-dialog-close mat-icon-button type="button" (click)="close()">
+    <mat-icon svgIcon="mat:close"></mat-icon>
+  </button>
+</div>
+<mat-divider class="-mx-6 text-border"></mat-divider>
+<mat-dialog-content class="flex flex-col">
+  <form [formGroup]="triggerForm">
+    <div fxLayout="row wrap" class="mt-3" fxLayout.lt-sm="column">
+
+      <div fxFlex="100" class="pr-1">
+        <mat-form-field class="full-width w-full">
+          <mat-label>Property</mat-label>
+          <mat-select formControlName="property" (selectionChange)="onPropertychange($event.value)">
+            <mat-option>
+              <ngx-mat-select-search [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches' "
+                  [formControl]="propertyFilterCtrl" [preventHomeEndKeyPropagation]="true">
+                <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+              </ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let property of filteredProperties" [value]="property.field_id">
+              {{property.fields}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+  
+      <div fxFlex="100" class="pr-1"  *ngIf="isConditionEnable">
+        <mat-form-field class="full-width w-full">
+          <mat-label>Conditions</mat-label>
+          <mat-select formControlName="condition" (selectionChange)="onConditionchange($event.value)">
+            <mat-option *ngFor="let condition of conditionList" [value]="condition.id">
+              {{condition.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+  
+      <div fxFlex="100" class="pr-1" *ngIf="conditionValue == '1' || conditionValue == '2' ">
+
+        <ng-container *ngIf="autoComplete">
+          <mat-form-field class="full-width w-full">
+            <mat-label>Add Value</mat-label>
+            <mat-chip-list #chipListconditionvalue class="phone-list cstm-chip-list" formControlName="conditionvalue">
+              <mat-chip *ngFor="let value of conditionvaluenames" class="user-chip" >
+                {{ value }}
+                <mat-icon svgIcon="mat:cancel" class="ml-2" (click)="removeChipValue(value)"></mat-icon>
+              </mat-chip>
+  
+              <input [matChipInputFor]="chipListconditionvalue" placeholder="Add Value" matInput
+                (keyup)="searchValueFunction($event)" [matAutocomplete]="autoSuggestionValue" (matChipInputTokenEnd)="add($event)" 
+                >
+            </mat-chip-list>
+  
+            <mat-autocomplete #autoSuggestionValue="matAutocomplete">
+              <mat-option *ngFor="let option of autoCompleteValue" [value]="option.field_name"
+                (click)="valueChangedFunction(option);">
+                {{ option.field_name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </ng-container>
+
+        <ng-container *ngIf="selectOption">
+          <mat-form-field class="full-width w-full">
+            <mat-label>Add Value</mat-label>
+  
+            <mat-select formControlName="conditionvalue">
+              <mat-option>
+                <ngx-mat-select-search [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches' "
+                [formControl]="" [preventHomeEndKeyPropagation]="true">
+                <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                </ngx-mat-select-search>conditionSelectOptionFilterCtrl
+              </mat-option>
+
+              <mat-option *ngFor="let values of filteredConditionSelectOption" [value]="values.id">
+                {{ propertyFieldValue ? values.name : values.value }}
+              </mat-option>
+            </mat-select>
+
+          </mat-form-field>
+        </ng-container>
+
+        <ng-container *ngIf="textarea">
+          <mat-form-field class="full-width w-full">
+            <mat-label>Add Value</mat-label>
+            <input matInput type="text" formControlName="conditionvalue" placeholder="Add Value" multiple>
+          </mat-form-field>
+        </ng-container>
+
+        <ng-container *ngIf="dealstage || portaldealstage">
+          <mat-form-field class="full-width w-full">
+            <mat-label>Add Value</mat-label>
+            
+            <mat-select formControlName="conditionvalue" *ngIf="portaldealstage">
+              <mat-option>
+                <ngx-mat-select-search [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches'"
+                  [formControl]="dealStageFilterCtrl" [preventHomeEndKeyPropagation]="true">
+                  <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                </ngx-mat-select-search>
+              </mat-option>
+            
+              <mat-option *ngFor="let value of filteredDealStageSelectOption" [value]="value.id">
+                {{ value.label }} ({{value.pipeline}})
+              </mat-option>
+            </mat-select>
+
+            <mat-select formControlName="conditionvalue" *ngIf="dealstage">
+              <mat-option>
+                <ngx-mat-select-search [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches'"
+                  [formControl]="dealStageFilterCtrl" [preventHomeEndKeyPropagation]="true">
+                  <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                </ngx-mat-select-search>
+              </mat-option>
+            
+              <mat-option *ngFor="let value of filteredDealStageSelectOption" [value]="value.stage_id">
+                {{ value.label }} ({{value.pipeline_name}})
+              </mat-option>
+            </mat-select>
+
+          </mat-form-field>
+        </ng-container>
+      </div>
+    </div>
+  </form>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button" (click)="close()">Cancel</button>
+    <button mat-button mat-raised-button type="button" color="primary" (click)="saveTrigger()">{{data.isEdit ? 'Update' : 'Save'}}</button>
+  </mat-dialog-actions>
+</mat-dialog-content>

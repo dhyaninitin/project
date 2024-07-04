@@ -1,0 +1,49 @@
+
+
+<div class="flex items-center" mat-dialog-title>
+  <h2 class="headline m-0 flex-auto">{{profile?.first_name}} {{profile?.last_name}}</h2>
+
+  <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+    <mat-icon svgIcon="mat:close"></mat-icon>
+  </button>
+</div>
+
+<mat-divider class="-mx-6 text-border"></mat-divider>
+
+<mat-dialog-content class="flex flex-col">
+  <div class="mt-3">
+
+   <!-- IMAGE CROPPER CODE STARTS -->
+  <span *ngIf="imageChangedEvent != ''">
+    <h2 class="headline">Crop your image</h2>
+    <div class="mt-3 flex justify-center border-img">
+    <image-cropper
+      [imageChangedEvent]="imageChangedEvent"
+      [maintainAspectRatio]="true"
+      [aspectRatio]="4/4"
+      format="png"
+      [resizeToWidth]="256"
+      (imageCropped)="imageCropped($event)"
+      (imageLoaded)="imageLoaded($event)"
+      (cropperReady)="cropperReady()"
+      (loadImageFailed)="loadImageFailed()">
+    </image-cropper>
+    </div>
+    <mat-divider></mat-divider>
+    <h2 class="headline mt-3">Preview</h2>
+  </span>
+  <div class="mt-3 flex justify-center">
+    <img [src]="croppedImage" class="preview"/>
+  </div>
+   <!-- IMAGE CROPPER CODE ENDS -->
+
+   <div class="flex justify-center mt-3 ptb-15">
+    <div>
+      <app-button-loading color="primary" (click)="uploader.click()">Choose a picture</app-button-loading>
+        &nbsp;
+      <app-button-loading color="primary" [ngClass]="uploadStart ? 'pointer-event-none' : ''" (click)="startUpload()" [disabled]="croppedImage == '' && imageChangedEvent == ''">Upload</app-button-loading>
+    </div>
+    <input type="file" hidden #uploader name="myfile" (change)="fileChangeEvent($event)" accept="image/png, image/gif, image/jpeg"/>
+  </div>
+  </div>
+</mat-dialog-content>

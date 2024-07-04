@@ -1,0 +1,155 @@
+<div class="card-box ">
+  <div class="row">
+    <div class="col-sm-10">
+      <h4 class="page-title" style="padding-left: 15px;">All Analytics</h4>
+    </div>
+    <div class="col-sm-2 d-flex bid-btn-div justify-content-end " *ngIf="excelExportSheet.length">
+      <button class="btn btn-primary" type="button" (click)="exportAsXLSX()">Export</button>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-2">
+    <div class="form-group">
+      <input type="text" class="form-control" name="name" [(ngModel)]="dataFilter.name" id="name" placeholder="Enter Practice Name">
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <div class="form-group">
+      <select class="form-control" name="jobType" [(ngModel)]="dataFilter.jobType">
+        <option value="">All Job Type</option>
+        <option value="{{jobTypes.TEMPORARY}}">Temporary</option>
+        <option value="{{jobTypes.PERMANENTFULLTIME}}">Permanent Full Time</option>
+        <option value="{{jobTypes.PERMANENTPARTTIME}}">Permanent Part Time</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <div class="form-group">
+      <select class="form-control" name="positionType" [(ngModel)]="dataFilter.positionType">
+        <option value="">All Position Type</option>
+        <option [value]="positionType" *ngFor="let positionType of PositionTypeData">
+          {{positionType}}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <div class="form-group">
+      <div class="form-group">
+        <input type="text"
+          name="jobDates"
+          placeholder="Select Job date"
+          class="form-control" [(ngModel)]="dataFilter.jobDates"
+          bsDaterangepicker
+          [bsConfig]="rangeDatepickerConfig"
+        >
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary btn-sm" (click)="filterAnalytics()">Search</button>
+      <button type="button" class="btn btn-danger btn-sm" (click)="resetFilter()">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-cogs"></i> Listings
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table table-bordered">
+          <thead class="nowrap">
+            <tr>
+              <th> Assignment ID </th>
+              <th [class.active]="order === 'contractId.jobPostId.jobDate'" (click)="setOrder('contractId.jobPostId.jobDate')"> Job Date
+                  <span [hidden]="reverse">▼</span>
+                  <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'jobTypeLabel'" (click)="setOrder('jobTypeLabel')" > Job Type
+                  <span [hidden]="reverse">▼</span>
+                  <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'contractId.jobPostId.positionType'" (click)="setOrder('contractId.jobPostId.positionType')"> Position Type
+                  <span [hidden]="reverse">▼</span>
+                  <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'practiceId.firstName'" (click)="setOrder('practiceId.firstName')"> Practice Name
+                  <span [hidden]="reverse">▼</span>
+                  <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'contractId.jobPostId.location'" (click)="setOrder('contractId.jobPostId.location')"> Location
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'distanceTravelled'" (click)="setOrder('distanceTravelled')"> Distance Traveled (RT)
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'totalAmount'" (click)="setOrder('totalAmount')"> Total Wages
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'totalHoursWorked'" (click)="setOrder('totalHoursWorked')"> Total Hrs Worked
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'contractId.finalRate'" (click)="setOrder('contractId.finalRate')"> Hourly Rate
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody *ngIf="timesheet.length">
+            <tr
+              *ngFor="let work of timesheet | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index;">
+              <td> <a [routerLink]="['/staff/assignments/details',work?.contractId?._id ]" data-toggle="tooltip" title="{{work?.contractId?._id }}">#{{ work?.contractId?._id | slice:18:24}}</a>
+              </td>
+              <td>{{ work?.contractId?.jobPostId?.jobDate | date:'mediumDate'}}</td>
+              <td>{{ work?.jobTypeLabel }} </td>
+              <td>{{ work?.contractId?.jobPostId?.positionType }}</td>
+              <td>{{ work?.practiceId?.firstName }} {{ work?.practiceId?.lastName }}</td>
+              <td>{{ work?.contractId?.jobPostId?.location }}</td>
+              <td>{{ work?.distanceTravelled.toFixed(2) }}</td>
+              <td> ${{work?.totalAmount}}</td>
+              <td> {{work?.totalHoursWorked}}</td>
+              <td> ${{ work?.contractId?.finalRate}}</td>
+            </tr>
+            <tr>
+              <td colspan="7" class="text-right"><strong>Total</strong></td>
+              <td> ${{total.wages}}</td>
+              <td> {{total?.hours}}</td>
+              <td> </td>
+            </tr>
+          </tbody>
+          <tr class="text-center" *ngIf="!timesheet.length">
+            <td colspan="10">
+              <h6>No Record Found !</h6>
+            </td>
+          </tr>
+        </table>
+
+        <ul class="pagination" *ngIf="itemsPerPage < timesheet.length">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="timesheet.length">
+  <div class="col-md-12">
+
+    <highcharts-chart
+      [Highcharts]="Highcharts"
+      [options]="chartOptions"
+      style="width: 100%; height: 400px; display: block;"
+    ></highcharts-chart>
+
+  </div>
+</div>

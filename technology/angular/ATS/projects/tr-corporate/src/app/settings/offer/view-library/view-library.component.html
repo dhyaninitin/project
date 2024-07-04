@@ -1,0 +1,68 @@
+<div class="box-container">
+  <div class="upper-sec">
+    <div>
+      <h4><img src="assets/img/view.svg" alt="" /> View Document</h4>
+    </div>
+  </div>
+  <div class="mid-sec" *ngIf="documentDetail">
+    <ng-template #hideEditBtn> </ng-template>
+    <div class="user-details">
+      <div class="personal__details__content">
+        <div class="user_detail_list">
+          <div class="common-div">
+            <span class=""></span>
+            <div class="d-flex flex-column">
+              <div class="title">
+                <mat-label>Document Name</mat-label>
+              </div>
+              <span class="value"> {{documentDetail.documentoriginalname.split('.')[0]}} </span>
+            </div>
+          </div>
+
+          <div class="common-div">
+            <span class=""></span>
+            <div class="d-flex flex-column">
+              <mat-label>Uploaded By</mat-label>
+              <span class="value">
+                <span  *ngIf="documentDetail.userInfo.imageUrl == ''" class="user-avatar" >{{documentDetail.userInfo.email.split('')[0].toUpperCase() }}</span>
+                <img
+                  *ngIf="documentDetail.userInfo.imageUrl"
+                  src="{{ documentDetail.userInfo.imageUrl }}"
+                  alt="{{ documentDetail.userInfo.picturename }}"
+                />
+                <span class="mail">
+                 
+                  {{documentDetail.userInfo.email}}
+                  <p>{{documentDetail.createdtime | date : 'EEE d MMMM y'}}</p>
+                </span>
+              </span>
+            </div>
+          </div>
+          <div class="common-div">
+            <span class=""></span>
+            <div class="d-flex flex-column">
+              <mat-label
+                >Uploaded document
+                <span class="jpeg">{{documentDetail.extension}}</span> {{documentDetail.size}}</mat-label
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="last-sec" *ngIf="showPdfViewer">
+    <pdf-viewer [src]="fileUrl"
+    [render-text]="true"
+    [original-size]="false"
+    style="width: auto; height: 100vh"
+    ></pdf-viewer>
+  </div>
+  <div class="last-sec" *ngIf="!showPdfViewer">
+    <ngx-doc-viewer
+    [url]="fileUrl"
+    viewer="google"
+    style="width:100%;height:50vh;"
+    ></ngx-doc-viewer>
+  </div>
+</div>

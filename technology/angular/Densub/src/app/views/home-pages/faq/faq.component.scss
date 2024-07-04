@@ -1,0 +1,47 @@
+.innerbg-1 {
+  background-image: url('../../../../assets/img/common/dentallist.jpg');
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position: center center;
+  min-height: 250px;
+}
+.faq {
+  .card {
+    box-shadow: 0px 8px 7px -1px #d7d7d7;
+  }
+  .panel-open {
+    .card-header {
+      &:after {
+        content: '\f056';
+      }
+    }
+  }
+  .card-header {
+    background: #fff;
+    padding-right: 50px;
+    &:after {
+      content: '\f055';
+      font-family: 'FontAwesome';
+      position: absolute;
+      right: 15px;
+      font-size: 22px;
+      top: 16px;
+      color: #1c4587;
+    }
+    button {
+      text-align: left;
+      color: #1c4587 !important;
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
+}
+accordion-group {
+  .panel-heading {
+    cursor: pointer;
+    button {
+      cursor: pointer !important;
+      width: 100%;
+    }
+  }
+}

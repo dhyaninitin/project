@@ -1,0 +1,92 @@
+<div class="main-container">
+    <div class="container-fluid mt-3 d-flex justify-content-end"> 
+      <div class="search_textbox" >
+        <form [formGroup]="searchForm">
+        <mat-form-field appearance="outline" id="search_textbox" *ngIf="checkTemplateData.length >= 1">
+          <mat-label>Search</mat-label>
+          <input
+            matInput
+            placeholder="Search by template name"
+            type="text"
+            name="searchedKeyword"
+            formControlName="search_box"
+            (keyup)="onSearchTemplate($event)"
+          />
+          <mat-icon matPrefix>search</mat-icon
+          >
+        </mat-form-field>
+      </form>
+      </div>
+
+      <div class="sort-by-div" *ngIf="checkTemplateData.length >= 1">
+        <mat-form-field appearance="outline" id="shortby_dropdown">
+          <mat-label>Sort By:</mat-label>
+          <mat-icon matPrefix>sort</mat-icon>
+          <mat-select (selectionChange)="onShortBy()" [(ngModel)]="sortBy">
+            <mat-option value="{{ item.name }}" *ngFor="let item of sort_by">{{
+              item.name
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+        <div>
+          <button
+            id="increase-height"
+            mat-stroked-button
+            (click)="addGlobalTemplate()"
+          >
+            Add Global Template
+          </button>
+        </div>
+    </div>
+
+  <div class="mat-table">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z6">
+      <ng-container matColumnDef="templatename">
+        <th mat-header-cell *matHeaderCellDef>Template Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.templatename }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>Description</th>
+        <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="templatetype">
+        <th mat-header-cell *matHeaderCellDef>Template Type</th>
+        <td mat-cell *matCellDef="let element">{{element.templatetype}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <button mat-button [matMenuTriggerFor]="actions">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #actions="matMenu">
+            <button mat-menu-item (click)="onEditGlobalTemplate(element)">Edit</button>
+            <button mat-menu-item *ngIf="element.userid" (click)="openDelDialog(element._id)">Delete</button>
+        </mat-menu>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+
+  <div *ngIf="dataSource.length == 0" class="d-flex justify-content-center">
+    <h3 class="text-muted">No data found</h3>
+ </div>
+
+ <div class="footer" *ngIf="dataSource.length >= 1">
+  <mat-paginator
+    #paginator
+    [length]="totalDataCount"
+    [pageSizeOptions]="[5, 10, 15, 20]"
+    (page)="onPageChange($event)"
+    [showFirstLastButtons]="true"
+  >
+  </mat-paginator>
+</div>
+</div>

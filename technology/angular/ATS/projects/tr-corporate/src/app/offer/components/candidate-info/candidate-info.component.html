@@ -1,0 +1,137 @@
+<hr class="mobile-view-line d-w-none">
+<div class="job-description justify-content-around">
+    <div class="align-items-center d-flex">
+      <div class="col-md-12 col-12 col-sm-12 m-0 p-0">
+        <div class="row">
+          <div class="col-md-3 col-3 col-sm-3 employee-details" *ngIf="candidateInfo.email">
+            <span  *ngIf="candidateInfo?.profileimagepath == ''" class="user-avatar" >{{candidateInfo.email.split('')[0].toUpperCase() }}</span>
+            <img class="candidate-profile"
+              *ngIf="candidateInfo.profileimagepath"
+              src="{{ candidateInfo.profileimagepath }}"
+              alt="{{ candidateInfo.firstname }}"
+            />
+          </div>
+        
+        <div class="col-md-9 col-9 col-sm-9 temp-class-mobile-padding employee-details">
+        <div class="row">
+          <div class="col-md-12 p-0">
+            <div class="employee-position">
+              <p class="f-24 title">{{candidateInfo.firstname | titlecase}} {{candidateInfo.middlename | titlecase}} {{candidateInfo.lastname | titlecase}}
+                <span class="f-12 fw-500">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 8.635L9.09 10.5L8.27 6.985L11 4.62L7.405 4.315L6 1L4.595 4.315L1 4.62L3.73 6.985L2.91 10.5L6 8.635Z" fill="#FFAE1F"/>
+                    </svg>
+                  4.3
+                </span>  
+              </p> 
+            </div>
+          </div>
+        </div>
+        <div class="row ml-m-auto">
+          <div class="col-md-12 p-0">
+            <ul class="custom-ul-frames" *ngIf="candidateInfo.currentdesignation && candidateInfo.currentorganization">
+                <li class="pl-0">
+                <h5 class="f-12 description">{{candidateInfo.currentdesignation}} at {{candidateInfo.currentorganization}}</h5>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-12 col-sm-8 p-0">
+            <ul>
+              <li class="pl-m-0 pl-0" *ngIf="candidateInfo.currentlocation">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 1C4.065 1 2.5 2.565 2.5 4.5C2.5 7.125 6 11 6 11C6 11 9.5 7.125 9.5 4.5C9.5 2.565 7.935 1 6 1ZM6 5.75C5.31 5.75 4.75 5.19 4.75 4.5C4.75 3.81 5.31 3.25 6 3.25C6.69 3.25 7.25 3.81 7.25 4.5C7.25 5.19 6.69 5.75 6 5.75Z" fill="#1F47F5"/>
+                    </svg>                    
+                <h5 class="f-12">{{candidateInfo.currentlocation}}</h5>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-12 col-sm-8 p-0">
+            <ul>
+              <li class="pl-0" *ngIf="candidateInfo.email">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 2H2C1.45 2 1.005 2.45 1.005 3L1 9C1 9.55 1.45 10 2 10H10C10.55 10 11 9.55 11 9V3C11 2.45 10.55 2 10 2ZM10 4L6 6.5L2 4V3L6 5.5L10 3V4Z" fill="#1F47F5"/>
+                    </svg>
+                <h5 class="f-12">{{candidateInfo.email}}</h5>
+              </li>
+              <li *ngIf="candidateInfo.primaryphone">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10.005 7.69C9.39 7.69 8.795 7.59 8.24 7.41C8.065 7.35 7.87 7.395 7.735 7.53L6.95 8.515C5.535 7.84 4.21 6.565 3.505 5.1L4.48 4.27C4.615 4.13 4.655 3.935 4.6 3.76C4.415 3.205 4.32 2.61 4.32 1.995C4.32 1.725 4.095 1.5 3.825 1.5H2.095C1.825 1.5 1.5 1.62 1.5 1.995C1.5 6.64 5.365 10.5 10.005 10.5C10.36 10.5 10.5 10.185 10.5 9.91V8.185C10.5 7.915 10.275 7.69 10.005 7.69Z" fill="#1F47F5"/>
+                  </svg>                  
+                <h5 class="f-12">+91 {{candidateInfo.primaryphone}}</h5>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-12 col-sm-8 p-0">
+            <ul class="custom-ul-mobile">
+              <li class="pl-0" *ngIf="candidateInfo.currentsalary">
+                <svg width="15" height="15" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.99996 3.33301V4.99967" stroke="#2329D6" stroke-linecap="round"/>
+                    <path d="M9.99996 15V16.6667" stroke="#2329D6" stroke-linecap="round"/>
+                    <path d="M12.9167 6.66667C12.9167 6.66667 12.5 5 10 5C7.50004 5 7.08337 6.63043 7.08337 7.5C7.08337 10.9503 12.9167 9.13745 12.9167 12.5C12.9167 13.3696 12.5 15 10 15C7.50004 15 7.08337 13.3333 7.08337 13.3333" stroke="#2329D6" stroke-linecap="round"/>
+                    </svg>                    
+                <h5 class="f-12 description">Current Salary</h5>
+              </li>
+              <li *ngIf="candidateInfo.currentsalary">
+                <h5 class="f-12">{{candidateInfo.currentsalary}} Anually</h5>
+              </li>
+              <li *ngIf="offerService.step == 1">
+                  <a class="f-12 link btn-previous custom-cursor-pointer d-mobile-none" (click)="openDetailsDrawer()">View Details ></a>
+                  <a class="f-12 link btn-previous custom-cursor-pointer d-w-none" (click)="openSalaryBreakdown()">View Details ></a>
+                </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+      </div>
+  </div>
+  </div>
+  </div>
+
+<div *ngIf="offerService.step >= 1">
+<div class="row mt-3">
+    <div class="col-md-7 col-7 col-sm-7">
+        <p class="f-16 title">Offered Salary Breakdown</p>
+    </div>
+    <div class="col-md-3 col-3 col-sm-3 p-0 m-auto">
+        <span class="status-tag hike-text f-12 fw-600">{{hikePercentage.toFixed(2)}}% Hike</span>
+    </div>
+    <div class="col-md-2 col-sm-2 col-2 m-auto p-0">
+       <span class="status-tag f-12 fw-600"> 
+           <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M0 8.99501L3.75 5.24001L5.75 7.24001L9.295 3.25501L10 3.96001L5.75 8.74001L3.75 6.74001L0.75 9.74501L0 8.99501ZM0.75 6.74501L3.75 3.74001L5.75 5.74001L10 0.960005L9.295 0.255005L5.75 4.24001L3.75 2.24001L0 5.99501L0.75 6.74501Z"
+                fill="#00A5FF" />
+            </svg>
+            <span class="yes-text"> {{hikePercentage > 0 ? 'Yes' : 'No'}}</span>
+        </span>
+    </div>
+</div>  
+
+<div class="row mt-2" *ngFor="let salary_detail of salary_breakdown">
+    <div class="col-md-8 col-8 col-sm-8" *ngIf="totalSalary != 0">
+        <div>
+            <p class="title f-14">{{salary_detail.title}}</p>
+            <p class="f-12 description">{{ salary_detail?.percentage }}% of Total Salary</p>
+        </div>
+    </div>
+    <div class="col-md-1 col-1 col-sm-1 m-auto pl-m-0 pr-0" *ngIf="totalSalary != 0">
+      <p class="salary-amount title f-14 text-right">{{ offerService.currencyType == 'USD' ? '$' : 'Rs. '}}</p>
+    </div>
+    <div class="col-md-3 col-3 col-sm-3 m-auto pl-m-0 pl-0" *ngIf="totalSalary != 0">
+        <p class="salary-amount title f-14 text-right">{{salary_detail.amount}}</p>
+    </div>
+</div>
+</div>
+<div class="row mt-4" *ngIf="offerService.step >= 1">
+  <div class="col-md-6 col-6 col-sm-6 pb-2">
+    <p class="f-18 title">Total Salary</p>
+  </div>
+  <div class="col-md-6 col-6 col-sm-6 pb-2 text-right">
+    <p class="f-18 title">{{ offerService.currencyType === 'USD' ? '$' : 'Rs. ' }} {{totalSalary}}</p>
+  </div>
+    <div class="col-md-12">
+        <button class="btn btn-primary" style="width: 100%;" type="button" [disabled]="offerService.offerUrl.length <= 0" (click)="openPreviewDrawer()" mat-raised-button color="primary">Preview Offer letter</button>
+    </div>
+</div>

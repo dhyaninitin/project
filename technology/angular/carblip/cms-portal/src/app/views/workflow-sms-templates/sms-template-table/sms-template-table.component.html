@@ -1,0 +1,68 @@
+<table @stagger [dataSource]="smsTemplates" matSortActive={{sortKey}} matSortDirection={{sortDirection}} matSortDisableClear matSort class="w-full" mat-table>
+	<ng-container matColumnDef="message">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Message</th>
+		<td *matCellDef="let item" mat-cell>{{ item.message[0] | slice:0:80 }}</td>
+	</ng-container>
+  <ng-container matColumnDef="title">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Title</th>
+		<td *matCellDef="let item" mat-cell>{{ item.title }}</td>
+	</ng-container>
+  <ng-container matColumnDef="added_by">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Added By</th>
+		<td *matCellDef="let item" mat-cell>{{ item.added_by | titlecase }}</td>
+	</ng-container>
+
+	<ng-container matColumnDef="is_active">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Status</th>
+		<td *matCellDef="let item" mat-cell (click)="$event.stopPropagation();">
+			<mat-slide-toggle color="primary" [checked]="item.is_active == 0 ? true : false" (change)="toggleIsSmsTemplateActive($event, item)">
+			</mat-slide-toggle>
+		</td>
+	</ng-container>
+
+	<ng-container matColumnDef="created_at">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Created At</th>
+		<td *matCellDef="let item" mat-cell>{{ item?.created_at | date:'MM/dd/yyy h:mm a' }}</td>
+	</ng-container>
+
+    <ng-container matColumnDef="updated_at">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Updated At</th>
+		<td *matCellDef="let item" mat-cell>{{ item?.updated_at | date:'MM/dd/yyy h:mm a' }}</td>
+	</ng-container>
+
+	<ng-container matColumnDef="actions">
+		<th *matHeaderCellDef mat-header-cell></th>
+		<td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
+			<button (click)="$event.stopPropagation();getSelectedRecord(row)"
+				[matMenuTriggerData]="{ customer: row }"
+				[matMenuTriggerFor]="actionsMenu"
+				mat-icon-button
+				type="button">
+
+				<mat-icon svgIcon="mat:more_horiz"></mat-icon>
+			</button>
+		</td>
+	</ng-container>
+
+	<tr *matHeaderRowDef="getDisplayedColumns(); sticky: true" mat-header-row></tr>
+	<tr
+		*matRowDef="let row; columns: getDisplayedColumns();"
+			@fadeInUp
+			class="hover:bg-hover trans-ease-out cursor-pointer"
+			mat-row></tr>
+</table> 
+<div class="text-center mt-2" *ngIf="(didFetch$ | async) && smsTemplates.length === 0">There are no sms templates available. Please enter in a sms template to view them here</div> 
+
+<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+<ng-template let-customer="customer" matMenuContent>
+
+<button mat-menu-item (click)="editTemplates(selectedRecordDetail)">
+	<mat-icon svgIcon="mat:edit"></mat-icon>
+	<span>Edit</span>
+</button>
+<button mat-menu-item (click)="deleteTemplate(selectedRecordDetail)">
+	<mat-icon svgIcon="mat:delete"></mat-icon>
+	<span>Delete</span>
+</button>
+</ng-template>
+</mat-menu>

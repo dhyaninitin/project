@@ -1,0 +1,772 @@
+<vex-page-layout>
+	<vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+		<div
+			class="w-full flex flex-col sm:flex-row justify-between">
+			<div>
+				<h1 class="title mt-0 mb-1">Deal #{{request?.order_number}}</h1>
+				<vex-breadcrumbs [crumbs]="['Deals', 'Detail']"></vex-breadcrumbs>
+			</div>
+
+		</div>
+	</vex-page-layout-header>
+		<vex-page-layout-content *ngIf="isReady" class="-mt-6">
+			<div class="card overflow-auto -mt-16">
+		<div class="head bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
+			<h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l sm:block flex-none">
+				<span>Actions</span>
+			</h2>
+			<span class="flex-1"></span>
+			<button *ngxPermissionsExcept="['concierge']" (click)="indirectDeleteDialogBox()" class="ml-4 flex-none" color="warn" mat-mini-fab matTooltip="Delete Deal" type="button">
+				<mat-icon svgIcon="mat:delete"></mat-icon>
+			</button>
+			<button (click)="location.back()" class="ml-4 flex-none" color="primary" mat-mini-fab matTooltip="Back" type="button">
+					<mat-icon svgIcon="mat:arrow_back"></mat-icon>
+			</button>
+		</div>
+			</div>
+
+			<div class="mt-6 flex flex-col md:flex-row md:items-start">
+				<div class="flex-auto">
+					<!-- <div class="card">
+						<div class="px-gutter py-4 border-b flex justify-content-space-between">
+						<h2 class="title m-0">Deal Details</h2> 
+						</div>
+						<form  [formGroup]="itemForm" class="px-gutter py-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">
+										<a [routerLink]= "['/contacts', request?.user_id]" class="link">{{request?.full_name}}</a>
+									</p>
+									<p class="m-0 caption text-hint">Contact</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.year}}</p>
+									<p class="m-0 caption text-hint">Year</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.brand}}</p>
+									<p class="m-0 caption text-hint">Make</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.model}}</p>
+									<p class="m-0 caption text-hint">Model</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.trim}}</p>
+									<p class="m-0 caption text-hint">Trim</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.exterior_color.join(',')}}</p>
+									<p class="m-0 caption text-hint">Exterior Color</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.interior_color.join(',')}}</p>
+									<p class="m-0 caption text-hint">Interior Color</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.price | currency}}</p>
+									<p class="m-0 caption text-hint">MSRP</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.order_number}}</p>
+									<p class="m-0 caption text-hint">Order/Deal Number</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.request_time | date:'MM/dd/yyy h:mm a'}}</p>
+									<p class="m-0 caption text-hint">Deal Time</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.credit_score}}</p>
+									<p class="m-0 caption text-hint">Self Assessed Credit Score</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.buying_time}}</p>
+									<p class="m-0 caption text-hint">Purchase timeframe</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.buying_method}}</p>
+									<p class="m-0 caption text-hint">Purchase preference</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.terms}}</p>
+									<p class="m-0 caption text-hint">Terms</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.referral_code | uppercase}}</p>
+									<p class="m-0 caption text-hint">Referral Code</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.source_utm}}</p>
+									<p class="m-0 caption text-hint">Source</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.car_direct_id}}</p>
+									<p class="m-0 caption text-hint">{{request?.source_utm}} Id</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.style}}</p>
+									<p class="m-0 caption text-hint">Style</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.vehicle_type}}</p>
+									<p class="m-0 caption text-hint">Vehicle Type</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.color_preference}}</p>
+									<p class="m-0 caption text-hint">Color Preference</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.price_comment}}</p>
+									<p class="m-0 caption text-hint">Price Comment</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.finance_amount}}</p>
+									<p class="m-0 caption text-hint">Finance Method</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.finance_type}}</p>
+									<p class="m-0 caption text-hint">Finance Type</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.finance_amount}}</p>
+									<p class="m-0 caption text-hint">Finance Amount</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.provider_id}}</p>
+									<p class="m-0 caption text-hint">Provider Id</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.provider_name}}</p>
+									<p class="m-0 caption text-hint">Provider Name</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.options.join(',')}}</p>
+									<p class="m-0 caption text-hint">Options</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">
+										<span class="tag" [ngClass]="request.is_complete ? 'yes' : 'no'">{{request?.is_complete ? 'Yes' : 'No'}}</span>
+									</p>
+									<p class="m-0 caption text-hint">Is Completed?</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.contact_owner}}</p>
+									<p class="m-0 caption text-hint">Deal Assigned to</p>
+								</div>
+							</div>
+							<div class="py-3 flex items-center">
+								<div @fadeInRight>
+									<p class="m-0 body-1">{{request?.deal_stage}}</p>
+									<p class="m-0 caption text-hint">Deal Stage</p>
+								</div>
+							</div>
+
+							<div class="py-3 flex items-center" @fadeInRight>
+								<mat-form-field>
+								  <mat-label>Deposit Status</mat-label>
+								  <input matInput autocomplete="deposit_status" name="deposit_status"
+									[formControl]="itemForm.controls['deposit_status']" placeholder="Deposit Status" appNoWhitespace>
+								</mat-form-field>
+							</div>
+
+							<div class="py-3 flex items-center" @fadeInRight>
+								<mat-form-field>
+								  <mat-label>Credit Application Status</mat-label>
+								  <input matInput autocomplete="credit_application_status" name="credit_application_status"
+									[formControl]="itemForm.controls['credit_application_status']" placeholder="Credit Application Status" appNoWhitespace>
+								</mat-form-field>
+							</div>
+
+							<div class="py-3 flex items-center" @fadeInRight>
+								<mat-form-field>
+								  <mat-label>Insurance Status</mat-label>
+								  <input matInput autocomplete="insurance_status" name="insurance_status"
+									[formControl]="itemForm.controls['insurance_status']" placeholder="Insurance Status" appNoWhitespace>
+								</mat-form-field>
+							</div>
+
+							<div class="py-3 flex items-center" @fadeInRight>
+								<mat-form-field>
+								  <mat-label>Send Trade-in Form</mat-label>
+								  <input matInput autocomplete="send_tradein_form" name="send_tradein_form"
+									[formControl]="itemForm.controls['send_tradein_form']" placeholder="Send Trade-in Form" appNoWhitespace>
+								</mat-form-field>
+							</div>
+
+							<div class="py-3 flex items-center" @fadeInRight>
+								<mat-form-field>
+								  <mat-label>Trade-in ACV</mat-label>
+								  <input matInput autocomplete="tradein_acv" name="tradein_acv"
+									[formControl]="itemForm.controls['tradein_acv']" placeholder="Trade-in ACV" appNoWhitespace>
+								</mat-form-field>
+							</div>
+
+						</form>
+
+						<div class="py-4 justify-content-end flex items-center px-gutter" @fadeInRight>
+							<app-button-loading loadingText="Processing..." [loading]="saving" (click)="submit()"
+							  [disabled]="itemForm.invalid || itemForm.pristine" color="primary">Update</app-button-loading>
+						</div>
+					</div> -->
+					<div class="card">
+						<div class="px-gutter py-4 border-b flex justify-content-space-between">
+							<h2 class="title m-0">Deal Details</h2>
+							<span class="flex-1"></span>
+							<button class="ml-4 flex-none" [matTooltip]="isCollapsedDealsSection ? 'Expand Deals Section' : 'Collapse Deals Section'" (click)="isCollapsedDealsSection = !isCollapsedDealsSection; collapseDealsSection();" type="button">
+								<mat-icon *ngIf="isCollapsedDealsSection" svgIcon="mat:keyboard_arrow_down"></mat-icon>
+								<mat-icon *ngIf="!isCollapsedDealsSection" svgIcon="mat:keyboard_arrow_up"></mat-icon>
+							</button>
+						</div>
+						<div class="" id="dealsSection">
+							<form  [formGroup]="itemForm" class="px-gutter py-4 grid grid-cols-1 sm:grid-cols-4 gap-4">
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field class="contact-link">
+									  <mat-label>Contact</mat-label>
+									  <input matInput type="text" autocomplete="contact" name="contact"
+										 disabled>
+										<a [routerLink]= "['/contacts', request?.user_id]" class="link" >{{request?.full_name}}</a>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Year</mat-label>
+									  <input matInput type="text" autocomplete="year" name="year" placeholder="Year"
+										[value]="setNameAsNAForDeals(request, 'year') || request?.year" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Make</mat-label>
+									  <input matInput type="text" autocomplete="make" name="make" placeholder="Make"
+										[value]="setNameAsNAForDeals(request, 'brand') || request?.brand" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Model</mat-label>
+									  <input matInput type="text" autocomplete="model" name="model" placeholder="Model"
+										[value]="setNameAsNAForDeals(request, 'model') || request?.model" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Trim</mat-label>
+									  <input matInput type="text" autocomplete="trim" name="trim" placeholder="Trim"
+										[value]="setNameAsNAForDeals(request, 'trim') || request?.trim" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Exterior Color</mat-label>
+									  <input matInput type="text" autocomplete="exterior color" name="exterior_color" placeholder="Exterior Color"
+										[value]="request?.exterior_color.join(',')" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Interior Color</mat-label>
+									  <input matInput type="text" autocomplete="Interior color" name="interior_color" placeholder="Interior Color"
+										[value]="request?.interior_color.join(',')" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>MSRP</mat-label>
+									  <input matInput type="text" autocomplete="msrp" name="msrp" placeholder="MSRP"
+										[value]="request?.price | currency" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Order/Deal Number</mat-label>
+									  <input matInput type="text" autocomplete="order" name="order" placeholder="Order/Deal Number"
+										[value]="request?.order_number" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Deal Time</mat-label>
+									  <input matInput type="text" autocomplete="deal_time" name="deal_time" placeholder="Deal Time"
+										[value]="request?.request_time | date:'MM/dd/yyy h:mm a'" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Self Assessed Credit Score</mat-label>
+									  <input matInput type="text" autocomplete="credit_score" name="credit_score" placeholder="Credit Score"
+										[value]="request?.credit_score" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Purchase timeframe</mat-label>
+									  <input matInput type="text" autocomplete="buying_time" name="buying_time" placeholder="Purchase timeframe"
+										[value]="request?.buying_time" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Purchase preference</mat-label>
+									  <input matInput type="text" autocomplete="buying_method" name="buying_method" placeholder="Purchase preference"
+										[value]="request?.buying_method" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Terms</mat-label>
+									  <input matInput type="text" autocomplete="terms" name="terms" placeholder="Terms"
+										[value]="request?.terms" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Referral Code</mat-label>
+									  <input matInput type="text" autocomplete="referral_code" name="referral_code" placeholder="Referral Code"
+										[value]="request?.referral_code | uppercase" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Source</mat-label>
+									  <input matInput type="text" autocomplete="source_utm" name="source_utm" placeholder="Source"
+										[value]="request?.source_utm" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>{{request?.source_utm}} Id</mat-label>
+									  <input matInput type="text" autocomplete="car_direct_id" name="car_direct_id" placeholder="request?.source_utm Id"
+										[value]="request?.car_direct_id" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Style</mat-label>
+									  <input matInput type="text" autocomplete="style" name="style" placeholder="Style"
+										[value]="request?.style" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Vehicle Type</mat-label>
+									  <input matInput type="text" autocomplete="vehicle_type" name="vehicle_type" placeholder="Vehicle Type"
+										[value]="request?.vehicle_type" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Color Preference</mat-label>
+									  <input matInput type="text" autocomplete="color_preference" name="color_preference" placeholder="Color Preference"
+										[value]="request?.color_preference" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Price Comment</mat-label>
+									  <input matInput type="text" autocomplete="price_comment" name="price_comment" placeholder="Price Comment"
+										[value]="request?.price_comment" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Finance Method</mat-label>
+									  <input matInput type="text" autocomplete="finance_amount" name="finance_amount" placeholder="Finance Method"
+										[value]="request?.finance_amount" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Finance Type</mat-label>
+									  <input matInput type="text" autocomplete="finance_type" name="finance_type" placeholder="Finance Type"
+										[value]="request?.finance_type" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Finance Amount</mat-label>
+									  <input matInput type="text" autocomplete="finance_amount" name="finance_amount" placeholder="Finance Amount"
+										[value]="request?.finance_amount" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Provider Id</mat-label>
+									  <input matInput type="text" autocomplete="provider_id" name="provider_id" placeholder="Provider Id"
+										[value]="request?.provider_id" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Provider Name</mat-label>
+									  <input matInput type="text" autocomplete="provider_name" name="provider_name" placeholder="Provider Name"
+										[value]="request?.provider_name" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Options</mat-label>
+									  <input matInput type="text" autocomplete="options" name="options" placeholder="Options"
+										[value]="request?.options.join(',')" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Deal Assigned to</mat-label>
+									  <input matInput type="text" autocomplete="contact_owner" name="contact_owner" placeholder="Deal Assigned to"
+										[value]="request?.contact_owner" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Hubspot Deal Stage</mat-label>
+									  <input matInput type="text" autocomplete="deal_stage" name="deal_stage" placeholder="Deal Stage"
+										[value]="getHubspotDealStage(request)" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+										<mat-label>Portal Deal Stage</mat-label>
+										<mat-select [formControl]="itemForm.controls['portal_deal_stage']" placeholder="Portal Deal Stage" #singleSelect
+											(selectionChange)="onPortalDealStageFilterChange($event.value)"
+											(infiniteScroll)="getNextBatchOfPortalDealStages()" [threshold]="'0.5%'" [debounceTime]="150"
+											[complete]="portalDealStagesOffset === totalPortalDealStagesPages" msInfiniteScroll>
+											<mat-option>
+												<ngx-mat-select-search *ngIf="true" [placeholderLabel]="'Search...'"
+													[noEntriesFoundLabel]="'No matches' " [formControl]="portalDealStageFilterCtrl"
+													[preventHomeEndKeyPropagation]="true">
+													<mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+												</ngx-mat-select-search>
+											</mat-option>
+											<mat-option *ngFor="let item of filteredPortalDealStages" [value]="item.id">
+												{{ item?.label }} ({{ item.pipeline }})
+											</mat-option>
+											<mat-option *ngIf="loadingPortalDealStages">
+												<mat-spinner class="input-mat-spinner-loader" color="primary" [diameter]="30"></mat-spinner>
+											</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Hubspot Deal Id</mat-label>
+									  <input matInput type="text" autocomplete="hubspot_deal_id" name="hubspot_deal_id" placeholder="Hubspot Deal Stage"
+										[value]="request?.deal_id" disabled>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center">
+									<div @fadeInRight>
+										<p class="m-0 body-1">
+											<span class="tag" [ngClass]="request.is_complete ? 'yes' : 'no'">{{request?.is_complete ? 'Yes' : 'No'}}</span>
+										</p>
+										<p class="m-0 caption text-hint">Is Completed?</p>
+									</div>
+								</div>
+
+								<!-- <div class="flex items-center" @fadeInRight></div> -->
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Deposit Status</mat-label>
+									  <input matInput autocomplete="deposit_status" name="deposit_status"
+										[formControl]="itemForm.controls['deposit_status']" placeholder="Deposit Status" appNoWhitespace>
+									</mat-form-field>
+								</div>
+
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Credit Application Status</mat-label>
+									  <input matInput autocomplete="credit_application_status" name="credit_application_status"
+										[formControl]="itemForm.controls['credit_application_status']" placeholder="Credit Application Status" appNoWhitespace>
+									</mat-form-field>
+								</div>
+						
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Insurance Status</mat-label>
+									  <input matInput autocomplete="insurance_status" name="insurance_status"
+										[formControl]="itemForm.controls['insurance_status']" placeholder="Insurance Status" appNoWhitespace>
+									</mat-form-field>
+								</div>
+						
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Send Trade-in Form</mat-label>
+									  <input matInput autocomplete="send_tradein_form" name="send_tradein_form"
+										[formControl]="itemForm.controls['send_tradein_form']" placeholder="Send Trade-in Form" appNoWhitespace>
+									</mat-form-field>
+								</div>
+						
+								<div class="flex items-center" @fadeInRight>
+									<mat-form-field>
+									  <mat-label>Trade-in ACV</mat-label>
+									  <input matInput autocomplete="tradein_acv" name="tradein_acv"
+										[formControl]="itemForm.controls['tradein_acv']" placeholder="Trade-in ACV" appNoWhitespace>
+									</mat-form-field>
+								</div>
+
+							</form>
+							<div class="py-4 justify-content-end flex items-center px-gutter" @fadeInRight>
+								<app-button-loading loadingText="Processing..." [loading]="saving" (click)="submit()"
+								  [disabled]="itemForm.invalid || itemForm.pristine" color="primary">Update</app-button-loading>
+							</div>
+						</div>
+					</div>
+					<div class="card mt-6" *ngIf="logs.length > 0">
+						<div class="px-gutter py-4 border-b flex justify-content-space-between">
+							<h2 class="title m-0">History</h2> 
+							<span class="flex-1"></span>
+							<button class="ml-4 flex-none" [matTooltip]="isCollapsedDealsHistorySection ? 'Expand Deals History Section' : 'Collapse Deals History Section'" (click)="isCollapsedDealsHistorySection = !isCollapsedDealsHistorySection; collapseDealsHistorySection();" type="button">
+								<mat-icon *ngIf="isCollapsedDealsHistorySection" svgIcon="mat:keyboard_arrow_down"></mat-icon>
+								<mat-icon *ngIf="!isCollapsedDealsHistorySection" svgIcon="mat:keyboard_arrow_up"></mat-icon>
+							</button>
+						</div>
+
+						<div class="px-gutter py-4 border-b justify-content-space-between" id="dealsHistorySection">
+							<ul class="log-ul">
+								<li *ngFor="let log of logs">
+									<span [innerHTML]="log.content"></span>
+									{{ log.created_at | date:'MM/dd/yyy \'at\' hh:mm a' }}
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="card mt-6">
+						<div class="px-gutter py-4 border-b flex header-with-btn">
+							<h2 class="title m-0">{{"QUOTES" | translate }}</h2> 
+							<div class="flex">
+								<button class="ml-4 flex-none" [matTooltip]="isCollapsedQuotesSection ? 'Expand Quotes Section' : 'Collapse Quotes Section'" (click)="isCollapsedQuotesSection = !isCollapsedQuotesSection; collapseQuotesSection();" type="button">
+									<mat-icon *ngIf="isCollapsedQuotesSection" svgIcon="mat:keyboard_arrow_down"></mat-icon>
+									<mat-icon *ngIf="!isCollapsedQuotesSection" svgIcon="mat:keyboard_arrow_up"></mat-icon>
+								</button>
+								<button
+									[matMenuTriggerFor]="columnFilterMenu"
+									mat-icon-button
+									class="ml-4 flex-none"
+									color="primary"
+									matTooltip="Column Filters"
+									type="button">
+									<mat-icon svgIcon="mat:settings"></mat-icon>
+								</button>
+								<button class="ml-4 flex-none" *ngxPermissionsExcept="['concierge']" (click)="onAddQuote()" color="primary" mat-mini-fab matTooltip="Add New Quote" type="button">
+									<mat-icon svgIcon="mat:add"></mat-icon>
+								</button>
+							</div>
+							
+						</div>
+						<div class="px-gutter py-4 border-b pl-0 justify-content-space-between" id="quotesSection">
+							<div class="overflow-auto">
+								<table @stagger [dataSource]="dataSource" matSort #TableRequestSort="matSort"  matSortDisableClear  class="w-full" mat-table>
+									<ng-container matColumnDef="stock_no">
+										<th *matHeaderCellDef mat-header-cell mat-sort-header>Stock #</th>
+										<td *matCellDef="let item" mat-cell>{{ item?.stock_no}}</td>
+									</ng-container>
+									<ng-container matColumnDef="first_name">
+										<th *matHeaderCellDef mat-header-cell mat-sort-header>First Name</th>
+										<td *matCellDef="let item" mat-cell>{{ item?.first_name}}</td>
+									</ng-container>
+									<ng-container matColumnDef="last_name">
+										<th *matHeaderCellDef mat-header-cell mat-sort-header>Last Name</th>
+										<td *matCellDef="let item" mat-cell>{{ item?.last_name}}</td>
+									</ng-container>
+									<ng-container matColumnDef="year">
+										<th *matHeaderCellDef mat-header-cell mat-sort-header>Year</th>
+										<td *matCellDef="let item" mat-cell>{{ item?.year}}</td>
+									</ng-container>
+									<ng-container matColumnDef="make">
+										<th *matHeaderCellDef mat-header-cell mat-sort-header>Make</th>
+										<td *matCellDef="let item" mat-cell>{{ item?.make | excerpt:30 }}</td>
+									</ng-container>
+									<ng-container matColumnDef="model">
+										<th *matHeaderCellDef mat-header-cell mat-sort-header>Model</th>
+										<td *matCellDef="let item" mat-cell>{{ item?.model | excerpt:30 }}</td>
+									</ng-container>
+									<ng-container matColumnDef="drive_off">
+										<th *matHeaderCellDef mat-header-cell mat-sort-header>Drive Off</th>
+										<td *matCellDef="let item" mat-cell>{{ item.drive_off ? '$ ' :''}}{{ item.drive_off | number}}</td>
+									</ng-container>
+									<ng-container matColumnDef="created_at">
+										<th *matHeaderCellDef mat-header-cell mat-sort-header>Created At</th>
+										<td *matCellDef="let item" mat-cell>{{ item?.created_at | date:'MM/dd/yyy h:mm a' }}</td>
+									</ng-container>
+									<ng-container matColumnDef="updated_at">
+										<th *matHeaderCellDef mat-header-cell mat-sort-header>Updated At</th>
+										<td *matCellDef="let item" mat-cell>{{ item?.updated_at | date:'MM/dd/yyy h:mm a' }}</td>
+									</ng-container>
+
+									<ng-container matColumnDef="actions">
+										<th *matHeaderCellDef mat-header-cell></th>
+										<td *matCellDef="let item; let i = index;" class="w-10 text-secondary" mat-cell>
+											<button (click)="$event.stopPropagation();getSelectedRecord(item, i)"
+												[matMenuTriggerData]="{ customer: item }"
+												[matMenuTriggerFor]="actionsMenu"
+												mat-icon-button
+												type="button">
+
+												<mat-icon svgIcon="mat:more_horiz"></mat-icon>
+											</button>
+										</td>
+										</ng-container>
+
+										<tr *matHeaderRowDef="getDisplayedColumns(); sticky: true" mat-header-row></tr>
+										<tr
+											*matRowDef="let row; columns: getDisplayedColumns();"
+												routerLink="/quotes/{{row.id}}/edit"
+												@fadeInUp
+												class="hover:bg-hover trans-ease-out cursor-pointer"
+												mat-row></tr>
+								</table>
+
+								<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+								<ng-template let-customer="customer" matMenuContent>
+									<button mat-menu-item routerLink="/quotes/{{selectedRecordDetail?.id}}/edit">
+										<mat-icon svgIcon="mat:edit"></mat-icon>
+										<span>Edit</span>
+									</button>
+									<button (click)="onDelete(selectedRecordDetail, index)" mat-menu-item *ngxPermissionsExcept="['concierge']">
+										<mat-icon svgIcon="mat:delete"></mat-icon>
+										<span>Delete</span>
+									</button>
+								</ng-template>
+								</mat-menu>
+
+								<!-- Column Filters -->
+								<mat-menu #columnFilterMenu="matMenu" xPosition="before" yPosition="below">
+									<button (click)="toggleColumnVisibility(column, $event);$event.stopPropagation()" *ngFor="let column of columnHeaders"
+											class="checkbox-item mat-menu-item">
+									<mat-checkbox (click)="$event.stopPropagation()" (change)="toggleColumnVisibility(column, $event)" [checked]="column.visible" color="primary">
+										{{ column.label }}
+									</mat-checkbox>
+									</button>
+								</mat-menu>
+
+								<div class="text-center mt-2" *ngIf="dataSource.data.length === 0">There are no quotes available. Please enter in a quotes to view them here</div>
+							</div>
+							<mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" [length]="dataSource.data.length"></mat-paginator>
+						</div>
+					</div>
+					<div class="card mt-6">
+						<div class="px-gutter py-4 border-b flex justify-content-space-between">
+							<h2 class="title m-0">Quote's History</h2> 
+							<span class="flex-1"></span>
+							<button class="ml-4 flex-none" [matTooltip]="isCollapsedQuotesHistorySection ? 'Expand Quotes History Section' : 'Collapse Quotes History Section'" (click)="isCollapsedQuotesHistorySection = !isCollapsedQuotesHistorySection; collapseQuotesHistorySection();" type="button">
+								<mat-icon *ngIf="isCollapsedQuotesHistorySection" svgIcon="mat:keyboard_arrow_down"></mat-icon>
+								<mat-icon *ngIf="!isCollapsedQuotesHistorySection" svgIcon="mat:keyboard_arrow_up"></mat-icon>
+							</button>
+                    	</div>
+						<div class="px-gutter" >
+								<div class="items-center" id="quotesHistorySection">
+									<div class="flex flex-col mt-3 sm:flex-row">
+										<ul class="log-ul1">
+											<li *ngFor="let log of quoteLogs">
+												{{log.portal_user_name}} - 
+												<span [innerHTML]="log.content"></span>
+												{{ formatLogMessage(log.content) }} {{ log.created_at | date:'MM/dd/yyy \'at\' hh:mm a'}}
+											</li>
+										</ul>
+									</div>
+									<div class="flex flex-col sm:flex-row justify-content-end">
+										<mat-paginator
+											#paginator
+											[length]="logMeta.total"
+											[pageSize]="logMeta.per_page"
+											[pageIndex]="logMeta.current_page-1"
+											[pageSizeOptions]="[20, 50, 100]"
+											[showFirstLastButtons]="true"
+											(page)="onLogPaginateChange($event)"
+										>
+										</mat-paginator>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			</div>
+			</vex-page-layout-content>
+</vex-page-layout>

@@ -1,0 +1,90 @@
+<div class="box-container">
+  <div>
+    <div class="upper-sec">
+      <img src="assets/img/custom.svg" alt="" />
+
+      <h4>configure</h4>
+    </div>
+  </div>
+
+  <ng-container *ngIf="showLayout == 'Text-Box'">
+      <form [formGroup]="Case1">
+        <div class="common-div">
+          <span class=""></span>
+          <div class="d-flex flex-column">
+            <mat-label>Placeholder Text</mat-label>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Placeholder Text" formControlName="placeholdertext" />
+              <mat-error *ngIf="placeholdertext.touched && !placeholdertext.valid">
+                <span *ngIf="placeholdertext.errors?.required">
+                  Placeholder Text is required
+                </span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="common-div">
+          <span class=""></span>
+          <div class="d-flex flex-column">
+            <mat-label>Error Message</mat-label>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Error Message" formControlName="errormessage" />
+              <mat-error *ngIf="errormessage.touched && !errormessage.valid">
+                <span *ngIf="errormessage.errors?.required">
+                  Error Message is required
+                </span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="common-div">
+          <span class=""></span>
+          <div class="d-flex flex-column">
+            <mat-label>Field Length</mat-label>
+            <mat-form-field appearance="outline">
+              <input type="number" matInput placeholder="50" max="50" value="50" formControlName="fieldlength" />
+              <mat-error *ngIf="fieldlength.touched && !fieldlength.valid">
+                <span *ngIf="fieldlength.errors?.required">
+                  Field Length is required
+                </span>
+                   <span *ngIf="fieldlength.errors?.max">
+                  50 is max length
+                </span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="common-div">
+          <span class=""></span>
+          <div class="d-flex flex-column">
+            <mat-label>Data Type</mat-label>
+            <mat-form-field appearance="outline">
+              <mat-select placeholder="Data Type" formControlName="datatype">
+                <mat-option value="Alpha">Alpha</mat-option>
+                <mat-option value="Numeric">Numeric</mat-option>
+                <mat-option value="Custom">Custom</mat-option>
+              </mat-select>
+              <mat-error *ngIf="datatype.touched && !datatype.valid">
+                <span *ngIf="datatype.errors?.required">
+                  Data Type is required
+                </span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+  </ng-container>
+
+  <div class="common-div">
+    <div class="d-flex flex-column">
+      <span class="buttons">
+        <div class="box-button">
+          <button mat-flat-button color="primary" (click)="onUpdate()">Update</button>
+        </div>
+        <div class="box-button">
+          <button mat-flat-button (click)="onCancel()">Cancel</button>
+        </div>
+      </span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,322 @@
+<div class="row">
+  <div class="col-sm-12">
+    <h4 class="text-primary"> <b>Manage: Staff Users</b> </h4>
+    <hr />
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-2">
+    <div class="form-group">
+      <!-- <label for="name">First Name</label> -->
+      <input type="text" characterOnly name="firstName" [(ngModel)]="dataFilter.firstName" class="form-control"
+         placeholder="First Name">
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <div class="form-group">
+      <!-- <label for="name">Last Name</label> -->
+      <input type="text" characterOnly name="lastName" [(ngModel)]="dataFilter.lastName" class="form-control"
+        id="lastName" placeholder="Last Name">
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="form-group">
+      <!-- <label for="name">Email</label> -->
+      <input type="text" class="form-control" name="email" [(ngModel)]="dataFilter.email"  placeholder="Email">
+    </div>
+  </div>
+  <!-- <div class="col-sm-3">
+    <div class="form-group">
+      <label for="name">Phone</label>
+      <input type="text" class="form-control" numbersOnly name="phone" [(ngModel)]="dataFilter.phone"
+        placeholder="Phone" maxlength="10">
+    </div>
+  </div> -->
+  <div class="col-sm-3">
+    <div class="form-group">
+      <!-- <label for="name">Status</label> -->
+      <select class="form-control text-capitalize" name="profileVerificationStatus" [(ngModel)]="dataFilter.profileVerificationStatus">
+              <option value="">Select Status</option>
+              <option *ngFor="let status of profileVerificationStatus" [value]="status">{{status}}
+              </option>
+      </select>
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary btn-sm" (click)="setFilter()">Search</button>
+      <button type="button" class="btn btn-danger btn-sm" (click)="resetFilter()">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="row pt-3">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-cogs"></i> Listings
+        <button class="btn btn-primary pull-right btn-sm mr-1" (click)="showSaveUserModal()"> <i class="fa fa-plus">
+          </i> Add New Staff</button>
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table table-bordered">
+          <thead class="nowrap">
+            <tr>
+              <th>S.No.</th>
+              <th [class.active]="order === 'firstName'" (click)="setOrder('firstName')">
+                First Name
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'lastName'" (click)="setOrder('lastName')">
+                Last Name
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'email'" (click)="setOrder('email')">
+                Email
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th>
+                Phone
+              </th>
+              <th> Created On </th>
+              <th> Updated On </th>
+              <th> Status </th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="usersList.length">
+            <tr class="text-capitalize" *ngFor="let user of usersList | grdFilter: setDataFilter | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index;">
+              <td>{{i+1}}</td>
+              <td>{{ user?.firstName }}</td>
+              <td>{{ user?.lastName }}</td>
+              <td class="text-lowercase">{{ user?.email }}</td>
+              <td>{{ user?.phone }}</td>
+              <td>{{ user?.createdAt | date:'mediumDate' }}</td>
+              <td>{{ user?.updatedAt | date:'mediumDate' }}</td>
+              <td class="text-center">
+                <button class="btn btn-sm btn-square" (click)="showUserchange(user)"
+                  [ngClass]="{'btn-success': user?.status == 1 , 'btn-danger': user?.status == 0}">{{ user?.status == 1 ? 'Active' : 'Inactive' }}</button>
+              </td>
+              <td>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-info" (click)="showUserViewModal(user)"><i
+                      class="fa fa-eye"></i></button>
+                  <button type="button" class="btn btn-sm btn-outline-primary" (click)="showSaveUserModal(user)"><i
+                      class="fa fa-edit"></i></button>
+                  <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal"
+                    (click)="showDeleteUser(user)" ><i class="fa fa-trash"></i></button>
+                    <!-- *ngIf="user.profileVerificationStatus !== profileStatus.VERIFIED" -->
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tr class="text-center" *ngIf="!usersList.length">
+            <td colspan="15">
+              <h6>No Record Found !</h6>
+            </td>
+          </tr>
+        </table>
+
+        <ul class="pagination" *ngIf="itemsPerPage < usersList.length">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #deleteUser="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-white">
+        <h4 class="modal-title text-white"><i class="fa fa-trash"></i> Delete Users</h4>
+        <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure want to delete this user ?</p>
+        <p *ngIf="currentUser?.firstName || currentUser?.lastName">
+          <b>Name :</b> {{currentUser?.firstName}} {{currentUser?.lastName}}<br />
+        </p>
+        <p>
+          <b>Email :</b> {{currentUser?.email}}<br />
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+        <button type="button" class="btn btn-danger" (click)="deleteUserData()">Delete</button>
+        <!-- <button type="button" class="btn btn-danger" (click)="changeStatus()">Delete</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #addEditUser="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-white">
+        <h4 class="modal-title text-white"> {{currentUser._id ? 'Edit' :'Add'}} User</h4>
+        <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group row">
+          <div class="col-12 pt-2">
+            <label><b>First Name
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !currentUser?.firstName, 'text-primary': currentUser?.firstName}"></i>
+                </sup>
+              </b></label>
+            <input type="text" name="firstName" [(ngModel)]="currentUser.firstName" class="form-control"
+              placeholder="Please enter First Name" required>
+          </div>
+          <div class="col-12 pt-2">
+            <label><b>Middle Name</b></label>
+            <input type="text" name="middleName" [(ngModel)]="currentUser.middleName" class="form-control"
+              placeholder="Please enter Middle Name" required>
+          </div>
+          <div class="col-12 pt-2">
+            <label><b>Last Name
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !currentUser?.lastName, 'text-primary': currentUser?.lastName}"></i>
+                </sup>
+              </b></label>
+            <input type="text" name="lastName" [(ngModel)]="currentUser.lastName" class="form-control"
+              placeholder="Please enter last Name" required>
+          </div>
+          <div class="col-12 pt-2">
+            <label><b>Email
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !currentUser?.email, 'text-primary': currentUser?.email}"></i>
+                </sup>
+              </b></label>
+            <input type="text" name="email" [(ngModel)]="currentUser.email" class="form-control" [disabled]="currentUser._id"
+              placeholder="Please enter email" required (ngModelChange)="checkAlreadyExitEmail(currentUser)">
+            <div class="alert alert-danger" role="alert" *ngIf="!validCheckAlreadyExitEmail">
+              This Email already Exits. Please enter Another Email.
+            </div>
+            <div class="alert alert-danger" role="alert" role="alert" *ngIf="!validEmail">
+                Your email address is invalid. Please enter a valid address.
+              </div>
+          </div>
+          <div class="col-12 pt-2">
+            <label><b>Phone
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !currentUser?.phone, 'text-primary': currentUser?.phone}"></i>
+                </sup>
+              </b></label>
+            <input type="text" name="phone" [(ngModel)]="currentUser.phone" class="form-control"
+              placeholder="Please enter phone" required maxlength="10" numbersOnly>
+          </div>
+
+          <div class="col-12 pt-2">
+            <label><b>Position Type
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !currentUser?.positionType, 'text-primary': currentUser?.positionType}"></i>
+                </sup>
+              </b></label>
+            <select class="form-control" name="positionType" [(ngModel)]="currentUser.positionType">
+              <option value="">Select Position Type</option>
+              <option [value]="positionType._id" *ngFor="let positionType of positionTypeList">{{positionType.name}}
+              </option>
+            </select>
+          </div>
+
+          <!-- <div class="col-12 pt-2">
+            <label><b>Password
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !currentUser?.password, 'text-primary': currentUser?.password}"></i>
+                </sup>
+              </b></label>
+            <input type="password" name="password" [(ngModel)]="currentUser.password" class="form-control"
+              placeholder="Please enter password" maxlength="15" required (keypress)="AvoidSpace($event)">
+          </div>
+          <div class="col-12 pt-2">
+            <label><b>Role
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !currentUser?.accessLevelId, 'text-primary': currentUser?.accessLevelId}"></i>
+                </sup>
+              </b></label>
+            <select class="form-control" name="accessLevelId" [(ngModel)]="currentUser.accessLevelId"
+              (ngModelChange)="checkAlreadyExitRole(currentUser)">
+              <option value="">Select Role</option>
+              <option *ngFor="let accessLevel of accessLevelList" [value]="accessLevel._id">{{accessLevel.role.name}}
+              </option>
+            </select>
+            <div class="alert alert-danger" role="alert" *ngIf="!validCheckAlreadyExitRole">
+              This Role already Exits. Please
+              Select Another Role.
+            </div>
+          </div> -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <app-alert></app-alert>
+        <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="validateForm()"
+          [disabled]=" !validCheckAlreadyExitEmail || !validEmail">{{currentUser._id ? 'Update' :'Save'}}</button>
+        <!-- <pre [innerHtml]="currentUser | json"> </pre> -->
+        <!-- <pre [innerHtml]="usersList | json"> </pre> -->
+        <!-- saveUserData() !validCheckAlreadyExitRole ||-->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #changeUserStatus="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white"> Change Status</h4>
+        <button type="button" class="close text-white" (click)="changeUserStatus.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure want to change status of this user ?</p>
+        <p *ngIf="currentUser?.firstName || currentUser?.lastName">
+          <b>Name:</b> {{currentUser?.firstName}} {{currentUser?.lastName}}<br />
+          <b>Email:</b> {{currentUser?.email}}<br>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="changeUserStatus.hide()">CLOSE</button>
+        <button type="button" class="btn btn-primary" (click)="changeStatus()">Update Status</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #viewUser="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white"><i class="fa fa-eye"></i> View Users</h4>
+        <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p> <b>First Name :</b> {{currentUser?.firstName}} </p>
+        <p> <b>Last Name :</b> {{currentUser?.lastName}} </p>
+        <p> <b>Email :</b> {{currentUser?.email}} </p>
+        <p > <b>Phone :</b> {{currentUser?.phone}} </p>
+        <p> <b>Password :</b> ********** </p>
+        <p> <b>Role :</b> {{currentUser?.userType}} </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+      </div>
+    </div>
+  </div>
+</div> -->

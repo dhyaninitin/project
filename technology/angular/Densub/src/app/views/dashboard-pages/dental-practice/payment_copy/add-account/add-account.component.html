@@ -1,0 +1,56 @@
+<div class="">
+    <form action="" class="row">
+        <div class="col-12 mb-3">
+            <div class="border-bottom">
+                <h2>Add Account</h2>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+
+            <div class="p-15 gray-bg mb-30">
+                <div class="bg-white p-15">
+                    <div class="border-bottom mb-30">
+                        <h3 class="clr-blue">Payment Details</h3>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="AccountHolder">Account Holder Name</label>
+                                <input name="accountholderName"
+                                    placeholder="Please enter account holder name" type="text" class="form-control"
+                                    id="AccountHolder">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="AcountNumber">Acount Number</label>
+                                <input name="accountNumber"
+                                    placeholder="Please enter acount number" numbersOnly type="text"
+                                    class="form-control" id="AcountNumber">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="IFSCcode">IFSC Code</label>
+                                <input name="IfscCode"
+                                    placeholder="Please enter IFSC code" type="text" class="form-control" id="IFSCcode">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-15 gray-bg mb-30">
+                <div class="bg-white p-15">
+                    <app-alert></app-alert>
+                    <div class="d-flex justify-content-end">
+                         <button class="btn btn-primary ml-auto" (click)="createProfile()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- <pre [innerHtml]="practiceProfileInfo | json"> </pre> -->

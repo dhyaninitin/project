@@ -1,0 +1,181 @@
+<section class="bg-blue p-15 position-relative position-relative ads-banner" *ngIf="advertisementList?.length">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 text-center ads-slider">
+        <carousel [itemsPerSlide]="itemsPerSlide" [singleSlideOffset]="singleSlideOffset"  [interval]="cycleInterval" [startFromIndex]="0" [showIndicators]="showIndicators">
+          <slide class="animated fadeIn" *ngFor="let advertise of advertisementList">
+            <p class="m-0 fs-24"> <a  href="{{advertise?.adLink}}" target="_blank">{{advertise?.adtitle}}</a> <a style="text-decoration: underline !important;" href="{{advertise?.adLink}}" target="_blank"> More...</a></p>
+          </slide>
+        </carousel>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="banner sm-bannerImg-1 mob-banner position-relative">
+  <div class="banner-img">
+    <img src="../../../assets/img/common/banner-1.jpg" class="img-fluid" alt="">
+  </div>
+  <div class="container">
+    <div class="banner-content text-center">
+      <h1 class="mb-20">
+        GET CONNECTED WITH DENSUB
+      </h1>
+      <p class="fs-20">
+          Bringing compatible dental practices and professionals
+          together in a dynamic marketplace
+      </p>
+      <div class="d-flex justify-content-center w-100 mt-70 sm-w-100 " *ngIf="!currentUser?._id">
+        <!-- <a [routerLink]="['/signup/practice']" class="btn btn-primary lg-btn mr-5p ml-5p">DENTAL PRACTICE</a>
+        <a [routerLink]="['/signup/staff']" class="btn btn-primary lg-btn mr-5p ml-5p">DENTAL STAFF</a> -->
+        <a (click)="getStartedDensub()" class="btn btn-primary lg-btn mr-5p ml-5p text-white ">Get Started</a>
+      </div>
+    </div>
+    <div class="downloadApp-section">
+      <div class="d-flex w-100">
+        <a [routerLink]="['#']" class="mr-5p ml-5p">
+          <img src="../../../../assets/img/common/appstore.png" alt="">
+        </a>
+        <a [routerLink]="['#']" class="mr-5p ml-5p">
+          <img src="../../../../assets/img/common/googlePlay.png" alt="">
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="banner sm-bannerImg-2 mob-banner position-relative">
+  <div class="banner-img">
+    <img src="../../../assets/img/common/banner-2.jpg" class="img-fluid" alt="">
+  </div>
+  <div class="banner-content text-center ml-50">
+    <div class="banner-content_inner">
+      <h2 class="text-uppercase mb-50">
+          Why choose Densub ?
+      </h2>
+      <p>
+          Densub understands whether you are looking to fill an open position or find a new job, it is a challenging task. We are confident that by eliminating the traditional middle-man staffing agency and streamlining the entire search process, your next search will be a breeze.  The Densub Marketplace allows dental practices and professionals to independently perform targeted searches and directly communicate with one another. The Densub Marketplace allows you to quickly identify compatible prospects based on Position, Schedule, Location, Compensation, Experience, and Rating.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="white-grad icon-box-grid position-relative pt-100 pb-60">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-sm-6 mb-40">
+        <div class="icon-box text-center">
+          <img src="../../../assets/img/common/smartphone.png" class="img-fluid" alt="">
+          <h4>CONVENIENCE</h4>
+          <p>With just a few clicks, jobs can be posted, searched, and filled at any time</p>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6 mb-40">
+        <div class="icon-box text-center">
+          <img src="../../../assets/img/common/steering-wheel.png" class="img-fluid" alt="">
+          <h4>INDEPENDENCE</h4>
+          <p>You are in control of the entire process </p>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6 mb-40">
+        <div class="icon-box text-center">
+          <img src="../../../assets/img/common/money-bag.png" class="img-fluid" alt="">
+          <h4>COMPETITIVE</h4>
+          <p>Marketplace driven pay rates are negotiated directly between practices and professionals </p>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6 mb-40">
+        <div class="icon-box text-center">
+          <img src="../../../assets/img/common/search.png" class="img-fluid" alt="">
+          <h4>VERIFICATION</h4>
+          <p>Verified profiles and credentials</p>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6 mb-40">
+        <div class="icon-box text-center">
+          <img src="../../../assets/img/common/rating.png" class="img-fluid" alt="">
+          <h4>CONFIDENCE</h4>
+          <p>Peer rating system to help you make the right connection</p>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6 mb-40">
+        <div class="icon-box text-center">
+          <img src="../../../assets/img/common/graph.png" class="img-fluid" alt="">
+          <h4>DATA</h4>
+          <p>View and analyze your data through easy to use dashboards</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<section class="bottomCTA position-relative white-grad gray-order-top">
+  <div class="d-flex flex-wrap">
+    <div class="col-md-6 bottomCTA_inner align-items-center justify-content-center d-flex">
+      <div class=" text-center">
+        <h2 class="text-uppercase ">Dental Staff</h2>
+        <h5 class="fw-4 clr-black">Take Charge of Your Career</h5>
+        <p class="mb-40 mt-30 clr-dark-blue w-90 ml-auto, mr-auto">Customize your search criteria and let the Densub marketplace help you find your next best job.</p>
+        <!-- <p class="mb-40 mt-30 clr-dark-blue">Sit back and let the Densub Marketplace help you find your next job.</p> -->
+        <a href="#" class="btn btn-primary lg-btn">Learn More</a>
+      </div>
+    </div>
+
+    <div class="col-md-6 bottomCTA_inner align-items-center justify-content-center d-flex">
+      <div class=" text-center">
+        <h2 class="text-uppercase ">Dental practice</h2>
+        <h5 class="fw-4 clr-black">Save Time and Money.</h5>
+        <p class="mb-40 mt-30 clr-dark-blue w-90 ml-auto, mr-auto">Focus on patient care and productivity while the Densub marketplace help you find your next best hire.</p>
+        <!-- <p class="mb-40 mt-30 clr-dark-blue">Let the Densub Marketplace help you directly connect with compatible dental professionals.</p> -->
+        <a href="#" class="btn btn-primary lg-btn">Learn More</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #getStarted="bs-modal" class="modal fade design-1" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white">Join Densub Today!</h4>
+        <button type="button" class="close text-white" (click)="getStarted.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted text-center mb-20">Your next job may be a few clicks away. Register now to view nearby opportunities</p>
+        <div class="row">
+          <div class="col" *ngIf="currentUser?._id && currentUser?.userType == jobTypes.STAFF">
+            <button *ngIf="currentUser?._id && currentUser?.userType == jobTypes.STAFF" class="btn btn-primary  btn-block"
+            [routerLink]="['/job-listing']" (click)="getStarted.hide()">FIND WORK</button>
+          </div>
+          <div class="col"  *ngIf="!currentUser?._id">
+            <button class="btn btn-primary  btn-block"
+            [routerLink]="['/signup/staff']" (click)="getStarted.hide()">FIND WORK</button>
+          </div>
+          <div class="col" *ngIf="currentUser?._id && currentUser?.userType == jobTypes.PRACTICE">
+            <button  *ngIf="currentUser?._id && currentUser?.userType == jobTypes.PRACTICE" [routerLink]="['/practice/job-posts']"  class="btn btn-primary  btn-block"
+            (click)="getStarted.hide()">
+              POST WORK</button>
+          </div>
+          <div class="col" *ngIf="!currentUser?._id">
+            <button  class="btn btn-primary  btn-block"
+            [routerLink]="['/signup/practice']" (click)="getStarted.hide()">
+              POST WORK</button>
+          </div>
+        </div>
+        <br>
+        <p *ngIf="!currentUser?._id" class="text-center">Already registered? <a [routerLink]="['/login']" (click)="getStarted.hide()">Log in</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

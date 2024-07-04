@@ -1,0 +1,4 @@
+:host ::ng-deep ng-otp-input .ng-otp-input-wrapper .otp-input {
+    height: 38px;
+    width: 36px;
+}

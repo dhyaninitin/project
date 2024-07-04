@@ -1,0 +1,63 @@
+<Section class="innerbg-1 position-relative bg-overlay d-flex align-items-center">
+    <div class="container">
+        <div class="row mb-30 align-center">
+            <div class="col-12 text-center">
+                <h1 class="fs-50 clr-white position-relative z-index">Dental Practice Listing</h1>
+            </div>
+        </div>
+    </div>
+</Section>
+
+<section class="listing-page pt-70 pb-70 sm-pt-50 sm-pb-50 gray-bg">
+    <div class="container">
+        <div class="row listing_inner box-shadow-1 bg-white pt-30 pr-15 pl-15 pb-10 m-0">
+            <div class="col-md-10 pr-5p pl-5p">
+                <div class="row m-0">
+                    <div class="col-sm-6 pr-5p pl-0 xx-pr-0">
+                        <div class="form-group">
+                            <input name="lastName" placeholder="Address" type="text" class="form-control" id="Address">
+                        </div>
+                    </div>
+                    <div class="col-sm-6 pr-5p pl-5p xs-pr-0 xx-pl-0">
+                        <div class="form-group">
+                            <select class="form-control" name="practiceType">
+                                <option value="">Select Practice Type</option>
+                                <option [value]="practice.practiceType" *ngFor="let practice of practiceTypeList">
+                                    {{practice.practiceType}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 pr-5p pl-5p">
+                <button class="btn w-100 btn-primary form-group" type="button"><i class="fa fa-search"></i>
+                    Search</button>
+            </div>
+        </div>
+
+        <div class="row mt-50">
+
+            <div class="col-md-4 col-lg-3 col-6 custom-grid mb-30" *ngFor="let practice of practiceList">
+                <div class="listing_inner box-shadow-1 bg-white text-center pt-20">
+                    <a [routerLink]="['/practice-profile']">
+                        <div class="listing-img">
+                            <img class="img-fluid w-50 img-circle"
+                                src="../../../../assets/img/common/dummyimg-practice.jpg" alt="">
+                        </div>
+                        <div class="listing-content p-15 text-capitalize">
+                            <h2 class="clr-blue mb-0">Ravi Singh</h2>
+                            <p class="mb-0">{{practice.positionType}}</p>
+                            <p class="text-muted">
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star"></span>
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

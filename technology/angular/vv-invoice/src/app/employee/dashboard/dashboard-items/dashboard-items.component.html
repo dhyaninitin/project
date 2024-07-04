@@ -1,0 +1,26 @@
+<div class="dashboard-items">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 d-flex justify-content-end">
+        <mat-card id="mat-card" routerLink="/dashboard/generate-document">
+          <h1>Generate Document</h1>
+        </mat-card>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+        <mat-card id="mat-card" routerLink="/dashboard/my-templates">
+          <h1>My Templates</h1>
+        </mat-card>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 d-flex justify-content-end">
+        <mat-card id="mat-card" routerLink="/dashboard/global-templates">
+          <h1>Global Templates</h1>
+        </mat-card>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+        <mat-card id="mat-card" (click)="openFeedbackDialog()">
+          <h1>Feedback</h1>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

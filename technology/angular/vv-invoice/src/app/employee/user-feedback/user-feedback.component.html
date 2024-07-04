@@ -1,0 +1,80 @@
+<div class="container">
+  <div class="d-flex justify-content-end">
+    <mat-icon id="close-btn" (click)="closeDialog()">close</mat-icon>
+  </div>
+  <div class="d-flex justify-content-center feedback-div">
+    <h3 class="text-center">Your Feedback</h3>
+  </div>
+  <div class="d-flex justify-content-center">
+    <hr class="hr-tag w-75"/>
+  </div>
+
+  <div class="d-flex justify-content-center text">
+    <div class="col-12 col-md-10 col-lg-8 col-xl-6">
+      <p class="text-center">We would like your feedback to improve our website.</p><br>
+      <p class="text-center">What is your opinion of this page?</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 text-center">
+      <button
+        id="starRatingBtn"
+        mat-icon-button
+        color="warn"
+        *ngFor="let r of ratingArr; index as i"
+        (click)="starRatingBtn(i)"
+      >
+        <mat-icon id="star-rating">{{ returnStar(i) }}</mat-icon>
+      </button>
+
+      <h6 class="text-center">{{ reactionMsg }}</h6>
+    </div>
+
+    <div class="col-12">
+      <hr class="hr-tag w-100"/>
+    </div>
+
+    <div class="col-12">
+      <mat-label class="d-block mb-2">Please select your feedback category below</mat-label>
+      <div class="d-flex justify-content-center"> 
+        <div id="first" [ngClass]="{'selected': tab==='tab1'}" class="category mx-2" (click)="onSelectCategory($event)">
+          <a><p class="text-center">Suggestion</p></a>
+        </div>
+        <div id="second" [ngClass]="{'selected': tab==='tab2'}" class="category mx-2" (click)="onSelectCategory($event)">
+          <a><p class="text-center">Something is not quite right</p></a>
+        </div>
+        <div id="third" [ngClass]="{'selected': tab==='tab3'}" class="category mx-2" (click)="onSelectCategory($event)">
+          <a><p class="text-center">Compliment</p></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <hr class="hr-tag w-100"/>
+    </div>
+    
+    <form [formGroup]="userFeedbackForm" class="col-12 col-md-10 col-lg-8 col-xl-6 mx-auto">
+      <mat-label class="d-block mb-2">Please leave your feedback below</mat-label>
+      <mat-form-field appearance="outline">
+        <textarea
+          matInput
+          placeholder="Enter your feedback"
+          formControlName="userFeedback"
+          ></textarea>
+      </mat-form-field>
+
+      <div class="row">
+        <div class="col-12 d-flex justify-content-center">
+          <button
+            mat-stroked-button
+            (click)="onSubmit()"
+            [disabled]="(userFeedbackForm.invalid || !userFeedbackForm.dirty)"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

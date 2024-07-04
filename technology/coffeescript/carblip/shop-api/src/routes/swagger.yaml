@@ -1,0 +1,137 @@
+swagger: '2.0'
+info:
+  description: ''
+  version: 1.0.0
+  title: Carblip
+host: localhost
+basePath: /apis
+tags: []
+schemes:
+  - https
+paths:
+  /getBrands:
+    get:
+      tags:
+        - brands
+      summary: Get brands
+      description: ''
+      operationId: getBrands
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+        '404':
+          description: Something went wrong
+  /getModels:
+    post:
+      tags:
+        - models
+      summary: Get list of models by brand is
+      description: ''
+      operationId: getModels
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Get models
+          required: true
+          schema:
+            $ref: '#/definitions/getModelsRequest'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: ''
+        '404':
+          description: Something went wrong
+  /getColour:
+    post:
+      tags:
+        - vehicle colour
+      summary: Get Vehicle Colors by model id
+      description: ''
+      operationId: getColour
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Get vehicles colors
+          required: true
+          schema:
+            $ref: '#/definitions/getColourRequest'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: ''
+        '404':
+          description: Something went wrong
+  /search_results:
+    post:
+      tags:
+        - search results
+      summary: 'search vehicle '
+      description: ''
+      operationId: search_results
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Search Vehicle Results
+          required: true
+          schema:
+            $ref: '#/definitions/searchResultsRequest'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: ''
+        '404':
+          description: Something went wrong
+securityDefinitions: {}
+definitions:
+  getModelsRequest:
+    type: object
+    properties:
+      brand_id:
+        type: integer
+        format: int64
+    xml:
+      name: getModelsRequest
+  getColourRequest:
+    type: object
+    properties:
+      model_id:
+        type: integer
+        format: int64
+    xml:
+      name: getColourRequest
+  searchResultsRequest:
+    type: object
+    properties:
+      brand_id:
+        type: integer
+        format: int64
+      model_id:
+        type: integer
+        format: int64
+      color_id:
+        type: array
+        xml:
+          name: color_id
+          wrapped: true
+        items:
+          type: integer
+    xml:
+      name: searchResultsRequest

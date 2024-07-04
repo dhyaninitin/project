@@ -1,0 +1,94 @@
+<section _ngcontent-c3="" class="container-fluid px-0 footer-section">
+  <div class="cb-container container">
+    <div class="footer-widget-area">
+      <div class="footer-widget-area__column social-wrapper">
+        <div class="logo-div">
+          <a href="javascript:;" routerLink="/">
+            <img width="300" height="62" src="../../../assets/img/logo/CarBlip-white.png"
+              class="image wp-image-409  attachment-medium size-medium" alt="" style="max-width: 100%; height: auto;"
+              srcset="../../../assets/img/logo/CarBlip-white.png 200w, ../../../assets/img/logo/CarBlip-white.png 300w, ../../../assets/img/logo/CarBlip-white.png 400w, ../../../assets/img/logo/CarBlip-white.png 600w, ../../../assets/img/logo/CarBlip-white.png"
+              sizes="(max-width: 300px) 100vw, 300px">
+          </a>
+        </div>
+        <div class="social-network-icons">
+          <a class="social-facebook" href="https://www.facebook.com/carblip" title="" aria-label="Facebook"
+            rel="nofollow" target="_blank" data-title="">
+            <fa-icon [icon]="['fab', 'facebook-f']"></fa-icon>
+          </a>
+          <a class="social-instagram" href="https://www.instagram.com/carblip/" title="" aria-label="Instagram"
+            rel="nofollow" target="_blank" data-title="">
+            <fa-icon [icon]="['fab', 'instagram']"></fa-icon>
+          </a>
+          <a class="social-twitter" href="https://www.twitter.com/@carblip/" title="" aria-label="Twitter"
+            rel="nofollow" target="_blank" data-title="">
+            <fa-icon [icon]="['fab', 'twitter']"></fa-icon>
+          </a>
+          <a class="social-email" href="mailto:info@carblip.com" title="" aria-label="Email" rel="nofollow"
+            target="_self" data-title="">
+            <fa-icon [icon]="['far', 'envelope']"></fa-icon>
+          </a>
+        </div>
+      </div>
+      <div class="footer-widget-area__column contact-us-wrapper">
+        <h4 class="widget-title">CONTACT US</h4>
+        <div class="textwidget">
+          <p><a href="mailto:info@carblip.com">info@carblip.com</a><br>
+            833-CAR-BLIP</p>
+          <p>1447 2nd Street, Suite 200<br>
+            Santa Monica, CA 90401</p>
+        </div>
+        <div style="clear:both;"></div>
+      </div>
+      <div class="footer-widget-area__column subscribe-wrapper">
+        <h4 class="widget-title">SUBSCRIBE</h4>
+        <div class="textwidget custom-html-widget">
+          <p>
+            Enter your email to get notified about special deals, insider tips and more.
+          </p>
+          <form id="subscription-form" class="subscription-form" [formGroup]="subscriptionForm">
+            <input id="email" type="email" class="form-control" formControlName="email" placeholder="Your email address" required  pattern="[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,64}" autocomplete="off"/>
+            <button class="btn btn-default subscribe-btn" (click)="onSubscribe()">Submit</button>
+          </form>
+          <div>
+            <span *ngIf="subscriptionForm?.controls['email'].touched && !subscriptionForm?.controls['email'].valid"
+              id="email-valid" class="validate-message mt-1 pl-0 d-block">
+              <span *ngIf="subscriptionForm.controls['email'].hasError('required')">* The email is required.</span>
+              <span *ngIf="subscriptionForm.controls['email'].hasError('pattern')">* The email is invalid.</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cb-container container">
+    <div class="footer-copyright-area">
+      <div class="footer-copyright-area__top">
+        <div class="footer-menu">
+          <a href="{{market_url}}">MAIN WEBSITE</a>
+          <a href="{{prequalify_url}}">PREQUALIFY</a>
+          <a href="{{market_url}}/contact/">Contact</a>
+          <a href="{{market_url}}/privacy-policy/">Privacy
+            Policy</a>
+          <a href="{{market_url}}/terms/">Terms of Service</a>
+        </div>
+        <div class="copyright">
+          © Copyright {{currentYear}} Blip Technologies, Inc.
+        </div>
+      </div>
+      <div class="footer-copyright-area__top__mobile">
+        <div class="footer-menu">
+          <a href="{{market_url}}">Carblip.com</a>|
+          <a href="javascript:;" routerLink="/faq">Faq</a>|
+          <a href="{{market_url}}/contact/">Contact</a>
+        </div>
+        <div class="copyright">
+          © 2021 Blip Technologies, Inc. | All Rights Reserved. | <a href="{{market_url}}/privacy-policy/">Privacy Policy</a>
+        </div>
+
+      </div>
+      <div class="footer-copyright-area__bottom">
+        <a href="https://lnkd.in/gYG_cJr" target="_self"><img src="../../../assets/img/download-app-store.png"></a>
+      </div>
+    </div>
+  </div>
+</section>

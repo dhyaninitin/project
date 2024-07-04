@@ -1,0 +1,93 @@
+<table @stagger *ngIf="trimList" [dataSource]="trimList" multiTemplateDataRows matSort class="w-full" mat-table>
+    <ng-container matColumnDef="{{column.key}}" *ngFor="let column of trimColumnHeaders">
+      <ng-container *ngIf="column.key != 'actions'">
+        <th *matHeaderCellDef mat-header-cell>{{column.label}}</th>
+        <td *matCellDef="let item" mat-cell>
+          <div *ngIf="column?.key == 'image_url'" class="d-block">
+            <div class="trim-img">
+              <mat-checkbox [checked]="item?.is_enable === 1" color="primary" 
+              [matTooltip] = "item?.is_enable === 1 ? 'Disable trim' : 'Enable model' " (click)="$event.stopPropagation()" 
+              (change)="changetrimStatus($event.checked, item?.id)"></mat-checkbox>
+
+                <img [src]="item['image_url_640']" class=" logo profile h-12 w-12 align-middle">
+            </div>
+            <div (click)="$event.stopPropagation()" class="img-resolution">
+              <span><a href="{{item.image_url_320}}" class="link" target="_blank">Image 320</a></span>
+              <span class="ml-2"><a href="{{item.image_url_640}}" class="link" target="_blank">Image 640</a></span>
+              <br>
+              <span><a href="{{item.image_url_1280}}" class="link" target="_blank">Image 1280</a></span>
+              <span class="ml-2"><a href="{{item.image_url_2100}}" class="link" target="_blank">Image 2100</a></span>
+            </div>
+          </div>  
+         
+
+            <span *ngIf="column?.key != 'image_url' && column?.key != 'price' && column?.key != 'created_at' && column?.key != 'updated_at'">
+                {{item[column.key]}}
+            </span>
+
+            <span *ngIf="column?.key == 'price'">
+                {{ item[column.key] !== null ? (item[column.key] | currency) : (0 | currency) }}
+            </span>
+            
+            <span *ngIf="column?.key == 'created_at' || column?.key == 'updated_at'">
+              {{item[column.key] | date:'MM/dd/yyy h:mm a'}}
+            </span>
+            <!-- <span *ngIf="column?.key == 'trim' && item.is_new == 1" class="new-addition">New</span> -->
+        </td>
+      </ng-container>
+
+      <ng-container *ngIf="column.key == 'actions'">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>{{column.label}}</th>
+        <td *matCellDef="let item" mat-cell>
+          <button (click)="$event.stopPropagation(); getSelectedRecord(item)"
+          [matMenuTriggerData]="{ trim: item }" [matMenuTriggerFor]="actionsMenu" mat-icon-button
+            type="button">
+          <mat-icon svgIcon="mat:more_horiz"></mat-icon>
+          </button>
+        </td>
+      </ng-container>
+       
+    </ng-container>
+
+    <ng-container matColumnDef="expand">
+      <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+      <td mat-cell *matCellDef="let item">
+        <button mat-icon-button aria-label="expand row" (click)="(expandedElement = expandedElement === item ? null : item); $event.stopPropagation(); getColor(item,expandedElement = expandedElement === item ? null : item)">
+          <mat-icon *ngIf="expandedElement !== item">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="expandedElement === item">keyboard_arrow_up</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="trimColumnsToDisplayWithExpand.length">
+        <div class="example-element-detail"
+           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+          <div class="example-element-description">
+            <app-color-table *ngIf="isColorColumnAvailable && element.id == trimId" [trimId] = "trimId" 
+            class="display-block w-100 list-table" [colorColumnHeaders] = "colorColumnHeaders"
+            ></app-color-table>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="trimColumnsToDisplayWithExpand"></tr>
+    <tr mat-row *matRowDef="let element; columns: trimColumnsToDisplayWithExpand;"
+      class="example-element-row cursor-pointer" [class.example-expanded-row]="expandedElement === element"
+      (click)="getColor(element, expandedElement)">
+    </tr>
+    <tr mat-row *matRowDef="let element; columns: ['expandedDetail']" class="example-detail-row"></tr>
+
+</table>
+
+<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+  <ng-template let-customer="trim" matMenuContent>
+    <button mat-menu-item (click)="onTrimEdit(selectedRecordDetail)">
+      <mat-icon svgIcon="mat:edit"></mat-icon>
+      <span>Edit</span>
+    </button>
+  </ng-template>
+</mat-menu>
+
+<div class="text-center mt-2" *ngIf="(trimDidFetch$ | async) &&  trimList.length === 0">There are no trim available for this model.</div> 

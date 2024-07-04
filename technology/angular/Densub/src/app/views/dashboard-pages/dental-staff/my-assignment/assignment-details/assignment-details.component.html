@@ -1,0 +1,1508 @@
+<div class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card-box" style="height: 50px;">
+       
+          <!-- <h4 class="page-title float-left">Jobs Individual Page</h4> -->
+          <ol class="breadcrumb float-right" style="border-bottom: none; margin-top: -18px;">             
+             <li class="breadcrumb-item"><a [routerLink]="['/staff/assignments']">My Assignments</a></li>
+             <li class="breadcrumb-item active">{{ contractDetail?.jobPostId?.jobTitle}}</li>
+          </ol>
+          <div class="clearfix"></div>
+       
+      </div>
+       
+    </div>
+ </div>
+ <div class="row">
+  <div class="col-md-12 ">
+    <div class="col-md-12 col-lg-12 p-0">
+      <span *ngIf="contractDetail?.jobPostId?.jobType === 'temporary'">  
+      <button class="btn btn-danger btn-option-danger filterBtn pull-right mb-0" style=" margin: 0px 0px 30px 20px"
+    *ngIf="contractDetail?.contractStatus !== contractStatus.CANCELLED && contractDetail?.contractStatus !== contractStatus.COMPLETED && timesheet?.length === 0 && isTimePassed(contractDetail?.jobPostId?.expireDate)"
+    type="button" (click)="cancelContractModal.show()">Cancel Assignment</button>
+    </span>
+    <a style="margin: 0px 0px 20px 20px; border-radius: 25px; font-size: 0.875rem; line-height: 1.5; font-weight: 400;" class="btn btn-outline-primary btn-option pull-right" [routerLink]="['../../../../messaging',contractDetail?.staffId?._id,contractDetail?.jobPostId?._id]" data-toggle="tooltip" title="Messages"> Messages</a>
+    <!-- <button class="btn-round mr-20 btn btn-outline-primary btn-option pull-right" *ngIf="!(isRated.practice) && rateFlag" type="button"
+                  (click)="endContractModal.show()">{{(contractDetail.contractStatus === contractStatus.COMPLETED) ?
+                  'Rate Practice': 'Complete Assignment'}}</button> -->
+                  
+    <button class="btn-round btn btn-outline-primary btn-option pull-right mb-4" [disabled]="isRated.practice || !rateFlag" type="button"
+    (click)="endContractModal.show()">Rate Practice</button>
+    <span *ngIf="((contractDetail?.contractStatus === contractStatus.INPROGRESS || contractDetail.contractStatus === contractStatus.PAYTOACTIVATE)) && timesheet?.length == 0 && enableMarkAsPaid" class="tool-tip pull-right" data-toggle="tooltip" data-placement="top" title="Mark this assignment as paid if the assignment has been completed and you have already been paid.">
+    <button  *ngIf="contractDetail?.contractStatus !== contractStatus.COMPLETED && contractDetail?.contractStatus !== contractStatus.MARKASPAIDSTAFF || contractDetail?.contractStatus === contractStatus.INPROGRESS || contractDetail?.contractStatus === contractStatus.PAYTOACTIVATE || contractDetail?.contractStatus === 'Awaiting Approval & Pay'" class="btn-round mr-20 btn btn-outline-primary btn-option pull-right" type="button"
+    (click)="markAsPaidModal.show()">Mark As Paid
+  </button>
+  </span>
+  <button type="button" class="btn btn-outline-primary btn-option mr-3"  data-toggle="tooltip" title="Job Description"
+                  aria-controls="collapseSearch" (click)="showDescripton(contractDetail?.jobPostId?.description);">
+                  <i class="fa fa-book" aria-hidden="true"></i>
+                  </button>
+  <!-- <span *ngIf="timesheet?.length != 0">
+    <button  *ngIf="contractDetail?.contractStatus !== contractStatus.COMPLETED && contractDetail?.contractStatus !== contractStatus.MARKASPAIDSTAFF || contractDetail?.contractStatus === contractStatus.INPROGRESS || contractDetail?.contractStatus === contractStatus.PAYTOACTIVATE" class="btn-round mr-20 btn btn-outline-primary btn-option pull-right" type="button"
+    (click)="markAsPaidModal.show()">Mark As Paid
+  </button>
+  </span> -->
+    <!--  -->
+    </div>
+    
+  </div>
+</div>
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card-box">
+
+         <!-- <p class="text-capitalize float-right" style="">
+          <span class="fw-6" >Assignment ID: </span>#{{contractDetail?._id | slice:18:24}}
+         </p> -->
+         <!-- <p class="text-capitalize fw-6">
+         {{contractDetail?.jobPostId?.description}}
+        </p> -->
+        <div class="">
+          <div class="row">
+            <div class="col-md-12 custom-cursor-pointer" [routerLink]="['/practice-profile',contractDetail?.practiceId?._id]">
+              <span *ngIf="contractDetail?.practiceId?.practiceAccount === 'multi'" data-toggle="tooltip" title="Company Name" class="text-capitalize">{{contractDetail?.practiceId?.companyName}} - </span>
+              <span data-toggle="tooltip" title="Practice Name" class="text-capitalize mb-0">{{contractDetail?.practiceName?.practiceName}} </span>
+              <span class="ml-2">
+                <img *ngIf="contractDetail?.practiceId?.accountType === 'private practice'" data-toggle="tooltip" title="Private Practice" src="../../../../../../assets/img/common/Privatepractice_blue.png" alt="private" class="mr-2" style="margin-top: -6px;margin-left:-4px;height: 18px;width: 18px;">
+                <img *ngIf="contractDetail?.practiceId?.accountType === 'agency'" data-toggle="tooltip" title="Agency" src="../../../../../../assets/img/common/temporary-agency_blue.png" alt="agency" class="mr-2" style="margin-top: -5px;margin-left:-4px;height: 18px;width: 18px;">
+                 <img *ngIf="contractDetail?.practiceId?.accountType === 'dso'" data-toggle="tooltip" title="Corporate" src="../../../../../../assets/img/common/teamwork_blue.png" alt="dso" class="mr-2" style="margin-top: -6px;margin-left:-4px;height: 18px;width: 18px;">
+                </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-5 col-lg-5" *ngIf="contractDetail?.jobPostId?.jobType === 'temporary'">
+              <p class="text-capitalize" *ngIf="contractDetail?.jobPostId?.jobTitle">
+                {{contractDetail?.jobPostId?.jobTitle}}
+                <span [ngClass]="{'badge badge-warning':true, 'JobLabelInProgress':contractStatus.INPROGRESS === contractDetail?.contractStatus,  'jobLabelOpen': contractDetail?.contractStatus == contractStatus.UPCOMING, 'jobLabelAap':contractDetail?.contractStatus == contractStatus.PAYTOACTIVATE, 'jobLabelCompleted':contractDetail?.contractStatus == contractStatus.COMPLETED,'jobLabelCancelled':contractDetail?.contractStatus == contractStatus.CANCELLED,'jobLabelCompletedMarkedAsPaid':contractDetail?.contractStatus == contractStatus.MARKASPAIDSTAFF}" >
+                  {{ contractDetail?.contractStatus == contractStatus.INPROGRESS ? 'In progress': contractDetail?.contractStatus == contractStatus.UPCOMING ? 'upcoming' : contractDetail?.contractStatus == contractStatus.PAYTOACTIVATE ? 'Awaiting Approval & pay' :  contractDetail.contractStatus == contractStatus.COMPLETED && contractDetail?.autoCompletedBy == 'practice'  ? 'Completed, Pending Approval & Pay' : contractDetail.contractStatus == contractStatus.COMPLETED && contractDetail?.autoCompletedBy == 'staff'  ? 'Completed - Timesheet Not Submitted' : contractDetail?.contractStatus == contractStatus.COMPLETED ? 'Completed' : contractDetail?.contractStatus == contractStatus.CANCELLED ? contractDetail?.cancelContract?.cancelBy == 'staff'? 'Cancelled By Staff' : 'Cancelled By Practice': contractDetail?.contractStatus === 'completed - Marked as paid by practice' ? 'completed - Marked as paid by practice': contractDetail?.contractStatus === 'Completed - Marked As Paid by Staff' ? 'Completed - Marked As Paid by Staff' : ''}} </span>
+              </p>
+            </div>
+            <div class="col-md-5 col-lg-5" *ngIf="contractDetail?.jobPostId?.jobType !== 'temporary'">
+              <p class="text-capitalize" *ngIf="contractDetail?.jobPostId?.jobTitle">
+                {{contractDetail?.jobPostId?.jobTitle}}
+                <span [ngClass]="{'badge badge-warning':true, 'JobLabelInProgress':contractStatus.INPROGRESS === contractDetail?.contractStatus,  'jobLabelOpen': contractDetail?.contractStatus == contractStatus.UPCOMING, 'jobLabelAap':contractDetail?.contractStatus == contractStatus.PAYTOACTIVATE, 'jobLabelCompleted':contractDetail?.contractStatus == contractStatus.COMPLETED,'jobLabelCancelled':contractDetail?.contractStatus == contractStatus.CANCELLED,'jobLabelCompletedMarkedAsPaid':contractDetail?.contractStatus == contractStatus.MARKASPAIDSTAFF}" >
+                  {{ contractDetail?.contractStatus == contractStatus.INPROGRESS ? 'In progress': contractDetail?.contractStatus == contractStatus.UPCOMING ? 'upcoming' : contractDetail?.contractStatus == contractStatus.PAYTOACTIVATE ? 'Awaiting Approval & pay' :  contractDetail.contractStatus == contractStatus.COMPLETED && contractDetail?.autoCompletedBy == 'practice'  ? 'Completed, Pending Approval & Pay' : contractDetail.contractStatus == contractStatus.COMPLETED && contractDetail?.autoCompletedBy == 'staff'  ? 'Completed - Timesheet Not Submitted' : contractDetail?.contractStatus == contractStatus.COMPLETED ? 'Completed-Hired' : contractDetail?.contractStatus == contractStatus.CANCELLED ? contractDetail?.cancelContract?.cancelBy == 'staff'? 'Cancelled By Staff' : 'Cancelled By Practice': contractDetail?.contractStatus === 'completed - Marked as paid by practice' ? 'completed - Marked as paid by practice': contractDetail?.contractStatus === 'Completed - Marked As Paid by Staff' ? 'Completed - Marked As Paid by Staff' : ''}} </span>
+              </p>
+            </div>
+            <div class="col-md-3 col-lg-3 text-center">
+              <div >
+                <p> <a [routerLink]="['/job-details',contractDetail?.jobPostId?._id]" (click)="openJobList()">View Job Post</a> </p>
+              </div>
+            </div>
+            <div class="col-md-4 mobileAlignment">              
+                <p class="text-capitalize float-right mobileAlignment">
+                  <span class="">Assignment ID: #{{contractDetail?._id | slice:18:24}}</span>
+                </p>
+            </div>
+          </div>
+         <div class="row">
+          <div  class="col-md-6 col-lg-2 align-self-center" style="padding-right: 5px; padding-left: 5px;">
+            <div class="m-b-30" style="height: 100px;">
+             <div class="card-body mt-3" style="padding: 7px">
+               <h6 class="text-capitalize" *ngIf="contractDetail?.jobPostId?.jobType === 'temporary'">Temporary</h6>
+               <h6 class="text-capitalize" *ngIf="contractDetail?.jobPostId?.jobType === 'permanentFullTime'">Permanent Full Time</h6>
+               <h6 class="text-capitalize" *ngIf="contractDetail?.jobPostId?.jobType === 'permanentPartTime'">Permanent Part Time</h6>
+               <p class="card-text">Job Type</p>
+             </div>
+            </div>
+           </div>
+            <div class="col-md-6 col-lg-2 align-self-center" style="padding-right: 5px; padding-left: 5px;">
+               <!-- <h6>{{contractDetail?.jobPostId?.jobDate | date: 'mediumDate'}}</h6>
+               <p>Job Date</p> -->
+               <div class="m-b-30" style="height: 100px;">
+                <div class="card-body" style="padding: 1rem">
+                  <h6>{{contractDetail?.jobPostId?.jobDate | date : 'mediumDate'}}</h6>
+                  <p class="card-text" *ngIf="contractDetail?.jobPostId?.jobType === 'temporary'">Assignment Date</p>
+                  <p class="card-text" *ngIf="contractDetail?.jobPostId?.jobType != 'temporary'">Job Start Date</p>
+                </div>
+               </div>
+            </div>
+            <div class="col-md-6 col-lg-2 align-self-center" style="padding-right: 5px; padding-left: 5px;">
+               <div class="m-b-30" style="height: 100px;">
+                <div class="card-body mt-3" style="padding: 7px" *ngIf="contractDetail?.jobPostId?.jobType === 'temporary'">
+                  
+                  <h6>{{contractDetail?.offerSteps[contractDetail.offerStatus]?.startTime | date:'hh:mm a'}} -
+                    {{contractDetail?.offerSteps[contractDetail.offerStatus]?.endTime | date:'hh:mm a'}}
+                  </h6>
+                  <p class="card-text">Job Time</p>
+                </div>
+                <div class="card-body mt-3" style="padding: 7px" *ngIf="contractDetail?.jobPostId?.jobType !== 'temporary'">
+                  <h6 *ngIf="contractDetail?.jobPostId?.paymentMethod === 'hourly'">${{contractDetail?.jobPostId?.desiredHourlyRate | number}} / {{contractDetail?.jobPostId?.paymentMethod | titleCase}}</h6>
+                  <h6 *ngIf="contractDetail?.jobPostId?.paymentMethod === 'salary'">${{contractDetail?.jobPostId?.desiredSalaryRate | number}} / Annual</h6>
+                  <p class="card-text">Compensation</p>
+                </div>
+               </div>
+           </div>
+           <div class="col-md-6 col-lg-2 align-self-center" style="padding-right: 5px; padding-left: 5px;">
+            <div class="m-b-30" style="height: 100px;">
+             <div class="card-body mt-3" style="padding: 7px">
+               <h6>{{ contractDetail?.jobPostId?.positionType }}</h6>
+               <p class="card-text">Position</p>
+             </div>
+            </div>
+         </div>
+           <div class="col-md-6 col-lg-2 align-self-center" style="padding-right: 5px; padding-left: 5px;">
+              <div class="m-b-30" style="height: 100px;">
+                <div class="card-body" style="padding: 1rem" *ngIf="contractDetail?.jobPostId?.jobType === 'temporary'">
+                  <h6>$ {{ contractDetail?.offerSteps[contractDetail.offerStatus]?.amount }} / hour</h6>
+                  <p class="card-text">Job Rate</p>
+                </div>
+                <div class="card-body" style="padding: 1rem" *ngIf="contractDetail?.jobPostId?.jobType !== 'temporary'">
+                  <h6>{{ contractDetail?.jobPostId?.payCycle | titleCase}}</h6>
+                  <p class="card-text">Pay Cycle</p>
+                </div>
+              </div>
+           </div>
+           
+           
+            <div class="col-md-6 col-lg-2 custom-cursor-pointer" style="padding-right: 5px; padding-left: 5px;" [routerLink]="['/practice-profile',contractDetail?.practiceId?._id]">
+              <!-- <div class="col-md-6" style="text-align: center;"> -->
+               
+                <img *ngIf="contractDetail?.practiceId?.profilePhoto[0] !== '' && contractDetail?.practiceId?.profilePhoto[0] !== null && contractDetail?.practiceId?.profilePhoto[0] !== undefined" src="{{contractDetail?.practiceId?.profilePhoto[0]}}"
+                  class="img-responsive profile-pic">
+                <img
+                  *ngIf="contractDetail?.practiceId?.profilePhoto[0] == '' || contractDetail?.practiceId?.profilePhoto[0] == null || contractDetail?.practiceId?.profilePhoto[0] ==undefined"
+                  src="../../../../../../assets/img/brand/densub-logo-final.jpg" class="img-responsive profile-pic">
+                <!-- <div class="mt-1 ml-2" align="center" class="custom-cursor-pointer" [routerLink]="['/practice-profile',contractDetail?.practiceId?._id]">{{contractDetail?.practiceId?.firstName
+                  +' '+ contractDetail?.practiceId?.lastName}}</div> -->
+                  <div class="mt-1 ml-2" align="center">
+                    <i *ngIf="contractDetail?.practiceId?.avgRating > 0 && contractDetail?.practiceId?.avgRating != null && contractDetail?.practiceId?.avgRating != undefined;"
+                      class="fa fa-star fa-1x" aria-hidden="true" style="color: orange;"></i>
+                    <i *ngIf="contractDetail?.practiceId?.avgRating > 1" class="fa fa-star fa-1x" aria-hidden="true"
+                      style="color: orange;"></i>
+                    <i *ngIf="contractDetail?.practiceId?.avgRating > 2" class="fa fa-star fa-1x" aria-hidden="true"
+                      style="color: orange;"></i>
+                    <i *ngIf="contractDetail?.practiceId?.avgRating > 3" class="fa fa-star fa-1x" aria-hidden="true"
+                      style="color: orange;"></i>
+                    <i *ngIf="contractDetail?.practiceId?.avgRating > 4" class="fa fa-star fa-1x" aria-hidden="true"
+                      style="color: orange;"></i>
+                    <i *ngIf="contractDetail?.practiceId?.avgRating == 0" class="fa fa-star fa-1x" aria-hidden="true"
+                      style="color: lightgray;"></i>
+                    <i *ngIf="contractDetail?.practiceId?.avgRating < 1" class="fa fa-star fa-1x" aria-hidden="true"
+                      style="color: lightgray;"></i>
+                    <i *ngIf="contractDetail?.practiceId?.avgRating < 2" class="fa fa-star fa-1x" aria-hidden="true"
+                      style="color: lightgray;"></i>
+                    <i *ngIf="contractDetail?.practiceId?.avgRating < 3" class="fa fa-star fa-1x" aria-hidden="true"
+                      style="color: lightgray;"></i>
+                    <i *ngIf="contractDetail?.practiceId?.avgRating < 4" class="fa fa-star fa-1x" aria-hidden="true"
+                      style="color: lightgray;"></i>
+                  <!-- </div> -->
+                    </div>
+            </div>
+            <!-- <div class="col-md-6 col-lg-1 align-self-center">
+              <div class="m-b-30">
+                <div class=" text-center">
+                  <button type="button" class="btn btn-outline-primary btn-option"  data-toggle="tooltip" title="Job Description"
+                  aria-controls="collapseSearch" (click)="showDescripton(contractDetail?.jobPostId?.description);">
+                  <i class="fa fa-book" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div> -->
+         </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-lg-6">
+          <div class="card-text">
+            <div class="pull-left text-capitalize">Location:&nbsp;
+             {{contractDetail?.practiceName?.addressLine_1 | titleCase}} {{contractDetail?.practiceName?.addressLine_2 | titleCase}} {{contractDetail?.practiceName?.city?.city | slice:3:contractDetail?.practiceName?.city?.city.length | titleCase}}, {{contractDetail?.practiceName?.state?.state}} {{contractDetail?.practiceName?.zipcode?.zipcode}}
+            </div>
+          </div>
+          </div>
+        </div>
+    </div>
+    <div class="" *ngIf="contractDetail?.jobPostId?.jobType === 'temporary'">
+      <div class="card-box">
+         <ul class="nav nav-tabs tabs-bordered nav-justified" role="tablist">
+            <li [ngClass]="{firstItem: first}" role="presentation" class="nav-item">
+               <a (click)="selectATab(0)" class="nav-link" aria-controls="one" role="tab" data-toggle="tab"
+                  [class.active]="selectedJobTab===0">Timesheet </a>
+            </li>
+            <li [ngClass]="{firstItem: first}" role="presentation" class="nav-item">
+               <a (click)="selectATab(1)" class="nav-link" aria-controls="one" role="tab" data-toggle="tab"
+                  [class.active]="selectedJobTab===1">Payment </a>
+            </li>
+         </ul>
+         <div class="tab-content">
+           <div *ngIf="selectedJobTab === jobTabsNew[0]._id" role="tabpanel" class="tab-pane active" id="three">
+              <div class="row">
+                <div class="col-md-4">
+                  <div *ngFor="let work of timesheet; let i = index;">
+                  <!-- <button class="btn-round mr-20 btn btn-outline-primary btn-option" *ngIf="!(isRated.practice) && timesheet.length && contractDetail.contractStatus ==contractStatus.COMPLETED " type="button"
+                  (click)="endContractModal.show()">{{(contractDetail.contractStatus === contractStatus.COMPLETED) ?
+                  'Rate Practice': 'Complete Assignment'}}</button> -->
+                  <button type="button" class="btn-round ml-20 btn btn-outline-primary btn-option" (click)="editTimesheet(work, i)"
+                    [disabled]="!((contractDetail.contractStatus === contractStatus.PAYTOACTIVATE || contractDetail.contractStatus === contractStatus.INPROGRESS) && work?.paidStatus === workDiaryPaidStatus.PENDING && !contractDetail.isContractRead && (work?.timeClockStatus == timeSheetStatus.SPA))">
+                    Edit Time Sheet
+                    </button>
+                    </div>
+                  
+                </div>
+                <div class="col-md-4 text-center" >
+                  <button [disabled]="!((contractDetail?.contractStatus === contractStatus.INPROGRESS || contractDetail.contractStatus === contractStatus.PAYTOACTIVATE)  && timesheet?.length < 1)"
+                  class="btn btn-outline-success" type="button" (click)="addNewTimeSheet()"> Add Time Sheet</button>
+                  
+                </div>
+                <div class="col-md-4" *ngFor="let work of timesheet; let i = index;"> 
+                  <span *ngIf="contractDetail?.requestRevisionStatus?.length <= 0" class="tool-tip pull-right" data-toggle="tooltip" data-placement="top" title="There is no revision requested by practice">
+                    <button type="button" [disabled]="contractDetail?.requestRevisionStatus?.length <= 0" class="disableViewRequestRevision mr-20 float-right btn btn-outline-danger"
+                      >View Revision Requests
+                    </button>
+                    </span>
+                    <span *ngIf="contractDetail?.requestRevisionStatus?.length > 0">
+                      <button type="button" class="viewRequestRevision mr-20 float-right btn btn-outline-danger"
+                        (click)="getRevisionReason()">View Revision Requests
+                      </button>
+                      </span>
+
+                  <!-- New modification button -->
+                    
+                    <!-- <button type="button" class="btn btn-sm btn-trans-danger " data-toggle="modal"
+                    (click)="workDiary = work; workDiaryIndex = i; deleteTimesheetModal.show();"
+                    *ngIf="(contractDetail.contractStatus === contractStatus.PAYTOACTIVATE || contractDetail.contractStatus === contractStatus.INPROGRESS) && work?.paidStatus === workDiaryPaidStatus.PENDING && !contractDetail.isContractRead && work?.timeClockStatus == timeSheetStatus.REVISION"><i
+                    class="fa fa-times-circle"></i>
+                    </button>  -->
+                </div>
+               
+                 <div class="col-md-12" *ngIf="contractDetail?._id && timesheet.length < 1">                  
+                    <p class="warning-msg-timesheet">Densub’ timesheet submission process is available up to 14 days from the job’s date</p>
+                 </div>
+                 <div class="col-md-12" *ngIf="contractDetail?._id && timesheet.length > 0">                  
+                  <p class="warning-msg-timesheet">Densub’ timesheet review and approval process is available up to 30 days from the job’s date</p>
+               </div>
+              </div>
+              <div class="card mt-2">
+                <div class="card-body">
+                <!-- <div class="col-md-9">
+                <div class="row bold-text ml-3">
+                  <div class="col-md-6">
+                    <p>{{ newTimesheet[0]?.timeClockStatus }}</p>
+                    <p>{{newTimesheet[0]?.staffId}}</p>
+                    <p> .....</p>
+                  </div>
+                  <div class="col-md-6">
+                    <p><label class="heading">Submitted On :</label> </p>
+                    <p><label class="heading">Job Date :</label> {{ newTimesheet[0]?.createdAt | date: 'MMM dd,yyyy'}}</p>
+                    <p><label class="heading">Job Id :</label> </p>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row bold-text">
+                      <div class="col-md-4">
+                        {{newTimesheet[0]?.startTime | date :'shortTime'}}<br>
+                        <div class="head">Start Time</div>
+                      </div>
+                      <div class="col-md-4">
+                        {{newTimesheet[0]?.endTime | date :'shortTime'}}<br>
+                        <div class="head">End Time</div>
+                      </div>
+                      <div class="col-md-4">
+                            {{newTimesheet[0]?.breakTime.hours}} hours,{{newTimesheet[0]?.breakTime.minutes}} minutes
+                            <span class="btn btn-sm btn-trans-blue mr-10" style="cursor: pointer;"
+                              (click)="viewBreakDetail.show()">
+                              <i class="fa fa-eye"></i>
+                            </span><br>
+                            <div class="head">Break Time</div>
+                      </div>
+                    </div>
+                    <div class="row bold-text mt-5">
+                      <div class="col-md-4">
+                        ${{newTimesheet[0]?.contractId?.finalRate}}<br>
+                        <div class="head">Rate</div>
+                      </div>
+                      <div class="col-md-4">
+                        {{newTimesheet[0]?.totalTime?.hours}} hours,{{newTimesheet[0]?.totalTime?.minutes}} minutes<br>
+                        <div class="head">Total Hours Worked</div>
+                      </div>
+                      <div class="col-md-4">
+                        ${{newTimesheet[0]?.totalAmount}}<br>
+                        <div class="head">Total Wages</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div> -->
+                <!-- <div class="col-md-2 mt-5 offset-md-1">
+                <button class="btn btn-primary" (click)="openPaymentModal('timesheet',newTimesheet[0],0)">Approve</button><br>
+                <button class="btn btn-danger mt-3">Request Revision</button>
+              </div> -->
+                <!-- <hr> -->
+                <!-- <h4 class="text-primary"> <b>Timesheets</b> </h4> -->
+                <div *ngFor="let work of timesheet; let i = index;">
+                    <div class="row  ml-2 mt-2 ">
+                      <div class="col-md-2">
+
+                      </div>
+                      <div class="col-md-4" *ngIf="contractDetail?.contractStatus !== contractStatus.MARKASPAIDSTAFF">
+                        <p>{{ work?.timeClockStatus | uppercase}}</p>
+                        <p>Assignment ID: #{{ work?.contractId?.jobPostId | slice:18:24}}</p>
+                      </div>
+                      <div class="col-md-4" *ngIf="contractDetail?.contractStatus === contractStatus.MARKASPAIDSTAFF">
+                        <p>Submitted</p>
+                        <p>This is a Pro forma Timesheet</p>
+                        <p>Assignment ID: #{{ work?.contractId?.jobPostId | slice:18:24}}</p>
+                      </div>
+                      <div class="col-md-4">
+                        <p>Submitted On : {{ work?.createdAt | date: 'MMM dd,yyyy'}} </p>
+                        <p style="padding-right: 32px;">Job Date : {{ work?.createdAt | date: 'MMM dd,yyyy'}}</p>                        
+                      </div> 
+                      <div class="col-md-2">
+
+                      </div>                     
+                    </div>
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-2"></div>
+                          <div class="col-md-2">
+                          {{work?.startTime | date :'shortTime'}}<br>
+                          <div class="head">Start Time</div>
+                          </div>
+                          <div class="col-md-1"></div>
+                          <div class="col-md-2">
+                          {{work?.endTime | date :'shortTime'}}<br>
+                          <div class="head">End Time</div>
+                          </div>
+                          <div class="col-md-1"></div>
+                          <div class="col-md-2">
+                              {{work?.breakTime?.hours}} hours,{{work?.breakTime?.minutes}} minutes
+                              <!-- <span class="btn btn-sm btn-trans-blue mr-10" style="cursor: pointer;"
+                                  (click)="viewBreakDetail.show()">
+                                  <i class="fa fa-eye"></i>
+                              </span><br> -->
+                              <div class="head">Break Time</div>
+                          </div>
+                          <div class="col-md-2"></div>
+                        </div>
+                        <div class="row  mt-5">
+                          <div class="col-md-2"></div>
+                            <div class="col-md-2">
+                            ${{work?.contractId?.finalRate}}<br>
+                            <div class="head">Rate</div>
+                            </div>
+                            
+                            <div class="col-md-1"></div>
+                            <div class="col-md-2">
+                            {{work?.totalTime?.hours}} hours,{{work?.totalTime?.minutes}} minutes<br>
+                            <div class="head">Total Hours Worked</div>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-2">
+                            ${{work?.totalAmount}}<br>
+                            <div class="head">Total Wages</div>
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                  <!-- <div class="col-md-4">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row bold-text">
+                          <div class="col-md-6">
+                            {{work?.totalTime?.hours}} hours, {{work?.totalTime?.minutes}} minutes
+                            <h6>Total Hours</h6>
+                          </div>
+                          <div class="col-md-6">
+                            ${{ (work?.totalAmount) ? work?.totalAmount : 0 }}
+                            <h6>Amount</h6>
+                          </div>
+                        </div>
+                      </div>
+                      </div>
+                  </div> -->
+                  <!-- <div class="col-md-4">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row bold-text">
+                          <div class="col-md-6">
+                            <span [ngClass]="{'text-center':(!work?.paidDate)}">{{(work?.paidDate)? (work.paidDate | date :
+                              'mediumDate') : '-' }}</span>
+                            <h6>Payment Date</h6>
+                          </div>
+                          <div class="col-md-6">
+                            <span [ngClass]="{'text-center':(!work?.createdAt)}">{{(work?.createdAt)? (work.createdAt | date :
+                              'mediumDate') : '-' }}</span>
+                            <h6>Submitted Date</h6>
+                          </div>
+                        </div>
+                      </div>
+                      </div>
+                  </div> -->
+                  <!-- <div class="col-md-2">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row bold-text">
+                          <div class="col-md-12">
+                            {{work?.timeClockStatus | uppercase}}
+                            <h6>Status</h6>
+                          </div>
+                        </div>
+                      </div>
+                      </div>
+                  </div> -->
+                  <!-- <div class="col-md-2">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row bold-text">
+                          <div class="col-md-12">
+                            <button type="button" class="btn btn-sm btn-trans-blue mr-10"
+                            (click)="viewTimesheetDetail(work)"><i class="fa fa-eye"></i></button>
+                          <button type="button" class="btn btn-sm btn-trans-green mr-10" (click)="editTimesheet(work, i)"
+                            *ngIf="(contractDetail.contractStatus === contractStatus.PAYTOACTIVATE || contractDetail.contractStatus === contractStatus.INPROGRESS) && work.paidStatus === workDiaryPaidStatus.PENDING && !contractDetail.isContractRead"><i
+                              class="fa fa-pencil"></i></button>
+                          <button type="button" class="btn btn-sm btn-trans-danger " data-toggle="modal"
+                            (click)="workDiary = work; workDiaryIndex = i; deleteTimesheetModal.show();"
+                            *ngIf="(contractDetail.contractStatus === contractStatus.PAYTOACTIVATE || contractDetail.contractStatus === contractStatus.INPROGRESS) && work.paidStatus === workDiaryPaidStatus.PENDING && !contractDetail.isContractRead"><i
+                              class="fa fa-times-circle"></i></button>
+                            <h6>Action</h6>
+                          </div>
+                        </div>
+                      </div>
+                      </div>
+                  </div> -->
+                </div>
+
+
+                <!-- <table class="table table-bordered-1 table-striped" hidden>
+                  <thead class="nowrap">
+                    <tr>
+                      <th>Total Hours</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                      <th>Payment Received Date</th>
+                      <th>Submitted Date</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="timesheet.length">
+                    <tr *ngFor="let work of timesheet; let i = index;">
+                      <td>{{work?.totalTime?.hours}} hours, {{work?.totalTime?.minutes}} minutes</td>
+                      <td>${{ (work?.totalAmount) ? work?.totalAmount : 0 }}</td>
+                      <td>{{work?.paidStatus | uppercase}} </td>
+                      <td [ngClass]="{'text-center':(!work?.paidDate)}">{{(work?.paidDate)? (work.paidDate | date :
+                        'mediumDate') : '-' }}</td>
+                      <td [ngClass]="{'text-center':(!work?.createdAt)}">{{(work?.createdAt)? (work.createdAt | date :
+                        'mediumDate') : '-' }}</td>
+                      <td>
+                        <button type="button" class="btn btn-sm btn-trans-blue mr-10"
+                          (click)="viewTimesheetDetail(work)"><i class="fa fa-eye"></i></button>
+                        <button type="button" class="btn btn-sm btn-trans-green mr-10" (click)="editTimesheet(work, i)"
+                          *ngIf="contractDetail.contractStatus === contractStatus.INPROGRESS && work.paidStatus === workDiaryPaidStatus.PENDING"><i
+                            class="fa fa-pencil"></i></button>
+                        <button type="button" class="btn btn-sm btn-trans-danger " data-toggle="modal"
+                          (click)="workDiary = work; workDiaryIndex = i; deleteTimesheetModal.show();"
+                          *ngIf="contractDetail.contractStatus === contractStatus.INPROGRESS && work.paidStatus === workDiaryPaidStatus.PENDING"><i
+                            class="fa fa-times-circle"></i></button>
+
+                      </td>
+                    </tr>
+
+                  </tbody>
+                  <tr class="text-center" *ngIf="!timesheet.length">
+                    <td colspan="6">
+                      <h6>No Record Found !</h6>
+                    </td>
+                  </tr>
+                </table> -->
+                <p *ngIf="!contractDetail?.staffId?.stripeId">Do you want to get paid faster? Set up a Stripe account so that providers that offer electronic payment can directly deposit your wages in your bank account.</p>
+                <div class="row">
+                  <div class="col-sm-12 mt-20">
+                    <div class="d-flex bid-btn-div justify-content-end"
+                         *ngIf="contractDetail.contractStatus !== contractStatus.CANCELLED">                     
+                      <!-- <button class="btn btn-dark"
+                        *ngIf="contractDetail.contractStatus !== contractStatus.COMPLETED && timesheet.length === 0 && isTimePassed(contractDetail?.jobPostId?.expireDate)"
+                        type="button" (click)="cancelConfirmModal.show()">Cancel Assignment</button>
+                        <button class="btn btn-dark" *ngIf="contractDetail.contractStatus !== contractStatus.COMPLETED" type="button" (click)="cancelContractModal.show()">Cancel Assignment</button> -->
+                    </div>
+                    <div *ngIf="contractDetail.contractStatus === contractStatus.CANCELLED">
+                      <h5 class="bg-danger text-center p-10">Assignment has been cancelled by {{contractDetail?.cancelContract?.cancelBy | titlecase}} on {{contractDetail?.cancelContract?.cancelTime | date:'shortDate'}}</h5>
+                      <p [innerHTML]="(contractDetail?.cancelContract?.reason).slice(3,contractDetail?.cancelContract?.reason?.length-5)"></p>
+                    </div>
+                    <div *ngIf="isRated.staff && isRated.practice && (contractDetail.contractStatus === contractStatus.COMPLETED)">
+                      <h5 class="bg-success text-center p-10">Assignment Successfully Completed</h5>
+                      <p class="text-muted mt-20" *ngIf="ratedDetails?.practice && ratedDetails?.practice?.rating">
+                        <strong class="text-primary"> Rating Given By You : </strong>
+                        <span *ngFor=" let in of numToArrConverter(5); let i = index;" class="fa fa-star"
+                          [ngClass]="{'checked': (i+1) <=  ratedDetails?.practice?.rating}"></span>
+                      </p>
+                      <p class="text-muted mt-20" *ngIf="ratedDetails?.staff && ratedDetails?.staff?.rating">
+                        <strong class="text-primary"> Rating Given By Practice : </strong>
+                        <span *ngFor=" let in of numToArrConverter(5); let i = index;" class="fa fa-star"
+                          [ngClass]="{'checked': (i+1) <=  ratedDetails?.staff?.rating}"></span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="selectedJobTab === jobTabsNew[1]._id" role="tabpanel" class="tab-pane active" id="four">
+              <!-- <div class="row ml-3">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <h4>Payment Status : </h4>
+                    </div>
+                    <div class="col-md-3">
+                      <h5 style="font-weight:600; color: black;">
+                      {{paymentDetailss?.status}}
+                    </h5>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <h4>Paid On : </h4>
+                    </div>
+                    <div class="col-md-3">
+                      <h5 style="font-weight:600; color: black;">{{paymentDetailss?.createdAt | date:'shortDate'}}</h5>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <h4>Total Wages : </h4>
+                    </div>
+                    <div class="col-md-3">
+                      <h5 style="font-weight:600; color: black;">{{paymentDetailss?.amount}}</h5>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <h4>Transaction Id : </h4>
+                    </div>
+                    <div class="col-md-3">
+                      <h5 style="font-weight:600; color: black;">{{paymentDetailss?.transactionId}}</h5>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <h4>ReceiptURL : </h4>
+                    </div>
+                    <div class="col-md-3">
+                      <h5 style="font-weight:600; color: black;">{{paymentDetailss?.receiptURL}}</h5>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+              <div class="row ml-3">
+              <div class="col-md-12">
+                <div class="text-center" *ngIf="contractDetail?.autoCompletedBy=='staff'">
+                  <p class="warning-msg-timesheet">Timesheet submission process has concluded. If you still need to submit your hours for this assignment please contact the practice directly.</p>
+                </div>
+                <div class="text-center" *ngIf="contractDetail?.autoCompletedBy=='practice'">
+                  <p class="warning-msg-timesheet">Densub’s timesheet review and approval process has concluded and is no longer available. If you have not received compensation for the time you have worked for this assignment, please contact the practice directly.</p>
+                </div>
+                
+
+                <div class="row text-center" *ngIf="timesheet[0]?.paidStatus =='paid' && timesheet[0]?.paymentDetails.paymentType =='online'">
+                  <div class="col-md-3">
+                      <div class="card">
+                        <div class="card-body">
+                          {{paymentDetailss?.status | uppercase}} <br>
+                            Payment Status
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-md-3">
+                      <div class="card">
+                        <div class="card-body">
+                          {{paymentDetailss?.createdAt | date:'shortDate'}}    <br>
+                            Paid On
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-md-3">
+                      <div class="card">
+                        <div class="card-body">
+                          e-pay Via Stripe<br>
+                          Payment Method
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                        ${{paymentDetailss?.amount}}<br>
+                        Total Wages
+                        </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <!-- <div class="col-md-12" style="text-align: left;">Transaction Id :  {{paymentDetailss?.transactionId}}</div> -->
+                  <div class="col-md-12" style="text-align: left;">
+                    <a href="{{paymentDetailss?.receiptURL}}" target="_blank">View Payment Receipt</a>
+                  </div>
+
+                  </div>
+
+                  <div class="row text-center" *ngIf="timesheet[0]?.paidStatus =='paid' && timesheet[0]?.paymentDetails.paymentType =='offline'">
+                  <div class="col-md-3">
+                      <div class="card" *ngIf="contractDetail?.contractStatus !== contractStatus.MARKASPAIDSTAFF">
+                        <div class="card-body">
+                          {{timesheet[0]?.paidStatus | uppercase}} <br>
+                            Payment Status
+                        </div>
+                      </div>
+                      <div class="card" *ngIf="contractDetail?.contractStatus === contractStatus.MARKASPAIDSTAFF">
+                        <div class="card-body">
+                          MARKED AS {{timesheet[0]?.paidStatus | uppercase}} <br>
+                            Payment Status
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-md-3" *ngIf="contractDetail?.contractStatus !== 'Completed - Marked As Paid by Staff'">
+                      <div class="card">
+                        <div class="card-body">
+                          {{timesheet[0]?.paidDate | date:'shortDate'}}    <br>
+                            Paid On
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-md-3" *ngIf="contractDetail?.contractStatus === 'Completed - Marked As Paid by Staff'">
+                    <div class="card">
+                      <div class="card-body">
+                        {{timesheet[0]?.paidDate | date:'shortDate'}}    <br>
+                        Marked as Paid on
+                      </div>
+                    </div>
+                </div>
+                  <div class="col-md-3">
+                      <div class="card">
+                        <div class="card-body" *ngIf="contractDetail?.contractStatus !== 'Completed - Marked As Paid by Staff'">
+                          
+                          <div *ngIf="timesheet[0].offlinePyamentType === 'other'">
+                            <!-- {{ newTimesheet[0]?.offlinePyamentType |uppercase}}  <br> -->
+                            {{ timesheet[0]?.paymentDetails?.paymentDesc}}  <br>
+                         </div>
+                         <div *ngIf="timesheet[0].offlinePyamentType !== 'other'">
+                          Check - {{ timesheet[0]?.offlinePyamentType |uppercase}}  <br>
+                         </div>
+                          <div *ngIf="timesheet[0]?.paymentDetails?.paymentDesc?.length > 0">
+                            {{timesheet[0]?.paymentDetails?.paymentDesc}}<br>
+                          </div>
+                          Payment Method
+                        </div>
+                        <div class="card-body" *ngIf="contractDetail?.contractStatus === 'Completed - Marked As Paid by Staff'">
+                          <div>
+                            OFFLINE<br>
+                          </div>
+                          Payment Method
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body" *ngIf="contractDetail?.contractStatus !== contractStatus.MARKASPAIDSTAFF">
+                        ${{timesheet[0]?.totalAmount}}<br>
+                        Total Wages
+                        </div>
+                        <div class="card-body" *ngIf="contractDetail?.contractStatus === contractStatus.MARKASPAIDSTAFF">
+                          ${{timesheet[0]?.totalAmount}}<br>
+                          Total Wages Recorded
+                          </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- <div class="row">
+                  <div class="col-md-3">
+                    <h6>Payment Status : </h6>
+                  </div>
+                  <div class="col-md-3">
+                      {{paymentDetailss?.status}}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                    <h6>Paid On : </h6>
+                  </div>
+                  <div class="col-md-3">
+                      {{paymentDetailss?.createdAt | date:'shortDate'}}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                    <h6>Total Wages : </h6>
+                  </div>
+                  <div class="col-md-3">
+                    {{paymentDetailss?.amount}}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                    <h6>Transaction Id : </h6>
+                  </div>
+                  <div class="col-md-3">
+                    {{paymentDetailss?.transactionId}}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                    <h6>Receipt : </h6>
+                  </div>
+                  <div class="col-md-6">
+                    <a href="{{paymentDetailss?.receiptURL}}" target="_blank">Open Payment Receipt</a>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" hidden>
+  <div class="col-sm-12">
+    <h4 class="text-primary"> <b>My Assignment </b> </h4>
+    <hr />
+  </div>
+</div>
+<!-- <div class="row  pb-3 mt-30" hidden> -->
+  <div class="staff-bid-received col-12 pb-30" hidden>
+    <div class="bid-received_inner overflow-scroll row">
+      <div class="staff-bid-list pb-5  col-xl-12">
+        <div class=" d-flex flex-wrap staff-bid-list_inner w-100">
+          <div class="col-12">
+            <div>
+              <h6 class="clr-black"> <b>Assignment Details </b> </h6>
+              <hr />
+            </div>
+          </div>
+          <div class="col-md-4 mt-10">
+            <p class="text-capitalize" *ngIf="contractDetail?.jobPostId?.jobTitle"> <span class=" fw-6">Job Title :
+              </span> {{contractDetail?.jobPostId?.jobTitle}}</p>
+
+            <p class="text-capitalize" *ngIf="contractDetail?.jobPostId?.jobType"> <span class=" fw-6">Job Type :
+              </span> {{jobTypeLabel[contractDetail?.jobPostId?.jobType]}} Job</p>
+
+            <p class="text-capitalize" *ngIf="contractDetail?.jobPostId?.positionType"> <span class=" fw-6">Position
+                Type : </span>
+              {{contractDetail?.jobPostId?.positionType}}</p>
+
+            <p class="text-capitalize" *ngIf="contractDetail?.jobPostId?.location"> <span class=" fw-6">Job Location :
+              </span> <strong class="clr-dark-blue text-capitalize">{{contractDetail?.jobPostId?.location}} </strong> </p>
+
+            <p class="text-capitalize" *ngIf="contractDetail?.jobPostId?.jobDate"> <span class=" fw-6">Date of Service :
+              </span> <strong class="clr-dark-blue">{{contractDetail?.jobPostId?.jobDate | date : 'mediumDate'}}
+              </strong> </p>
+
+
+            <p class="text-capitalize" *ngIf="contractDetail?.jobPostId?.startTime"> <strong class=" fw-6">Start Time :
+              </strong><strong class="clr-dark-blue">
+                {{((contractDetail.sendOfferByPractice)? contractDetail?.jobPostId?.startTime :
+                contractDetail.offerSteps.initial.startTime ) | date:'hh:mm a'}} </strong>
+            </p>
+            <p class="text-capitalize" *ngIf="contractDetail?.jobPostId?.endTime"> <strong class=" fw-6">End Time :
+              </strong> <strong class="clr-dark-blue">{{((contractDetail.sendOfferByPractice)?
+                contractDetail?.jobPostId?.endTime :
+                contractDetail.offerSteps.initial.endTime ) | date:'hh:mm a'}} </strong></p>
+
+            <p class="text-capitalize" *ngIf="contractDetail?.duration"> <span class=" fw-6">Duration : </span>
+              {{contractDetail?.duration}} Hours</p>
+
+            <p class="text-capitalize" *ngIf="contractDetail?.finalRate"> <span class=" fw-6">Agreed Upon :
+              </span> ${{contractDetail?.finalRate}}{{(contractDetail?.jobPostId?.paymentMethod == paymentMethod.HOURLY)
+              ? '/hour' : ''}}</p>
+
+            <p *ngIf="contractDetail?.staffId?._id"> <span class=" fw-6">Assignment ID : #{{contractDetail?._id
+              | slice:18:24}}</span> </p>
+            <!-- <p *ngIf="contractDetail?.staffId?._id"> <span class=" fw-6">Assignment ID : </span> #{{contractDetail?.staffId?._id | slice:18:24}}</p> -->
+
+            <!-- <p class="text-capitalize" *ngIf="contractDetail?.contractStartTime"> <span class=" fw-6" >Assignment Date : </span> {{contractDetail?.contractStartTime | date:'mediumDate'}}</p> -->
+
+            <p *ngIf="contractDetail?.jobPostId?._id"> <span class=" fw-6">Job ID :
+              </span> #{{contractDetail?.jobPostId?._id | slice:18:24}}</p>
+
+
+
+
+            <!-- <p class="text-capitalize" *ngIf="contractDetail?.jobPostId?.startTime"> <strong class=" fw-6">Start Time : </strong>
+              {{((contractDetail.sendOfferByPractice)?  contractDetail?.jobPostId?.startTime :
+                contractDetail.offerSteps.initial.startTime ) | date:'hh:mm a'}}
+              </p> -->
+            <!-- {{contractDetail?.jobPostId?.startTime | date: 'hh:mm a'}} -->
+            <!-- <p class="text-capitalize" *ngIf="contractDetail?.jobPostId?.endTime"> <strong class=" fw-6" >End Time : </strong> {{((contractDetail.sendOfferByPractice)?  contractDetail?.jobPostId?.endTime :
+              contractDetail?.offerSteps?.initial?.endTime ) | date:'hh:mm a'}}</p> -->
+
+
+
+          </div>
+
+          <div class="col-md-4 mt-10" *ngIf="contractDetail?.practiceId">
+            <p class="text-capitalize clr-dark-blue">
+              <b>Practice Name</b>
+            </p>
+
+            <p class="text-capitalize">
+              <a class="text-primary" *ngIf="contractDetail?.practiceId"
+                [routerLink]="['../../../../practice-profile',contractDetail?.practiceId?._id]">{{contractDetail?.practiceId?.firstName
+                +' '+ contractDetail?.practiceId?.lastName}}</a>
+            </p>
+            <!-- <p class="text-capitalize" *ngIf="contractDetail?.practiceId?.address"> <span class=" fw-6">Address : </span>
+              {{contractDetail?.practiceId?.address}}</p> -->
+          </div>
+          <div class="col-md-4 mt-10">
+            <p class="text-capitalize clr-dark-blue">
+              <b>Staff Name</b>
+            </p>
+            <!-- <h4 class="text-capitalize text-primary">
+              <a *ngIf="contractDetail?.staffId" [routerLink]="['../../../../staff-profile',contractDetail.staffId._id]"><b>Staff Name & Address</b></a> </h4> -->
+            <p class="text-capitalize" *ngIf="contractDetail?.staffId">
+              {{contractDetail?.staffId?.firstName +' '+ contractDetail?.staffId?.lastName}}</p>
+            <!-- <p class="text-capitalize" *ngIf="contractDetail?.staffId?.address"> <span class="fw-6"
+                >Address : </span> {{contractDetail?.staffId?.address}}</p> -->
+          </div>
+          <div class="col-sm-12 mt-20">
+            <div class="d-flex bid-btn-div justify-content-end"
+              *ngIf="contractDetail?.contractStatus !== contractStatus.UPCOMING && contractDetail?.contractStatus !== contractStatus.REVOKE && contractDetail?.contractStatus !== contractStatus.EXPIRED">
+              <button class="btn btn-primary mr-20" type="button"
+                [routerLink]="['../../../../messaging',contractDetail?.practiceId?._id,contractDetail?.jobPostId?._id]"><i
+                  class="fa fa-comment-o" aria-hidden="true"></i>
+                Message</button>
+              <!-- *ngIf="contractDetail.contractStatus !== contractStatus.COMPLETED" (click)="showModal('dispute')" -->
+              <button class="btn btn-primary mr-20" type="button" (click)="showModal('dispute')"><i
+                  class="fa fa-exclamation" aria-hidden="true"></i>
+                Dispute</button>
+            </div>
+
+            <!-- <div class="d-flex bid-btn-div justify-content-end" *ngIf="contractDetail?.contractStatus == contractStatus.UPCOMING">
+              <button class="btn btn-primary mr-20" type="button" (click)="payToActivateJob()"> Pay to Activate</button>
+            </div>
+          </div> -->
+            <!-- For dispute section -->
+            <div class="col-sm-12 mt-20" *ngIf="contractDetail?.contractStatus == contractStatus.UPCOMING">
+              <!-- <h4 class="text-white bg-warning text-center">Please contact practice for approving the assignment  !!!</h4> -->
+              <div class="d-flex bid-btn-div justify-content-end mt-50">                 
+                <button class="btn btn-dark" type="button" (click)="openRevokeModal()">Cancel Assignment</button>
+              </div>
+            </div>
+            <div class="col-sm-12 mt-20" *ngIf="contractDetail?.contractStatus === contractStatus.REVOKE">
+              <h5 class="bg-danger text-center p-10">Assignment has been cancelled</h5>
+            </div>
+            <div class="col-sm-12 mt-20" *ngIf="contractDetail?.contractStatus === contractStatus.EXPIRED">
+              <h5 class="bg-danger text-center p-10">This job is expired</h5>
+            </div>
+
+          </div>
+
+        </div>
+        <!-- && (contractDetail?.status == bidStatus.CONTRACT) -->
+        <div class="staff-bid-list pb-5  col-xl-12">
+          <!-- <hr> -->
+          <button *ngIf="contractDetail.contractStatus === contractStatus.INPROGRESS && showTimesheetButton"
+            class="btn btn-primary mr-20 float-right" type="button" (click)="addNewTimeSheet()"><i class="fa fa-plus"
+              aria-hidden="true"></i> Add New TimeSheet</button>
+          <div class=" d-flex flex-wrap staff-bid-list_inner w-100">
+            <!-- <h4 class="text-primary"> <b>Timesheets</b> </h4> -->
+            <div class="card-body table-responsive">
+              <table class="table table-bordered-1 table-striped">
+                <thead class="nowrap">
+                  <tr>
+                    <th>Total Hours</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Payment Received Date</th>
+                    <th>Submitted Date</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="timesheet.length">
+                  <tr *ngFor="let work of timesheet; let i = index;">
+                    <td>{{work?.totalTime?.hours}} hours, {{work?.totalTime?.minutes}} minutes</td>
+                    <td>${{ (work?.totalAmount) ? work?.totalAmount : 0 }}</td>
+                    <td>{{work?.paidStatus | uppercase}} </td>
+                    <td [ngClass]="{'text-center':(!work?.paidDate)}">{{(work?.paidDate)? (work?.paidDate | date :
+                      'mediumDate') : '-' }}</td>
+                    <td [ngClass]="{'text-center':(!work?.createdAt)}">{{(work?.createdAt)? (work?.createdAt | date :
+                      'mediumDate') : '-' }}</td>
+                    <td>
+                      <button type="button" class="btn btn-sm btn-trans-blue mr-10"
+                        (click)="viewTimesheetDetail(work)"><i class="fa fa-eye"></i></button>
+                      <button type="button" class="btn btn-sm btn-trans-green mr-10" (click)="editTimesheet(work, i)"
+                        *ngIf="contractDetail.contractStatus === contractStatus.INPROGRESS && work.paidStatus === workDiaryPaidStatus.PENDING"><i
+                          class="fa fa-pencil"></i></button>
+                      <button type="button" class="btn btn-sm btn-trans-danger " data-toggle="modal"
+                        (click)="workDiary = work; workDiaryIndex = i; deleteTimesheetModal.show();"
+                        *ngIf="contractDetail.contractStatus === contractStatus.INPROGRESS && work.paidStatus === workDiaryPaidStatus.PENDING"><i
+                          class="fa fa-times-circle"></i></button>
+
+                    </td>
+                  </tr>
+
+                </tbody>
+                <tr class="text-center" *ngIf="!timesheet.length">
+                  <td colspan="6">
+                    <h6>No Record Found !</h6>
+                  </td>
+                </tr>
+              </table>
+             
+              <h5 class="clr-red" *ngIf="!contractDetail?.staffId?.stripeId">Do you want to get paid faster? Set up a Stripe account so that providers that offer electronic payment can directly deposit your wages in your bank account</h5>
+            </div>
+            <div class="col-sm-12 mt-20">
+              <div class="d-flex bid-btn-div justify-content-end"
+                *ngIf="contractDetail.contractStatus !== contractStatus.CANCELLED">                
+                <button class="btn btn-primary mr-20" *ngIf="!(isRated.practice) && timesheet.length" type="button"
+                  (click)="endContractModal.show()">{{(contractDetail.contractStatus === contractStatus.COMPLETED) ?
+                  'Rate Practice': 'Complete Assignment'}}</button>
+                <button class="btn btn-dark"
+                  *ngIf="contractDetail.contractStatus !== contractStatus.COMPLETED && timesheet.length === 0"
+                  type="button" (click)="cancelConfirmModal.show()">Cancel Assignment</button>
+                <!-- <button class="btn btn-dark" *ngIf="contractDetail.contractStatus !== contractStatus.COMPLETED" type="button" (click)="cancelContractModal.show()">Cancel Assignment</button> -->
+              </div>
+              <div *ngIf="contractDetail.contractStatus === contractStatus.CANCELLED">
+                <h5 class="bg-danger text-center p-10">Assignment has been cancelled</h5>
+              </div>
+              <div
+                *ngIf="isRated.staff && isRated.practice && (contractDetail.contractStatus === contractStatus.COMPLETED)">
+                <h5 class="bg-success text-center p-10">Assignment Successfully Completed</h5>
+                <p class="text-muted mt-20" *ngIf="ratedDetails?.practice && ratedDetails?.practice?.rating">
+                  <strong class="text-primary"> Rating Given By You : </strong>
+                  <span *ngFor=" let in of numToArrConverter(5); let i = index;" class="fa fa-star"
+                    [ngClass]="{'checked': (i+1) <=  ratedDetails?.practice?.rating}"></span>
+                </p>
+                <p class="text-muted mt-20" *ngIf="ratedDetails?.staff && ratedDetails?.staff?.rating">
+                  <strong class="text-primary"> Rating Given By Practice : </strong>
+                  <span *ngFor=" let in of numToArrConverter(5); let i = index;" class="fa fa-star"
+                    [ngClass]="{'checked': (i+1) <=  ratedDetails?.staff?.rating}"></span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div bsModal [config]="{backdrop: 'static', keyboard: false}" #disputeModal="bs-modal" class="modal fade"
+    tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title  text-white">Add Dispute</h4>
+          <button type="button" class="close  text-white" (click)="closeModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group row">
+            <div class="col-12">
+              <label><b>Reason
+                  <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                      [ngClass]="{'text-danger': !disputeDetail.reason, 'text-primary': disputeDetail.reason}"></i>
+                  </sup>
+                </b></label>
+              <select name="reason" [(ngModel)]="disputeDetail.reason" class="form-control" id="reason">
+                <option value="">Select</option>
+                <option value="Payment Issue">Payment Issue</option>
+                <option value="Scheduling">Scheduling</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+            <div class="col-12 mt-10">
+              <label><b>Detail
+                  <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                      [ngClass]="{'text-danger': !disputeDetail.detail, 'text-primary': disputeDetail.detail}"></i>
+                  </sup>
+                </b></label>
+              <!-- <app-ngx-editor placeholder="Please enter the details" [resizer]="false" name="detail"
+              [(ngModel)]="disputeDetail.detail" [config]="editorConfig" name="detail">
+            </app-ngx-editor> -->
+              <ckeditor [config]="ckeConfig" placeholder="Please enter the details" name="detail"
+                [(ngModel)]="disputeDetail.detail" (change)="onEditorChange()" (blur)="onEditorChange()"></ckeditor>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+          <button type="button" class="btn btn-primary" [disabled]="!(disputeDetail?.detail && disputeDetail?.reason)"
+            (click)="addDisputes()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div bsModal [config]="{backdrop: 'static', keyboard: false}" #timeSheetModal="bs-modal" class="modal fade"
+    tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title  text-white" *ngIf="!markAsPaidRequest">{{(workDiary?._id) ? 'Edit' :'Add'}} Time Sheet</h4>
+          <h4 class="modal-title  text-white" *ngIf="markAsPaidRequest">Pro forma Timesheet</h4>
+          <button type="button" class="close  text-white" (click)="closeTimesheetModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body add-time-modal">
+          <div class="form-group row">
+            <div class="col-sm-8 offset-sm-1">
+              <div class="form-group row align-items-center">
+                <label class="col-sm-4" for="Date">Date
+                  <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                      [ngClass]="{'text-danger': !workDiary.date,'clr-blue': workDiary.date}"></i>
+                  </sup>
+                </label>
+                <div class="col-sm-8">
+                  <!-- <dp-date-picker placeholder="Enter Date" name="date" [(ngModel)]="workDiary.date"
+                    [config]="datePickerConfig2"></dp-date-picker> -->
+
+                    <input type="text" class="form-control" disabled name="date" [(ngModel)]="workDiary.date">
+                </div>
+              </div>
+
+              <div class="form-group row align-items-center">
+                <label class="col-sm-4" for="startTime">Start Time
+                  <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                      [ngClass]="{'text-danger': !workDiary.startTime,'clr-blue': workDiary.startTime}"></i>
+                  </sup>
+                </label>
+                <div class="col-sm-8 mb-0">
+                  <timepicker name="startTime" [(ngModel)]="workDiary.startTime"
+                    (ngModelChange)="timeValidation('startTime')"></timepicker>
+                </div>
+                <!-- <pre>{{workDiary.startTime}}</pre> -->
+              </div>
+
+              <div class="form-group row align-items-center">
+                <label class="col-sm-4" for="endTime">End Time
+                  <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                      [ngClass]="{'text-danger': !workDiary?.endTime,'clr-blue': workDiary?.endTime}"></i>
+                  </sup>
+                </label>
+                <div class="col-sm-8 mb-0">
+                  <timepicker name="endTime" [(ngModel)]="workDiary.endTime"
+                    (ngModelChange)="timeValidation('endTime')"></timepicker>
+                </div>
+              </div>
+
+              <div class="form-group row align-items-center">
+                <label class="col-sm-4" for="breakTime">Break Time</label>
+                <div class="col-sm-8 row mb-0">
+                  <div class="col-6">
+                    <label for="hours">Hours</label>
+                    <select name="hour" class="form-control" [(ngModel)]="workDiary.breakTime.hours"
+                      (change)="workDiaryTotalTime()">
+                      <option [value]="(i)" *ngFor="let hour of breakTime.hours; let i = index">{{i}}</option>
+                    </select>
+                  </div>
+                  <div class="col-6">
+                    <label for="minutes">Minutes</label>
+                    <select name="minute" class="form-control" [(ngModel)]="workDiary.breakTime.minutes"
+                      (change)="workDiaryTotalTime()">
+                      <option [value]="(i)" *ngFor="let min of breakTime.min; let i = index">{{i}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row align-items-center">
+                <label class="col-sm-4" for="totalWorkHours">Total Work Hours</label>
+                <!-- [(ngModel)]="totalTime" -->
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" name="totalTime"
+                    value="{{workDiary.totalTime.hours}} hours, {{workDiary.totalTime.minutes}} minutes" disabled>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <app-alert></app-alert>
+          <button type="button" class="btn btn-secondary" (click)="closeTimesheetModal()">Close</button>
+          <div *ngIf="workDiary._id">
+            <button type="button" class="btn btn-primary" [disabled]="((currentWorkDiaryStartTime | date:'h:mm a') === (workDiary.startTime | date:'h:mm a') && ((currentWorkDiaryEndTime | date:'h:mm a') === (workDiary.endTime | date:'h:mm a')))" (click)="submitWorkDiary()">Submit</button> 
+          </div>
+          <div *ngIf="!workDiary._id">
+            <button type="button" class="btn btn-primary" (click)="submitWorkDiary()">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--  DELETE TimeSheet MODAL -->
+  <div bsModal [config]="{backdrop: 'static', keyboard: false}" #deleteTimesheetModal="bs-modal" class="modal fade"
+    tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-white">
+          <h4 class="modal-title text-white"><i class="fa fa-trash"></i> Delete Work</h4>
+          <button type="button" class="close text-white" (click)="closeTimesheetModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure want to delete this work from timesheet?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeTimesheetModal()">Close</button>
+          <button type="button" class="btn btn-danger" (click)="deleteTimesheet()">Delete</button>
+          <!-- <pre [innerHtml]="newJob | json"> </pre> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--  DELETE TimeSheet MODAL -->
+
+  <!--  Cancel Confirm MODAL -->
+  <div bsModal [config]="{backdrop: 'static', keyboard: false}" #cancelConfirmModal="bs-modal" class="modal fade"
+    tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-white">
+          <h4 class="modal-title text-white"> Cancel Confirmation</h4>
+          <button type="button" class="close text-white" (click)="cancelConfirmModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to cancel this assignment. It will negatively impact your profile.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="cancelConfirmModal.hide()">Close</button>
+          <button type="button" class="btn btn-primary"
+            (click)="cancelConfirmModal.hide();cancelContractModal.show();">Confirm</button>
+          <!-- <pre [innerHtml]="newJob | json"> </pre> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--  Cancel Confirm MODAL -->
+
+  <div bsModal [config]="{backdrop: 'static', keyboard: false}" #endContractModal="bs-modal" class="modal fade"
+    tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title  text-white">Rate Practice</h4>
+          <button type="button" class="close  text-white" (click)="closeModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group row">
+            <div class="col-12">
+              <div class="text-center mt-20">
+                <h4 class="clr-black"><b>How Likely are you to work for this practice again?</b></h4>
+                <label class="clr-black fs-13 fw-400">Rate your overall experience from your completed assignment here.
+                  <br> Thanks for helping us to build a strong marketplace.</label>
+              </div>
+              <div class="row mt-40">
+                <div class="form-group col-custom">
+                  <div class="custom-control custom-radio rating-1 text-center">
+                    <input name="rating" type="radio" [value]="5" class="custom-control-input" id="rating_5"
+                      [(ngModel)]="ratingDetail.rating">
+                    <label class="custom-control-label" for="rating_5">Highly Like</label>
+                    <p class="text-muted">
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group col-custom">
+                  <div class="custom-control custom-radio rating-1 text-center">
+                    <input name="rating" type="radio" [value]="4" class="custom-control-input" id="rating_4"
+                      [(ngModel)]="ratingDetail.rating">
+                    <label class="custom-control-label" for="rating_4">Very Likely</label>
+                    <p class="text-muted">
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group col-custom">
+                  <div class="custom-control custom-radio rating-1 text-center">
+                    <input name="rating" type="radio" [value]="3" class="custom-control-input" id="rating_3"
+                      [(ngModel)]="ratingDetail.rating">
+                    <label class="custom-control-label" for="rating_3">Neutral</label>
+                    <p class="text-muted">
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group col-custom">
+                  <div class="custom-control custom-radio rating-1 text-center">
+                    <input name="rating" type="radio" [value]="2" class="custom-control-input" id="rating_2"
+                      [(ngModel)]="ratingDetail.rating">
+                    <label class="custom-control-label" for="rating_2">Unlikely</label>
+                    <p class="text-muted">
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group col-custom">
+                  <div class="custom-control custom-radio rating-1 text-center">
+                    <input name="rating" type="radio" [value]="1" class="custom-control-input" id="rating_1"
+                      [(ngModel)]="ratingDetail.rating">
+                    <label class="custom-control-label" for="rating_1">Highly Unlikely</label>
+                    <p class="text-muted">
+                      <span class="fa fa-star checked"></span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="submitRating(false)">SUBMIT</button>
+          <button type="button" class="btn btn-secondary" (click)="submitRating(true)">RATE LATER</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div bsModal [config]="{backdrop: 'static', keyboard: false}" #cancelContractModal="bs-modal" class="modal fade"
+    tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title  text-white">Cancel Assignment</h4>
+          <button type="button" class="close  text-white" (click)="closeModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group row">
+            <div class="col-md-12">
+              Are you sure that you want to cancel this assignment? Cancellations may negatively impact your profile on Densub’s marketplace.
+            </div>
+         </div>
+          <div class="form-group row">
+            <div class="col-md-12">
+              <label><b>Reason
+                  <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                      [ngClass]="{'text-danger': !cancelContractDetail.reason, 'text-primary': cancelContractDetail.reason}"></i>
+                  </sup>
+                </b></label>
+              <!-- <app-ngx-editor placeholder="State the reason that you are cancelling the assignment" [resizer]="false" name="reason"
+            [(ngModel)]="cancelContractDetail.reason" [config]="editorConfig" name="reason">
+          </app-ngx-editor> -->
+              <ckeditor [config]="ckeConfig" placeholder="State the reason that you are cancelling the assignment"
+                name="reason" [(ngModel)]="cancelContractDetail.reason"></ckeditor>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+          <button type="button" class="btn btn-primary" 
+            (click)="cancelContract()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div bsModal [config]="{backdrop: 'static', keyboard: false}" #viewTimesheet="bs-modal" class="modal fade"
+    tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-white"><i class="fa fa-eye"></i> View Timesheet details</h4>
+          <button type="button" class="close text-white" (click)="viewTimesheet.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p> <b>Date :</b> {{workDiary?.date}} </p>
+          <p> <b>Start Time :</b> {{workDiary?.startTime | date:'hh:mm a'}} </p>
+          <p> <b>End Time :</b> {{workDiary?.endTime | date:'hh:mm a'}} </p>
+          <p> <b>Break Time :</b> {{workDiary?.breakTime?.hours}} hours, {{workDiary?.breakTime?.minutes}} minutes </p>
+          <p> <b>Total Work Hours :</b> {{workDiary?.totalTime?.hours}} hours, {{workDiary?.totalTime?.minutes}} minutes
+          </p>
+          <p> <b>Total Work Amount :</b> ${{(workDiary?.totalAmount) ? workDiary?.totalAmount : 0}} </p>
+          <p> <b>Paid Status :</b> {{workDiary?.paidStatus | uppercase}} </p>
+          <!--  <p> <b>Paid Date :</b> {{(selectedWork?.paidDate)? (selectedWork.paidDate | date: 'mediumDate')  : '-' }} </p> -->
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="viewTimesheet.hide()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #revisionReason="bs-modal" class="modal fade design-1" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white">Revision Requests</h4>
+        <button type="button" class="close text-white" (click)="revisionReason.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12 col-xl-12 lastRecord">
+                Practice's message
+              </div>                
+            </div>
+             <div class="row" *ngFor="let reason of revisionData?.requested[0]?.requestRevisionStatus; let i = index;">
+               <div class="col-md-7 col-xl-7">
+                 <p [ngClass]="{'lastRecord': (revisionData?.requested[0]?.requestRevisionStatus?.length == (i+1) && !reason?.isContractRead )}"
+                 [innerHtml]="(reason.message).slice(3,reason?.message.length-5)"></p>
+               </div>
+
+               <div class="col-md-5 col-xl-5">
+                <div [ngClass]="{'lastRecord': (revisionData?.requested[0]?.requestRevisionStatus?.length  == (i+1) && !reason?.isContractRead)}">{{ reason?.saved_on | date:'dd-MM-yyyy hh:mm a'}}</div>
+              </div>
+              
+              <div class="col-md-12 col-xl-12">
+                <div>{{reason?.message.length > 0 ? '' : 'Message list is empty'}}</div>
+              </div>
+            </div>
+            <hr *ngIf="revisionData?.rejected.length > 0">
+
+            <div class="row" *ngIf="revisionData?.rejected.length > 0">
+               <div class="col-md-12 col-xl-12 lastRecord">
+                 Staff's message
+               </div>
+             </div>
+             <div class="row" *ngFor="let reason of revisionData?.rejected[0]?.rejectRevisionStatus; let i = index;">
+               <div class="col-md-7 col-xl-7">
+                 <p [ngClass]="{'lastRecord': (revisionData?.rejected[0]?.rejectRevisionStatus?.length == (i+1) && !reason?.isContractRead )}"
+                 [innerHtml]="(reason.message).slice(3,reason?.message.length-5)"></p>
+               </div>
+
+               <div class="col-md-5 col-xl-5">
+                <div [ngClass]="{'lastRecord': (revisionData?.rejected[0]?.rejectRevisionStatus?.length  == (i+1) && !reason?.isContractRead)}">{{ reason?.saved_on | date:'dd-MM-yyyy hh:mm a'}}</div>
+              </div>
+              
+              <div class="col-md-12 col-xl-12">
+                <div>{{reason?.message.length > 0 ? '' : 'Message list is empty'}}</div>
+              </div>
+            </div>
+
+
+
+
+
+
+          </div>
+        </div>
+        <br>
+        
+        <div *ngFor="let work of timesheet; let i = index;">
+          <button type="button" class="btn btn-outline-success pull-right" (click)="editTimesheet(work, i);revisionReason.hide();"
+              *ngIf="(contractDetail.contractStatus === contractStatus.PAYTOACTIVATE || contractDetail.contractStatus === contractStatus.INPROGRESS) && work.paidStatus === workDiaryPaidStatus.PENDING && !contractDetail.isContractRead && timesheet[0].timeClockStatus === timeSheetStatus.REVISION">Accept & Edit</button>
+          <button type="button" class="btn btn-outline-danger pull-left" (click)="rejectRequest.show();revisionReason.hide();"
+              *ngIf="(contractDetail.contractStatus === contractStatus.PAYTOACTIVATE || contractDetail.contractStatus === contractStatus.INPROGRESS) && work.paidStatus === workDiaryPaidStatus.PENDING && !contractDetail.isContractRead && timesheet[0].timeClockStatus === timeSheetStatus.REVISION">Reject Request</button>
+        </div>
+      </div>
+       
+    </div>
+  </div>
+</div>
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #rejectRequest="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+   aria-hidden="true">
+   <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h4 class="modal-title  text-white">Reject Revision Form</h4>
+            <!-- <h4 class="modal-title  text-white">{{(showButtonCond.counterOffer) ? 'Counter' : 'Final'}} Offer Price</h4> -->
+            <button type="button" class="close  text-white" (click)="closeModel()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+
+         <div class="modal-body">
+
+            <div class="form-group row">
+               <div class="col-12 pull-right">
+                  Specify the reason that you are rejecting this revision.
+               </div>
+            </div>
+            <div class="form-group row">
+            <div class="col-12">
+               <label><b>Message
+                  </b><i class="fa fa-star star-icon" aria-hidden="true"
+                  [ngClass]="{'text-danger': !rejectRequestReason.message, 'text-primary': rejectRequestReason.message}"></i></label>
+               <ckeditor [config]="ckeConfig" placeholder="Please enter message" name="message" [(ngModel)]="rejectRequestReason.message" (change)="onEditorChange()" (blur)="onEditorChange()"></ckeditor>
+            </div>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+            <button type="button" class="btn btn-primary" [disabled]="rejectRequestReason.message == ''" (click)="rejectsRequestSubmit()">Submit</button>
+         </div>
+      </div>
+   </div>
+</div>
+<div   bsModal    #jobDescription="bs-modal" class="modal fade design-1" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white">Job Description</h4>
+        <button type="button" class="close text-white" (click)="jobDescription.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12 col-xl-12 ">
+               <p [innerHTML]="currentJobDescription"></p>
+              </div>
+            </div>
+          </div>
+         </div>
+      </div>
+      </div>
+    </div>
+</div>
+
+<div bsModal [config]="{backdrop: 'static', keyboard: false}" #markAsPaidModal="bs-modal" class="modal fade"
+  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-white">
+        <h4 class="modal-title text-white"> Payment Confirmation</h4>
+        <button type="button" class="close text-white" (click)="markAsPaidModal.hide();"
+          aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         <div>
+        <p>By selecting this you are indicating that this assignment has been completed and paid. To mark an assignment as paid and move it to the completed assignments you must submit a Pro forma Timesheet first. The purpose of submitting a Pro forma Timesheet is only informational, as it will assist in improving the accuracy and completeness of the reports and analytics available on Densub. The practice will also receive a copy of your Pro forma Timesheet.</p>
+            </div>
+            <div *ngIf="timesheet?.length > 0">
+               <p>Total hours worked: {{(timesheet[0]?.totalTime?.hours) ? timesheet[0]?.totalTime.hours : 0 }} hours, {{(timesheet[0]?.totalTime?.minutes) ? timesheet[0]?.totalTime.minutes : 0 }} minutes</p>
+               <p>Gross wages due: ${{(timesheet[0]?.totalAmount) ? timesheet[0]?.totalAmount : 0 }}</p>
+               </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary"
+          (click)="markAsPaidModal.hide();">Close</button>
+        <button type="button" class="btn btn-primary" *ngIf="timesheet?.length > 0"
+          (click)="markAsPaidModal.hide();markAsPaidOfflinePayment()">Confirm</button>
+          <button type="button" class="btn btn-primary"
+          (click)="markAsPaidModal.hide();continueMarkAsPaid();addNewTimeSheet();" *ngIf="timesheet?.length == 0">Continue</button>
+      </div>
+    </div>
+  </div>
+</div>

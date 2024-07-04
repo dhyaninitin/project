@@ -1,0 +1,67 @@
+<div class="row">
+	<div class="col-sm-12">
+		<h4 class="text-primary"> <b>Manage: Specialties</b> </h4>
+		<hr />
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="card">
+			<div class="card-header">
+				<i class="fa fa-cogs"></i> Listings
+				<button class="btn btn-primary pull-right btn-sm mr-1" (click)="showSaveModal()"> <i class="fa fa-plus">
+				</i> Add Specialty</button>
+			</div>
+			<div class="card-body table-responsive">
+				<table class="table table-bordered">
+					<thead class="nowrap">
+						<tr>
+							<th>S.No.</th>
+							<th [class.active]="order === 'specialty'" (click)="setOrder('specialty')">
+									Specialty
+								<span [hidden]="reverse">▼</span>
+								<span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'positionTypeStr'" (click)="setOrder('positionTypeStr')">Position Type
+                <span [hidden]="reverse">▼</span>
+								<span [hidden]="!reverse">▲</span>
+              </th>
+							<th> Created On </th>
+							<th> Updated On </th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody *ngIf="specialtiesList.length">
+						<tr
+							*ngFor="let specialty of specialtiesList | paginate: { itemsPerPage: itemsPerPage, currentPage: p } | orderBy: order:reverse:'case-insensitive'; let i = index;">
+							<td>{{i+1}}</td>
+							<td>{{ specialty?.specialty }}</td>
+							<td>{{ addStrPositionType(specialty?.positionType, i)  }} </td>
+							<td>{{ specialty?.createdAt | date:'mediumDate' }}</td>
+							<td>{{ specialty?.updatedAt | date:'mediumDate' }}</td>
+							<td>
+								<div class="btn-group">
+                 	<button type="button" class="btn btn-sm btn-outline-primary" (click)="showSaveModal(specialty)"><i
+											class="fa fa-edit"></i></button>
+									<button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal"
+                  (click)="showDeleteModal(specialty)" ><i class="fa fa-trash"></i></button>
+                </div>
+							</td>
+						</tr>
+					</tbody>
+					<tr class="text-center" *ngIf="!specialtiesList.length">
+						<td colspan="6">
+							<h6>No Record Found !</h6>
+						</td>
+					</tr>
+				</table>
+
+				<ul class="pagination" *ngIf="itemsPerPage < specialtiesList.length">
+					<pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,72 @@
+<div class="main-container">
+  <div class="profile-info">
+    <div class="image d-flex justify-content-center">
+      <img [src]="selectedImage" (mouseover)="onImageHover($event)" />
+      <i class="material-icons edit-icon" (click)="fileInput.click()">edit</i>
+      <input
+        type="file"
+        class="file-input"
+        #fileInput
+        (change)="selectedImageForUpload($event)"
+        style="display: none"
+      />
+    </div>
+    <div class="row">
+      <p>{{ userName }}</p>
+    </div>
+  </div>
+
+  <mat-nav-list>
+    <mat-list-item
+      [routerLink]="['/dashboard/my-templates']"
+      (click)="onComponentChange()"
+      [routerLinkActive]="['is-active']"
+    >
+      <mat-icon matListIcon
+        >insert_drive_file</mat-icon
+      >
+      <a matLine>My Templates</a>
+    </mat-list-item>
+
+    <mat-list-item
+      [routerLink]="['/dashboard/generate-document']"
+      (click)="onComponentChange()"
+      [routerLinkActive]="['is-active']"
+    >
+      <mat-icon matListIcon>add_circle</mat-icon>
+      <a matLine>Generate Document</a>
+    </mat-list-item>
+
+    <mat-list-item
+      [routerLink]="['/dashboard/generated-documents']"
+      (click)="onComponentChange()"
+      [routerLinkActive]="['is-active']"
+    >
+      <mat-icon matListIcon>description</mat-icon>
+      <a matLine>Generated Documents</a>
+    </mat-list-item>
+
+    <mat-list-item
+      [routerLink]="['/dashboard/global-templates']"
+      (click)="onComponentChange()"
+      [routerLinkActive]="['is-active']"
+    >
+      <mat-icon matListIcon>public</mat-icon>
+      <a matLine>Global Templates</a>
+    </mat-list-item>
+
+    <mat-list-item
+      [routerLink]="['/dashboard/library']"
+      (click)="onComponentChange()"
+      [routerLinkActive]="['is-active']"
+    >
+      <mat-icon matListIcon>folder</mat-icon>
+      <a matLine>Library</a>
+    </mat-list-item>
+
+    <mat-list-item (click)="openFeedbackDialog()">
+      <mat-icon matListIcon>feedback</mat-icon>
+      <a matLine>Feedback</a>
+    </mat-list-item>
+  </mat-nav-list>
+</div>

@@ -1,0 +1,57 @@
+<table @stagger *ngIf="locations" [dataSource]="locations" matSortActive={{sortKey}} matSortDirection={{sortDirection}} matSortDisableClear matSort (matSortChange)="sortData($event)" class="w-full" mat-table>
+<ng-container matColumnDef="name">
+	<th *matHeaderCellDef mat-header-cell mat-sort-header>Name</th>
+	<td *matCellDef="let item" mat-cell>{{ item.name }}</td>
+</ng-container>
+	<ng-container matColumnDef="street_address">
+	<th *matHeaderCellDef mat-header-cell mat-sort-header>Street Address</th>
+	<td *matCellDef="let item" mat-cell>{{ item.street_address }}</td>
+</ng-container>
+	<ng-container matColumnDef="city">
+	<th *matHeaderCellDef mat-header-cell mat-sort-header>City</th>
+	<td *matCellDef="let item" mat-cell>{{ item.city }}</td>
+</ng-container>
+	<ng-container matColumnDef="state">
+	<th *matHeaderCellDef mat-header-cell mat-sort-header>State</th>
+	<td *matCellDef="let item" mat-cell>{{ item.state }}</td>
+</ng-container>
+	<ng-container matColumnDef="zip_code">
+	<th *matHeaderCellDef mat-header-cell mat-sort-header>ZipCode</th>
+	<td *matCellDef="let item" mat-cell>{{ item.zip_code }}</td>
+</ng-container>
+
+<ng-container matColumnDef="actions">
+	<th *matHeaderCellDef mat-header-cell></th>
+	<td *matCellDef="let row; let i = index" class="w-10 text-secondary" mat-cell>
+		<button (click)="$event.stopPropagation();getSelectedRecord(row)"
+			[matMenuTriggerData]="{ customer: row }"
+			[matMenuTriggerFor]="actionsMenu"
+			mat-icon-button
+			type="button">
+
+			<mat-icon svgIcon="mat:more_horiz"></mat-icon>
+		</button>
+	</td>
+</ng-container>
+
+<tr *matHeaderRowDef="getDisplayedColumns(); sticky: true" mat-header-row></tr>
+<tr
+	*matRowDef="let row; columns: getDisplayedColumns();"
+		@fadeInUp
+		class="hover:bg-hover trans-ease-out cursor-pointer"
+		mat-row></tr>
+</table> 
+<div class="text-center mt-2" *ngIf="(didFetch$ | async) && locations.length === 0">There are no locations available. Please enter in a location to view them here</div>
+
+<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+<ng-template let-customer="customer" matMenuContent>
+	<button mat-menu-item *ngIf="showEditButton(selectedRecordDetail)" (click)="onEdit(selectedRecordDetail)">
+		<mat-icon svgIcon="mat:edit"></mat-icon>
+		<span>Edit</span>
+	</button>
+	<button mat-menu-item *ngIf="showDeleteButton(selectedRecordDetail)" (click)="onDelete(selectedRecordDetail)">
+		<mat-icon svgIcon="mat:delete"></mat-icon>
+		<span>Delete</span>
+	</button>
+</ng-template>
+</mat-menu>

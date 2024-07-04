@@ -1,0 +1,52 @@
+<div class="bottom-filter" [@fadeInOut]>
+  <div class="heading">
+    <h2 class="text-dark d-flex" (click)="dismiss()">
+      <a class="icon-mc mc-back-arrow align-self-center fnt-sz"></a>
+      <span class="align-self-center">{{ln.TXT_FILTERS | translate}}</span>
+    </h2>
+    <span class="d-flex">
+      <button class="xs" mat-stroked-button (click)="onReset()">{{ln.TXT_RESET | translate}}</button>
+      <button class="ms-2 xs"  mat-flat-button color="primary" (click)="onfilter()">
+        {{ln.TXT_APPLY | translate}}
+      </button>
+    </span>
+  </div>
+
+  <div class="filter-container">
+    <div *ngIf="forRoles">
+      <h6>{{ln.TXT_SORT_BY | translate}}</h6>
+      <mat-selection-list #shoes [multiple]="false" class="lists mt-2" [(ngModel)]="selectedSort">
+        <mat-list-option *ngFor="let element of sortTypes" [value]="element.value" class="brd">
+          {{element.viewValue | translate}}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+    <div *ngIf="!forRoles">
+      <h6>{{ln.TXT_SORT_BY | translate}}</h6>
+      <mat-selection-list #shoes [multiple]="false" class="lists mt-2" [(ngModel)]="selectedSort">
+        <mat-list-option *ngFor="let element of sortTypes" [value]="element.value" class="brd">
+          {{element.viewValue | translate}}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+
+    <div *ngIf="!forRoles" class="mt-3">
+      <h6>{{ln.TXT_BY_STATUS | translate}}</h6>
+      <mat-selection-list #shoes [multiple]="false" class="lists mt-2" [(ngModel)]="selectedStatus">
+        <mat-list-option *ngFor="let element of status" [value]="element.value" class="brd">
+          {{element.viewValue | translate}}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+
+    <div *ngIf="!forRoles" class="mt-3">
+      <h6>{{ln.TXT_BY_ROLE | translate}}</h6>
+      <mat-selection-list #shoes [multiple]="false" class="lists mt-2" [(ngModel)]="selectedRole">
+        <mat-list-option *ngFor="let element of role" [value]="element.roletypeid" class="brd">
+          {{element.name | translate}}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+
+  </div>
+</div>

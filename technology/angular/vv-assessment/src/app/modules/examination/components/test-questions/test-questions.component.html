@@ -1,0 +1,51 @@
+<div class="header">
+  <div>Test Will Auto Submit after 45 minutes</div>
+  <div>Time Remaining {{ formatTime(counter) }}</div>
+  <button class="custom-btn-style" (click)="onSubmit()" mat-stroked-button>
+    Submit
+  </button>
+</div>
+
+<div style="margin-top: 8%; margin-left: 3%; margin-right: 3%; user-select: none;">
+  <h3>Test Paper Structure:</h3>
+  <ul>
+    <li>This test consists of multiple-choice questions. Choose the best answer for each question.</li>
+    <li>Once you submit your answers, you cannot change them, so please answer each question thoughtfully.</li>
+    <li>Test paper has 6 sections.</li>
+    <li>Each section contains 5 questions.</li>
+    <li>Each section includes 2 questions of level 1 difficulty, 2 questions of level 2 difficulty, and 1 question of
+      level 3 difficulty.</li>
+  </ul>
+</div>
+
+<div style="margin-top: 2%; margin-left: 3%; margin-right: 3%; padding-bottom: 5%; user-select: none;">
+  <div *ngFor="let category of testQuestion ; let i = index" class="question-header-container">
+    <h2 style="text-align: center;">Section {{ i+1}} : - {{ category.category }}</h2>
+    <mat-card *ngFor="let question of category.data" class="question-container">
+      <h4 class="question">{{ question.question }}</h4>
+      <form [formGroup]="questionsForm">
+        <div class="options" *ngFor="let option of ['a', 'b', 'c', 'd']">
+          <label>
+            <input type="radio" [value]="option" [formControlName]="question._id"> {{ question[option] }}
+          </label>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+</div>
+
+
+<!-- <div *ngFor="let question of category.data; let i = index">
+  <mat-card>
+    <h4>{{ question.question }}</h4>
+    <form [formGroup]="questionsForm">
+      <div *ngFor="let option of ['a', 'b', 'c', 'd']">
+        <label>
+          <input type="radio" [value]="option" [formControlName]="'question_' + category.category + '_' + (i + 1)">
+          {{ question[option] }}
+        </label>
+      </div>
+    </form>
+  </mat-card>
+</div>
+</div> -->

@@ -1,0 +1,18 @@
+.indicator{
+    background-color: white;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+}
+
+.success{
+    background-color: #14A44D;
+}
+
+.failed{
+    background-color: #f44336;
+}
+
+.running{
+    background-color: #ffc107;
+}

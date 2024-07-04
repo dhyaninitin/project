@@ -1,0 +1,107 @@
+@import '../../offer.styles.scss';
+@import "~@cloudtalentrecruit/ng-design/assets/styles/1-base/variable";
+
+.hike-text {
+    color: #20C9AC;
+}
+
+.candidate-profile {
+    width: 100%;
+}
+
+.yes-text {
+    color: #00A5FF;
+}
+
+.salary-amount {
+    color: #1F47F5;
+}
+
+.pr-0 {
+    padding-right: 0px;
+}
+
+.user-avatar {
+    background: $theme;
+    color: $white;
+    border-radius: 50%;
+    line-height: 95px;
+    text-align: center;
+    font-size: 25px;
+    padding: 26px;
+}
+
+@media screen and (max-width:600px) {
+    .candidate-profile {
+        height: 60px;
+        width: 60px;
+    }
+    
+    .f-12 {
+        font-size: 10px;
+    }
+
+    .f-16 {
+        font-size: 12px !important;
+    }
+
+    .custom-ul-mobile {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+
+@media screen and (min-width:768px) and (max-width:1024px) { 
+    .candidate-profile {
+        width: 50%;
+    }
+
+    .title {
+        line-height: 18px;
+        font-size: 12px;
+    }
+
+    .f-24 {
+        font-size: 19px;
+    }
+
+    .f-14 {
+        font-size: 10px;
+    }
+
+    .f-18 {
+        font-size: 12px;
+    }
+
+    ul {
+        display: grid !important;
+    }
+
+    .status-tag {
+        padding: 3px 2px 3px 2px;
+    }
+}
+
+@media screen and (min-width:768px) and (max-width:1220px) { 
+   .employee-details {
+    text-align: center;
+    width: 100%;
+   }
+
+   .f-12 {
+       font-size: 10px;
+   }
+
+   .ml-m-auto {
+       margin-left: auto;
+   }
+
+   .pl-m-0 {
+       padding: 0px;
+   }
+
+   .p-0 {
+       padding: 0px;
+   }
+} 
+

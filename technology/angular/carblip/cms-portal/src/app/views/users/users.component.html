@@ -1,0 +1,225 @@
+<vex-page-layout>
+	<vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+		<div class="w-full flex flex-col sm:flex-row justify-between">
+			<div>
+				<h1 class="title mt-0 mb-1">Contacts</h1>
+				<vex-breadcrumbs [crumbs]="['contacts']"></vex-breadcrumbs>
+			</div>
+		</div>
+	</vex-page-layout-header>
+
+	<vex-page-layout-content class="-mt-6">
+
+		<div class="card -mt-16">
+			<div class="head bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
+				<h2
+					class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
+					<span>Contacts</span>
+				</h2>
+
+				<div
+					class="bg-foreground rounded-full border px-4 max-w-[300px] flex-auto flex items-center border border-gray-300">
+					<mat-icon class="icon-sm text-secondary search-icon" svgIcon="mat:search"></mat-icon>
+					<input [(ngModel)]="search" class="px-4 py-2 border-0 outline-none w-full bg-transparent"
+						placeholder="Search..." name="searchSource" type="search" #searchInput
+						(ngModelChange)="onClearSearch($event)">
+				</div>
+
+
+				<span class="flex-1"></span>
+
+				<button (click)="showFilterOptions = !showFilterOptions" class="ml-4 flex-none" color="primary"
+					matTooltip="Filters" type="button">
+					<mat-icon svgIcon="mat:filter_list"></mat-icon>
+				</button>
+
+				<button type="button" (click)="onContactExport()" mat-icon-button class="ml-4 flex-none" color="primary" matTooltip="Export Contact">
+					<mat-icon svgIcon="mat:cloud_download"></mat-icon>
+				</button>
+
+				<button [matMenuTriggerFor]="columnFilterMenu" mat-icon-button class="ml-4 flex-none" color="primary"
+					matTooltip="Column Filters" type="button">
+					<mat-icon svgIcon="mat:settings"></mat-icon>
+				</button>
+
+				<button (click)="onAddItem()" class="ml-4 flex-none" color="primary" mat-mini-fab
+					matTooltip="Add New Contact" type="button">
+					<mat-icon svgIcon="mat:add"></mat-icon>
+				</button>
+			</div>
+
+			<div class="head bg-app-bar px-6 pt-7 h-16 sticky left-0 flex items-center" @fadeInUp
+				*ngIf="showFilterOptions">
+
+				<form [formGroup]="filterForm" class="w-full">
+					<div class="grid grid-cols-1 sm:grid-cols-5 gap-4">
+						<div class="flex items-center">
+							<mat-form-field class="filter">
+								<mat-label>First Name</mat-label>
+								<input matInput type="text" formControlName="first_name"
+									(keypress)="applyFilter($event)" (keydown)="reset($event)"/>
+							</mat-form-field>
+						</div>
+						<div class="flex items-center">
+							<mat-form-field class="filter">
+								<mat-label>Last Name</mat-label>
+								<input matInput type="text" formControlName="last_name"
+									(keypress)="applyFilter($event)" (keydown)="reset($event)"/>
+							</mat-form-field>
+						</div>
+						<div class="flex items-center">
+							<mat-form-field class="filter">
+								<mat-label>Phone</mat-label>
+								<input matInput type="text" formControlName="phone"
+									pattern="^\d{3}[- ]?\d{3}[- ]?\d{4}$" appPhoneNumber
+									(keypress)="applyFilter($event)" (keydown)="reset($event)" />
+							</mat-form-field>
+						</div>
+						<div class="flex items-center">
+							<mat-form-field class="filter">
+								<mat-label>Owner</mat-label>
+								<mat-select [formControl]="filterForm.controls['contact_owner']" #portalUsersSelect
+									(selectionChange)="applyFilter($event)">
+									<mat-option>
+										<ngx-mat-select-search [placeholderLabel]="'Search...'"
+											[noEntriesFoundLabel]="'No matches' " [formControl]="portalUserFilterCtrl"
+											[preventHomeEndKeyPropagation]="true">
+											<mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+										</ngx-mat-select-search>
+									</mat-option>
+									<mat-option>All</mat-option>
+									<mat-option value="no_owner">No Owner</mat-option>
+									<mat-option *ngFor="let item of filteredPortalUsers" [value]="item.email">
+										{{item.full_name}} ({{item.email}})
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+						<div class="flex items-center">
+							<mat-form-field class="filter">
+								<mat-label>Created By</mat-label>
+								<mat-select [formControl]="filterForm.controls['created_by']" #portalUsersSelect
+									(selectionChange)="applyFilter($event)">
+									<mat-option>
+										<ngx-mat-select-search [placeholderLabel]="'Search...'"
+											[noEntriesFoundLabel]="'No matches' " [formControl]="createdByFilterCtrl"
+											[preventHomeEndKeyPropagation]="true">
+											<mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+										</ngx-mat-select-search>
+									</mat-option>
+									<mat-option>All</mat-option>
+									<mat-option *ngFor="let item of filteredCreatedBy" [value]="item.id">
+										{{item.full_name}} ({{item.email}})
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+						<div class="flex items-center">
+							<mat-form-field class="filter">
+								<mat-label>Source</mat-label>
+								<mat-select [formControl]="filterForm.controls['source']" #sourceSelect multiple
+									(selectionChange)="applyFilter($event, 'source')">
+									<mat-option>
+										<ngx-mat-select-search [placeholderLabel]="'Search...'"
+											[noEntriesFoundLabel]="'No matches' " [formControl]="sourceFilterCtrl"
+											[preventHomeEndKeyPropagation]="true">
+											<mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+										</ngx-mat-select-search>
+									</mat-option>
+									<mat-option (click)="checkAllSource()" value="10">All</mat-option>
+									<mat-option
+										*ngFor="let item of filteredSourcess" [value]="item.id">
+										{{item.name}}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+
+						<div class="flex items-center">
+							<mat-form-field class="filter">
+								<mat-label>Type</mat-label>
+								<mat-select placeholder="Type" (selectionChange)="applyFilter($event)" [formControl]="filterForm.controls['type']" #singleSelect>
+									<mat-option [value]="10">All</mat-option>
+									<mat-option [value]="2"></mat-option>
+                    				<mat-option [value]="1">Concierge</mat-option>
+								  </mat-select>
+							</mat-form-field>
+						</div>
+
+						<app-carblip-calendar class="m-flex items-center" [dateRange]="daterrange"
+							(onChange)="onCalendarChange($event)"> </app-carblip-calendar>
+					</div>
+				</form>
+			</div>
+			<!-- <div class="head bg-app-bar bg-white px-6 h-16 border-b sticky left-0 flex justify-content-end" @fadeInUp *ngIf="showFilterOptions">
+			<button mat-raised-button color="primary" matTooltip="Apply Filters" (click)="filterSubmit()">Run <mat-icon class="" matPrefix svgIcon="mat:directions_run"></mat-icon></button>
+			</div> -->
+
+			<mat-progress-bar *ngIf="(fetching$ | async)" mode="indeterminate"></mat-progress-bar>
+			<div class="overflow-auto h-full-vh sticky">
+				<app-users-table *ngIf="isColumnAvailable" class="display-block w-100 list-table"
+					[columnHeaders]="columnHeaders"></app-users-table>
+			</div>
+			<mat-paginator #paginator [length]="tablePagination.length" [pageSize]="tablePagination.pageSize"
+				[pageIndex]="tablePagination.pageIndex" [pageSizeOptions]="[20, 50, 100]" [showFirstLastButtons]="true"
+				(page)="onPaginateChange($event)">
+			</mat-paginator>
+
+			<!-- Column Filters -->
+			<mat-menu #columnFilterMenu="matMenu" xPosition="before" yPosition="below">
+				<button (click)="toggleColumnVisibility(column, $event);$event.stopPropagation()"
+					*ngFor="let column of columnHeaders" class="checkbox-item mat-menu-item">
+					<mat-checkbox (click)="$event.stopPropagation()" (change)="toggleColumnVisibility(column, $event)"
+						[checked]="column.visible" color="primary">
+						{{ column.label }}
+					</mat-checkbox>
+				</button>
+			</mat-menu>
+		</div>
+
+		<div class="mt-6 flex flex-col md:flex-row md:items-start">
+			<div class="flex-auto">
+				<div class="card">
+					<div class="px-gutter py-4 border-b flex justify-content-space-between">
+						<h2 class="title m-0">Contact's History</h2>
+					</div>
+					<div class="px-gutter">
+						<div class="items-center">
+							<div class="flex flex-col sm:flex-row justify-content-end mt-4">
+								<div
+									class="bg-foreground rounded-full border px-4 max-w-[300px] flex-auto flex items-center border border-gray-300">
+									<mat-icon class="icon-sm text-secondary" svgIcon="mat:search"></mat-icon>
+									<input class="px-4 py-2 border-0 outline-none w-full bg-transparent"
+										placeholder="Search..." name="searchLogSource" type="search"
+										[(ngModel)]="logSearch" #searchLogInput
+										(ngModelChange)="onClearFilterSearch($event)">
+								</div>
+							</div>
+
+							<div class="flex flex-col mt-3 sm:flex-row">
+								<mat-progress-bar *ngIf="(logFetching$ | async)"
+									mode="indeterminate"></mat-progress-bar>
+								<ul class="log-ul" *ngIf="logs?.length > 0">
+									<li *ngFor="let log of logs" @fadeInUp>
+										<span [innerHTML]="log.content"></span>
+										{{ formatLogMessage(log.content) }} {{ log.created_at | date:'MM/dd/yyy \'at\'
+										hh:mm a'}}
+									</li>
+								</ul>
+							</div>
+							<div class="text-center mt-2" *ngIf="(logDidFetch$ | async) && logs?.length == 0">There are
+								no contact's history available.</div>
+							<div class="flex flex-col sm:flex-row justify-content-end">
+								<mat-paginator #paginator [length]="logPagination.length"
+									[pageSize]="logPagination.pageSize" [pageIndex]="logPagination.pageIndex"
+									[pageSizeOptions]="[20, 50, 100]" [showFirstLastButtons]="true"
+									(page)="onLogPaginateChange($event)">
+								</mat-paginator>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</vex-page-layout-content>
+</vex-page-layout>

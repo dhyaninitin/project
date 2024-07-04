@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="727" height="181.525" viewBox="0 0 727 181.525">
+  <g id="Densub_White" data-name="Densub White" transform="translate(-1042 -163.475)">
+    <text id="Densub" transform="translate(1218 310)" fill="#fff" font-size="150" font-family="Helvetica-Bold, Helvetica" font-weight="700"><tspan x="0" y="0">Densub</tspan></text>
+    <path id="Path_10" data-name="Path 10" d="M804.012,355.3h27.672l9.5,50.008,9.947-50.008h27.852l-9.4,50.008-56.519.452Z" transform="translate(240 -150)" fill="#1c4587" stroke="#000" stroke-width="1"/>
+    <path id="Path_7" data-name="Path 7" d="M804.012,355.3h27.672l9.5,50.008,9.947-50.008h27.852l-9.4,50.008-56.519.452Z" transform="translate(330 -150)" fill="#6d9eeb" stroke="#000" stroke-width="1"/>
+    <path id="Path_11" data-name="Path 11" d="M804.012,355.3h27.672l9.5,50.008,9.947-50.008h27.852l-9.4,50.008-56.519.452Z" transform="translate(1922.479 667.058) rotate(180)" fill="#1c4587" stroke="#000" stroke-width="1"/>
+    <path id="Path_8" data-name="Path 8" d="M804.012,355.3h27.672l9.5,50.008,9.947-50.008h27.852l-9.4,50.008-56.519.452Z" transform="translate(2012.479 667.058) rotate(180)" fill="#6d9eeb" stroke="#000" stroke-width="1"/>
+    <g id="Rectangle_8" data-name="Rectangle 8" transform="translate(1052.5 255)" fill="#fff" stroke="#000" stroke-width="1">
+      <rect width="57.5" height="7" stroke="none"/>
+      <rect x="0.5" y="0.5" width="56.5" height="6" fill="none"/>
+    </g>
+    <g id="Rectangle_7" data-name="Rectangle 7" transform="translate(1142.5 255)" fill="#fff" stroke="#000" stroke-width="1">
+      <rect width="57.5" height="7" stroke="none"/>
+      <rect x="0.5" y="0.5" width="56.5" height="6" fill="none"/>
+    </g>
+    <path id="Path_12" data-name="Path 12" d="M841.247,314.3,856.9,334.669,841.247,355.7l-15.371-21.029Z" transform="translate(240 -150)" fill="#fff" stroke="#000" stroke-width="1"/>
+    <path id="Path_9" data-name="Path 9" d="M841.247,314.3,856.9,334.669,841.247,355.7l-15.371-21.029Z" transform="translate(330 -150)" fill="#fff" stroke="#000" stroke-width="1"/>
+    <rect id="Rectangle_6" data-name="Rectangle 6" width="713" height="5" transform="translate(1042 324)" fill="#fff"/>
+  </g>
+</svg>

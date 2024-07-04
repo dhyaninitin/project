@@ -1,0 +1,115 @@
+<!-- Branch ACTION SECTION -->
+  <mat-card>
+    <div fxLayout="row wrap" fxLayout.lt-sm="column" [ngClass]="workFlowService$?.workflowCloneStatus ? 'disabled-action' : ''">
+      <div fxFlex="100" class="">
+        <h4 class="title title-header">{{data.action.value}}
+          <span class="header-icons">
+            <mat-icon svgIcon="mat:delete" matTooltip="Delete Branch Action" matTooltipPosition="after" class="icons" (click)="deleteaction(data)"></mat-icon>
+            <mat-icon svgIcon="mat:edit" matTooltip="Edit Branch Action" matTooltipPosition="after" class="icons" (click)="editAction(data)"></mat-icon>
+          </span>
+        </h4>
+      </div>
+  
+      <!-- <div fxFlex="100" class="box"> -->
+        <!-- <p class="branch-p capitalize">First, check <b>{{ data.ifbranchname }}</b></p> -->
+        <!-- <div class="box-h mt-2">
+          {{ removeUnderscores(data.property.value) | titlecase }} 
+          {{ getConditionValue(data.condition.value) }}
+          {{ data.condition_value }}
+          Type <b> {{ data.type.value}} </b> <b>{{ data.property.title }}</b>
+                  {{data.condition.value }} <b>{{data.conditionvalue}} </b>
+        </div> -->
+
+        <div fxFlex="100" class="box group-box">
+          
+        <p class="branch-p capitalize">First, check <b>{{ data.ifbranchname }}</b></p>
+          <mat-card class="mt-2" *ngIf="data.showCondition">
+            <span [innerHTML]="formatGroupCondition(triggers)">
+            </span>
+            <mat-icon svgIcon="mat:visibility" class="icons ml-2" matTooltip="Show Groups" matTooltipPosition="after"
+              (click)="showGroupBox(false);"></mat-icon>
+          </mat-card>
+          <mat-icon *ngIf="!data.showCondition" svgIcon="mat:close" class="icons mr-2" matTooltip="Close Groups"
+            matTooltipPosition="after" (click)="showGroupBox(true);"></mat-icon>
+          <div fxFlex="100" class="box" *ngFor="let trigger of triggers; let i = index;let lastItem = last">
+            <div class="box-h" *ngIf="!data.showCondition">
+              <mat-icon svgIcon="mat:delete" class="icons" matTooltip="Delete Group" matTooltipPosition="after"
+                (click)="deleteGroup(i)"></mat-icon>
+
+              <span class="title-header">Group {{i+1}} </span>
+              <div *ngFor="let triggerdata of trigger; let j = index;let last = last">
+                <mat-card class="mt-2">
+                  <span>{{ removeUnderscores(triggerdata.property.value) | titlecase }}
+                    {{ getConditionValue(triggerdata.condition.value) }}
+                    {{ triggerdata.condition_value }}
+                  </span>
+
+                  <mat-icon svgIcon="mat:delete" class="icons ml-2" matTooltip="Delete Condition" matTooltipPosition="after"
+                    (click)="deleteTrigger(i, j)"></mat-icon>
+                  <mat-icon svgIcon="mat:edit" class="icons ml-2" matTooltip="Edit Condition" matTooltipPosition="after"
+                    (click)="editTrigger(triggerdata, i, j)"></mat-icon>
+                </mat-card>
+
+                <h4 class="mt-2" *ngIf="!last">AND</h4>
+              </div>
+
+              <div class="condition-btn mt-3">
+                <button mat-button mat-raised-button type="button" color="primary" class="ml-3"
+                  matTooltip="Add AND Condition" (click)="onAddcondition('AND',trigger, i)">AND</button>
+              </div>
+            </div>
+            <h2 class="mb-2" *ngIf="!lastItem && !data.showCondition">OR</h2>
+            <button class="group ml-3 mt-7" *ngIf="lastItem" mat-button mat-raised-button type="button" color="primary"
+              matTooltip="Add Group" (click)="onAddcondition('OR',trigger, i)">Add Group</button>
+          </div>
+        </div>
+      </div>
+    <!-- </div> -->
+  </mat-card>
+    <div class="line-div here"></div>
+    <div class="hr"></div>
+    <div class="branch-container">
+      <div class="box b-box right-branch">
+        <mat-card class="l-box">
+          <p class="capitalize">{{ data.ifbranchname }}</p>
+        </mat-card>
+        <div class="line-div here branch-true">
+          <button class="ml-4 flex-none" *ngIf="!workFlowService$.workflowCloneStatus" (click)="action(true,data)" color="primary" mat-mini-fab matTooltip="Add Action" type="button">
+            <mat-icon svgIcon="mat:add"></mat-icon>
+          </button>
+
+          <button class="ml-4 flex-none clone" *ngIf="workFlowService$.workflowCloneStatus" (click)="actionClone(true,data)" color="primary" mat-mini-fab matTooltip="Clone Action" type="button"
+          [ngClass]="data?.cloneActionButtonStatus === 1 ? '' : 'disable-clone-action'">
+            <mat-icon svgIcon="mat:add"></mat-icon>
+          </button>
+        </div>
+        <ng-template #branch_true>
+          
+        </ng-template>
+        <mat-card class="branch-end branch-true-end">
+          END
+        </mat-card>
+      </div>
+  
+      <div class="box b-box left-branch">
+        <mat-card class="r-box">
+          {{ data.thenbranchname || 'None' }}
+        </mat-card>
+        <div class="line-div here branch-false">
+          <button class="ml-4 flex-none" *ngIf="!workFlowService$.workflowCloneStatus" (click)="action(false,data)" color="primary" mat-mini-fab matTooltip="Add Action" type="button">
+            <mat-icon svgIcon="mat:add"></mat-icon>
+          </button>
+
+          <button class="ml-4 flex-none clone" *ngIf="workFlowService$.workflowCloneStatus" (click)="actionClone(false,data)" color="primary" mat-mini-fab matTooltip="Clone Action" type="button"
+          [ngClass]="data?.cloneActionButtonStatus === 1 ? '' : 'disable-clone-action'">
+            <mat-icon svgIcon="mat:add"></mat-icon>
+          </button>
+        </div>
+        <ng-template #branch_false>
+          
+        </ng-template>
+        <mat-card class="branch-end">
+          END
+        </mat-card>
+      </div>
+  </div>

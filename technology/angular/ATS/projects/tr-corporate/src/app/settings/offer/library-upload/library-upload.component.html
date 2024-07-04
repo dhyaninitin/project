@@ -1,0 +1,149 @@
+<div class="box-container" [@fadeInOut]>
+  <div class="upper-sec">
+    <div>
+      <h4>
+        <img src="assets/img/note_add.svg" alt="" /> Asscociate a Document
+      </h4>
+    </div>
+    <div></div>
+  </div>
+  <div class="mid-sec">
+    <div class="user-details">
+      <div class="common-div">
+        <tr-page-header [backUrl]="route_conf.OFFER_TEMPLATES">
+          <div page-title class="page-title">
+            <div>
+              <h5 class="mobile-only">
+                {{ ln.TXT_PERMISSIONS | translate | titlecase }}
+              </h5>
+              <h1>Upload from Library</h1>
+            </div>
+            <hr />
+          </div>
+          <div page-action></div>
+        </tr-page-header>
+
+        <div class="table-container">
+          <table
+            mat-table
+            [dataSource]="documentsList"
+            matSort
+            multiTemplateDataRows
+          >
+            <!-- Name Column -->
+            <ng-container matColumnDef="document">
+              <td mat-cell *matCellDef="let element" (click)="toggleRow(element)">
+                <span class="tble-data">
+                  <img [src]="(element.extension === 'PDF' || element.extension === 'pdf')  ? 'assets/img/pdf-img.jpg' : (element.extension === 'DOCX' || element.extension === 'DOC') ? 'assets/img/google-docs.png' : 'assets/img/jpeg-img.svg'" alt="" />
+                  <h4>{{element.documentoriginalname.split('.')[0]}}</h4>
+                </span>
+                <p>{{element.extension}} {{element.size}}</p>
+              </td>
+            </ng-container>
+
+            <!-- Role Column -->
+
+            <!-- Email Column -->
+            <ng-container matColumnDef="uploadedBy">
+              <td mat-cell *matCellDef="let element" (click)="toggleRow(element)">
+                <span class="tble-data">
+                  <span  *ngIf="element.userInfo.imageUrl == ''" class="user-avatar" >{{element.userInfo.email.split('')[0].toUpperCase() }}</span>
+                  <img
+                    *ngIf="element.userInfo.imageUrl"
+                    src="{{ element.userInfo.imageUrl }}"
+                    alt="{{element.userInfo.picturename}}"/>
+                  <h4>{{element.userInfo.email}}</h4>
+                </span>
+                <p>{{element.modifiedtime | date : 'EEE d MMMM y'}}</p>
+              </td>
+            </ng-container>
+
+            <!-- Status Column -->
+
+            <ng-container matColumnDef="action">
+              <td mat-cell *matCellDef="let element">
+                <span class="tble-data cursor--pointer">
+                  <img src="assets/img/add_circle.svg" alt="" (click)="addDocumentToOffer(element)"/>
+                </span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="expandedDetail">
+              <td
+                mat-cell
+                *matCellDef="let element"
+                [attr.colspan]="displayedColumns.length"
+              >
+                <div
+                  class="example-element-detail"
+                  *ngIf="true"
+                  [@detailExpand]="
+                    element == expandedElement ? 'expanded' : 'collapsed'
+                  "
+                >
+                  <div class="inner-table" *ngIf="expandedElement">
+                    <table mat-table [dataSource]="reviseDocsList" matSort>
+                      <ng-container matColumnDef="docs">
+                        <td mat-cell *matCellDef="let element">
+                          <span class="tble-data">
+                            <img [src]="(element.extension === 'PDF' || element.extension === 'pdf')  ? 'assets/img/pdf-img.jpg' : (element.extension === 'DOCX' || element.extension === 'DOC') ? 'assets/img/google-docs.png' : 'assets/img/jpeg-img.svg'" alt="" />
+                            <h4>{{element.documentoriginalname.split('.')[0]}}</h4>
+                          </span>
+                          <p>{{element.extension}} {{element.size}}</p>
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="mailId">
+                        <th mat-header-cell *matHeaderCellDef>Uploaded by</th>
+                        <td mat-cell *matCellDef="let element">
+                          <span class="tble-data">
+                            <span  *ngIf="element.userInfo.imageUrl == ''" class="user-avatar" >{{element.userInfo.email.split('')[0].toUpperCase() }}</span>
+                            <img
+                              *ngIf="element.userInfo.imageUrl"
+                              src="{{ element.userInfo.imageUrl }}"
+                              alt="{{element.userInfo.picturename}}"/>
+                            <h4>{{element.userInfo.email}}</h4>
+                          </span>
+                          <p>{{element.modifiedtime | date : 'EEE d MMMM y'}}</p>
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="actionBtn">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let element">
+                          <span class="tble-data cursor--pointer" (click)="addDocumentToOffer(element)">
+                            <img src="assets/img/add_circle.svg" alt="" />
+                          </span>
+                        </td>
+                      </ng-container>
+                      <tr
+                        mat-row
+                        class="offer-library-inner"
+                        *matRowDef="let row; columns: innerDisplayedColumns"
+                      ></tr>
+                    </table>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr
+              mat-row
+              *matRowDef="let element; columns: displayedColumns"
+              [class.example-element-row]="element.Inner?.length"
+              [class.example-expanded-row]="expandedElement === element"
+            ></tr>
+            <tr
+              mat-row
+              [hidden]="element !== expandedElement"
+              *matRowDef="let element; columns: ['expandedDetail']"
+              class="example-detail-row"
+            ></tr>
+          </table>
+        </div>
+      </div>
+      <div class="common-div">
+        <button mat-flat-button color="primary" (click)="close()">Back</button>
+        <div class="d-flex flex-column"></div>
+      </div>
+    </div>
+  </div>
+</div>

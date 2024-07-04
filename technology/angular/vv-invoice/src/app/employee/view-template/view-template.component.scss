@@ -1,0 +1,114 @@
+.container {
+  padding: 12px 12px;
+
+  @media (max-width: 768px) {
+    padding: 6px 6px;
+  }
+}
+
+.container-fluid {
+  padding: 10px 20px;
+
+  mat-label {
+    font-size: 15px !important;
+
+    @media (max-width: 768px) {
+      font-size: 14px !important;
+    }
+  }
+
+  p {
+    font-size: 14px;
+
+    @media (max-width: 768px) {
+      font-size: 13px;
+    }
+  }
+
+  #templatename, #templatetype {
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    @media (max-width: 768px) {
+      text-align: left;
+    }
+  }
+  
+  #templatename p, #templatetype p {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    width: 100%;
+    word-wrap: break-word;
+  }
+
+  .render-editor-data {
+    overflow: auto;
+    height: auto;
+    margin-top: 2em;
+    border: 2px solid #d5d4d6;
+    padding: 4%;
+
+    @media (max-width: 768px) {
+      margin-top: 1em;
+      height: auto;
+    }
+
+    #templatename, #templatetype {
+      flex-direction: column;
+      text-align: left;
+    }
+
+    #templatename p, #templatetype p {
+      text-align: center;
+
+      @media (max-width: 768px) {
+        text-align: left;
+      }
+    }
+  }
+
+  .space-between {
+    margin-left: 3em !important;
+
+    @media (max-width: 768px) {
+      margin-left: 1.5em !important;
+    }
+
+    #templatename, #templatetype {
+      flex-direction: column;
+      text-align: left;
+    }
+
+    #templatename p, #templatetype p {
+      text-align: center;
+
+      @media (max-width: 768px) {
+        text-align: left;
+      }
+    }
+  }
+
+  .ml-2 {
+    margin-left: 0.5em;
+
+    @media (max-width: 768px) {
+      margin-left: 0.3em;
+    }
+
+    #templatename, #templatetype {
+      flex-direction: column;
+      text-align: left;
+    }
+
+    #templatename p, #templatetype p {
+      text-align: center;
+
+      @media (max-width: 768px) {
+        text-align: left;
+      }
+    }
+  }
+}

@@ -1,0 +1,222 @@
+.workflow-btn {
+    text-align: center;
+    margin-top: 10px;
+}
+
+div.line-div {
+    // width: 60%;
+    height: 100px;
+    position: relative;
+    text-align: center;
+    text-align: -webkit-center;
+
+    button {
+        top: 35px;
+        right: 8px;
+        z-index: 1;
+    }
+}
+
+.here:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    border-left: 3px solid #b0a8ba;
+    transform: translate(-50%);
+}
+
+
+mat-card {
+    border: 3px solid #f2f2f2;
+    text-align: center;
+    width: fit-content;
+
+    .icons {
+        float: right;
+        cursor: pointer;
+    }
+
+    .close {
+        color: #ff0000a1;
+    }
+
+    .edit {
+        color: #0080009e;
+    }
+
+    .box {
+        text-align: -webkit-center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+
+        .btn-d {
+            display: flow-root;
+        }
+
+        .box-h {
+            font-size: 16px;
+            border: 4px solid #f2f2f2;
+            padding: 10px 20px 10px 20px;
+            width: 80%;
+            height: auto;
+        }
+
+        .box-t {
+            font-size: 16px;
+            border: 4px solid #f2f2f2;
+            padding: 10px 20px 10px 20px;
+            margin-bottom: 15px;
+        }
+
+        .box-mt {
+            font-size: 16px;
+            padding: 10px 20px 10px 20px;
+            height: auto;
+            width: 70%;
+        }
+
+        .mat-mdc-radio-button~.mat-mdc-radio-button {
+            margin-left: 16px;
+        }
+
+        p.capitalize {
+            text-transform: capitalize;
+        }
+
+        .h4 {
+            font-weight: 700;
+        }
+
+        .uppercase {
+            font-weight: 500;
+        }
+    }
+}
+
+::ng-deep app-trigger-master {
+    text-align: -webkit-center;
+}
+
+::ng-deep app-delay-action {
+    text-align: -webkit-center;
+}
+
+::ng-deep app-email-action {
+    text-align: -webkit-center;
+}
+
+::ng-deep app-sms-action {
+    text-align: -webkit-center;
+}
+
+::ng-deep app-webhook-action {
+    text-align: -webkit-center;
+}
+
+::ng-deep app-branch-action {
+    text-align: -webkit-center;
+    overflow: visible;
+}
+
+::ng-deep app-enrollment-trigger-action {
+    text-align: -webkit-center;
+    overflow: visible;
+}
+
+::ng-deep app-property-action {
+    text-align: -webkit-center;
+    overflow: visible;
+}
+
+::ng-deep app-webhook-action {
+    text-align: -webkit-center;
+    overflow: visible;
+}
+
+.webkit-center {
+    text-align: -webkit-center;
+}
+
+.main-container {
+    width: 100vw;
+}
+
+.condition-btn {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.title-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 14px;
+
+    .header-icons {
+        display: inline-flex;
+        gap: 10px;
+    }
+}
+
+.container {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.condition-icon {
+    display: inline-flex;
+    gap: 10px;
+}
+
+
+.example-boundary {
+    width: auto;
+    height: auto;
+    width: 100%;
+}
+
+.zoom-in-zoom-out {
+    right: 3rem;
+    display: grid;
+    gap: 10px;
+    position:absolute;
+    top: 45rem;
+    z-index: 9999999;
+}
+
+.drag-scroll-active {
+    cursor: grab;
+  }
+
+  .input-class{
+    width: 60%;
+  }
+
+  .dynamic-margin {
+    width: 70vw;
+    margin: auto;
+ }
+
+ .disable-clone-action {
+    filter: blur(0px);
+    background-color: #060606;
+    color: white;
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.disabled-action {
+    opacity: 0.4;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+::ng-deep .action-mat-menu{
+    max-width: 336px !important;
+}
+//   ::ng-deep .mat-dialog-container {
+//     margin-top: 30% !important;
+//   }

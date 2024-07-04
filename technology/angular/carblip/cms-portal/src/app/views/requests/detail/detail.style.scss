@@ -1,0 +1,21 @@
+
+
+::ng-deep .mat-form-field{
+    width: 100%;
+}
+
+:host ::ng-deep mat-form-field.contact-link .mat-form-field-wrapper input {
+    display: none !important;
+}
+:host ::ng-deep mat-form-field.contact-link .mat-form-field-wrapper .mat-form-field-label-wrapper {
+    padding-top: 0px;
+    position: absolute;
+    top: -21px;
+    font-size: 11px;
+}
+
+.input-mat-spinner-loader {
+    position: absolute;
+    right: 50%;
+    bottom: 7px;
+}

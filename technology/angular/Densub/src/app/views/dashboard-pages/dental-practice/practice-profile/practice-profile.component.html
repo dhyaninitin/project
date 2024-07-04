@@ -1,0 +1,1082 @@
+<div class="col-md-12">
+<div class="card-box ">
+  <div class="row">    
+    <div>
+    <!-- <h4 class=".page-title">Profile</h4>   -->
+    <label class="m-0 clr-white p-1 pull-right text-uppercase" [ngClass]="{
+                    'bg-danger': practiceProfileInfo.profileVerificationStatus == profileStatus.REJECTED,
+                    'bg-green': practiceProfileInfo.profileVerificationStatus == profileStatus.VERIFIED,
+                    'bg-yellow': (practiceProfileInfo.profileVerificationStatus == profileStatus.PENDING ||
+                    practiceProfileInfo.profileVerificationStatus == profileStatus.NEW)
+                  }" *ngIf="practiceProfileInfo.profileVerificationStatus">
+        <i class="fa fa-check-circle"
+          *ngIf="practiceProfileInfo.profileVerificationStatus == profileStatus.VERIFIED">
+        </i>
+        {{ (practiceProfileInfo.profileVerificationStatus === profileStatus.NEW) ? 'In Progress'
+        :practiceProfileInfo.profileVerificationStatus }}
+      </label>
+  </div>
+  <div class="mt-3">
+    <div class="row">
+      <div class="col-sm-9">
+        <p class="clr-dark-blue mt-1" style="font-weight: 600;" [ngClass]="practiceProfileInfo.profileVerificationStatus === profileStatus.NEW ? 'f-25' : ''">As an account holder, are you 18 years or older ?</p>
+      </div>
+      <div class="col-sm-3">
+        <div class="custom-control custom-switch-1 pull-right">
+          <span class="my-auto mr-2">{{practiceProfileInfo.isOlder ? 'Yes' : 'No'}}</span>
+           <ui-switch id="yes" name="available" [(ngModel)]="practiceProfileInfo.isOlder"
+            (change)="showOlderAlert()"></ui-switch>
+        </div>
+      </div>
+    </div>  
+    <!-- <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header clr-dark-blue" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              As an account holder, are you 18 years or older ?
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              
+                </div>
+                </div>
+        </div>
+        </div> -->
+        </div>
+  </div>
+</div>
+</div>
+
+<form novalidate focusInvalidInput class="row" #f="ngForm"
+(ngSubmit)="f.form.valid" *ngIf="practiceProfileInfo?.isOlder">
+
+<ng-wizard [config]="config" (stepChanged)="stepChanged($event)">
+<ng-wizard-step [title]="'Contact Details'" [description]="''">
+  <span>
+<div class="pt-3">
+  <div class="col-12 p-0">
+      <div class="col-12 mb-3" hidden>
+        <div class="border-bottom">
+          <label class="m-0 clr-white p-1 pull-right text-uppercase" [ngClass]="{
+                        'bg-danger': practiceProfileInfo.profileVerificationStatus == profileStatus.REJECTED,
+                        'bg-blue': practiceProfileInfo.profileVerificationStatus == profileStatus.VERIFIED,
+                        'bg-yellow': (practiceProfileInfo.profileVerificationStatus == profileStatus.PENDING ||
+                        practiceProfileInfo.profileVerificationStatus == profileStatus.NEW)
+                      }" *ngIf="practiceProfileInfo.profileVerificationStatus">
+            <i class="fa fa-check-circle"
+              *ngIf="practiceProfileInfo.profileVerificationStatus == profileStatus.VERIFIED">
+            </i>
+            {{ (practiceProfileInfo.profileVerificationStatus === profileStatus.NEW) ? profileStatus.PENDING
+            :practiceProfileInfo.profileVerificationStatus }}
+          </label>
+          <h2 class="text-primary profile-heading">Profile</h2>
+        </div>
+      </div>
+      <!-- <div class="col-sm-4 mb-40">
+        <div class="gray-bg sie-userprofile">
+          <div class="userprofile_inner pt-20 mb-pt-40 pr-20 pl-20 pb-40">
+            <div class="user-info text-center text-capitalize">
+              <div class="usr-avtar img-circle position-relative">
+                <button *ngIf="uploadData.profilePhoto.length" class="btn btn-danger pull-right removeProfile"
+                  (click)="removeGallery(uploadData.profilePhoto[0], 'profilePhoto')"><i class="fa fa-remove"></i> </button>
+                  <img *ngIf="uploadData.profilePhoto.length" src="{{uploadData.profilePhoto[0].file}}"
+                  class="img-fluid img-circle" alt="">
+                <img *ngIf="!uploadData.profilePhoto.length" src="../../../../assets/img/avatars/"
+                  class="img-fluid img-circle" alt="">
+              </div>
+              <p class="pt-2 text-primary"><strong>{{practiceProfileInfo?.name?.first}} {{practiceProfileInfo?.name?.last}} </strong>
+              </p>
+            </div>
+            <div class="user-form">
+              <div class="custom-file mt-3 mb-3 text-center">
+                <input hidden type="file" #profilePhoto  class="form-control" name="profilePhoto" accept="image/*" (change)="selectFiles($event , 'profilePhoto')"/>
+                <button type="button" class="btn btn-primary ml-auto mr-auto" (click)="profilePhoto.click()"><i class="fa fa-plus" aria-hidden="true"></i> Upload Profile Photo</button>
+              </div>
+              <div class="form-group">
+                <label for="bio">About Us</label>
+                <textarea name="bio" [(ngModel)]="practiceProfileInfo.bio" name="bio" class="form-control" id="" cols="30" rows="10" maxlength="1000" placeholder="Please enter about yourself..."
+                  oninput="this.value = this.value.replace(/^\s+/g,'')"> </textarea>
+                <ckeditor [config]="ckeConfig" placeholder="Please enter about yourself" name="bio" [(ngModel)]="practiceProfileInfo.bio" (change)="onEditorChange()" (blur)="onEditorChange()"></ckeditor>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div> -->
+      <div class="row">
+        <div class="col-sm-3 p-0">
+          <div class="border-bottom mb-30 pt-15">
+            <h3 class="clr-dark-blue">Profile Picture</h3>
+          </div>
+          <div class="gray-bg sie-userprofile pt-21 pb-21 mb-30">
+            <div class="userprofile_inner  mb-pt-40 row m-0">
+              <div class="user-info text-center text-capitalize col-sm-12">
+                <div class="usr-avtar img-circle position-relative">
+                  <button type="button" *ngIf="uploadData.profilePhoto.length"
+                    class="btn btn-danger pull-right removeProfile"
+                    (click)="removeGallery(uploadData.profilePhoto[0], 'profilePhoto')"><i class="fa fa-remove"></i>
+                  </button>
+                  <img *ngIf="uploadData.profilePhoto.length" src="{{uploadData.profilePhoto[0].file}}"
+                    class="img-fluid img-circle" alt="">
+                  <img *ngIf="!uploadData.profilePhoto.length" src="../../../../../assets/img/brand/densub-logo-final.jpg"
+                    class="img-fluid img-circle" alt="">
+                </div>
+              </div>
+              <div class="col-sm-12 text-center mt-20">
+                <input hidden type="file" #profilePhoto class="form-control" name="profilePhoto" accept="image/*"
+                  (change)="selectFiles($event , 'profilePhoto')" />
+                <button type="button" data-toggle="tooltip"
+                title="By adding a profile picture you can create a stronger first impression" class="btn btn-primary ml-auto mr-auto" (click)="profilePhoto.click()"><i
+                    class="fa fa-plus" aria-hidden="true"></i> Upload Profile Photo</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-9 p-0">
+          <div class="p-15 pr-0 mb-30">
+            <div class="bg-white pt-0">
+              <div class="border-bottom mb-30">
+                <h3 class="clr-dark-blue">About Us
+                <sup>
+                  <i
+                    class="fa fa-star star-icon"
+                    aria-hidden="true"
+                    [ngClass]="{
+                      'text-danger': !practiceProfileInfo.bio,
+                      'clr-blue': practiceProfileInfo.bio
+                    }"
+                  ></i>
+                </sup>
+              </h3>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <textarea name="bio" [(ngModel)]="practiceProfileInfo.bio" class="form-control" id="bio"
+                      cols="30" rows="9" maxlength="1000" required placeholder="Help the staff to get to know your practice better. Talk about your practice’s mission, values and culture"
+                      oninput="this.value = this.value.replace(/^\s+/g,'')" #bio="ngModel"> </textarea>
+                     <div
+                      class="form-control-feedback"
+                      *ngIf="f.submitted && bio.invalid"
+                    >
+                      <p *ngIf="bio.errors.required">
+                        About Us is required
+                      </p>
+                    </div>  
+                    <!-- <ckeditor [config]="ckeConfig" placeholder="Please enter about yourself" name="bio" [(ngModel)]="practiceProfileInfo.bio" (change)="onEditorChange()" (blur)="onEditorChange()"></ckeditor> -->
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row p-0" *ngIf="practiceProfileInfo?.isOlder">
+        <div class="p-0 gray-bg mb-30 pt-0">
+          <div class="bg-white pt-0">
+            <div class="border-bottom mb-30">
+              <h3 class="clr-dark-blue">Contact Details</h3>
+            </div>
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="form-group" [ngClass]="{ 'has-danger': f.submitted && firstName.invalid }">
+                  <label for="firstName">Contact's First Name
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !practiceProfileInfo?.firstName,'clr-blue': practiceProfileInfo?.firstName}"></i>
+                    </sup>
+                  </label>
+                  <input name="firstName" [(ngModel)]="practiceProfileInfo.firstName" characterOnly
+                    placeholder="Please enter first name" type="text" class="form-control" required #firstName="ngModel"
+                    oninput="this.value = this.value.replace(/^\s+/g,'')" maxlength="35">
+                  <div class="form-control-feedback" *ngIf="f.submitted && firstName.invalid">
+                    <p *ngIf="firstName.errors.required">First name is required</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label for="MName">Contact's Middle Name</label>
+                  <input name="middleName" [(ngModel)]="practiceProfileInfo.middleName" characterOnly
+                    placeholder="Please enter middle name" type="text" class="form-control" id="middleName"
+                    oninput="this.value = this.value.replace(/^\s+/g,'')" maxlength="35">
+                </div>
+              </div>
+
+              <div class="col-sm-4">
+                <div class="form-group" [ngClass]="{'has-danger': f.submitted && lastName.invalid }">
+                  <label for="LName">Contact's Last Name
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !practiceProfileInfo?.lastName,'clr-blue': practiceProfileInfo?.lastName}"></i>
+                    </sup>
+                  </label>
+                  <input name="lastName" [(ngModel)]="practiceProfileInfo.lastName" characterOnly
+                    placeholder="Please enter last name" type="text" class="form-control" required #lastName="ngModel"
+                    oninput="this.value = this.value.replace(/^\s+/g,'')" maxlength="35">
+
+                  <div class="form-control-feedback" *ngIf="f.submitted && lastName.invalid">
+                    <p *ngIf="lastName.errors.required">Last name is required</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="email">Email ID
+                    <!-- <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !practiceProfileInfo.email,'clr-blue': practiceProfileInfo.email}"></i>
+                    </sup> -->
+                  </label>
+                  <input name="email" [ngModel]="practiceProfileInfo.email" placeholder="Please enter email ID"
+                    type="email" class="form-control" id="email" disabled>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group" [ngClass]="{ 'has-danger': f.submitted && phone.invalid }">
+                  <label for="ContactNumber">Contact's Number
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !practiceProfileInfo.phone,'clr-blue': practiceProfileInfo.phone}"></i>
+                    </sup>
+                  </label>
+                  <input name="phone" numbersOnly required minlength="8" maxlength="10"
+                    [(ngModel)]="practiceProfileInfo.phone" placeholder="Please enter contact number" type="text"
+                    class="form-control" required #phone="ngModel">
+                </div>
+                <div class="form-control-feedback" *ngIf="f.submitted && phone.invalid">
+                  <p *ngIf="phone.errors.required">Contact number is required</p>
+                  <p *ngIf="phone.errors.minlength">Contact number should be at least 8 characters long</p>
+                </div>
+              </div>
+
+              
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+</div>
+</div>
+</span>
+</ng-wizard-step>
+
+<ng-wizard-step [title]="'Company Details'" [description]="''">
+  <span>
+        <div class="row p-0 pt-3" *ngIf="practiceProfileInfo?.isOlder">
+        <div class="gray-bg mb-10 p-0">
+          <div class="bg-white">
+            <div class="border-bottom mb-30">
+              <h3 class="clr-dark-blue">Company Details</h3>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label for="accountType">Please select your Account Type
+                </label>
+                <div class="form-group d-flex m-0">
+                  <div class="custom-control custom-radio mr-10">
+                    <input name="accountType" type="radio"
+                      [(ngModel)]="privatePractice" class="custom-control-input"
+                      id="privatePractice" [value]="true" (change)="updateAccountType($event)" [disabled]="this.practiceProfileInfo.accountType === 'dso' || this.practiceProfileInfo.accountType === 'agency'">
+                    <label class="custom-control-label" for="privatePractice">Private practice</label>
+                  </div>
+                  <div class="custom-control custom-radio mr-10">
+                    <input name="accountType" type="radio" [checked]="dso"
+                     class="custom-control-input"
+                      id="dso" [value]="false" (change)="updateAccountType($event)" [disabled]="this.practiceProfileInfo.accountType === 'private practice' || this.practiceProfileInfo.accountType === 'agency'">
+                    <label class="custom-control-label" for="dso">Corporate</label>
+                  </div>
+                  <div class="custom-control custom-radio">
+                    <input name="accountType" type="radio"
+                   class="custom-control-input" [checked]="agencyPracticeType"
+                      id="agency" [value]="false" (change)="updateAccountType($event)" [disabled]="this.practiceProfileInfo.accountType === 'private practice' || this.practiceProfileInfo.accountType === 'dso'">
+                    <label class="custom-control-label" for="agency">Agency</label>
+                  </div> 
+                </div>
+              </div>
+              <div class="col-md-12" *ngIf="agencyPracticeType">
+                <p>Please start by registering your agency first.</p>
+              </div>
+              <div class="col-md-12" *ngIf="dso">
+                <p>Please start by registering your Organization first.</p>
+              </div>
+              <div class="col-md-6 form-group" *ngIf="privatePractice">
+                <label for="accountFor">I want to create an account for
+                </label>
+                <div class="form-group d-flex m-0">
+                  <div class="custom-control custom-radio mr-10">
+                    <input name="accountFor" type="radio"
+                      [(ngModel)]="showAddMorePractice" class="custom-control-input"
+                      id="singlePractice" [value]="false" (change)="selectPracticeFor($event)" [disabled]="addressList?.length > 1">
+                    <label class="custom-control-label" for="singlePractice" *ngIf="addressList?.length > 1" data-toggle="tooltip" title="In order to register an account as a Single Practice only one practice location can exist. If you want to register this account as a Single Practice, please remove any additional practices listed below.">A single practice</label> 
+                    <label class="custom-control-label" for="singlePractice" *ngIf="addressList?.length <= 1">A single practice</label> 
+                  </div>
+                  <div class="custom-control custom-radio mr-10">
+                    <input name="accountFor" type="radio"
+                     class="custom-control-input"
+                      id="multiPractice" [value]="true" (change)="selectPracticeFor($event)" [(ngModel)]="showAddMorePractice">
+                    <label class="custom-control-label" for="multiPractice">Multiple practices</label>
+                  </div>
+                </div>
+              </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-sm-6" *ngIf="addressList?.length > 1 || showAddMorePractice">
+                  <div class="form-group" [ngClass]="{
+                    'has-danger': f.submitted && companyName.invalid }">
+                    <label for="companyName">Company Name
+                      <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                          [ngClass]="{'text-danger': !practiceProfileInfo.companyName,'clr-blue': practiceProfileInfo.companyName}"></i>
+                      </sup>
+                    </label>
+                    <input name="companyName" [(ngModel)]="practiceProfileInfo.companyName"
+                      placeholder="Please enter company name" type="text" class="form-control" required
+                      #companyName="ngModel" oninput="this.value = this.value.replace(/^\s+/g,'')">
+                    <div class="form-control-feedback" *ngIf="f.submitted && companyName.invalid">
+                      <p *ngIf="companyName.errors.required">Company name is required</p>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="websiteUrl">Website (If Any)</label>
+                    <input name="websiteUrl" [(ngModel)]="practiceProfileInfo.websiteUrl"
+                      placeholder="Please enter website url" type="text" class="form-control" id="websiteUrl"
+                      oninput="this.value = this.value.replace(/^\s+/g,'')">
+                  </div>
+                </div>
+                <div class="justify-content-end ml-1" *ngIf="showAddMorePractice || addressList.length > 1"> 
+                  <p>Now you can begin adding practices to your account. This will allow you to post customized jobs for each practice that you have added to your account.</p>
+                </div>
+                </div>
+
+            <div class="row mt-10 mb-20" *ngFor="let address of addressList; let i = index;">
+              <div class="col-12" *ngIf="addressList.length > 1 || showAddMorePractice">
+                <div class="increase_div bg-blue position-relative p-10 mb-20" *ngIf="addressList.length > 0">
+                  <h5 class="m-0 color-white">Practice {{ (addressList.length > 0) ? (i + 1) : '' }}</h5>
+                  <button type="button" class="btn" *ngIf="addressList.length > 0" (click)="removeMoreAddress(i)"><i
+                      class="fa fa-times"></i></button>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group" [ngClass]="{
+                  'has-danger': f.submitted && practiceName.invalid }">
+                  <label for="PracticeName">Practice Name
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !address?.practiceName,'clr-blue': address?.practiceName}"></i>
+                    </sup>
+                  </label>
+                  <input name="practiceName_{{i}}" [(ngModel)]="address.practiceName" placeholder="Enter practice name"
+                    type="text" class="form-control" required #practiceName="ngModel"
+                    oninput="this.value = this.value.replace(/^\s+/g,'')" data-toggle="tooltip" title="Practice name can be the same as the company name.">
+                  <div class="form-control-feedback" *ngIf="f.submitted && practiceName.invalid">
+                    <p *ngIf="practiceName.errors.required">Practice Name is required</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group" [ngClass]="{ 'has-danger': f.submitted && practiceType.invalid }">
+                  <label for="PracticeType">Practice Type
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !address.practiceType,'clr-blue': address.practiceType}"></i>
+                    </sup>
+                  </label>
+                  <select class="form-control text-capitalize" name="practiceType_{{i}}"
+                    [(ngModel)]="address.practiceType" required #practiceType="ngModel">
+                    <option value="">Select Practice Type</option>
+                    <option [value]="practice._id" *ngFor="let practice of practiceTypeList">
+                      {{practice?.practiceType}}</option>
+                  </select>
+                  <div class="form-control-feedback" *ngIf="f.submitted && practiceType.invalid">
+                    <p *ngIf="practiceType.errors.required">Practice Type is required</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group" [ngClass]="{
+                  'has-danger': f.submitted && addressLine1.invalid }">
+                  <label for="AddressLine_1">Address Line 1
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !address?.addressLine_1,'clr-blue': address?.addressLine_1 }"></i>
+                    </sup>
+                  </label>
+                  <input name="addressLine_1_{{i}}" [(ngModel)]="address.addressLine_1"
+                    placeholder="Enter address line 1" type="text" class="form-control" required #addressLine1="ngModel"
+                    oninput="this.value = this.value.replace(/^\s+/g,'')">
+
+                  <div class="form-control-feedback" *ngIf="f.submitted && addressLine1.invalid">
+                    <p *ngIf="addressLine1.errors.required">Address line is required</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="AddressLine_2">Address Line 2 </label>
+                  <input name="addressLine_2_{{i}}" [(ngModel)]="address.addressLine_2"
+                    placeholder="Enter address line 2" type="text" class="form-control"
+                    oninput="this.value = this.value.replace(/^\s+/g,'')">
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group" [ngClass]="{ 'has-danger': f.submitted && state.invalid }">
+                  <label for="State">State
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !address?.state,'clr-blue': address?.state }"></i>
+                    </sup>
+                  </label>
+                  <select name="state_{{i}}" [(ngModel)]="address.state" class="form-control"
+                    (ngModelChange)="filterCity(i)" [disabled]="!address.country" required #state="ngModel">
+                    <option value="">Select State</option>
+                    <ng-container *ngFor="let value of stateList">
+                      <option class="text-capitalize" [value]="value._id" *ngIf="value.countryId === address.country">
+                        {{value.state}}
+                      </option>
+                    </ng-container>
+                  </select>
+                  <div class="form-control-feedback" *ngIf="f.submitted && state.invalid">
+                    <p *ngIf="state.errors.required">State is required</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group" [ngClass]="{'has-danger': f.submitted && city.invalid }">
+                  <label for="City">City
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !address?.city,'clr-blue': address?.city }"></i>
+                    </sup>
+                  </label>
+                  <select name="city_{{i}}" [(ngModel)]="address.city" class="form-control text-capitalize"
+                    [disabled]="!address.state" required #city="ngModel" (ngModelChange)="filterZipcode(i)">
+                    <option value="">Select City</option>
+                    <ng-container *ngFor="let value of cityList[i]">
+                      <option class="text-capitalize" [value]="value._id" *ngIf="value.stateId === address.state">
+                        {{value.city | slice:3:value.city.length }}
+                      </option>
+                    </ng-container>
+                  </select>
+                  <div class="form-control-feedback" *ngIf="f.submitted && city.invalid">
+                    <p *ngIf="city.errors.required">City is required</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group" [ngClass]="{'has-danger': f.submitted && zipcode.invalid }">
+                  <label for="Zipcode">Zipcode
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !address?.zipcode,'clr-blue': address?.zipcode }"></i>
+                    </sup>
+                  </label>
+                  <select name="zipcode_{{i}}" [(ngModel)]="address.zipcode" class="form-control"
+                    [disabled]="!address.city" required #zipcode="ngModel">
+                    <option value="">Select Zipcode</option>
+                    <ng-container *ngFor="let value of zipcodeList[i]">
+                      <option class="text-capitalize" [value]="value._id" *ngIf="value.cityId === address.city">
+                        {{value.zipcode}}
+                      </option>
+                    </ng-container>
+                  </select>
+                  <div class="form-control-feedback" *ngIf="f.submitted && zipcode.invalid">
+                    <p *ngIf="zipcode.errors.required">Zipcode is required</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group" [ngClass]="{
+                  'has-danger': f.submitted && country.invalid }">
+                  <label for="Country">Country
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !address?.country,'clr-blue': address?.country }"></i>
+                    </sup>
+                  </label>
+                  <select name="country_{{i}}" [(ngModel)]="address.country" class="form-control"
+                    (ngModelChange)="filterState(i)" required #country="ngModel" disabled>
+                    <option value="">Select Country</option>
+                    <option class="text-capitalize" [value]="value._id" *ngFor="let value of countryList">
+                      {{value.country}}
+                    </option>
+                  </select>
+                  <div class="form-control-feedback" *ngIf="f.submitted && country.invalid">
+                    <p *ngIf="country.errors.required">Country is required</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group" [ngClass]="{'has-danger': f.submitted && providedPPE.invalid }">
+                  <label for="providedPPE">Provided PPE in our office
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !address?.providedPPE,'clr-blue': address?.providedPPE }"></i>
+                    </sup>
+                  </label>
+                  <input name="providedPPE_{{i}}" [(ngModel)]="address.providedPPE"
+                    placeholder="Please enter PPE in our office" type="text" class="form-control" required
+                    #providedPPE="ngModel" oninput="this.value = this.value.replace(/^\s+/g,'')">
+                  <div class="form-control-feedback" *ngIf="f.submitted && providedPPE.invalid">
+                    <p *ngIf="providedPPE.errors.required">Provided PPE is required</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group" [ngClass]="{ 'has-danger': f.submitted && softwares?.invalid }">
+                  <label for="softwares">Softwares used in our office
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !address?.skill?.ids?.length,'clr-blue': address?.skill?.ids?.length }"></i>
+                    </sup>
+                  </label>
+
+                  <ng-multiselect-dropdown class=" text-capitalize" #softwares="ngModel" [data]="softwareList"
+                    name="softwares_{{i}}" [placeholder]="'Select Software'" [(ngModel)]="address.skill.ids" required
+                    [settings]="{ singleSelection: false, idField: '_id', textField: 'skill', selectAllText: 'Select All', unSelectAllText: 'UnSelect All',allowSearchFilter: false, itemsShowLimit: 2, closeDropDownOnSelection: false, enableCheckAll: false}">
+                  </ng-multiselect-dropdown>
+
+                  <!-- <ng-multiselect-dropdown #softwares="ngModel" [data]="softwareList" name="softwares_{{i}}" class="text-capitalize"
+                  [placeholder]="'Select Software'" [(ngModel)]="selectedSoftwares"
+                    [settings]="{ singleSelection: false, idField: '_id', textField: 'skill', selectAllText: 'Select All', unSelectAllText: 'UnSelect All',allowSearchFilter: false, itemsShowLimit: 2,
+                    closeDropDownOnSelection: false }" required></ng-multiselect-dropdown> -->
+
+                  <div class="form-control-feedback" *ngIf="f.submitted && softwares?.invalid">
+                    <p *ngIf="!softwares?.valid">Software is required</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6" *ngIf="showOtherSoftwares(i)">
+                <div class="form-group" [ngClass]="{ 'has-danger': f.submitted && otherSoftware.invalid }">
+                  <label for="otherSoftware">Other Software
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !address?.skill?.softwaresOther,'clr-blue': address?.skill?.softwaresOther}"></i>
+                    </sup>
+                  </label>
+                  <input name="otherSoftware_{{i}}" [(ngModel)]="address.skill.softwaresOther"
+                    placeholder="Please enter other software" type="text" class="form-control" required
+                    #otherSoftware="ngModel">
+                  <div class="form-control-feedback" *ngIf="f.submitted && otherSoftware.invalid">
+                    <p *ngIf="otherSoftware.errors.required">Other software name is required</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group" [ngClass]="{ 'has-danger': f.submitted && radiograph_id.invalid }">
+                  <label for="radiograph">Type of technology is used to take radiographs
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !address?.radiograph?.id,'clr-blue': address?.radiograph?.id }"></i>
+                    </sup>
+                  </label>
+                  <select class="form-control text-capitalize" name="radiograph_{{i}}"
+                    [(ngModel)]="address.radiograph.id" required #radiograph_id="ngModel">
+                    <option value="">Select Radiograph</option>
+                    <option [value]="record._id" *ngFor="let record of radiograph">
+                      {{record.name}}</option>
+                  </select>
+                  <div class="form-control-feedback" *ngIf="f.submitted && radiograph_id.invalid">
+                    <p *ngIf="radiograph_id.errors.required">Radiograph is required</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6" *ngIf="othersId.radiographId === address.radiograph.id">
+                <div class="form-group" [ngClass]="{
+                  'has-danger': f.submitted && otherRadiograph.invalid }">
+                  <label for="radiograph">Other Radiograph
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !address?.radiograph?.other,'clr-blue': address?.radiograph?.other }"></i>
+                    </sup>
+                  </label>
+                  <input name="otherRadiograph_{{i}}" [(ngModel)]="address.radiograph.other"
+                    placeholder="Please enter other radiograph" type="text" class="form-control" required
+                    #otherRadiograph="ngModel">
+                  <div class="form-control-feedback" *ngIf="f.submitted && otherRadiograph.invalid">
+                    <p *ngIf="otherRadiograph.errors.required">Other Radiograph name is required</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group" [ngClass]="{'has-danger': f.submitted && recordMaintained.invalid }">
+                  <label for="recordMaintained_{{i}}">Type of records maintained
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !address?.recordMaintained,'clr-blue': address?.recordMaintained }"></i>
+                    </sup>
+                  </label>
+                  <select class="form-control text-capitalize" name="recordMaintained_{{i}}" required
+                    [(ngModel)]="address.recordMaintained" #recordMaintained="ngModel">
+                    <option value="">Select Record</option>
+                    <option [value]="record._id" *ngFor="let record of recordMaintainedList">
+                      {{record.name}}</option>
+                  </select>
+                  <div class="form-control-feedback" *ngIf="f.submitted && recordMaintained.invalid">
+                    <p *ngIf="recordMaintained.errors.required">Record maintained is required</p>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-sm-6">
+                <div class="form-group" [ngClass]="{ 'has-danger': f.submitted && adultProphy.invalid }">
+                  <label for="adultProphy_{{i}}">Time allotted for adult prophy
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                      [ngClass]="{'text-danger': !address?.adultProphy,'clr-blue': address?.adultProphy }"></i>
+                  </sup>
+                </label>
+                  <select class="form-control text-capitalize" name="adultProphy_{{i}}" required
+                  [(ngModel)]="address.adultProphy"  #adultProphy="ngModel">
+                    <option value="">Select time for adult prophy</option>
+                    <option [value]="record._id" *ngFor="let record of adultProphyTime">
+                      {{record.time}}</option>
+                  </select>
+                  <div class="form-control-feedback" *ngIf="f.submitted && adultProphy.invalid">
+                    <p *ngIf="adultProphy.errors.required">Adult prophy is required</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group" [ngClass]="{ 'has-danger': f.submitted && childProphy.invalid }">
+                  <label for="childProphy{{i}}">Time allotted for child prophy
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                      [ngClass]="{'text-danger': !address?.childProphy,'clr-blue': address?.childProphy }"></i>
+                  </sup>
+                </label>
+                  <select class="form-control text-capitalize" name="childProphy{{i}}" required
+                  [(ngModel)]="address.childProphy"  #childProphy="ngModel">
+                    <option value="">Select time for child prophy</option>
+                    <option [value]="record._id" *ngFor="let record of childProphyTime">
+                      {{record.time}}</option>
+                  </select>
+                  <div class="form-control-feedback" *ngIf="f.submitted && childProphy.invalid">
+                    <p *ngIf="childProphy.errors.required">Child prophy is required</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="leftHandedAccomodation_{{i}}">Left handed accomodation
+                  </label>
+                  <div class="form-group d-flex m-0">
+                    <div class="custom-control custom-radio mr-10">
+                      <input name="leftHandedAccomodation_{{i}}" type="radio"
+                        [(ngModel)]="address.leftHandedAccomodation" class="custom-control-input"
+                        id="leftHandedAccomodation_true_{{i}}" [value]="true">
+                      <label class="custom-control-label" for="leftHandedAccomodation_true_{{i}}">Yes</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                      <input name="leftHandedAccomodation_{{i}}" type="radio"
+                        [(ngModel)]="address.leftHandedAccomodation" class="custom-control-input"
+                        id="leftHandedAccomodation_false_{{i}}" [value]="false">
+                      <label class="custom-control-label" for="leftHandedAccomodation_false_{{i}}">No</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+             
+
+            </div>
+            
+          </div>
+        </div>
+        </div>
+  </span>
+</ng-wizard-step>
+
+        <!-- <div class="p-15 gray-bg">
+          <div class="bg-white p-15">
+            <div class="border-bottom mb-30">
+              <h3 class="clr-dark-blue">Additional Details</h3>
+            </div>
+
+            <div class="row">
+
+              <div class="col-sm-6">
+                <div class="form-group" [ngClass]="{'has-danger': f.submitted && providedPPE.invalid }">
+                  <label for="providedPPE">Provided PPE in our office
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !practiceProfileInfo?.providedPPE,'clr-blue': practiceProfileInfo?.providedPPE }"></i>
+                    </sup>
+                  </label>
+                  <input name="providedPPE" [(ngModel)]="practiceProfileInfo.providedPPE"
+                    placeholder="Please enter PPE in our office" type="text" class="form-control" required #providedPPE="ngModel" oninput="this.value = this.value.replace(/^\s+/g,'')">
+                    <div class="form-control-feedback" *ngIf="f.submitted && providedPPE.invalid">
+                      <p *ngIf="providedPPE.errors.required">Provided PPE is required</p>
+                    </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group"  [ngClass]="{ 'has-danger': f.submitted && softwares?.invalid }">
+                  <label for="softwares">Software used in our office
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !selectedSoftwares?.length,'clr-blue': selectedSoftwares?.length }"></i>
+                    </sup>
+                  </label>
+
+                  <ng-multiselect-dropdown #softwares="ngModel" [data]="softwareList" name="softwares" class="text-capitalize"
+                  [placeholder]="'Select Software'" [(ngModel)]="selectedSoftwares"
+                    [settings]="{ singleSelection: false, idField: '_id', textField: 'skill', selectAllText: 'Select All', unSelectAllText: 'UnSelect All',allowSearchFilter: false, itemsShowLimit: 2,
+                    closeDropDownOnSelection: false }" required></ng-multiselect-dropdown>
+                    <div class="form-control-feedback" *ngIf="f.submitted && softwares?.invalid">
+                      <p *ngIf="!softwares?.valid">Software is required</p>
+                    </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6" *ngIf="showOtherSoftwares()" >
+                <div class="form-group" [ngClass]="{ 'has-danger': f.submitted && otherSoftware.invalid }">
+                  <label for="otherSoftware">Other Software
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !practiceProfileInfo?.skill?.softwaresOther,'clr-blue': practiceProfileInfo?.skill?.softwaresOther}"></i>
+                    </sup>
+                  </label>
+                  <input name="otherSoftware" [(ngModel)]="practiceProfileInfo.skill.softwaresOther"
+                    placeholder="Please enter other software" type="text" class="form-control" required #otherSoftware="ngModel">
+                    <div class="form-control-feedback" *ngIf="f.submitted && otherSoftware.invalid">
+                      <p *ngIf="otherSoftware.errors.required">Other software name is required</p>
+                    </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group" [ngClass]="{ 'has-danger': f.submitted && radiograph_id.invalid }">
+                  <label for="radiograph">Radiograph
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !practiceProfileInfo?.radiograph?.id,'clr-blue': practiceProfileInfo?.radiograph?.id }"></i>
+                    </sup>
+                  </label>
+                  <select class="form-control text-capitalize" name="radiograph"  [(ngModel)]="practiceProfileInfo.radiograph.id" required #radiograph_id="ngModel">
+                    <option value="">Select Radiograph</option>
+                    <option [value]="record._id" *ngFor="let record of radiograph">
+                      {{record.name}}</option>
+                  </select>
+                  <div class="form-control-feedback" *ngIf="f.submitted && radiograph_id.invalid">
+                    <p *ngIf="radiograph_id.errors.required">Radiograph is required</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6" *ngIf="othersId.radiographId === practiceProfileInfo.radiograph.id">
+                <div class="form-group" [ngClass]="{
+                  'has-danger': f.submitted && otherRadiograph.invalid }">
+                  <label for="radiograph">Other Radiograph
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !practiceProfileInfo?.radiograph?.other,'clr-blue': practiceProfileInfo?.radiograph?.other }"></i>
+                    </sup>
+                  </label>
+                  <input name="otherRadiograph" [(ngModel)]="practiceProfileInfo.radiograph.other"
+                    placeholder="Please enter other radiograph" type="text" class="form-control" required #otherRadiograph="ngModel">
+                    <div class="form-control-feedback" *ngIf="f.submitted && otherRadiograph.invalid">
+                      <p *ngIf="otherRadiograph.errors.required">Other Radiograph name is required</p>
+                    </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group" [ngClass]="{'has-danger': f.submitted && recordMaintained.invalid }">
+                  <label for="recordMaintained">Types of records maintained
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !practiceProfileInfo?.recordMaintained,'clr-blue': practiceProfileInfo?.recordMaintained }"></i>
+                    </sup>
+                  </label>
+                  <select class="form-control text-capitalize" name="recordMaintained" required [(ngModel)]="practiceProfileInfo.recordMaintained" #recordMaintained="ngModel">
+                    <option value="">Select Record</option>
+                    <option [value]="record._id" *ngFor="let record of recordMaintainedList">
+                      {{record.name}}</option>
+                  </select>
+                  <div class="form-control-feedback" *ngIf="f.submitted && recordMaintained.invalid">
+                    <p *ngIf="recordMaintained.errors.required">Record maintained is required</p>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-sm-6">
+                <div class="form-group"  [ngClass]="{ 'has-danger': f.submitted && adultProphy.invalid }">
+                  <label for="adultProphy">Time allotted for adult prophy
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !practiceProfileInfo?.adultProphy,'clr-blue': practiceProfileInfo?.adultProphy }"></i>
+                    </sup>
+                  </label>
+                  <input name="adultProphy" [(ngModel)]="practiceProfileInfo.adultProphy"
+                    placeholder="Please enter time allotted for adult proph" type="text" class="form-control" required #adultProphy="ngModel" oninput="this.value = this.value.replace(/^\s+/g,'')">
+                    <div class="form-control-feedback" *ngIf="f.submitted && adultProphy.invalid">
+                      <p *ngIf="adultProphy.errors.required">Adult prophy is required</p>
+                    </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6"  >
+                <div class="form-group" [ngClass]="{ 'has-danger': f.submitted && childProphy.invalid }">
+                  <label for="childProphy">Time allotted for child prophy
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !practiceProfileInfo?.childProphy,'clr-blue': practiceProfileInfo?.childProphy }"></i>
+                    </sup>
+                  </label>
+                  <input name="childProphy" [(ngModel)]="practiceProfileInfo.childProphy"
+                    placeholder="Please enter time allotted for child prophy" type="text" required class="form-control" #childProphy="ngModel" oninput="this.value = this.value.replace(/^\s+/g,'')">
+                    <div class="form-control-feedback" *ngIf="f.submitted && childProphy.invalid">
+                      <p *ngIf="childProphy.errors.required">Child prophy is required</p>
+                    </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="leftHandedAccomodation">Left handed accomodation
+                  </label>
+                  <div class="form-group d-flex m-0">
+                      <div class="custom-control custom-radio mr-10">
+                        <input name="leftHandedAccomodation" type="radio" [(ngModel)]="practiceProfileInfo.leftHandedAccomodation"
+                          class="custom-control-input" id="leftHandedAccomodation_true" [value]="true">
+                        <label class="custom-control-label" for="leftHandedAccomodation_true">Yes</label>
+                      </div>
+                      <div class="custom-control custom-radio">
+                        <input name="leftHandedAccomodation"  type="radio" [(ngModel)]="practiceProfileInfo.leftHandedAccomodation"
+                          class="custom-control-input" id="leftHandedAccomodation_false" [value]="false" >
+                        <label class="custom-control-label" for="leftHandedAccomodation_false">No</label>
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div> -->
+
+<ng-wizard-step [title]="'Payment Details'" [description]="''">
+      <span>
+    <div class="row gray-bg mb-10 pt-3" *ngIf="tabStep === 2">
+      <div class="bg-white p-0">
+        <div class="border-bottom mb-30">
+          <h3 class="clr-dark-blue">Payment Details</h3>
+          <p class="clr-dark-blue mt-1">By adding your credit card’s payment information below, you will be able to conveniently post your jobs and pay Densub’s service fees.  Additionally, this will also allow you to conveniently pay staff’s wages via the e-Pay option for staff who have created a <b>Stripe</b> <i class="fa fa-lock"></i> account.</p>
+        </div>
+        <div class="mt-10 ml-0 mr-10" *ngFor="let payment_cards of paymentCards; let i = index;">
+          <form name="paymentForm" novalidate focusInvalidInput class="row mt-10 mb-20" #p="ngForm"
+            (ngSubmit)="p.form.valid && savePaymentData(i)">
+<div class="card-box">
+  <div class="row">
+            <div class="col-12">
+              <div class="increase_div bg-blue position-relative p-10 mb-20" style="display: flex"
+                *ngIf="paymentCards.length > 0">
+                <div class="col-sm-6">
+                  <h5 class="m-0 color-white">Payment Card {{ (paymentCards.length > 1) ? (i + 1) : '' }}</h5>
+                </div>
+                <div class="col-sm-6">
+                  <div class="custom-checkbox" (click)="makeAsPrimaryCard(i)">
+                    <input name="payment_cards.setAsPrimaryCard{{i}}" [(ngModel)]="payment_cards.setAsPrimaryCard"
+                      type="checkbox" checked="payment_cards.setAsPrimaryCard{{i}} === true" class="mr-10 largerCheckbox"
+                      [disabled]="payment_cards._id === ''" style="cursor: pointer;">
+                    <label *ngIf="!payment_cards.setAsPrimaryCard" class="primaryText"
+                      [ngClass]="{'primaryCardGreen': payment_cards.setAsPrimaryCard, 'primaryCard': !payment_cards.setAsPrimaryCard}">Mark
+                      Card as Primary
+                    </label>
+                    <label *ngIf="payment_cards.setAsPrimaryCard" class="primaryText"
+                      [ngClass]="{'primaryCardGreen': payment_cards.setAsPrimaryCard, 'primaryCard': !payment_cards.setAsPrimaryCard}">Primary</label>
+                  </div>
+                  <button type="button" class="btn" *ngIf="paymentCards.length > 0" (click)="removeMorePaymentCards(i)"
+                    style="top: -5px"><i class="fa fa-times" title="Delete"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group" [ngClass]="{'has-danger': p.submitted && cardNumber.invalid }">
+                <label for="cardNumber">Credit Number
+                  <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                      [ngClass]="{'text-danger': !payment_cards?.cardNumber,'clr-blue': payment_cards?.cardNumber}"></i>
+                  </sup>
+                </label>
+                <input name="cardNumber_{{i}}" [(ngModel)]="payment_cards.cardNumber" placeholder="Enter card number"
+                  type="text" class="form-control" #cardNumber="ngModel" required [disabled]="payment_cards._id !== ''"
+                  oninput="this.value = this.value.replace(/[^\dA-Z]/g,'')" maxlength="16">
+                <div class="form-control-feedback" *ngIf="p.submitted && cardNumber.invalid">
+                  <p *ngIf="cardNumber.errors.required">Card Number is required</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group" [ngClass]="{'has-danger': p.submitted && CVV.invalid }">
+                <label for="CVV">CVV
+                  <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                      [ngClass]="{'text-danger': !payment_cards?.CVV,'clr-blue': payment_cards?.CVV}"></i>
+                  </sup>
+                </label>
+                <input name="CVV_{{i}}" [(ngModel)]="payment_cards.CVV" placeholder="Enter CVV" type="text"
+                  class="form-control" required #CVV="ngModel" [disabled]="payment_cards._id !== ''"
+                  oninput="this.value = this.value.replace(/[^\dA-Z]/g,'')">
+                <div class="form-control-feedback" *ngIf="p.submitted && CVV.invalid">
+                  <p *ngIf="CVV.errors.required">CVV is required</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-sm-6">
+              <div class="form-group" [ngClass]="{'has-danger': p.submitted && month.invalid}"></div>
+              <label for="month">Select Month
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !payment_cards?.month,'clr-blue': payment_cards?.month}"></i>
+                </sup>
+              </label>
+              <select name="month_{{i}}" [(ngModel)]="payment_cards.month" class="form-control" required
+                #month="ngModel">
+                <option value="" disabled>Select Month</option>
+                <option [value]="month" *ngFor="let month of monthList">{{month}}</option>
+              </select>
+              <div class="form-control-feedback" *ngIf="p.submitted && month.invalid">
+                <p *ngIf="month.errors.required">Month is required</p>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group" [ngClass]="{'has-danger': p.submitted && year.invalid }"></div>
+              <label for="">Select Year
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !payment_cards?.year,'clr-blue': payment_cards?.year}"></i>
+                </sup>
+              </label>
+              <select name="year_{{i}}" [(ngModel)]="payment_cards.year" class="form-control" required #year="ngModel">
+                <option value="" disabled>Select Year</option>
+                <option [value]="year" *ngFor="let year of getListOfYear">{{year}}</option>
+              </select>
+              <div class="form-control-feedback" *ngIf="p.submitted && year.invalid">
+                <p *ngIf="year.errors.required">Year is required</p>
+              </div>
+            </div>
+</div>
+</div>
+            <div class="col-sm-12 mt-10 pr-0">
+              <!-- <div class="p-15 gray-bg pr-0">
+                <div class="bg-white p-20"> 
+                  <div class="d-flex justify-content-end fr" style="margin-top: -20px;">-->
+                    <button class="btn btn-primary ml-auto pull-right" type="submit">{{payment_cards._id ?
+                      'Update Card Information' : 'Submit Card Information'}}</button>
+                 <!-- </div>
+                 </div>
+              </div> -->
+            </div>
+            <!-- <div class="col-sm-12 my-4">
+              <p class="subHeading">Your credit card information is not required to create your profile, but it is required in order to post a job in Densub’s job marketplace.</p>
+            </div> -->
+          </form>
+        </div>
+
+        <button type="button" class="btn btn-primary" (click)="addMoreCards()">{{ paymentCards.length === 0 ? 'Add
+          Payment Cards' : 'Add More Payment Cards' }}</button>
+        <!-- <div class="d-flex mb-20" style="justify-content: flex-end;">
+          <button type="button" class="btn btn-primary mr-10" (click)="next('back')" *ngIf="tabStep > 0">Back</button>
+         <button (click)="validateForm('submit')" class="btn btn-primary mr-10">Submit</button>
+        </div> -->
+      </div>
+    </div>
+      </span>
+    </ng-wizard-step>
+
+   <!-- <ng-wizard-step [title]="'Preview'" [description]="''">
+      <span>Preview window</span>
+    </ng-wizard-step>  -->
+</ng-wizard>
+    
+    <div class="p-15 pt-0 gray-bg mb-30">
+      <div class="bg-white p-20">
+        <div class="d-flex justify-content-end fr" style="margin-top: -20px">
+          <span *ngIf="showAddMorePractice && addressList.length >= 1 && tabStep == 1">
+            <button type="button" class="btn btn-primary mr-10" (click)="addMoreAddress();">Add More Practices</button>
+          </span> 
+          <button
+          type="button" (click)="this.ngWizardService.previous();"
+          class="btn btn-primary mr-10" *ngIf="tabStep > 0">Back</button>
+          <span *ngIf="paymentCardAdded">
+          <button type="button" class="btn btn-primary mr-10" *ngIf="tabStep == 2"
+            (click)="f.submitted = true;ispreviewProfile = true;validateForm('submit')">
+            Preview</button>
+            </span>
+            <span *ngIf="!paymentCardAdded">
+            <button data-toggle="tooltip" title="To preview your profile please first add payment card details." type="button" class="btn btn-primary mr-10 disabledbtn" *ngIf="tabStep == 2" [disabled]="!paymentCardAdded">
+            Preview</button>
+            </span>
+          <!-- When submit profile, click on continue and submit in next page -->
+
+          <!-- <button *ngIf="tabStep === 0 && practiceProfileInfo.profileVerificationStatus === profileStatus.NEW"
+            (click)="next('continue')" class="btn btn-primary mr-10">Continue</button> -->
+
+          <!-- When update profile, click on continue and it will update the profile and goes to next page  -->
+         <span *ngIf="showAddMorePractice && addressList.length <= 1 && tabStep == 1" data-toggle="tooltip" title="You must add more than one practice, to continue creating your profile as the account type you have selected">
+          <button
+          type="submit" (click)="gotToNextStep();" *ngIf="tabStep < 2"
+          class="btn btn-primary mr-10 disabledbtn" [disabled]="showAddMorePractice && addressList.length <= 1 && tabStep == 1">Add & Continue
+        </button>
+        </span>
+        <span *ngIf="!(showAddMorePractice && addressList.length <= 1 && tabStep == 1)">
+          <button
+            type="submit" (click)="gotToNextStep();" *ngIf="tabStep < 2"
+            class="btn btn-primary mr-10">Continue
+          </button>
+          </span>
+          <span *ngIf="paymentCardAdded">
+            <button (click)="validateForm('submit')" *ngIf="tabStep == 2" class="btn btn-primary mr-10">Submit</button>
+            </span>
+            <span *ngIf="!paymentCardAdded">
+              <button (click)="validateForm('submit')" data-toggle="tooltip" title="To submit your profile please first add payment card details." *ngIf="tabStep == 2" class="btn btn-primary mr-10 disabledbtn" [disabled]="!paymentCardAdded">Submit</button>
+              </span>
+        </div>
+      </div>
+    </div>
+</form>
+
+
+<!-- SHOW FULL IMAGE MODAL -->
+<!-- <div   bsModal  #showImageModal="bs-modal" class="modal fade lightBox_img" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-body">
+        <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <img src ="{{viewImage}}" height="500" width="500" class="img-fluid">
+    </div>
+  </div>
+</div> -->
+<!-- SHOW FULL IMAGE MODAL -->
+
+<div bsModal [config]="{backdrop: 'static', keyboard: false}" #addMorePracticeShowMsgModal="bs-modal" class="modal fade"
+  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!-- <div class="modal-header text-white">
+        <h4 class="modal-title text-white"> Payment Confirmation</h4>
+        <button type="button" class="close text-white" (click)="confirmTimesheetModal.hide();timesheetPayModal.show();"
+          aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div> -->
+      <div class="modal-body">
+         <div>
+           <p>Congratulations! You just added -practice name- to your account. Now you can post jobs for this practice on Densub’s marketplace.</p>
+       </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary"
+          (click)="addMorePracticeShowMsgModal.hide();">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

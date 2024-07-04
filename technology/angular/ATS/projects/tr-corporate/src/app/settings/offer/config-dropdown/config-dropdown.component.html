@@ -1,0 +1,225 @@
+<div class="box-container">
+  <div class="upper-sec">
+    <img src="assets/img/custom.svg" alt="" />
+
+    <h4>Configure</h4>
+  </div>
+
+  <!-- CASE 2 -->
+
+  <ng-container *ngIf="showLayout == 'Drop-Down' && masterValues == undefined">
+    <mat-card>
+      <form [formGroup]="userForm">
+        <div class="Case2">
+          <div class="d-flex flex-column">
+            <span class="new">
+              <p>Master Value</p>
+            </span>
+          </div>
+
+          <!-- <div class="common-div">
+            <div class="d-flex flex-column">
+              <span class="new">
+                <mat-form-field appearance="outline">
+                  <input
+                    matInput
+                    placeholder="Option 1"
+                    formControlName="masterValueField1"
+                  />
+                </mat-form-field>
+              </span>
+            </div>
+          </div>
+          <div class="common-div">
+            <div class="d-flex flex-column">
+              <span class="new">
+                <mat-form-field appearance="outline">
+                  <input
+                    matInput
+                    placeholder="Option 2"
+                    formControlName="masterValueField2"
+                  />
+                </mat-form-field>
+              </span>
+            </div>
+          </div>
+          <div class="common-div">
+            <div class="d-flex flex-column">
+              <span class="new">
+                <mat-form-field appearance="outline">
+                  <input
+                    matInput
+                    placeholder="Option 3"
+                    formControlName="masterValueField3"
+                  />
+                </mat-form-field>
+              </span>
+            </div>
+          </div>
+          <div class="common-div">
+            <div class="d-flex flex-column">
+              <span class="new">
+                <mat-form-field appearance="outline">
+                  <input
+                    matInput
+                    placeholder="Option 4"
+                    formControlName="masterValueField4"
+                  />
+                </mat-form-field>
+              </span>
+            </div>
+          </div> -->
+          <div formArrayName="users">
+            <div
+              *ngFor="
+                let user of userForm.get('users')['controls'];
+                let i = index
+              "
+            >
+              <mat-form-field appearance="outline" style="width: 50%">
+                <input matInput placeholder="Option {{i+1}}" [formControlName]="i" />
+              </mat-form-field>
+              <button (click)="removeUser(i)">Remove</button>
+            </div>
+          </div>
+          <br />
+          <span class="add-btn" (click)="addUser()">
+            <img src="assets/img/color-add.svg" alt="" />
+            <h2>Add More</h2>
+          </span>
+        </div>
+      </form>
+    </mat-card>
+  </ng-container>
+
+  <!-- CASE 4 -->
+  <ng-container
+    *ngIf="
+      showLayout == 'Drop-Down' && showLayout2 && masterValues !== undefined
+    "
+  >
+    <mat-card>
+      <form [formGroup]="Case3">
+        <div class="case4">
+          <div class="d-flex flex-column heading">
+            <div class="main">
+              <div class="parent">
+                <p>Parent Value</p>
+              </div>
+              <div class="master">
+                <p>Master Value</p>
+              </div>
+            </div>
+          </div>
+          <div class="common-div">
+            <div class="d-flex flex-column">
+              <span class="new">
+                <mat-form-field appearance="outline">
+                  <mat-select
+                    placeholder="India"
+                    formControlName="parentValueField1"
+                  >
+                    <mat-option value="Value 1">Value 1</mat-option>
+                    <mat-option value="Value 2">Value 2</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <input
+                    matInput
+                    placeholder="Option 1"
+                    formControlName="masterValueField1"
+                    readonly
+                  />
+                </mat-form-field>
+              </span>
+            </div>
+          </div>
+          <div class="common-div">
+            <div class="d-flex flex-column">
+              <span class="new">
+                <mat-form-field appearance="outline">
+                  <mat-select
+                    placeholder="India"
+                    formControlName="parentValueField2"
+                  >
+                    <mat-option value="Value 1">Value 1</mat-option>
+                    <mat-option value="Value 2">Value 2</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <input
+                    matInput
+                    placeholder="Option 2"
+                    formControlName="masterValueField2"
+                    readonly
+                  />
+                </mat-form-field>
+              </span>
+            </div>
+          </div>
+          <div class="common-div">
+            <div class="d-flex flex-column">
+              <span class="new">
+                <mat-form-field appearance="outline">
+                  <mat-select
+                    placeholder="Dist"
+                    formControlName="parentValueField3"
+                  >
+                    <mat-option value="Value 1">Value 1</mat-option>
+                    <mat-option value="Value 2">Value 2</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <input
+                    matInput
+                    placeholder="Option 3"
+                    formControlName="masterValueField3"
+                    readonly
+                  />
+                </mat-form-field>
+              </span>
+            </div>
+          </div>
+          <div class="common-div">
+            <div class="d-flex flex-column">
+              <span class="new">
+                <mat-form-field appearance="outline">
+                  <mat-select
+                    placeholder="Profession"
+                    formControlName="parentValueField4"
+                  >
+                    <mat-option value="Value 1">Value 1</mat-option>
+                    <mat-option value="Value 2">Value 2</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <input
+                    matInput
+                    placeholder="Option 4"
+                    formControlName="masterValueField4"
+                    readonly
+                  />
+                </mat-form-field>
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </mat-card>
+  </ng-container>
+
+  <div class="common-div">
+    <div class="d-flex flex-column">
+      <span class="buttons">
+        <div class="box-button">
+          <button mat-flat-button color="primary" (click)="onUpdate()">
+            Update
+          </button>
+        </div>
+        <div class="box-button">
+          <button mat-flat-button (click)="onCancel()">Cancel</button>
+        </div>
+      </span>
+    </div>
+  </div>
+</div>

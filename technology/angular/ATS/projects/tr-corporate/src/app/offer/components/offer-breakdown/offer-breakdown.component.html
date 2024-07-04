@@ -1,0 +1,50 @@
+<div class="container main-container d-mobile-none">
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.99996 3.33301V4.99967" stroke="#2329D6" stroke-linecap="round"/>
+                <path d="M9.99996 15V16.6667" stroke="#2329D6" stroke-linecap="round"/>
+                <path d="M12.9167 6.66667C12.9167 6.66667 12.5 5 10 5C7.50004 5 7.08337 6.63043 7.08337 7.5C7.08337 10.9503 12.9167 9.13745 12.9167 12.5C12.9167 13.3696 12.5 15 10 15C7.50004 15 7.08337 13.3333 7.08337 13.3333" stroke="#2329D6" stroke-linecap="round"/>
+            </svg>                
+        </div>
+        <div class="col-md-8">
+            <p class="f-14 fw-500">Current Salary</p>
+        </div>
+        <div class="col-md-3">
+            <span class="custom-cursor-pointer" (click)="closeDrawer()">
+            <svg width="20" class="pull-right" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.6668 4.27301L11.7268 3.33301L8.00016 7.05967L4.2735 3.33301L3.3335 4.27301L7.06016 7.99967L3.3335 11.7263L4.2735 12.6663L8.00016 8.93967L11.7268 12.6663L12.6668 11.7263L8.94016 7.99967L12.6668 4.27301Z" fill="#504F54"/>
+            </svg>
+            </span>
+        </div>
+    </div>
+</div>
+<hr class="header d-mobile-none">
+<hr class="mobile-view-line d-w-none">
+<div class="middle-container">
+    <div class="row main-container">
+        <div class="col-md-12">
+            <p class="f-18 fw-500">Current Salary Breakdown</p>  
+        </div>
+    </div>
+    <div class="row pt-4 pb-2">
+        <p class="f-14 fw-500">Select Template</p>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <app-salary-structure *ngIf="offerService.step == 1" (salaryBreakdownStructure)="salaryStructure($event)"></app-salary-structure>
+        </div>
+    </div>
+</div>
+<div class="last-container">
+    <div class="row mx-0 btn">
+        <ul class="justify-content-end custom-ul-button-frames p-0">
+            <li class="order-1 order-md-1">
+                <button type="button" class="btn btn-primary" mat-raised-button color="primary" (click)="updateSalary()">Update</button>
+            </li>
+            <li class="order-2 order-md-0">
+                <button type="button" class="btn btn-cancel" (click)="closeDrawer()" mat-raised-button>Cancel</button>
+            </li>
+        </ul>
+    </div>  
+</div>

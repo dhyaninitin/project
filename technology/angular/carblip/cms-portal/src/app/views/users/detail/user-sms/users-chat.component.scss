@@ -1,0 +1,26 @@
+.chat-input {
+    color: rgba(var(--color-primary)) !important;
+}
+
+.receive-msg {
+    background: var(--sidenav-item-background-active);
+}
+
+.tick {
+    height: 18px !important;
+    width: 18px !important;
+}
+
+.tick-pos {
+    position: relative;
+    top: 4px;
+}
+
+.status-pos {
+    position: relative;
+    top: -5px;
+}
+
+.message-date {
+    font-size: 12px !important;
+}

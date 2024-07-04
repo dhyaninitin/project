@@ -1,0 +1,73 @@
+<div class="card-box ">
+  <div class="row">
+    <h4 class="page-title" style="padding-left: 15px;">Manage: Payment List</h4>
+  </div>
+</div>
+
+
+<div class="row pt-3">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-cogs"></i> Listings
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table table-bordered">
+          <thead class="nowrap">
+            <tr>
+              <th>S.No</th>
+              <th [class.active]="order === 'jobPostId.jobTitle'" (click)="setOrder('jobPostId.jobTitle')">
+                Job Title
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'payerUserId.firstName'" (click)="setOrder('payerUserId.firstName')">
+                Paid By
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'amount'" (click)="setOrder('amount')">
+                Amount
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'status'" (click)="setOrder('status')">
+                Status
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'createdAt'" (click)="setOrder('createdAt')"> Received On
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th> Receipt </th>
+            </tr>
+          </thead>
+          <tbody *ngIf="paymentList.length">
+            <tr class="text-capitalize text-nowrap" *ngFor="let payment of paymentList | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index;">
+              <td>{{i+1}}</td>
+              <td>{{  payment?.jobPostId?.jobTitle }} </td>
+              <td>{{ payment?.payerUserId?.firstName }} {{payment?.payerUserId?.lastName}}</td>
+              <td>{{ payment?.amount  }}</td>
+              <td>{{ payment?.status }}</td>
+              <td>{{ payment?.createdAt | date:'mediumDate' }}</td>
+              <td>
+                <a target="_blank" href="{{payment?.receiptURL}}">Open Receipt</a></td>
+            </tr>
+          </tbody>
+          <tr class="text-center" *ngIf="!paymentList.length">
+            <td colspan="15">
+              <h6>No Record Found !</h6>
+            </td>
+          </tr>
+        </table>
+
+        <ul class="pagination" *ngIf="itemsPerPage < paymentList.length">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+

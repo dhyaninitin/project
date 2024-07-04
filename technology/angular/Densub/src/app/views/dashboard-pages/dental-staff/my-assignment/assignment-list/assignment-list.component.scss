@@ -1,0 +1,165 @@
+@import "../../../../../../scss/menu";
+@import "../../../../../../scss/card";
+@import "../../../../../../scss/tabs";
+@import "../../../../../../scss/common";
+
+.clockIn {
+    background-color: #4dbd74;
+    border-color: #4dbd74;
+    padding: 10px 18px;
+    color: #f5f5f5;
+    border: 0;
+    border-radius: 25px;
+    text-align: center;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+  .text-r{
+    text-align: right;
+  }
+  .d-f{
+    display: flex;
+  }
+  .text-c-mv-l{
+    text-align: center;
+  }
+  @media screen and (max-width: 600px) {
+    span.mobileAlignment {
+      text-align: left !important;
+    }
+    div.mobileAlignment {
+      text-align: left !important;
+    }
+    .text-r{
+      text-align: left;
+    }
+    .d-f{
+      display: block;
+    }
+    .m-padding-l-0{
+      padding-left: 0px;
+    }
+    .text-c-mv-l{
+      text-align: left;
+    }
+    .mv-mt-20{
+      margin-top: 20px;
+    }
+    .mv-pr-0{
+      padding-right: 0px;
+    }
+    .tab-mobile-view{
+      width: 72vw !important;
+    }
+  }
+  .boxes{
+    padding: 20px;
+    box-shadow: 0 0 24px 0 rgb(0 0 0 / 6%), 0 1px 0 0 rgb(0 0 0 / 2%);
+    border-radius: 3px;
+    margin-bottom: 30px;
+    background-color: #ffffff;
+  }
+  .boxes:hover{
+    background: #d9d9d95e;
+    transition: all 0.4s cubic-bezier(0.55, 0.06, 0.68, 0.19) 0s;
+  }
+  .clockOut {
+    background-color: #f86c6b;
+    border-color: #f86c6b;
+    padding: 10px 18px;
+    color: #f5f5f5;
+    border: 0;
+    border-radius: 25px;
+    text-align: center;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+
+  .btn-outline-primary {
+    color: #007bff;
+    border-color: #007bff;
+  }
+  .btn-option {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid #007bff;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  }
+  .dropdown-toggle::after {
+    display: none;
+  }
+  hr{
+    height: 0.1px;
+    width: 100%;
+    background-color: #f8f8f8;
+    border: none;
+    margin-bottom: 0px;
+  }
+  .jobLabelOpen{
+    background-color:#FFFF00;
+    color:hsl(200, 100%, 1%);
+}
+.jobLabelFilled{
+    background-color:#40E0D0;
+    color:hsl(200, 100%, 1%)
+}
+.jobLabelExpired{
+    background-color:#000000;
+    color:hsl(198, 25%, 92%)
+}
+.jobLabelCancelled{
+    background-color:#FF6347;
+    color:hsl(200, 100%, 1%);
+}
+.jobLabelAap{
+    background-color:#FFA500;
+    color:hsl(200, 100%, 1%);
+}
+.jobLabelCompleted{
+    background-color:#008000;
+    color:hsl(198, 25%, 92%)
+}
+.JobLabelInProgress{
+    background-color: #F5F5DC;
+    color:hsl(200, 100%, 1%);
+}
+.jobLabelCompletedMarkedAsPaid{
+  background-color:#008000;
+  color:hsl(198, 25%, 92%)
+}
+ 
+ 
+label{
+  color:#070808;
+}
+.changeColor{
+  color: #2768cf;
+}
+.button-center{
+  text-align: center;
+  margin: 20px 0px;
+}
+.filledOnMargin{
+  margin-left: 15px;
+}
+.main.row.license-expired-bar .top-bar {
+  width: auto !important;
+  margin-bottom: 15px;
+}
+
+.oval-shape{
+  border-radius:20px;
+}
+
+:host ::ng-deep dp-date-picker div .dp-input-container .dp-picker-input{
+  border-radius: 20px !important;
+}

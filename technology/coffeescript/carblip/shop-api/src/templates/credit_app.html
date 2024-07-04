@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <mate charest="utf-8" />
+        <title>Hello world!</title>
+        <style>
+          * {
+            font-family: "Courier New", Courier, monospace;
+          }
+          p {font-size: 10px; padding: 0; margin: 0; line-height: 14px; font-family: Arial, Helvetica, sans-serif;}
+          h4 { padding: 3px 0; margin:10px 0 5px ; font-weight: bold; font-size: 16px; font-size: 14px; line-height: 16px; font-family: Arial, Helvetica, sans-serif;}
+          .primary-app-wrapper,
+          .join-app-wrapper {
+            float: left;
+            width: 50%;
+          }
+        </style>
+    </head>
+    <body>
+        <h4 style="text-align: center;">Credit Application #{{ id }}</h4>
+        <p>Created At: {{ created_at }}</p>
+        <p>Source: {{ source }}</p>
+  
+        <h4>Vehicle Detail</h4>
+        {{#if vehicle_type }}
+        <p>Brand: {{ brand }}</p>
+        <p>Model: {{ model }} ( {{ year }} )</p>
+        <p>Trim: {{ trim }}</p>
+        <p>Exterior Colors: {{ exterior_colors }}</p>
+        <p>Interior Colors: {{ interior_colors }}</p>
+        <p>Options: {{ option_preferences }}</p>
+        {{else}}
+        <p>Type: {{ type }}</p>
+        {{/if}}
+        <p>Price: {{ price }} </p>
+        
+        <div class="primary-app-wrapper">
+        <h4>Primary Application</h4>
+        <p>First Name: {{ primary.first_name }}</p> 
+        <p>Middle Name: {{ primary.middle_name }}</p> 
+        <p>Last Name: {{ primary.last_name }}</p> 
+        <p>Phone Number: {{ primary.phone }}</p> 
+        <p>Email Address: {{ primary.email_address }}</p> 
+        <p>Date of Birth: {{ primary.date_of_birth }}</p> 
+        <p>Residence Type: {{ primary.residence_type }}</p> 
+        <p>Monthly Rent/Mortgage: {{ primary.monthly_rent }}</p> 
+        <p>Current Street Address: {{ primary.street_address }}</p> 
+        <p>Apt/suite/other: {{ primary.apt }}</p> 
+        <p>City: {{ primary.city }}</p> 
+        <p>State: {{ primary.state }}</p> 
+        <p>Zip Code: {{ primary.zipcode }}</p> 
+        <p>Present Employer Name: {{ primary.employer_name }}</p> 
+        <p>Employer Address: {{ primary.employer_address }}</p> 
+        <p>Employer Phone: {{ primary.employer_phone }}</p> 
+        <p>Gross Monthly Income: {{ primary.gross_monthly_income }}</p> 
+        <p>Social Security Number: {{ primary.social_security_number }}</p> 
+        <p>Driver’s License State: {{ primary.driver_licence_state }}</p> 
+        <p>Driver’s License Number: {{ primary.driver_licence_number }}</p> 
+        </div>
+        {{#if joint_app }}
+          <div class="join-app-wrapper">
+          <h4>Co Application</h4>
+          <p>First Name: {{ joint_app.first_name }}</p> 
+          <p>Middle Name: {{ joint_app.middle_name }}</p> 
+          <p>Last Name: {{ joint_app.last_name }}</p> 
+          <p>Phone Number: {{ joint_app.phone }}</p> 
+          <p>Email Address: {{ joint_app.email_address }}</p> 
+          <p>Date of Birth: {{ joint_app.date_of_birth }}</p> 
+          <p>Residence Type: {{ joint_app.residence_type }}</p> 
+          <p>Monthly Rent/Mortgage: {{ joint_app.monthly_rent }}</p> 
+          <p>Current Street Address: {{ joint_app.street_address }}</p> 
+          <p>Apt/suite/other: {{ joint_app.apt }}</p> 
+          <p>City: {{ joint_app.city }}</p> 
+          <p>State: {{ joint_app.state }}</p> 
+          <p>Zip Code: {{ joint_app.zipcode }}</p> 
+          <p>Present Employer Name: {{ joint_app.employer_name }}</p> 
+          <p>Employer Address: {{ joint_app.employer_address }}</p> 
+          <p>Employer Phone: {{ joint_app.employer_phone }}</p> 
+          <p>Gross Monthly Income: {{ joint_app.gross_monthly_income }}</p> 
+          <p>Social Security Number: {{ joint_app.social_security_number }}</p> 
+          <p>Driver’s License State: {{ joint_app.driver_licence_state }}</p> 
+          <p>Driver’s License Number: {{ joint_app.driver_licence_number }}</p> 
+          </div>
+        {{/if}}
+        <div style="clear:both"></div>
+    </body>
+</html>

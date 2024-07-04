@@ -1,0 +1,45 @@
+.top-15 {
+    margin-top: 15px !important;
+}
+
+.bottom-15 {
+    margin-bottom: 15px !important;
+}
+
+::ng-deep .mat-expansion-panel-body {
+    background-color: var(--background-base) !important;
+}
+
+.mat-expansion-panel-header {
+    background-color: var(--background-app-bar) !important;
+}
+
+.vex-mail-compose-editor {
+    min-height: 250px;
+}
+
+.rotate {
+    transform: rotate(180deg);
+}
+.mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+    color: rgba(var(--color-primary)) !important;
+}
+
+.item-center {
+    align-items: center;
+}
+
+:host ::ng-deep .mat-expansion-panel {
+    border: 1px solid #d4d4d4;
+}
+
+@media screen and (max-width: 600px) {
+    .hide-msg {
+      display: none;
+    }
+    .text-xs-m {
+        font-size: 0.75rem;
+    }
+}

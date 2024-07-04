@@ -1,0 +1,53 @@
+<mat-toolbar class="example-toolbar" color="primary">
+  <mat-toolbar-row>
+    <div class="container-fluid" id="toolbar-items">
+      <div class="row mt-3">
+        <div class="col-6 d-flex justify-content-start">
+          <mat-icon 
+          (click)="sidenav.toggle()" 
+          matTooltip="menu"
+          ><mat-icon>menu</mat-icon></mat-icon
+          >
+          <button
+            id="logo-btn"
+            mat-button
+            color="primary"
+            (click)="onComponentChange()"
+            routerLink="/dashboard"
+            class="app-name"
+          >
+            <h3>VV - INVOICE</h3>
+          </button>
+        </div>
+
+        <div class="col-6 d-flex justify-content-end">
+          <h3 id="user-name">{{ userName | titlecase }}</h3>
+          <span class="space-between"></span>
+          <mat-icon
+            [matMenuTriggerFor]="userAction"
+            matTooltip="actions"
+            id="userAction"
+            >account_circle</mat-icon
+          >
+          <mat-menu #userAction="matMenu">
+            <button mat-menu-item (click)="logout()">
+              <mat-icon>logout</mat-icon>logout
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #sidenav mode="side" [opened]="isSidenavOpen" (opened)="onSidenavOpen()" (closed)="onSidenavClose()">
+    <app-sidebar></app-sidebar>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="main-count">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

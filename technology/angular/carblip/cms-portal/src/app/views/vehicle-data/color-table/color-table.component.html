@@ -1,0 +1,56 @@
+<mat-progress-bar *ngIf="progressBar" mode="indeterminate"></mat-progress-bar>
+<table @stagger *ngIf="colorList" [dataSource]="colorList" multiTemplateDataRows matSort class="w-full" mat-table>
+    <ng-container matColumnDef="{{column.key}}" *ngFor="let column of colorColumnHeaders">
+      <ng-container>
+        <th *matHeaderCellDef mat-header-cell>{{column.label}}</th>
+        <td *matCellDef="let item" mat-cell>
+          <span *ngIf="column.key == 'VehicleColorsMedia'" class="trim-image">
+            <img [src]="loadColorImage(item)" class="trim-image profile h-12 w-12 align-middle">
+          </span>
+
+            <span *ngIf="column.key != 'color_hex_code' && column.key != 'VehicleColorsMedia'">
+                {{item[column.key]}}
+            </span>
+
+            <span *ngIf="column.key == 'color_hex_code' && column.key != 'VehicleColorsMedia' ">
+                <div class="colors" *ngIf="column.key == 'color_hex_code'" [style.background-color]="getColorCode(item[column.key])">
+                </div>
+            </span>
+
+        </td>
+      </ng-container> 
+    </ng-container>
+
+    <ng-container matColumnDef="expand">
+      <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+      <td mat-cell *matCellDef="let item">
+        <button mat-icon-button aria-label="expand row" (click)="(expandedElement = expandedElement === item ? null : item); $event.stopPropagation(); getOptions(item,expandedElement = expandedElement === item ? null : item)">
+          <mat-icon *ngIf="expandedElement !== item">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="expandedElement === item">keyboard_arrow_up</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="colorColumnsToDisplayWithExpand.length">
+        <div class="example-element-detail"
+           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+          <div class="example-element-description">
+            <app-option-table *ngIf="isOptionColumnAvailable && element.simple_color == simpleColor"
+            class="display-block w-100 list-table" [optionColumnHeaders] = "optionColumnHeaders" [optionList] = "optionList"
+            ></app-option-table>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="colorColumnsToDisplayWithExpand"></tr>
+    <tr mat-row *matRowDef="let element; columns: colorColumnsToDisplayWithExpand;"
+      class="example-element-row cursor-pointer" [class.example-expanded-row]="expandedElement === element"
+      (click)="getOptions(element, expandedElement)">
+    </tr>
+    <tr mat-row *matRowDef="let element; columns: ['expandedDetail']" class="example-detail-row"></tr>
+
+</table>
+
+<div class="text-center mt-2" *ngIf="!progressBar && colorList && colorList.length === 0">There are no color available for this trim.</div> 

@@ -1,0 +1,38 @@
+.mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+  color: rgba(var(--color-primary)) !important;
+}
+
+.mat-expansion-panel-header {
+  background-color: var(--background-app-bar) !important;
+}
+
+.vex-mail-compose-editor {
+  min-height: 250px;
+}
+.rotate {
+  transform: rotate(180deg);
+} 
+
+.item-center {
+  align-items: center;
+}
+
+.attachment-btn {
+  position: relative;
+  top: 9px;
+}
+
+.m-mail-height {
+  max-height: 700px;
+}
+
+@media screen and (max-width: 600px) {
+  .hide-msg {
+    display: none;
+  }
+  .text-xs-m {
+    font-size: 0.75rem;
+  }
+}

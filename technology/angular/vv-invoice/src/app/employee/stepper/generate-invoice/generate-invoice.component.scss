@@ -1,0 +1,42 @@
+.main-container {
+  .drop-downs {
+    padding: 0rem 1rem;
+    #dropdown {
+      margin-left: 15px !important;
+    }
+  }
+
+  .btns {
+    padding: 6px 9px;
+  }
+
+  #dropdown {
+    margin: 0px 10px !important;
+  }
+
+  #increase-height {
+    height: 3.5rem !important;
+  }
+
+  @media screen and (max-width: 605px) {
+    .container-fluid {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    #select_global_template,
+    #dropdown,
+    div button {
+      width: 100% !important;
+    }
+
+    #dropdown {
+      margin: 0px 0px !important;
+    }
+
+    #prv-btn {
+      display: flex;
+      justify-content: flex-end !important;
+    }
+  }
+}

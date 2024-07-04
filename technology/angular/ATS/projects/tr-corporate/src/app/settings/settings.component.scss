@@ -1,0 +1,130 @@
+@import "~@cloudtalentrecruit/ng-design/assets/styles/1-base/base-dir";
+@import "~@cloudtalentrecruit/ng-design/assets/styles/0-plugins/plugins-dir.scss";
+
+.mat-drawer.mat-drawer-side {
+  border-right: #ebeaed 1px solid;
+}
+.mat-drawer-container,
+::ng-deep .mat-drawer-content {
+  height: 100%;
+  overflow: inherit;
+  z-index: 0;
+  .sidenav-content {
+    //padding: 0 2rem;
+    height: 100%;
+    position: relative;
+    background: white;
+    z-index: 0;
+    @include media-breakpoint-down(md) {
+      padding: 0 1rem;
+      height: auto;
+    }
+  }
+  
+}
+
+.sidenav {
+  overflow: hidden !important;
+  .togglebtn {
+    transform: rotate(180deg);
+  }
+}
+
+.togglebtn {
+  position: fixed;
+  left: 50px;
+  top: 14px;
+  font-size: 1.5rem;
+  z-index: 9999;
+  border: #ebeaed 1px solid;
+  background: $white;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  .icon-mc {
+    font-size: 19px;
+    &::before {
+      color: #b6b4ba;
+    }
+  }
+  ::ng-deep .mat-button-wrapper > * {
+    vertical-align: top;
+  }
+  @include media-breakpoint-down(md) {
+    left: 92%;
+    top: 78px;
+    background: $theme;
+    border-color: $theme;
+    border-radius: 4px 0 0 4px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    .icon-mc {
+      margin-left: 3px;
+      font-size: 24px;
+      &::before {
+        color: $white;
+      }
+    }
+  }
+  &.right {
+    // left: 311px;
+    // border-radius: 0 6px 6px 0;
+    // width: 20px;
+    // @include media-breakpoint-down(md) {
+    //     left: 250px;
+    // }
+    //  .icon-mc {
+    //      right: 4px;
+    //  }
+  }
+}
+.move-sidena-button {
+  left: calc(250px + 50px);
+  transition: left 0.8s ease-out;
+}
+.mobile-togglebtn {
+  .icon-mc.mc-menu {
+    vertical-align: bottom;
+  }
+  @include media-breakpoint-up(md) {
+    display: none;
+  }
+}
+.open-bottombtn {
+  .icon-mc {
+    vertical-align: bottom;
+    font-size: 27px;
+  }
+  @include media-breakpoint-up(md) {
+    display: none;
+  }
+}
+.btn-menu-filter {
+  position: fixed;
+  right: 6px;
+  top: 80px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 2;
+  .mat-icon-button {
+    font-size: 20px;
+  }
+  &.hide {
+    display: none;
+  }
+}
+::ng-deep
+  .mat-drawer-container.right-drawer.mat-drawer-container-has-open
+  ~ .btn-menu-filter {
+  display: none;
+}
+
+.hide-sidemenu-btn {
+  @include media-breakpoint-down(md) {
+    display: none;
+  }
+}

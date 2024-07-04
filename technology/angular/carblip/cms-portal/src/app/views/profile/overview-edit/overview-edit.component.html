@@ -1,0 +1,231 @@
+<form [formGroup]="profileForm"  (ngSubmit)="onSubmit()" autocomplete="off">
+    <div class="flex items-center" mat-dialog-title>
+      <h2 class="headline m-0 flex-auto">{{ profileForm.get('firstname').value + ' ' + profileForm.get('lastname').value }}</h2>
+  
+      <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+        <mat-icon svgIcon="mat:close"></mat-icon>
+      </button>
+    </div>
+  
+    <mat-divider class="-mx-6 text-border"></mat-divider>
+  
+    <mat-dialog-content class="flex flex-col">
+      <div class="flex flex-col sm:flex-row">
+        <mat-form-field class="mt-6 flex-auto">
+          <mat-label>First Name</mat-label>
+          <input cdkFocusInitial [formControl]="profileForm.controls['firstname']" placeholder="First Name" matInput>
+          <mat-icon class="mr-3" matPrefix svgIcon="mat:person"></mat-icon>
+        </mat-form-field>
+  
+        <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+          <mat-label>Last Name</mat-label>
+          <input [formControl]="profileForm.controls['lastname']" placeholder="Last Name" matInput>
+          <mat-icon class="mr-3" matPrefix svgIcon="mat:person"></mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="flex flex-col sm:flex-row">
+        <mat-form-field class="flex-auto w-245">
+          <mat-label>Phone</mat-label>
+          <input
+          matInput
+          autocomplete="new-phone"
+          name="new-phone"
+          pattern="^\d{3}[- ]?\d{3}[- ]?\d{4}$"
+          placeholder="Phone"
+          [formControl]="profileForm.controls['phone']"
+          appPhoneNumber
+          #phoneInput>
+          <mat-icon class="mr-3" matPrefix svgIcon="mat:phone"></mat-icon>
+          <span matPrefix class="prefix">+{{countryCode}}</span>
+        </mat-form-field>
+
+        <mat-form-field class="sm:ml-6 flex-auto w-245" *ngxPermissionsOnly="['concierge']">
+          <mat-label>Carblip Assigned Phone</mat-label>
+          <input
+          matInput
+          autocomplete="new-phone"
+          name="new-phone"
+          pattern="^\d{3}[- ]?\d{3}[- ]?\d{4}$"
+          placeholder="Carblip Assigned Phone"
+          [value]="defaults | phone: 'US'"
+          disabled>
+          <mat-icon class="mr-3" matPrefix svgIcon="mat:phone"></mat-icon>
+          <span matPrefix class="prefix">+{{countryCode}}</span>
+        </mat-form-field>
+
+        <mat-form-field class="sm:ml-6 flex-auto" *ngxPermissionsExcept="['concierge']">
+          <mat-label>Email</mat-label>
+          <input disabled [value]="userProfile?.email" placeholder="Email" matInput>
+          <mat-icon class="mr-3" matPrefix svgIcon="mat:email"></mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="flex flex-col sm:flex-row" *ngxPermissionsOnly="['concierge']">
+        <mat-form-field class="flex-auto">
+          <mat-label>Email</mat-label>
+          <input disabled [value]="userProfile?.email" placeholder="Email" matInput>
+          <mat-icon class="mr-3" matPrefix svgIcon="mat:email"></mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="flex flex-col sm:flex-row">
+        <mat-form-field class="flex-auto">
+          <mat-label>Personal Email</mat-label>
+          <input [formControl]="profileForm.controls['personalemail']" placeholder="Personal Email" matInput>
+          <mat-icon class="mr-3" matPrefix svgIcon="mat:email"></mat-icon>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field class="flex-auto">
+        <mat-label>Location</mat-label>
+        <input disabled [value]="getLocation()" placeholder="Location" matInput>
+        <mat-icon class="mr-3" matPrefix svgIcon="mat:location_on"></mat-icon>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto">
+        <mat-label>Role</mat-label>
+        <input disabled [value]="getRole()" placeholder="Role" matInput>
+        <mat-icon class="mr-3" matPrefix svgIcon="mat:work"></mat-icon>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto">
+        <mat-label>Password</mat-label>
+        <input autocomplete="new-password" [type]="inputType[0]" name="password" matInput (keypress)="valueChanges($event)" [formControl]="profileForm.controls['password']" placeholder="Password">
+        <button (click)="toggleVisibility(0)" mat-icon-button matSuffix matTooltip="Toggle Visibility" type="button">
+          <mat-icon *ngIf="visible[0]" svgIcon="mat:visibility"></mat-icon>
+          <mat-icon *ngIf="!visible[0]" svgIcon="mat:visibility_off"></mat-icon>
+        </button>
+        <!-- <mat-error *ngIf="profileForm.controls['password'].hasError('minlength')" class="form-error-msg">The password must be at least 6 characters.</mat-error> -->
+        <mat-error *ngIf="profileForm.controls['password'].hasError('pattern')" class="form-error-msg">You must select a password that is a minimum of 8 characters and includes at least 1 uppercase character, 1 number, and 1 symbol or special character.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto" [ngClass]="profileForm.controls['password'].hasError('pattern') ? 'mt-4' : ''">
+        <mat-label>Confirm Password</mat-label>
+        <input autocomplete="new-confirm-password" [type]="inputType[1]" name="confirmPassword" matInput [formControl]="profileForm.controls['confirmPassword']" placeholder="Confirm Password">
+        <button (click)="toggleVisibility(1)" mat-icon-button matSuffix matTooltip="Toggle Visibility" type="button">
+          <mat-icon *ngIf="visible[1]" svgIcon="mat:visibility"></mat-icon>
+          <mat-icon *ngIf="!visible[1]" svgIcon="mat:visibility_off"></mat-icon>
+        </button>
+        <mat-error *ngIf="profileForm.controls['confirmPassword'].hasError('equalTo')" class="form-error-msg">Passwords do not match.</mat-error>
+      </mat-form-field>
+
+
+
+      <mat-accordion class="mb-4">
+      <mat-expansion-panel hideToggle="true"  (click)="click()">
+        <mat-expansion-panel-header>
+          <mat-panel-title><mat-icon class="mr-3">whatshot</mat-icon> Social Profiles</mat-panel-title>
+          <mat-icon>{{icon  ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</mat-icon>
+        </mat-expansion-panel-header>
+          <div class="grid">
+          <mat-form-field class="flex-auto w-51">
+            <mat-label>Discord</mat-label>
+            <input type="text" [formControl]="profileForm.controls['discord_url']" placeholder="Discord" matInput>
+            <mat-icon matPrefix mat-list-icon svgIcon="logo:discord"></mat-icon>
+          </mat-form-field>
+    
+          <mat-form-field class="flex-auto w-51">
+            <mat-label>Twitter</mat-label>
+            <input type="text" [formControl]="profileForm.controls['twitter_url']" placeholder="Twitter" matInput>
+            <mat-icon matPrefix mat-list-icon svgIcon="logo:twitter"></mat-icon>
+          </mat-form-field>
+    
+          <mat-form-field class="flex-auto w-51">
+            <mat-label>Instagram</mat-label>
+            <input type="text" [formControl]="profileForm.controls['instagram_url']" placeholder="Instagram" matInput>
+            <mat-icon matPrefix mat-list-icon svgIcon="logo:instagram"></mat-icon>
+          </mat-form-field>
+    
+          <mat-form-field class="flex-auto w-51">
+            <mat-label>TikTok</mat-label>
+            <input type="text" [formControl]="profileForm.controls['tiktok_url']" placeholder="TikTok" matInput>
+            <mat-icon matPrefix mat-list-icon svgIcon="logo:tiktok"></mat-icon>
+          </mat-form-field>
+    
+          <mat-form-field class="flex-auto w-51">
+            <mat-label>Facebook</mat-label>
+            <input type="text" [formControl]="profileForm.controls['facebook_url']" placeholder="Facebook" matInput>
+            <mat-icon matPrefix mat-list-icon svgIcon="logo:facebook"></mat-icon>
+          </mat-form-field>
+    
+          <mat-form-field class="flex-auto w-51">
+            <mat-label>LinkedIn</mat-label>
+            <input type="text" [formControl]="profileForm.controls['linkedin_url']" placeholder="LinkedIn" matInput>
+            <mat-icon matPrefix mat-list-icon svgIcon="logo:linkedin"></mat-icon>
+          </mat-form-field>
+          </div>
+      </mat-expansion-panel>
+      </mat-accordion>
+
+      <div class="flex flex-col sm:flex-row mt-4">
+        <mat-slide-toggle color="primary" [checked]="profileForm.controls['two_factor_slider'].value == 1" 
+        [formControl]="profileForm.controls['two_factor_slider']" (click)="show2fAoptions($event)"></mat-slide-toggle>
+        <h5 class="subheading pl-2"> Two Factor Authentication</h5>
+        <div class="flex-auto text-right" *ngIf="profileForm.controls['two_factor_slider'].value == 1">
+          <mat-radio-group [formControl]="profileForm.controls['two_factor_option']" class="p-3">
+            <mat-radio-button color="primary" (click)="enable2FAuth= true; onTwoFactorSelection($event, 1)" class="mr-4" [value]="1">Google Authenticator</mat-radio-button>
+            <mat-radio-button color="primary" (click)="enable2FAuth= true; onTwoFactorSelection($event, 0)" [value]="0">Phone Number</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+
+    <!--Google Auth 2FA Setup -->
+    <div class="m-4" align="center" *ngIf="showMethod() == 1 && !setupCompleted">
+      <p>You will need a Google Authenticator to complete this process.</p>
+      <p>Scan QR Code into your app.</p>
+      <br>
+      <mat-spinner class="input-mat-spinner-loader p-4" color="primary" [diameter]="30" *ngIf="loadingQrCode"></mat-spinner>
+      <ngx-qrcode [elementType]="elementType" [errorCorrectionLevel]="correctionLevel" [value]="secretKey" alt="QR Code"></ngx-qrcode>
+      <br>
+      <p>Enter the 6-digit authentication code generated by your app.</p>
+      <br>
+      <ng-otp-input #ngOtpInput ngDefaultControl [formControl]="otp" (onInputChange)="onOtpChange($event)" [config]="{length:6, allowNumbersOnly: true}"></ng-otp-input>
+      <br>
+      <button (click)="verifyOtp()" [disabled]="!isValidOTP" color="primary" mat-flat-button type="button">Verify</button>
+    </div>
+
+    <!-- Phone Number 2FA Setup -->
+    <div class="m-4" align="center" *ngIf="showMethod() == 2">
+      <span *ngIf="!isOTPSent">
+        <p>To enable the two factor authentication you need to first verify your phone number. Please click on send SMS button to send the OTP on your phone number {{ profileForm.controls['phone'].value | phone : 'US'}}</p>
+        <br>
+        <button (click)="sendSms()" [disabled]="isSendingSMS" color="primary" mat-flat-button type="button">Send SMS</button>
+        <br>
+      </span>
+      <span *ngIf="isOTPSent">
+        <p>Enter the 6-digit authentication code below we sent to {{ profileForm.controls['phone'].value | phone : 'US'}}</p>
+        <br>
+        <ng-otp-input #ngOtpInput ngDefaultControl [formControl]="otp" (onInputChange)="onOtpChange($event)" [config]="{length:6, allowNumbersOnly: true}"></ng-otp-input>
+        <br>
+        <button *ngIf="isOTPSent" color="primary" (click)="sendSms()" [disabled]="isSendingSMS" mat-flat-button type="button">Resend Code</button>
+        &nbsp;&nbsp;
+        <button (click)="verifyOtp()" [disabled]="!isValidOTP" color="primary" mat-flat-button type="button">Verify</button>
+      </span>
+    </div>
+
+    <!-- change Method -->
+    <div class="msg" align="center" *ngIf="userProfile?.is_verify == 1 && changeMethod && showMethod() != 1 && showMethod() != 2">
+      <p *ngIf="profileForm.value.two_factor_option == 1">In order to change your two factor authentication method, please enter the 6-digit authentication code generated by your app</p>
+      <p *ngIf="profileForm.value.two_factor_option == 0">In order to change your two factor authentication method, please enter the 6-digit authentication code below we sent to {{ profileForm.controls['phone'].value | phone : 'US'}}</p>
+      <br>
+      <ng-otp-input #ngOtpInput ngDefaultControl [formControl]="otp" (onInputChange)="onOtpChange($event)" [config]="{length:6, allowNumbersOnly: true}"></ng-otp-input>
+      <br>
+      <span *ngIf="profileForm.value.two_factor_option == 0">
+        <button color="primary" (click)="sendSms()" [disabled]="isSendingSMS" mat-flat-button type="button">Resend Code</button>
+        &nbsp;&nbsp;
+      </span>
+      <button (click)="verifyOtp()" [disabled]="!isValidOTP" color="primary" mat-flat-button type="button">Verify</button>
+    </div>
+
+    <div class="m-4" align="center" *ngIf="setupCompleted">
+      <mat-icon class="success-mark">check_circle</mat-icon>
+      <p>Please click on update to complete two factor Authentication setup!</p>
+    </div>
+    <mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close type="button">Cancel</button>
+      <button [disabled]="profileForm.invalid || profileForm.pristine || disableButton()" color="primary" mat-flat-button type="submit">Update</button>
+    </mat-dialog-actions>
+    </mat-dialog-content>
+  </form>
+  

@@ -1,0 +1,80 @@
+<vex-page-layout>
+	<vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+		<div class="w-full flex flex-col sm:flex-row justify-between">
+			<div>
+				<h1 class="title mt-0 mb-1">Vehicle Data</h1>
+				<vex-breadcrumbs [crumbs]="['VehicleData']"></vex-breadcrumbs>
+			</div>
+		</div>
+	</vex-page-layout-header>
+
+    <vex-page-layout-content class="-mt-6">
+        <div class="card -mt-16">
+			<div class="head bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
+				<h2
+					class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
+					<span>Vehicle Data</span>
+				</h2>
+
+				<span class="flex-1"></span>
+				<!-- *ngFor="let item of status"  -->
+				<span class="flex">
+					<div class="ml-4 flex-none indicator" [ngClass]="getCurrentStatus(1) ? 'success' : ''" [matTooltip]="getCurrentStatus(1) ? 'Scraper ran successfully' : ''">
+					</div>
+
+					<div class="ml-4 flex-none indicator" [ngClass]="getCurrentStatus(2) ? 'running' : ''" [matTooltip]="getCurrentStatus(2) ? 'Scraper is running' : ''">
+					</div>
+
+					<div class="ml-4 flex-none indicator"  [ngClass]="getCurrentStatus(3) ? 'failed' : ''" [matTooltip]="getCurrentStatus(3) ? 'Scraper has failed' : ''">
+					</div>
+
+				</span>
+			</div>
+
+			<mat-progress-bar *ngIf="(fetching$ | async)" mode="indeterminate"></mat-progress-bar>
+			<div class="overflow-auto h-full-vh sticky">
+				<app-year-table *ngIf="isColumnAvailable" class="display-block w-100 list-table"
+				[columnHeaders]="columnHeaders"></app-year-table>
+			</div>
+		</div>
+
+		<div class="mt-6 flex flex-col md:flex-row md:items-start">
+			<div class="flex-auto">
+				<div class="card">
+					<div class="px-gutter py-4 border-b flex justify-content-space-between">
+						<h2 class="title m-0">Vehicle Data History</h2>
+					</div>
+					<mat-tab-group class="px-gutter" animationDuration="1000ms" (selectedTabChange)="ontabCnange($event)">
+						<mat-tab *ngFor="let tab of tabs" [label]="tab.label">
+							<div class="flex flex-col mt-3 sm:flex-row">
+								<mat-progress-bar *ngIf="(logFetching$ | async)"
+									mode="indeterminate"></mat-progress-bar>
+								<ul class="log-ul" *ngIf="logs?.length > 0">
+									<li *ngFor="let log of logs" @fadeInUp>
+										<span [innerHTML]="log.content"></span>
+										{{ formatLogMessage(log.content) }} {{ log.created_at | date:'MM/dd/yyy \'at\'
+										hh:mm a'}}
+									</li>
+								</ul>
+							</div>
+
+							<div class="text-center mt-2" *ngIf="(logDidFetch$ | async) && logs?.length == 0">There are
+								no {{tab.label.toLowerCase()}} history available.</div>
+
+							<div class="flex flex-col sm:flex-row justify-content-end">
+								<mat-paginator #paginator [length]="logPagination.length"
+									[pageSize]="logPagination.pageSize" [pageIndex]="logPagination.pageIndex"
+									[pageSizeOptions]="[20, 50, 100]" [showFirstLastButtons]="true"
+									(page)="onLogPaginateChange($event)">
+								</mat-paginator>
+							</div> 
+
+						</mat-tab>
+					</mat-tab-group>
+				</div>
+			</div>
+		</div>
+		
+    </vex-page-layout-content>
+
+</vex-page-layout>

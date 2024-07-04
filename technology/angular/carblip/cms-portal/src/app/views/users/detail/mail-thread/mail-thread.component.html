@@ -1,0 +1,86 @@
+<mat-accordion  *ngFor="let item of zimbraMails; let i=index;" @fadeInUp>
+  <mat-expansion-panel class="top-15" [ngClass]="i == zimbraMails.length-1 ? 'bottom-15' : ''" (opened)="showThreadDetails(item, i);" [expanded]="panelState == i">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <span class="text-xs-m">{{item.user_name | titlecase}}</span>
+      </mat-panel-title>
+      <mat-panel-description>
+        <div class="flex item-center" [ngClass]="item.status == 0 ? 'text-bold': ''">
+          <div class="hide-msg text-xs-m">{{ item.subject | slice: 0:25 }}{{ item.subject.length > 25 ? "...": "" }} - </div>&nbsp;
+          <div class="hide-msg text-xs-m" [innerText]="shortMessage(item.header_msg)"></div>
+        </div>
+        <div class="text-xs-m flex">
+          <p class="pr-2 text-xs-m">{{item.mail_date | date}}</p>
+          <mat-icon *ngIf="item.type == 'Sent'" class="flex-none text-primary icon-sm" svgIcon="mat:call_made"></mat-icon>
+          <mat-icon *ngIf="item.type == 'Received'" class="flex-none text-primary icon-sm" svgIcon="mat:call_received"></mat-icon>
+        </div>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div  class="overflow-hidden">
+      <div class="border rounded mt-4 p-2 pr-8 relative">
+        <table class="w-full truncate table-fixed">
+          <tbody>
+          <tr>
+            <td class="pr-2 font-medium w-12">From:</td>
+            <td class="truncate">
+              <span class="mx-2">&bull;</span><span class="text-secondary">{{item?.from}}</span>
+            </td>
+          </tr>
+          <tr [@dropdown]="dropdownOpen" @fadeInUp *ngIf="dropdownOpen">
+            <td class="pr-2 font-medium w-12">To:</td>
+            <td class="truncate">
+              <span class="mx-2">&bull;</span><span class="text-secondary">{{item?.to}}</span>
+            </td>
+          </tr>
+          <tr [@dropdown]="dropdownOpen" @fadeInUp *ngIf="dropdownOpen">
+            <td class="pr-2 font-medium w-12">Subject:</td>
+            <td class="truncate">
+              <span class="mx-2">&bull;</span><span class="text-secondary">{{item?.subject}}</span>
+            </td>
+          </tr>
+          <tr [@dropdown]="dropdownOpen" @fadeInUp *ngIf="dropdownOpen">
+            <td class="pr-2 font-medium w-12">Date:</td>
+            <td class="truncate">
+              <span class="mx-2">&bull;</span><span class="text-secondary">{{ item.mail_date | date:'medium' }}</span></td>
+          </tr>
+          </tbody>
+        </table>
+
+        <button (click)="toggleDropdown()" class="absolute top-0 right-0" mat-icon-button type="button">
+          <mat-icon class="text-secondary icon-sm" svgIcon="mat:keyboard_arrow_down" [ngClass]="dropdownOpen ? 'rotate' : ''"></mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Message Body -->
+    <div *ngIf="panelState == i" class="py-4 prose" [innerHTML]="item?.msg"></div>
+
+    <!-- Attachments sections -->
+    <span *ngIf="item.file != null && item.file.length > 0">
+      <div *ngFor="let attachment of item.file; let fileIndex = index">
+        <div class="vex-mail-compose-attachment my-2 rounded-full border px-4 py-1 flex items-center hover:bg-hover transition duration-200 ease-in-out cursor-pointer relative"
+            matRipple>
+          <mat-icon *ngIf="attachment.mimetype == 'pdf'" class="flex-none text-primary icon-sm" svgIcon="mat:picture_as_pdf"></mat-icon>
+          <mat-icon *ngIf="attachment.mimetype != 'pdf'" class="flex-none text-primary icon-sm" svgIcon="mat:image"></mat-icon>
+          <p class="flex-auto ml-4 text-sm">{{attachment.documentname}}</p>
+
+          <p class="text-sm text-secondary mr-2 flex-none">{{attachment.filesize}}</p>
+          <button (click)="$event?.stopPropagation();onClickDownloadPdf(item.id,fileIndex)" class="flex-none w-8 h-8 leading-none" mat-icon-button type="button">
+            <mat-icon class="icon-sm" svgIcon="mat:cloud_download"></mat-icon>
+          </button>
+        </div>
+      </div>
+    </span>
+
+    <!-- Reply Button -->
+    <div @fadeInUp (click)="openThreadEditor(item)" class="py-2 mt-2 rounded hover:bg-hover transition ease-in-out duration-200 flex items-center -mx-2 px-2 relative cursor-pointer"
+       matRipple>
+     <div class="flex-none bg-primary/10 text-primary rounded-full w-8 h-8 flex justify-center items-center mr-4">
+       <mat-icon svgIcon="mat:reply"></mat-icon>
+     </div>
+       <p class="flex-1" >Click to <span class="font-medium">Reply</span></p>
+     </div>
+  </mat-expansion-panel>
+</mat-accordion>
+

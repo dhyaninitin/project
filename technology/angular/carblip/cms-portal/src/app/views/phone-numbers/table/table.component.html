@@ -1,0 +1,62 @@
+<table @stagger *ngIf="requests" [dataSource]="requests" matSortActive={{sortKey}} matSortDirection={{sortDirection}} matSortDisableClear matSort (matSortChange)="sortData($event)" class="w-full" mat-table>
+	<ng-container matColumnDef="first_name">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>First Name</th>
+		<td *matCellDef="let item" mat-cell><a [ngClass]="item.contact_id != null ? 'link' : ''">{{ item?.first_name }}</a></td>
+	</ng-container>
+	<ng-container matColumnDef="last_name">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Last Name</th>
+		<td *matCellDef="let item" mat-cell><a [ngClass]="item.contact_id != null ? 'link' : ''">{{ item?.last_name }}</a></td>
+	</ng-container>
+	<ng-container matColumnDef="email">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Email</th>
+		<td *matCellDef="let item" mat-cell><a [ngClass]="item.contact_id != null ? 'link' : ''">{{ item?.email }}</a></td>
+	</ng-container>
+	<ng-container matColumnDef="phone">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Phone</th>
+		<td *matCellDef="let item" mat-cell><a [ngClass]="item.contact_id != null ? 'link' : ''">{{ item?.phone | phone: 'US' }}</a></td>
+	</ng-container>
+	<ng-container matColumnDef="created_at">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Created Date</th>
+		<td *matCellDef="let item" mat-cell>{{ item.created_at | date:'MM/dd/yyy h:mm a' }}</td>
+	</ng-container>
+	<ng-container matColumnDef="updated_at">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Updated Date</th>
+		<td *matCellDef="let item" mat-cell>{{ item.updated_at | date:'MM/dd/yyy h:mm a' }}</td>
+	</ng-container>
+
+	<ng-container matColumnDef="actions">
+		<th *matHeaderCellDef mat-header-cell></th>
+		<td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
+			<button *ngIf="row?.is_deleted == 1" (click)="$event.stopPropagation();getSelectedRecord(row)"
+				[matMenuTriggerData]="{ customer: row }"
+				[matMenuTriggerFor]="actionsMenu"
+				mat-icon-button
+				type="button">
+				<mat-icon svgIcon="mat:more_horiz"></mat-icon>
+			</button>
+		</td>
+	</ng-container>
+
+	<tr *matHeaderRowDef="getDisplayedColumns(); sticky: true" mat-header-row></tr>
+	<tr
+		*matRowDef="let row; columns: getDisplayedColumns();"
+			@fadeInUp
+			class="hover:bg-hover trans-ease-out cursor-pointer"
+			mat-row></tr>
+</table> 
+
+<div class="text-center mt-2" *ngIf="(didFetch$ | async) && requests.length === 0">There are no phone numbers available. Please enter in a user's phone numbers to view them here</div>
+
+<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+<ng-template let-customer="customer" matMenuContent>
+    <button mat-menu-item (click)="onEdit(selectedRecordDetail)">
+        <mat-icon svgIcon="mat:edit"></mat-icon>
+        <span>Assign User</span>
+    </button>
+	<button mat-menu-item (click)="onDelete(selectedRecordDetail)">
+        <mat-icon svgIcon="mat:delete"></mat-icon>
+        <span>Delete</span>
+    </button>
+</ng-template>
+</mat-menu>
+

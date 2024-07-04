@@ -1,0 +1,2246 @@
+<!-- New UI Started -->
+<div class="col-md-12 px-4">
+  <div class="col-12">
+    <div class="page-title-box">
+      <h4 class="page-title float-left" style="padding-left: 20px;">My Job Postings</h4>
+      <ol class="breadcrumb float-right">
+        <!-- <li class="breadcrumb-item"><a href="#">Abstack</a></li>
+                       <li class="breadcrumb-item"><a href="#">UI Kit</a></li>
+                       <li class="breadcrumb-item active">Tabs</li> -->
+      </ol>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+<div class="col-md-12">
+  <div class="card-box">
+    <!-- your navs bound to current route fragments -->
+    <ul class="nav nav-tabs tabs-bordered nav-justified" role="tablist">
+      <li *ngFor="let tab of jobTabs; let first = first; let indexx = index;" [ngClass]="{firstItem: first}" role="presentation"
+        class="nav-item">
+        <a (click)="selectATab(tab)" class="nav-link" aria-controls="one" role="tab" data-toggle="tab"
+          [class.active]="selectedJobTab===tab" [ngClass]="indexx == 2 || indexx == 3 ? 'mv-tab-view' : ''">{{tab}}</a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <!-- open job start -->
+      <div *ngIf="selectedJobTab === jobTabs[0]" role="tabpanel" class="tab-pane active" id="one">
+        <div class="card-box" style="padding-bottom: 0%;">
+          <div class="row">
+            <div class="">
+              <div class="input-group m-b-20">
+                <!-- <input class="form-control"  type="text" value="" placeholder="Search" style="width: 300px;">
+                            <span class="input-group-append">
+                                <button type="button"  class="btn waves-effect waves-light btn-primary"  style="height: 35px; padding: 6px 18px; border-radius: 0.20rem;" ><i class="fa fa-search" aria-hidden="true"></i></button>
+                            </span> -->
+                <button type="button" class="btn btn-outline-primary btn-option filterBtn oval-shape mt-0 mb-4" (click)="isCollapsed = !isCollapsed"
+                  [attr.aria-expanded]="!isCollapsed" aria-controls="collapseSearch"
+                  style="height: 35px; padding: 6px 18px; margin-left: 4px;"><i class="fa fa-sliders"
+                    aria-hidden="true"></i> Filters
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <hr />
+          </div>
+          <div id="collapseSearch" [ngbCollapse]="isCollapsed">
+            <div class="row">
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-sm-9" style="padding-right: 0px;">
+                    <i class="mdi mdi-filter-outline">Job Date</i>
+                    <dp-date-picker [(ngModel)]="dataFilterForOpen.jobDate" class="oval-shape" placeholder="Select From"
+                      [config]="datePickerConfig">
+                    </dp-date-picker>
+                    <dp-date-picker class="mt-2 oval-shape" [(ngModel)]="dataFilterForOpen.jobDateTo" placeholder="Select To"
+                      [config]="datePickerConfig">
+                    </dp-date-picker>
+                  </div>
+                  <div class="col-sm-1" style="padding-left: 0px;">
+                    <i class="mdi mdi-filter-outline"></i>
+                    <br>
+                    <button type="button" style="border: 1px solid #ffffff;" class="btn btn-outline-primary btn-option"  (click)="setOrder('jobDate')">
+                      <span><i class="fa fa-sort" aria-hidden="true"></i></span>
+                      <!-- <span [hidden]="reverse">▼</span>
+                      <span [hidden]="!reverse">▲</span> -->
+                    </button>
+                  </div>
+                  <!-- <div class="col-sm-1">
+
+                  </div> -->
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Position Type</i>
+                    <!-- <select class="form-control" name="positionType" [(ngModel)]="dataFilterForOpen.positionType">
+                                <option value="">All Position Type</option>
+                                <option [value]="positionType" *ngFor="let positionType of PositionTypeData">
+                                  {{positionType}}
+                                </option>
+                              </select> -->
+                    <div *ngFor="let positionType of PositionTypeData">
+                      <div class="radio">
+                        <label><input type="checkbox" (change)="selectFilter('position', positionType)"
+                            [value]="positionType"> {{positionType}} </label>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-2">
+
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Job Type</i>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.TEMPORARY)"
+                          name="jobTypeOption1" value="{{jobTypes.TEMPORARY}}"> Temporary </label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.PERMANENTFULLTIME)"
+                          name="jobTypeOption2" value="{{jobTypes.PERMANENTFULLTIME}}"> Permanent Full Time </label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.PERMANENTPARTTIME)"
+                          name="jobTypeOption3" value="{{jobTypes.PERMANENTPARTTIME}}"> Permanent Part Time</label>
+                    </div>
+                    <!-- <select class="form-control" name="jobType" [(ngModel)]="dataFilterForOpen.jobType">
+                              <option value="">All Job Type</option>
+                              <option value="{{jobTypes.TEMPORARY}}">Temporary</option>
+                              <option value="{{jobTypes.PERMANENTFULLTIME}}">Permanent Full Time</option>
+                              <option value="{{jobTypes.PERMANENTPARTTIME}}">Permanent Part Time</option>
+                            </select> -->
+                  </div>
+                </div>
+
+              </div>
+              <!-- <div class="col-md-6 col-lg-2">
+                 <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Location</i>
+                    <input type="text" class="form-control oval-shape" placeholder="Location" [(ngModel)]="dataFilterForOpen.location">
+                  </div>
+
+                </div>
+              </div> -->
+
+              <div class="col-md-6 col-lg-2">
+
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Rate/Hr</i>
+                    <!-- <select class="form-control" name="jobType" [(ngModel)]="dataFilterForOpen.jobType">
+                              <option value="">All Rate/Salary</option>
+                              <option value=""> < 10$</option>
+                              <option value="">10$ - $ 50</option>
+                              <option value=""> 50$ -100$</option>
+                            </select> -->
+                    <div class="radio">
+                      <label><input type="checkbox" name="" (change)="selectFilter('desiredHourlyRate', '<$20')" value="salaryOptions" >
+                        < $20</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" name="positionTypeOption1" (change)="selectFilter('desiredHourlyRate', '$20-$50')" value="salaryOptions"> $20 - $50</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" name="positionTypeOption2" (change)="selectFilter('desiredHourlyRate', '$51-$100')" value="salaryOptions"> $51 - $100</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" name="positionTypeOption3" (change)="selectFilter('desiredHourlyRate', '$101-$500')" value="salaryOptions"> > $100</label>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <!-- <i class="mdi mdi-filter-outline">Options</i> -->
+                    <div class="">
+                      <button type="button" class="btn btn-outline-success" (click)="setFilter('open')">Apply</button>
+                      <button type="button" class="btn btn-outline-danger" (click)="resetFilter()">Reset</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row"
+          *ngFor="let job of jobList | grdFilter: setDataFilter | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p}; let i = index;">
+          <div class="col-md-12 col-lg-12">
+            <div class="card-box card-bg" [ngClass]="{'closedJob':jobStatus.CLOSED === job.status}">
+              <div class="row">
+                <div class="col-md-6 col-lg-6">
+                  <a [routerLink]="['/practice/job-details',job?._id]" [state]="{ openedNav: 'open' }" data-toggle="tooltip" title="{{ job?.jobTitle?.toLowerCase() }}">
+                  <p>
+                    {{ job?.jobTitle?.toLowerCase() }}
+                    <!-- <span [ngClass]="{'badge badge-warning':true, 'JobLabelInProgress':jobStatus.INPROGRESS === job.status, 'jobLabelExpired':jobStatus.EXPIRED === job.status, 'jobLabelOpen': job.status == jobStatus.OPEN, 'jobLabelFilled':job.status == jobStatus.FILLED, 'jobLabelCancelled':job.status == jobStatus.CANCELLED, 'jobLabelAap':job.status == jobStatus.PAYTOACTIVATE, 'jobLabelCompleted':job.status == jobStatus.COMPLETED }" >
+                      {{ job.status == jobStatus.OPEN ? 'Open': job.status == jobStatus.EXPIRED ? 'Expired' : job.status == jobStatus.FILLED ? 'Filled' : job.status == jobStatus.CANCELLED ? 'Cancelled' : job.status == jobStatus.PAYTOACTIVATE ? 'AAP': job.status == jobStatus.COMPLETED ? 'Completed': jobStatus.INPROGRESS === job.status ? 'In Progress': ''}} </span> -->
+                  </p>
+                  </a>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                  <p align="text-center">Job ID: <a [routerLink]="['/practice/job-details',job?._id]" [state]="{ openedNav: 'open' }"
+                      data-toggle="tooltip" title="{{job?.jobTitle?.toLowerCase()}}">#{{ job?._id | slice:18:24}}
+                      <span *ngIf="job?.updatedOffer" class="badge badge-danger">New</span>
+                      </a> <span
+                      class="pull-right mobileAlignment">Posted on: <span> {{ job?.createdAt | date:
+                        'mediumDate' }} </span></span></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-lg-2">
+                  <!-- {{ jobLabel[job?.jobType] }} -->
+                  <h5>{{ job?.positionType }}</h5>
+                  <p>Position</p>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <h4>{{ job?.jobDate | date : 'mediumDate' }} </h4>
+                  <p class="card-text" *ngIf="job.jobType === jobTypes.TEMPORARY">Job Date </p>
+                  <p class="card-text" *ngIf="job.jobType !== jobTypes.TEMPORARY">Job Start Date </p>                  
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <h4 style="color: #f36270"> <a style="color:#f36270" (click)="showInvitedModal(job?._id);"
+                      data-toggle="tooltip" title="Invitations">{{(job?.total?.sentPracticeOffers) ?
+                      job?.total?.sentPracticeOffers : 0 }}</a></h4>
+                  <p>Invitations</p>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <h4 style="color: #28a745"> <a style="color:#28a745" [routerLink]="['/practice/job-details',job?._id]"
+                      data-toggle="tooltip" title="Applications">{{(job?.total?.sentStaffOffers) ?
+                      job?.total?.sentStaffOffers : 0 }} <span *ngIf="job?.updatedOfferCount > 0 ">({{job?.updatedOfferCount}} New)</span></a> </h4>
+                  <p>Applications</p>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <h4 style="color: rgb(141, 140, 140)" *ngIf="false">
+                    <a [routerLink]="['../../messaging',job?.staffId?._id,job?._id]" data-toggle="tooltip" title="Messages">{{(getJobChatMessages | filterBy: job._id).length}}</a>
+                  </h4>
+                  <p *ngIf="false">New Messages</p>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <!-- <button type="button" class="btn btn-icon waves-effect btn-light"> <i class="fi-ellipsis"></i> </button> -->
+                  <!-- <div class="btn-group">
+                              <button type="button" class="btn btn-sm btn-outline-info" title="View" [routerLink]="['/practice/job-details',job?._id]"><i class="fa fa-eye" ></i></button>
+                              <button type="button" *ngIf="!(jobStatus.EXPIRED === job.status || jobStatus.CANCELLED === job.status)" class="btn btn-sm btn-outline-primary" (click)="showNewJobModal(job)" title="Edit"><i
+                                  class="fa fa-edit" ></i></button>
+                              <button *ngIf="jobStatus.EXPIRED === job.status || jobStatus.CANCELLED === job.status" type="button" class="btn btn-sm btn-outline-primary" (click)="repostJob(job)" title="Repost"><i
+                                  class="fa fa-plus" ></i></button>
+                              <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" title="Delete"
+                                (click)="showDeletejobModal(job)"><i class="fa fa-trash"></i></button>
+                            </div> -->
+
+                  <div ngbDropdown class="d-inline-block">
+                    <button class="btn btn-outline-primary btn-option" id="dropdownBasic1" ngbDropdownToggle><i
+                        class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                      <button ngbDropdownItem [routerLink]="['/practice/job-details',job?._id]" title="view"><i
+                          class="fa fa-eye"></i>View</button>
+                      <!-- <button ngbDropdownItem
+                        *ngIf="!(jobStatus.EXPIRED === job.status || jobStatus.CANCELLED === job.status)"
+                        (click)="showNewJobModal(job)" title="Edit"><i class="fa fa-edit"></i>Edit</button> -->
+                         <button ngbDropdownItem
+                        *ngIf="(jobStatus.OPEN === job.status)"
+                        (click)="showNewJobModal(job)" title="Edit"><i class="fa fa-edit"></i>Edit</button>
+                      <button ngbDropdownItem
+                        *ngIf="jobStatus.EXPIRED === job.status || jobStatus.CANCELLED === job.status"
+                        (click)="repostJob(job)" title="Renew"><i class="fa fa-plus"></i>Renew</button>
+                      <button *ngIf="jobStatus.OPEN === job.status" ngbDropdownItem data-toggle="modal" title="Close" (click)="showClosejobModal(job,i)"><i
+                          class="fa fa-times"></i>Close</button>
+                          <button *ngIf="jobStatus.CLOSED === job.status" ngbDropdownItem data-toggle="modal" title="Open" (click)="showOpenjobModal(job,i)"><i
+                            class="fa fa-folder-open"></i>Open</button>
+                          <button *ngIf="jobStatus.OPEN === job.status" ngbDropdownItem data-toggle="modal" title="Delete" (click)="showDeletejobModal(job)"><i
+                            class="fas fa-trash"></i>Delete</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-11 text-center">
+                  <button type="button" class="btn btn-outline-primary btn-option" style="border-color: #ffffff;"
+                    (click)="job.isCollapsedMoreInfo = !job.isCollapsedMoreInfo"
+                    [attr.aria-expanded]="!job.isCollapsedMoreInfo" aria-controls="collapseMoreInfo"> <i
+                      *ngIf="job.isCollapsedMoreInfo" class="fa fa-caret-down" aria-hidden="true"></i> <i
+                      *ngIf="!job.isCollapsedMoreInfo" class="fa fa-caret-up" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- 2nd Row -->
+              <div id="collapseMoreInfo" [ngbCollapse]="job.isCollapsedMoreInfo">
+                <div class="row">
+                  <div class="col-md-6 col-lg-3">
+                    <!-- Simple card -->
+                    <div class="card m-b-30">
+                      <div class="card-body">
+                        <h4>{{ jobLabel[job?.jobType] }} </h4>
+                        <p class="card-text mt-38">Job Type </p>
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end col -->
+                  <div class="col-md-6 col-lg-3">
+                    <div class="card m-b-30">
+                      <div class="card-body" *ngIf="job.jobType === jobTypes.TEMPORARY">
+                        <h4>{{job?.startTime | date: 'hh:mm a'}} - {{job?.endTime | date: 'hh:mm a'}}</h4>
+                        <p class="card-text mt-38">Job Time</p>
+                      </div>
+                      <div class="card-body" *ngIf="job.jobType !== jobTypes.TEMPORARY">
+                        <h4 class="" *ngIf="job.paymentMethod === 'hourly'">$ {{ job?.desiredHourlyRate | number}} / {{ job?.paymentMethod | titleCase}}</h4>
+                        <p class="card-text mt-38" *ngIf="job.paymentMethod === 'hourly'">Hourly Rate</p>
+                        <h4 class="" *ngIf="job.paymentMethod === 'salary'">$ {{ job?.desiredSalaryRate | number }} / Annual</h4>
+                        <p class="card-text mt-38" *ngIf="job.paymentMethod === 'salary'">Salary</p>
+                       
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end col -->
+                  <div class="col-md-6 col-lg-3">
+                    <div class="card m-b-30">
+                      <div class="card-body" *ngIf="job.jobType === jobTypes.TEMPORARY">
+                        <h4>$ {{ job?.desiredHourlyRate | number}} / {{ job?.paymentMethod | titleCase}}</h4>
+                        <p class="card-text mt-38">Rate</p>
+                      </div>
+                      <div class="card-body" *ngIf="job.jobType !== jobTypes.TEMPORARY">
+                        <h4>{{ job.payCycle | titleCase}}</h4>
+                        <p class="card-text mt-38">Pay Cycle</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end col -->
+
+                  <div class="col-md-6 col-lg-3">
+                    <div class="card m-b-30">
+                      <div class="card-body" *ngIf="job.jobType === jobTypes.TEMPORARY">
+                        <h4 class="">{{ job?.employmentType ? 'W2' : '1099'}}</h4>
+                        <p class="card-text mt-38">Employee Type</p>
+                      </div>
+                      <div class="card-body" *ngIf="job.jobType !== jobTypes.TEMPORARY">
+                        <h4 class="">{{ job?.paymentMethod | titleCase}}</h4>
+                        <p class="card-text mt-38">Compensation Type</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <p class="card-text text-capitalize" *ngIf="job.createdBy.practiceAccount === 'multi'">{{ job?.practiceName?.practiceName}}</p>
+                <p class="card-text text-capitalize">Location : {{job?.practiceName?.addressLine_1}} {{job?.practiceName?.addressLine_2}} {{job?.practiceName?.city?.city | slice:3:job?.practiceName?.city?.city.length }}, {{job?.practiceName?.state?.state}} {{job?.practiceName?.zipcode?.zipcode}}</p>
+              </div>
+              <!-- 3rd row cards -->
+            </div>
+          </div>
+        </div>
+        <ul class="pagination justify-content-end" *ngIf="itemsPerPage < jobList.length">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+      </div>
+      <!-- Open Jobs end-->
+      <!-- Filled Job star -->
+      <div *ngIf="selectedJobTab === jobTabs[1]" role="tabpanel" class="tab-pane active" id="two">
+
+        <div class="card-box" style="padding-bottom: 0%;">
+          <div class="row">
+            <div class="">
+              <div class="input-group m-b-20">
+                <!-- <input class="form-control"  type="text" value="" placeholder="Search" style="width: 300px;">
+                        <span class="input-group-append">
+                            <button type="button"  class="btn waves-effect waves-light btn-primary"  style="height: 35px; padding: 6px 18px; border-radius: 0.20rem;" ><i class="fa fa-search" aria-hidden="true"></i></button>
+                        </span> -->
+                <button type="button" class="btn btn-outline-primary btn-option filterBtn oval-shape mt-0 mb-4" (click)="isCollapsed = !isCollapsed"
+                  [attr.aria-expanded]="!isCollapsed" aria-controls="collapseSearch"
+                  style="height: 35px; padding: 6px 18px; margin-left: 4px;"><i class="fa fa-sliders"
+                    aria-hidden="true"></i> Filters
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <hr />
+          </div>
+          <div id="collapseSearch" [ngbCollapse]="isCollapsed">
+            <div class="row">
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-sm-9" style="padding-right: 0px;">
+                    <i class="mdi mdi-filter-outline">Job Date</i>
+                    <dp-date-picker [(ngModel)]="dataFilterForOpen.jobDate" class="oval-shape" placeholder="Select From"
+                      [config]="datePickerConfig">
+                    </dp-date-picker>
+                    <dp-date-picker class="mt-2 oval-shape" [(ngModel)]="dataFilterForOpen.jobDateTo" placeholder="Select To"
+                      [config]="datePickerConfig">
+                    </dp-date-picker>
+                  </div>
+                  <div class="col-sm-1" style="padding-left: 0px;">
+                    <i class="mdi mdi-filter-outline"></i>
+                    <br>
+                    <button type="button" style="border: 1px solid #ffffff;" class="btn btn-outline-primary btn-option"  (click)="setOrder('jobDate')">
+                      <span><i class="fa fa-sort" aria-hidden="true"></i></span>
+                      <!-- <span [hidden]="reverse">▼</span>
+                      <span [hidden]="!reverse">▲</span> -->
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Position Type</i>
+                    <!-- <select class="form-control" name="positionType" [(ngModel)]="dataFilterForOpen.positionType">
+                            <option value="">All Position Type</option>
+                            <option [value]="positionType" *ngFor="let positionType of PositionTypeData">
+                              {{positionType}}
+                            </option>
+                          </select> -->
+                    <div *ngFor="let positionType of PositionTypeData">
+                      <div class="radio">
+                        <label><input type="checkbox" (change)="selectFilter('position', positionType)"
+                            [value]="positionType"> {{positionType}} </label>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-2">
+
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Job Type</i>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.TEMPORARY)"
+                          name="jobTypeOption1" value="{{jobTypes.TEMPORARY}}"> Temporary </label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.PERMANENTFULLTIME)"
+                          name="jobTypeOption2" value="{{jobTypes.PERMANENTFULLTIME}}"> Permanent Full Time </label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.PERMANENTPARTTIME)"
+                          name="jobTypeOption3" value="{{jobTypes.PERMANENTPARTTIME}}"> Permanent Part Time</label>
+                    </div>
+                    <!-- <select class="form-control" name="jobType" [(ngModel)]="dataFilterForOpen.jobType">
+                          <option value="">All Job Type</option>
+                          <option value="{{jobTypes.TEMPORARY}}">Temporary</option>
+                          <option value="{{jobTypes.PERMANENTFULLTIME}}">Permanent Full Time</option>
+                          <option value="{{jobTypes.PERMANENTPARTTIME}}">Permanent Part Time</option>
+                        </select> -->
+                  </div>
+                </div>
+
+              </div>
+              <!-- <div class="col-md-6 col-lg-2">
+
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Location</i>
+                    <input type="text" class="form-control oval-shape" placeholder="Location" [(ngModel)]="dataFilterForOpen.location">
+                  </div>
+                </div>
+
+              </div> -->
+              <div class="col-md-6 col-lg-2">
+
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Rate/Hr</i>
+                    <!-- <select class="form-control" name="jobType" [(ngModel)]="dataFilterForOpen.jobType">
+                          <option value="">All Rate/Salary</option>
+                          <option value=""> < 10$</option>
+                          <option value="">10$ - $ 50</option>
+                          <option value=""> 50$ -100$</option>
+                        </select> -->
+                    <div class="radio">
+                      <label><input type="checkbox" name="" (change)="selectFilter('desiredHourlyRate', '<$20')" value="salaryOptions">
+                        < $20</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" name="positionTypeOption1" (change)="selectFilter('desiredHourlyRate', '$20-$50')" value="salaryOptions"> $20 - $50</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" name="positionTypeOption2" (change)="selectFilter('desiredHourlyRate', '$51-$100')" value="salaryOptions"> $51 - $100</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" name="positionTypeOption3" (change)="selectFilter('desiredHourlyRate', '$101-$500')" value="salaryOptions"> > $100</label>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <!-- <i class="mdi mdi-filter-outline">Options</i> -->
+                    <div class="">
+                      <button type="button" class="btn btn-outline-success "
+                        (click)="setFilter('filled')">Apply</button>
+                      <button type="button" class="btn btn-outline-danger " (click)="resetFilter()">Reset</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="row"
+          *ngFor="let job of jobList | grdFilter: setDataFilter | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p}; let i = index;">
+          <div class="col-md-12 col-lg-12">
+            <div class="card-box card-bg">
+              <div class="row">
+                <div class="col-md-6 col-lg-6">
+                  <a [routerLink]="['/practice/job-details',job?._id]" [state]="{ openedNav: 'filled' }"
+                  data-toggle="tooltip" title="{{ job?.jobTitle?.toLowerCase() }}">
+                  <p>{{ job?.jobTitle?.toLowerCase() }}
+                    <!-- <span [ngClass]="{'badge badge-warning':true, 'JobLabelInProgress':jobStatus.INPROGRESS === job.status, 'jobLabelExpired':jobStatus.EXPIRED === job.status, 'jobLabelOpen': job.status == jobStatus.OPEN, 'jobLabelFilled':job.status == jobStatus.FILLED, 'jobLabelCancelled':job.status == jobStatus.CANCELLED, 'jobLabelAap':job.status == jobStatus.PAYTOACTIVATE, 'jobLabelCompleted':job.status == jobStatus.COMPLETED }" >
+                      {{ job.status == jobStatus.OPEN ? 'Open': job.status == jobStatus.EXPIRED ? 'Expired' : job.status == jobStatus.FILLED ? 'Filled' : job.status == jobStatus.CANCELLED ? 'Cancelled' : job.status == jobStatus.PAYTOACTIVATE ? 'Awaiting Approval & Pay': job.status == jobStatus.COMPLETED ? 'Completed': jobStatus.INPROGRESS === job.status ? 'In Progress': ''}} </span> -->
+                  </p>
+                  </a>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                  <p align="text-center">Job ID: <a [routerLink]="['/practice/job-details',job?._id]" [state]="{ openedNav: 'filled' }"
+                      data-toggle="tooltip" title="{{job?.jobTitle?.toLowerCase()}}" data-toggle="tooltip"
+                      title="{{job?.jobTitle?.toLowerCase()}}">#{{ job?._id | slice:18:24}}
+                      <span *ngIf="job?.updatedOffer" class="badge badge-danger">New</span>
+                    </a> <span
+                      class="pull-right mobileAlignment">Filled On: <span> {{ job?.updatedAt | date:
+                        'mediumDate' }} </span></span></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-lg-2">
+                  <!-- {{ jobLabel[job?.jobType] }} -->
+                  <h5>{{ job?.positionType }}</h5>
+                  <p>Position</p>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <h4>{{ job?.jobDate | date : 'mediumDate' }} </h4>
+                  <p class="card-text">Job Date </p>                  
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <h4 style="color: #f36270"> <a style="color:#f36270" (click)="showInvitedModal(job?._id);"
+                      data-toggle="tooltip" title="Invitations">{{(job?.total?.sentPracticeOffers) ?
+                      job?.total?.sentPracticeOffers : 0 }}</a></h4>
+                  <p>Invitations</p>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <h4 style="color: #28a745"> <a style="color:#28a745" [routerLink]="['/practice/job-details',job?._id]"
+                      data-toggle="tooltip" title="Applications">{{(job?.total?.sentStaffOffers) ?
+                      job?.total?.sentStaffOffers : 0 }}</a></h4>
+                  <p>Applications</p>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <h4 style="color: red">
+                    <a [routerLink]="['../../messaging',job?.staffId?._id,job?._id]" data-toggle="tooltip" title="Messages">{{(getJobChatMessages | filterBy: job._id).length}}</a>
+                  </h4>
+                  <p>New Messages</p>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <!-- <button type="button" class="btn btn-icon waves-effect btn-light"> <i class="fi-ellipsis"></i> </button> -->
+                  <!-- <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-info" title="View" [routerLink]="['/practice/job-details',job?._id]"><i class="fa fa-eye" ></i></button>
+                            <button type="button" *ngIf="!(jobStatus.EXPIRED === job.status || jobStatus.CANCELLED === job.status)" class="btn btn-sm btn-outline-primary" (click)="showNewJobModal(job)" title="Edit"><i
+                                class="fa fa-edit" ></i></button>
+                            <button *ngIf="jobStatus.EXPIRED === job.status || jobStatus.CANCELLED === job.status" type="button" class="btn btn-sm btn-outline-primary" (click)="repostJob(job)" title="Repost"><i
+                                class="fa fa-plus" ></i></button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" title="Delete"
+                              (click)="showDeletejobModal(job)"><i class="fa fa-trash"></i></button>
+                          </div> -->
+
+                  <div ngbDropdown class="d-inline-block">
+                    <button class="btn btn-outline-primary btn-option" id="dropdownBasic1" ngbDropdownToggle><i
+                        class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                      <button ngbDropdownItem [routerLink]="['/practice/job-details',job?._id]" title="view"><i
+                          class="fa fa-eye"></i>View</button>
+                      <!-- <button ngbDropdownItem
+                        *ngIf="!(jobStatus.EXPIRED === job.status || jobStatus.CANCELLED === job.status)"
+                        (click)="showNewJobModal(job)" title="Edit"><i class="fa fa-edit"></i>Edit</button> -->
+                      <button ngbDropdownItem
+                        *ngIf="jobStatus.EXPIRED === job.status || jobStatus.CANCELLED === job.status"
+                        (click)="repostJob(job)" title="Renew"><i class="fa fa-plus"></i>Renew</button>
+                      <!-- <button ngbDropdownItem data-toggle="modal" title="Close" (click)="showDeletejobModal(job)"><i
+                          class="fa fa-times"></i>Close</button> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-11 text-center">
+                  <button type="button" class="btn btn-outline-primary btn-option" style="border-color: #ffffff;"
+                    (click)="job.isCollapsedMoreInfo = !job.isCollapsedMoreInfo"
+                    [attr.aria-expanded]="!job.isCollapsedMoreInfo" aria-controls="collapseMoreInfo"> <i
+                      *ngIf="job.isCollapsedMoreInfo" class="fa fa-caret-down" aria-hidden="true"></i> <i
+                      *ngIf="!job.isCollapsedMoreInfo" class="fa fa-caret-up" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- 2nd Row -->
+              <div id="collapseMoreInfo" [ngbCollapse]="job.isCollapsedMoreInfo">
+                <div class="row">
+                  <div class="col-md-6 col-lg-3">
+                    <!-- Simple card -->
+                    <div class="card m-b-30">
+                      <div class="card-body">
+                        <h4>{{ jobLabel[job?.jobType] }} </h4>
+                        <p class="card-text mt-38">Job Type </p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end col -->
+                  <div class="col-md-6 col-lg-3">
+                    <div class="card m-b-30">
+                      <div class="card-body">
+                        <h4>{{job?.startTime | date: 'hh:mm a'}} - {{job?.endTime | date: 'hh:mm a'}}</h4>
+                        <p class="card-text mt-38">Job Time</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end col -->
+                  <div class="col-md-6 col-lg-3">
+                    <div class="card m-b-30">
+                      <div class="card-body">
+                        <h4>$ {{ job?.desiredHourlyRate | number}} / {{ job?.paymentMethod }}</h4>
+                        <p class="card-text mt-38">Rate</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end col -->
+
+                  <div class="col-md-6 col-lg-3">
+                    <div class="card m-b-30">
+                      <div class="card-body" *ngIf="job.jobType === jobTypes.TEMPORARY">
+                        <h4 class="mb-0">{{ job?.employmentType ? 'W2' : '1099'}}</h4>
+                        <p class="card-text mt-38">Employee Type</p>
+                      </div>
+                      <div class="card-body" *ngIf="job.jobType !== jobTypes.TEMPORARY">
+                        <h4 class="mb-0">{{ job?.paymentMethod | titleCase}}</h4>
+                        <p class="card-text mt-38">Compensation Type</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <p class="card-text text-capitalize" *ngIf="job.createdBy.practiceAccount === 'multi'">{{job?.practiceName?.practiceName}}</p>
+                <p class="card-text text-capitalize">Location : {{job?.practiceName?.addressLine_1}} {{job?.practiceName?.addressLine_2}} {{job?.practiceName?.city?.city | slice:3:job?.practiceName?.city?.city.length }}, {{job?.practiceName?.state?.state}} {{job?.practiceName?.zipcode?.zipcode}}</p>
+              </div>
+              <!-- 3rd row cards -->
+            </div>
+          </div>
+        </div>
+
+        <ul class="pagination justify-content-end" *ngIf="itemsPerPage < jobList.length">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+      </div>
+      <!-- Filled Job End -->
+
+      <!-- In progress -->
+      <div *ngIf="selectedJobTab === jobTabs[2]" role="tabpanel" class="tab-pane active" >
+        <div class="card-box" style="padding-bottom: 0%;">
+          <div class="row">
+            <div class="">
+              <div class="input-group m-b-20">
+                <!-- <input class="form-control"  type="text" value="" placeholder="Search" style="width: 300px;">
+                        <span class="input-group-append">
+                            <button type="button"  class="btn waves-effect waves-light btn-primary"  style="height: 35px; padding: 6px 18px; border-radius: 0.20rem;" ><i class="fa fa-search" aria-hidden="true"></i></button>
+                        </span> -->
+                <button type="button" class="btn btn-outline-primary btn-option filterBtn oval-shape mt-0 mb-4" (click)="isCollapsed = !isCollapsed"
+                  [attr.aria-expanded]="!isCollapsed" aria-controls="collapseSearch"
+                  style="height: 35px; padding: 6px 18px; margin-left: 4px;"><i class="fa fa-sliders"
+                    aria-hidden="true"></i> Filters
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <hr />
+          </div>
+          <div id="collapseSearch" [ngbCollapse]="isCollapsed">
+            <div class="row">
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-sm-9" style="padding-right: 0px;">
+                    <i class="mdi mdi-filter-outline">Job Date</i>
+                    <dp-date-picker [(ngModel)]="dataFilterForOpen.jobDate" class="oval-shape" placeholder="Select From"
+                      [config]="datePickerConfig">
+                    </dp-date-picker>
+                    <dp-date-picker class="mt-2 oval-shape" [(ngModel)]="dataFilterForOpen.jobDateTo" placeholder="Select To"
+                      [config]="datePickerConfig">
+                    </dp-date-picker>
+                  </div>
+                  <div class="col-sm-1" style="padding-left: 0px;">
+                    <i class="mdi mdi-filter-outline"></i>
+                    <br>
+                    <button type="button" style="border: 1px solid #ffffff;" class="btn btn-outline-primary btn-option"  (click)="setOrder('jobDate')">
+                      <span><i class="fa fa-sort" aria-hidden="true"></i></span>
+                      <!-- <span [hidden]="reverse">▼</span>
+                      <span [hidden]="!reverse">▲</span> -->
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Position Type</i>
+                    <!-- <select class="form-control" name="positionType" [(ngModel)]="dataFilterForOpen.positionType">
+                            <option value="">All Position Type</option>
+                            <option [value]="positionType" *ngFor="let positionType of PositionTypeData">
+                              {{positionType}}
+                            </option>
+                          </select> -->
+                    <div *ngFor="let positionType of PositionTypeData">
+                      <div class="radio">
+                        <label><input type="checkbox" (change)="selectFilter('position', positionType)"
+                            [value]="positionType"> {{positionType}} </label>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-2">
+
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Job Type</i>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.TEMPORARY)"
+                          name="jobTypeOption1" value="{{jobTypes.TEMPORARY}}"> Temporary </label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.PERMANENTFULLTIME)"
+                          name="jobTypeOption2" value="{{jobTypes.PERMANENTFULLTIME}}"> Permanent Full Time </label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.PERMANENTPARTTIME)"
+                          name="jobTypeOption3" value="{{jobTypes.PERMANENTPARTTIME}}"> Permanent Part Time</label>
+                    </div>
+                    <!-- <select class="form-control" name="jobType" [(ngModel)]="dataFilterForOpen.jobType">
+                          <option value="">All Job Type</option>
+                          <option value="{{jobTypes.TEMPORARY}}">Temporary</option>
+                          <option value="{{jobTypes.PERMANENTFULLTIME}}">Permanent Full Time</option>
+                          <option value="{{jobTypes.PERMANENTPARTTIME}}">Permanent Part Time</option>
+                        </select> -->
+                  </div>
+                </div>
+
+              </div>
+              <!-- <div class="col-md-6 col-lg-2">
+
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Location</i>
+                    <input type="text" class="form-control oval-shape" placeholder="Location" [(ngModel)]="dataFilterForOpen.location">
+                  </div>
+                </div>
+
+              </div> -->
+              <div class="col-md-6 col-lg-2">
+
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Rate/Hr</i>
+                    <!-- <select class="form-control" name="jobType" [(ngModel)]="dataFilterForOpen.jobType">
+                          <option value="">All Rate/Salary</option>
+                          <option value=""> < 10$</option>
+                          <option value="">10$ - $ 50</option>
+                          <option value=""> 50$ -100$</option>
+                        </select> -->
+                    <div class="radio">
+                      <label><input type="checkbox" name="" (change)="selectFilter('desiredHourlyRate', '<$20')" value="salaryOptions">
+                        < $20</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" name="positionTypeOption1" (change)="selectFilter('desiredHourlyRate', '$20-$50')" value="salaryOptions"> $20 - $50</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" name="positionTypeOption2" (change)="selectFilter('desiredHourlyRate', '$51-$100')" value="salaryOptions"> $51 - $100</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" name="positionTypeOption3" (change)="selectFilter('desiredHourlyRate', '$101-$500')" value="salaryOptions"> > $100</label>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <!-- <i class="mdi mdi-filter-outline">Options</i> -->
+                    <div class="">
+                      <button type="button" class="btn btn-outline-success "
+                        (click)="setFilter('inProgress')">Apply</button>
+                      <button type="button" class="btn btn-outline-danger " (click)="resetFilter()">Reset</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="row"
+          *ngFor="let job of jobList | grdFilter: setDataFilter | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p}; let i = index;">
+          <div class="col-md-12 col-lg-12">
+            <div class="card-box card-bg">
+              <div class="row">
+                <div class="col-md-6 col-lg-6">
+                  <a [routerLink]="['/practice/job-details',job?._id]" [state]="{ openedNav: 'inProgress' }"
+                  data-toggle="tooltip" title="{{ job?.jobTitle?.toLowerCase() }}">
+                  <p>{{ job?.jobTitle?.toLowerCase() }}
+                    <!-- <span [ngClass]="{'badge badge-warning':true, 'JobLabelInProgress':jobStatus.INPROGRESS === job.status, 'jobLabelExpired':jobStatus.EXPIRED === job.status, 'jobLabelOpen': job.status == jobStatus.OPEN, 'jobLabelFilled':job.status == jobStatus.FILLED, 'jobLabelCancelled':job.status == jobStatus.CANCELLED, 'jobLabelAap':job.status == jobStatus.PAYTOACTIVATE, 'jobLabelCompleted':job.status == jobStatus.COMPLETED }" >
+                      {{ job.status == jobStatus.OPEN ? 'Open': job.status == jobStatus.EXPIRED ? 'Expired' : job.status == jobStatus.FILLED ? 'Filled' : job.status == jobStatus.CANCELLED ? 'Cancelled' : job.status == jobStatus.PAYTOACTIVATE ? 'Awaiting Approval & Pay': job.status == jobStatus.COMPLETED ? 'Completed': jobStatus.INPROGRESS === job.status ? 'In Progress': ''}} </span> -->
+                  </p>
+                  </a>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                  <p align="text-center">Job ID: <a [routerLink]="['/practice/job-details',job?._id]" [state]="{ openedNav: 'inProgress' }"
+                      data-toggle="tooltip" title="{{job?._idob-details',job?._id]" data-toggle="tooltip"
+                      title="{{job?.jobTitle?.toLowerCase()}}">#{{ job?._id | slice:18:24}}
+                      <span *ngIf="job?.updatedOffer" class="badge badge-danger">New</span>
+                    </a> <span
+                      class="pull-right mobileAlignment">Filled On: <span> {{ job?.updatedAt | date:
+                        'mediumDate' }} </span></span></p>
+
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-lg-2">
+                  <!-- {{ jobLabel[job?.jobType] }} -->
+                  <h5>{{ job?.positionType }}</h5>
+                  <p>Position</p>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <h4>{{ job?.jobDate | date : 'mediumDate' }} </h4>
+                  <p class="card-text">Job Date </p>                  
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <h4 style="color: #f36270"> <a style="color:#f36270" (click)="showInvitedModal(job?._id);"
+                      data-toggle="tooltip" title="Invitations">{{(job?.total?.sentPracticeOffers) ?
+                      job?.total?.sentPracticeOffers : 0 }}</a></h4>
+                  <p>Invitations</p>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <h4 style="color: #28a745"> <a style="color:#28a745" [routerLink]="['/practice/job-details',job?._id]"
+                      data-toggle="tooltip" title="Applications">{{(job?.total?.sentStaffOffers) ?
+                      job?.total?.sentStaffOffers : 0 }}</a></h4>
+                  <p>Applications</p>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <h4 style="color: red">
+                    <a [routerLink]="['../../messaging',job?.staffId?._id,job?._id]" data-toggle="tooltip" title="Messages">{{(getJobChatMessages | filterBy: job._id).length}}</a>
+                  </h4>
+                  <p>New Messages</p>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <!-- <button type="button" class="btn btn-icon waves-effect btn-light"> <i class="fi-ellipsis"></i> </button> -->
+                  <!-- <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-info" title="View" [routerLink]="['/practice/job-details',job?._id]"><i class="fa fa-eye" ></i></button>
+                            <button type="button" *ngIf="!(jobStatus.EXPIRED === job.status || jobStatus.CANCELLED === job.status)" class="btn btn-sm btn-outline-primary" (click)="showNewJobModal(job)" title="Edit"><i
+                                class="fa fa-edit" ></i></button>
+                            <button *ngIf="jobStatus.EXPIRED === job.status || jobStatus.CANCELLED === job.status" type="button" class="btn btn-sm btn-outline-primary" (click)="repostJob(job)" title="Repost"><i
+                                class="fa fa-plus" ></i></button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" title="Delete"
+                              (click)="showDeletejobModal(job)"><i class="fa fa-trash"></i></button>
+                          </div> -->
+
+                  <div ngbDropdown class="d-inline-block">
+                    <button class="btn btn-outline-primary btn-option" id="dropdownBasic1" ngbDropdownToggle><i
+                        class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                      <button ngbDropdownItem [routerLink]="['/practice/job-details',job?._id]" title="view"><i
+                          class="fa fa-eye"></i>View</button>
+                      <!-- <button ngbDropdownItem
+                        *ngIf="!(jobStatus.EXPIRED === job.status || jobStatus.CANCELLED === job.status)"
+                        (click)="showNewJobModal(job)" title="Edit"><i class="fa fa-edit"></i>Edit</button> -->
+                      <button ngbDropdownItem
+                        *ngIf="jobStatus.EXPIRED === job.status || jobStatus.CANCELLED === job.status"
+                        (click)="repostJob(job)" title="Renew"><i class="fa fa-plus"></i>Renew</button>
+                      <!-- <button ngbDropdownItem data-toggle="modal" title="Close" (click)="showDeletejobModal(job)"><i
+                          class="fa fa-times"></i>Close</button> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-11 text-center">
+                  <button type="button" class="btn btn-outline-primary btn-option" style="border-color: #ffffff;"
+                    (click)="job.isCollapsedMoreInfo = !job.isCollapsedMoreInfo"
+                    [attr.aria-expanded]="!job.isCollapsedMoreInfo" aria-controls="collapseMoreInfo"> <i
+                      *ngIf="job.isCollapsedMoreInfo" class="fa fa-caret-down" aria-hidden="true"></i> <i
+                      *ngIf="!job.isCollapsedMoreInfo" class="fa fa-caret-up" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- 2nd Row -->
+              <div id="collapseMoreInfo" [ngbCollapse]="job.isCollapsedMoreInfo">
+                <div class="row">
+                  <div class="col-md-6 col-lg-3">
+                    <!-- Simple card -->
+                    <div class="card m-b-30">
+                      <div class="card-body">
+                        <h4>{{ jobLabel[job?.jobType] }} </h4>
+                        <p class="card-text mt-38">Job Type </p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end col -->
+                  <div class="col-md-6 col-lg-3">
+                    <div class="card m-b-30">
+                      <div class="card-body">
+                        <h4>{{job?.startTime | date: 'hh:mm a'}} - {{job?.endTime | date: 'hh:mm a'}}</h4>
+                        <p class="card-text mt-38">Job Time</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end col -->
+                  <div class="col-md-6 col-lg-3">
+                    <div class="card m-b-30">
+                      <div class="card-body">
+                        <h4>$ {{ job?.desiredHourlyRate | number}} / {{ job?.paymentMethod }}</h4>
+                        <p class="card-text mt-38">Rate</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end col -->
+
+                  <div class="col-md-6 col-lg-3">
+                    <div class="card m-b-30">
+                      <div class="card-body" *ngIf="job.jobType === jobTypes.TEMPORARY">
+                        <h4 class="mb-0">{{ job?.employmentType ? 'W2' : '1099'}}</h4>
+                        <p class="card-text mt-38">Employee Type</p>
+                      </div>
+                      <div class="card-body" *ngIf="job.jobType !== jobTypes.TEMPORARY">
+                        <h4 class="mb-0">{{ job?.paymentMethod | titleCase}}</h4>
+                        <p class="card-text mt-38">Compensation Type</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <p class="card-text text-capitalize" *ngIf="job.createdBy.practiceAccount === 'multi'">{{job?.practiceName?.practiceName}}</p>
+                <p class="card-text text-capitalize">Location : {{job?.practiceName?.addressLine_1}} {{job?.practiceName?.addressLine_2}} {{job?.practiceName?.city?.city | slice:3:job?.practiceName?.city?.city.length }}, {{job?.practiceName?.state?.state}} {{job?.practiceName?.zipcode?.zipcode}}</p>
+              </div>
+              <!-- 3rd row cards -->
+            </div>
+          </div>
+        </div>
+
+        <ul class="pagination justify-content-end" *ngIf="itemsPerPage < jobList.length">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+      </div>
+      <!-- In progress end -->
+
+      <div *ngIf="selectedJobTab === jobTabs[3]" role="tabpanel" class="tab-pane active">
+        <div class="card-box" style="padding-bottom: 0%;">
+          <div class="row">
+            <div class="">
+              <div class="input-group m-b-20">
+                <button type="button" class="btn btn-outline-primary btn-option filterBtn oval-shape mt-0 mb-4" (click)="isCollapsed = !isCollapsed"
+                  [attr.aria-expanded]="!isCollapsed" aria-controls="collapseSearch"
+                  style="height: 35px; padding: 6px 18px; margin-left: 4px;"><i class="fa fa-sliders"
+                    aria-hidden="true"></i> Filters
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <hr />
+          </div>
+          <div id="collapseSearch" [ngbCollapse]="isCollapsed">
+            <div class="row">
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-sm-9" style="padding-right: 0px;">
+                    <i class="mdi mdi-filter-outline">Job Date</i>
+                    <dp-date-picker [(ngModel)]="dataFilterForOpen.jobDate" class="oval-shape" placeholder="Select From"
+                      [config]="datePickerConfig">
+                    </dp-date-picker>
+                    <dp-date-picker class="mt-2 oval-shape" [(ngModel)]="dataFilterForOpen.jobDateTo" placeholder="Select To"
+                      [config]="datePickerConfig">
+                    </dp-date-picker>
+                  </div>
+                  <div class="col-sm-1" style="padding-left: 0px;">
+                    <i class="mdi mdi-filter-outline"></i>
+                    <br>
+                    <button type="button" style="border: 1px solid #ffffff;" class="btn btn-outline-primary btn-option"  (click)="setOrder('jobDate')">
+                      <span><i class="fa fa-sort" aria-hidden="true"></i></span>
+                      <!-- <span [hidden]="reverse">▼</span>
+                      <span [hidden]="!reverse">▲</span> -->
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Position Type</i>
+                    <div *ngFor="let positionType of PositionTypeData">
+                      <div class="radio">
+                        <label><input type="checkbox" (change)="selectFilter('position', positionType)"
+                            [value]="positionType"> {{positionType}} </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Job Type</i>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.TEMPORARY)"
+                          name="jobTypeOption1" value="{{jobTypes.TEMPORARY}}"> Temporary </label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.PERMANENTFULLTIME)"
+                          name="jobTypeOption2" value="{{jobTypes.PERMANENTFULLTIME}}"> Permanent Full Time </label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.PERMANENTPARTTIME)"
+                          name="jobTypeOption3" value="{{jobTypes.PERMANENTPARTTIME}}"> Permanent Part Time</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Location</i>
+                    <input type="text" class="form-control oval-shape" placeholder="Location" [(ngModel)]="dataFilterForOpen.location">
+                  </div>
+                </div>
+              </div> -->
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Rate/Hr</i>
+                    <div class="radio">
+                      <label><input type="checkbox" name="" (change)="selectFilter('desiredHourlyRate', '<$20')" value="salaryOptions">
+                        < $20</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" name="positionTypeOption1" (change)="selectFilter('desiredHourlyRate', '$20-$50')" value="salaryOptions"> $20 - $50</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" name="positionTypeOption2" (change)="selectFilter('desiredHourlyRate', '$51-$100')" value="salaryOptions"> $51 - $100</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" name="positionTypeOption3" (change)="selectFilter('desiredHourlyRate', '$101-$500')" value="salaryOptions"> > $100</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <div class="">
+                      <button type="button" class="btn btn-outline-success "
+                        (click)="setFilter('payToActivate')">Apply</button>
+                      <button type="button" class="btn btn-outline-danger " (click)="resetFilter()">Reset</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row"
+          *ngFor="let job of jobList | grdFilter: setDataFilter | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p}; let i = index;">
+          <div class="col-md-12 col-lg-12">
+            <div class="card-box card-bg">
+              <div class="row">
+                <div class="col-md-6 col-lg-6">
+                  <a [routerLink]="['/practice/job-details',job?._id]" [state]="{ openedNav: 'aap' }"
+                      data-toggle="tooltip" title="{{ job?.jobTitle?.toLowerCase() }}">
+                  <p>{{ job?.jobTitle?.toLowerCase() }}
+                    <!-- <span [ngClass]="{'badge badge-warning':true, 'JobLabelInProgress':jobStatus.INPROGRESS === job.status, 'jobLabelExpired':jobStatus.EXPIRED === job.status, 'jobLabelOpen': job.status == jobStatus.OPEN, 'jobLabelFilled':job.status == jobStatus.FILLED, 'jobLabelCancelled':job.status == jobStatus.CANCELLED, 'jobLabelAap':job.status == jobStatus.PAYTOACTIVATE, 'jobLabelCompleted':job.status == jobStatus.COMPLETED }" >
+                      {{ job.status == jobStatus.OPEN ? 'Open': job.status == jobStatus.EXPIRED ? 'Expired' : job.status == jobStatus.FILLED ? 'Filled' : job.status == jobStatus.CANCELLED ? 'Cancelled' : job.status == jobStatus.PAYTOACTIVATE ? 'Awaiting Approval & Pay': job.status == jobStatus.COMPLETED ? 'Completed': jobStatus.INPROGRESS === job.status ? 'In Progress': ''}} </span> -->
+                  </p>
+                  </a>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                  <p align="text-center">Job ID: <a [routerLink]="['/practice/job-details',job?._id]" [state]="{ openedNav: 'aap' }"
+                      data-toggle="tooltip" title="{{job?._id}}">#{{ job?._id | slice:18:24}}
+                      <span *ngIf="job?.updatedOffer" class="badge badge-danger">New</span>
+                    </a> <span *ngIf="job.timeSheet"
+                      class="pull-right mobileAlignment">Submitted On: <span> {{ job?.timeSheet?.createdAt | date:
+                        'mediumDate' }} </span></span></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-lg-2">
+                  <h5>{{ job?.positionType }}</h5>
+                  <p>Position</p>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <h4>{{ job?.jobDate | date : 'mediumDate' }} </h4>
+                  <p class="card-text">Job Date </p>                  
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <h4 style="color: #f36270"> <a style="color:#f36270" [routerLink]="['/practice/job-details',job?._id]"
+                      data-toggle="tooltip" title="Invitations">{{(job?.total?.sentPracticeOffers) ?
+                      job?.total?.sentPracticeOffers : 0 }}</a></h4>
+                  <p>Invitations</p>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <h4 style="color: #28a745"> <a style="color:#28a745" [routerLink]="['/practice/job-details',job?._id]"
+                      data-toggle="tooltip" title="Applications">{{(job?.total?.sentStaffOffers) ?
+                      job?.total?.sentStaffOffers : 0 }}</a></h4>
+                  <p>Applications</p>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <h4 style="color: red">
+                    <a [routerLink]="['../../messaging',job?.staffId?._id,job?._id]" data-toggle="tooltip" title="Messages">{{(getJobChatMessages | filterBy: job._id).length}}</a>
+                  </h4>
+                  <p>New Messages</p>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <div ngbDropdown class="d-inline-block">
+                    <button class="btn btn-outline-primary btn-option" id="dropdownBasic1" ngbDropdownToggle><i
+                        class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                      <button ngbDropdownItem [routerLink]="['/practice/job-details',job?._id]" title="view"><i
+                          class="fa fa-eye"></i>View</button>
+                     
+                      <button ngbDropdownItem
+                        *ngIf="jobStatus.EXPIRED === job.status || jobStatus.CANCELLED === job.status"
+                        (click)="repostJob(job)" title="Report"><i class="fa fa-plus"></i>Report</button>
+                      <button *ngIf="jobStatus.OPEN === job.status" ngbDropdownItem data-toggle="modal" title="Delete" (click)="showDeletejobModal(job)"><i
+                          class="fas fa-trash"></i>Delete</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-11 text-center">
+                  <button type="button" class="btn btn-outline-primary btn-option" style="border-color: #ffffff;"
+                    (click)="job.isCollapsedMoreInfo = !job.isCollapsedMoreInfo"
+                    [attr.aria-expanded]="!job.isCollapsedMoreInfo" aria-controls="collapseMoreInfo"> <i
+                      *ngIf="job.isCollapsedMoreInfo" class="fa fa-caret-down" aria-hidden="true"></i> <i
+                      *ngIf="!job.isCollapsedMoreInfo" class="fa fa-caret-up" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- 2nd Row -->
+              <div id="collapseMoreInfo" [ngbCollapse]="job.isCollapsedMoreInfo">
+                <div class="row">
+                  <div class="col-md-6 col-lg-3">
+                    <div class="card m-b-30">
+                      <div class="card-body">
+                        <h4>{{ jobLabel[job?.jobType] }} </h4>
+                        <p class="card-text mt-38">Job Type </p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end col -->
+                  <div class="col-md-6 col-lg-3">
+                    <div class="card m-b-30">
+                      <div class="card-body">
+                        <h4>{{job?.startTime | date: 'hh:mm a'}} - {{job?.endTime | date: 'hh:mm a'}}</h4>
+                        <p class="card-text mt-38">Job Time</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end col -->
+                  <div class="col-md-6 col-lg-3">
+                    <div class="card m-b-30">
+                      <div class="card-body">
+                        <h4>$ {{ job?.desiredHourlyRate | number}} / {{ job?.paymentMethod }}</h4>
+                        <p class="card-text mt-38">Rate</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end col -->
+                  <div class="col-md-6 col-lg-3">
+                    <div class="card m-b-30">
+                      <div class="card-body" *ngIf="job.jobType === jobTypes.TEMPORARY">
+                        <h4 class="mb-0">{{ job?.employmentType ? 'W2' : '1099'}}</h4>
+                        <p class="card-text mt-38">Employee Type</p>
+                      </div>
+                      <div class="card-body" *ngIf="job.jobType !== jobTypes.TEMPORARY">
+                        <h4 class="mb-0">{{ job?.paymentMethod | titleCase}}</h4>
+                        <p class="card-text mt-38">Compensation Type</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <p class="card-text text-capitalize" *ngIf="job.createdBy.practiceAccount === 'multi'">{{job?.practiceName?.practiceName}}</p>
+                <p class="card-text text-capitalize">Location : {{job?.practiceName?.addressLine_1}} {{job?.practiceName?.addressLine_2}} {{job?.practiceName?.city?.city | slice:3:job?.practiceName?.city?.city.length }}, {{job?.practiceName?.state?.state}} {{job?.practiceName?.zipcode?.zipcode}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ul class="pagination justify-content-end" *ngIf="itemsPerPage < jobList.length">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+      </div>
+
+      <div *ngIf="selectedJobTab === jobTabs[4]" role="tabpanel" class="tab-pane active">
+        <div class="card-box" style="padding-bottom: 0%;">
+          <div class="row">
+            <div class="">
+              <div class="input-group m-b-20">
+                <button type="button" class="btn btn-outline-primary btn-option filterBtn oval-shape mt-0 mb-4" (click)="isCollapsed = !isCollapsed"
+                  [attr.aria-expanded]="!isCollapsed" aria-controls="collapseSearch"
+                  style="height: 35px; padding: 6px 18px; margin-left: 4px;"><i class="fa fa-sliders"
+                    aria-hidden="true"></i> Filters
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <hr />
+          </div>
+          <div id="collapseSearch" [ngbCollapse]="isCollapsed">
+            <div class="row">
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-sm-9" style="padding-right: 0px;">
+                    <i class="mdi mdi-filter-outline">Job Date</i>
+                    <dp-date-picker [(ngModel)]="dataFilterForOpen.jobDate" class="oval-shape" placeholder="Select From"
+                      [config]="datePickerConfig">
+                    </dp-date-picker>
+                    <dp-date-picker class="mt-2 oval-shape" [(ngModel)]="dataFilterForOpen.jobDateTo" placeholder="Select To"
+                      [config]="datePickerConfig">
+                    </dp-date-picker>
+                  </div>
+                  <div class="col-sm-1" style="padding-left: 0px;">
+                    <i class="mdi mdi-filter-outline"></i>
+                    <br>
+                    <button type="button" style="border: 1px solid #ffffff;" class="btn btn-outline-primary btn-option"  (click)="setOrder('jobDate')">
+                      <span><i class="fa fa-sort" aria-hidden="true"></i></span>
+                    
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Position Type</i>
+                    <div *ngFor="let positionType of PositionTypeData">
+                      <div class="radio">
+                        <label><input type="checkbox" (change)="selectFilter('position', positionType)"
+                            [value]="positionType"> {{positionType}} </label>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Job Type</i>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.TEMPORARY)"
+                          name="jobTypeOption1" value="{{jobTypes.TEMPORARY}}"> Temporary </label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.PERMANENTFULLTIME)"
+                          name="jobTypeOption2" value="{{jobTypes.PERMANENTFULLTIME}}"> Permanent Full Time </label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.PERMANENTPARTTIME)"
+                          name="jobTypeOption3" value="{{jobTypes.PERMANENTPARTTIME}}"> Permanent Part Time</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Location</i>
+                    <input type="text" class="form-control oval-shape" placeholder="Location" [(ngModel)]="dataFilterForOpen.location">
+                  </div>
+                </div>
+              </div> -->
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Rate/Hr</i>
+                    <div class="radio">
+                      <label><input type="checkbox" name="" (change)="selectFilter('desiredHourlyRate', '<$20')" value="salaryOptions"> < $20</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('desiredHourlyRate', '$20-$50')" name="positionTypeOption1" value="salaryOptions"> $20 - $50</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('desiredHourlyRate', '$51-$100')" name="positionTypeOption2" value="salaryOptions"> $51 - $100</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" name="positionTypeOption3" (change)="selectFilter('desiredHourlyRate', '$101-$500')" value="salaryOptions"> > $100</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <div class="">
+                      <button type="button" class="btn btn-outline-success "
+                        (click)="setFilter('completed')">Apply</button>
+                      <button type="button" class="btn btn-outline-danger " (click)="resetFilter()">Reset</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row"
+          *ngFor="let job of jobList | grdFilter: setDataFilter | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p}; let i = index;">
+          <div class="col-md-12 col-lg-12">
+            <div class="card-box card-bg">
+              <div class="row">
+                <div class="col-md-6 col-lg-6">
+                  <a [routerLink]="['/practice/job-details',job?._id]" [state]="{ openedNav: 'completed' }"
+                  data-toggle="tooltip" title="{{ job?.jobTitle?.toLowerCase() }}">
+                  <p>{{ job?.jobTitle?.toLowerCase() }}
+                    <!-- <span [ngClass]="{'badge badge-warning':true, 'JobLabelInProgress':jobStatus.INPROGRESS === job.status, 'jobLabelExpired':jobStatus.EXPIRED === job.status, 'jobLabelOpen': job.status == jobStatus.OPEN, 'jobLabelFilled':job.status == jobStatus.FILLED, 'jobLabelCancelled':job.status == jobStatus.CANCELLED, 'jobLabelAap':job.status == jobStatus.PAYTOACTIVATE, 'jobLabelCompleted':job.status == jobStatus.COMPLETED }" >
+                      {{ job.status == jobStatus.OPEN ? 'Open': job.status == jobStatus.EXPIRED ? 'Expired' : job.status == jobStatus.FILLED ? 'Filled' : job.status == jobStatus.CANCELLED ? 'Cancelled' : job.status == jobStatus.PAYTOACTIVATE ? 'Awaiting Approval & Pay': job.status == jobStatus.COMPLETED ? 'Completed': jobStatus.INPROGRESS === job.status ? 'In Progress': ''}} </span> -->
+                  </p>
+                  </a>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                  <p>Job ID: <a [routerLink]="['/practice/job-details',job?._id]" [state]="{ openedNav: 'completed' }"
+                      data-toggle="tooltip" title="{{job?._id}}">#{{ job?._id | slice:18:24}}
+                      <span *ngIf="job?.updatedOffer" class="badge badge-danger">New</span>
+                    </a> <span
+                      class="pull-right mobileAlignment">Completed On: <span> {{ job?.updatedAt | date:
+                        'mediumDate' }} </span></span></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-lg-2">
+                  <h5>{{ job?.positionType }}</h5>
+                  <p>Position</p>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <h4>{{ job?.jobDate | date : 'mediumDate' }} </h4>
+                  <p class="card-text">Job Date </p>                 
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <h4 style="color: #f36270"> <a style="color:#f36270" [routerLink]="['/practice/job-details',job?._id]"
+                      data-toggle="tooltip" title="Invitations">{{(job?.total?.sentPracticeOffers) ?
+                      job?.total?.sentPracticeOffers : 0 }}</a></h4>
+                  <p>Invitations</p>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <h4 style="color: #28a745"> <a style="color:#28a745" [routerLink]="['/practice/job-details',job?._id]"
+                      data-toggle="tooltip" title="Applications">{{(job?.total?.sentStaffOffers) ?
+                      job?.total?.sentStaffOffers : 0 }}</a></h4>
+                  <p>Applications</p>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <h4 style="color: red">
+                    <a [routerLink]="['../../messaging',job?.staffId?._id,job?._id]" data-toggle="tooltip" title="Messages">{{(getJobChatMessages | filterBy: job._id).length}}</a>
+                  </h4>
+                  <p>New Messages</p>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <div ngbDropdown class="d-inline-block">
+                    <button class="btn btn-outline-primary btn-option" id="dropdownBasic1" ngbDropdownToggle><i
+                        class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                      <button ngbDropdownItem [routerLink]="['/practice/job-details',job?._id]" title="view"><i
+                          class="fa fa-eye"></i>View</button>
+                      
+                      <button ngbDropdownItem
+                        *ngIf="jobStatus.EXPIRED === job.status || jobStatus.CANCELLED === job.status"
+                        (click)="repostJob(job)" title="Report"><i class="fa fa-plus"></i>Report</button>
+                      <button *ngIf="jobStatus.OPEN === job.status" ngbDropdownItem data-toggle="modal" title="Delete" (click)="showDeletejobModal(job)"><i
+                          class="fas fa-trash"></i>Delete</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-11 text-center">
+                  <button type="button" class="btn btn-outline-primary btn-option" style="border-color: #ffffff;"
+                    (click)="job.isCollapsedMoreInfo = !job.isCollapsedMoreInfo"
+                    [attr.aria-expanded]="!job.isCollapsedMoreInfo" aria-controls="collapseMoreInfo"> <i
+                      *ngIf="job.isCollapsedMoreInfo" class="fa fa-caret-down" aria-hidden="true"></i> <i
+                      *ngIf="!job.isCollapsedMoreInfo" class="fa fa-caret-up" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- 2nd Row -->
+              <div id="collapseMoreInfo" [ngbCollapse]="job.isCollapsedMoreInfo">
+                <div class="row">
+                  <div class="col-md-6 col-lg-3">
+                    <!-- Simple card -->
+                    <div class="card m-b-30">
+                      <div class="card-body">
+                        <h4>{{ jobLabel[job?.jobType] }} </h4>
+                        <p class="card-text mt-38">Job Type </p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end col -->
+                  <div class="col-md-6 col-lg-3">
+                    <div class="card m-b-30">
+                      <div class="card-body">
+                        <h4>{{job?.startTime | date: 'hh:mm a'}} - {{job?.endTime | date: 'hh:mm a'}}</h4>
+                        <p class="card-text mt-38">Job Time</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end col -->
+                  <div class="col-md-6 col-lg-3">
+                    <div class="card m-b-30">
+                      <div class="card-body">
+                        <h4>$ {{ job?.desiredHourlyRate | number}} / {{ job?.paymentMethod }}</h4>
+                        <p class="card-text mt-38">Rate</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end col -->
+                    <div class="col-md-6 col-lg-3">
+                    <div class="card m-b-30">
+                      <div class="card-body" *ngIf="job.jobType === jobTypes.TEMPORARY">
+                        <h4 class="mb-0">{{ job?.employmentType ? 'W2' : '1099'}}</h4>
+                        <p class="card-text mt-38">Employee Type</p>
+                      </div>
+                      <div class="card-body" *ngIf="job.jobType !== jobTypes.TEMPORARY">
+                        <h4 class="mb-0">{{ job?.paymentMethod | titleCase}}</h4>
+                        <p class="card-text mt-38">Compensation Type</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <p class="card-text text-capitalize" *ngIf="job.createdBy.practiceAccount === 'multi'">{{job?.practiceName?.practiceName}}</p>
+                <p class="card-text text-capitalize">Location : {{job?.practiceName?.addressLine_1}} {{job?.practiceName?.addressLine_2}} {{job?.practiceName?.city?.city | slice:3:job?.practiceName?.city?.city.length }}, {{job?.practiceName?.state?.state}} {{job?.practiceName?.zipcode?.zipcode}}</p>
+              </div>
+              <!-- 3rd row cards -->
+            </div>
+          </div>
+        </div>
+        <ul class="pagination justify-content-end" *ngIf="itemsPerPage < jobList.length">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+      </div>
+
+      <div *ngIf="selectedJobTab === jobTabs[5]" role="tabpanel" class="tab-pane active">
+        <!-- Temp expired and cancle -->
+
+        <div class="card-box" style="padding-bottom: 0%;">
+          <div class="row">
+            <div class="">
+              <div class="input-group m-b-20">
+                <!-- <input class="form-control"  type="text" value="" placeholder="Search" style="width: 300px;">
+                        <span class="input-group-append">
+                            <button type="button"  class="btn waves-effect waves-light btn-primary"  style="height: 35px; padding: 6px 18px; border-radius: 0.20rem;" ><i class="fa fa-search" aria-hidden="true"></i></button>
+                        </span> -->
+                <button type="button" class="btn btn-outline-primary btn-option filterBtn oval-shape mt-0 mb-4" (click)="isCollapsed = !isCollapsed"
+                  [attr.aria-expanded]="!isCollapsed" aria-controls="collapseSearch"
+                  style="height: 35px; padding: 6px 18px; margin-left: 4px;"><i class="fa fa-sliders"
+                    aria-hidden="true"></i> Filters
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <hr />
+          </div>
+          <div id="collapseSearch" [ngbCollapse]="isCollapsed">
+            <div class="row">
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-sm-9" style="padding-right: 0px;">
+                    <i class="mdi mdi-filter-outline">Job Date</i>
+                    <dp-date-picker [(ngModel)]="dataFilterForOpen.jobDate" class="oval-shape" placeholder="Select From"
+                      [config]="datePickerConfig">
+                    </dp-date-picker>
+                    <dp-date-picker class="mt-2 oval-shape" [(ngModel)]="dataFilterForOpen.jobDateTo" placeholder="Select To"
+                    [config]="datePickerConfig">
+                    </dp-date-picker>
+                  </div>
+                  <div class="col-sm-1" style="padding-left: 0px;">
+                    <i class="mdi mdi-filter-outline"></i>
+                    <br>
+                    <button type="button" style="border: 1px solid #ffffff;" class="btn btn-outline-primary btn-option"  (click)="setOrder('jobDate')">
+                      <span><i class="fa fa-sort" aria-hidden="true"></i></span>
+                      <!-- <span [hidden]="reverse">▼</span>
+                      <span [hidden]="!reverse">▲</span> -->
+                    </button>
+                  </div>
+                  <!-- <div class="col-sm-9 mt-1" style="padding-right: 0px;">
+                    <i class="mdi mdi-filter-outline">Location</i>
+                    <input type="text" class="form-control oval-shape" placeholder="Location" [(ngModel)]="dataFilterForOpen.location">
+                  </div> -->
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Position Type</i>
+                    <!-- <select class="form-control" name="positionType" [(ngModel)]="dataFilterForOpen.positionType">
+                            <option value="">All Position Type</option>
+                            <option [value]="positionType" *ngFor="let positionType of PositionTypeData">
+                              {{positionType}}
+                            </option>
+                          </select> -->
+                    <div *ngFor="let positionType of PositionTypeData">
+                      <div class="radio">
+                        <label><input type="checkbox" (change)="selectFilter('position', positionType)"
+                            [value]="positionType"> {{positionType}} </label>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-2">
+
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Job Type</i>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.TEMPORARY)"
+                          name="jobTypeOption1" value="{{jobTypes.TEMPORARY}}"> Temporary </label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.PERMANENTFULLTIME)"
+                          name="jobTypeOption2" value="{{jobTypes.PERMANENTFULLTIME}}"> Permanent Full Time </label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.PERMANENTPARTTIME)"
+                          name="jobTypeOption3" value="{{jobTypes.PERMANENTPARTTIME}}"> Permanent Part Time</label>
+                    </div>
+                    <!-- <select class="form-control" name="jobType" [(ngModel)]="dataFilterForOpen.jobType">
+                          <option value="">All Job Type</option>
+                          <option value="{{jobTypes.TEMPORARY}}">Temporary</option>
+                          <option value="{{jobTypes.PERMANENTFULLTIME}}">Permanent Full Time</option>
+                          <option value="{{jobTypes.PERMANENTPARTTIME}}">Permanent Part Time</option>
+                        </select> -->
+                  </div>
+                </div>
+
+              </div>
+              <!-- <div class="col-md-6 col-lg-2"> -->
+
+                <!-- <div class="form-group row"> -->
+                <!-- </div> -->
+
+              <!-- </div> -->
+              <div class="col-md-6 col-lg-2">
+
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Job Status</i>
+                    <div class="radio">
+                      <label><input type="checkbox" name="open" (change)="selectFilter('status', 'open')" value="open" > Open</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" name="expired" (change)="selectFilter('status', 'expired')" value="expired"> Expired</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" name="filled" (change)="selectFilter('status', 'filled')" value="filled"> Filled</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" name="cancelled" (change)="selectFilter('status', 'cancelled')" value="cancelled"> Cancelled</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" name="completed" (change)="selectFilter('status', 'completed')" value="completed"> Completed</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" name="completed" (change)="selectFilter('status', 'payToActivate')" value="completed"> Approve & Pay</label>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-md-6 col-lg-2">
+
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Rate/Hr</i>
+                    <!-- <select class="form-control" name="jobType" [(ngModel)]="dataFilterForOpen.jobType">
+                          <option value="">All Rate/Salary</option>
+                          <option value=""> < 10$</option>
+                          <option value="">10$ - $ 50</option>
+                          <option value=""> 50$ -100$</option>
+                        </select> -->
+                    <div class="radio">
+                      <label><input type="checkbox" name="" (change)="selectFilter('desiredHourlyRate', '<$20')" value="salaryOptions"> < $20</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" name="positionTypeOption1" (change)="selectFilter('desiredHourlyRate', '$20-$50')" value="salaryOptions"> $20 - $50</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" name="positionTypeOption2" (change)="selectFilter('desiredHourlyRate', '$51-$100')" value="salaryOptions"> $51 - $100</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" name="positionTypeOption3" (change)="selectFilter('desiredHourlyRate', '$101-$500')"  value="salaryOptions"> > $100</label>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <!-- <i class="mdi mdi-filter-outline">Options</i> -->
+                    <div class="">
+                      <button type="button" class="btn btn-outline-success "
+                        (click)="setFilter('all')">Apply</button>
+                      <button type="button" class="btn btn-outline-danger" (click)="resetFilter()">Reset</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+<!-- | orderBy: order:reverse:'case-insensitive'  -->
+        <div class="row"
+          *ngFor="let job of jobList | grdFilter: setDataFilter | paginate: { itemsPerPage: itemsPerPage, currentPage: p}; let i = index;">
+          <div class="col-md-12 col-lg-12">
+            <div class="card-box card-bg" [ngClass]="{'expiredJob':job.status === jobStatus.EXPIRED,'closedJob':jobStatus.CLOSED === job.status}">
+              <div class="row">
+                <div class="col-md-6 col-lg-6">
+                  <a [routerLink]="['/practice/job-details',job?._id]" [state]="{ openedNav: 'open' }"
+                  data-toggle="tooltip" title="{{ job?.jobTitle?.toLowerCase() }}">
+                  <p *ngIf="job.jobType === jobTypes.TEMPORARY">{{ job?.jobTitle?.toLowerCase() }}
+                    <span [ngClass]="{'badge badge-warning':true, 'JobLabelInProgress':jobStatus.INPROGRESS === job.status, 'jobLabelClosed':jobStatus.CLOSED === job.status,  'jobLabelExpired':jobStatus.EXPIRED === job.status, 'jobLabelOpen': job.status == jobStatus.OPEN, 'jobLabelFilled':job.status == jobStatus.FILLED, 'jobLabelCancelled':job.status == jobStatus.CANCELLED, 'jobLabelAap':job.status == jobStatus.PAYTOACTIVATE, 'jobLabelCompleted':job.status == jobStatus.COMPLETED,'jobLabelCompletedMarkedAsPaid':job.status == jobStatus.MARKASPAIDSTAFF }" >
+                    {{  job.status == jobStatus.CLOSED ? 'Closed': job.status == jobStatus.OPEN ? 'Open': job.status == jobStatus.EXPIRED ? 'Expired' : job.status == jobStatus.FILLED ? 'Filled' : job.status == jobStatus.CANCELLED ?  job?.cancelContract?.cancelBy == 'staff'? 'Cancelled By Staff' : 'Cancelled By Practice'  : job.status == jobStatus.PAYTOACTIVATE ? 'Approve & Pay':  job.status == jobStatus.COMPLETED && job?.autoCompletedBy == 'practice'  ? 'Completed, Pending Approval & Pay' : job.status == jobStatus.COMPLETED && job?.autoCompletedBy == 'staff'  ? 'Completed - Timesheet Not Submitted' : job.status == jobStatus.COMPLETED ? 'Completed': jobStatus.INPROGRESS === job.status ? 'In Progress': job.status === 'completed - Marked as paid by practice' ? 'completed - Marked as paid by practice': job.status === 'Completed - Marked As Paid by Staff' ? 'Completed - Marked As Paid by Staff' :''}} </span>
+                  </p>
+                  <p *ngIf="job.jobType !== jobTypes.TEMPORARY">{{ job?.jobTitle?.toLowerCase() }}
+                    <span [ngClass]="{'badge badge-warning':true, 'JobLabelInProgress':jobStatus.INPROGRESS === job.status, 'jobLabelClosed':jobStatus.CLOSED === job.status,  'jobLabelExpired':jobStatus.EXPIRED === job.status, 'jobLabelOpen': job.status == jobStatus.OPEN, 'jobLabelFilled':job.status == jobStatus.FILLED, 'jobLabelCancelled':job.status == jobStatus.CANCELLED, 'jobLabelAap':job.status == jobStatus.PAYTOACTIVATE, 'jobLabelCompleted':job.status == jobStatus.COMPLETED,'jobLabelCompletedMarkedAsPaid':job.status == jobStatus.MARKASPAIDSTAFF }" >
+                      {{ job?.status === 'open' ? 'Open' : job.status === 'completed' ? 'Completed-Hired' : job.status ==='expired' ? 'Expired' : job.status == jobStatus.CLOSED ? 'Closed' : ''}}
+                    </span>
+                  </p>
+                  </a>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                  <p align="text-center">Job ID: <a [routerLink]="['/practice/job-details',job?._id]" [state]="{ openedNav: 'open' }"
+                      data-toggle="tooltip" title="{{job?._idob-details',job?._id]" data-toggle="tooltip"
+                      title="{{job?.jobTitle?.toLowerCase()}}">#{{ job?._id | slice:18:24}}
+                      <span *ngIf="job?.updatedOffer" class="badge badge-danger">New</span>
+                    </a> 
+                      <span *ngIf=" job.status !== jobStatus.PAYTOACTIVATE && job.status !== jobStatus.EXPIRED && job.status != jobStatus.CANCELLED && job.status != jobStatus.COMPLETED"
+                      class="pull-right mobileAlignment">Posted On : <span> {{ job?.createdAt | date:
+                        'mediumDate' }} </span></span>
+                      <span *ngIf="job.status == jobStatus.CANCELLED && job.cancelContract"
+                        class="pull-right mobileAlignment">Cancelled On : <span> {{ job?.cancelContract?.cancelTime | date:
+                          'mediumDate' }} </span></span>
+                      <span *ngIf="job.status == jobStatus.EXPIRED "
+                          class="pull-right mobileAlignment">Expired On : <span> {{ job?.endTime | date: 'mediumDate' }} </span></span>
+                          <span *ngIf="job.status == jobStatus.PAYTOACTIVATE "
+                          class="pull-right mobileAlignment">Submitted On: <span> {{ job?.timeSheet?.createdAt | date:
+                            'mediumDate' }} </span></span>
+                          
+                          
+                      <span *ngIf="job.status == jobStatus.COMPLETED"
+                        class="pull-right mobileAlignment">Completed On : <span> {{ job?.updatedAt | date:
+                          'mediumDate' }} </span></span>
+                      </p>
+
+
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-lg-2">
+                  <!-- {{ jobLabel[job?.jobType] }} -->
+                  <h5>{{ job?.positionType }}</h5>
+                  <p>Position</p>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <h4>{{ job?.jobDate | date : 'mediumDate' }}</h4>
+                  <p class="card-text" *ngIf="job.jobType === jobTypes.TEMPORARY">Job Date </p>
+                  <p class="card-text" *ngIf="job.jobType !== jobTypes.TEMPORARY">Job Start Date </p>            
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <h4 style="color: #f36270"> <a style="color:#f36270" (click)="showInvitedModal(job?._id);"
+                      data-toggle="tooltip" title="Invitations">{{(job?.total?.sentPracticeOffers) ?
+                      job?.total?.sentPracticeOffers : 0 }}</a></h4>
+                  <p>Invitations</p>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <h4 style="color: #28a745"> <a style="color:#28a745" [routerLink]="['/practice/job-details',job?._id]"
+                      data-toggle="tooltip" title="Applications">{{(job?.total?.sentStaffOffers) ?
+                      job?.total?.sentStaffOffers : 0 }}</a></h4>
+                  <p>Applications</p>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <div  *ngIf="job?.changedJobStatus == jobStatus.PAYTOACTIVATE || job?.changedJobStatus == jobStatus.COMPLETED || job?.changedJobStatus == jobStatus.FILLED">
+                    <h4 style="color: red" >
+                      <a [routerLink]="['../../messaging',job?.staffId?._id,job?._id]" data-toggle="tooltip" title="Messages">{{(getJobChatMessages | filterBy: job._id).length}}</a>
+                    </h4>
+                    <p>New Messages</p>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <!-- <button type="button" class="btn btn-icon waves-effect btn-light"> <i class="fi-ellipsis"></i> </button> -->
+                  <!-- <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-info" title="View" [routerLink]="['/practice/job-details',job?._id]"><i class="fa fa-eye" ></i></button>
+                            <button type="button" *ngIf="!(jobStatus.EXPIRED === job.status || jobStatus.CANCELLED === job.status)" class="btn btn-sm btn-outline-primary" (click)="showNewJobModal(job)" title="Edit"><i
+                                class="fa fa-edit" ></i></button>
+                            <button *ngIf="jobStatus.EXPIRED === job.status || jobStatus.CANCELLED === job.status" type="button" class="btn btn-sm btn-outline-primary" (click)="repostJob(job)" title="Repost"><i
+                                class="fa fa-plus" ></i></button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" title="Delete"
+                              (click)="showDeletejobModal(job)"><i class="fa fa-trash"></i></button>
+                          </div> -->
+
+                  <div ngbDropdown class="d-inline-block">
+                    <button class="btn btn-outline-primary btn-option" id="dropdownBasic1" ngbDropdownToggle><i
+                        class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                      <button ngbDropdownItem [routerLink]="['/practice/job-details',job?._id]" title="view"><i
+                          class="fa fa-eye"></i>View</button>
+                      <!-- <button ngbDropdownItem
+                        *ngIf="!(jobStatus.EXPIRED === job.status || jobStatus.CANCELLED === job.status)"
+                        (click)="showNewJobModal(job)" title="Edit"><i class="fa fa-edit"></i>Edit</button> -->
+                        <button ngbDropdownItem
+                        *ngIf="(jobStatus.OPEN === job.status)"
+                        (click)="showNewJobModal(job)" title="Edit"><i class="fa fa-edit"></i>Edit</button>
+                      <button ngbDropdownItem
+                        *ngIf="jobStatus.EXPIRED === job.status || jobStatus.CANCELLED === job.status"
+                        (click)="repostJob(job)" title="Renew"><i class="fa fa-plus"></i>Renew</button>
+                      <button *ngIf="jobStatus.OPEN === job.status" ngbDropdownItem data-toggle="modal" title="Delete" (click)="showDeletejobModal(job)"><i
+                          class="fas fa-trash"></i>Delete</button>
+                          <button *ngIf="jobStatus.OPEN === job.status" ngbDropdownItem data-toggle="modal" title="Close" (click)="showClosejobModal(job,i)"><i
+                            class="fa fa-times"></i>Close</button>
+                            <button *ngIf="jobStatus.CLOSED === job.status" ngbDropdownItem data-toggle="modal" title="Open" (click)="showOpenjobModal(job,i)"><i
+                              class="fa fa-folder-open"></i>Open</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-11 text-center">
+                  <button type="button" class="btn btn-outline-primary btn-option" style="border-color: #ffffff;"
+                    (click)="job.isCollapsedMoreInfo = !job.isCollapsedMoreInfo"
+                    [attr.aria-expanded]="!job.isCollapsedMoreInfo" aria-controls="collapseMoreInfo"> <i
+                      *ngIf="job.isCollapsedMoreInfo" class="fa fa-caret-down" aria-hidden="true"></i> <i
+                      *ngIf="!job.isCollapsedMoreInfo" class="fa fa-caret-up" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- 2nd Row -->
+              <div id="collapseMoreInfo" [ngbCollapse]="job.isCollapsedMoreInfo">
+                <div class="row">
+                  <div class="col-md-6 col-lg-3">
+                    <!-- Simple card -->
+                    <div class="card m-b-30">
+                      <div class="card-body">
+                        <h4>{{ jobLabel[job?.jobType] }} </h4>
+                        <p class="card-text mt-38">Job Type </p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end col -->
+                  <div class="col-md-6 col-lg-3">
+                    <div class="card m-b-30">
+                      <div class="card-body" *ngIf="job.jobType === jobTypes.TEMPORARY">
+                        <h4>{{job?.startTime | date: 'hh:mm a'}} - {{job?.endTime | date: 'hh:mm a'}}</h4>
+                        <p class="card-text mt-38">Job Time</p>
+                      </div>
+                      <div class="card-body" *ngIf="job.jobType !== jobTypes.TEMPORARY">
+                        <h4 class="" *ngIf="job.paymentMethod === 'hourly'">$ {{ job?.desiredHourlyRate | number}} / {{ job?.paymentMethod | titleCase}}</h4>
+                        <p class="card-text mt-38" *ngIf="job.paymentMethod === 'hourly'">Hourly Rate</p>
+                        <h4 class="" *ngIf="job.paymentMethod === 'salary'">$ {{ job?.desiredSalaryRate | number }} / Annual</h4>
+                        <p class="card-text mt-38" *ngIf="job.paymentMethod === 'salary'">Salary</p>
+                       
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end col -->
+                  <div class="col-md-6 col-lg-3">
+                    <div class="card m-b-30">
+                      <div class="card-body" *ngIf="job.jobType === jobTypes.TEMPORARY">
+                        <h4>$ {{ job?.desiredHourlyRate | number}} / {{ job?.paymentMethod | titleCase}}</h4>
+                        <p class="card-text mt-38">Rate</p>
+                      </div>
+                      <div class="card-body" *ngIf="job.jobType !== jobTypes.TEMPORARY">
+                        <h4>{{ job.payCycle | titleCase}}</h4>
+                        <p class="card-text mt-38">Pay Cycle</p>
+                      </div>
+                    </div>
+                  </div>
+                   <!-- end col -->
+                  <div class="col-md-6 col-lg-3">
+                    <div class="card m-b-30">
+                      <div class="card-body" *ngIf="job.jobType === jobTypes.TEMPORARY">
+                        <h4 class="">{{ job?.employmentType ? 'W2' : '1099'}}</h4>
+                        <p class="card-text mt-38">Employee Type</p>
+                      </div>
+                      <div class="card-body" *ngIf="job.jobType !== jobTypes.TEMPORARY">
+                        <h4 class="">{{ job?.paymentMethod | titleCase}}</h4>
+                        <p class="card-text mt-38">Compensation Type</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <p class="card-text text-capitalize" *ngIf="job.createdBy.practiceAccount === 'multi'">{{job?.practiceName?.practiceName}}</p>
+                <p class="card-text text-capitalize">Location : {{job?.practiceName?.addressLine_1}} {{job?.practiceName?.addressLine_2}} {{job?.practiceName?.city?.city | slice:3:job?.practiceName?.city?.city.length}}, {{job?.practiceName?.state?.state}} {{job?.practiceName?.zipcode?.zipcode}}</p>
+              </div>
+              <!-- 3rd row cards -->
+            </div>
+          </div>
+        </div>
+
+        <ul class="pagination justify-content-end" *ngIf="itemsPerPage < jobList.length">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+        <!-- end Temp expired and cancl  -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- New UI End -->
+
+<div hidden>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <h4 class="text-primary"> <b>Manage: Job Posts</b> </h4>
+      <hr />
+      <!-- <div class="row">
+      <div class="col-sm-12">
+        <button class="btn btn-primary pull-right btn-sm mr-1" (click)="showNewJobModal()"> <i class="fa fa-plus">
+          </i> Create New Job Post</button>
+      </div>
+    </div> -->
+      <!-- <div class="row pt-3">
+      <div class="col-sm-3">
+        <button class="btn  custom-disable-tab btn-block" (click)="changeTab(jobTypes.TEMPORARY)"
+          [ngClass]="{'custom-active-tab':tabType == jobTypes.TEMPORARY}">Current Temporary Jobs</button>
+      </div>
+      <div class="col-sm-3">
+        <button class="btn custom-disable-tab btn-block" (click)="changeTab(jobTypes.PERMANENTFULLTIME)"
+          [ngClass]="{'custom-active-tab': tabType == jobTypes.PERMANENTFULLTIME}">Current Permanent Full Time Jobs</button>
+      </div>
+      <div class="col-sm-3">
+        <button class="btn custom-disable-tab btn-block" (click)="changeTab(jobTypes.PERMANENTPARTTIME)"
+          [ngClass]="{'custom-active-tab': tabType == jobTypes.PERMANENTPARTTIME}">Current Permanent Part Time Jobs</button>
+      </div>
+      <div class="col-sm-3">
+        <button class="btn custom-disable-tab btn-block" (click)="changeTab('expire')"
+          [ngClass]="{'custom-active-tab': tabType == 'expire'}">Past Jobs</button>
+      </div>
+    </div> -->
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-2">
+      <div class="form-group">
+        <select class="form-control" name="positionType" [(ngModel)]="dataFilter.positionType">
+          <option value="">All Position Type</option>
+          <option [value]="positionType" *ngFor="let positionType of PositionTypeData">
+            {{positionType}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="col-sm-2">
+      <div class="form-group">
+        <select class="form-control" name="jobType" [(ngModel)]="dataFilter.jobType">
+          <option value="">All Job Type</option>
+          <option value="{{jobTypes.TEMPORARY}}">Temporary</option>
+          <option value="{{jobTypes.PERMANENTFULLTIME}}">Permanent Full Time</option>
+          <option value="{{jobTypes.PERMANENTPARTTIME}}">Permanent Part Time</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-sm-2">
+      <div class="form-group">
+        <input type="text" class="form-control" name="jobTitle" [(ngModel)]="dataFilter.jobTitle" id="jobTitle"
+          placeholder="Job Title">
+      </div>
+    </div>
+    <div class="col-sm-2">
+      <div class="form-group">
+        <select class="form-control text-capitalize" name="changedJobStatus" [(ngModel)]="dataFilter.changedJobStatus">
+          <option value="">Select Status</option>
+          <option [value]="status" *ngFor="let status of jobStatusArrray">
+            {{
+            showChangedJobTitle(status)
+            }}
+            <!-- {{ (jobStatus.CONTRACT === status) ? 'Filled'  : status  }} -->
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="col-sm-2">
+      <div class="form-group">
+        <!-- <input type="text" name="jobdates" placeholder="Select Job date" class="form-control"
+        [(ngModel)]="dataFilter.jobDate" bsDatepicker [bsConfig]="{ dateInputFormat: 'MMM DD,YYYY',containerClass: 'theme-dark-blue'}" placement="bottom"> -->
+
+        <dp-date-picker [(ngModel)]="dataFilter.jobDate" placeholder="Select Job date" [config]="datePickerConfig">
+        </dp-date-picker>
+      </div>
+    </div>
+    <div class="col-sm-2">
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary btn-sm" (click)="setFilter()">Search</button>
+        <button type="button" class="btn btn-danger btn-sm" (click)="resetFilter()">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row pt-3">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-cogs"></i> Listings
+        </div>
+        <br>
+        <div class="col-lg-12">
+          <div class="pull-right">
+
+          </div>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table table-bordered">
+            <thead class="nowrap">
+              <tr>
+                <th>Job ID</th>
+                <th [class.active]="order === 'jobDate'" (click)="setOrder('jobDate')">
+                  Job Date
+                  <span [hidden]="reverse">▼</span>
+                  <span [hidden]="!reverse">▲</span>
+                </th>
+                <!-- <th [class.active]="order === 'jobDate'" (click)="setOrder('jobDate')">
+                Posting Date
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th> -->
+                <th [class.active]="order === 'jobType'" (click)="setOrder('jobType')">Job Type
+                  <span [hidden]="reverse">▼</span>
+                  <span [hidden]="!reverse">▲</span>
+                </th>
+                <th [class.active]="order === 'positionType'" (click)="setOrder('positionType')">Position Type
+                  <span [hidden]="reverse">▼</span>
+                  <span [hidden]="!reverse">▲</span>
+                </th>
+                <!-- <th  [class.active]="order === 'description'" (click)="setOrder('description')">Job Details
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+               <th  [class.active]="order === 'description'" (click)="setOrder('description')" class="text-wrap">Invitations for "Open Jobs" (link to invitation section of my job individual page)
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+             <th  [class.active]="order === 'description'" (click)="setOrder('description')" class="text-wrap">Applications (link to Applications section of my job individual page)
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>      -->
+                <th [class.active]="order === 'changedJobStatus'" (click)="setOrder('changedJobStatus')">Job Status
+                  <span [hidden]="reverse">▼</span>
+                  <span [hidden]="!reverse">▲</span>
+                </th>
+                <th [class.active]="order === 'changedJobStatus'" (click)="setOrder('changedJobStatus')">Rate
+                  <span [hidden]="reverse">▼</span>
+                  <span [hidden]="!reverse">▲</span>
+                </th>
+                <th [class.active]="order === 'createdAt'" (click)="setOrder('createdAt')">
+                  Job Posted Date
+                  <span [hidden]="reverse">▼</span>
+                  <span [hidden]="!reverse">▲</span>
+                </th>
+                <th [class.active]="order === 'jobTitle'" (click)="setOrder('jobTitle')">
+                  Job Title
+                  <span [hidden]="reverse">▼</span>
+                  <span [hidden]="!reverse">▲</span>
+                </th>
+                <th>
+                  No. of Applications
+                </th>
+                <th>
+                  No. of Offers
+                </th>
+
+                <!-- <th>Contract ID</th>
+              <th>Contract Status</th> -->
+                <!-- <th> Status</th> -->
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tr>
+              <td></td>
+              <td></td>
+              <td><input type="text" style="width:100%" #jobTypeTD placeholder="Search"
+                  (keyup)="jobTypeSearch(jobTypeTD.value)" /></td>
+              <td> </td>
+              <td><input type="text" style="width:100%" #jobStatusTD placeholder="Search"
+                  (keyup)="jobstatusSearch(jobStatusTD.value)" /></td>
+              <td> </td>
+              <td> </td>
+              <td><input type="text" style="width:100%" #jobTitleTD placeholder="Search"
+                  (keyup)="jobTitleSearch(jobTitleTD.value)" /></td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+
+            </tr>
+            <tbody *ngIf="jobList?.length">
+              <tr
+                *ngFor="let job of jobList | grdFilter: setDataFilter | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p}; let i = index;">
+
+                <td><a [routerLink]="['/practice/job-details',job?._id]" data-toggle="tooltip" title="{{job?._id}}">#{{
+                    job?._id | slice:18:24}}
+                     <!-- <span *ngIf="job?.updatedOffer" class="badge badge-danger">New</span> -->
+                    </a>
+                </td>
+                <td class="text-capitalize"> {{ job?.jobDate | date : 'mediumDate' }} </td>
+                <!-- <td class="text-capitalize"> {{ job?.createdAt | date : 'mediumDate' }} </td> -->
+                <td class="text-capitalize"> {{ jobLabel[job?.jobType] }} </td>
+                <td class="text-capitalize"> {{ job?.positionType }} </td>
+                <!-- <td class="text-capitalize"> {{ job?.description }} </td>
+              <td class="text-capitalize">  </td>
+              <td class="text-capitalize">  </td>  -->
+                <td class="text-capitalize text-center">
+                  <i [class]=" jobStatusColor[job?.changedJobStatus]" aria-hidden="true"></i>
+                  <span>
+                    {{
+                    showChangedJobTitle(job?.changedJobStatus)
+                    }}
+                    <!-- (jobStatus.CONTRACT === job?.status) ? 'Filled'  :
+                                              job?.status -->
+                  </span>
+                </td>
+                <td class="text-capitalize"> {{ job?.desiredHourlyRate | number}} / {{ job?.paymentMethod }} </td>
+                <!--   -->
+                <td class="text-capitalize"> {{ job?.createdAt | date: 'mediumDate' }} </td><!-- job?.jobDate -->
+                <td class="text-capitalize"> {{ job?.jobTitle?.toLowerCase() }}</td>
+                <td class="text-capitalize"> {{(job?.total?.sentStaffOffers) ? job?.total?.sentStaffOffers : 0 }} </td>
+                <td class="text-capitalize"> {{(job?.total?.sentPracticeOffers) ? job?.total?.sentPracticeOffers : 0 }}
+                </td>
+
+                <!-- <td> #contId</td>
+              <td class="text-capitalize"> <i class="fa fa-dot-circle-o" aria-hidden="true"></i> In progress</td> -->
+                <!-- <td>{{ job?.positionType }}</td> -->
+                <!-- <td class="text-capitalize"
+                [ngClass]="{'text-danger': job?.status === 'expired', 'text-warning': job?.status === 'drafts'}">
+                {{ job?.status }}</td>
+               EXPIRED: 'expired', // Red
+               END: 'end',
+               CANCELLED : 'cancelled'
+              -->
+                <td>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-info" title="View"
+                      [routerLink]="['/practice/job-details',job?._id]"><i class="fa fa-eye"></i></button>
+                    <!-- <button type="button"
+                      *ngIf="!(jobStatus.EXPIRED === job.status || jobStatus.CANCELLED === job.status)"
+                      class="btn btn-sm btn-outline-primary" (click)="showNewJobModal(job)" title="Edit"><i
+                        class="fa fa-edit"></i></button> -->
+                        <button type="button"
+                      *ngIf="(jobStatus.OPEN === job.status)"
+                      class="btn btn-sm btn-outline-primary" (click)="showNewJobModal(job)" title="Edit"><i
+                        class="fa fa-edit"></i></button>
+                    <button *ngIf="jobStatus.EXPIRED === job.status || jobStatus.CANCELLED === job.status" type="button"
+                      class="btn btn-sm btn-outline-primary" (click)="repostJob(job)" title="Renew"><i
+                        class="fa fa-plus"></i></button>
+                    <button *ngIf="jobStatus.OPEN === job.status" type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" title="Delete"
+                      (click)="showDeletejobModal(job)"><i class="fas fa-trash"></i></button>
+                      
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tr class="text-center" *ngIf="!jobList?.length">
+              <td colspan="15">
+                <h6>No Record Found !</h6>
+              </td>
+            </tr>
+          </table>
+          <ul class="pagination justify-content-end" *ngIf="itemsPerPage < jobList.length">
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- START JOB DELETE MODAL -->
+<div bsModal [config]="{backdrop: 'static', keyboard: false}" #deleteJobModal="bs-modal" class="modal fade"
+  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-white">
+        <h4 class="modal-title text-white"><i class="fas fa-trash"></i> Delete Job</h4>
+        <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure want to Delete this job?</p>
+        <p class="text-capitalize">
+          <b>Job Title:</b> {{newJob?.jobTitle}}<br />
+          <b>Position Type :</b> {{newJob?.positionType}}<br />
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-size" (click)="closeModel()">Cancel</button>
+        <button type="button" class="btn btn-danger btn-size" (click)="deleteJobOffers()">Delete Job</button>
+        <!-- <pre [innerHtml]="newJob | json"> </pre> -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END JOB DELETE MODAL -->
+
+<!-- START JOB CLOSE MODAL -->
+<div bsModal [config]="{backdrop: 'static', keyboard: false}" #closeJobModal="bs-modal" class="modal fade"
+  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-white">
+        <h4 class="modal-title text-white"><i class="fa fa-times"></i> Close Job</h4>
+        <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p> Are you sure you want to close this job? Closed jobs will be removed from the marketplace. You will not receive more applications for closed jobs but you can hire a candidate from your current received applications. You can find your closed jobs in your “All Jobs” folder and show it in the marketplace by clicking on the Open option.
+        </p>
+        <p class="text-capitalize">
+          <b>Job Title:</b> {{newJob?.jobTitle}}<br />
+          <b>Position Type :</b> {{newJob?.positionType}}<br />
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-size" (click)="closeModel()">Cancel</button>
+        <button type="button" class="btn btn-danger btn-size" (click)="closeJobOffers(newJob?._id)">Close Job</button>
+        <!-- <pre [innerHtml]="newJob | json"> </pre> -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END JOB CLOSE MODAL -->
+
+<!-- START REOPEN CLOSE MODAL -->
+<div bsModal [config]="{backdrop: 'static', keyboard: false}" #reopenJobModal="bs-modal" class="modal fade"
+  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-white">
+        <h4 class="modal-title text-white"><i class="fa fa-check"></i> Open Job</h4>
+        <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure want to open this job?</p>
+        <p class="text-capitalize">
+          <b>Job Title:</b> {{newJob?.jobTitle}}<br />
+          <b>Position Type :</b> {{newJob?.positionType}}<br />
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-size" (click)="closeModel()">Cancel</button>
+        <button type="button" class="btn btn-success btn-size" (click)="openJobOffers(newJob?._id)">Open Job</button>
+        <!-- <pre [innerHtml]="newJob | json"> </pre> -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END JOB REOPEN MODAL -->
+
+
+<!-- ---- CONTRACT MODAL -->
+<div bsModal [config]="{backdrop: 'static', keyboard: false}" #contractModal="bs-modal" class="modal fade" tabindex="-1"
+  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-white">
+        <h4 class="modal-title text-white"><i class="fa fa-edit"></i> {{(isDeleteWarningModal)? 'Delete' : 'Edit' }} Job
+        </h4>
+        <button type="button" class="close text-white" (click)="contractModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p *ngIf="!isDeleteWarningModal">Sorry you can not edit this job</p>
+        <p *ngIf="isDeleteWarningModal">Sorry you can not delete this job</p>
+        <!-- <p *ngIf="!isDeleteModal">Sorry you can not edit a cancelled job</p>
+        <p *ngIf="isDeleteModal">Sorry you can not delete a cancelled job</p> -->
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="contractModal.hide()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END JOB DELETE MODAL -->
+<!-- Invited List modal -->
+<div bsModal [config]="{backdrop: 'static', keyboard: false}" #invitedListModal="bs-modal" class="modal fade"
+  tabindex="-1" role="dialog" aria-labelledby="invitedListModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title  text-white">Invitation list</h4>
+      </div>
+      <div class="modal-body">
+        <div *ngFor="let invited of invitedStaffList">
+          <div *ngIf="invited?.sendOfferByPractice">
+            <div class="row">
+              <div class="col-md-1"></div>
+              <div class="col-md-1">
+                <div class="user-avtar" style="text-align: center;">
+                  <img *ngIf="invited?.staffId?.profilePhoto?.length" src="{{invited?.staffId.profilePhoto[0]}}"
+                    class="img-fluid w-100 img-circle invite-list-image" style="max-width: 100%;" alt="">
+                  <img *ngIf="!invited?.staffId?.profilePhoto?.length"
+                    src="../../../../../../assets/img/brand/densub-logo-final.jpg" class="img-fluid w-100 img-circle invite-list-image"
+                    style="max-width: 100%;" alt="">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <p style="text-align: left;" *ngIf="invited?.staffId?.firstName || invited?.staffId?.lastName"
+                  class="text-capitalize">
+                  <a class="text-primary" href="{{viewProfileLink}}/{{invited?.staffId?._id}}">
+                    <b> {{invited.staffId.firstName}}
+                      {{invited.staffId.lastName}}</b>
+                  </a>
+                </p>
+              </div>
+              <div class="col-md-3">
+                <p>Invited on: {{ invited?.createdAt | date: 'mediumDate' }}</p>
+              </div>
+              <div class="col-md-3">
+                <td [innerHTML]="getInvitedStatus(invited)"> </td>
+                <!-- <span *ngIf="setButtonCondition(invited,'waitingMsg')" class="bg-soft-warning">Invited</span>
+                  <span *ngIf="invited.contractStatus === contractStatus.UPCOMING" class="bg-soft-success">Offered</span>
+                  <span *ngIf="setButtonCondition(invited,'acceptOffer')" class="bg-soft-primary">Counter offered</span> -->
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <hr style="margin-bottom: 10px;">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Invited List Modal End -->

@@ -1,0 +1,69 @@
+version: 0.1
+component: build
+timeoutInSeconds: 6000
+runAs: root
+shell: bash
+env:
+  # these are local variables to the build config
+  variables:
+    DOCKER_BUILDKIT: 1
+    DOCKER_CLI_EXPERIMENTAL: "enabled"
+
+  # the value of a vaultVariable is the secret-id (in OCI ID format) stored in the OCI Vault service
+  # you can then access the value of that secret in your build_spec.yaml commands
+  vaultVariables:
+    OCIR_DOCKER_USER: # orasenatdpltintegration03/oracleidentitycloudservice/andrei.ilas@oracle.com
+    OCIR_DOCKER_PWD:  # AUTH KEY
+  
+  # exportedVariables are made available to use as parameters in sucessor Build Pipeline stages
+  # For this Build to run, the Build Pipeline needs to have a BUILDRUN_HASH parameter set
+  exportedVariables:
+    - BUILDRUN_HASH
+
+steps:
+  - type: Command
+    name: "Define unique image tag"
+    timeoutInSeconds: 40
+    command: |
+      export BUILDRUN_HASH=`echo ${OCI_BUILD_RUN_ID: -7}`
+      echo "BUILDRUN_HASH: " $BUILDRUN_HASH
+
+  - type: Command
+    name: "Docker BuildKit Setup"
+    timeoutInSeconds: 140
+    command: |
+      wget https://github.com/docker/buildx/releases/download/v0.11.2/buildx-v0.11.2.linux-amd64 -O docker-buildx
+      mkdir -p ~/.docker/cli-plugins
+      mv docker-buildx ~/.docker/cli-plugins/
+      chmod +x ~/.docker/cli-plugins/docker-buildx
+      docker buildx install
+
+    onFailure:
+      - type: Command
+        command: |
+          echo "Failed to install Docker BuildKit"
+        timeoutInSeconds: 40
+        runAs: root
+
+
+  - type: Command
+    timeoutInSeconds: 30
+    name: "Login to OCI Container Registry"
+    command: |
+      echo "${OCIR_DOCKER_PWD}" | docker login phx.ocir.io -u ${OCIR_DOCKER_USER} --password-stdin
+      
+  - type: Command
+    timeoutInSeconds: 1200
+    name: "Build container image"
+    command: |
+      cd ${OCI_WORKSPACE_DIR}/node_express
+      # multi-architecture manifests can't be exported locally, need to push to a registry
+      docker buildx create --use
+      docker buildx build --progress plain --platform linux/amd64,linux/arm64 -t us-phoenix-1.ocir.io/axo7dvhusjw2/shop-app-${ENVIRONMENT}:${BUILDRUN_HASH} --push -f Dockerfile-ARM . 
+      echo "DONE"
+    onFailure:
+      - type: Command
+        command: |
+          echo "Failed to build the container image"
+        timeoutInSeconds: 40
+        runAs: root

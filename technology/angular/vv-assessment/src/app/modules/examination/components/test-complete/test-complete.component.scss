@@ -1,0 +1,29 @@
+.message-container {
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    // margin: 20px;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 5%;
+  }
+
+  .rating-stars {
+    display: inline-block;
+    font-size: 0;
+  }
+  .rating-stars input {
+    display: none;
+  }
+  .rating-stars label {
+    font-size: 30px;
+    cursor: pointer;
+    color: #ccc;
+    float: right;
+  }
+  .rating-stars input:checked ~ label {
+    color: gold;
+  }
+  

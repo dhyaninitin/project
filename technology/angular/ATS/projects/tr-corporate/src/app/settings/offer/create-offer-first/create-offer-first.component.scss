@@ -1,0 +1,53 @@
+.form {
+  padding-top: 2rem;
+  margin-left: 5px;
+  overflow: hidden !important;
+  .common-div {
+    margin: 20px 0 20px 0;
+    .last-details {
+      display: flex;
+      mat-radio-group {
+        font-family: Manrope;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 20px;
+        padding: 5px 0 5px 0;
+
+        color: #504f54;
+        mat-radio-button {
+          padding: 5px 0 5px 0;
+        }
+        hr {
+          color: #e3e1e5;
+          height: 2px;
+        }
+        p {
+          font-family: Manrope;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 13px;
+          line-height: 18px;
+          margin-left: 28px;
+          color: #84818a;
+        }
+      }
+      mat-label {
+        font-family: Manrope;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 20px;
+        color: #25364d;
+        width: 27%;
+        margin: 0px 0px 0 0px;
+      }
+      mat-form-field {
+        width: 35%;
+        textarea {
+          height: 90px;
+        }
+      }
+    }
+  }
+}

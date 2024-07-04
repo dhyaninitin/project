@@ -1,0 +1,65 @@
+::ng-deep .mat-tooltip {
+    white-space: pre-wrap;
+  }
+    
+  tr.example-detail-row {
+    height: 0;
+  }
+  
+  
+  .example-element-row td {
+    border-bottom-width: 0;
+  }
+  
+  .example-element-detail {
+    overflow: hidden;
+  }
+  
+  .example-element-diagram {
+    min-width: 80px;
+    border: 2px solid black;
+    padding: 8px;
+    font-weight: lighter;
+    margin: 8px 0;
+    height: 104px;
+  }
+  
+  .example-element-symbol {
+    font-weight: bold;
+    font-size: 40px;
+    line-height: normal;
+  }
+  
+  .example-element-description {
+    padding: 16px;
+  }
+  
+  .example-element-description-attribution {
+    opacity: 0.5;
+  }
+  
+  .example-element-description {
+    width: 100%;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+  
+  .input-mat-spinner-loader {
+    position: absolute;
+    right: 50%;
+    bottom: 7px;
+  }
+
+  .model-img {
+    width: 73px;
+    display: inline-flex;
+    .logo {
+      width: 80px;
+      height: 70px;
+    }
+    mat-checkbox{
+      padding: 20px 10px 0px 0px;
+    }
+  }

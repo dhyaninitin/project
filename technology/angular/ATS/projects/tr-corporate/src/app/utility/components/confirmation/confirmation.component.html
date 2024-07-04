@@ -1,0 +1,7 @@
+<h1 mat-dialog-title>{{title | titlecase}}</h1>
+<p>{{subtitle | titlecase}}</p>
+<div mat-dialog-content class="overflow-hide">{{message}}</div>
+<div mat-dialog-actions align="end">
+  <button mat-flat-button mat-dialog-close>{{buttons[0] | titlecase}}</button>
+  <button mat-flat-button color="primary" class="ml-3" (click)="onConfirm()">{{buttons[1] | titlecase}}</button>
+</div>

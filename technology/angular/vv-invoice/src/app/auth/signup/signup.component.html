@@ -1,0 +1,94 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-4 col-md-6 col-sm-8 col-12 main-container mt-5">
+      <div class="logo d-flex justify-content-center mb-3">VV - Invoice</div>
+      <hr width="100%" />
+
+      <form [formGroup]="signupForm">
+        <mat-form-field appearance="outline">
+          <mat-label>Enter your name</mat-label>
+          <input matInput formControlName="name" autocomplete="off" required />
+          <mat-error *ngIf="name.touched && !name.valid">
+            <span *ngIf="name.errors?.['required']"> </span>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Enter your mobile no</mat-label>
+          <input
+            matInput
+            formControlName="mobileno"
+            autocomplete="off"
+            required
+            type="number"
+          />
+          <mat-error *ngIf="mobileno.touched && !mobileno.valid">
+            <span *ngIf="mobileno.errors?.['required']"> </span>
+            <span *ngIf="mobileno.errors?.['pattern']"> </span>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Enter your email</mat-label>
+          <input
+            matInput
+            placeholder="johndoe@example.com"
+            formControlName="email"
+            autocomplete="off"
+            required
+          />
+          <mat-error *ngIf="email.touched && !email.valid">
+            <span *ngIf="email.errors?.['required']"> </span>
+            <span *ngIf="email.errors?.['pattern']"> </span>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Enter your password</mat-label>
+          <input
+            matInput
+            [type]="hide ? 'password' : 'text'"
+            formControlName="password"
+            minlength="8"
+            autocomplete="off"
+            required
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+          <mat-error *ngIf="password.touched && !password.valid">
+            <span *ngIf="password.errors?.['required']"> </span>
+            <span *ngIf="password.errors?.['pattern']"> </span>
+          </mat-error>
+        </mat-form-field>
+
+        <p class="p-tag">
+          Min length 8 characters. one uppercase one lowercase one number & one
+          special character
+        </p>
+
+        <div class="links d-flex justify-content-end mb-3">
+          <a routerLink="/auth/login">Go back to login !</a>
+        </div>
+
+        <div class="btns mb-5">
+          <button
+            color="primary"
+            mat-raised-button
+            (click)="signup()"
+            [disabled]="!signupForm.valid"
+          >
+            Signup
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

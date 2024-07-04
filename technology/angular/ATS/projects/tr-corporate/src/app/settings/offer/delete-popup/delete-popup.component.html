@@ -1,0 +1,27 @@
+<div class="dialouge-delete">
+    <h2>
+      Are You Sure you want to remove this<br />
+      {{popupInfo}}
+    </h2>
+
+    <div class="delete-box">
+      <img src="assets/img/delete-icon.svg" alt="" />
+      <h2>{{popupInfo}}</h2>
+    </div>
+    <span class="buttons">
+      <div class="box-button">
+        <button
+          mat-flat-button
+          mat-dialog-close="I am from dialog land..."
+          (click)="cancel()"
+        >
+          Cancel
+        </button>
+      </div>
+      <div class="box-button">
+        <button mat-flat-button color="warn"  (click)="remove()">
+          Remove
+        </button>
+      </div>
+    </span>
+  </div>

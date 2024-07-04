@@ -1,0 +1,115 @@
+.auth-bg {
+    background-image: url('../../../assets/img/common/auth-bg.jpg');
+    min-height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.auth-page .app-body .main {
+  flex:0 0 100%;
+  width: 100%;
+}
+.auth-page .app-body{
+  display: inline-block;
+  width: 100%;
+}
+.form-design-1 {
+    .title  {
+        font-size :22px;
+        @media (max-width:400px) {
+            font-size: 18px;
+        }
+    }
+    .input-group  {
+        .form-control {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            height: 45px;
+            box-shadow: none;
+        }
+    }
+
+    .gp-fancy-center {
+        margin: 0 auto;
+        overflow: hidden;
+        text-align: center;
+        padding-bottom: 20px;
+        padding-top: 20px;
+        font-size: 13px;
+        color: #e2e2e2;
+        &::before, &:after {
+            background-color: rgba(164,165,165,.7);
+            content: "";
+            display: inline-block;
+            height: 1px;
+            position: relative;
+            vertical-align: middle;
+            width: 45%;
+        }
+        &:before {
+            margin-left: -50%;
+             right: 0.5em;
+        }
+        &:after {
+            left: .5em;
+            margin-right: -50%;
+        }
+        span {
+            letter-spacing: 3px;
+        }
+    }
+    .gp-social-wrapper {
+        margin-bottom: 32px;
+        .social {
+            margin: 0 auto;
+            p {
+                margin: 0 0 5px;
+            }
+            a.gp-social-button, a.gp-social-button:hover {
+                color: #fff;
+                display: inline-block;
+                font-size: 14px;
+                margin-bottom: 0;
+                margin-top: 2px;
+                padding: 15px;
+                position: relative;
+                span.icon-holder {
+                    margin: 0;
+                    padding: 0 10px 0 0;
+                    i {
+                        display: inline-block;
+                        font-size: 16px;
+                        vertical-align: middle;
+                    }
+                }
+            }
+        }
+    }
+    .after-borer {
+        position: relative;
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            max-width: 90%;
+            background: #d6cfcf;
+            height: 1px;
+            left: 15px;
+            right: 15px;
+            width: 100%;
+        }
+    }
+
+    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: #bdbdbd;
+        opacity: 1; /* Firefox */
+      }
+
+      :-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: #bdbdbd;
+      }
+
+      ::-o-input-placeholder {
+        color: #bdbdbd;
+      }
+}

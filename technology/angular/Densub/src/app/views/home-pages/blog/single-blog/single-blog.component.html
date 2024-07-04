@@ -1,0 +1,216 @@
+<Section class="innerbg-1 position-relative bg-overlay d-flex align-items-center" [ngStyle]="{'background-image': 'url(' + blog?.photo + ')'}" style="background-position: center;background-size: cover;">
+    <div class="container">
+        <div class="row mb-30 align-center">
+            <div class="col-12 text-center">
+                <h1 class="fs-50 clr-white position-relative z-index">{{ blog?.title }}</h1>
+            </div>
+        </div>
+    </div>
+</Section>
+
+
+<section class="blog-listing pt-50 pb-70 sm-pt-50 sm-pb-50 gray-bg">
+    <div class="container container-standard">
+        <div class="row">
+
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-sm-12 mb-30">
+                        <div class="blog bg-white box-shadow-1 mb-30 sm-mb-0">
+                            <div class="blog-img">
+                                <img alt="" class="img-fluid" src="{{ blog?.photo }}">
+                                <div class="blog-date">
+                                    <span>{{ blog?.createdAt | date: 'dd' }}</span>
+                                    <span>{{ blog?.createdAt | date: 'MMM, yyyy' }}</span>
+                                </div>
+                            </div><!-- End blog-img -->
+                            <div class="blog-content p-15 pb-10">
+                                <div class="blog-content_inner pt-20 pb-20">
+                                    <p [innerHtml]="blog?.description"></p>
+                                </div>
+                                <div class="blog-category">Category : 
+                                    <a *ngFor="let category of blog?.categories; let ci = index;"
+                                    [routerLink]="['/blogs', category?._id]">{{ category?.name }}{{ blog?.categories?.length-1 === ci ? '' : ', ' }}</a>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div><!-- End blog-content -->
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div id="commentlist" class="page-content bg-white box-shadow-1 mb-30 p-15">
+                            <div class="border-bottom">
+                                <h3>Comments ( <span class="color">{{ commentList?.length }}</span> )</h3>
+                            </div>
+                            <ol class="commentlist clearfix" *ngIf="commentList?.length">
+                                <li class="comment" *ngFor="let comments of commentList; let i = index;">
+                                    <div class="comment-body clearfix">
+                                        <div class="comment-text">
+                                            <div class="author clearfix">
+                                                <div class="comment-meta">
+                                                    <span>{{ comments?.userName }}</span>
+                                                    <div class="date">{{ comments?.createdAt | date: 'MMMM dd, yyyy h:mm a' }}</div>
+                                                </div>
+                                                <a class="comment-reply" *ngIf="currentUser && currentUser.userType == 'admin' && !comments.reply" (click)="showReplyModal(comments)"><i class="fa fa-reply"></i>Reply</a>
+                                            </div>
+                                            <div class="text">
+                                                <p>{{ comments?.comment }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <ul class="children list-unstyled" *ngIf="comments?.reply">
+                                        <li class="comment">
+                                            <div class="comment-body clearfix">
+                                                <div class="comment-text">
+                                                    <div class="author clearfix">
+                                                        <div class="comment-meta">
+                                                            <span>Admin</span>
+                                                            <div class="date">{{ comments?.updatedAt | date: 'MMMM dd, yyyy h:mm a' }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text">
+                                                        <p>{{ comments?.reply }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </div>
+
+                        <div class="page-content bg-white box-shadow-1 mb-30 p-15">
+                            <div class="comment-form">
+                                <div class="border-bottom mb-30">
+                                    <h3>Leave a reply</h3>
+                                </div>
+                                <form action="#" method="post">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Username" [(ngModel)]="comment.userName" id="userName" name="userName">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" [(ngModel)]="comment.email" id="email" name="email" class="form-control" placeholder="Email Address">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" [(ngModel)]="comment.website" id="website" name="website" class="form-control" placeholder="Website">
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea [(ngModel)]="comment.comment" id="comment" name="comment" class="form-control" rows="8"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn  btn-primary" (click)="postComment()">Post Comment</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div id="post-nav" class="bg-white bg-white box-shadow-1 mb-30 pr-10 pl-10">
+                            <div class="thumbs_prev_post" *ngIf="previousBlog && previousBlog?.title" (click)="getBlog(previousBlog?._id)">
+                                <span class="navi_thumb">
+                                    <a>
+                                        <img src="{{ previousBlog?.photo }}" class="img-fluid">
+                                    </a>
+                                </span>
+                                <span class="navi_content">
+                                    <a style="color: #F68C34;" class="next">« Previous</a>
+                                    <h5><a style="font-weight: bold;">{{ previousBlog?.title  | truncate: 20 }}</a></h5>
+                                </span>
+                            </div>
+
+                            <div class="thumbs_next_post" *ngIf="nextBlog && nextBlog?.title" (click)="getBlog(nextBlog?._id)">
+                                <span class="navi_content">
+                                    <a style="color: #F68C34;" class="previous">Next » </a>
+                                    <h5><a style="font-weight: bold;">{{ nextBlog?.title | truncate: 20 }}</a></h5>
+                                </span>
+                                <span class="navi_thumb"> 
+                                    <a>
+                                        <img src="{{ nextBlog?.photo }}" class="img-fluid">
+                                    </a>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div><!-- END pagination -->
+
+                </div>
+            </div>
+
+            <aside class="col-lg-4">
+                <div class="left-sidebar ">
+
+                    <div class="bg-white box-shadow-1 widget widget-list">
+                        <div class="widget-title">
+                            <i class="fa fa-folder-open"></i> Categories
+                        </div>
+                        <ul>
+                            <li class="cat-item" *ngFor="let category of categories; let i = index;"><a   [routerLink]="['/blogs', category?._id]">{{ category?.name }}</a></li>
+                        </ul>
+                    </div><!-- End widget -->
+
+                    <div class="bg-white box-shadow-1 widget widget-recent-post">
+                        <div class="widget-title">
+                            <i class="fa fa-bolt"></i> Recent Posts
+                        </div>
+                        <ul>
+                            <li  *ngFor="let blog of recentBlogs; let i = index;" (click)="getBlog(blog?._id);">
+                                <a  title="{{ blog?.title }}" class="thumb">
+                                    <img src="{{ blog?.photo }}" class="img-fluid" alt="">
+                                </a>
+                                <div class="recent-post-widget-content">
+                                    <h5 class="text-truncate"><a>{{ blog?.title }}</a></h5>
+                                    <p class="recent-post-date">Posted: {{ blog?.createdAt | dateAgo }}</p>
+                                    <!-- <p class="recent-post-date">Posted: 1 months ago</p> -->
+                                </div>
+                            </li>
+                        </ul>
+                    </div><!-- End widget -->
+
+                    <div class="bg-white box-shadow-1 widget widget-list">
+                        <div class="widget-title">
+                            <i class="fa fa-bolt"></i> Popular Posts
+                        </div>
+                        <ul>
+                            <li (click)="getBlog(blog?._id);" *ngFor="let blog of popularBlogs; let i = index;" class="text-truncate"><a >{{ blog?.title }}</a></li>
+                        </ul>
+                    </div><!-- End widget -->
+
+                </div>
+            </aside>
+
+        </div>
+    </div>
+</section>
+
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #replyOfCommentModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title text-white"> Reply</h4>
+            <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group row">
+                <div class="col-12">
+                    <label><b>Reply
+                        <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                            [ngClass]="{'text-danger': !replyofComment, 'text-primary': replyofComment}"></i>
+                        </sup>
+                    </b></label>`
+                    <textarea id="replyofComment" name="replyofComment" class="form-control"
+                    placeholder="Please enter your reply" [(ngModel)]="replyofComment" rows="10" required> </textarea>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+            <button type="button" class="btn btn-primary" [disabled]="!replyofComment"
+            (click)="postAReply()">Send</button>
+        </div>
+        </div>
+    </div>
+</div>

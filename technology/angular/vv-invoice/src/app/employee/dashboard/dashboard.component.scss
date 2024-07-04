@@ -1,0 +1,137 @@
+.app-name h3 {
+  font-size: 18px;
+  font-weight: 600;
+  font-family: inherit;
+  color: #fff !important;
+  width: fit-content !important;
+}
+
+#user-name {
+  font-size: 18px;
+  font-weight: 500;
+  color: #fff;
+}
+
+#logo-btn {
+  margin-left: 1rem ;
+}
+
+.example-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#toolbar-items {
+  margin-top: 0rem;
+}
+
+.space-between {
+  margin-left: 0.5em !important;
+}
+
+::ng-deep .mat-toolbar {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+::ng-deep.mat-tab-header-pagination-controls-enabled
+  .mat-tab-header-pagination {
+  display: none !important;
+}
+
+.example-container {
+  position: relative;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+}
+
+mat-sidenav {
+  width: 15rem;
+  // background-color:#eee;
+}
+
+@media (max-width: 768px) {
+  .app-name h3 {
+    font-size: 16px;
+    font-weight: 600;
+    font-family: inherit;
+    color: #fff !important;
+    width: fit-content !important;
+  }
+
+  #user-name {
+    font-size: 16px;
+    font-weight: 500;
+    color: #fff;
+  }
+}
+
+@media (max-width: 576px) {
+  .app-name h3 {
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    color: #fff !important;
+    width: fit-content !important;
+    margin-top: 6px;
+  }
+
+  #user-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+  }
+
+  mat-icon {
+    font-size: 20px !important;
+    margin-top: 4px;
+  }
+}
+
+@media (max-width: 400px) {
+  .app-name h3 {
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    color: #fff !important;
+    width: fit-content !important;
+  }
+
+  #user-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #fff;
+  }
+
+  mat-icon {
+    font-size: 16px !important;
+    margin-top: 6px !important;
+  }
+}
+
+@media (max-width: 345px) {
+  .app-name h3 {
+    font-size: 12px;
+    font-weight: 600;
+    font-family: inherit;
+    color: #fff !important;
+    width: fit-content !important;
+  }
+
+  #user-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: #fff;
+  }
+
+  mat-icon {
+    font-size: 14px !important;
+    margin-top: 7px !important;
+  }
+}

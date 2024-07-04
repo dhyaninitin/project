@@ -1,0 +1,29 @@
+.mat-header-cell,
+.mat-cell {
+  padding-right: 20px;
+}
+
+.cell-srno {
+  flex: 0 0 60px;
+}
+
+.cell-first_name,
+.cell_last_name {
+  flex: 0 0 150px;
+}
+
+.cell-phone {
+  flex: 0 0 150px;
+}
+
+.cell-state {
+  flex: 0 0 100px;
+}
+
+.cell-zip {
+  flex: 0 0 100px;
+}
+
+.cell-actions {
+  flex: 0 0 100px;
+}

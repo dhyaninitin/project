@@ -1,0 +1,4 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<span *ngIf="showLoadin" style="font-size: 50px; margin:auto;"> <i class="fa fa-refresh fa-spin ml-2"
+  aria-hidden="true"></i> Loading ...</span>
+<router-outlet *ngIf="!showLoadin"></router-outlet>

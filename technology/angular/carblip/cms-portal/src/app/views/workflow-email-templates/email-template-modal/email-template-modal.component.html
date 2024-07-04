@@ -1,0 +1,58 @@
+<form [formGroup]="emailTemplateForm">
+    <div class="flex items-center" mat-dialog-title>
+        <h2 class="headline m-0 flex-auto">{{data.title}}</h2>
+
+        <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+            <mat-icon svgIcon="mat:close"></mat-icon>
+        </button>
+    </div>
+
+    <mat-divider class="-mx-6 text-border"></mat-divider>
+    <mat-dialog-content class="flex flex-col">
+        <div class="flex flex-col sm:flex-row">
+            <mat-form-field class="mt-2 flex-auto">
+                <mat-label>Title</mat-label>
+                <input matInput type="text" formControlName="title" placeholder="Title">
+            </mat-form-field>
+        </div>
+
+        <div class="flex flex-col sm:flex-row">
+            <mat-form-field class="mt-2 flex-auto">
+                <mat-label>Subject</mat-label>
+                <input matInput type="text" formControlName="subject" placeholder="Subject">
+            </mat-form-field>
+        </div>
+
+        <div class="flex flex-col sm:flex-row">
+            <mat-form-field class="mt-2 flex-auto">
+                <mat-label>Select Property</mat-label>
+                <mat-spinner *ngIf="loadingProperty" class="mat-spinner" color="primary" [diameter]="20"></mat-spinner>
+                <mat-select formControlName="properties" (selectionChange)="onPropertieschange($event.value)">
+                    <mat-option>
+                    <ngx-mat-select-search [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches' "  [formControl]="propertyFilterCtrl" [preventHomeEndKeyPropagation]="true">
+                        <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                    </ngx-mat-select-search>
+                    </mat-option>
+                    <mat-option *ngFor="let value of filteredProperties" [value]="value">
+                    {{value.fields}}
+                    </mat-option>
+                </mat-select>
+                </mat-form-field>
+        </div>
+
+        <div class="flex flex-col sm:flex-row mb-3">
+                <mat-label>Body</mat-label>
+        </div>
+        <div class="flex flex-col sm:flex-row">
+                <quill-editor formControlName="body" [styles]="{ flex: '1 1 auto', display: 'flex', 'flex-direction': 'column' }" class="flex-auto flex flex-col"></quill-editor>
+        </div>
+        <mat-dialog-actions align="end" class="mt-2">
+            <div>
+                <button mat-button mat-dialog-close type="button" (click)="dialogRef.close(false)">Cancel</button>
+                <button mat-button mat-raised-button type="button" [disabled]="!emailTemplateForm.valid" color="primary"
+                    (click)="saveTemplateMessage()">{{ data.isEdit ? 'Update' : 'Save'}}</button>
+                <span fxFlex></span>
+            </div>
+        </mat-dialog-actions>
+    </mat-dialog-content>
+</form>

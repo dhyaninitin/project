@@ -1,0 +1,518 @@
+<vex-page-layout>
+  <vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+    <div class="w-full flex flex-col sm:flex-row justify-between">
+      <div>
+        <h1 class="title mt-0 mb-1">Contact {{user?.full_name}}'s Detail</h1>
+        <vex-breadcrumbs [crumbs]="['Contacts', 'Detail']"></vex-breadcrumbs>
+      </div>
+
+    </div>
+  </vex-page-layout-header>
+  <vex-page-layout-content *ngIf="isReady" class="-mt-6">
+
+    <div class="card -mt-16">
+      <div class="head bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
+        <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l sm:block flex-none">
+          <span>Actions</span>
+        </h2>
+        <span class="flex-1"></span>
+        <button *ngIf="indirectShowDeleteButton()" (click)="indirectDeleteDialogBox()" class="ml-4 flex-none"
+          color="warn" mat-mini-fab matTooltip="Delete Contact" type="button">
+          <mat-icon svgIcon="mat:delete"></mat-icon>
+        </button>
+
+        <!-- <button *ngIf="indirectShowEditButton()" [disabled]="service$.isEdit" (click)="showEdit()" class="ml-4 flex-none" color="primary" mat-mini-fab matTooltip="Edit User" type="button">
+					<mat-icon svgIcon="mat:edit"></mat-icon>
+				</button> -->
+
+        <button (click)="location.back()" class="ml-4 flex-none" color="primary" mat-mini-fab matTooltip="Back"
+          type="button">
+          <mat-icon svgIcon="mat:arrow_back"></mat-icon>
+        </button>
+      </div>
+    </div>
+    
+    <div class="mt-6 flex flex-col md:flex-row md:items-start">
+      <div class="flex-auto">
+        <div class="card">
+          <div class="px-gutter py-4 border-b flex justify-content-space-between">
+            <h2 class="title m-0">{{ service$.isEdit ? 'Contact Details' : 'About'}}</h2>
+            <span class="flex-1"></span>
+            <button class="ml-4 flex-none" [matTooltip]="isCollapsedContactSection ? 'Expand Contact Section' : 'Collapse Contact Section'" (click)="isCollapsedContactSection = !isCollapsedContactSection; collapseContactSection();" type="button">
+              <mat-icon *ngIf="isCollapsedContactSection" svgIcon="mat:keyboard_arrow_down"></mat-icon>
+              <mat-icon *ngIf="!isCollapsedContactSection" svgIcon="mat:keyboard_arrow_up"></mat-icon>
+            </button>
+          </div>
+          <div id="contactSection">
+          <div>
+            <form [formGroup]="itemForm" class="px-gutter py-4 grid grid-cols-1 sm:grid-cols-4 gap-4"
+              autocomplete="new-userform">
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>First Name</mat-label>
+                  <input matInput autocomplete="new-firstname" name="new-firstname"
+                    [formControl]="itemForm.controls['first_name']" placeholder="First Name" appNoWhitespace>
+                  <mat-icon class="mr-3" matPrefix svgIcon="mat:person"></mat-icon>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>Last Name</mat-label>
+                  <input matInput autocomplete="new-lastname" name="new-lastname"
+                    [formControl]="itemForm.controls['last_name']" placeholder="Last Name" appNoWhitespace>
+                  <mat-icon class="mr-3" matPrefix svgIcon="mat:person"></mat-icon>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>Phone</mat-label>
+                  <input matInput autocomplete="new-phone" name="new-phone" pattern="^\d{3}[- ]?\d{3}[- ]?\d{4}$"
+                    [formControl]="itemForm.controls['phone']" placeholder="Phone" appPhoneNumber>
+                  <mat-icon class="mr-3" matPrefix svgIcon="mat:phone"></mat-icon>
+                  <span matPrefix class="prefix">+1</span>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>Primary Email Address</mat-label>
+                  <input type="email" matInput autocomplete="new-email" name="new-email"
+                    pattern="[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,64}"
+                    [formControl]="itemForm.controls['email_address']" placeholder="Primary Email" appNoWhitespace>
+                  <mat-icon class="mr-3" matPrefix svgIcon="mat:email"></mat-icon>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>Contact Owner</mat-label>
+                  <mat-select [formControl]="itemForm.controls['contact_owner_email']" placeholder="Contact Owner"
+                    #singleSelect>
+                    <mat-option>
+                      <ngx-mat-select-search *ngIf="true" [placeholderLabel]="'Search...'"
+                        [noEntriesFoundLabel]="'No matches' " [formControl]="portalUserFilterCtrl"
+                        [preventHomeEndKeyPropagation]="true">
+                        <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                      </ngx-mat-select-search>
+                    </mat-option>
+                    <mat-option *ngFor="let item of filteredPortalUsers" [disabled]="item?.is_active == 0" [value]="item.email"
+                      [ngClass]="{'bg-gray-200': item?.is_active == 0}">
+                      {{ item?.full_name }} ({{ item?.email }})
+                    </mat-option>
+                  </mat-select>
+                  <mat-icon class="mr-3" matPrefix svgIcon="mat:person_add"></mat-icon>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>Secondary Emails</mat-label>
+                  <input type="email" matInput name="secondary-emails" [formControl]="itemForm.controls['secondary_emails']" 
+                  placeholder="Secondary emails" appNoWhitespace #secondaryEmailInput readonly>
+                  <mat-icon class="mr-3" matPrefix svgIcon="mat:email"></mat-icon>
+                  <button mat-icon-button matSuffix matTooltip="Add Secondary Emails" type="button"
+                  [matMenuTriggerFor]="SecondaryEmailsMenu" #secondaryEmailsMenu (click)="$event.stopPropagation();secondaryEmailMenuClosed = true;">
+                  <mat-icon svgIcon="mat:edit"></mat-icon>
+                  </button>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>Secondary Phone</mat-label>
+                  <input type="email" matInput name="secondary-phone" [formControl]="itemForm.controls['secondary_phone']" 
+                  placeholder="Secondary Phone" appSecondaryPhoneNumber readonly>
+                  <mat-icon class="mr-3" matPrefix svgIcon="mat:phone"></mat-icon>
+                  <button mat-icon-button matSuffix matTooltip="Add Secondary Phone" type="button"
+                  [matMenuTriggerFor]="SecondaryPhoneMenu" #secondaryphonesMenu (click)="$event.stopPropagation();secondaryPhoneMenuClosed = true;">
+                  <mat-icon svgIcon="mat:edit"></mat-icon>
+                  </button>
+                </mat-form-field>
+              </div>
+              
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>Source</mat-label>
+                  <input matInput type="text" autocomplete="source" name="source" placeholder="Source"
+                    [value]="user?.source" disabled>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>Phone Preferred Contact</mat-label>
+                  <input matInput autocomplete="phone_preferred_contact" name="phone_preferred_contact"
+                    [formControl]="itemForm.controls['phone_preferred_contact']" placeholder="Phone Preferred Contact"
+                    maxlength="1" appNoWhitespace>
+                </mat-form-field>
+              </div>
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>Phone Preferred Time</mat-label>
+                  <input matInput autocomplete="phone_preferred_time" name="phone_preferred_time"
+                    [formControl]="itemForm.controls['phone_preferred_time']" placeholder="Phone Preferred Time"
+                    appNoWhitespace>
+                  <mat-icon class="mr-3" matPrefix svgIcon="mat:access_time"></mat-icon>
+                </mat-form-field>
+              </div>
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>Phone Preferred Type</mat-label>
+                  <input matInput autocomplete="phone_preferred_type" name="phone_preferred_type"
+                    [formControl]="itemForm.controls['phone_preferred_type']" placeholder="Phone Preferred Type"
+                    appNoWhitespace>
+                </mat-form-field>
+              </div>
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>Street Address</mat-label>
+                  <input matInput autocomplete="street_address" name="street_address"
+                    [formControl]="itemForm.controls['street_address']" placeholder="Street Address" appNoWhitespace>
+                </mat-form-field>
+              </div>
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>City</mat-label>
+                  <input matInput autocomplete="city" name="city" [formControl]="itemForm.controls['city']"
+                    placeholder="City" appNoWhitespace>
+                  <mat-icon class="mr-3" matPrefix svgIcon="mat:location_city"></mat-icon>
+                </mat-form-field>
+              </div>
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>State</mat-label>
+                  <input matInput autocomplete="state" name="state" [formControl]="itemForm.controls['state']"
+                    placeholder="State" appNoWhitespace>
+                  <mat-icon class="mr-3" matPrefix svgIcon="mat:location_on"></mat-icon>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>Zip</mat-label>
+                  <input matInput autocomplete="zip" name="zip" [formControl]="itemForm.controls['zip']"
+                    placeholder="Zip" appNoWhitespace>
+                  <mat-icon class="mr-3" matPrefix svgIcon="mat:my_location"></mat-icon>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>App Version</mat-label>
+                  <input matInput type="text" name="app_version" placeholder="App Version" [value]="user?.app_version"
+                    disabled />
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>Device Type</mat-label>
+                  <input matInput type="text" name="device_type" [value]="user?.device_type" placeholder="Device Type"
+                    disabled />
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>Hubspot Contact Id</mat-label>
+                  <input matInput type="text" name="hubspot_contact_id" [value]="user?.contact_id" placeholder="Hubspot Contact Id"
+                    disabled />
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight>
+                <div class="full-width">
+                  <mat-label class="pr-1">Deal Completed?</mat-label>
+                  <span class="tag" [ngClass]="user.lease_captured ? 'yes' : 'no'">{{user?.lease_captured ? 'Yes' :
+                    'No'}}</span>
+                  <!-- <mat-chip mat-sm-chip class="process-status" [color]="getBoolColor(user?.lease_captured)"
+                            selected>{{user?.lease_captured ? 'Yes' : 'No'}}</mat-chip> -->
+                </div>
+
+                <div class="flex items-center space-x-2 pl-1">
+                  <app-contact-engagement-list class="flex-1" [userId]="user.id" [contactsEngagementCount]="user.contacts_engagement_count"></app-contact-engagement-list>
+                </div>
+                
+              </div>
+
+
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>Created At</mat-label>
+                  <input matInput type="text" name="created_at" placeholder="Created At"
+                    [value]=" user.created_at | date:'MM/dd/yyy h:mm a' " disabled />
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>Updated At</mat-label>
+                  <input matInput type="text" name="updated_at" placeholder="Updated At"
+                    [value]="user?.updated_at | date:'MM/dd/yyy h:mm a' " disabled />
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight></div>
+              <div class="flex items-center" @fadeInRight></div>
+              <div class="flex items-center" @fadeInRight></div>
+              
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>Type</mat-label>
+                  <mat-select placeholder="Type" [formControl]="itemForm.controls['type']" #singleSelect>
+                    <mat-option [value]="0"></mat-option>
+                    <mat-option [value]="1">Concierge</mat-option>
+                    <mat-option [value]="2">Concierge (Test)</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight *ngIf="itemForm.controls['type'].value == 1 || itemForm.controls['type'].value == 2">
+                <mat-form-field>
+                  <mat-label>Concierge State</mat-label>
+                  <mat-select placeholder="Concierge State" [formControl]="itemForm.controls['concierge_state']" #singleSelect>
+                    <mat-option value="CA">California</mat-option>
+                    <mat-option value="AZ">Arizona</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              
+              <div class="flex items-center" @fadeInRight *ngIf="itemForm.controls['type'].value == 1 || itemForm.controls['type'].value == 2">
+                <mat-form-field>
+                  <mat-label>Linkedin Profile</mat-label>
+                  <input matInput type="text" name="linkedin_profile" placeholder="Linkedin Profile" 
+                  [formControl]="itemForm.controls['linkedin_profile']"/>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight *ngIf="itemForm.controls['type'].value == 1 || itemForm.controls['type'].value == 2">
+                <mat-form-field>
+                  <mat-label>Concierge Source</mat-label>
+                  <input matInput type="text" name="concierge_source" placeholder="Concierge Source" 
+                  [formControl]="itemForm.controls['concierge_source']"/>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight *ngIf="itemForm.controls['type'].value == 1 || itemForm.controls['type'].value == 2">
+                <mat-form-field>
+                  <mat-label>Interview Scheduled</mat-label>
+                  <input matInput type="text" name="interview_scheduled" placeholder="Interview Scheduled" 
+                  [formControl]="itemForm.controls['interview_scheduled']"/>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight *ngIf="itemForm.controls['type'].value == 1 || itemForm.controls['type'].value == 2">
+                <mat-form-field>
+                  <mat-label>Sales License Status</mat-label>
+                  <input matInput type="text" name="sales_license_status" placeholder="Sales License Status" 
+                  [formControl]="itemForm.controls['sales_license_status']"/>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight *ngIf="itemForm.controls['type'].value == 1 || itemForm.controls['type'].value == 2">
+                  <mat-form-field style="width: 100%;">
+                    <mat-label>Sales License</mat-label>
+                    <button mat-icon-button matPrefix (click)="f_input.click()">
+                      <mat-icon>attach_file</mat-icon>
+                    </button>
+                    <input type="text" readonly matInput [formControl]="itemForm.controls['sales_license']" />
+                    <input type="file" hidden #f_input (change)="salesLicenseFileUpload(f_input.files)"/>
+                  </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight *ngIf="itemForm.controls['type'].value == 1 || itemForm.controls['type'].value == 2">
+                <mat-form-field>
+                  <mat-label>Intake Questionaire 1</mat-label>
+                  <input matInput type="text" name="intake_questionaire_1" placeholder="Intake Questionaire 1" 
+                  [formControl]="itemForm.controls['intake_questionaire_1']"/>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight *ngIf="itemForm.controls['type'].value == 1 || itemForm.controls['type'].value == 2">
+                <mat-form-field>
+                  <mat-label>Intake Questionaire 2</mat-label>
+                  <input matInput type="text" name="intake_questionaire_2" placeholder="Intake Questionaire 2" 
+                  [formControl]="itemForm.controls['intake_questionaire_2']"/>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight *ngIf="itemForm.controls['type'].value == 1 || itemForm.controls['type'].value == 2">
+                <mat-form-field>
+                  <mat-label>Intake Questionaire 3</mat-label>
+                  <input matInput type="text" name="intake_questionaire_3" placeholder="Intake Questionaire 3" 
+                  [formControl]="itemForm.controls['intake_questionaire_3']"/>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight *ngIf="itemForm.controls['type'].value == 1 || itemForm.controls['type'].value == 2">
+                <mat-form-field>
+                  <mat-label>Over 18</mat-label>
+                  <mat-select placeholder="Over 18" [formControl]="itemForm.controls['over18']" #singleSelect>
+                    <mat-option [value]=null></mat-option>
+                    <mat-option [value]="1">Yes</mat-option>
+                    <mat-option [value]="2">No</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight *ngIf="itemForm.controls['type'].value == 1 || itemForm.controls['type'].value == 2">
+                <mat-form-field>
+                  <mat-label>W2 Signed Date</mat-label>
+                  <input matInput type="text" name="w2_sgned_date" placeholder="W2 Sgned Date" 
+                  [matDatepicker]="w2_sgned_date"
+                  [formControl]="itemForm.controls['w2_sgned_date']"/>
+                  <mat-datepicker-toggle matSuffix [for]="w2_sgned_date" ></mat-datepicker-toggle>
+                    <mat-datepicker #w2_sgned_date></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight *ngIf="itemForm.controls['type'].value == 1  || itemForm.controls['type'].value == 2">
+                <mat-form-field>
+                  <mat-label>Onboarded Date</mat-label>
+                  <input matInput name="onboarded_date" placeholder="Onboarded Date" 
+                  [matDatepicker]="onboarded_date"
+                  [formControl]="itemForm.controls['onboarded_date']"/>
+                    <mat-datepicker-toggle matSuffix [for]="onboarded_date"></mat-datepicker-toggle>
+                    <mat-datepicker #onboarded_date></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight *ngIf="itemForm.controls['type'].value == 1 || itemForm.controls['type'].value == 2">
+                <mat-form-field>
+                  <mat-label>Works At Dealership</mat-label>
+                  <input matInput type="text" name="works_at_dealership" placeholder="Works At Dealership" 
+                  [formControl]="itemForm.controls['works_at_dealership']"/>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight *ngIf="itemForm.controls['type'].value == 1 || itemForm.controls['type'].value == 2">
+                <mat-form-field>
+                  <mat-label>Physical Sales License Received</mat-label>
+                  <input matInput name="physical_sales_license_received" placeholder="Onboarded Date" 
+                  [matDatepicker]="physical_sales_license_received"
+                  [formControl]="itemForm.controls['physical_sales_license_received']"/>
+                    <mat-datepicker-toggle matSuffix [for]="physical_sales_license_received" ></mat-datepicker-toggle>
+                    <mat-datepicker #physical_sales_license_received></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight *ngIf="itemForm.controls['type'].value == 1 || itemForm.controls['type'].value == 2">
+                <mat-form-field>
+                  <mat-label>Concierge Referral URL</mat-label>
+                  <input matInput type="text" name="concierge_referral_url" placeholder="Concierge Referral URL" 
+                  [formControl]="itemForm.controls['concierge_referral_url']"/>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight *ngIf="itemForm.controls['type'].value == 1 || itemForm.controls['type'].value == 2">
+                <mat-form-field>
+                  <mat-label>Close Date</mat-label>
+                  <input matInput name="close_date" placeholder="Close Date" 
+                  [matDatepicker]="close_date"
+                  [formControl]="itemForm.controls['close_date']"/>
+                    <mat-datepicker-toggle matSuffix [for]="close_date"></mat-datepicker-toggle>
+                    <mat-datepicker #close_date></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <div class="flex filter-checkbox items-center mmb-6" @fadeInRight *ngIf="itemForm.controls['type'].value == 1 || itemForm.controls['type'].value == 2">
+                <mat-checkbox color="primary" name="opted_out_email_important_update" [formControl]="itemForm.controls['opted_out_email_important_update']">Opted out of email: Important Update</mat-checkbox>
+              </div>
+
+              <div class="flex filter-checkbox items-center mmb-6" @fadeInRight *ngIf="itemForm.controls['type'].value == 1 || itemForm.controls['type'].value == 2">
+                <mat-checkbox color="primary" name="opted_out_email_marketing_information" [formControl]="itemForm.controls['opted_out_email_marketing_information']">Opted out of email: Marketing Information</mat-checkbox>
+              </div>
+
+              <div class="flex filter-checkbox items-center mmb-6" @fadeInRight *ngIf="itemForm.controls['type'].value == 1 || itemForm.controls['type'].value == 2">
+                <mat-checkbox color="primary" name="opted_out_email_one_to_one" [formControl]="itemForm.controls['opted_out_email_one_to_one']">Opted out of email: One to One</mat-checkbox>
+              </div>
+
+              <div class="flex items-center" @fadeInRight *ngIf="itemForm.controls['type'].value == ''"></div>
+              <div class="flex items-center" @fadeInRight *ngIf="itemForm.controls['type'].value == ''"></div>
+              <div class="flex items-center" @fadeInRight *ngIf="itemForm.controls['type'].value == ''"></div>
+
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>FICO score</mat-label>
+                  <input matInput type="text" name="fico_score" placeholder="FICO score"
+                  [formControl]="itemForm.controls['fico_score']"/>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>HHI</mat-label>
+                  <input matInput type="text" name="hhi" placeholder="HHI"
+                  [formControl]="itemForm.controls['hhi']"/>
+                </mat-form-field>
+              </div>
+
+              <div class="flex items-center" @fadeInRight>
+                <mat-form-field>
+                  <mat-label>Sex</mat-label>
+                  <mat-select placeholder="Sex" [formControl]="itemForm.controls['sex']" #singleSelect>
+                    <mat-option *ngFor="let item of gender" [value]="item.value">
+                      {{ item?.title }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+            </form>
+          </div>
+          <div class="py-4 justify-content-end flex items-center px-gutter" @fadeInRight>
+            <app-button-loading loadingText="Processing..." [loading]="saving" (click)="submit()"
+              [disabled]="itemForm.invalid || itemForm.pristine" color="primary">Update</app-button-loading>
+          </div>
+        </div>
+        </div>
+        <div class="card mt-6" *ngIf="logs.length > 0" >
+          <div class="px-gutter py-4 border-b flex justify-content-space-between">
+            <h2 class="title m-0">History</h2>
+            <span class="flex-1"></span>
+            <button class="ml-4 flex-none" [matTooltip]="isCollapsedHistorySection ? 'Expand History Section' : 'Collapse History Section'" (click)="isCollapsedHistorySection = !isCollapsedHistorySection; collapseHistorySection();" type="button">
+              <mat-icon *ngIf="isCollapsedHistorySection" svgIcon="mat:keyboard_arrow_down"></mat-icon>
+              <mat-icon *ngIf="!isCollapsedHistorySection" svgIcon="mat:keyboard_arrow_up"></mat-icon>
+            </button>
+          </div>
+
+          <div class="px-gutter py-4 border-b justify-content-space-between" id="contactHistorySection">
+            <ul class="log-ul">
+              <li *ngFor="let log of logs;let i=index">
+                Version
+                {{(logPagination.length)-((logPagination.pageSize*(logPagination.pageIndex+1))-logPagination.pageSize+i)}}
+                -
+                <span [innerHTML]="log.content"></span>
+                <span>{{formatLogMessage(log.content)}} {{ log.created_at | date:'MM/dd/yyy \'at\' hh:mm a' }}</span>
+              </li>
+            </ul>
+            <div class="flex flex-col sm:flex-row justify-content-end">
+              <mat-paginator #paginator [length]="logPagination.length" [pageSize]="logPagination.pageSize"
+                [pageIndex]="logPagination.pageIndex" [pageSizeOptions]="[10,20, 50, 100]" [showFirstLastButtons]="true"
+                (page)="onLogPaginateChange($event)">
+              </mat-paginator>
+            </div>
+          </div>
+        </div>
+        <app-mailbox-table *ngxPermissionsOnly="['concierge']" [userInfo]="user"></app-mailbox-table>
+          <app-users-chat *ngxPermissionsOnly="['concierge']" [userInfo]="user"></app-users-chat> 
+          <app-users-call *ngxPermissionsOnly="['concierge']" [userInfo]="user"></app-users-call> 
+        <app-request-table class="display-block w-100 list-table" [userInfo]="user"></app-request-table>
+        <app-wholesale-table></app-wholesale-table>
+      </div>
+    </div>
+    <mat-menu #SecondaryEmailsMenu="matMenu" style="min-width: 70px;" class="rounded-xxl border border-gray-300 max-w-xl" (closed)="secondaryEmailMenuClosed = false;">
+      <div>
+        <app-contact-secondary-emails class="flex-1" [userDetails]="itemForm.value" (onMenuClose)="closeMenu($event)" *ngIf="secondaryEmailMenuClosed"></app-contact-secondary-emails>
+      </div>
+    </mat-menu>
+
+    <mat-menu #SecondaryPhoneMenu="matMenu" style="min-width: 70px;" class="rounded-xxl border border-gray-300 max-w-xl" (closed)="secondaryPhoneMenuClosed = false;">
+      <div>
+        <app-contact-secondary-phone-number class="flex-1" [userDetails]="itemForm.value" (onPhoneMenuClose)="phoneCloseMenu($event)" *ngIf="secondaryPhoneMenuClosed"></app-contact-secondary-phone-number>
+      </div>
+    </mat-menu>
+  </vex-page-layout-content>
+</vex-page-layout>

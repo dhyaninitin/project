@@ -1,0 +1,191 @@
+<mat-card>
+<div class="box-container">
+  <div class="upper-sec">
+    <img src="assets/img/color-add.svg" alt="" />
+    <h4>Add New Component</h4>
+  </div>
+  <div class="mid-sec">
+    <ng-template> </ng-template>
+    <form [formGroup]="createComponent">
+    <div class="user-details">
+      <div class="personal__details__content">
+        <div class="user_detail_list">
+          <div class="common-div">
+            <span class=""></span>
+            <div class="d-flex flex-column">
+              <mat-label>Field Name</mat-label>
+              <mat-form-field appearance="outline">
+                <input matInput placeholder="Template " formControlName="fieldname"/>
+                <mat-error *ngIf="fieldname.touched && !fieldname.valid">
+                  <span *ngIf="fieldname.errors?.required">
+                    Field Name is required
+                  </span>
+                  <span
+                    *ngIf="!fieldname.errors?.required && fieldname.errors?.minlength"
+                  >
+                  Field Name should be atleast 3 letters
+                  </span>
+                  <span *ngIf="fieldname.errors?.maxlength">
+                    Field Name should be maximum of 20 letters
+                  </span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="common-div">
+            <span class=""></span>
+            <div class="d-flex flex-column">
+              <mat-label>Component Type</mat-label>
+              <mat-form-field appearance="outline">
+                <mat-select placeholder="Select Component Type" formControlName="componenttype">
+                  <mat-option value="Positive">Positive</mat-option>
+                  <mat-option value="Negative">Negative</mat-option>
+                  <mat-option value="Informative">Informative</mat-option>
+                </mat-select>
+                <mat-error *ngIf="componenttype.touched && !componenttype.valid">
+                  <span *ngIf="componenttype.errors?.required">
+                    Component type is required
+                  </span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="common-div">
+            <span class=""></span>
+            <div class="d-flex flex-column">
+              <div class="hide">
+                <mat-label>Hide if Zero</mat-label>
+                <mat-slide-toggle formControlName="hideifzero"></mat-slide-toggle>
+              </div>
+            </div>
+          </div>
+          <div class="common-div" *ngIf="onTemplateType">
+            <span class=""></span>
+            <div class="d-flex flex-column">
+              <mat-label>Select Component</mat-label>
+              <mat-form-field appearance="outline">
+                <mat-select placeholder="Select Parent Component" formControlName="selectedcomponent" (selectionChange)="addSelectedComp($event)">
+                  <mat-option *ngFor="let comp of componentsToSelect;" [value]="comp.fieldname">{{comp.fieldname}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="common-div" *ngIf="onTemplateType">
+            <span class=""></span>
+            <div class="d-flex flex-column">
+              <mat-label>Select Math Function</mat-label>
+              <mat-form-field appearance="outline">
+                <mat-select placeholder="Select Math Function" formControlName="mathfunction" (selectionChange)="addMathFunction($event)">
+                  <mat-option value="min">Min</mat-option>
+                  <mat-option value="max">Max</mat-option>
+                  <mat-option value="round">Round</mat-option>
+                  <mat-option value="ceil">Ceil</mat-option>
+                  <mat-option value="floor">Floor</mat-option>
+                  <mat-option value="pow">Pow</mat-option>
+                  <mat-option value="sqrt">SQRT</mat-option>
+                  <mat-option value="abs">ABS</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="common-div" *ngIf="onTemplateType">
+            <span class=""></span>
+            <div class="d-flex flex-column">
+              <mat-label>Select Math Operator</mat-label>
+              <mat-form-field appearance="outline">
+                <mat-select placeholder="Select Operator" formControlName="operator" (selectionChange)="addOperator($event)">
+                  <mat-option value="=">Equals</mat-option>
+                  <mat-option value="!=">Not Equal</mat-option>
+                  <mat-option value=">">Greater Than</mat-option>
+                  <mat-option value=">=">Greater Than Equal</mat-option>
+                  <mat-option value="<"> Less Than</mat-option>
+                  <mat-option value="<="> Less Than Equal</mat-option>
+                  <mat-option value="&&">AND</mat-option>
+                  <mat-option value="||">OR</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- <div class="common-div" *ngIf="onTemplateType">
+            <span class=""></span>
+            <div class="d-flex flex-column">
+              <div class="hide">
+                <mat-label>Advance Rule Editor</mat-label>
+                <mat-slide-toggle formControlName="codeEditor" (change)="showAdvanceEditorFunc($event)"></mat-slide-toggle>
+              </div>
+            </div>
+          </div> -->
+          <div class="common-div" *ngIf="showAdvanceEditor && onTemplateType">
+            <span class=""></span>
+            <div class="d-flex flex-column">
+              <div class="hide">
+                <button mat-icon-button class="full-screen-icon" title="Full-Screen" (click)="openEditorPopup()" matTooltipPosition="left">
+                    <img src="assets/img/fullscreenIcon.svg" alt="" />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="common-div" *ngIf="showAdvanceEditor && onTemplateType">
+            <span class=""></span>
+            <div class="d-flex flex-column">
+              <mat-label>Advance Rule Editor</mat-label><br/>
+                <ngx-monaco-editor class="my-code-editor" formControlName="rule" [options]="editorOptions"></ngx-monaco-editor>
+            </div>
+          </div>
+
+          <ng-template class="editor" #dialogRefs let-mydata>
+            <div class="d-flex flex-column" *ngIf="codeResult !== ''">
+              <p class="output-result">Your output is : {{codeResult}}</p>
+            </div>
+                <ngx-monaco-editor class="my-code-editor-full" formControlName="rule" [options]="editorOptions"></ngx-monaco-editor>
+                <div class="d-flex flex-column">
+                  <button mat-flat-button color="primary" (click)="onCodeChanged()">Execute</button>
+                </div>
+          </ng-template>
+
+          <div class="common-div pb-3" *ngIf="showAdvanceEditor && onTemplateType">
+            <span class=""></span>
+            <div class="d-flex flex-column">
+              <button mat-flat-button color="primary" (click)="onCodeChanged()">Execute</button>
+            </div>
+          </div>
+
+          <div class="common-div pb-5" *ngIf="showAdvanceEditor && onTemplateType && codeResult !== ''">
+            <span class=""></span>
+            <div class="d-flex flex-column">
+              <p class="output-result">Your output is : {{codeResult}}</p>
+            </div>
+          </div>
+
+          <div class="common-div" *ngIf="!showAdvanceEditor && onTemplateType">
+            <span class=""></span>
+            <div class="d-flex flex-column">
+              <mat-label>Rule</mat-label><br />
+              <mat-form-field appearance="outline">
+                <textarea matInput placeholder=" write rule here" formControlName="rule"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="common-div">
+            <div class="d-flex flex-column">
+              <div class="table-container">
+                <span class="buttons">
+                  <div class="box-button">
+                    <button *ngIf="!showUpdate" mat-flat-button color="primary" (click)="addComponent()" [disabled]="isCodeError">Save</button>
+                    <button *ngIf="showUpdate" [disabled]="(!createComponent.valid && !createComponent.dirty) && isCodeError" mat-flat-button color="primary" (click)="addComponent()">Update</button>
+                  </div>
+                  <div class="box-button">
+                    <button mat-flat-button (click)="closeDrawer()">Cancel </button>
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>
+</mat-card>

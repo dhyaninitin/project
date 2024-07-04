@@ -1,0 +1,16 @@
+.m-left {
+    margin-left: 12px;
+}
+
+.calendar-flex {
+    display: flex;
+}
+
+@media (max-width: 1000px) {
+    .m-left {
+        margin-left: 0px;
+    }
+    .calendar-flex {
+        display: grid;
+    }
+}

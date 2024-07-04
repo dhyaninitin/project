@@ -1,0 +1,475 @@
+<vex-page-layout *ngIf="isReady">
+	<vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+		<div
+			class="w-full flex flex-col sm:flex-row justify-between">
+			<div>
+				<h1 class="title mt-0 mb-1">{{portaluser.full_name}}'s Detail</h1>
+				<vex-breadcrumbs [crumbs]="['Users', 'Detail']"></vex-breadcrumbs>
+			</div>
+
+		</div>
+	</vex-page-layout-header>
+    <vex-page-layout-content  
+		class="-mt-6">
+
+		<div class="card -mt-16">
+			<div class="head bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
+				<h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l sm:block flex-none">
+					<span>Actions</span>
+				</h2>
+				<span class="flex-1"></span>
+        <button *ngIf="indirectShowDeleteButton()" (click)="indirectDeleteDialogBox()" class="ml-4 flex-none" color="warn" mat-mini-fab matTooltip="Delete User" type="button">
+					<mat-icon svgIcon="mat:delete"></mat-icon>
+				</button>
+
+        <button routerLink="../" class="ml-4 flex-none" color="primary" mat-mini-fab matTooltip="Back" type="button">
+          <mat-icon svgIcon="mat:arrow_back"></mat-icon>
+				</button>
+			</div>
+    </div>
+    <div class="mt-6 flex flex-col md:flex-row md:items-start">
+            <div class="flex-auto">
+              <div class="card">
+                <div class="px-gutter py-4 border-b flex justify-content-space-between">
+                  <h2 class="title m-0">About</h2> 
+                </div>
+                <div>
+                <form [formGroup]="itemForm" class="px-gutter py-4 grid grid-cols-1 sm:grid-cols-4 gap-4" autocomplete="new-userform">
+                    <div class=" flex items-center" @fadeInRight>
+                      <mat-form-field>
+                        <mat-label>First Name</mat-label>
+                        <input
+                        matInput
+                        autocomplete="new-firstname"
+                        name="new-firstname"
+                        [formControl]="itemForm.controls['first_name']"
+                        placeholder="First Name"
+                        appNoWhitespace>
+                        <mat-icon class="mr-3" matPrefix svgIcon="mat:person"></mat-icon>
+                      </mat-form-field>
+                    </div>
+                    <div class=" flex items-center" @fadeInRight>
+                        <mat-form-field>
+                            <mat-label>Last Name</mat-label>
+                            <input
+                              matInput
+                              autocomplete="new-lastname"
+                              name="new-lastname"
+                              [formControl]="itemForm.controls['last_name']"
+                              placeholder="Last Name"
+                              appNoWhitespace>
+                              <mat-icon class="mr-3" matPrefix svgIcon="mat:person"></mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class=" flex items-center" @fadeInRight>
+                        <mat-form-field>
+                            <mat-label>Email</mat-label>
+                            <input
+                            matInput
+                            type="email"
+                            autocomplete="new-email"
+                            name="new-email"
+                            pattern="{{emailPattern}}"
+                            [formControl]="itemForm.controls['email']"
+                            placeholder="Email"
+                            appNoWhitespace>
+                            <mat-icon class="mr-3" matPrefix svgIcon="mat:email"></mat-icon>
+                            <span *ngIf="itemForm.controls['role'].value == 'concierge'" matSuffix>{{emailEnvPrefix}}@m.carblip.com</span>
+                        </mat-form-field>
+                    </div>
+                    <div class=" flex items-center" @fadeInRight>
+                      <mat-form-field>
+                          <mat-label>Personal Email</mat-label>
+                          <input
+                          matInput
+                          type="email"
+                          autocomplete="new-email"
+                          name="new-email"
+                          pattern="[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,64}"
+                          [formControl]="itemForm.controls['personalemail']"
+                          placeholder="Personal Email"
+                          appNoWhitespace>
+                          <mat-icon class="mr-3" matPrefix svgIcon="mat:email"></mat-icon>
+                      </mat-form-field>
+                    </div>
+                    
+                    <div class=" flex items-center" @fadeInRight>
+                      <mat-form-field>
+                        <mat-label>Personal Phone</mat-label>
+                        <input
+                        matInput
+                        autocomplete="new-phone"
+                        name="new-phone"
+                        pattern="^\d{3}[- ]?\d{3}[- ]?\d{4}$"
+                        placeholder="Personal Phone"
+                        [formControl]="itemForm.controls['phone']"
+                        appPhoneNumber
+                        >
+                        <mat-icon class="mr-3" matPrefix svgIcon="mat:phone"></mat-icon>
+                        <span matPrefix class="prefix">+{{countryCode}}</span>
+                      </mat-form-field>
+                    </div>
+                    <!-- <div class=" flex items-center" @fadeInRight *ngIf="carblipAssignedPhone != ''">
+                      <mat-form-field>
+                        <mat-label>Carblip Assigned Phone</mat-label>
+                        <input
+                        matInput
+                        autocomplete="new-phone"
+                        name="new-phone"
+                        pattern="^\d{3}[- ]?\d{3}[- ]?\d{4}$"
+                        placeholder="Phone"
+                        [value]="carblipAssignedPhone | phone: 'US'"
+                        appPhoneNumber
+                        disabled
+                        >
+                        <mat-icon class="mr-3" matPrefix svgIcon="mat:phone"></mat-icon>
+                        <span matPrefix class="prefix">+{{countryCode}}</span>
+                      </mat-form-field>
+                  </div> -->
+                    <div class=" flex items-center" @fadeInRight>
+                        <mat-form-field *ngxPermissionsOnly="['manage_portal', 'manage_portal_sales']">
+                            <mat-label>Role</mat-label>
+                            <mat-select [formControl]="itemForm.controls['role']" (selectionChange)="addPostFixForConcierge($event)">
+                              <mat-option *ngFor="let role of roles" [value]="role.name">
+                                {{role.label}}
+                              </mat-option>
+                            </mat-select>
+                            <mat-icon class="mr-3" matPrefix svgIcon="mat:group"></mat-icon>
+                          </mat-form-field>
+                          <mat-form-field *ngxPermissionsOnly="['manage_portal_local', 'manage_portal_sales_local']">
+                            <mat-label>Role</mat-label>
+                            <mat-select [formControl]="itemForm.controls['role']" disabled (selectionChange)="addPostFixForConcierge($event)">
+                              <mat-option *ngFor="let role of roles" [value]="role.name">
+                                {{role.label}}
+                              </mat-option>
+                            </mat-select>
+                            <mat-icon class="mr-3" matPrefix svgIcon="mat:group"></mat-icon>
+                          </mat-form-field>
+                    </div>
+
+                    <!-- new fields -->
+                      <div class=" flex items-center" @fadeInRight *ngIf="itemForm.controls['role'].value == 'concierge'">
+                        <mat-form-field [ngClass]="listOfAvailablePhoneNumbers.length == 0 ? 'w-100': 'w-50'">
+                            <mat-label>Area Code</mat-label>
+                            <mat-icon class="mr-3" matPrefix svgIcon="mat:my_location"></mat-icon>
+                            <input type="text"
+                              placeholder="Area Code"
+                              aria-label="Number"
+                              matInput
+                              [formControl]="itemForm.controls['areacode']"
+                              [matAutocomplete]="auto"
+                              (keydown)="searchAvailableNumbersByAreaCode($event)"
+                              appNoWhitespace>
+                            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)='getSelectedAreaCode($event)'>
+                              <mat-option *ngFor="let areacode of filteredAvailableAreaCodes" [value]="areacode">{{areacode}}</mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                      
+                        <mat-form-field class="w-50 ml-2" *ngIf="listOfAvailablePhoneNumbers.length > 0">
+                            <mat-label>Contains</mat-label>
+                            <input
+                              matInput
+                              autocomplete="contains"
+                              name="contains"
+                              placeholder="Contains"
+                              [formControl]="itemForm.controls['contains']"
+                              (keydown)="searchAvailableNumbers($event)"
+                              appNoWhitespace>
+                            <mat-icon class="mr-3" matPrefix svgIcon="mat:search"></mat-icon>
+                        </mat-form-field>
+                      </div>
+                      <div class=" flex items-center" @fadeInRight *ngIf="itemForm.controls['role'].value == 'concierge'">
+                        <mat-form-field>
+                          <mat-label>Phone</mat-label>
+                          <mat-spinner *ngIf="loadingPhones" class="input-mat-spinner"  color="primary" [diameter]="20"></mat-spinner>
+                          <mat-icon class="mr-3" matPrefix svgIcon="mat:phone"></mat-icon>
+                          <span matPrefix class="prefix">+1</span>
+                          <mat-select [formControl]="itemForm.controls['carblip_assigned_phone']" placeholder="Phone" #singleSelect
+                          (selectionChange)="onNumberSelection($event.value)">
+                            <mat-option>
+                              <ngx-mat-select-search *ngIf="true" [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches' "  [formControl]="phoneFilterCtrl" [preventHomeEndKeyPropagation]="true">
+                                <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                              </ngx-mat-select-search>
+                              </mat-option>
+                              <mat-option *ngFor="let item of filteredListOfAvailablePhoneNumbers" [value]="item.phone_number">
+                                {{item.formatted_number | phone: 'US' }}
+                              </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+
+                  <div class=" flex items-center" @fadeInRight>
+                    <mat-form-field *ngxPermissionsOnly="['manage_portal', 'manage_portal_sales']">
+                      <mat-label>Location</mat-label>
+                        <mat-select [formControl]="itemForm.controls['location']" placeholder="Location" multiple #singleSelect>
+                        <mat-option>
+                          <ngx-mat-select-search *ngIf="true" [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches' "  [formControl]="locationFilterCtrl" [preventHomeEndKeyPropagation]="true">
+                            <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                          </ngx-mat-select-search>
+                          </mat-option>
+                          <mat-option *ngFor="let item of filteredLocations" [value]="item.id">
+                            {{item.name}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-icon class="mr-3" matPrefix svgIcon="mat:location_on"></mat-icon>
+                      </mat-form-field>
+                      <mat-form-field *ngxPermissionsOnly="['manage_portal_local', 'manage_portal_sales_local']">
+                        <mat-label>Location</mat-label>
+                        <mat-select [formControl]="itemForm.controls['location']" multiple disabled>
+                          <mat-option *ngFor="let item of filteredLocations" [value]="item.id">
+                            {{item.name}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-icon class="mr-3" matPrefix svgIcon="mat:location_on"></mat-icon>
+                      </mat-form-field>
+                  </div>
+                  <div class=" flex items-center" @fadeInRight>
+                    <mat-form-field *ngIf="showPromocodeAdd || showPromocodeEdit">
+                      <mat-label>Promo Code</mat-label>
+                        <input matInput autocomplete="new-promo-code" type="promo-code" name="new-promo-code"
+                          [formControl]="itemForm.controls['promo_code']" placeholder="Promo Code">
+                          <mat-icon class="mr-3" matPrefix svgIcon="mat:local_offer"></mat-icon>
+                      </mat-form-field>
+                  </div>
+
+                  <div class=" flex items-center" @fadeInRight>
+                        <mat-form-field>
+                        <mat-label>city</mat-label>
+                        <input
+                          matInput
+                          autocomplete="city"
+                          name="city"
+                          [formControl]="itemForm.controls['city']"
+                          placeholder="city"
+                          appNoWhitespace>
+                          <mat-icon class="mr-3" matPrefix svgIcon="mat:location_city"></mat-icon>
+                        </mat-form-field>
+                  </div>
+                     
+                  <div class=" flex items-center" @fadeInRight>
+                      <mat-form-field>
+                        <mat-label>State</mat-label>
+                        <input
+                          matInput
+                          autocomplete="state"
+                          name="state"
+                          [formControl]="itemForm.controls['state']"
+                          placeholder="State"
+                          appNoWhitespace>
+                          <mat-icon class="mr-3" matPrefix svgIcon="mat:my_location"></mat-icon>
+                      </mat-form-field>
+                  </div>
+                  <div class=" flex items-center" @fadeInRight>
+                      <mat-form-field >
+                        <mat-label>Sales License Expiry Date</mat-label>
+                          <input
+                                autocomplete="off"
+                                matInput
+                                formControlName="sales_license_expiry_date"
+                                [matDatepicker]="sales_license_expiry_date"
+                                placeholder="Sales License Expiry Date"
+                              />
+                              <mat-datepicker-toggle
+                                matSuffix
+                                [for]="sales_license_expiry_date"
+                              ></mat-datepicker-toggle>
+                              <mat-datepicker #sales_license_expiry_date></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+                    <!--  -->
+
+                  <div class=" flex items-center" @fadeInRight>
+                        <mat-form-field>
+                            <mat-label>Password</mat-label>
+                            <input 
+                                matInput
+                                [type]="inputType[0]"
+                                autocomplete="new-password"
+                                name="new-password"
+                                [formControl]="itemForm.controls['password']"
+                                placeholder="Password">
+                            <button (click)="toggleVisibility(0)" mat-icon-button matSuffix matTooltip="Toggle Visibility" type="button">
+                              <mat-icon *ngIf="visible[0]" svgIcon="mat:visibility"></mat-icon>
+                              <mat-icon *ngIf="!visible[0]" svgIcon="mat:visibility_off"></mat-icon>
+                            </button>
+                            <mat-hint align="start" *ngIf="type == 'edit'"><strong>Leave it blank if you don't change password</strong> </mat-hint>
+                            <mat-error *ngIf="itemForm.controls['password'].hasError('minlength')" class="form-error-msg">The password must be at least 6 characters.</mat-error>
+                          </mat-form-field>
+                  </div>
+                  <div class=" flex items-center" @fadeInRight>
+                        <mat-form-field>
+                            <mat-label>Confirm Password</mat-label>
+                            <input
+                                matInput
+                                autocomplete="new-password"
+                                [type]="inputType[1]"
+                                name="new-confirmpassword"
+                                [formControl]="itemForm.controls['confirmPassword']"
+                                placeholder="Confirm Password">
+                                <button (click)="toggleVisibility(1)" mat-icon-button matSuffix matTooltip="Toggle Visibility" type="button">
+                                  <mat-icon *ngIf="visible[1]" svgIcon="mat:visibility"></mat-icon>
+                                  <mat-icon *ngIf="!visible[1]" svgIcon="mat:visibility_off"></mat-icon>
+                                </button>
+                                <mat-error *ngIf="itemForm.controls['confirmPassword'].hasError('equalTo')" class="form-error-msg">Passwords do not match.</mat-error>
+                        </mat-form-field>
+                  </div>
+
+                  <div class=" flex items-center" @fadeInRight>
+                      <mat-form-field>
+                        <mat-label>Discord</mat-label>
+                          <input matInput autocomplete="discord-url" type="text" name="new-discord_url"
+                            [formControl]="itemForm.controls['discord_url']" placeholder="Discord">
+                            <mat-icon matPrefix mat-list-icon class="mr-3" svgIcon="logo:discord"></mat-icon>
+                        </mat-form-field>
+                  </div>
+
+                  <div class=" flex items-center" @fadeInRight>
+                    <mat-form-field>
+                      <mat-label>Twitter</mat-label>
+                        <input matInput autocomplete="twitter-url" type="text" name="new-twitter_url"
+                          [formControl]="itemForm.controls['twitter_url']" placeholder="Twitter">
+                          <mat-icon matPrefix mat-list-icon class="mr-3" svgIcon="logo:twitter"></mat-icon>
+                      </mat-form-field>
+                  </div>
+                  <div class=" flex items-center" @fadeInRight>
+                    <mat-form-field>
+                      <mat-label>Instagram</mat-label>
+                        <input matInput autocomplete="instagram-url" type="text" name="new-instagram_url"
+                          [formControl]="itemForm.controls['instagram_url']" placeholder="Instagram">
+                          <mat-icon matPrefix mat-list-icon class="mr-3" svgIcon="logo:instagram"></mat-icon>
+                      </mat-form-field>
+                  </div>
+
+                  <div class=" flex items-center" @fadeInRight>
+                    <mat-form-field>
+                      <mat-label>TikTok</mat-label>
+                        <input matInput autocomplete="tiktok-url" type="text" name="new-tiktok_url"
+                          [formControl]="itemForm.controls['tiktok_url']" placeholder="TikTok">
+                          <mat-icon matPrefix mat-list-icon class="mr-3" svgIcon="logo:tiktok"></mat-icon>
+                      </mat-form-field>
+                  </div>
+
+                  <div class=" flex items-center" @fadeInRight>
+                    <mat-form-field>
+                      <mat-label>Facebook</mat-label>
+                        <input matInput autocomplete="facebook-url" type="text" name="new-facebook_url"
+                          [formControl]="itemForm.controls['facebook_url']" placeholder="Facebook">
+                          <mat-icon matPrefix mat-list-icon class="mr-3" svgIcon="logo:facebook"></mat-icon>
+                      </mat-form-field>
+                  </div>
+
+                  <div class=" flex items-center" @fadeInRight>
+                    <mat-form-field>
+                      <mat-label>LinkedIn</mat-label>
+                        <input matInput autocomplete="linkedin-url" type="text" name="new-linkedin_url"
+                          [formControl]="itemForm.controls['linkedin_url']" placeholder="LinkedIn">
+                          <mat-icon matPrefix mat-list-icon class="mr-3" svgIcon="logo:linkedin"></mat-icon>
+                      </mat-form-field>
+                  </div>
+
+                  <div class="flex items-center" @fadeInRight>
+                    <mat-form-field>
+                      <mat-label>Last Active</mat-label>
+                      <input matInput type="text" autocomplete="last_active" name="last_active" placeholder="Last Active"
+                      [value]="itemForm.controls['last_active'].value | date:'MM/dd/yyy h:mm a'" disabled>
+                    </mat-form-field>
+                  </div>
+
+                  <div class=" flex filter-checkbox items-center reset-checkbox" @fadeInRight>
+                    <mat-checkbox color="primary" color="primary" [formControl]="itemForm.controls['is_reset_password_required']"  [checked]="itemForm.controls['is_reset_password_required'].value == 1">Require user to change password on their next login
+                    </mat-checkbox>
+                  </div>
+                  <div class=" flex filter-checkbox items-center reset-checkbox" @fadeInRight *ngIf="showRRCheckbox(portaluser)">
+                    <mat-checkbox color="primary" color="primary" [formControl]="itemForm.controls['activate_round_robin']" [checked]="portaluser.roundrobin" (change)="roundRobinSettings($event)">Activate Round Robin
+                    </mat-checkbox>
+                  </div>
+                  <div class=" flex items-center" @fadeInRight *ngIf="!showRRCheckbox(portaluser)"></div>
+                  <div class=" flex items-center" @fadeInRight *ngIf="showRRSection"></div>
+                  <!-- <div class=" flex items-center" @fadeInRight *ngIf="showRRSection"></div> -->
+                  <div class=" flex items-center" @fadeInRight *ngIf="showRRSection"></div>
+                  <div class="filter-checkbox" @fadeInRight *ngIf="showRRSection">
+                    <h5 class="title pb-2">Round Robin</h5>
+                    <mat-checkbox color="primary" color="primary" (change)="onSetAsDefault($event)" [checked]="checkDefault()" [disabled]="defaultUser">Default User for Round Robin
+                    </mat-checkbox>
+                  </div>
+                  <div class=" flex items-center" @fadeInRight *ngIf="showRRSection">
+                      <mat-form-field>
+                          <mat-label>Days of Week</mat-label>
+                          <mat-select [formControl]="itemForm.controls['days']" placeholder="Select Days" multiple >
+                              <mat-option *ngFor="let days of rrweekdays" [value]="days.id">
+                              {{days.value}}
+                              </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                  </div>
+                      
+                  <div class=" flex items-center" @fadeInRight *ngIf="showRRSection"> 
+                      <mat-form-field>
+                          <mat-label>Source</mat-label>
+                          <mat-select [formControl]="itemForm.controls['source']" placeholder="Source" multiple >
+                              <mat-option *ngFor="let sources of listOfSources" [value]="sources.id == 50 ? 8 : sources.id">
+                              {{sources.name}}
+                              </mat-option>
+                          </mat-select>
+                          </mat-form-field>
+                  </div>
+                      <div class=" flex items-center" @fadeInRight *ngIf="showRRSection">
+                          <div>
+                                <div class="flex">
+                                  <div style="width: 30%;
+                                  padding-right: 16px;">
+                                    <mat-form-field>
+                                      <mat-label>Limit</mat-label>
+                                        <input
+                                        matInput
+                                        type="number"
+                                        placeholder="Limit"
+                                        name="new-limit"
+                                        [formControl]="itemForm.controls['limit']"
+                                        >
+                                        <span matSuffix>Per</span>
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="limit-type">
+                                      <div class="pr-1 days-of-week">
+                                      <mat-radio-group class="format"  [formControl]="itemForm.controls['typeoflimit']">
+                                        <mat-radio-button color="primary" *ngFor="let limit of typeOfLimit" [value]="limit.id">{{limit.value}}  &nbsp;&nbsp;&nbsp;</mat-radio-button>
+                                      </mat-radio-group>
+                                      </div>
+                                  </div>
+                                </div>
+                            </div>
+                      </div>
+                      <small class="pre-text" *ngIf="showRRSection && itemForm.controls['typeoflimit'].value">{{itemForm.controls['first_name'].value | titlecase}} {{itemForm.controls['last_name'].value | titlecase}}  has received {{totalAssigned}} round robin leads this {{itemForm.controls['typeoflimit'].value == 'D' ? 'day' : itemForm.controls['typeoflimit'].value == 'M' ? 'month' : 'week'}}</small>
+                  </form>
+                </div>
+                <div class="py-4 justify-content-end flex items-center px-gutter" @fadeInRight *ngIf="indirectShowEditButton()">
+                    <app-button-loading loadingText="Processing..."  [loading]="saving" [disabled]="disabledButton()" (click)="submit()" color="primary">Update</app-button-loading>
+                </div>
+            </div>
+            <div class="card mt-6" *ngIf="logs?.length > 0">
+                <div class="px-gutter py-4 border-b flex justify-content-space-between">
+                    <h2 class="title m-0">History</h2> 
+                  </div>
+                  <mat-progress-bar *ngIf="fetchingLogs" mode="indeterminate"></mat-progress-bar>
+                  <div class="px-gutter py-4 border-b justify-content-space-between">
+                    <ul class="log-ul"  *ngIf="!fetchingLogs" @fadeInUp>
+                        <li *ngFor="let log of logs;let i = index">
+                            Version
+                            {{(logPagination.length)-((logPagination.pageSize*(logPagination.pageIndex+1))-logPagination.pageSize+i)}}
+                            -
+                            <span [innerHTML]="log.content"></span>
+                            on {{ log.created_at | date:'MM/dd/yyy \'at\' hh:mm a' }}
+                        </li>
+                    </ul>
+
+                    <mat-paginator #paginator [length]="logPagination.length" [pageSize]="logPagination.pageSize"
+                    [pageIndex]="logPagination.pageIndex" [pageSizeOptions]="[10,20, 50, 100]" [showFirstLastButtons]="true"
+                    (page)="onLogPaginateChange($event)">
+                  </mat-paginator>
+					</div>
+					</div>
+        </div>
+    </div>
+    </vex-page-layout-content>
+</vex-page-layout>

@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="container">
+    <div class="d-flex justify-content-end" *ngIf="showCloseBtn">
+      <mat-icon mat-dialog-close>clear</mat-icon>
+    </div>
+
+    <div *ngIf="showNoDataFoundText" class="d-flex justify-content-center">
+       <h3 class="text-muted">No data found</h3>
+    </div>
+  </div>
+
+  <div *ngFor="let value of entries" [ngClass]="{'padding': insert_padding == true}">
+    <mat-card class="row mat-card">
+      <mat-card-header>
+        <mat-card-title>{{ value[0] }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="mt-2">
+        <owl-carousel-o [options]="customOptions">
+          <ng-container *ngFor="let element of value[1]">
+            <ng-template class="slide" carouselSlide [id]="element.id">
+              <div class="container-fluid">
+                <div class="row text-center">
+                  <div class="col-2">
+                    <mat-card class="outerCard">
+                      <mat-card-content>
+                        <mat-card
+                          id="img"
+                          class="templateCard"
+                          [innerHTML]="element.html"
+                        >
+                        </mat-card>
+                      </mat-card-content>
+                      <mat-card-actions>
+                        <button
+                          mat-raised-button
+                          *ngIf="showCloseBtn"
+                          matTooltip="select this template"
+                          (click)="selectTemplate(element.html)"
+                        >
+                          Select
+                        </button>
+                        <button
+                          mat-raised-button
+                          *ngIf="!showCloseBtn"
+                          matTooltip="select this template"
+                          (click)="setTemplate(element.html)"
+                        >
+                          Select
+                        </button>
+                      </mat-card-actions>
+                    </mat-card>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ng-container>
+        </owl-carousel-o>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+

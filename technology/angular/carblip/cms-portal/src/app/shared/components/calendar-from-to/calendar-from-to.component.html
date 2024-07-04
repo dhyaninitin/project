@@ -1,0 +1,11 @@
+<mat-form-field >
+  <mat-icon *ngIf="currentSelection === 'custom'" matPrefix style="color: yellowgreen; vertical-align: bottom">done</mat-icon>
+  <mat-label>Select custom range</mat-label>
+  <input matInput readonly
+          placeholder="Select custom range"
+          [satDatepicker]="picker"
+          [(ngModel)]="calendarDateRange"
+          (ngModelChange)="onCustomDateRangeChange()">
+  <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
+  <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
+</mat-form-field>

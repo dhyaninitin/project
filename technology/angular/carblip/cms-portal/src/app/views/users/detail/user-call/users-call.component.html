@@ -1,0 +1,72 @@
+<div class="card mt-6">
+    <div class="px-gutter py-4 border-b flex header-with-btn">
+        <h2 class="title m-0">Call</h2>
+        <div class="flex">
+            <button [matMenuTriggerFor]="columnFilterMenu" mat-icon-button class="ml-4 flex-none" color="primary"
+                matTooltip="Column Filters" type="button">
+                <mat-icon svgIcon="mat:settings"></mat-icon>
+            </button>
+            <button mat-icon-button class="ml-4 flex-none" color="primary" matTooltip="Refresh Call" (click)="refresh()"
+                type="button">
+                <mat-icon svgIcon="mat:refresh"></mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div class="px-gutter py-4 border-b pl-0 justify-content-space-between">
+        <div class="overflow-auto">
+            <table @stagger [dataSource]="callData"  matSort class="w-full" mat-table>
+                <ng-container matColumnDef="direction">
+                    <th *matHeaderCellDef mat-header-cell mat-sort-header>Direction</th>
+                    <td *matCellDef="let item" mat-cell>{{ item?.direction}}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="status">
+                    <th *matHeaderCellDef mat-header-cell mat-sort-header>Status</th>
+                    <td *matCellDef="let item" mat-cell>{{ item?.status }}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="duration">
+                    <th *matHeaderCellDef mat-header-cell mat-sort-header>Duration</th>
+                    <td *matCellDef="let item" mat-cell>{{ item?.duration }} Sec</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="call_record">
+                    <th *matHeaderCellDef mat-header-cell mat-sort-header>Call Record</th>
+                    <td *matCellDef="let item" mat-cell>
+                        <mat-icon (click)="playrecording(item)" *ngIf="playRecording != item">play_circle_outline</mat-icon>
+                        <audio controls autoplay *ngIf="playRecording == item"> <source [src]="recordingUrl" type="audio/mp3"></audio>
+                    </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="created_at">
+                    <th *matHeaderCellDef mat-header-cell mat-sort-header>Created At</th>
+                    <td *matCellDef="let item" mat-cell>{{ item?.start_time | date:'MM/dd/yyy h:mm a' }}</td>
+                </ng-container>
+
+                <!-- <mat-header-row *matHeaderRowDef="columnHeaders; sticky: true"></mat-header-row> -->
+                <tr *matHeaderRowDef="getDisplayedColumns(); sticky: true" mat-header-row></tr>
+                <tr *matRowDef="let item; columns: getDisplayedColumns()" @fadeInUp class="hover:bg-hover trans-ease-out cursor-pointer"
+				    mat-row></tr>
+            </table>
+
+            <!-- Column Filters -->
+				<mat-menu #columnFilterMenu="matMenu" xPosition="before" yPosition="below">
+					<button (click)="toggleColumnVisibility(column, $event);$event.stopPropagation()" *ngFor="let column of columnHeaders"
+							class="checkbox-item mat-menu-item">
+					<mat-checkbox (click)="$event.stopPropagation()" (change)="toggleColumnVisibility(column, $event)" [checked]="column.visible" color="primary">
+						{{ column.label }}
+					</mat-checkbox>
+					</button>
+				</mat-menu>
+
+            <!-- <div class="text-center mt-2" *ngIf="(didFetch$ | async) && callData.length === 0">There are no call Details available.
+            </div> -->
+
+        </div>
+
+        <mat-paginator [length]="totalRecords" [pageSize]="10" [pageSizeOptions]="[10,20,50,100]" aria-label="Select page"
+        [showFirstLastButtons]="true" (page)="onLogPaginateChange($event)">
+        </mat-paginator>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+<mat-card class="main-card">
+  <div fxLayout="row wrap" fxLayout.lt-sm="column">
+    <div fxFlex="100" class="pr-1">
+      <h4 class="title title-header">Enrollment Trigger</h4>
+    </div>
+    <div class="trigger-l">
+      <div fxLayout="row wrap" fxLayout.lt-sm="column">
+        <div fxFlex="100" class="box group-box">
+          <mat-card class="mt-2" *ngIf="workFlowService$.showGroupBoxCondition">
+            <span [innerHTML]="formatGroupCondition(triggers)">
+            </span>
+            <mat-icon svgIcon="mat:visibility" class="icons ml-2" matTooltip="Show Groups" matTooltipPosition="after"
+              (click)="showGroupBox(false);"></mat-icon>
+          </mat-card>
+          <mat-icon *ngIf="!workFlowService$.showGroupBoxCondition" svgIcon="mat:close" class="icons mr-2" matTooltip="Close Groups"
+            matTooltipPosition="after" (click)="showGroupBox(true);"></mat-icon>
+          <div fxFlex="100" class="box" *ngFor="let trigger of triggers; let i = index;let lastItem = last">
+            <div class="box-h" *ngIf="!workFlowService$.showGroupBoxCondition">
+              <mat-icon svgIcon="mat:delete" class="icons" matTooltip="Delete Group" matTooltipPosition="after"
+                (click)="deleteGroup(i)"></mat-icon>
+
+              <span class="title-header">Group {{i+1}} </span>
+              <div *ngFor="let triggerdata of trigger; let j = index;let last = last">
+                <mat-card class="mt-2">
+                  <span>{{ removeUnderscores(triggerdata.property.value) | titlecase }}
+                    {{ getConditionValue(triggerdata.condition.value) }}
+                    {{ triggerdata.condition_value }}
+                  </span>
+
+                  <mat-icon svgIcon="mat:delete" class="icons ml-2" matTooltip="Delete Condition" matTooltipPosition="after"
+                    (click)="deleteTrigger(i, j)"></mat-icon>
+                  <mat-icon svgIcon="mat:edit" class="icons ml-2" matTooltip="Edit Trigger" matTooltipPosition="after"
+                    (click)="editTrigger(triggerdata, i, j)"></mat-icon>
+                </mat-card>
+
+                <h4 class="mt-2" *ngIf="!last">AND</h4>
+              </div>
+
+              <div class="condition-btn mt-3">
+                <button mat-button mat-raised-button type="button" color="primary" class="ml-3"
+                  matTooltip="Add AND Condition" (click)="onAddcondition('AND',trigger, i)">AND</button>
+              </div>
+            </div>
+            <h2 class="mb-2" *ngIf="!lastItem && !workFlowService$.showGroupBoxCondition">OR</h2>
+            <button class="group ml-3 mt-7" *ngIf="lastItem" mat-button mat-raised-button type="button" color="primary"
+              matTooltip="Add Group" (click)="onAddcondition('OR',trigger, i)">Add Group</button>
+          </div>
+
+          <div class="copy-action">
+            <app-clone-copy-action [actionDetails]="" actionName="trigger"></app-clone-copy-action>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>
+<div class="line-div here">
+  <button class="ml-4 flex-none" *ngIf="!workFlowService$.workflowCloneStatus" (click)="action(data)" color="primary" mat-mini-fab matTooltip="Add Action" type="button">
+    <mat-icon svgIcon="mat:add"></mat-icon>
+  </button>
+  <button class="ml-4 flex-none clone" *ngIf="workFlowService$.workflowCloneStatus" (click)="actionClone(data)" color="primary" mat-mini-fab matTooltip="Clone Action" type="button"
+  [ngClass]="data?.cloneActionButtonStatus === 1 ? '' : 'disable-clone-action'">
+    <mat-icon svgIcon="mat:add"></mat-icon>
+  </button>
+</div>

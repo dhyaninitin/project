@@ -1,0 +1,60 @@
+<vex-page-layout>
+    <vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+        <div class="w-full flex flex-col sm:flex-row justify-between">
+            <div>
+                <h1 class="title mt-0 mb-1">Concierge User Settings</h1>
+                <vex-breadcrumbs [crumbs]="['Concierge User Settings']"></vex-breadcrumbs>
+            </div>
+        </div>
+    </vex-page-layout-header>
+    <vex-page-layout-content>
+
+        <div class="card -mt-16">
+            <div class="head bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
+                <h2
+                    class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
+                    <span>Concierge User Settings</span>
+                </h2>
+            </div>
+        </div>
+        <div class="flex flex-col md:flex-row">
+            <div class="flex-auto">
+                <div class="card">
+
+                    <div class="px-gutter py-4 text-center">
+                        <mat-card-content class="mt-4">
+                            <form [formGroup]="settingsForm">
+                                <div class="flex flex-col sm:flex-row">
+                                    <div>
+                                        <h3>Select the contact owner for web form concierge users  : </h3>
+                                    </div>
+                                    <mat-form-field class="sm:ml-6 flex-auto">
+                                        <mat-label>Select Contact Owner</mat-label>
+                                        <mat-select #portalUsersSelect formControlName="portal_users"
+                                        (infiniteScroll)="getNextBatch()"[threshold]="'0.5%'" [debounceTime]="150" [complete]="offset === totalPages" msInfiniteScroll>
+                                        <ngx-mat-select-search *ngIf="true" [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches' "
+                                          [formControl]="userFilterCtrl" [preventHomeEndKeyPropagation]="true">
+                                          <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                                        </ngx-mat-select-search>
+                                            <mat-option *ngFor="let user of portalUsers" [value]="user.id">
+                                              {{ user?.full_name }}
+                                            </mat-option>
+                                            <mat-option *ngIf="loading">
+                                              <mat-spinner class="input-mat-spinner-loader"
+                                              color="primary"
+                                              [diameter]="30"></mat-spinner>
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="pb-8 pt-4">
+                                    <button mat-raised-button color="primary" type="button" (click)="save()" [disabled]="settingsForm.invalid">Save</button>
+                                </div>
+                            </form>
+                        </mat-card-content>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </vex-page-layout-content>
+</vex-page-layout>

@@ -1,0 +1,212 @@
+<div class="print-view-wrapper height-100 ">
+  <div class="full-width" *ngIf="isReady">
+    <mat-card>
+      <mat-card-title class="">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" class="pb-1">
+          <div fxFlex="100" class="pr-1 text-right">
+            <app-back-button color="primary">{{"BACK" | translate }}</app-back-button>
+          </div>
+        </div>
+      </mat-card-title>
+      <mat-card-content class="mt-1">
+        <div class="full-width">
+          <h3>Carblip Recap</h3>  
+          <div class="detail-item"><label>Stock #:</label>9488-P</div>
+          <div class="detail-item"><label>Contract Date:</label>9/17/2020</div>
+          <div class="detail-item"><label>Delivery Date:</label>9/17/2020</div>
+          <div class="detail-item"><label>Salesperson:</label>Eric Brooks</div>
+          <div fxLayout="row wrap" fxLayout.lt-sm="column">
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <label>Year:</label>9/17/2020
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <label>Make:</label>9/17/2020
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <label>Model:</label>9/17/2020
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <label>VIN:</label>9/17/2020
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <label>Drive Off:</label>9/17/2020
+            </div>
+          </div>
+          <h3>Customer</h3>  
+          <div fxLayout="row wrap" fxLayout.lt-sm="column">
+            <div fxFlex="50"  class="pr-1 detail-item">
+              <div class="detail-item"><label>First Name:</label></div>
+            </div>
+            <div fxFlex="50"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Last Name:</label></div>
+            </div>
+          </div>
+          <div class="detail-item"><label>Street Address:</label>9/17/2020</div>
+          <div fxLayout="row wrap" fxLayout.lt-sm="column">
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>City:</label></div>
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>State:</label></div>
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Zip Code:</label></div>
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Business Manager:</label></div>
+            </div>
+          </div>
+          <h3>Supplier</h3>  
+          <div fxLayout="row wrap" fxLayout.lt-sm="column">
+            <div fxFlex="33"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Supplier:</label></div>
+            </div>
+            <div fxFlex="33"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Contact:</label></div>
+            </div>
+            <div fxFlex="33"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Contact Phone:</label></div>
+            </div>
+          </div>
+          <h3>Wholesale</h3>  
+          <div fxLayout="row wrap" fxLayout.lt-sm="column">
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Year:</label></div>
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Make:</label></div>
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Model:</label></div>
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>VIN:</label></div>
+            </div>
+            <div fxFlex="50"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Allowance From Wholesale:</label></div>
+            </div>
+            <div fxFlex="50"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Type:</label></div>
+            </div>
+          </div>
+          <h3>Customer Payments</h3>  
+          <div fxLayout="row wrap" fxLayout.lt-sm="column">
+            <div fxFlex="50"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Customer Paid Amount:</label></div>
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Paid To:</label></div>
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Date Paid:</label></div>
+            </div>
+          </div>
+          <div fxLayout="row wrap" fxLayout.lt-sm="column">
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Payment Type:</label></div>
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Check Number:</label></div>
+            </div>
+          </div>
+          <div fxLayout="row wrap" fxLayout.lt-sm="column">
+            <div fxFlex="100"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Notes:</label>Will Charge only $644.26 for adds per email 09-23 – need to confirm</div>
+            </div>
+          </div>
+          <h3>Extra Expenses Charged Client</h3> 
+          <div fxLayout="row wrap" fxLayout.lt-sm="column">
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Name:</label></div>
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Charge:</label></div>
+            </div>
+            <div fxFlex="50"  class="pr-1 detail-item">
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Allowance to Wholesale:</label></div>
+            </div>
+            <div fxFlex="75"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Remaining Payments:</label></div>
+            </div>
+          </div>
+          <h3>Extra Expenses Charged Dealer</h3> 
+          <div fxLayout="row wrap" fxLayout.lt-sm="column">
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Name:</label></div>
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Charge:</label></div>
+            </div>
+          </div>
+          <h3>Extra Expenses - Actual Cost</h3> 
+          <div fxLayout="row wrap" fxLayout.lt-sm="column">
+            <div fxFlex="33"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Name:</label></div>
+            </div>
+            <div fxFlex="33"  class="pr-1 detail-item">
+              <div class="detail-item"><label>PO Number:</label></div>
+            </div>
+            <div fxFlex="33"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Amount:</label></div>
+            </div>
+          </div>
+          <h3>Summary</h3> 
+          <div fxLayout="row wrap" fxLayout.lt-sm="column">
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Broker Fee Supplier:</label></div>
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Broker Fee Customer:</label></div>
+            </div>
+            <div fxFlex="50"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Gross :</label></div>
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>% Tax Rate :</label></div>
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>License Fee :</label></div>
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Net :</label></div>
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Net Deal :</label></div>
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Pack :</label></div>
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Commission %:</label></div>
+            </div>
+            <div fxFlex="50"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Commission $:</label></div>
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Company Net :</label></div>
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Invoice Supplier:</label></div>
+            </div>
+            <div fxFlex="50"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Check to Supplier:</label></div>
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Check to Client :</label></div>
+            </div>
+            <div fxFlex="25"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Invoice Client:</label></div>
+            </div>
+            <div fxFlex="50"  class="pr-1 detail-item">
+            </div>
+            <div fxFlex="100"  class="pr-1 detail-item">
+              <div class="detail-item"><label>Notes:</label>Vehicle delivered on 9/17/2020</div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

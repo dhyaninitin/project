@@ -1,0 +1,91 @@
+@import '../../../styles/shared/_shared';
+
+.box-shadow {
+  border-radius: 5px;
+  box-shadow: 0 0 7px 1px rgba(150, 162, 189, 0.25);
+  background-color: #ffffff;
+}
+.left-div {
+  padding-right: 0px;
+}
+.credit-app-block {
+  padding: 20px 23px;
+  border-radius: 5px;
+  box-shadow: 0 0 7px 1px rgba(150, 162, 189, 0.25);
+  background-color: #ffffff;
+
+  h2 {
+    font-size: 26px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #42464c;
+    padding-bottom: 19px;
+    border-bottom: 1px solid #96a2bd20;
+  }
+
+  .product-details {
+    width: 201px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 62px;
+    &.custom {
+      @media (max-width: 768px) {
+        display: none;
+      }
+    }
+  }
+
+  .product-details .product-brand-name {
+    font-size: rem(16);
+    font-weight: 300;
+    letter-spacing: -0.05px;
+    color: #0f0f0f;
+    margin: 0;
+  }
+
+  .product-details .product-model-name {
+    font-size: rem(20);
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.46px;
+    color: #0f0f0f;
+    margin: 0;
+  }
+
+  .product-details .product-model-amt {
+    font-size: rem(22);
+    letter-spacing: -0.07px;
+    color: #f59300;
+    margin: 0;
+    span.type {
+      color: #303a4b;
+      font-size: 14px;
+      padding-left: 5px;
+    }
+  }
+
+  .product-details .product-model-amt-label {
+    font-size: rem(12);
+    letter-spacing: -0.04px;
+    text-align: right;
+    color: #42464c;
+    margin: 0;
+  }
+}
+
+.carousel-vehicle-img {
+  width: 95% !important;
+}
+
+@media (max-width: 768px) {
+  .left-div {
+    padding-right: 15px !important;
+  }
+  .right-div {
+    padding-top: 15px;
+  }
+}

@@ -1,0 +1,8 @@
+mat-card{
+    max-width: 30%;
+    margin: auto;
+}
+
+.clone-icon{
+    transform: rotate(90deg);
+}

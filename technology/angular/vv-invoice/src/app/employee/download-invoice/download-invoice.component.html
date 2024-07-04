@@ -1,0 +1,59 @@
+<div class="main-container" id="pdfTable">
+  <div class="container d-flex justify-content-end">
+    <mat-icon (click)="onClose()">close</mat-icon>
+  </div>
+
+  <div class="html-invoice container" #pdfTable [innerHTML]="runhandleBar()"></div>
+
+  <div class="footer-btn d-flex justify-content-end">
+    <mat-icon
+      matTooltip="send"
+      (click)="showEmailInputBox()"
+      >email</mat-icon
+    >
+    <mat-icon
+      matTooltip="download"
+      class="ml-2"
+      (click)="downloadAsPDF()"
+      >download</mat-icon
+    >
+  </div>
+
+  <div class="email-div row d-flex justify-content-center" *ngIf="showEmailInput">
+    <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+      <form [formGroup]="getrecipientEmailForm">
+        <mat-form-field appearance="outline" id="email-field">
+          <mat-label>Enter recipient email</mat-label>
+          <input
+            #emailRef
+            matInput
+            name="email"
+            placeholder="pat@example.com"
+            formControlName="email"
+            autocomplete="off"
+            required
+          />
+          <mat-error *ngIf="email.touched && !email.valid">
+            <span *ngIf="email.errors?.['required']"> </span>
+            <span *ngIf="email.errors?.['pattern']"> </span>
+          </mat-error>
+        </mat-form-field>
+      </form>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+      <div class="btns d-flex justify-content-lg-end justify-content-md-end justify-content-sm-center justify-content-center">
+        <button mat-flat-button (click)="onCancel()" class="ml-lg-5 ml-md-5 ml-sm-0 ml-0">
+          Cancel
+        </button>
+        <button
+          mat-stroked-button
+          (click)="sendInvoiceThroughEmail()"
+          class="ml-lg-2 ml-md-2 ml-sm-3 ml-3"
+          [disabled]="getrecipientEmailForm.invalid"
+        >
+          Send
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

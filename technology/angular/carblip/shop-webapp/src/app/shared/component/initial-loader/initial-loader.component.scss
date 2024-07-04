@@ -1,0 +1,65 @@
+.initial-loader-wrapper {
+  position: fixed;
+  z-index: 1002;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+
+  transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+  perspective: 1400px;
+  transform-style: preserve-3d;
+  background-image: none;
+  // background-color: rgb(245, 147, 0);
+  background-color: #2f2f2f;
+
+  transition-property: all;
+  transition-duration: 0.5s;
+  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+
+  &.fadeOut {
+    top: -100%;
+  }
+}
+
+.initial-loader-inner-wrapper {
+  position: absolute;
+  transform-origin: 0px 0px 0px;
+  top: 43%;
+  left: 50%;
+}
+
+.logo {
+  transform-origin: 175.5px 98.9295px 0px;
+  width: 325px;
+  height: 183.2px;
+}
+
+.logo-group {
+  position: absolute;
+  width: 325px;
+  height: 183.2px;
+  transform: translate3d(-154px, -45px, 0px) scale3d(0.001, 0.001, 0.001);
+}
+
+@keyframes logo-group-animation-keyframes {
+  0% {
+    transform: translate3d(-154px, -45px, 0px) scale3d(0.001, 0.001, 0.001);
+    opacity: 0.43;
+    animation-timing-function: linear;
+  }
+  20% {
+    transform: translate3d(-154px, -45px, 0px) scale3d(0.001, 0.001, 0.001);
+    opacity: 0.43;
+    animation-timing-function: ease-out;
+  }
+  100% {
+    transform: translate3d(-154px, -45px, 0px) scale3d(1, 1, 1);
+    opacity: 1;
+    animation-timing-function: linear;
+  }
+}
+
+.logo-group-animation {
+  animation: logo-group-animation-keyframes 0.8s linear normal forwards;
+}

@@ -1,0 +1,178 @@
+<mat-drawer-container hasBackdrop="true">
+  <mat-drawer class="preview-drawer" #previewDrawer mode="over" position="end">
+    <offer-letter-dialog (close)="previewDrawer.close()"></offer-letter-dialog>
+  </mat-drawer>
+  <mat-drawer-container hasBackdrop="true" (backdropClick)="reset()">
+    <mat-drawer class="details-drawer" #offerBreakdownDrawer mode="over" position="end">
+      <offer-breakdown (close)="offerBreakdownDrawer.close()" (updateCurrentSalary)="updateCurrentSalary($event)"></offer-breakdown>
+    </mat-drawer>
+    <div class="top-bar">
+      <p class="f-12">Sr .Java Developer > Applied Candidate > <strong class="fw-500" style="color: #25364D;">Offer</strong></p>
+    </div>
+
+    <div class="job-description justify-content-around pl-4 px-3 pt-3">
+      <div class="align-items-center d-flex">
+        <div class="col-md-12 col-12 col-sm-12 employee-details m-0 p-0">
+          <div class="row">
+            <div class="col-md-1 col-2 logo-position temp-w">
+              <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M0 4C0 1.79086 1.79086 0 4 0H37.8737C40.0828 0 41.8737 1.79086 41.8737 4V38C41.8737 40.2091 40.0828 42 37.8737 42H4C1.79086 42 0 40.2091 0 38V4Z"
+                  fill="#09CEE5" />
+                <g clip-path="url(#clip0_308_247)">
+                  <path
+                    d="M17.7455 15.75L11.7705 19.7333V28.5H15.9372V21.8333H19.2705V28.5H23.4372V19.5417L17.7455 15.75Z"
+                    fill="white" />
+                  <path
+                    d="M19.2705 13.5V14.7583L20.9372 15.8667L22.3788 16.8333H23.4372V17.5417L25.1038 18.6583V20.1667H26.7705V21.8333H25.1038V23.5H26.7705V25.1667H25.1038V28.5H30.1038V13.5H19.2705ZM26.7705 18.5H25.1038V16.8333H26.7705V18.5Z"
+                    fill="white" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_308_247">
+                    <rect width="20" height="20" fill="white" transform="translate(10.937 11)" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+
+            <div class="col-md-11 col-10 temp-class-mobile-padding">
+              <div class="row" *ngIf="jobOfferInfo.title">
+                <div class="col-md-12 p-0">
+                  <div class="employee-position">
+                    <p class="f-24 title">{{jobOfferInfo.title}}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 p-0">
+                  <ul class="custom-ul-frames">
+                    <li class="pl-0" *ngIf="jobOfferInfo.code">
+                      <h5 class="f-10">{{jobOfferInfo.code}}</h5>
+                    </li>
+                    <li *ngIf="jobOfferInfo.modifiedtime">
+                      <svg width="5" height="4" viewBox="0 0 5 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse cx="2.73831" cy="2" rx="2.06558" ry="2" fill="#B6B4BA" />
+                      </svg>
+                      <h5 class="f-10">Published {{jobOfferInfo.modifiedtime | date: 'mediumDate'}}</h5>
+                    </li>
+                    <li *ngIf="jobOfferInfo.jobstatus">
+                      <svg class="secnd d-mobile-none" width="5" height="4" viewBox="0 0 5 4" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <ellipse cx="2.73831" cy="2" rx="2.06558" ry="2" fill="#B6B4BA" />
+                      </svg>
+
+                      <h5 class="f-10 status-position" [ngClass]="jobOfferInfo.jobstatus == 1 ? 'active' : 'inactive'">
+                        {{jobOfferInfo.jobstatus == 1 ? "Active" : "Inactive"}}
+                      </h5>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row temp-class-mobile-padding">
+            <div class="col-md-1 col-sm-4 d-mobile-none temp-w"></div>
+            <div class="col-md-11 col-sm-8 p-0">
+              <ul>
+                <li class="pl-0" *ngIf="jobOfferInfo.Department">
+                  <svg width="11" height="8" viewBox="0 0 11 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M9.39375 1H5.26259L4.22979 0H1.13142C0.563389 0 0.103797 0.45 0.103797 1L0.0986328 7C0.0986328 7.55 0.563389 8 1.13142 8H9.39375C9.96178 8 10.4265 7.55 10.4265 7V2C10.4265 1.45 9.96178 1 9.39375 1Z"
+                      fill="#FFB526" />
+                  </svg>
+                  <h5 class="f-12">{{jobOfferInfo.Department}}</h5>
+                </li>
+                <li *ngIf="jobOfferInfo.jobnatureid">
+                  <svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M10.133 2H8.06742V1C8.06742 0.445 7.60783 0 7.03463 0H4.96905C4.39585 0 3.93626 0.445 3.93626 1V2H1.87068C1.29748 2 0.843055 2.445 0.843055 3L0.837891 8.5C0.837891 9.055 1.29748 9.5 1.87068 9.5H10.133C10.7062 9.5 11.1658 9.055 11.1658 8.5V3C11.1658 2.445 10.7062 2 10.133 2ZM7.03463 2H4.96905V1H7.03463V2Z"
+                      fill="#504F54" />
+                  </svg>
+                  <h5 class="f-12">{{jobOfferInfo.jobnatureid == 1 ? "Full Time" : jobOfferInfo.jobnatureid == 2 ? "Part Time" : jobOfferInfo.jobnatureid == 3 ? "Intern" : "NA"}}</h5>
+                </li>
+                <li class="pl-m-0" *ngIf="jobOfferInfo.joblocation">
+                  <svg width="8" height="10" viewBox="0 0 8 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M3.62551 0C1.62706 0 0.0107422 1.565 0.0107422 3.5C0.0107422 4.37 0.26894 5.185 0.73886 5.92C1.22944 6.69 1.87493 7.35 2.37067 8.12C2.61337 8.495 2.78895 8.845 2.97485 9.25C3.10911 9.525 3.21756 10 3.62551 10C4.03346 10 4.1419 9.525 4.271 9.25C4.46207 8.845 4.63248 8.495 4.87519 8.12C5.37093 7.355 6.01642 6.695 6.507 5.92C6.98208 5.185 7.24028 4.37 7.24028 3.5C7.24028 1.565 5.62396 0 3.62551 0ZM3.62551 4.875C2.91288 4.875 2.33452 4.315 2.33452 3.625C2.33452 2.935 2.91288 2.375 3.62551 2.375C4.33814 2.375 4.9165 2.935 4.9165 3.625C4.9165 4.315 4.33814 4.875 3.62551 4.875Z"
+                      fill="#00A46C" />
+                  </svg>
+                  <h5 class="f-12">{{jobOfferInfo.joblocation}}</h5>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="row temp-class-mobile-padding">
+            <div class="col-md-1 col-sm-4 d-mobile-none temp-w"></div>
+            <div class="col-md-11 col-sm-8 p-0">
+              <ul>
+                <li class="pl-0">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M5.99984 5.99999C7.47317 5.99999 8.6665 4.80666 8.6665 3.33332C8.6665 1.85999 7.47317 0.666656 5.99984 0.666656C4.5265 0.666656 3.33317 1.85999 3.33317 3.33332C3.33317 4.80666 4.5265 5.99999 5.99984 5.99999ZM5.99984 7.33332C4.21984 7.33332 0.666504 8.22666 0.666504 9.99999V11.3333H11.3332V9.99999C11.3332 8.22666 7.77984 7.33332 5.99984 7.33332Z"
+                      fill="#09CEE5" />
+                  </svg>
+                  <h5 class="f-12">Samuel Jones</h5>
+                </li>
+                <li *ngIf="userInfo.fullName">
+                  <!-- <img src="{{url ? url : './assets/img/profile.png'}}"  width="12" height="12" alt="{{userInfo.fullName}}" > -->
+                  <h5 class="f-12">{{userInfo.fullName}}</h5>
+                </li>
+                <li *ngIf="jobOfferInfo.joblevelid">
+                  <h5 class="f-12">Level </h5>
+                </li>
+                <li *ngIf="jobOfferInfo.joblevelid">
+                  <h5 class="f-12">{{jobOfferInfo.joblevelid}}</h5>
+                </li>
+                <li *ngIf="jobOfferInfo.jobgradeid">
+                  <h5 class="f-12">Grade</h5>
+                </li>
+                <li *ngIf="jobOfferInfo.jobgradeid">
+                  <h5 class="f-12">{{jobOfferInfo.jobgradeid}}</h5>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- //---------------------------------------------BODY SECTION---------------------------------------------------------------------------------- -->
+
+    <div class="p-2 row m-0 pt-3">
+      <div class="col-md-8 col-sm-12">
+        <!-- <mat-card style="height: 100%"> -->
+          <mat-card>
+          <div class="progress-bars">
+            <mc-stepper *ngIf="!showMobileStepper" [stepNames]="stepperPages" [currentStep]="offerService.step">
+            </mc-stepper>
+            <div class="row" *ngIf="showMobileStepper">
+              <div class="col-7 p-0">
+                <m-stepper [itemList]="stepperPages" [activeStep]="offerService.step"></m-stepper>
+              </div>
+              <div class="col-5 my-auto text-right">
+                <button class="offer-breakdown-btn text-right" *ngIf="offerService.step == 1"
+                  (click)="openOfferBreakdownBootomSheet()" type="button" mat-raised-button>Offer Breakdown</button>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <app-general-info *ngIf="offerService.step == 0" [jobLocation]="jobOfferInfo.joblocation"></app-general-info>
+            <app-salary-structure *ngIf="offerService.step != 0" [ngClass]="offerService.step == 1 ? 'd-block' : 'd-none'" (salaryBreakdownStructure)="salaryStructure($event)"></app-salary-structure>
+            <app-approvals *ngIf="offerService.step == 2"></app-approvals>
+            <app-offer-send-out *ngIf="offerService.step == 3"></app-offer-send-out>
+          </div>
+        </mat-card>
+      </div>
+
+      <div class="col-md-4 col-sm-12 col-12 pt-m-20 d-mobile-none">
+        <mat-card style="height: 100%">
+          <div class="salary-template-content">
+            <app-candidate-info [salaryBreakdown]="salaryBreakdown" [changeInSalary]="salaryUpdated"></app-candidate-info>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </mat-drawer-container>
+</mat-drawer-container>

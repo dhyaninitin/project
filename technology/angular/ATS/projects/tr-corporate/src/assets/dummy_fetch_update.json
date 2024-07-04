@@ -1,0 +1,694 @@
+{
+	"_id": "6180fdca51d8800c143cec23",
+	"accountid" : 1,
+	"roles" : [
+		{
+			"referenceRoleId" : 234234234,
+			"roleid" : "11",
+			"roletypeid" : 1,
+			"rolename" : "ccc",
+			"createdBy" : 3,
+			"createdDatetime" : "2021-10-11T13:48:18.000+05:30",
+			"modifiedBy" : 1,
+			"modifiedDatetime" : "2021-10-11T13:48:18.000+05:30",
+			"modules" : [
+				{
+					"REQ" : 1,
+					"DASH" : 0
+				}
+			],
+			"rights" : [
+				{
+					"name" : "Requirement Module",
+					"id" : "1",
+					"code" : "REQ",
+					"on" : 0,
+					"routes" : "",
+					"controls" : "nul",
+					"level2" : [
+						{
+							"name" : "Req Grid",
+							"id" : "45",
+							"on" :  0,
+							"routes" : [
+								{
+									"route" : "Recruiter/Requirement.aspx"
+								}
+							],
+							"controls" : "null",
+							"level3" : [
+								{
+									"name" : "Add req button",
+									"id" : "123123",
+									"code" : "VREQ",
+									"on" :  0,
+									"routes" : "null",
+									"controls" : [
+										{
+											"route" : "Recruiter/Requirement.aspx",
+											"ctrl" : "btnaddreq"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name" : "Req Grid 2",
+							"id" : "46",
+							"on" :  0,
+							"routes" : [
+								{
+									"route" : "Recruiter/Requirement.aspx"
+								}
+							],
+							"controls" : "null",
+							"level3" : [
+								{
+									"name" : "Add req button",
+									"id" : "123123",
+									"code" : "VREQ",
+									"on" :  0,
+									"routes" : "null",
+									"controls" : [
+										{
+											"route" : "Recruiter/Requirement.aspx",
+											"ctrl" : "btnaddreq"
+										}
+									]
+								},
+								
+								{
+									"name" : "Add req button 2",
+									"id" : "123123",
+									"code" : "VREQ",
+									"on" :  0,
+									"routes" : "null",
+									"controls" : [
+										{
+											"route" : "Recruiter/Requirement.aspx",
+											"ctrl" : "btnaddreq"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name" : "Requirement Module1",
+					"id" : "2",
+					"code" : "REQ",
+					"on" :  0,
+					"routes" : "",
+					"controls" : "nul",
+					"level2" : [
+						{
+							"name" : "Req Grid",
+							"id" : "45",
+							"on" :  0,
+							"routes" : [
+								{
+									"route" : "Recruiter/Requirement.aspx"
+								}
+							],
+							"controls" : "null",
+							"level3" : [
+								{
+									"name" : "Add req button",
+									"id" : "123123",
+									"code" : "VREQ",
+									"on" :  0,
+									"routes" : "null",
+									"controls" : [
+										{
+											"route" : "Recruiter/Requirement.aspx",
+											"ctrl" : "btnaddreq"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name" : "Requirement Module1",
+					"id" : "3",
+					"code" : "REQ",
+					"on" :  0,
+					"routes" : "",
+					"controls" : "nul",
+					"level2" : [
+						{
+							"name" : "Req Grid",
+							"id" : "45",
+							"on" :  0,
+							"routes" : [
+								{
+									"route" : "Recruiter/Requirement.aspx"
+								}
+							],
+							"controls" : "null",
+							"level3" : [
+								{
+									"name" : "Add req button",
+									"id" : "123123",
+									"code" : "VREQ",
+									"on" :  0,
+									"routes" : "null",
+									"controls" : [
+										{
+											"route" : "Recruiter/Requirement.aspx",
+											"ctrl" : "btnaddreq"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"referenceRoleId" : 234234234,
+			"roleid" : "12",
+			"roletypeid" : 2,
+			"rolename" : "abbbb",
+			"createdBy" : 3,
+			"createdDatetime" : "2021-10-11T13:48:18.000+05:30",
+			"modifiedBy" : 1,
+			"modifiedDatetime" : "2021-10-11T13:48:18.000+05:30",
+			"modules" : [
+				{
+					"REQ" : 1,
+					"DASH" : 0
+				}
+			],
+			"rights" : [
+				{
+					"name" : "Requirement Module1",
+					"id" : "2",
+					"code" : "REQ",
+					"on" : 0,
+					"routes" : "",
+					"controls" : "nul",
+					"level2" : [
+						{
+							"name" : "Req Grid",
+							"id" : "45",
+							"on" :  0,
+							"routes" : [
+								{
+									"route" : "Recruiter/Requirement.aspx"
+								}
+							],
+							"controls" : "null",
+							"level3" : [
+								{
+									"name" : "Add req button",
+									"id" : "123123",
+									"code" : "VREQ",
+									"on" : 0,
+									"routes" : "null",
+									"controls" : [
+										{
+											"route" : "Recruiter/Requirement.aspx",
+											"ctrl" : "btnaddreq"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name" : "Requirement Module1",
+					"id" : "3",
+					"code" : "REQ",
+					"on" : 0,
+					"routes" : "",
+					"controls" : "nul",
+					"level2" : [
+						{
+							"name" : "Req Grid",
+							"id" : "45",
+							"on" :  0,
+							"routes" : [
+								{
+									"route" : "Recruiter/Requirement.aspx"
+								}
+							],
+							"controls" : "null",
+							"level3" : [
+								{
+									"name" : "Add req button",
+									"id" : "123123",
+									"code" : "VREQ",
+									"on" : 0,
+									"routes" : "null",
+									"controls" : [
+										{
+											"route" : "Recruiter/Requirement.aspx",
+											"ctrl" : "btnaddreq"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name" : "Requirement Module",
+					"id" : "1",
+					"code" : "REQ",
+					"on" : 0,
+					"routes" : "",
+					"controls" : "nul",
+					"level2" : [
+						{
+							"name" : "Req Grid",
+							"id" : "45",
+							"on" :  0,
+							"routes" : [
+								{
+									"route" : "Recruiter/Requirement.aspx"
+								}
+							],
+							"controls" : "null",
+							"level3" : [
+								{
+									"name" : "Add req button",
+									"id" : "123123",
+									"code" : "VREQ",
+									"on" : 0,
+									"routes" : "null",
+									"controls" : [
+										{
+											"route" : "Recruiter/Requirement.aspx",
+											"ctrl" : "btnaddreq"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"referenceRoleId" : 234234234,
+			"roleid" : "13",
+			"roletypeid" : 2,
+			"rolename" : "abbbb",
+			"createdBy" : 3,
+			"createdDatetime" : "2021-10-11T13:48:18.000+05:30",
+			"modifiedBy" : 1,
+			"modifiedDatetime" : "2021-10-11T13:48:18.000+05:30",
+			"modules" : [
+				{
+					"REQ" : 1,
+					"DASH" : 0
+				}
+			],
+			"rights" : [
+				{
+					"name" : "Requirement Module2",
+					"id" : "3",
+					"code" : "REQ",
+					"on" : 0,
+					"routes" : "",
+					"controls" : "null",
+					"level2" : [
+						{
+							"name" : "Req Grid",
+							"id" : "45",
+							"on" :  0,
+							"routes" : [
+								{
+									"route" : "Recruiter/Requirement.aspx"
+								}
+							],
+							"controls" : "null",
+							"level3" : [
+								{
+									"name" : "Add req button",
+									"id" : "123123",
+									"code" : "VREQ",
+									"on" : 0,
+									"routes" : "null",
+									"controls" : [
+										{
+											"route" : "Recruiter/Requirement.aspx",
+											"ctrl" : "btnaddreq"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name" : "Requirement Module",
+					"id" : "1",
+					"code" : "REQ",
+					"on" : 0,
+					"routes" : "",
+					"controls" : "nul",
+					"level2" : [
+						{
+							"name" : "Req Grid",
+							"id" : "45",
+							"on" :  0,
+							"routes" : [
+								{
+									"route" : "Recruiter/Requirement.aspx"
+								}
+							],
+							"controls" : "null",
+							"level3" : [
+								{
+									"name" : "Add req button",
+									"id" : "123123",
+									"code" : "VREQ",
+									"on" : 0,
+									"routes" : "null",
+									"controls" : [
+										{
+											"route" : "Recruiter/Requirement.aspx",
+											"ctrl" : "btnaddreq"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name" : "Requirement Module",
+					"id" : "1",
+					"code" : "REQ",
+					"on" : 0,
+					"routes" : "",
+					"controls" : "nul",
+					"level2" : [
+						{
+							"name" : "Req Grid",
+							"id" : "45",
+							"on" :  0,
+							"routes" : [
+								{
+									"route" : "Recruiter/Requirement.aspx"
+								}
+							],
+							"controls" : "null",
+							"level3" : [
+								{
+									"name" : "Add req button",
+									"id" : "123123",
+									"code" : "VREQ",
+									"on" : 0,
+									"routes" : "null",
+									"controls" : [
+										{
+											"route" : "Recruiter/Requirement.aspx",
+											"ctrl" : "btnaddreq"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"referenceRoleId" : 234234234,
+			"roleid" : "14",
+			"roletypeid" : 2,
+			"rolename" : "abbbb",
+			"createdBy" : 3,
+			"createdDatetime" : "2021-10-11T13:48:18.000+05:30",
+			"modifiedBy" : 1,
+			"modifiedDatetime" : "2021-10-11T13:48:18.000+05:30",
+			"modules" : [
+				{
+					"REQ" : 1,
+					"DASH" : 0
+				}
+			],
+			"rights" : [
+				{
+					"name" : "Requirement Module3",
+					"id" : "4",
+					"code" : "REQ",
+					"on" : 0,
+					"routes" : "",
+					"controls" : "nul",
+					"level2" : [
+						{
+							"name" : "Req Grid",
+							"id" : "45",
+							"on" :  0,
+							"routes" : [
+								{
+									"route" : "Recruiter/Requirement.aspx"
+								}
+							],
+							"controls" : "null",
+							"level3" : [
+								{
+									"name" : "Add req button",
+									"id" : "123123",
+									"code" : "VREQ",
+									"on" : 0,
+									"routes" : "null",
+									"controls" : [
+										{
+											"route" : "Recruiter/Requirement.aspx",
+											"ctrl" : "btnaddreq"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"referenceRoleId" : 234234234,
+			"roleid" : "15",
+			"roletypeid" : 2,
+			"rolename" : "abbbb",
+			"createdBy" : 3,
+			"createdDatetime" : "2021-10-11T13:48:18.000+05:30",
+			"modifiedBy" : 1,
+			"modifiedDatetime" : "2021-10-11T13:48:18.000+05:30",
+			"modules" : [
+				{
+					"REQ" : 1,
+					"DASH" : 0
+				}
+			],
+			"rights" : [
+				{
+					"name" : "Requirement Module4",
+					"id" : "5",
+					"code" : "REQ",
+					"on" : 0,
+					"routes" : "",
+					"controls" : "null",
+					"level2" : [
+						{
+							"name" : "Req Grid",
+							"id" : "45",
+							"on" :  0,
+							"routes" : [
+								{
+									"route" : "Recruiter/Requirement.aspx"
+								}
+							],
+							"controls" : "null",
+							"level3" : [
+								{
+									"name" : "Add req button",
+									"id" : "123123",
+									"code" : "VREQ",
+									"on" : 0,
+									"routes" : "null",
+									"controls" : [
+										{
+											"route" : "Recruiter/Requirement.aspx",
+											"ctrl" : "btnaddreq"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"referenceRoleId" : 234234234,
+			"roleid" : "16",
+			"roletypeid" : 2,
+			"rolename" : "abbbb",
+			"createdBy" : 3,
+			"createdDatetime" : "2021-10-11T13:48:18.000+05:30",
+			"modifiedBy" : 1,
+			"modifiedDatetime" : "2021-10-11T13:48:18.000+05:30",
+			"modules" : [
+				{
+					"REQ" : 1,
+					"DASH" : 0
+				}
+			],
+			"rights" : [
+				{
+					"name" : "Requirement Modul6",
+					"id" : "7",
+					"code" : "REQ",
+					"on" : 0,
+					"routes" : "",
+					"controls" : "null",
+					"level2" : [
+						{
+							"name" : "Req Grid",
+							"id" : "45",
+							"on" :  0,
+							"routes" : [
+								{
+									"route" : "Recruiter/Requirement.aspx"
+								}
+							],
+							"controls" : "null",
+							"level3" : [
+								{
+									"name" : "Add req button",
+									"_id" : "123123",
+									"code" : "VREQ",
+									"on" : 0,
+									"routes" : "null",
+									"controls" : [
+										{
+											"route" : "Recruiter/Requirement.aspx",
+											"ctrl" : "btnaddreq"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"referenceRoleId" : 234234234,
+			"roleid" : "17",
+			"roletypeid" : 2,
+			"rolename" : "abbbb",
+			"createdBy" : 3,
+			"createdDatetime" : "2021-10-11T13:48:18.000+05:30",
+			"modifiedBy" : 1,
+			"modifiedDatetime" : "2021-10-11T13:48:18.000+05:30",
+			"modules" : [
+				{
+					"REQ" : 1,
+					"DASH" : 0
+				}
+			],
+			"rights" : [
+				{
+					"name" : "Requirement Module8",
+					"id" : "9",
+					"code" : "REQ",
+					"on" : 0,
+					"routes" : "",
+					"controls" : "nul",
+					"level2" : [
+						{
+							"name" : "Req Grid",
+							"id" : "45",
+							"on" :  0,
+							"routes" : [
+								{
+									"route" : "Recruiter/Requirement.aspx"
+								}
+							],
+							"controls" : "null",
+							"level3" : [
+								{
+									"name" : "Add req button",
+									"id" : "123123",
+									"code" : "VREQ",
+									"on" : 0,
+									"routes" : "null",
+									"controls" : [
+										{
+											"route" : "Recruiter/Requirement.aspx",
+											"ctrl" : "btnaddreq"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"referenceRoleId" : 234234234,
+			"roleid" : "18",
+			"roletypeid" : 2,
+			"rolename" : "abbbb",
+			"createdBy" : 3,
+			"createdDatetime" : "2021-10-11T13:48:18.000+05:30",
+			"modifiedBy" : 1,
+			"modifiedDatetime" : "2021-10-11T13:48:18.000+05:30",
+			"modules" : [
+				{
+					"REQ" : 1,
+					"DASH" : 0
+				}
+			],
+			"rights" : [
+				{
+					"name" : "Requirement Module10",
+					"id" : "1",
+					"code" : "REQ",
+					"on" : 0,
+					"routes" : "",
+					"controls" : "nul",
+					"level2" : [
+						{
+							"name" : "Req Grid",
+							"id" : "45",
+							"on" :  0,
+							"routes" : [
+								{
+									"route" : "Recruiter/Requirement.aspx"
+								}
+							],
+							"controls" : "null",
+							"level3" : [
+								{
+									"name" : "Add req button",
+									"id" : "123123",
+									"code" : "VREQ",
+									"on" : 0,
+									"routes" : "null",
+									"controls" : [
+										{
+											"route" : "Recruiter/Requirement.aspx",
+											"ctrl" : "btnaddreq"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}

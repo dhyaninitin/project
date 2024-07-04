@@ -1,0 +1,223 @@
+<div class="card mt-6">
+  <div class="px-gutter py-4 border-b flex header-with-btn">
+    <h2 class="title m-0">Emails</h2>
+    <div class="flex">
+      <button
+        mat-icon-button
+        class="ml-4 flex-none"
+        color="primary"
+        matTooltip="Refresh Emails"
+        (click)="refreshMail()"
+        type="button"
+      >
+        <mat-icon svgIcon="mat:refresh"></mat-icon>
+      </button>
+      <button
+        class="ml-4 flex-none"
+        (click)="toggleEditors(1)"
+        color="primary"
+        mat-mini-fab
+        matTooltip="Compose"
+        type="button"
+      >
+        <mat-icon svgIcon="mat:add"></mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="px-gutter py-4 border-b pl-0 justify-content-space-between m-mail-height overflow-auto">
+    <div class="">
+      <div class="px-gutter mb-2" *ngFor="let element of emails; let i = index" @fadeInRight>
+        <mat-accordion>
+          <mat-expansion-panel (opened)="openSider(element.cid, element.id);showEmailDetails(element, i)">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <span class="text-xs-m">{{element.user_name | titlecase}}</span>
+              </mat-panel-title>
+              <mat-panel-description> 
+                <div class="flex item-center" [ngClass]="element.status == 0 ? 'text-bold': ''">
+                  <div class="hide-msg text-xs-m">{{element.subject | slice: 0:25 }}{{ element.subject.length > 25 ? "...": "" }} - </div>&nbsp;
+                  <div class="hide-msg text-xs-m" [innerText]="shortMessage(element.header_msg)"></div>
+                </div>
+                <div class="text-xs-m flex">
+                  <p class="pr-2 text-xs-m">{{element.mail_date | date}}</p>
+                  <mat-icon *ngIf="element.type == 'Sent'" class="flex-none text-primary icon-sm" svgIcon="mat:call_made"></mat-icon>
+                  <mat-icon *ngIf="element.type == 'Received'" class="flex-none text-primary icon-sm" svgIcon="mat:call_received"></mat-icon>
+                </div>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+          <div class="overflow-hidden">
+            <div  class="overflow-hidden">
+              <div class="border rounded mt-4 p-2 pr-8 relative">
+                <table class="w-full truncate table-fixed">
+                  <tbody>
+                  <tr>
+                    <td class="pr-2 font-medium w-12">From:</td>
+                    <td class="truncate">
+                      <span class="mx-2">&bull;</span><span class="text-secondary">{{element?.from}}</span>
+                    </td>
+                  </tr>
+                  <tr [@dropdown]="header == element.id" @fadeInUp *ngIf="header == element.id">
+                    <td class="pr-2 font-medium w-12">To:</td>
+                    <td class="truncate">
+                      <span class="mx-2">&bull;</span><span class="text-secondary">{{element?.to}}</span>
+                    </td>
+                  </tr>
+                  <tr [@dropdown]="header == element.id" @fadeInUp *ngIf="header == element.id">
+                    <td class="pr-2 font-medium w-12">Subject:</td>
+                    <td class="truncate">
+                      <span class="mx-2">&bull;</span><span class="text-secondary">{{element?.subject}}</span>
+                    </td>
+                  </tr>
+                  <tr [@dropdown]="header == element.id" @fadeInUp *ngIf="header == element.id">
+                    <td class="pr-2 font-medium w-12">Date:</td>
+                    <td class="truncate">
+                      <span class="mx-2">&bull;</span><span class="text-secondary">{{ element.mail_date | date:'medium' }}</span></td>
+                  </tr>
+                  </tbody>
+                </table>
+        
+                <button (click)="toggleParentHeader(element.id)" class="absolute top-0 right-0" mat-icon-button type="button">
+                  <mat-icon class="text-secondary icon-sm" svgIcon="mat:keyboard_arrow_down" [ngClass]="header == element.id ? 'rotate' : ''"></mat-icon>
+                </button>
+              </div>
+            </div>
+
+            <!-- Message Body -->
+            <div class="py-4" [innerHTML]="element.msg"></div>
+            
+            <!-- Attachments sections -->
+            <span *ngIf="element.file != null && element.file.length > 0">
+              <div *ngFor="let attachment of element.file; let fileIndex = index;">
+                <div class="vex-mail-compose-attachment my-2 rounded-full border px-4 py-1 flex items-center hover:bg-hover transition duration-200 ease-in-out cursor-pointer relative"
+                    matRipple>
+                  <mat-icon *ngIf="attachment.mimetype == 'pdf'" class="flex-none text-primary icon-sm" svgIcon="mat:picture_as_pdf"></mat-icon>
+                  <mat-icon *ngIf="attachment.mimetype != 'pdf'" class="flex-none text-primary icon-sm" svgIcon="mat:image"></mat-icon>
+                  <p class="flex-auto ml-4 text-sm">{{attachment.documentname}}</p>
+  
+                  <p class="text-sm text-secondary mr-2 flex-none">{{attachment.filesize}}</p>
+                  <button (click)="$event?.stopPropagation();onClickDownloadPdf(element.id,fileIndex)" class="flex-none w-8 h-8 leading-none" mat-icon-button type="button">
+                    <mat-icon class="icon-sm" svgIcon="mat:cloud_download"></mat-icon>
+                  </button>
+                </div>
+              </div>
+            </span>
+            
+            <!-- Threads Section -->
+            <app-mail-thread
+                *ngIf="isOpenDrawer == element.id"
+                [userInfo]="userInfo"
+                [mailId]="mailId"
+                [sendTo]="sendTo"
+                (openThreadItem)="openThreadEditor($event)"
+              ></app-mail-thread>
+          </div>
+           <div *ngIf="showEditor != element.id" @fadeInUp (click)="openThreadEditor(element)" class="py-2 mt-2 rounded hover:bg-hover transition ease-in-out duration-200 flex items-center -mx-2 px-2 relative cursor-pointer"
+            matRipple>
+          <div class="flex-none bg-primary/10 text-primary rounded-full w-8 h-8 flex justify-center items-center mr-4">
+            <mat-icon svgIcon="mat:reply"></mat-icon>
+          </div>
+            <p class="flex-1">Click to <span class="font-medium">Reply</span></p>
+          </div>
+          <div #ThreadEditor>
+            <div *ngIf="showEditor == element.id" @fadeInUp class="vex-mail-compose-editor flex flex-col mt-4">
+              <form [formGroup]="emailForm">
+              <mat-form-field appearance="fill" class="block w-full">
+                <mat-label>To</mat-label>
+                <input cdkFocusInitial matInput type="text" formControlName="to" [readonly]="true"/>
+            
+                <button (click)="toggleDropdown()" class="-top-2" color="primary" mat-button matSuffix type="button">CC/BCC</button>
+              </mat-form-field>
+            
+              <div [@dropdown]="dropdownOpen" class="overflow-hidden">
+                <mat-form-field appearance="fill" class="block w-full">
+                  <mat-label>Cc</mat-label>
+                  <input matInput type="text" formControlName="addCc"/>
+                </mat-form-field>
+            
+                <mat-form-field appearance="fill" class="block w-full">
+                  <mat-label>Bcc</mat-label>
+                  <input matInput type="text" formControlName="addBcc"/>
+                </mat-form-field>
+              </div>
+                <mat-form-field appearancre="fill" class="example-full-width">
+                  <mat-label>Subject</mat-label>
+                  <input matInput placeholder="Subject" formControlName="subject" [value]="element.subject">
+                </mat-form-field>
+        
+              <div class="vex-mail-compose-editor flex flex-col">
+                <quill-editor formControlName="message" [styles]="{ flex: '1 1 auto', display: 'flex', 'flex-direction': 'column' }" class="flex-auto flex flex-col"></quill-editor>
+              </div>
+              <div class="buttons mt-3 text-right">
+                <file-uploader class="attachment-btn" (getUploadDetails)="fileUploadDetails($event)"  [userDetails]="userInfo"></file-uploader>
+                <button [disabled]="!emailForm.valid" (click)="sendMail(2);showEditor = !showEditor;" color="primary" mat-flat-button type="button">
+                  <span>Send</span>
+                  <mat-icon class="ml-2 icon-sm" svgIcon="mat:send"></mat-icon>
+                </button>&nbsp;
+                <button mat-button type="button" (click)="showEditor = !showEditor">Cancel</button>
+              </div>
+              </form>
+            </div>
+          </div>
+    
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    
+      
+      <div class="text-center mt-2" *ngIf="emails?.length === 0 && !newEmail">There are no emails available</div> 
+
+      <div #newEmailEditor>
+        <div *ngIf="newEmail" @fadeInUp class="px-gutter mt-4">
+          <form [formGroup]="emailForm">
+            <mat-form-field appearance="fill" class="block w-full">
+              <mat-label>To</mat-label>
+              <input cdkFocusInitial matInput type="text" formControlName="to" [readonly]="true"/>
+          
+              <button (click)="toggleDropdown()" class="-top-2" color="primary" mat-button matSuffix type="button">CC/BCC</button>
+            </mat-form-field>
+
+            <div [@dropdown]="dropdownOpen" class="overflow-hidden">
+              <mat-form-field appearance="fill" class="block w-full">
+                <mat-label>Cc</mat-label>
+                <input matInput type="text" formControlName="addCc"/>
+              </mat-form-field>
+          
+              <mat-form-field appearance="fill" class="block w-full">
+                <mat-label>Bcc</mat-label>
+                <input matInput type="text" formControlName="addBcc"/>
+              </mat-form-field>
+            </div>
+              <mat-form-field appearancre="fill" class="example-full-width">
+                <mat-label>Subject</mat-label>
+                <input matInput placeholder="Subject" formControlName="subject">
+              </mat-form-field>
+            <div>
+              <div class="vex-mail-compose-editor flex flex-col">
+                <quill-editor formControlName="message" [styles]="{ flex: '1 1 auto', display: 'flex', 'flex-direction': 'column' }" class="flex-auto flex flex-col"></quill-editor>
+              </div>
+              <div class="buttons mt-3 text-right">
+                <file-uploader class="attachment-btn" (getUploadDetails)="fileUploadDetails($event)"  [userDetails]="userInfo"></file-uploader>
+                <button [disabled]="!emailForm.valid" (click)="sendMail(1);newEmail = !newEmail;" color="primary" mat-flat-button type="button">
+                  <span>Send</span>
+                  <mat-icon class="ml-2 icon-sm" svgIcon="mat:send"></mat-icon>
+                </button>
+                <button mat-button type="button" (click)="newEmail = !newEmail">Cancel</button>
+              </div>
+            </div>
+          </form>
+        </div> 
+      </div>
+      
+    </div>
+  </div>
+</div>
+<mat-paginator
+  [length]="totalRecords"
+  [pageSize]="10"
+  [pageSizeOptions]="[5, 10, 15, 50]"
+  aria-label="Select page"
+  [showFirstLastButtons]="true"
+  (page)="onPaginateChange($event)">
+</mat-paginator>

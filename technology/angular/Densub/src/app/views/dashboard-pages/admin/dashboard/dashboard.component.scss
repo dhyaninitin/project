@@ -1,0 +1,230 @@
+.dashboard-recent{
+  position: relative;
+  top: 22px;
+  z-index: 999;
+  left: 5px;
+  color: white;
+}
+.modal {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.modal .sie-userprofile .userprofile_inner .usr-avtar {
+    width: 190px;
+    height: 190px;
+}
+
+// .text-primary {
+//    span {
+//      float: right;
+//      padding-left: 10px;
+//      padding-right: 10px;
+//    }
+// }
+
+.address-list {
+   label {
+      margin-bottom: 0;
+      font-weight: 600;
+   }
+   .single-row {
+     td {
+       float: left;
+     }
+     .site-name {
+       width: 34%;
+     }
+   }
+
+   tr {
+     table {
+       tr {
+         td:first-child {
+           padding-left: 10px;
+         }
+        @media (max-width: 767px) {
+          display: grid;
+          td:first-child {
+            padding-left: 0;
+          }
+        }
+       }
+     }
+   }
+
+   tr {
+    table {
+      tr:first-child {
+        td:first-child {
+          padding-left: 0;
+        }
+      }
+    }
+  }
+}
+
+.semicolon-align {
+   span {
+    float: right;
+    padding-left: 10px;
+    padding-right: 10px;
+   }
+}
+
+.practice-details{
+    table {
+      tr{
+        td{
+          &:first-child {
+            width: 239px;
+            max-width: 239px;
+          }
+          &:last-child {
+             width: calc(100% - 239px);
+          }
+          @media (max-width: 767px) {
+            &:first-child {
+              width: 100%;
+              max-width: 100%;
+            }
+            &:last-child {
+               width: 100%;
+            }
+          }
+        }
+      }
+    }
+}
+.header-table {
+   tr{
+    @media (max-width: 480px) {
+      display: grid;
+    }
+   }
+}
+.staff-personal {
+   table {
+     tr{
+       td{
+        p {
+          margin-bottom: 0;
+        }
+        &:first-child{
+          width: 150px;
+          max-width: 150px;
+          color: #1c4587;
+          font-weight: bold;
+          span{
+            padding-left: 10px;
+            padding-right: 10px;
+            float: right;
+            @media (max-width: 767px) {
+              float: none;
+            }
+          }
+        }
+       }
+     }
+   }
+}
+.staff-dashboard-table {
+    table {
+      tr {
+        td{
+          @media (max-width: 767px) {
+            display: inline-block !important;
+            padding-left: 0 !important;
+            width: 100%;
+          }
+          span {
+            @media (max-width: 767px) {
+              float: none;
+            }
+          }
+        }
+        @media (max-width: 767px) {
+          display: inline-block !important;
+        }
+      }
+      @media (max-width: 767px) {
+        display: inline-block !important;
+      }
+    }
+    &.address-d {
+       table{
+         td{
+          span {
+            @media (max-width: 767px) {
+              padding-left: 0;
+              padding-right: 0;
+            }
+          }
+         }
+       }
+    }
+}
+.table-header{
+  table {
+    width: 100%;
+    tr {
+      td {
+        @media (max-width: 767px) {
+          vertical-align: top;
+          position: relative;
+          span {
+            float: right;
+            position: absolute;
+            top: 0;
+            right: 0;
+          }
+          &:first-child{
+            width: 35%;
+          }
+          &:last-child {
+            width: 65%;
+            overflow-wrap: anywhere;
+          }
+        }
+      }
+    }
+  }
+}
+.black {
+   color: #000;
+}
+.table-overflow{
+   overflow: auto;
+}
+.professional-d tr td.pt-10 {
+  padding-top: 0 !important;
+}
+@media (max-width: 420px) {
+  .btn-float .modal-dialog  .modal-header {
+    flex-wrap: wrap;
+  }
+
+  .btn-float .modal-dialog  .modal-header div.pull-right {
+      float: none;
+      width: 100%;
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+      margin-top: 10px;
+  }
+
+  .btn-float .modal-dialog .modal-header .pull-right {
+      float: none;
+  }
+  .single-row a{
+      overflow-wrap: break-word;
+  }
+}
+@media (max-width: 767px) {
+  .text-primary span {
+    float: none;
+  }
+  .cal-month-view .cal-day-cell, .cal-month-view .cal-cell-top {
+     min-height: auto;
+  }
+}

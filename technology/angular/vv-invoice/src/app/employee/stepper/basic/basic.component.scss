@@ -1,0 +1,116 @@
+.container-fluid {
+  mat-card {
+    padding: 12px !important;
+  }
+  .card-container {
+    padding: 12px;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  #templateTypeDropdown {
+    width: 90%;
+  }
+
+  #add-new-type {
+    font-size: 30px;
+    margin-left: 10px;
+  }
+
+  #new-type-input-box {
+    width: 90%;
+  }
+
+  mat-label {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  @media (max-width: 575.98px) { /* Extra small devices */
+    mat-card {
+      padding: 6px !important;
+    }
+    
+    mat-label {
+      font-size: 12px;
+    }
+    
+    #templateTypeDropdown {
+      width: 100%;
+    }
+    
+    #new-type-input-box {
+      width: 100%;
+    }
+    
+    #add-new-type {
+      font-size: 24px;
+    }
+  }
+  
+  @media (min-width: 576px) and (max-width: 767.98px) { /* Small devices */
+    mat-card {
+      padding: 10px !important;
+    }
+    
+    mat-label {
+      font-size: 13px;
+    }
+    
+    #templateTypeDropdown {
+      width: 90%;
+    }
+    
+    #new-type-input-box {
+      width: 90%;
+    }
+    
+    #add-new-type {
+      font-size: 28px;
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 991.98px) { /* Medium devices */
+    mat-card {
+      padding: 12px !important;
+    }
+    
+    mat-label {
+      font-size: 14px;
+    }
+    
+    #templateTypeDropdown {
+      width: 80%;
+    }
+    
+    #new-type-input-box {
+      width: 80%;
+    }
+    
+    #add-new-type {
+      font-size: 30px;
+    }
+  }
+  
+  @media (min-width: 992px) { /* Large devices */
+    mat-card {
+      padding: 12px !important;
+    }
+    
+    #templateTypeDropdown {
+      width: 70%;
+    }
+    
+    #new-type-input-box {
+      width: 70%;
+    }
+  }
+}
+
+.space-between {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}

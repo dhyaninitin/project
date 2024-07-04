@@ -1,0 +1,265 @@
+<vex-page-layout *ngIf="isReady" >
+	<vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+		<div
+			class="w-full flex flex-col sm:flex-row justify-between">
+			<div>
+				<h1 class="title mt-0 mb-1">{{dealer?.name}}'s Detail</h1>
+				<vex-breadcrumbs [crumbs]="['Suppliers', 'Detail']"></vex-breadcrumbs>
+			</div>
+
+		</div>
+	</vex-page-layout-header>
+    <vex-page-layout-content
+		class="-mt-6">
+
+		<div class="card overflow-auto -mt-16">
+			<div class="head bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
+				<h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l sm:block flex-none">
+					<span>Actions</span>
+				</h2>
+				<span class="flex-1"></span>
+
+				<!-- <button [disabled]="service$.isEdit" (click)="showEdit()" class="ml-4 flex-none" color="primary" mat-mini-fab matTooltip="Edit Supplier" type="button">
+					<mat-icon svgIcon="mat:edit"></mat-icon>
+				</button> -->
+
+        <button (click)="location.back()" class="ml-4 flex-none" color="primary" mat-mini-fab matTooltip="Back" type="button">
+          <mat-icon svgIcon="mat:arrow_back"></mat-icon>
+				</button>
+			</div>
+        </div>
+        <div class="mt-6 flex flex-col md:flex-row md:items-start">
+            <div class="flex-auto">
+                <div class="card">
+                <div class="px-gutter py-4 border-b flex justify-content-space-between">
+                  <h2 class="title m-0">{{ service$.isEdit ? 'Supplier Details' : 'About'}}</h2> 
+                </div>
+                <div class="">
+                    <form [formGroup]="itemForm" class="px-gutter py-4 grid grid-cols-1 sm:grid-cols-4 gap-4" autocomplete="new-userform">
+                      <div class="flex items-center" @fadeInRight>
+                        <mat-form-field>
+                            <mat-label>Name</mat-label>
+                            <input
+                            matInput
+                            autocomplete="new-name"
+                            name="new-name"
+                            [formControl]="itemForm.controls['name']"
+                            placeholder="Name"
+                            appNoWhitespace>
+                        <mat-icon class="mr-3" matPrefix svgIcon="mat:person"></mat-icon>
+                        </mat-form-field>
+                      </div>
+                      <div class="flex items-center" @fadeInRight>
+                        <mat-form-field>
+                            <mat-label>Phone</mat-label>
+                            <input
+                              matInput
+                              autocomplete="new-phone"
+                              name="new-phone"
+                              pattern="^\d{3}[- ]?\d{3}[- ]?\d{4}$"
+                              [formControl]="itemForm.controls['phone']"
+                              placeholder="Phone"
+                              appPhoneNumber>
+                              <mat-icon class="mr-3" matPrefix svgIcon="mat:phone"></mat-icon>
+                              <span matPrefix class="prefix">+1</span>
+                            </mat-form-field>
+                      </div>
+                      <div class="flex items-center" @fadeInRight>
+                        <mat-form-field>
+                            <mat-label>Street Address</mat-label>
+                            <input
+                            matInput
+                            autocomplete="new-street"
+                            name="new-street"
+                            [formControl]="itemForm.controls['street']"
+                            placeholder="Street Address"
+                            appNoWhitespace>
+                            <mat-icon class="mr-3" matPrefix svgIcon="mat:edit_location"></mat-icon>
+                          </mat-form-field>
+                      </div>
+                      <div class=" flex items-center" @fadeInRight>
+                        <mat-form-field>
+                            <mat-label>City</mat-label>
+                            <input
+                            matInput
+                            autocomplete="new-city"
+                            name="new-city"
+                            [formControl]="itemForm.controls['city']"
+                            placeholder="City"
+                            appNoWhitespace>
+                            <mat-icon class="mr-3" matPrefix svgIcon="mat:location_city"></mat-icon>
+                          </mat-form-field>
+                      </div>
+                      <div class="flex items-center" @fadeInRight>
+                        <mat-form-field>
+                            <mat-label>State</mat-label>
+                              <input
+                              matInput
+                              autocomplete="new-state"
+                              name="new-state"
+                              [formControl]="itemForm.controls['state']"
+                              placeholder="State"
+                              appNoWhitespace>
+                              <mat-icon class="mr-3" matPrefix svgIcon="mat:location_on"></mat-icon>
+                            </mat-form-field>
+                      </div>
+                      <div class="flex items-center" @fadeInRight>
+                        <mat-form-field>
+                            <mat-label>Zip Code</mat-label>
+                            <input
+                            matInput
+                            autocomplete="new-zipcode"
+                            name="new-zipcode"
+                            [formControl]="itemForm.controls['zip_code']"
+                            placeholder="ZipCode"
+                            appNoWhitespace>
+                            <mat-icon class="mr-3" matPrefix svgIcon="mat:my_location"></mat-icon>
+                          </mat-form-field>
+                      </div>
+                      
+                      <div class="flex items-center" @fadeInRight>
+                        <mat-form-field>
+                            <mat-label>Website</mat-label>
+                            <input
+                              matInput
+                              autocomplete="new-website"
+                              name="new-website"
+                              [formControl]="itemForm.controls['website']"
+                              placeholder="Website"
+                              appNoWhitespace>
+                              <mat-icon class="mr-3" matPrefix svgIcon="mat:language"></mat-icon>
+                            </mat-form-field>
+                      </div>
+
+                      <div class="flex items-center" @fadeInRight>
+                        <mat-form-field>
+                          <mat-label>Created At</mat-label>
+                            <input
+                            matInput
+                            type="text"
+                            name="created_at"
+                            placeholder="Created At"
+                            [value]="dealer?.created_at | date:'MM/dd/yyy h:mm a'"
+                            disabled/>
+                            </mat-form-field>
+                      </div>
+
+                      <div class="flex items-center" @fadeInRight>
+                        <mat-form-field>
+                          <mat-label>Updated At</mat-label>
+                            <input
+                            matInput
+                            type="text"
+                            name="updated_at"
+                            placeholder="Updated At"
+                            [value]="dealer?.updated_at | date:'MM/dd/yyy h:mm a'"
+                            disabled/>
+                            </mat-form-field>
+                      </div>
+                    </form>
+                  </div>
+                <div class="py-4 justify-content-end flex items-center px-gutter" @fadeInRight *ngIf="service$.isEdit">
+                    <!-- <button mat-button type="button" (click)="cancelEdit()">Cancel</button> -->
+                    <app-button-loading loadingText="Processing..."  [loading]="saving" (click)="submit()" [disabled]="itemForm.invalid || itemForm.pristine" color="primary">Update</app-button-loading>
+                </div> 
+                </div>
+
+                <div class="card mt-6">
+                    <div class="px-gutter py-4 border-b flex header-with-btn">
+                        <h2 class="title m-0">{{"CONTACTS" | translate }}</h2> 
+                        <div class="flex">
+                          <button
+                            [matMenuTriggerFor]="columnFilterMenu"
+                            mat-icon-button
+                            class="ml-4 flex-none"
+                            color="primary"
+                            matTooltip="Column Filters"
+                            type="button">
+                            <mat-icon svgIcon="mat:settings"></mat-icon>
+                          </button>
+                          <button class="ml-4 flex-none" (click)="onAddContact()" color="primary" mat-mini-fab matTooltip="Add New Contact" type="button">
+                            <mat-icon svgIcon="mat:add"></mat-icon>
+                        </button>
+                        </div>
+                    </div>
+                    <div class="px-gutter py-4 border-b pl-0 justify-content-space-between">
+                        <div class="overflow-auto">
+                        <table @stagger [dataSource]="dataSource" matSort #TableRequestSort="matSort"  matSortDisableClear  class="w-full" mat-table>
+                            <ng-container matColumnDef="name">
+                              <th *matHeaderCellDef mat-header-cell mat-sort-header>Name</th>
+                              <td *matCellDef="let item" mat-cell>{{ item?.name}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="title">
+                                <th *matHeaderCellDef mat-header-cell mat-sort-header>Title</th>
+                                <td *matCellDef="let item" mat-cell>{{ item?.title | excerpt:30 }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="email">
+                                <th *matHeaderCellDef mat-header-cell mat-sort-header>Email</th>
+                                <td *matCellDef="let item" mat-cell>{{ item?.email | excerpt:30 }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="phone">
+                                <th *matHeaderCellDef mat-header-cell mat-sort-header>Phone</th>
+                                <td *matCellDef="let item" mat-cell>{{ item?.phone | phone: 'US' }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="created_at">
+                                <th *matHeaderCellDef mat-header-cell mat-sort-header>Created At</th>
+                                <td *matCellDef="let item" mat-cell>{{ item?.created_at | date:'MM/dd/yyy h:mm a' }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="updated_at">
+                                <th *matHeaderCellDef mat-header-cell mat-sort-header>Updated At</th>
+                                <td *matCellDef="let item" mat-cell>{{ item?.updated_at | date:'MM/dd/yyy h:mm a' }}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="actions">
+                                <th *matHeaderCellDef mat-header-cell></th>
+                                <td *matCellDef="let item; let i = index;" class="w-10 text-secondary" mat-cell>
+                                  <button (click)="$event.stopPropagation();getSelectedRecord(item, i)"
+                                          [matMenuTriggerData]="{ customer: item }"
+                                          [matMenuTriggerFor]="actionsMenu"
+                                          mat-icon-button
+                                          type="button">
+                                  
+                                    <mat-icon svgIcon="mat:more_horiz"></mat-icon>
+                                  </button>
+                                </td>
+                              </ng-container>
+                      
+                              <tr *matHeaderRowDef="getDisplayedColumns(); sticky: true" mat-header-row></tr>
+                              <tr
+                                *matRowDef="let row; columns: getDisplayedColumns();"
+                                  @fadeInUp
+                                  class="hover:bg-hover trans-ease-out cursor-pointer"
+                                  mat-row></tr>
+                        </table>
+
+                        <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+                            <ng-template let-customer="customer" matMenuContent>
+                              <button mat-menu-item (click)="onEdit(selectedRecordDetail, index)">
+                                <mat-icon svgIcon="mat:edit"></mat-icon>
+                                <span>Edit</span>
+                              </button>
+                              <button (click)="onDelete(selectedRecordDetail, index)" mat-menu-item>
+                                <mat-icon svgIcon="mat:delete"></mat-icon>
+                                <span>Delete</span>
+                              </button>
+                            </ng-template>
+                        </mat-menu>
+
+                        <!-- Column Filters -->
+                        <mat-menu #columnFilterMenu="matMenu" xPosition="before" yPosition="below">
+                          <button (click)="toggleColumnVisibility(column, $event);$event.stopPropagation()" *ngFor="let column of columnHeaders"
+                              class="checkbox-item mat-menu-item">
+                          <mat-checkbox (click)="$event.stopPropagation()" (change)="toggleColumnVisibility(column, $event)" [checked]="column.visible" color="primary">
+                            {{ column.label }}
+                          </mat-checkbox>
+                          </button>
+                        </mat-menu>
+                        <div class="text-center mt-2" *ngIf="dataSource.data.length === 0">There are no contacts available. Please enter in a contacts to view them here</div>
+                        </div>
+                        <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" [length]="dataSource.data.length"></mat-paginator>
+                    </div>
+                </div>
+        </div>
+        </div>
+    </vex-page-layout-content>
+</vex-page-layout>

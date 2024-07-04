@@ -1,0 +1,189 @@
+<div class="row">
+  <div class="col-sm-12">
+    <h4 class="text-primary"> <b>Manage: Disputes</b> </h4>
+    <hr />
+  </div>
+</div>
+
+<!-- <div class="row">
+  <div class="col-sm-2">
+    <div class="form-group">
+      <label for="name">First Name</label>
+      <input type="text" characterOnly name="firstName" [(ngModel)]="dataFilter.firstName" class="form-control"
+        id="name" placeholder="First Name">
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <div class="form-group">
+      <label for="name">Last Name</label>
+      <input type="text" characterOnly name="lastName" [(ngModel)]="dataFilter.lastName" class="form-control"
+        id="lastName" placeholder="Last Name">
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="form-group">
+      <label for="name">Email</label>
+      <input type="text" class="form-control" name="email" [(ngModel)]="dataFilter.email" id="name" placeholder="Email">
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="form-group">
+      <label for="name">Phone</label>
+      <input type="text" class="form-control" numbersOnly name="phone" [(ngModel)]="dataFilter.phone" id="name"
+        placeholder="Phone" maxlength="10">
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary btn-sm" (click)="setFilter()">Search</button>
+      <button type="button" class="btn btn-danger btn-sm" (click)="resetFilter()">Reset</button>
+    </div>
+  </div>
+</div> -->
+
+<div class="row pt-3">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-cogs"></i> Listings
+        <!-- <button class="btn btn-primary pull-right btn-sm mr-1" (click)="showSaveUserModal()"> <i class="fa fa-plus">
+          </i> Add New User</button> -->
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table table-bordered">
+          <thead class="nowrap">
+            <tr>
+              <th>S.NO</th>
+              <th [class.active]="order === 'contractId.jobPostId.jobTitle'" (click)="setOrder('contractId.jobPostId.jobTitle')">
+                Job Title
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'contractId.jobPostId.jobType'" (click)="setOrder('contractId.jobPostId.jobType')">
+                Job Type
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'contractId.jobPostId.jobDate'" (click)="setOrder('contractId.jobPostId.jobDate')">
+                Job Date
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'disputeReason'" (click)="setOrder('disputeReason')">
+                Disputed Reason
+              </th>
+              <th [class.active]="order === 'disputeUserId?.userType'" (click)="setOrder('disputeUserId?.userType')">
+                Disputed By
+              </th>
+              <th [class.active]="order === 'contractId.jobPostId.createdBy.firstName'" (click)="setOrder('contractId.jobPostId.createdBy.firstName')">
+                Practice Name
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'contractId.staffId.firstName'" (click)="setOrder('contractId.staffId.firstName')">
+                Staff Name
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'disputedOn'" (click)="setOrder('disputedOn')"> Disputed On
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th> Status </th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="disputeList.length">
+            <tr class="text-capitalize text-nowrap" *ngFor="let dispute of disputeList | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index;">
+              <td>{{i+1}}</td>
+              <td>{{ dispute?.contractId?.jobPostId?.jobTitle }} <span *ngIf= "dispute?.newDispute" class ="badge badge-danger">New</span></td>
+              <td>{{ jobLabel[dispute.contractId.jobPostId.jobType] }} Job</td>
+              <td>{{ dispute?.contractId?.jobPostId?.jobDate | date : 'mediumDate'}}</td>
+              <td>{{ dispute?.reason  }}</td>
+              <td>{{ dispute?.disputeUserId?.userType }}</td>
+              <td>{{ dispute?.contractId?.jobPostId?.createdBy?.firstName + ' ' + dispute?.contractId?.jobPostId?.createdBy?.lastName }}</td>
+              <td>{{ dispute?.contractId?.staffId?.firstName + ' ' + dispute?.contractId?.staffId?.lastName }}</td>
+              <td>{{ dispute?.createdAt | date:'mediumDate' }}</td>
+              <td class="text-center">
+                <p class="text-white  text-capitalize text-center" [ngClass]="{'bg-danger':(disputeStatus.NEW == dispute.status),'bg-warning':(disputeStatus.PENDING == dispute.status),'bg-success':(disputeStatus.RESOLVED == dispute.status)}">{{dispute?.status}}</p>
+                <!-- <p class="text-white  text-capitalize text-center" [ngClass]="{'bg-danger':(disputeStatus.NEW == dispute.contractId.disputeStatus),'bg-warning':(disputeStatus.PENDING == dispute.contractId.disputeStatus),'bg-success':(disputeStatus.RESOLVED == dispute.contractId.disputeStatus)}">{{dispute?.contractId?.disputeStatus}}</p> -->
+              </td>
+              <td>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-primary" (click)="showModal(dispute , i)"><i
+                      class="fa fa-edit"></i></button>
+                  <!-- <button type="button" class="btn btn-sm btn-outline-primary" (click)="showSaveUserModal(user)"
+                    [disabled]="user?.userType == userTypes.PRACTICE || user?.userType == userTypes.STAFF"><i
+                      class="fa fa-edit"></i></button>
+                  <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal"
+                    (click)="showDeleteUser(user)"><i class="fa fa-trash"></i></button> -->
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tr class="text-center" *ngIf="!disputeList.length">
+            <td colspan="15">
+              <h6>No Record Found !</h6>
+            </td>
+          </tr>
+        </table>
+
+        <ul class="pagination" *ngIf="itemsPerPage < disputeList.length">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #changeUserStatus="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document" *ngIf="disputeDetail">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white"> Change Status</h4>
+        <button type="button" class="close text-white" (click)="changeUserStatus.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="col-12">
+          <div class ="col-3">
+              <label><b>Reason</b></label>
+            </div>
+            <div class ="col-9">
+              <p>{{disputeDetail?.reason}}</p>
+            </div>
+        </div>
+        <div class="col-12">
+          <div class ="col-3">
+              <label><b>Detail</b></label>
+            </div>
+            <div class ="col-9">
+              <p>{{disputeDetail?.detail}}</p>
+            </div>
+        </div>
+        <div class="col-12">
+          <div class ="col-4">
+            <label><b>Select Status</b></label>
+          </div>
+          <div class ="col-8">
+            <div class="form-group" *ngIf="disputeDetail">
+              <!-- [(ngModel)]="newJob.status" -->
+              <select class="form-control" name="status" [(ngModel)]="disputeDetail.status">
+                <option [value]="disputeStatus.NEW">{{disputeStatus.NEW | uppercase}}</option>
+                <option [value]="disputeStatus.PENDING">{{disputeStatus.PENDING | uppercase}}</option>
+                <option [value]="disputeStatus.RESOLVED">{{disputeStatus.RESOLVED | uppercase}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="changeUserStatus.hide()">CLOSE</button>
+        <button type="button" class="btn btn-primary" (click)="updateDisputeStatus()">Update Status</button>
+      </div>
+    </div>
+  </div>
+</div>

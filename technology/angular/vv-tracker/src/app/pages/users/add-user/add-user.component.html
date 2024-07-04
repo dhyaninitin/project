@@ -1,0 +1,108 @@
+<form [formGroup]="addUserFrom" (ngSubmit)="addUser()">
+  <div class="flex items-center header" mat-dialog-title>
+    <h2 class="headline text-lg m-0 flex-auto">New User</h2>
+
+    <button
+      class="text-secondary"
+      mat-dialog-close
+      mat-icon-button
+      type="button"
+    >
+      <mat-icon svgIcon="mat:close"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="-mx-4 text-border"></mat-divider>
+
+  <mat-dialog-content class="flex flex-col">
+    <div class="flex flex-col sm:flex-row">
+      <mat-form-field class="flex-auto">
+        <mat-label>First Name</mat-label>
+        <input cdkFocusInitial matInput formControlName="firstname" />
+
+        <mat-icon class="mr-3" matPrefix svgIcon="mat:person"></mat-icon>
+      </mat-form-field>
+
+      <mat-form-field class="sm:ml-6 flex-auto">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastname" />
+
+        <mat-icon class="mr-3" matPrefix svgIcon="mat:person"></mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="flex flex-col sm:flex-row">
+      <mat-form-field class="flex-auto">
+        <span matPrefix>VVT &nbsp;</span>
+        <mat-label>Emp ID</mat-label>
+        <input cdkFocusInitial matInput formControlName="empid" />
+      </mat-form-field>
+
+      <mat-form-field class="sm:ml-6 flex-auto">
+        <mat-label>Phone Number</mat-label>
+        <input
+          matInput
+          formControlName="phone"
+          (keypress)="isNumberKey($event)"
+        />
+
+        <mat-icon class="mr-3" matPrefix svgIcon="mat:phone"></mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="flex flex-col sm:flex-row">
+      <mat-form-field class="flex-auto">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" />
+
+        <mat-icon class="mr-3" matPrefix svgIcon="mat:email"></mat-icon>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field class="flex-auto">
+      <mat-label>Assigned Hours</mat-label>
+      <input
+        matInput
+        formControlName="assignedhours"
+        (keypress)="isNumberKey($event)"
+      />
+
+      <mat-icon class="mr-3" matPrefix svgIcon="mat:schedule"></mat-icon>
+    </mat-form-field>
+
+    <mat-form-field class="flex-auto">
+      <mat-label>Assigned Days</mat-label>
+      <mat-select #select multiple [formControl]="assigneddays">
+        <div class="select-all" style="margin-left: 16px; margin-bottom: 6px">
+          <mat-checkbox
+            color="primary"
+            [(ngModel)]="allSelected"
+            [ngModelOptions]="{ standalone: true }"
+            (change)="toggleAllSelection()"
+            >Select All</mat-checkbox
+          >
+        </div>
+        <mat-option
+          (click)="optionClick()"
+          *ngFor="let day of daysList"
+          [value]="day"
+        >
+          {{ day }}
+        </mat-option>
+      </mat-select>
+      <mat-icon class="mr-3" matPrefix svgIcon="mat:schedule"></mat-icon>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button">Cancel</button>
+    <button
+      color="primary"
+      mat-flat-button
+      type="submit"
+      [disabled]="addUserFrom.invalid || !addUserFrom.dirty"
+    >
+      {{ showUpdateBtn ? "Update User" : "Create User" }}
+    </button>
+  </mat-dialog-actions>
+</form>

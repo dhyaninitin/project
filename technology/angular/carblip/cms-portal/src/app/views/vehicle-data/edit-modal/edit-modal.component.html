@@ -1,0 +1,72 @@
+
+
+<form [formGroup]="itemForm">
+    <div class="flex items-center" mat-dialog-title>
+        <h2 class="headline m-0 flex-auto">{{data.title}}</h2>
+    
+        <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+          <mat-icon svgIcon="mat:close"></mat-icon>
+        </button>
+      </div>
+      <mat-divider class="-mx-6 text-border"></mat-divider>
+
+      <mat-dialog-content class="flex flex-col">
+        <div class="flex flex-col sm:flex-row">
+            <mat-form-field class="mt-3 flex-auto">
+              <mat-label>Name</mat-label>
+              <input matInput [formControl]="itemForm.controls['name']"
+                name="name" placeholder="Name" appNoWhitespace>
+              <mat-icon class="mr-3" matPrefix svgIcon="mat:title"></mat-icon>
+            </mat-form-field>
+        </div>
+
+        <div>
+          <!-- IMAGE CROPPER CODE STARTS -->
+          <span *ngIf="imageChangedEvent != ''">
+            <h2 class="headline">Crop your image</h2>
+            <div class="mt-3 flex justify-center border-img">
+                <image-cropper
+                  [imageChangedEvent]="imageChangedEvent"
+                  [maintainAspectRatio]="true"
+                  [containWithinAspectRatio]="false"
+                  [aspectRatio]="4 / 3"
+                  [resizeToWidth]="256"
+                  [cropperMinWidth]="128"
+                  [onlyScaleDown]="true"
+                  [roundCropper]="false"
+                  [canvasRotation]="0"
+                  format="png"
+                  [hideResizeSquares]="true"
+                  [disabled]="true"
+                  [imageQuality]="100"
+                  (imageCropped)="imageCropped($event)"
+                ></image-cropper>
+            </div>
+            <mat-divider></mat-divider>
+            <h2 class="headline mt-3">Preview</h2>
+          </span>
+
+          <div class="mt-3 flex justify-center">
+            <img [src]="croppedImage" class="preview"/>
+          </div>
+          <!-- IMAGE CROPPER CODE ENDS -->
+          
+          <div class="flex justify-center mt-3 ptb-15">
+            <div>
+              <app-button-loading color="primary" (click)="uploader.click()">Choose a picture</app-button-loading>
+            </div>
+            <input type="file" hidden #uploader name="myfile" (change)="fileChangeEvent($event)" accept="image/png, image/gif, image/jpeg"/>
+          </div>
+
+        </div>
+
+           <mat-dialog-actions align="end">
+            <div>
+                <button mat-button mat-dialog-close type="button" (click)="dialogRef.close(false)">Cancel</button>
+                <app-button-loading loadingText="Processing..." (click)="submit()" [loading]="saving" [disabled]="!itemForm.valid" color="primary">Update</app-button-loading>
+                <span fxFlex></span>
+            </div>
+          </mat-dialog-actions>
+
+      </mat-dialog-content>
+</form>

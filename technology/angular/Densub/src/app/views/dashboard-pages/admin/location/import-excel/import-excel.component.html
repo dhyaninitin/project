@@ -1,0 +1,82 @@
+
+<div class="row">
+	<div class="col-sm-12">
+		<h4 class="text-primary"> <b>Upload Locations</b> </h4>
+		<hr/>
+	</div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header text-center">
+        <button *ngIf="tableData?.length" class="btn btn-primary pull-right btn-sm mr-1" (click)="uploadLocations()">Save Locations</button>
+        <input hidden type="file" class="form-control" #fileImportInput name="File Upload" id="txtFileUpload"
+        (change)="selectFiles($event)" accept=".xlsx,.xls"/>
+        <button class="btn btn-primary" title="Upload Locations" (click)="fileImportInput.click()">
+        Upload Locations </button>
+        <p class="text-center pt-2 pb-0">File Extension: .xlsx or .xls </p>
+      </div>
+
+        <div class="card-body table-responsive" *ngIf="tableData?.length">
+          <table class="table table-bordered">
+            <thead class="nowrap">
+              <tr>
+                <th>S.No.</th>
+                <th class="text-capitalize" *ngFor="let header of tableHeader;">{{header}}</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="tableData.length">
+              <tr *ngFor="let tableRow of tableData | paginate: { itemsPerPage: itemsPerPage, currentPage: p };let i = index;">
+                <td>{{ (itemsPerPage * (p - 1) + (i + 1) ) }}</td>
+                <td *ngFor="let header of tableHeader">
+                  <span>{{tableRow[header]}}</span>
+                </td>
+              </tr>
+            </tbody>
+            <tr class="text-center" *ngIf="!tableData.length">
+              <td [attr.colspan] ="tableHeader.length + 1">
+                <h6>No Record Found !</h6>
+              </td>
+            </tr>
+          </table>
+
+          <ul class="pagination pull-right" *ngIf="itemsPerPage < tableData.length">
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+          </ul><br><br>
+
+          <!-- <button class="btn btn-primary pull-right mr-1" *ngIf="tableData?.length" (click)="uploadLocations()">Save Locations</button> -->
+          </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #confirmModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white"><i class="fa fa-trash"></i> Delete Position Type</h4>
+        <button type="button" class="close text-white" (click)="confirmModal.hide();fileReset();" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Uploaded Location Result</p>
+        <p>
+          <b>Total Locations: </b> {{tableData.length}}<br/>
+          <b>Uploaded Locations: </b> {{details.saved}}<br/>
+          <b>Already Exist: </b>{{details.alreadyExist}}<br />
+          <b>Invalid Data: </b>{{details.invalidData}}<br />
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="confirmModal.hide();fileReset();">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

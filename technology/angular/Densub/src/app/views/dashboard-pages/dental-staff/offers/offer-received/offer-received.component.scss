@@ -1,0 +1,167 @@
+@import "../../../../../../scss/menu";
+@import "../../../../../../scss/card";
+@import "../../../../../../scss/tabs";
+@import "../../../../../../scss/common";
+
+.boxa:hover {
+  background-color: #f0f3f5;
+}
+.stripa:hover {
+  background-color: #f0f3f5;
+}
+.text-l{
+  text-align: left;
+}
+.mt-20{
+  margin-top: -20px !important;
+}
+.text-r{
+  text-align: right;
+}
+@media screen and (max-width: 600px) {
+  div.mobileAlignment {
+    text-align: left !important;
+  }
+  .profile-pic {
+    height: 110px;
+  }
+  .text-l{
+    text-align: center;
+  }
+  .mt-20{
+    margin-top: 0px !important;
+  }
+  .btn-position{
+    margin-top: 25px;
+    margin-bottom: 25px;
+  }
+  .text-c{
+    text-align: center;
+  }
+  .text-r{
+    text-align: center;
+  }
+  .text-mtb-14{
+    margin-top: 14px;
+    margin-bottom: 14px;
+  }
+}
+@media  screen and (min-device-width : 768px)  and (max-device-width : 1024px) {
+  /* For mobile phones: */
+  [class^="col-"] {
+    width: 50% !important;
+  }
+}
+.stripb {
+  background-color: #f0f3f5;
+}
+.stripc {
+  background-color: #f0f3f5;
+}
+.heading {
+  color: #1b4587;
+}
+.statusbar {
+  margin-left: -16px;
+}
+.profile-pic {
+  border-radius: 50%;
+  max-width: 60%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 86px;
+}
+.key {
+  font-weight: 700;
+  color: #1b4587;
+}
+.value {
+  // font-weight: 600;
+  color: black;
+}
+.btn-outline-primary {
+  color: #007bff;
+  border-color: #007bff;
+}
+.btn-option {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid #007bff;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  height: 35px;
+  
+}
+.btn-round{
+  border-radius: 20px;
+}
+.btn-outline-primary:hover {
+  background: #007bff;
+  color:#fff;
+  transition: all 0.4s cubic-bezier(0.55, 0.06, 0.68, 0.19) 0s;
+}
+
+.tag{
+  background: lightgray;//#837b7b;
+  padding-top: 3px;
+  border-radius: 20px;
+  padding-bottom: 3px;
+  padding-left: 8px;
+  padding-right: 7px;
+  font-size: 13px;
+  color: black;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+:host ::ng-deep .banner{
+  .item{
+    width: fit-content !important;
+    display: inline-flex;
+    margin-top: 10px;
+  }
+}
+
+.leftRs {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  width: 25px;
+  height: 28px;
+  display: block !important;
+  border-radius: 999px;
+  left: 0;
+  border: 1px solid #2768cf;;
+  background-color: white;
+}
+
+.rightRs {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  width: 25px;
+  height: 28px;
+  display: block !important;
+  border-radius: 999px;
+  right: 0;
+  border: 1px solid #2768cf;;
+  background-color: white;
+}
+
+.oval-shape{
+  border-radius: 20px;
+}
+:host ::ng-deep dp-date-picker div .dp-input-container .dp-picker-input{
+  border-radius: 20px !important;
+}
+

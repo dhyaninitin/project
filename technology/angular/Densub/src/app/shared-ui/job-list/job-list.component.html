@@ -1,0 +1,833 @@
+
+<!-- <Section class="innerbg-1 position-relative bg-overlay d-flex align-items-center" *ngIf="!viewChecked.dashboardJobs && !viewChecked.favoritesJobs">
+  <div class="container">
+    <div class="row mb-30 align-center">
+      <div class="col-12 text-center">
+        <h1 class="fs-50 clr-white position-relative z-index">Marketplace</h1>
+      </div>
+    </div>
+  </div>
+</Section> -->
+<section class="listing-page pb-50  sm-pb-50 gray-bg" >
+  <div class="container-fluid filter-container" [ngClass]="!isCollapsed ? 'px-0': 'mt-3'" *ngIf="!viewChecked.favoritesJobs">
+    <div class="row listing_inner pt-30 pr-15 pl-15 pb-10 m-0" [ngClass]="!isCollapsed ? 'box-shadow-1 bg-white' : 'pt-0'"
+			*ngIf="!viewChecked.favoritesStaff && !viewChecked.hiredStaff">
+			<!-- <button class="btn make-fav pull-right mt-0" *ngIf="!viewChecked.hiredStaff"><span class="fa fa-star"
+					[ngClass]="{'favorited': viewChecked.favoritesStaff}"></span></button> -->
+			<div class="col-md-12 pr-5p pl-5p">
+				<div class="row">
+				<div class="m-0 col-md-12 pb-3 pl-2 d-flex" [ngClass]="!isCollapsed ? 'mt--12 pl-3 pr-4' : 'mt--12'">
+          <button type="button" class="btn btn-primary " (click)="isCollapsed = !isCollapsed;closeAllDropdowns()"
+					[attr.aria-expanded]="!isCollapsed" aria-controls="collapseSearch" [ngClass]="!isCollapsed ? '' : 'filter1'"
+					style="height: 35px; padding: 6px;border-radius: 20px;width: 92px;"><i class="fa fa-sliders"
+					  aria-hidden="true"></i> Filters
+				  </button> 
+          <div class="form-group mb-0 ml-2">
+            <select style="border-radius: 20px;border-color: #007bff;width: 83px;height: 35px;font-size: 14px;
+						padding-left: 8px;background-color: white !important;" class="sortSelection" name="SortBy" (change) = "sortJobs()" [(ngModel)]="filterJobList.sort">
+                <option value="" >Sort By</option>
+               <option value="" >Newest</option>
+                <option value="rate">Rate</option>
+                <option value="proximity">Proximity By Location</option>
+                <option value="jobDate">Upcoming Date</option>
+                </select>
+					</div>
+					</div>
+				</div>
+				<div class="row m-0" [ngbCollapse]="isCollapsed">
+					<div class="col-md-2 col-sm-6 pr-5p pl-0 xx-pr-0">
+						<div class="form-group">
+              <div class="form-group">
+                <select class="form-control round-box" name="positionType" [(ngModel)]="filterJobList.positionType" (ngModelChange)="getPositionList()">
+                  <option value="">Position Type</option>
+                  <option [value]="positionType" *ngFor="let positionType of PositionTypeData">
+                    {{positionType}}
+                  </option>
+                  </select>
+						</div>
+					</div>
+          </div>
+          <div class="col-md-2 col-sm-6 pr-5p pl-0 xx-pr-0">
+						<div class="form-group">
+              <div class="form-group">
+                <select class="form-control round-box" name="jobType" [(ngModel)]="filterJobList.jobType" (change)="setDateRange()">
+                  <option value="">Job Type</option>
+                  <option value="{{jobTypes.TEMPORARY}}">Temporary</option>
+                  <option value="{{jobTypes.PERMANENTFULLTIME}}">Permanent Full Time</option>
+                  <option value="{{jobTypes.PERMANENTPARTTIME}}">Permanent Part Time</option>
+                </select>
+              </div>
+					</div>
+          </div>
+          <div class="col-md-2 col-sm-6 pr-5p pl-0 xx-pr-0 px-1 d-grid mobile-px">
+						<div class="btn-group">
+							<button class="btn form-control dropdown-toggle dropdown-btn text-left round-box" type="button" [ngClass]="!isCollapseSpec ? 'rotation': ''" (click)="isCollapseSpec = !isCollapseSpec"
+							[attr.aria-expanded]="!isCollapseSpec" aria-controls="collapseSearch" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Company
+							</button>
+							<div class="dropdown-menu" [ngbCollapse]="isCollapseSpec" style="width: -webkit-fill-available;">
+								<div class="row px-3 py-3">	
+                <div class="col-md-12 col-sm-12">
+                  <label for="">Company Type</label>
+                  <div class="form-group">
+                    <select class="form-control" name="accountType" [(ngModel)]="filterJobList.accountType">
+                      <option value="">Select Company Type</option>
+                      <option value="Private Practice">Private Practice</option>
+                      <option value="Corporate">Corporation</option>
+                      <option value="Agency">Agency</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                  <label for="">Company Name</label>
+                  <div class="form-group">
+                    <input name="companyName" placeholder="Enter Company Name" [(ngModel)]="filterJobList.companyName" type="text" class="form-control" id="Address">
+                  </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                  <label for="">Practice Name</label>
+                  <div class="form-group">
+                    <input name="practiceName" placeholder="Enter Practice Name" [(ngModel)]="filterJobList.practiceName" type="text" class="form-control" id="Address">
+                  </div>
+                </div>
+								</div>
+							  </div>
+						  </div>
+					</div>
+          <div class="col-md-2 col-sm-6 pr-5p pl-0 xx-pr-0 px-1 d-grid mobile-px">
+						<div class="btn-group">
+							<button class="btn form-control dropdown-toggle dropdown-btn text-left round-box" type="button" [ngClass]="!isCollapse ? 'rotation': ''" (click)="isCollapse = !isCollapse"
+							[attr.aria-expanded]="!isCollapse" aria-controls="collapseSearch" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							  Qualifications
+							</button>
+							<div class="dropdown-menu" [ngbCollapse]="isCollapse" style="width: -webkit-fill-available;">
+								<div class="row px-3 py-3">
+								<div class="col-md-12 col-sm-12">
+								
+									<div class="form-group">
+										<ng-multiselect-dropdown name="specialty" [data]="specialtyList" [placeholder]="'Specialities'"
+										[(ngModel)]="filterJobList.specialty"  [settings]="{
+										  singleSelection: false,
+										  idField: '_id',
+										  textField: 'specialty',
+										  selectAllText: 'Select All',
+										  unSelectAllText: 'UnSelect All',
+										  allowSearchFilter: false,
+										  itemsShowLimit: 2,
+										  closeDropDownOnSelection: false,
+										  enableCheckAll: false,
+                      noDataAvailablePlaceholderText : 'Please select a position type'
+										}"  [disabled]="disabled">
+									  </ng-multiselect-dropdown>
+									</div>
+								</div>
+								<div class="col-md-12 col-sm-12">
+								
+								<div class="form-group">
+								<ng-multiselect-dropdown name="certificates" [data]="certificatesList" [placeholder]="'Certifications'"
+									[(ngModel)]="filterJobList.certificates"  [settings]="{
+							  singleSelection: false,
+							  idField: '_id',
+							  textField: 'certificate',
+							  selectAllText: 'Select All',
+							  unSelectAllText: 'UnSelect All',
+							  allowSearchFilter: false,
+							  itemsShowLimit: 2,
+							  closeDropDownOnSelection: false,
+							  enableCheckAll: false,
+                noDataAvailablePlaceholderText : 'Please select a position type'
+							}"  [disabled]="disabled">
+								  </ng-multiselect-dropdown>
+								</div>
+								</div>
+								 <div class="col-md-12 col-sm-12">
+								
+						<div class="form-group">
+							<ng-multiselect-dropdown name="skills" [data]="skillsList" [placeholder]="'Skills'"
+							[(ngModel)]="filterJobList.skills"  [settings]="{
+							  singleSelection: false,
+							  idField: '_id',
+							  textField: 'skill',
+							  selectAllText: 'Select All',
+							  unSelectAllText: 'UnSelect All',
+							  allowSearchFilter: false,
+							  itemsShowLimit: 2,
+							  closeDropDownOnSelection: false,
+							  enableCheckAll: false
+							}"  [disabled]="disabled">
+						  </ng-multiselect-dropdown>
+						</div>
+								</div> 
+                <div class="col-md-12 col-sm-12">
+                  <label for="">Experience</label>
+                  <div class="form-group">
+                    <select class="form-control" name="experience" [(ngModel)]="filterJobList.experience">
+                      <option value="">Any</option>
+                      <option [value]="experience" *ngFor="let experience of experienceData">{{experience}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+						 <div class="col-md-12 col-sm-12">
+								<div class="custom-control custom-checkbox pt-2">
+									<input name="favorite"  [(ngModel)]="filterJobList.childAbuse" type="checkbox"
+									  class="custom-control-input" id="childAbuse">
+									<label class="custom-control-label" for="childAbuse">Child Abuse History Clearance</label>
+								  </div>
+								</div>
+								</div>
+							  </div>
+						  </div>
+					</div>
+          <div class="col-md-2 col-sm-6 pr-5p pl-0 xx-pr-0 px-1 d-grid mobile-px" *ngIf="filterJobList.jobType === jobTypes.TEMPORARY">
+						<div class="btn-group">
+							<button class="btn form-control dropdown-toggle dropdown-btn text-left round-box" type="button" [ngClass]="!isCollapseCompen ? 'rotation': ''" (click)="isCollapseCompen = !isCollapseCompen"
+							[attr.aria-expanded]="!isCollapseCompen" aria-controls="collapseSearch" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Compensations
+							</button>
+							<div class="dropdown-menu" [ngbCollapse]="isCollapseCompen" style="width: -webkit-fill-available;">
+								<div class="row px-3 py-3">	
+                <div class="col-md-12 col-sm-12">
+                  <label for="">Job Rate</label>
+                  <div class="form-group row">
+                    <div class="">
+                      <div class="input-group col-md-12 px-1">
+                        <div class="input-group-append">
+                          <span class="input-group-text">Min</span>
+                          </div>
+                        <input
+                            name="minHourlyRate"
+                            id="minHourlyRate"
+                            [(ngModel)]="filterJobList.minHourlyRate"
+                            placeholder="Rate"
+                            type="text"
+                            class="form-control"
+                            natualNumbersOnly
+                            />
+                      </div>
+                      <div class="input-group col-md-12 px-1 mt-2">
+                        <div class="input-group-append">
+                          <span class="input-group-text">Max</span>
+                          </div>
+                        <input
+                            name="maxHourlyRate"
+                            id="maxHourlyRate"
+                            [(ngModel)]="filterJobList.maxHourlyRate"
+                            placeholder="Rate"
+                            type="text"
+                            class="form-control"
+                            natualNumbersOnly
+                            />
+                      </div>
+                      </div>
+                      </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                  <label for="">Employee Type</label>
+                  <div class="form-group">
+                    <select class="form-control" name="empType" [(ngModel)]="filterJobList.empType">
+                      <option value="">Select Employee Type</option>
+                      <option value="W2">W2</option>
+                      <option value="1099">1099</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                  <div class="custom-control custom-checkbox pt-2">
+                    <input name="bonus"  [(ngModel)]="filterJobList.bonusTemp" type="checkbox"
+                      class="custom-control-input" id="bonus">
+                    <label class="custom-control-label" for="bonus">Bonus</label>
+                    </div>
+                  </div>
+                <div class="col-md-12 col-sm-12">
+                  <div class="custom-control custom-checkbox pt-2">
+                    <input name="sameDayPay"  [(ngModel)]="filterJobList.sameDayPay" type="checkbox"
+                      class="custom-control-input" id="sameDayPay">
+                    <label class="custom-control-label" for="sameDayPay">Same Day Pay</label>
+                    </div>
+                  </div>
+                  <div class="col-md-12 col-sm-12">
+                    <div class="custom-control custom-checkbox pt-2">
+                      <input name="ePay"  [(ngModel)]="filterJobList.ePay" type="checkbox"
+                        class="custom-control-input" id="ePay">
+                      <label class="custom-control-label" for="ePay">e-Pay</label>
+                      </div>
+                    </div>
+								</div>
+							  </div>
+						  </div>
+					</div>
+          <div class="col-md-2 col-sm-6 pr-5p pl-0 xx-pr-0 pr-1 d-grid mobile-px" *ngIf="filterJobList.jobType === jobTypes.PERMANENTFULLTIME || filterJobList.jobType === jobTypes.PERMANENTPARTTIME">
+						<div class="btn-group">
+							<button class="btn form-control dropdown-toggle dropdown-btn text-left round-box" type="button" [ngClass]="!isCollapseCompen ? 'rotation': ''" (click)="isCollapseCompen = !isCollapseCompen"
+							[attr.aria-expanded]="!isCollapseCompen" aria-controls="collapseSearch" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Compensations
+							</button>
+							<div class="dropdown-menu" [ngbCollapse]="isCollapseCompen" style="width: -webkit-fill-available;">
+								<div class="row px-3 py-3">	
+                <div class="col-md-12 col-sm-12">
+                  <label for="">Compensation Type</label>
+                  <div class="form-group">
+                    <select class="form-control" name="empType" [(ngModel)]="filterJobList.compensationType">
+                      <option value="">Select Compensation Type</option>
+                      <option value="hourly">Hourly</option>
+                      <option value="salary">Salary</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-12 col-sm-12" *ngIf="filterJobList.compensationType === 'hourly'">
+                  <label for="">Hourly Rate</label>
+                  <div class="form-group row">
+                    <div class="">
+                      <div class="input-group col-md-12 px-1">
+                        <div class="input-group-append">
+                          <span class="input-group-text">Min</span>
+                          </div>
+                        <input
+                            name="minHourlyRate"
+                            id="minHourlyRate"
+                            [(ngModel)]="filterJobList.minHourlyRate"
+                            placeholder="Rate"
+                            type="text"
+                            class="form-control"
+                            natualNumbersOnly
+                            />
+                      </div>
+                      <div class="input-group col-md-12 px-1 mt-2">
+                        <div class="input-group-append">
+                          <span class="input-group-text">Max</span>
+                          </div>
+                        <input
+                            name="maxHourlyRate"
+                            id="maxHourlyRate"
+                            [(ngModel)]="filterJobList.maxHourlyRate"
+                            placeholder="Rate"
+                            type="text"
+                            class="form-control"
+                            natualNumbersOnly
+                            />
+                      </div>
+                      </div>
+                      </div>
+                </div>
+                <div class="col-md-12 col-sm-12" *ngIf="filterJobList.compensationType === 'salary'">
+                  <label for="">Salary Rate</label>
+                  <div class="form-group row">
+                    <div class="">
+                      <div class="input-group col-md-12 px-1">
+                        <div class="input-group-append">
+                          <span class="input-group-text">Min</span>
+                          </div>
+                        <input
+                            name="minHourlyRate"
+                            id="minHourlyRate"
+                            [(ngModel)]="filterJobList.minSalaryRate"
+                            placeholder="Rate"
+                            type="text"
+                            class="form-control"
+                            natualNumbersOnly
+                            />
+                      </div>
+                      <div class="input-group col-md-12 px-1 mt-2">
+                        <div class="input-group-append">
+                          <span class="input-group-text">Max</span>
+                          </div>
+                        <input
+                            name="maxHourlyRate"
+                            id="maxHourlyRate"
+                            [(ngModel)]="filterJobList.maxSalaryRate"
+                            placeholder="Rate"
+                            type="text"
+                            class="form-control"
+                            natualNumbersOnly
+                            />
+                      </div>
+                      </div>
+                      </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                  <div class="custom-control custom-checkbox pt-2">
+                    <input name="commission"  [(ngModel)]="filterJobList.commission" type="checkbox"
+                      class="custom-control-input" id="commission">
+                    <label class="custom-control-label" for="commission">Commission</label>
+                    </div>
+                  </div>
+               <div class="col-md-12 col-sm-12">
+                  <div class="custom-control custom-checkbox pt-2">
+                    <input name="performanceBonus"  [(ngModel)]="filterJobList.performanceBonus" type="checkbox"
+                      class="custom-control-input" id="performanceBonus">
+                    <label class="custom-control-label" for="performanceBonus">Performance Bonus</label>
+                    </div>
+                  </div>
+                <div class="col-md-12 col-sm-12">
+                  <div class="custom-control custom-checkbox pt-2">
+                    <input name="signOnBonus"  [(ngModel)]="filterJobList.signOnBonus" type="checkbox"
+                      class="custom-control-input" id="signOnBonus">
+                    <label class="custom-control-label" for="signOnBonus">Sign On Bonus</label>
+                    </div>
+                  </div>	
+              </div>
+							  </div>
+						  </div>
+					</div>
+          <div class="col-md-2 col-sm-6 pr-5p pl-0 xx-pr-0 px-1 d-grid mobile-px">
+						<div class="btn-group">
+							<button class="btn form-control dropdown-toggle dropdown-btn text-left round-box" type="button" [ngClass]="!isCollapseEquip ? 'rotation': ''" (click)="isCollapseEquip = !isCollapseEquip"
+							[attr.aria-expanded]="!isCollapseEquip" aria-controls="collapseSearch" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Equipments
+							</button>
+							<div class="dropdown-menu" [ngbCollapse]="isCollapseEquip" style="width: -webkit-fill-available;">
+								<div class="row px-3 py-3">	
+                <div class="col-md-12 col-sm-12">
+                  <label for="">PPE</label>
+                  <div class="form-group">
+                    <input name="ppe" placeholder="Enter Provided PPE" [(ngModel)]="filterJobList.ppe" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+								
+						<div class="form-group">
+							<ng-multiselect-dropdown name="softwares" [data]="softwaresList" [placeholder]="'Softwares'"
+							[(ngModel)]="filterJobList.softwares"  [settings]="{
+							  singleSelection: false,
+							  idField: '_id',
+							  textField: 'skill',
+							  selectAllText: 'Select All',
+							  unSelectAllText: 'UnSelect All',
+							  allowSearchFilter: false,
+							  itemsShowLimit: 2,
+							  closeDropDownOnSelection: false,
+							  enableCheckAll: false
+							}"  [disabled]="disabled">
+						  </ng-multiselect-dropdown>
+						</div>
+								</div> 
+                <div class="col-md-12 col-sm-12">
+                  <label for="">Radiographs</label>
+                  <div class="form-group">
+                    <select class="form-control" name="radiograph" [(ngModel)]="filterJobList.radiograph">
+                      <option value="">Select Radiograph</option>
+                      <option value="radiograph_1">Digital</option>
+                      <option value="radiograph_2">Nomad</option>
+                      <option value="radiograph_3">Other</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-12 col-sm-12" *ngIf="filterJobList.radiograph === 'radiograph_3'">
+                  <label for="">Other Radiograph</label>
+                  <div class="form-group">
+                    <input name="otherRadiograph" placeholder="Enter Other Radiograph" [(ngModel)]="filterJobList.otherRadiograph" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                  <label for="">Record Maintained</label>
+                  <div class="form-group">
+                    <select class="form-control" name="recordMaintained" [(ngModel)]="filterJobList.recordMaintained">
+                      <option value="">Select Record</option>
+                      <option value="record_maintained_1">Paper</option>
+                      <option value="record_maintained_2">Electronic</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                  <div class="custom-control custom-checkbox pt-2">
+                    <input name="leftHandOperatory"  [(ngModel)]="filterJobList.leftHandedAccomodation" type="checkbox"
+                      class="custom-control-input" id="leftHandOperatory">
+                    <label class="custom-control-label" for="leftHandOperatory">Left Handed Operatory</label>
+                    </div>
+                  </div>
+								</div>
+							  </div>
+						  </div>
+					</div>
+          <div class="col-md-2 col-sm-6 pr-5p pl-0 xx-pr-0 pl-0 d-grid" *ngIf="filterJobList.jobType === jobTypes.PERMANENTFULLTIME || filterJobList.jobType === jobTypes.PERMANENTPARTTIME">
+      <div class="form-group">
+        <ng-multiselect-dropdown class="round-dropdown" name="benefits" [data]="benefitsList" [placeholder]="'Benefits'"
+        [(ngModel)]="filterJobList.benefits"  [settings]="{
+          singleSelection: false,
+          idField: '_id',
+          textField: 'benefits',
+          selectAllText: 'Select All',
+          unSelectAllText: 'UnSelect All',
+          allowSearchFilter: false,
+          itemsShowLimit: 2,
+          closeDropDownOnSelection: false,
+          enableCheckAll: false
+        }"  [disabled]="disabled">
+        </ng-multiselect-dropdown>
+      </div>
+          </div> 
+          <div class="col-md-2 col-sm-6 pr-5p pl-0 xx-pr-0" [ngClass]="filterJobList.jobType === jobTypes.TEMPORARY ? 'pl-0' : 'px-1'">
+						<div class="form-group">
+              <div class="form-group">
+                <select class="form-control round-box" name="practiceType" [(ngModel)]="filterJobList.practiceType">
+                  <option value="">Practice Type</option>
+                   <option [value]="practiceType._id" *ngFor="let practiceType of practiceTypeList">
+                    {{practiceType.practiceType}}
+                  </option> 
+                  </select>
+						</div>
+					</div>
+          </div>
+					<div class="col-md-2 col-sm-6 pr-5p pl-5p xs-pr-0 xx-pl-0 pl-0">
+            <div class="form-group">
+              <input name="address" placeholder="Location (City, state or zipcode)" [(ngModel)]="filterJobList.address" type="text" class="form-control round-box" id="Address">
+            </div>
+
+					</div>
+					<div class="col-md-2 col-sm-6 pr-5p pl-5p xs-pr-0 xx-pl-0" [ngClass]="filterJobList.jobType === jobTypes.TEMPORARY ? '' : 'pl-0'">
+            <div class="form-group">
+              <div class="d-block">
+                <div class="input-group">
+                  <div class="input-group-append">
+                    <span class="input-group-text" style=" border-radius: 20px 0px 0px 20px !important;">within</span>
+                    </div>
+                  <input
+                      name="miles"
+                      id="miles"
+                      [(ngModel)]="filterJobList.miles"
+                      placeholder="Distance (Radius by miles)"
+                      type="text"
+                      class="form-control"
+                      natualNumbersOnly
+                      />
+                      <div class="input-group-append">
+                      <span class="input-group-text" style="border-radius: 0px 20px 20px 0px !important;">miles</span>
+                      </div>
+                </div>
+                </div>
+                </div>
+					</div>
+					
+					<div class="col-md-2 col-sm-6 pr-5p pl-5p xs-pl-0 xx-pr-0">
+            <span class="d-flex">
+            <!-- <label for="" class="mr-2" *ngIf="(filterJobList.jobType == jobTypes.TEMPORARY || filterJobList.jobType == '')">Job Dates</label>
+            <label for="" class="mr-2" *ngIf="(filterJobList.jobType !== jobTypes.TEMPORARY && filterJobList.jobType !== '')">Job Start Date</label> -->
+            
+              </span>
+            <div class="form-group">
+              <input type="text"
+                 name="jobdates"
+                 [disabled]="filterJobList.allJobDatesSelected"
+                placeholder="Job Date"
+                class="form-control round-box" [(ngModel)]="filterJobList.jobdates"
+                bsDaterangepicker
+                [minDate]="today"
+                [bsConfig]="rangeDatepickerConfig">
+            </div>
+					</div>
+          <div class="col-md-2 col-sm-3 pr-5p pl-5p xs-pl-0 xx-pr-0">
+            <span class=" form-group custom-control custom-checkbox mb-0 pt-2">
+              <input name="allJobDatesSelected"  [(ngModel)]="filterJobList.allJobDatesSelected" type="checkbox"
+                class="custom-control-input" id="allJobDatesSelected" >
+              <label class="custom-control-label" for="allJobDatesSelected">Select All Job Dates
+               </label>
+              </span>
+          </div>
+					<div class="col-md-2 col-sm-3 pr-5p pl-5p xs-pl-0 xx-pr-0 d-flex">
+						 <div class="custom-control custom-checkbox pt-2" [ngClass]="filterJobList.jobType === jobTypes.TEMPORARY || filterJobList.jobType === '' ? 'mr-5 pr-5' : ''">
+							<input name="favorite"  [(ngModel)]="favorites" type="checkbox"
+							  class="custom-control-input" id="favorite">
+							<label class="custom-control-label" for="favorite">Favorites</label>
+						  </div>
+              <div class="custom-control custom-checkbox p-2 ml-4 pl-3" *ngIf="filterJobList.jobType === jobTypes.PERMANENTPARTTIME || filterJobList.jobType === jobTypes.PERMANENTFULLTIME">
+                <input name="remote" type="checkbox"
+                  class="custom-control-input" id="remote" [(ngModel)]="filterJobList.remoteWork">
+                <label class="custom-control-label" for="remote">Remote</label>
+                </div>
+						</div>
+            <div class="col-md-2 col-sm-3 pr-5p pl-5p xs-pl-0 xx-pr-0 top-2" [ngClass]="filterJobList.jobType === jobTypes.TEMPORARY ? 'pl-0' : ''">
+              <button class="btn btn-outline-success mr-2" type="button" (click)="filterJobs()">Apply</button>
+						  <button class="btn btn-outline-danger" type="button" (click)="clearFilters();filterJobs()">Reset</button>
+            </div>
+					
+				</div>
+			</div>
+		</div>
+  </div>
+  <div class="container">
+	<div class="row pt-4" *ngIf="jobList.length" [ngClass]="!isCollapsed ? 'pt-25': 'pt-8'">
+    <div class="col-md-4 col-lg-4 col-6 custom-grid mb-30"
+      *ngFor="let offer of jobList | paginate: { itemsPerPage: itemsPerPage, currentPage: p } | grdFilter: setDataFilter; let i = index">
+      <div class="listing_inner box-shadow-1 bg-white text-center">
+        <div class="row px-1">
+         
+        <div class="col-md-12 d-flex justify-content-end pt-2 col-12">
+          <div class="pt-1 pr-2">
+            <small class="badge" *ngIf="!offer?.negotiatedOffer" [ngClass]="offer?.declinedOffer ? 'badge-danger': offer.isApplied === 'Final Offer Received' ? 'final-offer' : 'badge-primary'"><span class="fa fa-exchange mr-2 clr-orange" aria-hidden="true" *ngIf="offer?.isApplied === 'Final Offer Received'"></span>{{offer?.isApplied}}</small>  
+            <small class="badge badge-primary" *ngIf="offer?.negotiatedOffer"><span class="fa fa-exchange mr-2 clr-orange" aria-hidden="true" *ngIf="offer?.negotiatedOffer"></span>Applied</small>  
+          </div>
+         <span> 
+       </span>
+        <button class="btn"
+          *ngIf="currentUser.profileVerificationStatus === profileStatus.VERIFIED">
+          <span class="fa fa-bookmark-o f-17" title="Save" *ngIf="!offer?.favoriteInfo?._id"  (click)="addFavorite(offer ,i)"></span>
+          <span class="fa fa-bookmark-o f-17" title="Save" *ngIf="offer?.favoriteInfo?._id"  (click)="addFavorite(offer ,i)"  [ngClass] = "{'clr-blue' :offer?.favoriteInfo?._id}"></span></button>
+          <button class="btn make-fav save-icon" (click)="copyUrl(offer?._id);getLinkPopUp.show();"
+          ><span class="fa fa-share-alt f-19 clr-blue" title="Get a sharable link to this job"></span></button>   
+        </div>
+        </div> 
+          <a>
+          <div class="row px-4 pb-4 pt-2">
+          <div class="listing-img col-md-4 pr-0 pl-0 mb-auto">
+            <a href="{{viewProfileLink}}/{{offer._id}}">
+            <div class="text-center">
+              <div class="">
+              <span class="badge badge-densub-blue mb-2 ml-3 mr-3" *ngIf="offer?.jobType == jobTypes.TEMPORARY">Temporary</span>
+              <span class="badge badge-success mb-2" *ngIf="offer?.jobType == jobTypes.PERMANENTPARTTIME">Permanent Part Time</span>
+              <span class="badge badge-success mb-2" *ngIf="offer?.jobType == jobTypes.PERMANENTFULLTIME">Permanent Full Time</span>
+            </div>
+            <div class="usr-avtar img-circle overflow-hidden">
+              <img *ngIf="!offer?.createdBy?.profilePhoto?.length"
+                src="../../../../assets/img/brand/densub-logo-final.jpg" width="73" height="73px" class="img-fluid img-circle" alt="">
+              <img *ngIf="offer?.createdBy?.profilePhoto?.length" src="{{offer?.createdBy?.profilePhoto[0]}}"
+                width="73" height="73" class="img-fluid img-circle" alt="{{offer?.createdBy?.firstName}}">
+            </div>
+            </div>
+            <div class="text-center">
+              <span class="text-muted">
+                <span *ngFor=" let in of numToArrConverter(5); let i = index;" class="fa fa-star " [ngClass]="{'checked': (i+1) <=  offer?.createdBy?.avgRating}"></span>
+              </span> <span *ngIf="offer?.ratingCount" style="color: black;">({{offer.ratingCount}})</span>
+              </div>
+            </a>
+          </div>
+      
+          <div class="col-md-8 col-12 col-sm-8 pr-0">
+            <a href="{{viewProfileLink}}/{{offer._id}}">
+              <h3 class="text-capitalize mb-0 text-left textCenter" *ngIf="offer?.positionType" data-toggle="tooltip" title="Position type">
+                <!-- <i class="fa fa-user-md clr-blue text-capitalize mr-2" title="Position Type"></i> -->
+                {{offer?.positionType}}
+              </h3> 
+              <p class="text-capitalize mb-0 text-left textCenter" style="color: black;"><span class="text-truncate d-block mr-1" data-toggle="tooltip" title="Job title">{{offer?.jobTitle}}</span>
+              </p>
+              <ul class="list-unstyled d-flex mb-0 mobile-view" *ngIf="offer?.createdBy?.practiceAccount === 'multi'">
+                <li class="text-capitalize text-left">
+                  <!-- <i class="fa fa-id-card clr-blue mr-1" aria-hidden="true" title="Company Name"></i> -->
+                
+                  <span data-toggle="tooltip" title="Company Name">{{shortCompanyName(offer?.createdBy?.companyName)}}</span>
+                </li>
+              </ul>
+              <ul class="list-unstyled d-flex mb-0 mobile-view">
+                <li class="text-capitalize text-left">
+                <span class="text-capitalize" *ngIf="offer?.practiceName?.practiceName" data-toggle="tooltip" title="Practice Name">{{shortPracticeName(offer?.practiceName?.practiceName)}} 
+                  <img *ngIf="offer?.createdBy?.accountType === 'private practice'" data-toggle="tooltip" title="Private Practice" src="../../../../assets/img/common/Privatepractice_blue.png" alt="private" class="ml-1 icon-position" style="margin-top: -5px;margin-left:-4px;height: 18px;">
+                        <img *ngIf="offer?.createdBy?.accountType === 'agency'" data-toggle="tooltip" title="Agency" src="../../../../assets/img/common/temporary-agency_blue.png" alt="agency" class="ml-1 icon-position" style="margin-top: -4px;margin-left:-4px;height: 18px;">
+                        <img *ngIf="offer?.createdBy?.accountType === 'dso'" data-toggle="tooltip" title="Corporate" src="../../../../assets/img/common/teamwork_blue.png" alt="dso" class="ml-1 icon-position" style="margin-top: -5px;margin-left:-4px;height: 18px;">
+                </span>
+                </li>
+              </ul>
+              <ul class="list-unstyled d-flex mb-0 mobile-view">
+                <li *ngIf="offer?.practiceName" class="text-capitalize" data-toggle="tooltip" title="Location">
+                  <!-- <i class="fa fa-map-marker clr-blue mr-3" aria-hidden="true" title="Location"></i> -->
+                  {{offer?.practiceName?.city?.city | slice:3:offer?.practiceName?.city?.city.length | titlecase}}, {{offer?.practiceName?.state?.state}}</li>
+                <span *ngIf="offer.jobType !== jobTypes.TEMPORARY">
+                <span *ngFor="let bs of offer?.benefits">
+                <li *ngIf="bs.benefits === 'Remote Work'" class="text-capitalize ml-2 pl-1 remote-tag" data-toggle="tooltip" title="Remote work is an available option for this job">Remote</li>
+                </span>
+                </span>
+              </ul>
+              <ul class="list-unstyled d-flex mb-0 mobile-view">
+                <li class="text-capitalize mr-3" data-toggle="tooltip" title="Miles Away">
+                  <!-- <i class="fa fa-map-marker clr-blue mr-3" aria-hidden="true" title="Location"></i> -->
+                  {{offer?.distance?.toFixed(1)}} Miles Away</li>
+                  <!-- <li class="text-capitalize"> <small class="badge badge-primary">{{offer?.isApplied}}</small></li> -->
+                </ul> 
+              </a>   
+          </div>
+          
+          <div class="col-md-12 pt-2">
+            <div>
+              <ul class="list-unstyled d-flex job-post_detials mb-0 text-left textCenter mobile-view">
+                <li class="f-14 m-0" *ngIf="offer?.jobDate && offer.jobType == jobTypes.TEMPORARY"><i class="fa fa-calendar clr-blue mr-2" aria-hidden="true" title="Job Date"></i>{{offer.jobDate | date : 'mediumDate'}}</li>
+
+                <li  class="f-14 m-0" *ngIf="offer?.jobDate && offer.jobType !== jobTypes.TEMPORARY"><i class="fa fa-calendar clr-blue mr-2" aria-hidden="true" title="Start Date"></i>{{offer.jobDate | date : 'mediumDate'}}</li>
+
+                <li class="f-14 m-0"  *ngIf="offer?.jobDate && offer.jobType == jobTypes.TEMPORARY"><i class="fa fa-clock-o clr-blue mr-1" aria-hidden="true" title="Job Time"></i>{{offer.startTime | date:'h:mm a'}} - {{offer.endTime | date:'h:mm a'}}</li>
+                <li class="f-14 m-0" *ngIf="offer.jobType == jobTypes.TEMPORARY"><i class="fas fa-file-invoice clr-blue mr-2" aria-hidden="true" title="Employee Type"></i>{{offer.employmentType ? 'W2' : '1099'}}</li>
+                <li class="f-14 m-0" *ngIf="offer.paymentMethod === 'hourly' && offer.jobType !== jobTypes.TEMPORARY"><i class="fas fa-hand-holding-usd clr-blue mr-1" aria-hidden="true" title="Compensation Type"></i>Hourly</li>
+                <li class="f-14 m-0" *ngIf="offer.paymentMethod === 'salary' && offer.jobType !== jobTypes.TEMPORARY"><i class="fas fa-hand-holding-usd clr-blue mr-1" aria-hidden="true" title="Annual Salary"></i>Salary</li>
+                <li class="f-14 m-0" *ngIf="offer?.payCycle && offer.jobType !== jobTypes.TEMPORARY">
+                  <span *ngIf="offer?.payCycle"><i class="fas fa-retweet clr-blue" aria-hidden="true" title="Pay Cycle"></i> {{offer.payCycle}} </span>
+                </li>
+                <li class="f-14 m-0" *ngIf="offer?.paymentMethod && offer?.paymentMethod === paymentMethod.HOURLY && offer.jobType !== jobTypes.TEMPORARY">
+                  <span  *ngIf="offer?.desiredHourlyRate"><i class="fa fa-usd clr-blue pr-1 mr-1" aria-hidden="true" title="Rate"></i> {{(offer.desiredHourlyRate) ? offer.desiredHourlyRate : 0}} / Hour </span>
+                </li>
+                <li class="f-14 m-0" *ngIf="offer?.paymentMethod && offer?.paymentMethod === paymentMethod.HOURLY && offer.jobType == jobTypes.TEMPORARY">
+                  <span  *ngIf="offer?.desiredHourlyRate"><i class="fa fa-usd clr-blue mr-2" aria-hidden="true" title="Rate"></i> {{(offer.desiredHourlyRate) ? offer.desiredHourlyRate : 0}} / Hour </span>
+                </li>
+                <li class="f-14 m-0" *ngIf="offer?.paymentMethod && offer?.paymentMethod === paymentMethod.SALARY">
+                  <span *ngIf="offer?.desiredSalaryRate"><i class="fa fa-usd clr-blue px-1" aria-hidden="true" title="Salary Per Year"></i> {{offer.desiredSalaryRate | number}} </span>
+                </li>
+              </ul>
+            </div>
+            <div class="pt-2">
+							<ngx-carousel 
+							[inputs]="carouselOne"
+							(carouselLoad)="myfunc($event)" style="padding-left: 26px;
+							padding-right: 19px;">
+							  <ngx-item class="" NgxCarouselItem data-toggle="tooltip" title="Required Specialty" *ngFor="let reqspec of offer.requiredSpecialities">
+								<span *ngIf="offer.requiredSpecialities.length > 0">
+							  <span *ngIf="offer.requiredSpecialities.length"><p *ngIf="reqspec.specialty !=='Other'" class="tag mr-2">{{reqspec.specialty}}</p></span></span>
+							</ngx-item>
+              <ngx-item class="" NgxCarouselItem data-toggle="tooltip" title="Preferred Specialty" *ngFor="let prespec of offer.preferredSpecialities">
+								<span *ngIf="offer.preferredSpecialities.length > 0">
+							  <span *ngIf="offer.preferredSpecialities.length"><p *ngIf="prespec.specialty !=='Other'" class="tag mr-2">{{prespec.specialty}}</p></span></span>
+							</ngx-item>
+              <ngx-item class="" NgxCarouselItem data-toggle="tooltip" title="Required Certificate" *ngFor="let reqcerti of offer.requiredCertificates">
+								<span *ngIf="offer.requiredCertificates.length > 0">
+							  <span *ngIf="offer.requiredCertificates.length"><p *ngIf="reqcerti.certificate !=='National Entry Level Dental Assistant (NELDA)'" class="tag mr-2">{{reqcerti.certificate}}</p></span>
+                <span *ngIf="offer.requiredCertificates.length"><p *ngIf="reqcerti.certificate === 'National Entry Level Dental Assistant (NELDA)'" class="tag mr-2">NELDA</p></span></span>
+							</ngx-item>
+              <ngx-item class="" NgxCarouselItem data-toggle="tooltip" title="Preferred Certificate" *ngFor="let precerti of offer.preferredCertificates">
+								<span *ngIf="offer.preferredCertificates.length > 0">
+							  <span *ngIf="offer.preferredCertificates.length"><p *ngIf="precerti.certificate !=='National Entry Level Dental Assistant (NELDA)'" class="tag mr-2">{{precerti.certificate}}</p></span>
+                <span *ngIf="offer.preferredCertificates.length"><p *ngIf="precerti.certificate === 'National Entry Level Dental Assistant (NELDA)'" class="tag mr-2">NELDA</p></span></span>
+							</ngx-item>
+              <ngx-item class="" NgxCarouselItem data-toggle="tooltip" title="Required Skill" *ngFor="let reqskill of offer.requiredSkills">
+								<span *ngIf="offer.requiredSkills.length > 0">
+							  <span *ngIf="offer.requiredSkills.length"><p *ngIf="reqskill.skill !=='Other'" class="tag mr-2">{{reqskill.skill}}</p></span></span>
+							</ngx-item>
+              <ngx-item class="" NgxCarouselItem data-toggle="tooltip" title="Preferred Skill" *ngFor="let preskill of offer.preferredSkills">
+								<span *ngIf="offer.preferredSkills.length > 0">
+							  <span *ngIf="offer.preferredSkills.length"><p *ngIf="preskill.skill !=='Other'" class="tag mr-2">{{preskill.skill}}</p></span></span>
+							</ngx-item>
+              <ngx-item class="" NgxCarouselItem data-toggle="tooltip" title="Benefit" *ngFor="let bs of offer.benefits">
+								<span *ngIf="offer.benefits.length > 0">
+							  <span *ngIf="offer.benefits.length"><p class="tag mr-2">{{bs.benefits}}</p></span></span>
+							</ngx-item>
+              <ngx-item  class="" NgxCarouselItem *ngIf="offer.covidVaccine">
+								<p class="tag mr-2"  data-toggle="tooltip" title="Covid-19 Vaccination">Covide-19 Vaccination</p>
+							  </ngx-item>
+							  <ngx-item class="" NgxCarouselItem *ngIf="offer.hepC">
+								<p class="tag mr-2"  data-toggle="tooltip" title="Hep B Vaccination">Hep B Vaccination</p>
+							  </ngx-item>
+							  <ngx-item class="" NgxCarouselItem *ngIf="offer.malpractice">
+								<p class="tag mr-2"  data-toggle="tooltip" title="Valid Malpractice insurance policy">Valid Malpractice insurance policy</p>
+							  </ngx-item>
+							  <ngx-item class="" NgxCarouselItem *ngIf="offer.childAbuse">
+								<p class="tag mr-2"  data-toggle="tooltip" title="Child Abuse History Clearance">Child Abuse History Clearance</p>
+							  </ngx-item>
+                <ngx-item class="" NgxCarouselItem data-toggle="tooltip" title="Experience">
+                  <p class="tag mr-2">Experience: {{offer?.experience}}</p>
+							  </ngx-item>
+                <ngx-item class="" NgxCarouselItem></ngx-item>
+                <ngx-item class="" NgxCarouselItem></ngx-item>
+                <ngx-item class="" NgxCarouselItem></ngx-item>
+                <ngx-item class="" NgxCarouselItem></ngx-item>
+							  <button type="button" NgxCarouselPrev class='leftRs'>&lt;</button>
+							  <button type="button" NgxCarouselNext class='rightRs'>&gt;</button>
+						</ngx-carousel>
+						</div>
+            <div class="pl-3 text-muted pt-1">
+              <div class="text-end">
+                <span class="f-14">Applicants: {{offer?.applications}}</span>
+                </div>
+                <div class="text-end">
+              <span class="job_listing-date f-14 mb-0"  *ngIf="offer?.createdAt">Posted {{ offer?.createdAt| dateAgo}} | </span>
+              <span *ngIf="calculateClosingJob(offer?.expireDate) == 0" class="f-14">Closes today</span>
+              <span *ngIf="calculateClosingJob(offer?.expireDate) == 1" class="f-14">Closes in {{calculateClosingJob(offer?.expireDate)}} day</span>
+              <span *ngIf="calculateClosingJob(offer?.expireDate) > 1" class="f-14">Closes in {{calculateClosingJob(offer?.expireDate)}} days</span>
+              <span *ngIf="calculateClosingJob(offer?.expireDate) < 0" class="f-14">Closed</span>
+              <p *ngIf="offer?.createdBy?.practiceAccount !== 'multi'" style="margin-bottom: 12px;"></p>
+              </div> 
+              </div> 
+          </div>
+          </div>
+          </a>
+          </div>
+          </div>
+          <ul class="pagination justify-content-end mt-10" *ngIf="itemsPerPage < jobList.length" >
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+          </ul>
+  </div>
+  <div class="row" *ngIf="!jobList.length"  [ngClass]="!isCollapsed ? 'pt-25': 'pt-8'">
+    <div class="col-12 custom-grid mb-30 text-center">
+      <h4>No Result Found</h4>
+    </div>
+  </div>
+  </div>
+ 
+
+ <!-- Get link pop up-->
+<div   bsModal    #getLinkPopUp="bs-modal" class="modal fade design-1" tabindex="-1" role="dialog"
+aria-labelledby="myModalLabel" aria-hidden="true" >
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title text-white">Copy Shareable Link</h4>
+      <button type="button" class="close text-white" (click)="getLinkPopUp.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12 col-xl-12 ">
+             <a [routerLink]="" target="_blank" id="textContent">{{url}}</a>
+            </div>
+          </div>
+        </div>
+       </div>
+
+       <div class="card">
+        <div class="card-body">
+          <div class="row">
+          <h5>Share With : </h5>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-4">
+              <button type="button" style="background: #3b5998;" class="btn btn-default btn-circle btn-xl" (click)="openSocialLink(1)"><i class="fab fa-facebook-f clr-white"></i>
+              </button>
+            </div>
+            <div class="col-md-4 col-4 text-center">
+              <button type="button" style="background: #0e76a8;" class="btn btn-default btn-circle btn-xl" (click)="openSocialLink(2)"><i class="fab fa-linkedin-in clr-white"></i>
+              </button>
+            </div>
+            <div class="col-md-4 col-4 text-end">
+              <button type="button" style="background:#00acee;" class="btn btn-default btn-circle btn-xl" (click)="openSocialLink(3)"><i class="fab fa-twitter clr-white"></i>
+              </button>
+            </div>
+            <!-- <div class="col-md-3 col-3 text-center">
+              <button type="button" style="background: #25D366;" class="btn btn-default btn-circle btn-xl" (click)="openSocialLink(4)"><i class="fab fa-whatsapp clr-white"></i>
+              </button>
+            </div> -->
+          </div>
+        </div>
+       </div>
+
+       <button type="button" class="btn btn-primary pull-right" (click)="getLinkPopUp.hide()">
+        <ngx-copy-to-clipboard
+        target="#textContent"
+        [action]="cut"
+        [success]="onSuccess"
+        [error]="onError"
+        >Copy</ngx-copy-to-clipboard>
+      </button>
+    </div>
+    </div>
+  </div>
+</div>
+
+
+<div  id="warningStaffVerificationModel"  class="modal fade design-1" tabindex="-1" role="dialog"
+aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+	<div class="modal-header text-white">
+	  <h4 class="modal-title text-white">Message From Admin</h4>
+	  <button type="button" class="close text-white" (click)="closeAndRedirect()" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+	<div class="modal-body">
+	  <p>Thank you for your patience!</p>
+    <p>Your profile is currently under the verification process. This process may take up to 48 hours to complete. We will send you 
+    an email confirmation when your profile is verified.</p>
+	</div>
+	<div class="modal-footer justify-content-end py-2">
+	  <button type="button" class="btn btn-dark" (click)="closeAndRedirect()" >Close</button>
+	</div>
+  </div>
+  </div>
+  </div>

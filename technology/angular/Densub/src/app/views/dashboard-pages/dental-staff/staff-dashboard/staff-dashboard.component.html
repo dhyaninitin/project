@@ -1,0 +1,362 @@
+<div class="row">
+  <div class="col-sm-12">
+    <h4 class="text-primary d-inline-block">
+      <b>Dashboard</b>
+      <!-- <button class="btn btn-primary pull-right btn-sm mr-1" (click)="checkAvailability()"> <i class="fa fa-clock-o"> </i> Availability</button> -->
+    </h4>
+
+    <div *ngIf="contractExists === false">No contract exists for today!</div>
+    <div>
+      <button disabled="contractExists === false" (click)="subscribeTimer2()"
+        [ngClass]="{ 'clockIn': timer2button === 'Clock In Now', 'clockOut': timer2button === 'Clock Out Now'}">{{timer2button}}</button>
+      {{totalTime}}
+    </div>
+    <div style="margin-bottom: 10px;">Want to submit TimeSheet? Click here
+      <button disabled="contractExists === false && timesheet.length > 0" class="btn btn-secondary"
+        (click)="stopTimer()">Stop TimeTracker</button>
+    </div>
+
+    <label class="m-0 clr-white p-1 pull-right text-uppercase" [ngClass]="{ 'bg-danger': currentUser.profileVerificationStatus == profileStatus.REJECTED,
+                        'bg-blue': currentUser.profileVerificationStatus == profileStatus.VERIFIED,
+                        'bg-yellow': (currentUser.profileVerificationStatus == 'pending' || currentUser.profileVerificationStatus == profileStatus.NEW)
+                      }" *ngIf="currentUser.profileVerificationStatus">
+      <i class="fa fa-check-circle" *ngIf="currentUser.profileVerificationStatus == profileStatus.VERIFIED"></i>
+      {{ (currentUser.profileVerificationStatus === profileStatus.NEW) ? 'IN PROGRESS' : currentUser.profileVerificationStatus }}
+    </label>
+    <hr>
+  </div>
+</div>
+
+<div class="animated fadeIn pb-50">
+  <div class="row pt-20 pb-20">
+    <div class="col-sm-6 col-lg-3 custom-cursor-pointer" [routerLink]="['/staff/assignments']">
+      <!-- <b class="dashboard-recent"><i class="fa fa-eye"> </i> Recent</b> -->
+      <div class="card text-white bg-info">
+        <div class="card-body p-0 pt-3 pb-4">
+          <div class="text-center">
+            <span class="font-size-25">{{ upcommingContracts?.length }}</span>
+            <div class="font-size-14">Upcoming Assignments</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!--/.col-->
+    <div class="col-sm-6 col-lg-3 custom-cursor-pointer" [routerLink]="['/staff/offer-received']">
+      <!-- <b class="dashboard-recent"><i class="fa fa-eye"> </i> Recent</b> -->
+      <div class="card text-white  bg-danger">
+        <div class="card-body p-0 pt-3 pb-4">
+          <div class="text-center">
+            <span class="font-size-25"> {{ offerList?.length }} </span>
+            <div class="font-size-14">Received Offers</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!--/.col-->
+    <!--/.col-->
+    <div class="col-sm-6 col-lg-3 custom-cursor-pointer" [routerLink]="['/staff/assignments']">
+      <!-- <b class="dashboard-recent"><i class="fa fa-eye"> </i> Recent</b> -->
+      <div class="card text-white bg-primary">
+        <div class="card-body p-0 pt-3 pb-4">
+          <div class="text-center">
+            <span class="font-size-25"> {{ timesheet?.length }} </span>
+            <div class="font-size-14">Time Sheets</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3 custom-cursor-pointer" [routerLink]="['/staff/assignments']">
+      <!-- <b class="dashboard-recent"><i class="fa fa-eye"> </i> Recent</b> -->
+      <div class="card text-white bg-warning">
+        <div class="card-body p-0 pt-3 pb-4">
+          <div class="text-center">
+            <span class="font-size-25"> {{ pendingRatings?.length }} </span>
+            <div class="font-size-14">Pending Rating</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
+
+  <div class="row row pb-20">
+    <div class="col-12">
+      <h4>My Calendar</h4>
+
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div [ngSwitch]="view" class="col-7 custom-calendar view-calendar">
+
+          <div class="custom-month-btn mb-20">
+            <div class="btn-group w-100 align-items-center justify-content-center">
+              <div class="btn btn-left" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+              </div>
+              <h3 class="m-0">{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+              <div class="btn btn-right" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate">
+                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #customCellTemplate let-day="day" let-locale="locale">
+            <div class="cal-cell-top" title="{{(day?.events[0]?.available) ? day?.events[0]?.title:''}}">
+              <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
+            </div>
+          </ng-template>
+
+          <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate"
+            [cellTemplate]="customCellTemplate" [events]="customCalendarDates"
+            (beforeViewRender)="beforeMonthViewRender($event)">
+          </mwl-calendar-month-view>
+          <!-- [refresh]="refresh"
+            [activeDayIsOpen]="activeDayIsOpen" -->
+
+        </div>
+        <div class="col-5">
+          <button class="btn btn-primary fs-13" [routerLink]="['/staff/profile/1']">Update Availability</button>
+          <ul class="list-unstyled job-highlight mt-30">
+            <li class="blue">Availabile</li>
+            <li class="orange">Unavailabile</li>
+            <li class="green">Booked</li>
+            <li class="gray">Past</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h4><a [routerLink]="['/staff/bided']" class="dash-label">Activities Analytics</a></h4>
+      <div class="table-responsive">
+        <table class="table table-bordered-1 vertical-align-middle table-striped">
+          <thead class="nowrap">
+            <tr class="dark-blue-clr">
+              <th width="200px"></th>
+              <th> Weekly</th>
+              <th> Monthly</th>
+              <th> Annual </th>
+            </tr>
+          </thead>
+          <tbody class="">
+            <!--bindings={
+            "ng-reflect-ng-for-of": "[object Object],[object Object"
+          }-->
+            <tr class="">
+              <td>Total Wages</td>
+              <td>${{analytics.totalWages.weekly}}</td>
+              <td>${{analytics.totalWages.monthly}}</td>
+              <td>${{analytics.totalWages.annual}}</td>
+            </tr>
+
+            <tr class="">
+              <td>Hours Rate (Average)</td>
+              <td>${{analytics.averageHourRate.weekly}}</td>
+              <td>${{analytics.averageHourRate.monthly}}</td>
+              <td>${{analytics.averageHourRate.annual}}</td>
+            </tr>
+
+            <tr class="">
+              <td>Total Days Worked</td>
+              <td>{{analytics.totalDaysWorked.weekly.length}}</td>
+              <td>{{analytics.totalDaysWorked.monthly.length}}</td>
+              <td>{{analytics.totalDaysWorked.annual.length}}</td>
+            </tr>
+
+            <tr class="">
+              <td>Total Hours Worked</td>
+              <td>{{analytics.totalHoursWorked.weekly}}</td>
+              <td>{{analytics.totalHoursWorked.monthly}}</td>
+              <td>{{analytics.totalHoursWorked.annual}}</td>
+            </tr>
+            <tr class="">
+              <td>Total Miles Travelled</td>
+              <td>{{analytics.totalMilesTravelled.weekly}}</td>
+              <td>{{analytics.totalMilesTravelled.monthly}}</td>
+              <td>{{analytics.totalMilesTravelled.annual}}</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row pb-20">
+    <div class="col-12 pb-20">
+      <h4><a [routerLink]="['/staff/assignments']" class="dash-label">Upcoming Assignments</a></h4>
+      <div class="table-responsive">
+        <table class="table table-bordered-1 vertical-align-middle table-striped">
+          <thead class="nowrap">
+            <tr class="dark-blue-clr">
+              <th>Assignment ID</th>
+              <th>Date</th>
+              <th>Practice Name</th>
+              <th> Start Time </th>
+              <th> End Time </th>
+              <th> Hourly Rate</th>
+            </tr>
+          </thead>
+          <tbody class="">
+            <tr
+              *ngFor="let upcommingContract of upcommingContracts | paginate: { itemsPerPage: contractsPerPage, currentPage: p }; let i = index;">
+              <td><a [routerLink]="['/staff/assignments/details',upcommingContract?._id]" data-toggle="tooltip"
+                  title="{{upcommingContract?._id}}">#{{ upcommingContract?._id | slice:18:24}}</a></td>
+              <td>{{ upcommingContract?.jobPostId?.jobDate | date: 'MMM dd,yyyy' }}</td>
+              <td>{{ upcommingContract?.practiceId?.firstName }} {{ upcommingContract?.practiceId?.lastName }}</td>
+              <td>{{ upcommingContract?.jobPostId?.startTime | date: 'hh:mm a'}}</td>
+              <td>{{ upcommingContract?.jobPostId?.endTime | date: 'hh:mm a'}}</td>
+              <td>${{ upcommingContract?.finalRate }}/hrs</td>
+            </tr>
+          </tbody>
+          <tr *ngIf="!upcommingContracts?.length" class="text-center border-bottom-1px">
+            <td colspan="15">
+              <h6 class="m-0">No Record Found !</h6>
+            </td>
+          </tr>
+        </table>
+        <ul class="pagination justify-content-end" *ngIf="contractsPerPage < upcommingContracts.length">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-12 pb-20">
+      <h4><a [routerLink]="['/staff/offer-received']" class="dash-label">Received Offers</a></h4>
+      <div class="table-responsive">
+        <table class="table table-bordered-1 vertical-align-middle table-striped">
+          <thead class="nowrap">
+            <tr class="dark-blue-clr">
+              <th>Offer Id</th>
+              <th>Date</th>
+              <th>Job Title</th>
+              <th> Practice Name </th>
+              <th> Hourly Rate </th>
+              <th> Initial Offer</th>
+            </tr>
+          </thead>
+          <tbody class="">
+
+            <tr
+              *ngFor="let offer of offerList | paginate: { itemsPerPage: offerPerPage, currentPage: q }; let i = index;">
+              <td><a [routerLink]="['/staff/offer-details',offer?._id]" data-toggle="tooltip"
+                  title="{{offer?._id}}">#{{ offer?._id | slice:18:24}}</a></td>
+              <td class="text-capitalize"> {{offer?.createdAt | date:'MMM dd,yyyy'}}</td>
+              <td> {{ offer?.jobPostId?.jobTitle }} </td>
+              <td> {{ offer?.practiceId?.firstName }} {{ offer?.practiceId?.lastName }}</td>
+              <td> ${{ offer?.jobPostId?.desiredHourlyRate }}/hrs</td>
+              <td> ${{ offer?.offerSteps?.initial?.amount }}</td>
+            </tr>
+
+          </tbody>
+          <tr *ngIf="!offerList?.length" class="text-center border-bottom-1px">
+            <td colspan="15">
+              <h6 class="m-0">No Record Found !</h6>
+            </td>
+          </tr>
+        </table>
+        <ul class="pagination justify-content-end" *ngIf="offerPerPage < offerList.length">
+          <pagination-controls (pageChange)="q = $event"></pagination-controls>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-12 pb-20">
+      <h4><a [routerLink]="['/staff/assignments']" class="dash-label">Timesheets</a></h4>
+      <div class="table-responsive">
+        <table class="table table-bordered-1 vertical-align-middle table-striped">
+          <thead class="nowrap">
+            <tr class="dark-blue-clr">
+              <th>Assignment Id</th>
+              <th>Date</th>
+              <th>Practice Name</th>
+              <th> Total Work Hours</th>
+              <th> Total Wage</th>
+              <th> Status</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="timesheet?.length">
+            <tr
+              *ngFor="let work of timesheet| paginate: { itemsPerPage: timesheetPerPage, currentPage: s }; let i = index;">
+              <td><a [routerLink]="['/staff/assignments/details',work?.contractId?._id ]" data-toggle="tooltip"
+                  title="{{work?._id }}">#{{ work?._id | slice:18:24}}</a></td>
+              <td>{{ work?.createdAt | date: 'MMM dd,yyyy'}}</td>
+              <td class="text-capitalize">{{ work?.practiceId?.firstName}} {{ work?.practiceId?.lastName}}</td>
+              <td>{{work?.totalTime?.hours}} hours, {{work?.totalTime?.minutes}} minutes</td>
+              <td>${{ timesheetAmountCal(work?.totalTime , work?.contractId?.finalRate) }}</td>
+              <td>{{work?.paidStatus | uppercase}} </td>
+            </tr>
+          </tbody>
+          <tr class="text-center" *ngIf="!timesheet?.length">
+            <td colspan="8">
+              <h6>No Record Found !</h6>
+            </td>
+          </tr>
+        </table>
+        <ul class="pagination justify-content-end" *ngIf="timesheetPerPage < timesheet.length">
+          <pagination-controls (pageChange)="s = $event"></pagination-controls>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-12 pb-20">
+      <h4><a [routerLink]="['/staff/assignments']" class="dash-label">Pending Ratings</a></h4>
+      <div class="table-responsive">
+        <table class="table table-bordered-1 vertical-align-middle table-striped">
+          <thead class="nowrap">
+            <tr class="dark-blue-clr">
+              <th>Assignment ID</th>
+              <th>Date</th>
+              <th>Practice Name</th>
+            </tr>
+          </thead>
+          <tbody class="">
+            <tr class=""
+              *ngFor="let rating of pendingRatings | paginate: { itemsPerPage: pendingRatingsPerPage, currentPage: x }; let i = index;">
+              <td><a [routerLink]="['/staff/assignments/details',rating?.contractId]" data-toggle="tooltip"
+                  title="{{rating?.contractId}}">#{{ rating?.contractId | slice:18:24}}</a></td>
+              <td>{{ rating?.createdAt | date: 'MMM dd,yyyy' }}</td>
+              <td>{{ rating?.practiceId.firstName }} {{ rating?.practiceId.lastName }}</td>
+            </tr>
+          </tbody>
+          <tr class="text-center" *ngIf="!pendingRatings?.length">
+            <td colspan="8">
+              <h6>No Record Found !</h6>
+            </td>
+          </tr>
+        </table>
+        <ul class="pagination justify-content-end" *ngIf="pendingRatingsPerPage < pendingRatings.length">
+          <pagination-controls (pageChange)="x = $event"></pagination-controls>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div bsModal [config]="{backdrop: 'static', keyboard: false}" #availabilityModal="bs-modal" class="modal fade"
+  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white"> <i class="fa fa-clock-o"> </i> Availability</h4>
+        <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="text-primary"> Showing more flexibility increases chance of filling your schedule.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+        <a>
+          <button type="button" class="btn btn-primary">Custom Availability</button>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,128 @@
+<div class="row">
+  <div class="col-sm-12">
+    <h4 class="text-primary"> <b>Manage: Skills</b> </h4>
+    <hr />
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-cogs"></i> Listings
+        <button class="btn btn-primary pull-right btn-sm mr-1" (click)="showSaveModal()"> <i class="fa fa-plus">
+        </i> Add New Skill</button>
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table table-bordered">
+          <thead class="nowrap">
+            <tr>
+              <th>S.NO</th>
+              <th [class.active]="order == 'skill'" (click)="setOrder('skill')">
+                Skills
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order == 'skillTypeStr'" (click)="setOrder('skillTypeStr')">
+                Skill Type
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th> Created On </th>
+              <th> Updated On </th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="skillsList.length">
+            <tr
+              *ngFor="let skill of skillsList | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index;">
+              <td>{{i+1}}</td>
+              <td>{{ skill?.skill }}</td>
+              <td>{{ findSkillType(skill?.skillType, i) }}</td>
+              <td>{{ skill?.createdAt | date:'mediumDate' }}</td>
+              <td>{{ skill?.updatedAt | date:'mediumDate' }}</td>
+              <td>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-primary" (click)="showSaveModal(skill)"><i
+                      class="fa fa-edit"></i></button>
+                  <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal"
+                    (click)="showDeleteModal(skill )"><i class="fa fa-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tr class="text-center" *ngIf="!skillsList.length">
+            <td colspan="6">
+              <h6>No Record Found !</h6>
+            </td>
+          </tr>
+        </table>
+
+        <ul class="pagination" *ngIf="itemsPerPage < skillsList.length">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #addEditSkill="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <form novalidate class="row" #skillForm="ngForm" (ngSubmit)="skillForm.form.valid && checkAlreadyExists();">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white"> {{currentSkill._id ? 'Edit' :'Add'}} Skill</h4>
+        <button type="button" class="close text-white" (click)="addEditSkill.hide();skillForm.resetForm({})" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="col-sm-12">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label><b>Skill Type
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !currentSkill?.skillType, 'text-primary': currentSkill?.skillType}"></i>
+                    </sup>
+                  </b></label>
+                  <select name="skillType" [(ngModel)]="currentSkill.skillType" class="form-control" required #skillType="ngModel">
+                    <option value="">Please select type</option>
+                    <option class="text-capitalize" [value]="value._id" *ngFor="let value of skillTypeList">{{value.skillType }}
+                    </option>
+                  </select>
+                  <div class="form-control-feedback" *ngIf="skillForm.submitted && skillType.invalid">
+                    <p *ngIf="skillType.errors.required">Skill type is required</p>
+                  </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label><b>Skill
+                    <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                        [ngClass]="{'text-danger': !currentSkill?.skill, 'text-primary': currentSkill?.skill}"></i>
+                    </sup>
+                  </b></label>
+                  <input type="text" name="skill" [(ngModel)]="currentSkill.skill" class="form-control"
+                  placeholder="Please enter skill" required #skill="ngModel">
+                  <div class="form-control-feedback" *ngIf="skillForm.submitted && skill.invalid">
+                    <p *ngIf="skill.errors.required ">Skill is required</p>
+                  </div>
+                  <div class="form-control-feedback" *ngIf="skillForm.submitted && !skill.invalid && isAlreadyexists">
+                    <p *ngIf="isAlreadyexists">Skill already exists</p>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="addEditSkill.hide();skillForm.resetForm({})">Close</button>
+        <button type="submit" class="btn btn-primary">{{currentSkill._id ? 'Update' :'Save'}}</button>
+      </div>
+    </div>
+  </div>
+  </form>
+</div>

@@ -1,0 +1,19 @@
+.page-not-found {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.page-not-found img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+@media screen and (max-width: 576px) {
+  .page-not-found img {
+    width: 100%;
+    height: auto;
+  }
+}

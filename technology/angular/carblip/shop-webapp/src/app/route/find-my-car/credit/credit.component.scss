@@ -1,0 +1,143 @@
+@import '../../../../styles/shared/_shared';
+
+.color-image-container {
+  height: calc(100vh - 495px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 330px;
+}
+
+.detail-block {
+  h2 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #0f0f0f;
+    padding: 15px 0;
+  }
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.left-div {
+  border-right: solid 1px #e9e9e9;
+}
+
+.brand-model-trim-view {
+  .brand-model-p {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: rem(60);
+    font-weight: 700;
+    color: #f59300;
+    margin-bottom: 0;
+    text-transform: uppercase;
+  }
+
+  .trim-p {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: rem(25);
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0;
+    color: #303a4b;
+    text-transform: uppercase;
+  }
+
+  .price-span {
+    color: #f59300;
+    font-size: 26px;
+    span {
+      font-size: 1rem;
+      color: #7e7e7e;
+    }
+  }
+
+  .price-label-span {
+    font-size: 0.9rem;
+    color: #7e7e7e;
+    display: block;
+    text-align: left;
+  }
+}
+
+.img-carousel-wrapper {
+  border-bottom: 1px solid rgba(150, 162, 189, 0.2);
+  padding-bottom: 20px;
+}
+
+.form-radio {
+  padding: 10px 0px;
+}
+
+@media (max-width: 768px) {
+  .brand-model-trim-view {
+    .brand-model-p {
+      font-size: rem(40);
+    }
+  }
+}
+
+.option-details {
+  .background-color-span {
+    width: 37px;
+    height: 37px;
+    border: 0;
+  }
+  .color-item {
+    justify-content: space-between;
+    padding: 9px 12px;
+    margin-bottom: 10px;
+    &__right {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      label {
+        padding: 0;
+      }
+    }
+    &__detail {
+      width: 160px;
+      .name {
+        font-size: 13px;
+        font-weight: 800;
+        color: #0f0f0f;
+      }
+      .price {
+        font-size: 13px;
+        color: #42464c;
+      }
+    }
+    .title {
+      opacity: 0.8;
+      font-size: 13px;
+      font-weight: 600;
+      color: #42464c;
+    }
+  }
+  .option-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 5px;
+    border: solid 1px #e9e9e9;
+    background-color: #ffffff;
+    padding: 12px;
+    margin-bottom: 10px;
+    .name {
+      font-size: 13px;
+      font-weight: bold;
+      line-height: 1.38;
+      color: #0f0f0f;
+    }
+    .price {
+      font-size: 14px;
+      color: #42464c;
+    }
+  }
+}
+.custom-request-credit-wrapper {
+  padding-top: 20px;
+}

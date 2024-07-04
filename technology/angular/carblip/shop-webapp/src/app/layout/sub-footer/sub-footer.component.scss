@@ -1,0 +1,45 @@
+@import '../../../styles/shared/_shared';
+
+.mobile-nav-button-wrapper {
+  display: none;
+
+  .navigation-btn,
+  .navigation-btn-back {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(245, 147, 0, 1);
+  }
+
+  .label {
+    padding: 0;
+    margin: 0;
+    min-width: auto !important;
+    width: auto !important;
+  }
+
+  .image-container {
+    position: absolute;
+    margin-right: 0px !important;
+    right: 10px;
+    background-color: rgba(237, 142, 12, 0.6);
+  }
+
+  .navigation-btn-back .image-container {
+    left: 10px;
+  }
+
+  .link {
+    font-size: rem(16);
+    font-weight: 600;
+    padding-left: 3px;
+    color: rgba(245, 147, 0, 1);
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-nav-button-wrapper {
+    display: block;
+  }
+}

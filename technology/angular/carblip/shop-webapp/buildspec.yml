@@ -1,0 +1,27 @@
+version: 0.1
+
+phases:
+    install:
+        commands:
+            - echo Installing Angular CLI
+            - npm install -g @angular/cli@11.2.8
+    pre_build:
+        commands:
+            - echo Installing source NPM dependencies...
+            - npm install
+    build:
+        commands:
+            - echo Build started on `date`
+            - ng build --configuration=$BUILD_ENV --source-map=false
+            - echo copy assets to dist
+            - cp server.js ./dist
+            - cp bootstrap.js ./dist
+            - cp package-server.json ./dist/package.json
+    post_build:
+         commands:
+            - echo Build completed on `date`
+artifacts:
+    files:
+        - '**/*'
+    base-directory: 'dist'
+

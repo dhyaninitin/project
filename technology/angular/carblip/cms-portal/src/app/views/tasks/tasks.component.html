@@ -1,0 +1,95 @@
+<vex-page-layout>
+	<vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+		<div class="w-full flex flex-col sm:flex-row justify-between">
+			<div>
+				<h1 class="title mt-0 mb-1">Tasks</h1>
+				<vex-breadcrumbs [crumbs]="['Tasks']"></vex-breadcrumbs>
+			</div>
+		</div>
+	</vex-page-layout-header>
+
+	<vex-page-layout-content class="-mt-6">
+
+		<div class="card -mt-16">
+			<div class="head bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
+				<h2
+					class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
+					<span>Tasks</span>
+				</h2>
+
+				<div
+					class="bg-foreground rounded-full border px-4 max-w-[300px] flex-auto flex items-center border border-gray-300">
+					<mat-icon class="icon-sm text-secondary search-icon" svgIcon="mat:search"></mat-icon>
+					<input [(ngModel)]="search" class="px-4 py-2 border-0 outline-none w-full bg-transparent"
+						placeholder="Search..." name="searchSource" type="search" #searchInput
+						(ngModelChange)="onClearSearch($event)">
+				</div>
+
+				<span class="flex-1"></span>
+
+				<mat-slide-toggle class="ml-4 flex-none" color="primary" matTooltip="Show Completed" [checked]="showCompleted" (change)="showCompletedTask($event)">
+                </mat-slide-toggle>
+
+				<button class="ml-4 flex-none" color="primary" mat-mini-fab 
+					matTooltip="Add New Task" type="button" (click)="addNewTask()">
+					<mat-icon svgIcon="mat:add"></mat-icon>
+				</button>
+			</div>
+
+			<mat-progress-bar *ngIf="(fetching$ | async)" mode="indeterminate"></mat-progress-bar>
+			<div class="overflow-auto h-full-vh sticky">
+				<app-tasks-table *ngIf="isColumnAvailable" class="display-block w-100 list-table"
+				[columnHeaders]="columnHeaders"></app-tasks-table>
+			</div>
+			<mat-paginator #paginator [length]="tablePagination.length" [pageSize]="tablePagination.pageSize"
+				[pageIndex]="tablePagination.pageIndex" [pageSizeOptions]="[20, 50, 100]" [showFirstLastButtons]="true"
+				(page)="onPaginateChange($event)">
+			</mat-paginator>
+		</div>
+
+		<div class="mt-6 flex flex-col md:flex-row md:items-start">
+			<div class="flex-auto">
+				<div class="card">
+					<div class="px-gutter py-4 border-b flex justify-content-space-between">
+						<h2 class="title m-0">Task's History</h2>
+					</div>
+					<div class="px-gutter">
+						<div class="items-center">
+							<div class="flex flex-col sm:flex-row justify-content-end mt-4">
+								<div
+									class="bg-foreground rounded-full border px-4 max-w-[300px] flex-auto flex items-center border border-gray-300">
+									<mat-icon class="icon-sm text-secondary" svgIcon="mat:search"></mat-icon>
+									<input class="px-4 py-2 border-0 outline-none w-full bg-transparent"
+										placeholder="Search..." name="searchLogSource" type="search"
+										[(ngModel)]="logSearch" #searchLogInput
+										(ngModelChange)="onClearFilterSearch($event)">
+								</div>
+							</div>
+
+							<div class="flex flex-col mt-3 sm:flex-row">
+								<mat-progress-bar *ngIf="(logFetching$ | async)"
+									mode="indeterminate"></mat-progress-bar>
+								<ul class="log-ul"  *ngIf="logs?.length > 0">
+									<li *ngFor="let log of logs" @fadeInUp>
+										<span [innerHTML]="log.content"></span>
+										{{ formatLogMessage(log.content) }} {{ log.created_at | date:'MM/dd/yyy \'at\'
+										hh:mm a'}}
+									</li>
+								</ul>
+							</div>
+							<div class="text-center mt-2" *ngIf="(logDidFetch$ | async) && logs?.length == 0">There are
+								no task's history available.</div>
+							<div class="flex flex-col sm:flex-row justify-content-end">
+								<mat-paginator #paginator [length]="logPagination.length"
+									[pageSize]="logPagination.pageSize" [pageIndex]="logPagination.pageIndex"
+									[pageSizeOptions]="[20, 50, 100]" [showFirstLastButtons]="true"
+									(page)="onLogPaginateChange($event)">
+								</mat-paginator>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</vex-page-layout-content>
+</vex-page-layout>

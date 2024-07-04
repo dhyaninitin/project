@@ -1,0 +1,32 @@
+
+<div *ngIf="uploadedMedia.length > 0">
+  <div *ngFor="let attachment of uploadedMedia; let i = index">
+    <div class="vex-mail-compose-attachment my-2 rounded-full border px-4 py-1 flex items-center hover:bg-hover transition duration-200 ease-in-out cursor-pointer relative"
+        matRipple>
+      <mat-icon class="flex-none text-primary icon-sm" svgIcon="mat:picture_as_pdf"></mat-icon>
+      <p class="ml-4 text-sm text-name">{{ attachment.FileName }}</p>
+      
+      <div class="ml-4" style="width:30%">
+        <div>
+          <div class="first-progress">
+            <div
+              [ngStyle]="{ 'width.%': attachment.FileProgress }"
+              class="second-progress"
+            ></div>
+          </div>
+        </div>
+      </div>
+      <p class="text-sm text-secondary ml-4">{{ attachment.FileProgessSize }} of {{ attachment.FileSize }}</p> 
+      <div class="flex-auto">
+        <button (click)="$event?.stopPropagation();removeImage(i)" [matTooltip]="Remove" matTooltipPosition="after" class="flex-auto w-8 h-8 leading-none" mat-icon-button type="button">
+          <mat-icon class="icon-sm" svgIcon="mat:close"></mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<input type="file" hidden #uploader (change)="onFileBrowse($event)" multiple/>
+<button mat-icon-button matTooltip="Attach File" (click)="uploader.click()" type="button" >
+  <mat-icon svgIcon="mat:attach_file"></mat-icon>
+</button>

@@ -1,0 +1,23 @@
+<section class="container-fluid px-0 py-3">
+  <div class="cb-container container">
+    <div class="row mx-0">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 px-0">
+        <div class="logos-outter row mx-0">
+          <div class="logo-container-wrapper" *ngFor="let item of filteredBrands">
+            <div class="logo-container" [ngClass]="{'active': (selectedBrandId$ | async) == item.id}"
+              (click)="onSelectBrand(item.id)">
+              <div class="image-cnt">
+                <img [src]="item?.image_url" class="brand-item__image image-lazy-loading" appLazyloader>
+              </div>
+              <div class="brand-label text-capitalize">{{item.name}}</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="custom-request-button" routerLink="/custom-request">
+  <span>Don’t see what you’re looking for? Submit a custom request.</span>
+</div>

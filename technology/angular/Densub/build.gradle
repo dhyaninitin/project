@@ -1,0 +1,74 @@
+plugins {
+    id 'base'
+}
+
+// Override these with command line parameters
+def distDir = "./dist"
+def configuration = "dev1"
+def target = [
+    server: "dev1.densub.com",
+    user: "densub",
+    keyFile: "../keys/lightsail-densub.pem",
+    archiveDir: "./archives",
+]
+
+//def archiveBaseName = "densub"
+
+target.archiveLocation = "$target.user@$target.server:$target.archiveDir"
+
+task installDependencies(type:Exec) {
+//  commandLine "npm", "install"
+  commandLine "bash", "initialize-angular.sh"
+
+  standardOutput = new ByteArrayOutputStream()
+  errorOutput = new ByteArrayOutputStream()
+  ignoreExitValue = true
+
+  doLast {
+    println "output:"
+    println standardOutput.toString()
+    println ""
+    println "err:"
+    println errorOutput.toString()
+    if (execResult.exitValue != 0) {
+      println "execResut: $execResult"
+      throw new Exception()
+    }
+  }
+}
+
+build.dependsOn(installDependencies)
+
+task buildAngular(type:Exec) {
+//  commandLine "ng", "build"
+  commandLine "bash", "build-angular.sh"
+  standardOutput = new ByteArrayOutputStream()
+  errorOutput = new ByteArrayOutputStream()
+  ignoreExitValue = true
+
+  doLast {
+    println "output:"
+    println standardOutput.toString()
+    println ""
+    println "err:"
+    println errorOutput.toString()
+    if (execResult.exitValue != 0) {
+      throw new Exception()
+    }
+  }
+//  doLast {
+//    log.info standardOutput
+//  }
+//  commandLine "ng", "build", "--output-path=$distDir", "-c", "dev1" "--deleteOutputPath=true" "--sourceMap=false"
+}
+
+task archive(type: Zip) {
+    from distDir
+}
+
+//task publish(dependsOn: archive, type:Exec) {
+//    doLast {
+//        scp "-i", target.keyFile, archive, target.archiveLocation
+//    }
+//}
+

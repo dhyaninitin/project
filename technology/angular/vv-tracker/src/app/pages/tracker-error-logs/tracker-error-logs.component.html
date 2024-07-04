@@ -1,0 +1,62 @@
+<div style="padding: 7%;">
+    <mat-card>
+        <div class="flex items-center mb-4">
+            <mat-checkbox *ngIf="trackerErrorLogs.length > 0" (change)="selectAllProperties($event)" [checked]="allChecked" matTooltip="Select All"
+                class="mx-6">
+            </mat-checkbox>
+            <div *ngIf="selectedIds.length > 0" class="flex-grow">
+                <h1 class="text-lg font-semibold">{{selectedIds.length}} Log Selected</h1>
+            </div>
+            <div class="flex-grow" *ngIf="selectedIds.length < 1">
+                <h1 class="text-lg font-semibold">Tracker Error Logs</h1>
+            </div>
+            <div *ngIf="selectedIds.length > 0" class="mr-4 pr-4 border-r flex-none">
+                <button (click)="openDelDialog()" matTooltip="Delete" color="primary" mat-icon-button type="button">
+                    <mat-icon svgIcon="mat:delete"></mat-icon>
+                </button>
+            </div>
+            <div class="flex items-center space-x-4 mx-2">
+                <!-- <button mat-icon-button [matMenuTriggerFor]="filterMenu">
+                    <mat-icon svgIcon="mat:filter_list" matTooltip="Filter logs" class="cursor-pointer"></mat-icon>
+                </button> -->
+
+                <mat-menu #filterMenu="matMenu">
+                </mat-menu>
+            </div>
+            <div class="ml-auto flex items-center space-x-4">
+                <div class="bg-foreground rounded-full px-4 flex items-center border border-gray-300">
+                    <mat-icon class="icon-sm text-secondary" svgIcon="mat:search"></mat-icon>
+                    <input [formControl]="searchCtrlOfLogs" matInput type="text" name="searchSource"
+                        class="px-4 py-2 border-0 outline-none bg-transparent" placeholder="Search..." #searchInput />
+                </div>
+            </div>
+        </div>
+        <div *ngIf="trackerErrorLogs.length > 0">
+            <mat-accordion *ngFor="let log of trackerErrorLogs">
+                <mat-expansion-panel class="mb-10 bg-gray-100" (opened)="openPanel(log,log.userid)"
+                    (closed)="closePanel(log._id)" style="margin-bottom: 10px;">
+                    <mat-expansion-panel-header [ngClass]="log.markAsRead?'normal-text':'bold-text'">
+                        <mat-panel-title>
+                            <mat-checkbox (change)="selectProperty(log, $event)" [checked]="log?.checked" class="mr-4"
+                                (click)="$event.stopPropagation()"></mat-checkbox>
+                            {{log?.userid?.empid}} &nbsp;&nbsp;&nbsp; {{log?.userid?.firstname}}
+                            {{log?.userid?.lastname}}
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            <p>{{ getTruncatedMessage(log?.message) }}</p>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <p>{{log?.message}}</p>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: center;">
+            <div *ngIf="trackerErrorLogs.length == 0">
+                No Error Logs
+            </div>
+        </div>
+        <mat-paginator #logsPaginator [pageSize]="logsSize" [length]="logsTotalDataCount"
+            [pageSizeOptions]="[5, 10, 20, 50, 100]" (page)="onPageChangeOfLogs($event)" [showFirstLastButtons]="true">
+        </mat-paginator>
+    </mat-card>
+</div>

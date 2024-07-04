@@ -1,0 +1,377 @@
+<!-- The Phone Number Input Modal -->
+<ng-template #phoneNumberInputModal let-modal let-c="close" let-d="dismiss">
+  <div class="modal-content auth-modal cb-model">
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <div *ngIf="action === 'signIn'">
+        <h4 class="modal-title">Welcome back!</h4>
+        <span class="modal-title-desc"
+          >To sign in, please enter your phone number.</span
+        >
+      </div>
+      <div *ngIf="action === 'register'">
+        <h4 class="modal-title">Thank you for <br />choosing CarBlip!</h4>
+        <span class="modal-title-desc"
+          >To sign up, please enter your phone number.</span
+        >
+      </div>
+      <div
+        *ngIf="
+          action === 'registerWithCar' || action === 'registerCustomRequest'
+        "
+      >
+        <h4 class="modal-title">That's a great car!</h4>
+        <span class="modal-title-desc"
+          >We need some info in order to continue.</span
+        >
+      </div>
+      <div *ngIf="action === 'expired'">
+        <h4 class="modal-title">Welcome back!</h4>
+        <span class="modal-title-desc"
+          >{{(authMessage$ | async)}}</span
+        >
+      </div>
+      <a class="close" (click)="onDismissPhoneInputModal()"
+        ><img src="assets/img/close.png" class="ic_close"
+      /></a>
+    </div>
+    <!-- Modal body -->
+    <div class="modal-body">
+      <div class="">
+        <form
+          id="phone-number-form"
+          class="phone-number-form"
+          [formGroup]="phoneNumberInputForm"
+        >
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control text"
+              [ngClass]="{ center: phoneNumberInputForm?.value.phoneNumber }"
+              aria-describedby="phoneNumberHelp"
+              placeholder="(000) 000-0000"
+              formControlName="phoneNumber"
+              inputmode="numeric"
+              pattern="^[2-9]\d{2}[- ]?[2-9]\d{2}[- ]?\d{4}$"
+              appAutofocus
+              appNoSpace
+              appPhoneNumber
+              (keyup)="checkPhoneForm()"
+              (focus)="setPhoneInputFocused(true)"
+              (blur)="setPhoneInputFocused(false)"
+            />
+            <span *ngIf="!phoneInputFocused" class="desc mt-2"
+              >You will receive an SMS verification code.</span
+            >
+            <span *ngIf="phoneInputFocused" class="desc mt-2">
+              Enter your phone number to get started.</span
+            >
+            <span class="desc small mt-5"
+              >By entering and verifying your mobile number, you confirm you
+              have read and agree to our Terms of Use, Privacy Policy, and ESIGN
+              Policy, and you authorize us to obtain information as needed to
+              fulfill your request.</span
+            >
+          </div>
+          <!-- <div class="captcha">
+            <re-captcha (resolved)="resolved($event)" siteKey={{siteKey}}>
+            </re-captcha>
+            </div> -->
+        </form>
+        
+        <a
+          class="btn btn-secondary ml-auto mr-auto d-block next-btn"
+          (click)="onVerifyPhone()" [ngClass]="phoneNumberInputForm.valid && !disableNextButton ? '' : 'disable'"
+          >NEXT</a
+        >
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Sms Verification Modal -->
+<ng-template #otpVerificationModal let-modal let-c="close" let-d="dismiss">
+  <div class="modal-content cb-model">
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <h4 *ngIf="!is_new_user" class="modal-title">
+        Welcome back,<br />{{ firstName }}!
+      </h4>
+      <h4 *ngIf="is_new_user" class="modal-title">Welcome to CarBlip!</h4>
+      <span class="modal-title-desc"
+        >Please enter 5-digit code texted to <br />
+        {{ phone | phone:'US'}}</span
+      >
+      <a class="close" (click)="onDismissVerificationModal()">
+        <img src="assets/img/close.png" class="ic_close" />
+      </a>
+    </div>
+    <!-- Modal body -->
+    <div class="modal-body">
+      <div class="text-center">
+        <form id="otp-form" class="otp-form" [formGroup]="otpForm">
+          <div class="form-group">
+            <input
+              [class.filledInput]="otpForm.get('otp1').value.length"
+              type="text"
+              inputmode="numeric"
+              class="form-control number"
+              formControlName="otp1"
+              (keyup)="autoFocusInputField($event, 1)"
+              maxlength="1"
+              pattern="[0-9]{1}" 
+              required
+              appAutofocus
+              appNoWhitespace
+              (paste)="onPaste($event)"
+            />
+            <input
+              [class.filledInput]="otpForm.get('otp2').value.length"
+              type="text"
+              inputmode="numeric"
+              class="form-control number"
+              formControlName="otp2"
+              (keyup)="autoFocusInputField($event, 2)"
+              maxlength="1"
+              pattern="[0-9]{1}" 
+              required
+              appNoWhitespace
+              (paste)="onPaste($event)"
+            />
+            <input
+              [class.filledInput]="otpForm.get('otp3').value.length"
+              type="text"
+              inputmode="numeric"
+              class="form-control number"
+              formControlName="otp3"
+              (keyup)="autoFocusInputField($event, 3)"
+              maxlength="1"
+              pattern="[0-9]{1}" 
+              required
+              appNoWhitespace
+              (paste)="onPaste($event)"
+            />
+            <input
+              [class.filledInput]="otpForm.get('otp4').value.length"
+              type="text"
+              inputmode="numeric"
+              class="form-control number"
+              formControlName="otp4"
+              (keyup)="autoFocusInputField($event, 4)"
+              maxlength="1"
+              pattern="[0-9]{1}" 
+              required
+              appNoWhitespace
+              (paste)="onPaste($event)"
+            />
+            <input
+              [class.filledInput]="otpForm.get('otp5').value.length"
+              type="text"
+              inputmode="numeric"
+              class="form-control number"
+              formControlName="otp5"
+              (keyup)="autoFocusInputField($event, 5)"
+              maxlength="1"
+              pattern="[0-9]{1}" 
+              required
+              appNoWhitespace
+              (paste)="onPaste($event)"
+            />
+          </div>
+        </form>
+        <p *ngIf="!is_new_user" class="dont-receive-label ">
+          Not {{ firstName }}?
+        </p>
+        <a class="d-block new-number" (click)="onReturnPhoneModal()"
+          >Click here to enter a new number.</a
+        >
+        <!-- <p class="text-center" *ngIf="counts !==0">Please wait for {{counts}} seconds to resend code.</p>
+        <a *ngIf="counts === 0" class="resend-link" (click)="onResendCode()"
+          >Didn't get it? Resend code.</a> -->
+
+        <p class="text-center" *ngIf="callCounter > 0 && !enableResendButton">Didn't receive the code? You may request another code in {{countDown}}</p>
+        <a *ngIf="callCounter === 0" class="resend-link" [ngClass]="callCounter == 0 ? 'disable' : ''" (click)="onResendCode()">Didn't get it? Resend code.</a>
+        <a *ngIf="enableResendButton" class="resend-link" (click)="onResendCode()">Didn't get it? Resend code.</a>
+        <a
+          class="btn btn-secondary ml-auto mr-auto d-block next-btn"
+          (click)="onVerifyOtp()"
+          >NEXT</a
+        >
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Name Modal -->
+<ng-template #nameModal let-modal let-c="close" let-d="dismiss">
+  <div class="modal-content auth-modal cb-model">
+    <!-- Modal Header -->
+    <div class="modal-header register-header">
+      <h4 class="modal-title">Welcome to<br />CarBlip!</h4>
+      <a class="close" (click)="onDismissNameModal()"
+        ><img src="assets/img/close.png" class="ic_close"
+      /></a>
+    </div>
+    <!-- Modal body -->
+    <div class="modal-body">
+      <div class="text-center">
+        <p class="modal-label">What's your first name?</p>
+        <form
+          id="register-form"
+          class="register-form"
+          [formGroup]="registerUserForm"
+        >
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control text"
+              placeholder="First Name"
+              formControlName="firstName"
+              appAutofocus
+              appNoSpace
+              required
+              (keyup)="onFirstNameKeyUp($event)"
+            />
+          </div>
+        </form>
+        <a
+          class="btn btn-secondary ml-auto mr-auto d-block next-btn"
+          (click)="onShowLastNameModal()"
+          >NEXT</a
+        >
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Last Name Modal -->
+<ng-template #lastNameModal let-modal let-c="close" let-d="dismiss">
+  <div class="modal-content auth-modal cb-model">
+    <!-- Modal Header -->
+    <div class="modal-header register-header">
+      <h4 class="modal-title">Welcome to<br />CarBlip!</h4>
+      <a class="close" (click)="onDismissLastnameModal()"
+        ><img src="assets/img/close.png" class="ic_close"
+      /></a>
+    </div>
+    <!-- Modal body -->
+    <div class="modal-body">
+      <div class="text-center">
+        <p class="modal-label">What's your last name?</p>
+        <form
+          id="register-form"
+          class="register-form"
+          [formGroup]="registerUserForm"
+        >
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control text"
+              placeholder="Last Name"
+              formControlName="lastName"
+              appAutofocus
+              appNoSpace
+              required
+              (keyup)="onLastNameKeyUp($event)"
+            />
+          </div>
+        </form>
+        <a
+          class="btn btn-secondary ml-auto mr-auto d-block next-btn"
+          (click)="onShowZipcodeModal()"
+          >NEXT</a
+        >
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Zip Code Modal -->
+<ng-template #zipCodeModal let-modal let-c="close" let-d="dismiss">
+  <div class="modal-content auth-modal cb-model">
+    <!-- Modal Header -->
+    <div class="modal-header register-header">
+      <h4 class="modal-title">Welcome to<br />CarBlip!</h4>
+      <a class="close" (click)="onDismissZipcodeModal()"
+        ><img src="assets/img/close.png" class="ic_close"
+      /></a>
+    </div>
+    <!-- Modal body -->
+    <div class="modal-body">
+      <div class="text-center">
+        <p class="modal-label">What's your zip code?</p>
+        <form
+          id="register-form"
+          class="register-form"
+          [formGroup]="registerUserForm"
+        >
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control text"
+              placeholder="Zip Code"
+              formControlName="zipcode"
+              appAutofocus
+              appNoSpace
+              required
+              appDigitOnly
+              (keyup)="onZipcodeKeyUp($event)"
+            />
+          </div>
+        </form>
+        <a
+          class="btn btn-secondary ml-auto mr-auto d-block next-btn"
+          (click)="onShowEmailModal()"
+          >NEXT</a
+        >
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Email Modal -->
+<ng-template #emailModal let-modal let-c="close" let-d="dismiss">
+  <div class="modal-content auth-modal cb-model">
+    <!-- Modal Header -->
+    <div class="modal-header register-header">
+      <h4 class="modal-title">Welcome to<br />CarBlip!</h4>
+      <a class="close" (click)="onDismissEmailModal()"
+        ><img src="assets/img/close.png" class="ic_close"
+      /></a>
+    </div>
+    <!-- Modal body -->
+    <div class="modal-body">
+      <div class="text-center">
+        <p class="modal-label">And your email?</p>
+        <form
+          id="register-form"
+          class="register-form"
+          [formGroup]="registerUserForm"
+        >
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control text mb-4"
+              placeholder="Email"
+              formControlName="email"
+              pattern="[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,64}"
+              appAutofocus
+              appNoSpace
+              (keyup)="onEmailKeyUp($event)"
+            />
+            <span class="desc small"
+              >We use your email to keep you posted about your request and CarBlip.
+              Please check our <a href=" https://www.carblip.com/privacy-policy/" target="_blank">privacy policy</a> for full details.
+            </span>
+          </div>
+        </form>
+        <a
+          class="btn btn-secondary ml-auto mr-auto d-block next-btn"
+          (click)="onRegisterUser()" [ngClass]="{'disabled': hideNextButton}"
+          [class.disabled]="hideNextButton"
+          >NEXT</a
+        >
+      </div>
+    </div>
+  </div>
+</ng-template>

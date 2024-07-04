@@ -1,0 +1,24 @@
+.config-panel-toggle {
+  bottom: var(--padding);
+  position: fixed;
+  right: var(--padding);
+  z-index: 100;
+}
+
+::ng-deep [dir="rtl"] .config-panel-toggle {
+  left: var(--padding);
+  right: unset;
+}
+
+
+.config-panel-toggle-help {
+  top: var(--padding);
+  position: fixed;
+  right: var(--padding);
+  z-index: 100;
+  margin-right: -10px !important;
+}
+
+.is-mobile {
+  margin-top: var(--toolbar-height);
+}

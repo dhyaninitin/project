@@ -1,0 +1,32 @@
+.job-highlight {
+    // padding-left: 20px;
+    li {
+        position: relative;
+        padding-left: 15px;
+        margin-bottom: 10px;
+        &:before {
+            content: '';
+            padding: 5px;
+            
+            position: absolute;
+            left: 0;
+            top: 4px;
+        }
+        &.green::before{
+            background-color: #5ce15d;
+            border: 1px solid #5ce15d;
+        }
+        &.blue::before{
+            background-color: #2cb7df;
+            border: 1px solid #2cb7df;
+        }
+        &.gray::before{
+            background-color: #f2f2f2;
+            border: 1px solid #dcdbdb;
+        }
+
+    }
+}
+.dash-label{
+    color: #053178;
+}

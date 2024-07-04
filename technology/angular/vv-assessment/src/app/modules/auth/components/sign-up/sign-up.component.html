@@ -1,0 +1,96 @@
+<div style="background-color: #f0f0f0; min-height:100vh; max-height: fit-content; padding-top: 2%; display: flex;">
+    <div class="col-7">
+        <img src="../../../../../assets/img/Transparent_logo_WhiteBG.png" height="50%" width="100%">
+        <div style="padding-left: 5%;">
+            <h2>Virtuevise</h2>
+            <p>Virtuevise is a software development company that provides cutting-edge Web/Mobile solutions and digital
+                transformation consultancy. We translate your requirements into premier business solutions, with a team
+                of software professionals working round the clock around the globe!</p>
+            <p>We craft your ideas into a business, your risks into revenue, and your lag into efficiency! From niche
+                businesses who want a unique solution to enterprises, who deem SAAS as an apt choice; we deliver the
+                best Web/Mobile solutions simulating your vision.</p>
+        </div>
+    </div>
+    <div class="col-5" style="margin-top: 1%;">
+        <div class="outer-div">
+        <h1 style="text-align: center; font-weight: 700; font-size: 28px;">VV-ASSESSMENT PORTAL</h1>
+            <mat-card
+                style="border: 1px solid black; background-color: #f0f0f0; box-shadow: 0px 0px 3px 3px #f0a400  !important;">
+                <h2 style="text-align: center;  margin-top: 3%;">
+                    Register Here
+                </h2>
+                <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+                    <div class=" row p-4">
+
+                        <div class="d-flex">
+                            <div class="col-6">
+                                <mat-form-field class="form-field" appearance="outline">
+                                    <mat-label>First Name</mat-label>
+                                    <input matInput formControlName="firstname" required>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6">
+                                <mat-form-field class="form-field" appearance="outline">
+                                    <mat-label>Last Name</mat-label>
+                                    <input matInput formControlName="lastname" required>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="col-6">
+                                <mat-form-field class="form-field" appearance="outline">
+                                    <mat-label>Email</mat-label>
+                                    <input matInput formControlName="email" required>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6">
+                                <mat-form-field class="form-field" appearance="outline">
+                                    <mat-label>Phone</mat-label>
+                                    <input matInput formControlName="phone" required onlyNumbers>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="col-6">
+                                <mat-form-field class="form-field" appearance="outline">
+                                    <mat-label>Session Year</mat-label>
+                                    <input matInput formControlName="year" required>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6">
+                                <mat-form-field class="form-field" appearance="outline">
+                                    <mat-label>course</mat-label>
+                                    <mat-select formControlName="education" required>
+                                        <mat-option *ngFor="let course of courses" [value]="course">
+                                            {{course}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="col-6">
+                                <mat-form-field class="form-field" appearance="outline">
+                                    <mat-label>College code</mat-label>
+                                    <input matInput formControlName="collegeCode" required>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6">
+                                <mat-form-field class="form-field" appearance="outline">
+                                    <mat-label>College Name</mat-label>
+                                    <input matInput formControlName="collegeName" required onlyNumbers>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <button class="custom-btn-style" type="submit" mat-stroked-button>
+                            Register
+                        </button>
+                    </div>
+                </form>
+            </mat-card>
+        </div>
+    </div>
+</div>

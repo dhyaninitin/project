@@ -1,0 +1,155 @@
+<div class="box-container">
+  <div class="upper-sec">
+    <div>
+      <h4>
+        <img src="assets/img/flag.svg" alt="" />
+        Verify Offer Template
+      </h4>
+    </div>
+  </div>
+
+  <div class="mid-sec">
+    <div class="user-details">
+      <div class="common-div">
+        <div class="d-flex flex-column">
+          <mat-label>Template Name</mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="Template " [(ngModel)]="templateName" readonly/>
+          </mat-form-field>
+        </div>
+      </div>
+      <form [formGroup]="customFieldsForm">
+        <ng-container *ngFor="let customField of customFields; let i=index;">
+      <div class="common-div" *ngIf="customField.fieldtype === 'Text-Box'">
+        <div class="d-flex flex-column">
+          <mat-label>{{customField.fieldname}}</mat-label>
+            <mat-form-field appearance="outline" [formControlName]="customField.customfieldid">
+              <span *ngIf="customField.configuration.datatype === 'Alpha'">
+              <input matInput [formControlName]="customField.customfieldid" [placeholder]="customField.configuration.placeholdertext" [maxlength]="customField.configuration.fieldlength" [required]="customField.ismandatory == 1" (keypress)="!isNumber($event)"/>
+              </span>
+              <span  *ngIf="customField.configuration.datatype === 'Numeric'">
+                <input matInput [formControlName]="customField.customfieldid" [placeholder]="customField.configuration.placeholdertext" [maxlength]="customField.configuration.fieldlength" [required]="customField.ismandatory == 1" (keypress)="isNumber($event)"/>
+              </span>
+              <span *ngIf="customField.configuration.datatype === 'Custom'">
+                <input matInput  [formControlName]="customField.customfieldid" [placeholder]="customField.configuration.placeholdertext" [maxlength]="customField.configuration.fieldlength" [required]="customField.ismandatory == 1"/>
+              </span>
+            </mat-form-field>
+        </div>
+      </div>
+      <div class="common-div" *ngIf="customField.fieldtype === 'Drop-Down'">
+        <div class="d-flex flex-column">
+          <mat-label>{{customField.fieldname}}</mat-label>
+          <mat-form-field appearance="outline">
+            <mat-select  [placeholder]="customField.fieldname" [formControlName]="customField.customfieldid" *ngIf="customField.configuration.parentValueField1 == undefined">
+              <mat-option *ngFor="let option of convertToArray(customField.configuration)" [value]="option">{{option}}</mat-option>
+            </mat-select>
+            <mat-select [placeholder]="customField.fieldname" [formControlName]="customField.customfieldid" *ngIf="customField.configuration.parentValueField1 !== undefined">
+              <mat-option *ngFor="let option of convertToArray(customField.configuration)" [value]="option">{{option}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="common-div" *ngIf="customField.fieldtype === 'Date-Picker'">
+        <div class="d-flex flex-column">
+          <mat-label>{{customField.fieldname}}</mat-label>
+          <mat-form-field appearance="fill" class="example-form-field" [formControlName]="customField.customfieldid">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="datepicker">
+            <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+            <mat-datepicker #datepicker>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+        </ng-container>
+      </form>
+      <div class="common-div analytics-section">
+        <span class=""></span>
+        <div class="d-flex flex-column">
+          <div class="user-box">
+            <div class="box-title">
+              <img src="assets/img/docs.svg" alt="" />
+              <h2>Sample Offer Template</h2>
+              <p>Show Less</p>
+              <div class="arrw"><img src="assets/img/arrw.png" alt="" /></div>
+            </div>
+            <hr />
+            <p>Average CTC of the EDC <span class="value">1375008</span></p>
+            <p>EDC Wise CTC Difference <span class="value">1375008</span></p>
+            <p>CTC Exceeds of EDC <span class="value">No</span></p>
+            <p>
+              Level Wise Average CTC of the EDC
+              <span class="value">1225007</span>
+            </p>
+            <p>Level Wise CTC Difference <span class="value">1225007</span></p>
+            <p>CTC Exceeds of Level <span class="value">No</span></p>
+            <p>Quartile Positionling <span class="value">Below Market</span></p>
+            <p>CTC Exceeds Q2 <span class="value">No</span></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="common-div">
+        <span class=""></span>
+        <div class="d-flex flex-column">
+          <div class="last-details">
+            <mat-label>Total Salary</mat-label>
+            <span class="weekly">
+              <mat-form-field appearance="outline">
+                <mat-select placeholder="Weekly" [(ngModel)]="timePeriod" disabled>
+                  <mat-option value="Weekly">Weekly</mat-option>
+                  <mat-option value="Monthly">Monthly</mat-option>
+                  <mat-option value="Yearly">Yearly</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </span>
+            <span class="usd">
+              <mat-form-field appearance="outline">
+                <mat-select placeholder="USD" [(ngModel)]="currencyType" (selectionChange)="changeCurrencyTypeF($event)">
+                  <mat-option value="INR">INR</mat-option>
+                  <mat-option value="USD">USD</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </span>
+            <span class="num" *ngIf="verifyOfferDetails?.templatetype !== TEMPLATE_TYPE.BASED_ON_OFFER">
+              <mat-form-field appearance="outline">
+                <input matInput placeholder="Total Salary" [(ngModel)]="totalSalary" (keyup)="calculate()"/>
+              </mat-form-field>
+            </span>
+          </div>
+        </div>
+      </div>
+      <form [formGroup]="form">
+    <ng-container *ngFor="let component of offerComponents; let i=index;">
+      <div class="common-div" *ngIf="verifyOfferDetails">
+        <span class=""></span>
+        <div class="d-flex flex-column">
+          <span class="last-details">
+            <mat-label>{{component.fieldname}}</mat-label>
+            <mat-form-field appearance="outline" *ngIf="verifyOfferDetails.templatetype !== TEMPLATE_TYPE.BASED_ON_OFFER">
+              <input matInput [placeholder]="component.fieldname" [formControlName]="component.offercomponentid" readonly/>
+            </mat-form-field>
+            <mat-form-field appearance="outline" *ngIf="verifyOfferDetails.templatetype === TEMPLATE_TYPE.BASED_ON_OFFER">
+              <input matInput [placeholder]="component.fieldname" [formControlName]="component.offercomponentid" (keyup)="calculateGrandTotalForOfferType(component, i)"/>
+            </mat-form-field>
+          </span>
+        </div>
+      </div>
+    </ng-container>
+  </form>
+  <div class="common-div total">
+  <h2 *ngIf="verifyOfferDetails?.templatetype !== TEMPLATE_TYPE.BASED_ON_OFFER"> Grand Total : {{getGrandTotal(grandTotal, totalSalary)}} </h2>  
+  <h2 *ngIf="verifyOfferDetails?.templatetype === TEMPLATE_TYPE.BASED_ON_OFFER"> Grand Total : {{grandTotal}} </h2>  
+  </div>
+      <div class="common-div">
+        <div class="d-flex flex-column">
+          <button mat-flat-button color="primary" id="back-btn-from-verify-offer" (click)="closeDrawer()">Back</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

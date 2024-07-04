@@ -1,0 +1,694 @@
+<div class="">
+<div class="card-box ">
+  <div class="row">
+    <h4 class="page-title" style="padding-left: 15px;">Applications</h4>
+  </div>
+</div>
+ 
+<div class="card-box card-bg boxa">
+
+  <div class="row">
+    <div class="">
+      <div class="input-group m-b-20">
+        <!-- <input class="form-control"  type="text" value="" placeholder="Search" style="width: 300px;">
+                    <span class="input-group-append">
+                        <button type="button"  class="btn waves-effect waves-light btn-primary"  style="height: 35px; padding: 6px 18px; border-radius: 0.20rem;" ><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </span> -->
+        <button type="button" class="btn btn-outline-primary btn-option filterBtn" (click)="isCollapsed = !isCollapsed"
+          [attr.aria-expanded]="!isCollapsed" aria-controls="collapseSearch" [ngClass]="isCollapsed ? 'mb-4' : ''"
+          style="height: 35px; padding: 6px 18px; margin-left: 4px;border-radius:20px"><i class="fa fa-sliders"
+            aria-hidden="true"></i> Filters
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="isCollapsed">
+    <div class="col-sm-2">
+      <div class="form-group">
+        <select class="form-control oval-shape" name="jobType" [(ngModel)]="dataFilter.jobPostId.jobType">
+          <option value="">All Job Type</option>
+          <option value="{{jobTypes.TEMPORARY}}">Temporary</option>
+          <option value="{{jobTypes.PERMANENTFULLTIME}}">Permanent Full Time</option>
+          <option value="{{jobTypes.PERMANENTPARTTIME}}">Permanent Part Time</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-sm-2">
+      <div class="form-group">
+        <input type="text" class="form-control oval-shape" name="jobTitle" [(ngModel)]="dataFilter.jobPostId.jobTitle" id="jobTitle" placeholder="Job Title">
+      </div>
+    </div>
+    <div class="col-sm-2">
+      <div class="form-group">
+        <dp-date-picker [(ngModel)]="dataFilter.jobPostId.jobDate" class="oval-shape" placeholder="Select Job Date" [config]="datePickerConfig">
+        </dp-date-picker>
+      </div>
+    </div>
+    <div class="col-sm-2">
+      <div class="form-group">
+        <input type="text" class="form-control oval-shape" name="practiceName" [(ngModel)]="dataFilter.jobPostId.practice" id="practiceName" placeholder="Practice Name">
+      </div>
+    </div>
+    <div class="col-sm-2">
+      <div class="form-group">
+        <select class="form-control oval-shape" name="tagStatus" [(ngModel)]="dataFilter.practiceId.tagStatus">
+          <option value="">All Statuses</option>
+          <option value="hired">Hired</option>
+          <option value="declined">Declined</option>
+          <option value="applied">Applied</option>
+          <option value="final-offer">Final Offer Received</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-sm-2">
+      <div>
+        <button type="button" class="btn btn-outline-success" (click)="setFilter()">Apply</button>
+        <button type="button" class="btn btn-outline-danger" (click)="resetFilter()">Reset</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+<div class="row">
+  <div class="col-md-12 col-lg-12" *ngIf="offerList?.length">
+    <div *ngFor="let offer of offerList  | grdFilter: setDataFilter: false: ['jobPostId', 'practiceId'] | paginate: { itemsPerPage: itemsPerPage, currentPage: p, totalItems: totalItem };">
+      <div class="card-box card-bg boxa">
+        <div class="row mt-1" style="margin-top: -35px; margin-bottom: 15px;">
+          <div class="col-md-4 col-lg-4">
+            <div class="" style="font-weight: 00;">
+              <div class="pull-left">
+                {{offer?.jobPostId?.jobTitle | titleCase}}&nbsp;&nbsp;
+              </div>
+              <!-- <span *ngIf="offer?.updatedOffer" class="badge badge-danger">New</span></div> -->
+              <div class="pull-left" [innerHTML]="getStatus(offer)"></div>
+              <a class="pull-left" *ngIf="offer?.status == 'decline'" style="color: #f86c6b; padding-left: 20px;" (click)=viewReason(offer)>View Reason</a>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4" *ngIf="offer?.offerStatus == 'recounter' && offer?.status === offerStatus.OFFER && offer?.jobPostId.status !==offerStatus.EXPIRED">
+            <div class=" mobileAlignment" style="font-weight: 500; text-align: center;">
+              <a [routerLink]="['/job-details',offer?.jobPostId?._id]" (click)="openJobList()"
+                  data-toggle="tooltip" title="{{offer?.jobTitle?.toLowerCase()}}">View job post</a>
+            </div>
+          </div> 
+          <div class="col-md-4 col-lg-4" *ngIf="!(offer?.offerStatus == 'recounter' && offer?.status === offerStatus.OFFER && offer?.jobPostId.status !==offerStatus.EXPIRED)"></div>
+          <div class="col-md-4 col-lg-4">
+            <div class="text-end" [innerHTML]="getConditionStatus(offer)"></div>
+          </div>
+        </div>
+        <div class="row boxa">
+          <div class="col-md-4 col-lg-4">
+            <div class="boxa">
+              <div class="card">
+                <div class="card-body" > 
+                  <div class="row">
+                    <div class="col-md-6 pl-0 my-auto" style="text-align: center;">
+                      <img *ngIf="offer?.practiceId?.profilePhoto[0] !== '' && offer?.practiceId?.profilePhoto[0] !== null && offer?.practiceId?.profilePhoto[0] !== undefined" src="{{offer?.practiceId?.profilePhoto[0]}}" width="86" class="img-responsive profile-pic">
+                      <img *ngIf="offer?.practiceId?.profilePhoto[0] == '' || offer?.practiceId?.profilePhoto[0] == null || offer?.practiceId?.profilePhoto[0] ==undefined"
+                      src="../../../../../../assets/img/brand/densub-logo-final.jpg" class="img-responsive profile-pic" width="86">
+
+                      <div  class="mt-1">
+                        <i *ngIf="offer?.practiceId?.avgRating > 0 && offer?.practiceId?.avgRating != null && offer?.practiceId?.avgRating != undefined;"
+                          class="fa fa-star fa-1x" aria-hidden="true" style="color: orange;"></i>
+                        <i *ngIf="offer?.practiceId?.avgRating > 1" class="fa fa-star fa-1x" aria-hidden="true" style="color: orange;"></i>
+                        <i *ngIf="offer?.practiceId?.avgRating > 2" class="fa fa-star fa-1x" aria-hidden="true" style="color: orange;"></i>
+                        <i *ngIf="offer?.practiceId?.avgRating > 3" class="fa fa-star fa-1x" aria-hidden="true" style="color: orange;"></i>
+                        <i *ngIf="offer?.practiceId?.avgRating > 4" class="fa fa-star fa-1x" aria-hidden="true" style="color: orange;"></i>
+                        <i *ngIf="offer?.practiceId?.avgRating == 0" class="fa fa-star fa-1x" aria-hidden="true" style="color: lightgray;"></i>
+                        <i *ngIf="offer?.practiceId?.avgRating < 1" class="fa fa-star fa-1x" aria-hidden="true" style="color: lightgray;"></i>
+                        <i *ngIf="offer?.practiceId?.avgRating < 2" class="fa fa-star fa-1x" aria-hidden="true" style="color: lightgray;"></i>
+                        <i *ngIf="offer?.practiceId?.avgRating < 3" class="fa fa-star fa-1x" aria-hidden="true" style="color: lightgray;"></i>
+                        <i *ngIf="offer?.practiceId?.avgRating < 4" class="fa fa-star fa-1x" aria-hidden="true" style="color: lightgray;"></i>
+                      </div>
+                    </div>
+                    <div class="col-md-6 align-self-center pl-0 pr-0" style="text-align: center;">
+                      <div class="text-l">
+                        <!-- <h3 class="heading">{{offer?.practiceId?.firstName}} {{offer?.practiceId?.lastName}}</h3> -->
+                        
+                        <div class="text-capitalize custom-cursor-pointer" *ngIf="offer?.practiceId?.practiceAccount === 'multi'" style="color: black; margin: 10px 0px;" [routerLink]="['/practice-profile',offer?.practiceId?._id]">
+                          <i class="fa fa-id-card" aria-hidden="true" title="Company Name"></i> {{globalService.shortPracticeName(offer?.practiceId?.companyName)}}</div>
+                          <div class="text-capitalize custom-cursor-pointer" style="color: black; margin: 10px 0px;" [routerLink]="['/practice-profile',offer?.practiceId?._id]">
+                            <i class="fa fa-user" aria-hidden="true" title="Practice Name"></i> {{globalService.shortPracticeName(offer?.practiceName?.practiceName)}}</div>
+                        <div class="text-capitalize" style="color: black; margin: 10px 0px;">
+                          <i class="fa fa-stethoscope" aria-hidden="true" title="Practice Type"></i> {{offer?.practiceName?.practiceType?.practiceType}}</div>
+                        <div class="text-capitalize" style="color:black; margin: 10px 0px;">
+                          <i class="fa fa-map-marker" aria-hidden="true" title="Location"></i> {{offer?.practiceName?.city?.city | slice:3:offer?.practiceName?.city?.city.length}}, {{offer?.practiceName?.state?.state}}</div>
+                        <div style="color: black; margin: 10px 0px;">{{offer?.jobsPosted}} Jobs Posted </div>
+                        <div  class="mt-0">                        
+                          <div style="color: black; margin: 10px 0px;">{{offer?.hiredCounts}} Hired </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6 align-self-center" style="padding:0px ">
+            <div class="boxb">
+              <div class="stripa p-3 mb-4" style="margin-top: -20px;">
+                <!-- <h5 class="statusbar" hidden [innerHTML]="getStatus(offer)"></h5> -->
+                  <div class="row mt-2"  style="margin-bottom: -20px;">
+                    <div class="col-md-3">
+                      <div class="text-center" style="font-weight: 00;">
+                        <div class="">
+                          <div class="">{{offer?.jobPostId?.jobDate | date : 'shortDate'}}</div>
+                              <div class="value" *ngIf="offer?.jobPostId?.jobType === jobTypes.TEMPORARY">Job Date</div>
+                              <div class="value" *ngIf="offer?.jobPostId?.jobType !== jobTypes.TEMPORARY">Job Start Date</div>&nbsp;&nbsp;
+                        </div>
+                        <!-- <span *ngIf="offer?.updatedOffer" class="badge badge-danger">New</span></div> -->
+                        <!-- <div class="pull-left" [innerHTML]="getStatus(offer)"></div> -->
+                      </div>
+                    </div>
+                    <div class="col-md-3" style="font-weight: 500; text-align: center;">
+                      <div class="" *ngIf="offer?.jobPostId?.jobType === 'temporary'"> Temporary</div>
+                      <div class="" *ngIf="offer?.jobPostId?.jobType === 'permanentFullTime'"> Permanent Full Time</div>
+                      <div class="" *ngIf="offer?.jobPostId?.jobType === 'permanentPartTime'">Permanent Part Time</div>
+                      <div class="value">Job Type</div>&nbsp;&nbsp;
+                    </div>
+                    <div class="col-md-3 text-center" style="font-weight: 500;">
+                       <div class=""> {{offer?.jobPostId?.positionType}}</div>
+                       <div class="value">Position</div>&nbsp;&nbsp;
+                    </div>
+                    <div class="col-md-3 text-center">
+                      <div class="">{{offer?.createdAt | date : 'shortDate'}}</div>
+                      <div class="value">Applied On</div>&nbsp;&nbsp;        
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="offer?.offerSteps?.counter?.amount == 0 &&  offer?.offerSteps?.recounter?.amount == 0">
+                    <div class="col-md-12 mt-2" style="text-align: center; padding:5px; margin-top: 0px;">
+                     
+                      <div class="card" [ngClass]="{'divdisabled':offer?.offerStatus !== 'initial'}" style="margin-bottom: 0px">
+                        <div class="card-body" style="padding: 0px;" >
+                          <div class="row"> 
+                            <div class="col-md-3 mt-2">
+                              <div class="">{{offer?.jobPostId?.startTime | date : 'shortTime'}}</div>
+                              <div class="value">Start Time</div>
+                            </div>
+                            <div class="col-md-3 mt-2">
+                              <div class=""> {{offer?.jobPostId?.endTime | date : 'shortTime'}}</div>
+                              <div class="value">End Time</div>
+                            </div>
+                            <div class="col-md-2 mt-2">
+                              <div class="">${{offer?.offerSteps?.initial?.amount | number}}</div>
+                              <div class="value">Job Rate</div>
+                            </div>
+                            <div class="col-md-3 mt-2">
+                              Initial Job Terms
+                            </div>
+                            <div class="col-md-1 mt-2" *ngIf="offer?.offerSteps?.initial?.message?.length > 0">
+                              <button type="button" class="btn"  style="margin: -10px" (click)="messageFromStaffs(offer?.offerSteps.initial.message, offer?.offerSteps.initial.offerTime)">
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="offer?.offerSteps?.counter?.amount != 0">
+                    <div class="col-md-12 mt-2" style="text-align: center; padding:5px">
+                      
+                      <div class="card" [ngClass]="{'divdisabled':offer?.offerStatus !== 'counter'}" style="margin-bottom: 0px">
+                        <div class="card-body" style="padding: 0px;">
+                          <div class="row"> 
+                            <div class="col-md-3 mt-2">
+                              <div [ngClass]="{'key': offer?.offerSteps?.initial?.startTime !== offer?.offerSteps?.counter?.startTime }">{{offer?.offerSteps?.counter?.startTime | date : 'shortTime'}}</div>
+                              <div class="value"><span class="fa fa-exchange mr-2" style="color: orange;" *ngIf="offer?.offerSteps?.initial?.startTime !== offer?.offerSteps?.counter?.startTime"></span>Start Time</div>
+                            </div>
+                            <div class="col-md-3 mt-2">                            
+                              <div [ngClass]="{'key': offer?.offerSteps?.initial?.endTime !== offer?.offerSteps?.counter?.endTime }">{{offer?.offerSteps?.counter?.endTime | date : 'shortTime'}}</div>
+                              <div class="value"><span class="fa fa-exchange mr-2" style="color: orange;" *ngIf="offer?.offerSteps?.initial?.endTime !== offer?.offerSteps?.counter?.endTime"></span>End Time</div>
+                            </div>
+                            <div class="col-md-2 mt-2 px-0">
+                              <div [ngClass]="{'key': offer?.offerSteps?.initial?.amount !== offer?.offerSteps?.counter?.amount }" class="">${{offer?.offerSteps?.counter?.amount | number}}</div>
+                              <div class="value"><span class="fa fa-exchange mr-2" style="color: orange;" *ngIf="offer?.offerSteps?.initial?.amount !== offer?.offerSteps?.counter?.amount"></span>Job Rate</div>
+                            </div>
+                            <div class="col-md-3 mt-2">
+                              Counter offer by <br>{{offer?.staffId.firstName}} {{offer?.staffId.lastName}}
+                            </div>
+                            <div class="col-md-1 mt-2" *ngIf="offer?.offerSteps?.counter?.message?.length > 0">
+                              <button type="button" class="btn"  style="margin: -10px" (click)="messageFromStaffs(offer?.offerSteps.counter.message,offer?.offerSteps.counter.offerTime)">
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                            </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="offer?.offerSteps?.recounter?.amount != 0">
+                    <div class="col-md-12 mt-2" style="text-align: center; padding:5px">
+                      
+                      <div class="card" [ngClass]="{'divdisabled':offer?.offerStatus !== 'recounter'}" style="margin-bottom: 0px">
+                        <div class="card-body" style="padding: 0px;">
+                          <div class="row"> 
+                            <div class="col-md-3 mt-2">
+                              <div [ngClass]="{'key': offer?.offerSteps?.counter?.startTime !== offer?.offerSteps?.recounter?.startTime }">{{offer?.offerSteps?.recounter?.startTime | date : 'shortTime'}}</div>
+                              <div class="value"><span class="fa fa-exchange mr-2" style="color: orange;" *ngIf="offer?.offerSteps?.counter?.startTime !== offer?.offerSteps?.recounter?.startTime"></span>Start Time</div>
+                            </div>
+                            <div class="col-md-3 mt-2">
+                              <div [ngClass]="{'key': offer?.offerSteps?.counter?.endTime !== offer?.offerSteps?.recounter?.endTime }">{{offer?.offerSteps?.recounter?.endTime | date : 'shortTime'}}</div>
+                              <div class="value"><span class="fa fa-exchange mr-2" style="color: orange;" *ngIf="offer?.offerSteps?.counter?.endTime !== offer?.offerSteps?.recounter?.endTime"></span>End Time</div>
+                            </div>
+                            <div class="col-md-2 mt-2 px-0">
+                              <div [ngClass]="{'key': offer?.offerSteps?.counter?.amount !== offer?.offerSteps?.recounter?.amount }">${{offer?.offerSteps?.recounter?.amount | number}}</div>
+                              <div class="value"><span class="fa fa-exchange mr-2" style="color: orange;" *ngIf="offer?.offerSteps?.counter?.amount !== offer?.offerSteps?.recounter?.amount"></span>Job Rate</div>
+                            </div>
+                            <div class="col-md-3 mt-2">
+                              Final offer from <br> {{offer?.practiceId?.firstName}} {{offer?.practiceId?.lastName.charAt(0)}}
+                            </div>
+                            <div class="col-md-1 mt-2" *ngIf="offer?.offerSteps?.recounter?.message?.length > 0">
+                              <button type="button" class="btn"  style="margin: -10px" (click)="messageFromStaffs(offer?.offerSteps.recounter.message,offer?.offerSteps.recounter.offerTime)">
+                                  <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                              </button>
+                              
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="">
+                      <ngx-carousel 
+                      [inputs]="carouselOne"
+                      (carouselLoad)="myfunc($event)" style="padding-left: 26px;
+                      padding-right: 19px;">
+                       <ngx-item class="" NgxCarouselItem data-toggle="tooltip" title="Required Specialty" *ngFor="let reqspec of offer?.jobPostId?.requiredSpecialities">
+                        <span *ngIf="offer?.jobPostId?.requiredSpecialities.length > 0">
+                        <span *ngIf="offer?.jobPostId?.requiredSpecialities.length"><p *ngIf="reqspec.specialty !=='Other'" class="tag mr-2">{{reqspec.specialty}}</p></span></span>
+                      </ngx-item>
+                      <ngx-item class="" NgxCarouselItem data-toggle="tooltip" title="Preferred Specialty" *ngFor="let prespec of offer?.jobPostId?.preferredSpecialities">
+                        <span *ngIf="offer?.jobPostId?.preferredSpecialities.length > 0">
+                        <span *ngIf="offer?.jobPostId?.preferredSpecialities.length"><p *ngIf="prespec.specialty !=='Other'" class="tag mr-2">{{prespec.specialty}}</p></span></span>
+                      </ngx-item>
+                      <ngx-item class="" NgxCarouselItem data-toggle="tooltip" title="Required Certificate" *ngFor="let reqcerti of offer?.jobPostId?.requiredCertificates">
+                        <span *ngIf="offer?.jobPostId?.requiredCertificates.length > 0">
+                        <span *ngIf="offer?.jobPostId?.requiredCertificates.length"><p *ngIf="reqcerti.certificate !=='National Entry Level Dental Assistant (NELDA)'" class="tag mr-2">{{reqcerti.certificate}}</p></span>
+                        <span *ngIf="offer?.jobPostId?.requiredCertificates.length"><p *ngIf="reqcerti.certificate === 'National Entry Level Dental Assistant (NELDA)'" class="tag mr-2">NELDA</p></span></span>
+                      </ngx-item>
+                      <ngx-item class="" NgxCarouselItem data-toggle="tooltip" title="Preferred Certificate" *ngFor="let precerti of offer?.jobPostId?.preferredCertificates">
+                        <span *ngIf="offer?.jobPostId?.preferredCertificates.length > 0">
+                        <span *ngIf="offer?.jobPostId?.preferredCertificates.length"><p *ngIf="precerti.certificate !=='National Entry Level Dental Assistant (NELDA)'" class="tag mr-2">{{precerti.certificate}}</p></span>
+                        <span *ngIf="offer?.jobPostId?.preferredCertificates.length"><p *ngIf="precerti.certificate === 'National Entry Level Dental Assistant (NELDA)'" class="tag mr-2">NELDA</p></span></span>
+                      </ngx-item>
+                      <ngx-item class="" NgxCarouselItem data-toggle="tooltip" title="Required Skill" *ngFor="let reqskill of offer?.jobPostId?.requiredSkills">
+                        <span *ngIf="offer?.jobPostId?.requiredSkills.length > 0">
+                        <span *ngIf="offer?.jobPostId?.requiredSkills.length"><p *ngIf="reqskill.skill !=='Other'" class="tag mr-2">{{reqskill.skill}}</p></span></span>
+                      </ngx-item>
+                      <ngx-item class="" NgxCarouselItem data-toggle="tooltip" title="Preferred Skill" *ngFor="let preskill of offer?.jobPostId?.preferredSkills">
+                        <span *ngIf="offer?.jobPostId?.preferredSkills.length > 0">
+                        <span *ngIf="offer?.jobPostId?.preferredSkills.length"><p *ngIf="preskill.skill !=='Other'" class="tag mr-2">{{preskill.skill}}</p></span></span>
+                      </ngx-item>
+                       <ngx-item class="" NgxCarouselItem data-toggle="tooltip" title="Benefit" *ngFor="let bs of offer?.jobPostId?.benefits">
+                        <span *ngIf="offer?.jobPostId?.benefits.length > 0">
+                        <span *ngIf="offer?.jobPostId?.benefits.length"><p class="tag mr-2">{{bs.benefits}}</p></span></span>
+                      </ngx-item>
+                      <ngx-item  class="" NgxCarouselItem *ngIf="offer?.jobPostId?.covidVaccine">
+                        <p class="tag mr-2"  data-toggle="tooltip" title="Covid-19 Vaccination">Covide-19 Vaccination</p>
+                        </ngx-item>
+                        <ngx-item class="" NgxCarouselItem *ngIf="offer?.jobPostId?.hepC">
+                        <p class="tag mr-2"  data-toggle="tooltip" title="Hep B Vaccination">Hep B Vaccination</p>
+                        </ngx-item>
+                        <ngx-item class="" NgxCarouselItem *ngIf="offer?.jobPostId?.malpractice">
+                        <p class="tag mr-2"  data-toggle="tooltip" title="Valid Malpractice insurance policy">Valid Malpractice insurance policy</p>
+                        </ngx-item>
+                        <ngx-item class="" NgxCarouselItem *ngIf="offer?.jobPostId?.childAbuse">
+                        <p class="tag mr-2"  data-toggle="tooltip" title="Child Abuse History Clearance">Child Abuse History Clearance</p>
+                        </ngx-item>
+                        <ngx-item class="" NgxCarouselItem data-toggle="tooltip" title="Experience">
+                          <p class="tag mr-2">Experience: {{offer?.jobPostId?.experience}}</p>
+                        </ngx-item>
+                      <ngx-item class="" NgxCarouselItem></ngx-item>
+                      <ngx-item class="" NgxCarouselItem></ngx-item>
+                      <ngx-item class="" NgxCarouselItem></ngx-item>
+                      <button type="button" NgxCarouselPrev class='leftRs'>&lt;</button>
+                      <button type="button" NgxCarouselNext class='rightRs'>&gt;</button>
+                      </ngx-carousel>
+                      </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2 col-lg-2 align-self-center" style="text-align: center;">
+            <button data-toggle="tooltip" title="View final offer message" *ngIf="offer?.offerSteps?.final?.message.length > 0" type="button" class="btn btn-outline-primary btn-option" style="padding-left: 0px; border: 0px solid #ffffff;"
+              aria-controls="collapseSearch" (click)="messageFromStaffs(offer?.offerSteps?.final?.message, offer?.offerSteps?.final?.offerTime)">
+              <i class="fa fa-envelope-open-o" aria-hidden="true"></i>
+           </button>  
+           <div class="">
+            <!-- <a *ngIf="offer?.jobPostId?.jobType === jobTypes.TEMPORARY && offer?.offerStatus == 'recounter' && offer?.status === offerStatus.OFFER && offer?.jobPostId.status !==offerStatus.EXPIRED" [routerLink]="['/job-details',offer?.jobPostId?._id]" (click)="openJobList()"
+            data-toggle="tooltip" title="{{offer?.jobTitle?.toLowerCase()}}">View job post to accept or decline</a> -->
+            <!-- <a *ngIf="offer?.offerStatus !== 'recounter'" [routerLink]="['/job-details',offer?.jobPostId?._id]" (click)="openJobList()"
+            data-toggle="tooltip" title="{{offer?.jobTitle?.toLowerCase()}}">View job post</a> -->
+            <button *ngIf="(offer?.status === offerStatus.CONTRACT) || offer?.status === offerStatus.DECLINE " class="btn btn-primary pri" [routerLink]="['/job-details',offer?.jobPostId?._id]" (click)="openJobList()">View Job Post</button>
+            <button *ngIf="(offer?.offerStatus !== 'recounter' || offer?.offerStatus === 'counter') && offer?.status === offerStatus.OFFER" class="btn btn-primary pri" [routerLink]="['/job-details',offer?.jobPostId?._id]" (click)="openJobList()">View Job Post</button>
+            <!-- <button class="btn btn-primary pri" [routerLink]="['/job-details',offer?.jobPostId?._id]" (click)="openJobList()">View Job Post</button> -->
+          </div> 
+             <div *ngIf="offer?.offerStatus == 'recounter' && offer?.status === offerStatus.OFFER && offer?.jobPostId.status !==offerStatus.EXPIRED" class="mt-2">
+              <button class="btn btn-outline-success" (click) = "reCounterOfferAccept(offer)">Accept</button><br><br>
+              <button class="btn btn-outline-danger" (click) = "reCounterOfferDecline(offer)">Decline</button>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-10"></div>
+          <div class="col-md-2 id-pos">
+            Job ID: #{{offer?.jobPostId._id | slice:18:24}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!offerList?.length" class="text-center border-bottom-1px">
+      <div colspan="5">
+        <h6 class="m-0">No Record Found !</h6>
+      </div>
+    </div>
+    <div class="pagination justify-content-end" *ngIf="itemsPerPage < totalItem">
+      <pagination-controls (pageChange)="getPage($event)"></pagination-controls>
+    </div>
+  </div>
+</div>
+<!-- <div class="row pt-3">
+  <div class="col-lg-12">
+      <div class="card">
+          <div class="card-header">
+
+          </div>
+          <div class="card-body table-responsive">
+              <table class="table table-bordered-1 vertical-align-middle text-center">
+                  <thead class="nowrap">
+                      <tr class="text-primary">
+                          <th>
+                            Job Title
+                              <span [hidden]="reverse">▼</span>
+                              <span [hidden]="!reverse">▲</span>
+                          </th>
+                          <th>
+                            Job Date
+                          </th>
+                          <th>Job Type</th>
+                          <th>Status</th>
+                          <th>
+                             Sent Date
+                          </th>
+
+
+                      </tr>
+                  </thead>
+                  <tbody *ngIf="offerList?.length">
+                    <tr *ngFor="let offer of offerList  | grdFilter: setDataFilter: false: ['jobPostId'] | paginate: { itemsPerPage: itemsPerPage, currentPage: p };">
+                      <td class="text-capitalize">
+                        <a href="{{offerViewLink}}/{{offer?._id}}">
+                         {{offer?.jobPostId?.jobTitle?.toLowerCase()}}  <span *ngIf= "offer?.updatedOffer" class ="badge badge-danger">New</span>
+                        </a>
+                      </td>
+                      <td>{{offer?.jobPostId?.jobDate | date:'mediumDate'}}</td>
+                       <td class="text-capitalize">{{jobLabel[offer?.jobPostId?.jobType]}}</td>
+                        <td [innerHTML]="getStatus(offer)"></td>
+                       <td class="text-capitalize"> {{offer?.createdAt | date:'mediumDate'}}</td>
+
+                    </tr>
+                </tbody>
+                <tr *ngIf="!offerList?.length" class="text-center border-bottom-1px">
+                    <td colspan="5">
+                        <h6 class="m-0">No Record Found !</h6>
+                    </td>
+                </tr>
+            </table>
+            <ul class="pagination justify-content-end" *ngIf="itemsPerPage < offerList.length">
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            </ul>
+        </div>
+    </div>
+</div>
+</div> -->
+
+<!-- Backup code -->
+
+<!-- <div class="stripa p-3 mb-4" *ngIf="offer?.offerStatus == 'initial'">
+                <h4 *ngIf="offer?.status == 'offer'">
+                  <div class="row">
+                    <div class="col-md-4" style="text-align: center;">
+                      <div class="key">{{offer?.offerSteps?.initial?.startTime | date : 'shortTime'}}</div>
+                      <div class="value">Proposed Start Time</div>
+                    </div>
+                    <div class="col-md-4" style="text-align: center;">
+                      <div class="key">{{offer?.offerSteps?.initial?.endTime | date : 'shortTime'}}</div>
+                      <div class="value">Proposed End Time</div>
+                    </div>
+                    <div class="col-md-4" style="text-align: center;">
+                      <div class="key">${{offer?.offerSteps?.initial?.amount}}</div>
+                      <div class="value">Proposed Rate</div>
+                    </div>
+                  </div>
+                </h4>
+                <h4 *ngIf="offer?.status == 'expired'">Job Expired</h4>
+              </div> -->
+              <!-- <div class="stripb p-3 mb-4" *ngIf="offer?.offerStatus == 'counter' || offer?.offerStatus == 'recounter'">
+                <h4 class="statusbar" [innerHTML]="getStatus(offer)"></h4>
+                <div class="row">
+                  <div class="col-md-4" style="text-align: center;">
+                    <div class="key">{{offer?.offerSteps?.counter?.startTime | date : 'shortTime'}}</div>
+                    <div class="value">Proposed Start Time</div>
+                  </div>
+                  <div class="col-md-4" style="text-align: center;">
+                    <div class="key">{{offer?.offerSteps?.counter?.endTime | date : 'shortTime'}}</div>
+                    <div class="value">Proposed End Time</div>
+                  </div>
+                  <div class="col-md-4" style="text-align: center;">
+                    <div class="key">${{offer?.offerSteps?.counter?.amount}}</div>
+                    <div class="value">Proposed Rate</div>
+                  </div>
+                </div>
+              </div> -->
+              <!-- <div class="stripc p-3" *ngIf="offer?.offerStatus == 'recounter'">
+                <h4 class="statusbar" [innerHTML]="getStatus(offer)"></h4>
+                <div class="row">
+                  <div class="col-md-4" style="text-align: center;">
+                    <div class="key">{{offer?.offerSteps?.recounter?.startTime | date : 'shortTime'}}</div>
+                    <div class="value">Proposed Start Time</div>
+                  </div>
+                  <div class="col-md-4" style="text-align: center;">
+                    <div class="key">{{offer?.offerSteps?.recounter?.endTime | date : 'shortTime'}}</div>
+                    <div class="value">Proposed End Time</div>
+                  </div>
+                  <div class="col-md-4" style="text-align: center;">
+                    <div class="key">${{offer?.offerSteps?.recounter?.amount}}</div>
+                    <div class="value">Proposed Rate</div>
+                  </div>
+                </div>
+              </div> -->
+ <!-- Accept modal start -->
+
+ <div bsModal [config]="{backdrop: 'static', keyboard: false}"  #offerJobModal1="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+ aria-hidden="true">
+ <div class="modal-dialog modal-lg" role="document">
+   <div class="modal-content">
+     <div class="modal-header">
+       <h4 class="modal-title  text-white">Final Offer By Job Provider</h4>
+       <!-- <h4 class="modal-title  text-white">{{(showButtonCond.counterOffer) ? 'Counter' : 'Final'}} Offer Price</h4> -->
+       <button type="button" class="close  text-white" (click)="closeModel()" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+       </button>
+     </div>
+
+     <div class="modal-body">
+      <div class="row my-2">
+        <div class="col-md-2 col-4 px-0">
+          <div>
+        <div class="usr-avtar img-circle overflow-hidden text-center custom-cursor-pointer" [routerLink]="['/practice-profile',offerDetails?.practiceId?._id]" target="_blank">
+          <img *ngIf="!offerDetails?.practiceId?.profilePhoto?.length"
+            src="../../../../assets/img/brand/densub-logo-final.jpg" width="90" height="90" class="img-fluid img-circle accept-offer-img" alt="">
+          <img *ngIf="offerDetails?.practiceId?.profilePhoto?.length" src="{{offerDetails?.practiceId?.profilePhoto[0]}}"
+            width="90" height="90" class="img-fluid img-circle accept-offer-img" alt="{{offerDetails?.practiceId?.firstName}}">
+        </div>
+        </div>
+        <div class=" text-center">
+          <span class="text-muted">
+            <span *ngFor=" let in of numToArrConverter(5); let i = index;" class="fa fa-star" [ngClass]="{'checked': (i+1) <=  offerDetails?.practiceId?.avgRating}"></span>
+          </span> <span *ngIf="ratingCount">({{ratingCount}})</span>
+          </div>
+        </div>
+        <div class="col-md-6 col-8 px-0">
+          <div class="pl-2 mobile-view-text">
+            <p class="text-capitalize mb-0" *ngIf="offerDetails?.jobPostId?.positionType" data-toggle="tooltip" title="Position Type">
+              {{offerDetails?.jobPostId?.positionType}}
+              <span class="badge badge-danger mr-3" *ngIf="offerDetails?.jobPostId?.jobType == jobTypes.TEMPORARY">Temporary</span>
+              <span class="badge badge-success " *ngIf="offerDetails?.jobPostId?.jobType == jobTypes.PERMANENTPARTTIME">Permanent Part Time</span>
+              <span class="badge badge-success" *ngIf="offerDetails?.jobPostId?.jobType == jobTypes.PERMANENTFULLTIME">Permanent Full Time</span>
+            </p> 
+            <ul class="list-unstyled d-flex mb-0 f-14">
+              <li class="">
+                <span data-toggle="tooltip" title="Company Name" *ngIf="offerDetails?.practiceId?.practiceAccount === 'multi'"> {{offerDetails?.practiceId?.companyName}}</span>
+               <p class="mb-0 text-capitalize" *ngIf="offerDetails?.practiceName?.practiceName" data-toggle="tooltip" title="Practice Name">{{offerDetails?.practiceName?.practiceName}}</p> </li>
+            </ul>
+            <ul class="list-unstyled d-flex mb-0 my-0 f-14">
+               <li data-toggle="tooltip" class="text-capitalize" title="Practice Type" *ngIf="offerDetails?.practiceName?.practiceType?.practiceType">
+                 {{offerDetails?.practiceName?.practiceType?.practiceType}}</li>
+            </ul>
+            <ul class="list-unstyled d-flex mb-0 f-14">
+              <li class="mr-15 text-capitalize" data-toggle="tooltip" title="Location">
+                {{offerDetails?.practiceName?.addressLine_1}} {{offerDetails?.practiceName?.addressLine_2}} {{offerDetails?.practiceName?.city?.city | slice:3:offerDetails?.practiceName?.city?.city.length}}, {{offerDetails?.practiceName?.state?.state}} {{offerDetails?.practiceName?.zipcode?.zipcode}}</li>
+            </ul>
+        </div>
+        </div>
+        <div class="col-md-4 col-12 textCenter f-14">
+          <div class="row">
+          <p class="mb-0 col-md-2 pr-0 col-2"></p><p class="text-muted mb-0 col-md-10 col-10 pl-0">Negotiation By You</p>
+          <p class="mb-0 col-md-2 pr-0 col-2"><span class="fa fa-exchange text-orange" *ngIf="(offerDetails?.jobPostId?.startTime | date:'h:mm a') !== (offerDetails?.offerSteps?.counter.startTime | date:'h:mm a')"></span></p><p class="text-muted mb-0 col-md-10 col-10 pl-0">Start Time &nbsp;&nbsp;{{offerDetails?.offerSteps?.counter.startTime | date:'h:mm a'}}</p>
+          <p class="mb-0 col-md-2 pr-0 col-2"><span class="fa fa-exchange text-orange" *ngIf="(offerDetails?.jobPostId?.endTime | date:'h:mm a') !== (offerDetails?.offerSteps?.counter.endTime | date:'h:mm a')"></span></p><p class="text-muted mb-0 col-md-10 col-10 pl-0">End Time &nbsp;&nbsp;{{offerDetails?.offerSteps?.counter.endTime | date:'h:mm a'}}</p>
+          <p class="mb-0 col-md-2 pr-0 col-2"  *ngIf="offerDetails?.jobPostId?.paymentMethod === 'hourly'"><span class="fa fa-exchange text-orange" *ngIf="(jobDetail?.desiredHourlyRate) !== (offerDetails?.offerSteps?.counter.amount)"></span></p><p class="text-muted mb-0 col-md-10 col-10 pl-0" *ngIf="offerDetails?.jobPostId?.paymentMethod === 'hourly'">Rate &nbsp;&nbsp;${{offerDetails?.offerSteps?.counter.amount}}</p>
+          <p class="mb-0 col-md-2 pr-0 col-2"  *ngIf="offerDetails?.jobPostId?.paymentMethod === 'salary'"><span class="fa fa-exchange text-orange" *ngIf="(jobDetail?.desiredSalaryRate) !== (offerDetails?.offerSteps?.counter.amount)"></span></p><p class="text-muted mb-0 col-md-10 pl-0 col-10" *ngIf="offerDetails?.jobPostId?.paymentMethod === 'salary'">Rate &nbsp;&nbsp;${{offerDetails?.offerSteps?.counter.amount}}</p>
+        </div>
+          </div>
+      </div>
+
+
+      <div class="row py-2 box-shad box-card white-bg">
+        <div class="col-12 pull-right">
+          <div class="row">
+            <div class="col-sm-3 my-auto">
+                <p class="mb-0">{{offerDetails?.jobPostId?.jobDate | date : 'mediumDate'}} </p>
+                <label class="clr-dark-gray mb-0"><b>Date</b></label>
+            </div>
+            <div class="col-sm-3 my-auto">
+              <p class="mb-0">{{offerDetails?.offerSteps?.recounter?.startTime | date:'h:mm a'}}</p>
+              <label for="" class="clr-dark-gray mb-0"><span class="fa fa-exchange text-orange mr-2" *ngIf="(offerDetails?.offerSteps?.recounter?.startTime | date:'h:mm a') !== (offerDetails?.offerSteps?.counter.startTime | date:'h:mm a')"></span><b>Start Time</b>
+              </label>
+            </div>
+            <div class="col-sm-3 my-auto">
+              <p class="mb-0">{{offerDetails?.offerSteps?.recounter?.endTime | date:'h:mm a'}}</p>
+              <label for="" class="clr-dark-gray mb-0"><span class="fa fa-exchange text-orange mr-2" *ngIf="(offerDetails?.offerSteps?.recounter?.endTime | date:'h:mm a') !== (offerDetails?.offerSteps?.counter.endTime | date:'h:mm a')"></span><b>End Time</b>
+              </label>
+            </div>
+            <div class="col-sm-3 my-auto">
+              <p class="mb-0">${{offerDetails?.offerSteps?.recounter?.amount | number}}</p>
+              <label for="" class="clr-dark-gray mb-0"><span class="fa fa-exchange text-orange mr-2" *ngIf="(offerDetails?.offerSteps?.recounter?.amount) !== (offerDetails?.offerSteps?.counter.amount)"></span><b>Rate</b></label>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+       <div class="row mt-2">
+         <div class="col-12">
+           <label class="clr-dark-gray"><b>Message
+               <sup> <i class="fa fa-star star-icon" aria-hidden="true" hidden
+                   [ngClass]="{'text-danger': !sendOffer?.message, 'text-primary': sendOffer?.message}"></i>
+               </sup>
+             </b></label>
+           <ckeditor [config]="ckeConfig" placeholder="Please enter message" name="message" [(ngModel)]="sendOffer.message" (change)="onEditorChange()" (blur)="onEditorChange()"></ckeditor>
+           <p class="label mt-10">By accepting the provider’s final job offer you will be automatically booked for this assignment and you agree to the final job terms.</p>
+         </div>
+       </div>
+     </div>
+
+     <div class="modal-footer">
+       <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+       <button *ngIf="offerDetails.offerStatus == 'recounter' " type="button" class="btn btn-primary"  (click)="acceptReCounterOffer()">Confirm</button>
+       <!-- <button type="button" class="btn btn-primary" [disabled]="!(sendOffer?.message && sendOffer?.amount)" (click)="sendOfferType()">Send</button> -->
+     </div>
+   </div>
+ </div>
+</div>
+<!-- Accept modal end -->
+<!-- Decline modal start  -->
+<div bsModal [config]="{backdrop: 'static', keyboard: false}"  #declineJobModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title  text-white">Decline</h4>
+        <button type="button" class="close  text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group row">
+          <div class="col-12">
+            <label><b>Reason
+                <sup> <i class="fa fa-star star-icon" hidden aria-hidden="true"
+                    [ngClass]="{'text-danger': !declinedMessage, 'text-primary': declinedMessage}"></i>
+                </sup>
+              </b></label>
+              <!-- <app-ngx-editor placeholder="Describe the reason for declining the offer here" [resizer]="false" name="message"
+              [(ngModel)]="declinedMessage" [config]="editorConfig" name="message">
+            </app-ngx-editor> -->
+            <ckeditor [config]="ckeConfig" placeholder="Describe the reason for declining the offer here" name="message" [(ngModel)]="declinedMessage"></ckeditor>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+        <button type="button" class="btn" [ngClass]="{'btn-primary' : declinedMessage , 'btn-dark':!declinedMessage}"   (click)="declineOffer()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Decline modal end  -->
+<!-- Reason for Request revision End-->
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #messageFromStaff="bs-modal" class="modal fade design-1" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white">Application Message&nbsp;&nbsp;</h4>
+        <button type="button" class="close text-white" (click)="messageFromStaff.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-body">             
+             <div class="row">
+               <div class="col-md-7 col-xl-7">
+                  <span [innerHTML]="(messageModalDetails).slice(3,messageModalDetails?.length-5)"></span>
+               </div>
+               <div class="col-md-5 col-xl-5">
+                  {{timeModalDetails | date:'dd-MM-yyyy hh:mm a'}}
+               </div>
+             </div>
+          </div>
+        </div>
+        <br>
+      </div>
+    </div>
+  </div>
+</div>
+<div  bsModal [config]="{backdrop: 'static', keyboard: false}"  #viewInvitationDeclinedModal="bs-modal" class="modal fade design-1" tabindex="-1" role="dialog"
+aria-labelledby="myModalLabel" aria-hidden="true" >
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title text-white">Application Declined</h4>
+      <button type="button" class="close text-white" (click)="viewInvitationDeclinedModal.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="card">
+        <div class="card-body">
+          
+           <div class="row" >
+             <div class="col-md-7 col-xl-7">
+               <div><p [innerHTML]="offerDecline?.reason"></p></div>
+             </div>
+
+             <div class="col-md-5 col-xl-5">
+              <div >{{offerDecline?.declineTime | date:'dd-MM-yyyy hh:mm a'}}</div>
+            </div>
+           </div>
+            
+        </div>
+      </div>
+      
+    </div>
+
+  </div>
+</div>
+</div>

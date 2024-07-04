@@ -1,0 +1,24 @@
+<div class="main-container">
+  <div class="editor-box">
+    <div class="toolbar">
+      <mat-icon (click)="boldText()" matTooltip="Bold" id="boldButton">format_bold</mat-icon>
+      <mat-icon (click)="italicText()" matTooltip="Italic" id="italicButton">format_italic</mat-icon>
+      <mat-icon (click)="underlineText()" matTooltip="Underline" id="underlineButton">format_underlined</mat-icon>
+      <mat-icon (click)="increaseText()" matTooltip="Increase Text" id="increaseText">text_increase</mat-icon>
+      <mat-icon (click)="decreaseText()" matTooltip="Decrease Text" id="decreaseText">text_decrease</mat-icon>
+      <mat-icon (click)="undoText()" matTooltip="Undo" id="undoButton">undo</mat-icon>
+      <mat-icon (click)="redoText()" matTooltip="Redo" id="redoButton">redo</mat-icon>
+      <mat-icon (click)="addImage()" matTooltip="Add Image">image</mat-icon>
+      <mat-icon (click)="createTable()" matTooltip="Add Table">table_chart</mat-icon>
+      <mat-icon (click)="applyColor()" matTooltip="Pick Color">palette</mat-icon>
+    </div>
+    <div
+      id="editor"
+      contenteditable="true"
+      placeholder="Create your own template"
+      role="textbox"
+      (input)="onInputChange()">
+    </div>
+  </div>
+  <div id="preview"></div>
+</div>

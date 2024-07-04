@@ -1,0 +1,94 @@
+{
+  "dataSource": [{
+      "menu": "Dashboard",
+      "level": [
+        {"label": "view", "view": false},
+        {"label": "add", "add": false},
+        {"label": "edit","edit": false},
+        {"label": "delete","delete": false}
+      ]      
+    },
+    {
+      "menu": "Practice",
+      "level": [
+        {"label": "view", "view": false},
+        {"label": "add", "add": false},
+        {"label": "edit","edit": false},
+        {"label": "delete","delete": false}
+      ]        
+    },
+    {
+      "menu": "Skills",
+      "level": [
+        {"label": "view", "view": false},
+        {"label": "add", "add": false},
+        {"label": "edit","edit": false},
+        {"label": "delete","delete": false}
+      ]        
+    },
+    {
+      "menu": "Commission",
+      "level": [
+        {"label": "view", "view": false},
+        {"label": "add", "add": false},
+        {"label": "edit","edit": false},
+        {"label": "delete","delete": false}
+      ]        
+    },
+    {
+      "menu": "Advertisement",
+      "level": [
+        {"label": "view", "view": false},
+        {"label": "add", "add": false},
+        {"label": "edit","edit": false},
+        {"label": "delete","delete": false}
+      ]        
+    },
+    {
+      "menu": "Access Level",
+      "level": [
+        {"label": "view", "view": false},
+        {"label": "add", "add": false},
+        {"label": "edit","edit": false},
+        {"label": "delete","delete": false}
+      ]        
+    },
+    {
+      "menu": "Users",
+      "level": [
+        {"label": "view", "view": false},
+        {"label": "add", "add": false},
+        {"label": "edit","edit": false},
+        {"label": "delete","delete": false},
+        {"label": "status","status": false}
+      ]        
+    },
+    {
+      "menu": "Reports & Statistics",
+      "level": [
+        {"label": "view", "view": false},
+        {"label": "add", "add": false},
+        {"label": "edit","edit": false},
+        {"label": "delete","delete": false}
+      ]        
+    },
+    {
+      "menu": "Payment",
+      "level": [
+        {"label": "view", "view": false},
+        {"label": "add", "add": false},
+        {"label": "edit","edit": false},
+        {"label": "delete","delete": false}
+      ]        
+    },
+    {
+      "menu": "Dispute",
+      "level": [
+        {"label": "view", "view": false},
+        {"label": "add", "add": false},
+        {"label": "edit","edit": false},
+        {"label": "delete","delete": false}
+      ]        
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+.answer-cntnr {
+  overflow: hidden;
+  max-height: 0;
+  transition-property: all;
+  transition-duration: 0.5s;
+  transition-timing-function: cubic-bezier(0.5, 1, 0.5, 1);
+  &.show {
+    max-height: 500px;
+  }
+}

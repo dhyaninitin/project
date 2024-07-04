@@ -1,0 +1,161 @@
+@import "~@cloudtalentrecruit/ng-design/assets/styles/0-plugins/plugins-dir";
+@import "~@cloudtalentrecruit/ng-design/assets/styles/1-base/variable";
+.box-container {
+  margin: 5px 1.3rem 0 1.4rem;
+
+  .user-box {
+    background: rgba(207, 207, 207, 0.09);
+    margin-bottom: 10px;
+    hr {
+      display: block;
+      margin-left: 5px;
+      margin-right: 35%;
+      border-width: 1px;
+      background-color: #ebeaed;
+    }
+    .box-title {
+      display: flex;
+      img {
+        margin: 8px 0px 0 15px;
+      }
+
+      h2 {
+        font-family: Manrope;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 22px;
+        color: hsl(215, 35%, 22%);
+        margin: 12px 37% 0 15px;
+      }
+      p {
+        font-family: Manrope;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 18px;
+        margin-right: 75px;
+        margin: 14px 0px 0 1px;
+        color: #1f47f5;
+      }
+      .arrw {
+        img {
+          margin: 20px 0px 0 7px;
+        }
+      }
+    }
+
+    p {
+      font-family: Manrope;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      color: #84818a;
+      padding: 0px 3px 6px 3px;
+      margin: 0 0 7px 15px;
+      .value {
+        font-family: Manrope;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        color: #25364d;
+      }
+    }
+  }
+  .user-details {
+    mat-label {
+      font-family: Manrope;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      margin: 2px 0 4px 0;
+      color: #84818a;
+    }
+  }
+  .last-details {
+    display: flex;
+    .weekly {
+      mat-form-field {
+        width: 83px;
+        margin: 0 10px 0 5px;
+      }
+    }
+    .usd {
+      mat-form-field {
+        width: 66px;
+      }
+    }
+    .num {
+      mat-form-field {
+        width: 143px;
+      }
+    }
+    mat-label {
+      font-family: Manrope;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 22px;
+      color: #504f54;
+      width: 70%;
+      margin: 15px 0px 0 0px;
+    }
+  }
+}
+button {
+  width: 70px;
+  margin: 30px 0 0 5px;
+}
+::ng-deep
+  .mat-slide-toggle.mat-checked:not(.mat-disabled)
+  .mat-slide-toggle-thumb {
+  background-color: rgb(235, 232, 232);
+}
+::ng-deep
+  .mat-slide-toggle.mat-checked:not(.mat-disabled)
+  .mat-slide-toggle-bar {
+  background-color: #00a46c;
+}
+.box-container {
+  .upper-sec {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    h4 {
+      font-family: Manrope;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 20px;
+      color: #2e2c34;
+      width: 100%;
+      img {
+        margin: 13px 15px 0 0px;
+      }
+    }
+    .icon-mc {
+      margin-right: 10px;
+      &:before {
+        color: $theme;
+      }
+    }
+  }
+
+  .mid-sec {
+    padding: 0;
+    height: calc(90vh - 10px);
+    overflow: scroll;
+  }
+}
+.mid-sec::-webkit-scrollbar {
+  display: none;
+}
+
+.total {
+  font-size: 25px;
+  font-weight: 600;
+  color: #0d6efd;
+}

@@ -1,0 +1,1214 @@
+<vex-page-layout *ngIf="isReady">
+  <vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+    <div class="w-full flex flex-col sm:flex-row justify-between">
+      <div>
+        <h1 class="title mt-0 mb-1" *ngIf="userData">{{ getTitle() }}</h1>
+        <vex-breadcrumbs [crumbs]="['Quotes', route$.snapshot.data.title]"></vex-breadcrumbs>
+      </div>
+    </div>
+  </vex-page-layout-header>
+  <vex-page-layout-content class="-mt-6" @fadeInRight>
+    <div class="card overflow-auto -mt-16">
+      <div class="head bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
+        <h1 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l sm:block flex-none">
+          <span>Actions</span>
+        </h1>
+        <span class="flex-1"></span>
+        <span *ngxPermissionsExcept="['concierge']">
+          <button (click)="onPrint()" *ngIf="isEdit" class="ml-4 flex-none" color="primary" mat-mini-fab
+            matTooltip="Print" type="button">
+            <mat-icon svgIcon="mat:print"></mat-icon>
+          </button>
+        </span>
+        <span *ngxPermissionsExcept="['concierge']">
+          <button (click)="onExport()" *ngIf="isEdit" class="ml-4 flex-none" color="primary" mat-mini-fab
+            matTooltip="Broker Fee Agreement" type="button">
+            <mat-icon svgIcon="mat:receipt"></mat-icon>
+          </button>
+        </span>
+        <button (click)="onBackClick()" class="ml-4 flex-none" color="primary" mat-mini-fab matTooltip="Back"
+          type="button">
+          <mat-icon svgIcon="mat:arrow_back"></mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="mt-6 flex flex-col md:flex-row md:items-start">
+      <div class="flex-auto">
+        <div class="card">
+          
+          <mat-checkbox color="primary" class="check-right" [(ngModel)]="markAsFinal" (change)="toggleFinal($event)"  mat-mini-fab [matTooltip]='finalTooltipText()'
+          matTooltipPosition="before">Final</mat-checkbox>
+          <div class="px-gutter py-4 border-b justify-content-space-between" *ngIf="userData">
+            <h1 class="title m-0">
+              <a (click)="redirectToUser()" class="link cursor-pointer">{{ userData?.full_name }} - {{
+                userData?.email_address }} -
+                {{ userData?.phone | phone: 'US' }}</a>
+            </h1>
+            <h1 class="title m-0">
+              <a (click)="redirectToRequest()" class="link cursor-pointer">{{ request?.year }} - {{ request?.brand }} -
+                {{ request?.model }} - {{ request?.trim }}</a>
+            </h1>
+          </div>
+
+          <div class="px-gutter py-4 border-b justify-content-space-between" *ngIf="!userData && !loadingContact">
+            <h1 class="title m-0">
+             <a class="link"> Contact and deal does not exists! </a>
+            </h1>
+          </div>
+
+          <div class="quote-edit-wrapper">
+            <div class="px-gutter py-4" *ngIf="isReady">
+              <mat-card-content class="mt-1">
+                <form [formGroup]="itemForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="submit()"
+                  autocomplete="off">
+                  <div class="quote-form">
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                      <div fxFlex="50" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Stock #</mat-label>
+                          <input autocomplete="off" matInput name="stock_no"
+                            [formControl]="itemForm.controls['stock_no']" placeholder="Stock #" appNoWhitespace />
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Contract Date</mat-label>
+                          <input autocomplete="off" matInput name="contract_date" [matDatepicker]="contract_date"
+                            placeholder="Contract Date" [formControl]="itemForm.controls['contract_date']" />
+                          <mat-datepicker-toggle matSuffix [for]="contract_date"></mat-datepicker-toggle>
+                          <mat-datepicker #contract_date></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Year</mat-label>
+                          <input type="number" autocomplete="off" matInput [formControl]="yearFilterCtrl"
+                            placeholder="Year" aria-label="Year" [matAutocomplete]="autoYear" />
+                          <mat-autocomplete #autoYear="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredYears" [value]="option.id">
+                              {{ option.name }}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                      </div>
+
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Make</mat-label>
+                          <input type="text" placeholder="Make" aria-label="Make" matInput
+                            [formControl]="makeFilterCtrl" [matAutocomplete]="autoMake" />
+                          <mat-spinner *ngIf="loadingMake" class="input-mat-spinner" color="primary"
+                            [diameter]="20"></mat-spinner>
+                          <mat-autocomplete #autoMake="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredMakes" [value]="option.name">
+                              {{ option.name }}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                      </div>
+
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Model</mat-label>
+                          <input type="text" placeholder="Model" aria-label="Model" matInput
+                            [formControl]="modelFilterCtrl" [matAutocomplete]="autoModel" />
+                          <mat-spinner *ngIf="loadingMake || loadingModel" class="input-mat-spinner" color="primary"
+                            [diameter]="20"></mat-spinner>
+                          <mat-autocomplete #autoModel="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredModels" [value]="option.name">
+                              {{ option.name }}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                      </div>
+
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Delivery Date</mat-label>
+                          <input autocomplete="off" matInput name="delivery_date" [matDatepicker]="delivery_date"
+                            placeholder="Delivery Date" [formControl]="itemForm.controls['delivery_date']" />
+                          <mat-datepicker-toggle matSuffix [for]="delivery_date"></mat-datepicker-toggle>
+                          <mat-datepicker #delivery_date></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field floatLabel="always" class="full-width">
+                          <mat-label>Salesperson</mat-label>
+                          <mat-select [formControl]="itemForm.controls['portal_user_id']" #portalUserSelect (selectionChange)="
+                              onPortalUserFilterChange($event.value)
+                            ">
+                            <mat-option>
+                              <ngx-mat-select-search [placeholderLabel]="'Search...'"
+                                [noEntriesFoundLabel]="'No matches'" [formControl]="portalUserFilterCtrl"
+                                [preventHomeEndKeyPropagation]="true">
+                                <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                              </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let item of filteredPortalUsers" [value]="item.id">
+                              {{ item.full_name }} ({{ item.email }})
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Lead</mat-label>
+                          <input autocomplete="off" matInput name="lead" [formControl]="itemForm.controls['lead']"
+                            placeholder="Lead" appNoWhitespace />
+                        </mat-form-field>
+                      </div>
+
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Vin</mat-label>
+                          <input autocomplete="off" matInput name="vin" [formControl]="itemForm.controls['vin']"
+                            placeholder="Vin" appNoWhitespace />
+                        </mat-form-field>
+                      </div>
+
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Business Manager</mat-label>
+                          <input autocomplete="off" matInput name="business_manager" [formControl]="
+                              itemForm.controls['business_manager']
+                            " placeholder="Business Manager" appNoWhitespace />
+                        </mat-form-field>
+                      </div>
+
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Drive Off</mat-label>
+                          <input autocomplete="off" matInput placeholder="Drive Off"
+                            [formControl]="itemForm.controls['drive_off']" mask="separator.2" thousandSeparator=","
+                            [allowNegativeNumbers]="true" />
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <h2 class="text-center title">Customer</h2>
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>First Name</mat-label>
+                          <input autocomplete="off" matInput name="first_name"
+                            [formControl]="itemForm.controls['first_name']" placeholder="First Name" appNoWhitespace />
+                        </mat-form-field>
+                      </div>
+
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Last Name</mat-label>
+                          <input autocomplete="off" matInput name="last_name"
+                            [formControl]="itemForm.controls['last_name']" placeholder="Last Name" appNoWhitespace />
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                      <div fxFlex="75" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Street Address</mat-label>
+                          <input autocomplete="off" matInput name="address" [formControl]="itemForm.controls['address']"
+                            placeholder="Street Address" appNoWhitespace />
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>City</mat-label>
+                          <input autocomplete="off" matInput name="city" [formControl]="itemForm.controls['city']"
+                            placeholder="City" appNoWhitespace />
+                        </mat-form-field>
+                      </div>
+
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>State</mat-label>
+                          <mat-select [formControl]="itemForm.controls['state']" #stateSelect (selectionChange)="
+                              onStateFilterChange($event.value)
+                            ">
+                            <mat-option>
+                              <ngx-mat-select-search [placeholderLabel]="'Search...'"
+                                [noEntriesFoundLabel]="'No matches'" [formControl]="stateFilterCtrl"
+                                [preventHomeEndKeyPropagation]="true">
+                                <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                              </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let item of filteredStates" [value]="item.value">
+                              {{ item.label }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Zip Code</mat-label>
+                          <input autocomplete="off" matInput name="zip" [formControl]="itemForm.controls['zip']"
+                            placeholder="Zip Code" appNoWhitespace />
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <h2 class="text-center title">Supplier</h2>
+
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field floatLabel="always" class="full-width">
+                          <mat-label>Supplier</mat-label>
+                          <mat-select [formControl]="itemForm.controls['dealer_id']" #dealerSelect (selectionChange)="
+                              onDealerFilterChange($event.value)
+                            " (infiniteScroll)="getNextBatchOfDealers()" [threshold]="'0.5%'" [debounceTime]="150"
+                            [complete]="offset === totalDealersPages" msInfiniteScroll>
+                            <mat-option>
+                              <ngx-mat-select-search [placeholderLabel]="'Search...'"
+                                [noEntriesFoundLabel]="'No matches'" [formControl]="dealerFilterCtrl"
+                                [preventHomeEndKeyPropagation]="true">
+                                <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                              </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let item of filteredDealers" [value]="item.id">
+                              {{ item.name }}
+                            </mat-option>
+                            <mat-option *ngIf="loadingDealers">
+                              <mat-spinner class="input-mat-spinner-loader" color="primary"
+                                [diameter]="30"></mat-spinner>
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <button *ngxPermissionsExcept="['concierge']" mat-raised-button class="float-right"
+                          color="primary" type="button" (click)="addNewDealer()">
+                          Add New
+                        </button>
+                      </div>
+                      <div fxFlex="25" class="pr-1" *ngIf="
+                          filteredDealers && filteredDealers.length && dealerId
+                        ">
+                        <mat-form-field floatLabel="always" class="full-width">
+                          <mat-label>Supplier Contact</mat-label>
+                          <mat-select [formControl]="
+                              itemForm.controls['dealer_contact_id']
+                            " #dealerContactSelect (selectionChange)="
+                              onDealerContactFilterChange($event.value)
+                            ">
+                            <mat-option>
+                              <ngx-mat-select-search [placeholderLabel]="'Search...'"
+                                [noEntriesFoundLabel]="'No matches'" [formControl]="dealerContactFilterCtrl"
+                                [preventHomeEndKeyPropagation]="true">
+                                <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                              </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let item of filteredDealerContacts" [value]="item.id">
+                              {{ item.name }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="25" class="pr-1" *ngIf="
+                          filteredDealers && filteredDealers.length && dealerId
+                        ">
+                        <mat-form-field class="full-width">
+                          <mat-label>Supplier Contact Phone</mat-label>
+                          <input autocomplete="off" matInput name="Supplier Contact Phone" [value]="
+                              dealerContactInfo?.phone || '' | phone: 'US'
+                            " placeholder="Supplier Contact Phone" disabled appPhoneNumber />
+                        </mat-form-field>
+                        <button *ngxPermissionsExcept="['concierge']" mat-raised-button class="float-right mb-15"
+                          color="primary" type="button" (click)="addNewDealerContact()">
+                          Add New
+                        </button>
+                      </div>
+                    </div>
+
+                    <h2 class="text-center title">WholeSale</h2>
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                      <div fxFlex="50" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Allowance From WholeSale</mat-label>
+                          <input autocomplete="off" matInput placeholder="Allowance From WholeSale" [formControl]="
+                              itemForm.controls['allowance_wholesale']
+                            " mask="separator.2" thousandSeparator="," [allowNegativeNumbers]="true" />
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Year</mat-label>
+                          <input type="number" autocomplete="off" matInput [formControl]="wsYearFilterCtrl"
+                            placeholder="Year" aria-label="Year" [matAutocomplete]="autoYearWs" />
+                          <mat-autocomplete #autoYearWs="matAutocomplete">
+                            <mat-option *ngFor="let option of wsFilteredYears" [value]="option.id">
+                              {{ option.name }}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                      </div>
+
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Make</mat-label>
+                          <input type="text" placeholder="Make" aria-label="Make" matInput
+                            [formControl]="wsMakeFilterCtrl" [matAutocomplete]="autoMakeWs" />
+                          <mat-spinner *ngIf="loadingWsMake" class="input-mat-spinner" color="primary" [diameter]="20">
+                          </mat-spinner>
+                          <mat-autocomplete #autoMakeWs="matAutocomplete">
+                            <mat-option *ngFor="let option of wsFilteredMakes" [value]="option.name">
+                              {{ option.name }}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                      </div>
+
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Model</mat-label>
+                          <input type="text" placeholder="Model" aria-label="Model" matInput
+                            [formControl]="wsModelFilterCtrl" [matAutocomplete]="autoModelWs" />
+                          <mat-spinner *ngIf="loadingWsMake || loadingWsModel" class="input-mat-spinner" color="primary"
+                            [diameter]="20"></mat-spinner>
+                          <mat-autocomplete #autoModelWs="matAutocomplete">
+                            <mat-option *ngFor="let option of wsFilteredModels" [value]="option.name">
+                              {{ option.name }}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                      </div>
+
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Vin</mat-label>
+                          <input autocomplete="off" matInput name="vin_wholesale"
+                            [formControl]="itemForm.controls['vin_wholesale']" placeholder="Vin" appNoWhitespace />
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Type</mat-label>
+                          <mat-select [formControl]="itemForm.controls['type_wholesale']">
+                            <mat-option value="1">Lease Returned</mat-option>
+                            <mat-option value="2">Auction</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                      <div fxFlex="100" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Notes</mat-label>
+                          <textarea matInput placeholder="Notes" [formControl]="itemForm.controls['notes_wholesale']"
+                            rows="4"></textarea>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <h2 class="text-center title">Customer Payments</h2>
+                    <div formArrayName="customersWholeSale">
+                      <div fxLayout="row wrap" fxLayout.lt-sm="column" *ngFor="
+                          let customer of customersWholeSale.controls;
+                          let i = index
+                        " [formGroupName]="i">
+                        <div fxFlex="25" class="pr-1">
+                          <mat-form-field class="full-width">
+                            <mat-label>Customer Paid Amount</mat-label>
+                            <input autocomplete="off" matInput placeholder="Customer Paid Amount"
+                              formControlName="amount" mask="separator.2" thousandSeparator=","
+                              [allowNegativeNumbers]="true" />
+                            <span matPrefix>$&nbsp;</span>
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="25" class="pr-1">
+                          <mat-form-field class="full-width">
+                            <mat-label>Paid To</mat-label>
+                            <mat-select formControlName="paid_to">
+                              <mat-option value="1">Paid To Dealer</mat-option>
+                              <mat-option value="2">Paid To Carblip</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="25" class="pr-1">
+                          <mat-form-field class="full-width">
+                            <mat-label>Date Paid</mat-label>
+                            <input autocomplete="off" matInput [matDatepicker]="customer_wholesale_date"
+                              placeholder="Date Paid" formControlName="date" />
+                            <mat-datepicker-toggle matSuffix [for]="customer_wholesale_date"></mat-datepicker-toggle>
+                            <mat-datepicker #customer_wholesale_date></mat-datepicker>
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="25" class="pr-1">
+                          <mat-form-field class="full-width">
+                            <mat-label>Payment Type</mat-label>
+                            <mat-select formControlName="payment_type">
+                              <mat-option value="1">Check</mat-option>
+                              <mat-option value="2">Credit Card</mat-option>
+                              <mat-option value="3">Cash</mat-option>
+                              <mat-option value="4">Wire</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="25" class="pr-1" *ngIf="customer.value['payment_type'] == '1'">
+                          <mat-form-field class="full-width">
+                            <mat-label>Check Number</mat-label>
+                            <input autocomplete="off" matInput placeholder="Check Number"
+                              formControlName="check_number" />
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="50" class="pr-1">
+                          <mat-form-field class="full-width">
+                            <mat-label>Notes</mat-label>
+                            <textarea matInput placeholder="Notes" formControlName="notes" rows="4"></textarea>
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="100">
+                          <div class="d-block full-width text-right mb-4" *ngxPermissionsExcept="['concierge']">
+                            <button type="button" *ngIf="customersWholeSale.controls.length > 1" matTooltip="Delete"
+                              mat-mini-fab color="primary" (click)="deleteCustomerWholeSaleGroup(i)">
+                              <span>
+                                <mat-icon>delete</mat-icon>
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                        <div class="text-right full-width d-block mb-6">
+                          <button *ngxPermissionsExcept="['concierge']" matTooltip="Add" mat-mini-fab color="primary"
+                            type="button" (click)="addCustomerWholeSaleGroup()">
+                            <mat-icon svgIcon="mat:add">add</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div fxLayout="row wrap" fxLayoutAlign="flex-end" fxLayout.lt-sm="column">
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width" floatLabel="always">
+                          <mat-label>Total</mat-label>
+                          <input matInput type="text" disabled class="hiddenInput" />
+                          <span>{{
+                            getTotalCustomerPayment('') | number: '1.2-2'
+                            }}</span>
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <h2 class="text-center title">
+                      Extra Expenses Charged Client
+                    </h2>
+                    <div formArrayName="expenseChargedClient">
+                      <div fxLayout="row wrap" fxLayout.lt-sm="column" *ngFor="
+                          let customer of expenseChargedClient.controls;
+                          let i = index
+                        " [formGroupName]="i">
+                        <div fxFlex="25" class="pr-1">
+                          <mat-form-field class="full-width">
+                            <mat-label>Name</mat-label>
+                            <input autocomplete="off" matInput formControlName="item" placeholder="Name"
+                              appNoWhitespace />
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="25" class="pr-1">
+                          <mat-form-field class="full-width">
+                            <mat-label>Charge</mat-label>
+                            <input autocomplete="off" matInput placeholder="Charge" formControlName="charge"
+                              mask="separator.2" thousandSeparator="," [allowNegativeNumbers]="true" />
+                            <span matPrefix>$&nbsp;</span>
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="8">
+                          <div class="d-block full-width text-end mb-15 mt-2" *ngxPermissionsExcept="['concierge']">
+                            <button matTooltip="Delete" type="button" *ngIf="expenseChargedClient.controls.length > 1"
+                              mat-mini-fab color="primary" (click)="deleteExpenseChargedClientGroup(i)">
+                              <span>
+                                <mat-icon>delete</mat-icon>
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                        <div class="text-right full-width d-block mb-6">
+                          <button *ngxPermissionsExcept="['concierge']" matTooltip="Add" mat-mini-fab color="primary"
+                            type="button" (click)="addExpenseChargedClientGroup()">
+                            <mat-icon svgIcon="mat:add">add</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Allowance to Wholesale</mat-label>
+                          <input autocomplete="off" matInput placeholder="Allowance to Wholesale" [formControl]="
+                              itemForm.controls['allowance_chargedclient']
+                            " mask="separator.2" thousandSeparator="," [allowNegativeNumbers]="true" />
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Remaining Payments</mat-label>
+                          <input autocomplete="off" matInput [formControl]="
+                              itemForm.controls[
+                                'remaining_payments_chargedclient'
+                              ]
+                            " placeholder="Remaining Payments" appNoWhitespace mask="separator.2" thousandSeparator=","
+                            [allowNegativeNumbers]="true" />
+                          <span matPrefix>#&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Payment Amount</mat-label>
+                          <input autocomplete="off" matInput placeholder="Payment Amount" [formControl]="
+                              itemForm.controls['payment_chargedclient']
+                            " mask="separator.2" thousandSeparator="," [allowNegativeNumbers]="true" />
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width" floatLabel="always">
+                          <mat-label>Total Payments</mat-label>
+                          <input matInput type="text" disabled class="hiddenInput" />
+                          <span>{{
+                            getTotalPaymentChargedClient() | number: '1.2-2'
+                            }}</span>
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxLayout="row wrap" fxLayoutAlign="flex-end" fxLayout.lt-sm="column">
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width" floatLabel="always">
+                          <mat-label>Total</mat-label>
+                          <input matInput type="text" disabled class="hiddenInput" />
+                          <span>{{
+                            getTotalChargedClientAll() | number: '1.2-2'
+                            }}</span>
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <h2 class="text-center title">
+                      Extra Expenses Charged Dealer
+                    </h2>
+                    <div formArrayName="expenseChargedDealer">
+                      <div fxLayout="row wrap" fxLayout.lt-sm="column" *ngFor="
+                          let customer of expenseChargedDealer.controls;
+                          let i = index
+                        " [formGroupName]="i">
+                        <div fxFlex="25" class="pr-1">
+                          <mat-form-field class="full-width">
+                            <mat-label>Name</mat-label>
+                            <input autocomplete="off" matInput formControlName="item" placeholder="Name"
+                              appNoWhitespace />
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="25" class="pr-1">
+                          <mat-form-field class="full-width">
+                            <mat-label>Charge</mat-label>
+                            <input autocomplete="off" matInput placeholder="Charge" formControlName="charge"
+                              mask="separator.2" thousandSeparator="," [allowNegativeNumbers]="true" />
+                            <span matPrefix>$&nbsp;</span>
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="8">
+                          <div class="d-block full-width text-end mb-15 mt-2" *ngxPermissionsExcept="['concierge']">
+                            <button matTooltip="Delete" type="button" *ngIf="expenseChargedDealer.controls.length > 1"
+                              mat-mini-fab color="primary" (click)="deleteExpenseChargedDealerGroup(i)">
+                              <span>
+                                <mat-icon>delete</mat-icon>
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                        <div class="text-right full-width d-block mb-6">
+                          <button *ngxPermissionsExcept="['concierge']" matTooltip="Add" mat-mini-fab color="primary"
+                            type="button" (click)="addExpenseChargedDealerGroup()">
+                            <mat-icon svgIcon="mat:add">add</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div fxLayout="row wrap" fxLayoutAlign="flex-end" fxLayout.lt-sm="column">
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width" floatLabel="always">
+                          <mat-label>Total</mat-label>
+                          <input matInput type="text" disabled class="hiddenInput" />
+                          <span>{{
+                            getTotalChargedDealerAll() | number: '1.2-2'
+                            }}</span>
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <h2 class="text-center title">
+                      Extra Expenses - Actual Cost
+                    </h2>
+                    <div formArrayName="expenseVendor" *ngIf="showExtraExpense">
+                      <div fxLayout="row wrap" fxLayout.lt-sm="column" *ngFor="
+                          let customer of expenseVendor.controls;
+                          let i = index
+                        " [formGroupName]="i">
+                        <div fxFlex="25" class="pr-1">
+                          <mat-form-field class="full-width">
+                            <mat-label>Name</mat-label>
+                            <input autocomplete="off" matInput formControlName="name" placeholder="Name"
+                              appNoWhitespace />
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="25" class="pr-1">
+                          <mat-form-field class="full-width">
+                            <mat-label>PO Number</mat-label>
+                            <input autocomplete="off" matInput formControlName="po_number" placeholder="PO Number"
+                              appNoWhitespace />
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="25" class="pr-1">
+                          <mat-form-field class="full-width">
+                            <mat-label>Amount</mat-label>
+                            <input autocomplete="off" matInput placeholder="Amount" formControlName="amount"
+                              mask="separator.2" thousandSeparator="," [allowNegativeNumbers]="true"
+                              (input)="onPurchaseOrderFilterChange()" />
+                            <span matPrefix>$&nbsp;</span>
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="8">
+                          <div class="d-block full-width text-center" *ngxPermissionsExcept="['concierge']">
+                            <button *ngIf="expenseVendor.controls.length > 1" matTooltip="Delete" mat-mini-fab
+                              color="primary" (click)="deleteExpenseVendorGroup(i)">
+                              <span>
+                                <mat-icon>delete</mat-icon>
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div formArrayName="purchaseOrderList">
+                      <div fxLayout="row wrap" fxLayout.lt-sm="column" *ngFor="
+                          let order of purchaseOrderList.controls;
+                          let i = index
+                        " [formGroupName]="i">
+                        <div fxFlex="20" class="pr-1">
+                          <mat-form-field floatLabel="always" class="full-width">
+                            <mat-label>Purchase Order</mat-label>
+                            <input type="text" aria-label="Number" matInput (input)="onSearch($event.target.value)"
+                              [matAutocomplete]="auto" formControlName="purchase_order" />
+                            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="
+                                onPurchaseOrderFilterChange($event.option.value)
+                              " [displayWith]="displayFn" (optionsScroll)="getNextBatchOfPurchaseOrders()">
+                              <ng-container *ngIf="
+                                  filteredPurchaseOrder &&
+                                  filteredPurchaseOrder.length != 0
+                                ">
+                                <mat-option *ngFor="
+                                    let item of filteredPurchaseOrder;
+                                    let i = index
+                                  " [value]="item" [disabled]="item.selected">
+                                  {{ item.id }} - {{ item.description }}
+                                </mat-option>
+                              </ng-container>
+                              <mat-option *ngIf="
+                                  filteredPurchaseOrder &&
+                                  filteredPurchaseOrder.length == 0
+                                ">No Data
+                              </mat-option>
+                              <mat-option *ngIf="loadingpurchases">
+                                <mat-spinner class="input-mat-spinner-loader" color="primary"
+                                  [diameter]="30"></mat-spinner>
+                              </mat-option>
+                            </mat-autocomplete>
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="20" class="pr-1">
+                          <mat-form-field class="full-width">
+                            <mat-label>Purchase Order Description</mat-label>
+                            <input autocomplete="off" matInput name="Description" disabled
+                              placeholder="Purchase Order Description" appNoWhitespace [value]="
+                                itemForm.controls['purchaseOrderList'].value[i]
+                                  .purchase_order?.description || ''
+                              " />
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="20" class="pr-1">
+                          <mat-form-field class="full-width">
+                            <mat-label>Vendor</mat-label>
+                            <input autocomplete="off" matInput name="Vendor" [value]="
+                                itemForm.controls['purchaseOrderList'].value[i]
+                                  .purchase_order?.vendor_name || ''
+                              " disabled placeholder="Vendor" appNoWhitespace />
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="20" class="pr-1">
+                          <mat-form-field class="full-width" floatLabel="always">
+                            <mat-label>Amount</mat-label>
+                            <input autocomplete="off" matInput type="text" disabled class="hiddenInput" />
+                            <span>{{
+                              numberWithCommas(
+                              itemForm.controls['purchaseOrderList'].value[i]
+                              .purchase_order?.amount
+                              ? itemForm.controls['purchaseOrderList']
+                              .value[i].purchase_order?.amount
+                              : 0
+                              )
+                              }}</span>
+                            <span matPrefix>$&nbsp;</span>
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="8">
+                          <div class="d-block full-width flex ml-2 justify-content-end mt-2 mb-15"
+                            *ngxPermissionsExcept="['concierge']">
+                            <button type="button" *ngIf="
+                                (itemForm.controls['purchaseOrderList'].value[i]
+                                  .purchase_order | json) != '{}' &&
+                                itemForm.controls['purchaseOrderList'].value[i]
+                                  .purchase_order != ''
+                              " mat-mini-fab color="primary" matTooltip="Edit" (click)="
+                                editPurchaseOrderGroup(
+                                  itemForm.controls['purchaseOrderList'].value[
+                                    i
+                                  ].purchase_order,
+                                  i
+                                )
+                              ">
+                              <span>
+                                <mat-icon>edit</mat-icon>
+                              </span>
+                            </button>
+                            <span>&nbsp;&nbsp;&nbsp;</span>
+                            <button type="button" matTooltip="Delete" *ngIf="
+                                ((itemForm.controls['purchaseOrderList'].value[
+                                  i
+                                ].purchase_order | json) != '{}' &&
+                                  itemForm.controls['purchaseOrderList'].value[
+                                    i
+                                  ].purchase_order != '') ||
+                                purchaseOrderList.controls.length > 1
+                              " mat-mini-fab color="primary" (click)="deletePurchaseOrderGroup(i)">
+                              <span>
+                                <mat-icon>delete</mat-icon>
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                        <div class="text-right full-width d-block mb-6">
+                          <button *ngxPermissionsExcept="['concierge']" mat-mini-fab color="primary" matTooltip="Add"
+                            type="button" (click)="addPurchaseOrderGroup()">
+                            <mat-icon svgIcon="mat:add">add</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                      <button *ngxPermissionsExcept="['concierge']" mat-raised-button class="float-left mb-15"
+                        color="primary" type="button" (click)="addNewPurchaseOrder()">
+                        Add New
+                      </button>
+                    </div>
+                    <div fxLayout="row wrap" fxLayoutAlign="flex-end center" fxLayout.lt-sm="column">
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width" floatLabel="always">
+                          <mat-label>Total</mat-label>
+                          <input matInput type="text" disabled class="hiddenInput" />
+                          <span>{{
+                            purchaseOrderTotal | number: '1.2-2'
+                            }}</span>
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <!-- NEW section post sales data  -->
+
+                    <h2 class="text-center title">Post Sales Data</h2>
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>MSRP</mat-label>
+                          <input autocomplete="off" matInput name="msrp" [formControl]="itemForm.controls['msrp']"
+                            placeholder="MSRP" mask="separator.2" thousandSeparator="," />
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Maturity Date</mat-label>
+                          <input autocomplete="off" matInput [formControl]="itemForm.controls['maturity_date']"
+                            [matDatepicker]="maturity_date" placeholder="Sales License Expiry Date" />
+                          <mat-datepicker-toggle matSuffix [for]="maturity_date"></mat-datepicker-toggle>
+                          <mat-datepicker #maturity_date></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Mileage Allotment</mat-label>
+                          <input autocomplete="off" matInput name="mileage_allotment"
+                            [formControl]="itemForm.controls['mileage_allotment']" placeholder="Mileage Allotment"
+                            appNoWhitespace />
+                        </mat-form-field>
+                      </div>
+
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Monthly Payment</mat-label>
+                          <input autocomplete="off" matInput name="monthly_payment"
+                            [formControl]="itemForm.controls['monthly_payment']" placeholder="Monthly Payment"
+                            mask="separator.2" thousandSeparator="," />
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Residual Value</mat-label>
+                          <input autocomplete="off" matInput name="residual_value"
+                            [formControl]="itemForm.controls['residual_value']" placeholder="residual_value"
+                            appNoWhitespace />
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Sale Price</mat-label>
+                          <input autocomplete="off" matInput name="sale_price"
+                            [formControl]="itemForm.controls['sale_price']" placeholder="sale_price" mask="separator.2"
+                            thousandSeparator="," />
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Term</mat-label>
+                          <input autocomplete="off" matInput name="term" [formControl]="itemForm.controls['term']"
+                            placeholder="term" appNoWhitespace />
+                        </mat-form-field>
+                      </div>
+
+
+                    </div>
+
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                      <div fxFlex="25">
+                        <mat-radio-group [formControl]="itemForm.controls['delivery_or_pickup']">
+                          <mat-radio-button *ngFor="let op of salesOptions" [value]="op.value" class="pr-3"
+                            color="primary">
+                            {{op.label}}
+                          </mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
+
+                    <!-- ended here -->
+
+                    <h2 class="text-center title pt-4">Sales Tax</h2>
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Sales Tax</mat-label>
+                          <input autocomplete="off" matInput name="sales_tax" [formControl]="itemForm.controls['sales_tax']"
+                            placeholder="Sales Tax" mask="separator.2" thousandSeparator="," />
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <h2 class="text-center title pt-2">Summary</h2>
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Broker Fee Supplier</mat-label>
+                          <input autocomplete="off" matInput placeholder="Broker Fee Supplier" [formControl]="
+                              itemForm.controls[
+                                'brokeer_fee_dealer_expensevendor'
+                              ]
+                            " mask="separator.2" thousandSeparator="," [allowNegativeNumbers]="true" />
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Broker Fee Customer</mat-label>
+                          <input autocomplete="off" matInput placeholder="Broker Fee Customer" [formControl]="
+                              itemForm.controls[
+                                'brokeer_fee_customer_expensevendor'
+                              ]
+                            " mask="separator.2" thousandSeparator="," [allowNegativeNumbers]="true" />
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width" floatLabel="always">
+                          <mat-label>Gross</mat-label>
+                          <input matInput type="text" disabled class="hiddenInput" />
+                          <span>{{ getGross() | number: '1.2-2' }}</span>
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Tax Rate</mat-label>
+                          <input autocomplete="off" matInput placeholder="Tax Rate" type="number" min="0" max="100"
+                            [formControl]="itemForm.controls['tax_rate']" />
+                          <span matPrefix>%&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>License Fee</mat-label>
+                          <input autocomplete="off" matInput placeholder="License Fee"
+                            [formControl]="itemForm.controls['license_fee']" mask="separator.2" thousandSeparator=","
+                            [allowNegativeNumbers]="true" />
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width" floatLabel="always">
+                          <mat-label>Net</mat-label>
+                          <input matInput type="text" disabled class="hiddenInput" />
+                          <span>{{ getNet() | number: '1.2-2' }}</span>
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="25" class="pr-1" *ngIf="getTotalCustomerPayment('carblip') > 0">
+                        <mat-form-field class="full-width">
+                          <mat-label>Net Deal</mat-label>
+                          <mat-select [formControl]="
+                              itemForm.controls['net_deal_expensevendor']
+                            ">
+                            <mat-option value="1">Yes</mat-option>
+                            <mat-option value="0">No</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Pack</mat-label>
+                          <input autocomplete="off" matInput placeholder="Pack" [formControl]="
+                              itemForm.controls['pack_expensevendor']
+                            " mask="separator.2" thousandSeparator="," [allowNegativeNumbers]="true" />
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column" class="pt-1">
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Commission</mat-label>
+                          <input autocomplete="off" matInput placeholder="Commission" type="number" min="0" max="100"
+                            [formControl]="
+                              itemForm.controls[
+                                'comission_percent_expensevendor'
+                              ]
+                            " />
+                          <span matPrefix>%&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width" floatLabel="always">
+                          <mat-label>Commission($)</mat-label>
+                          <input matInput type="text" disabled class="hiddenInput" />
+                          <span>{{ getComission() | number: '1.2-2' }}</span>
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width" floatLabel="always">
+                          <mat-label>Company Net</mat-label>
+                          <input matInput type="text" disabled class="hiddenInput" />
+                          <span>{{ getCompanyNet() | number: '1.2-2' }}</span>
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column" class="pt-1">
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width" floatLabel="always">
+                          <mat-label>Invoice Supplier</mat-label>
+                          <input matInput type="text" disabled class="hiddenInput" />
+                          <span>{{
+                            getInvoiceDealer() | number: '1.2-2'
+                            }}</span>
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width" floatLabel="always">
+                          <mat-label>Check to Supplier</mat-label>
+                          <input matInput type="text" disabled class="hiddenInput" />
+                          <span>{{
+                            getCheckToDealer() | number: '1.2-2'
+                            }}</span>
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width" floatLabel="always">
+                          <mat-label>Check to Client</mat-label>
+                          <input matInput type="text" disabled class="hiddenInput" />
+                          <span>{{
+                            getCheckToClient() | number: '1.2-2'
+                            }}</span>
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column" class="pt-1">
+                      <div fxFlex="25" class="pr-1" *ngIf="getCheckToDealer() > 0">
+                        <mat-form-field class="full-width">
+                          <mat-label>Check to Supplier</mat-label>
+                          <input autocomplete="off" matInput name="dealer_date_paid_expensevendor"
+                            [matDatepicker]="dealer_date_paid_expensevendor" placeholder="Check to Supplier"
+                            [formControl]="
+                              itemForm.controls[
+                                'dealer_date_paid_expensevendor'
+                              ]
+                            " />
+                          <mat-datepicker-toggle matSuffix
+                            [for]="dealer_date_paid_expensevendor"></mat-datepicker-toggle>
+                          <mat-datepicker #dealer_date_paid_expensevendor></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="25" class="pr-1" *ngIf="getCheckToDealer() > 0">
+                        <mat-form-field class="full-width">
+                          <mat-label>Check Number</mat-label>
+                          <input autocomplete="off" matInput formControlName="dealer_check_number_expensevendor"
+                            placeholder="Check Number" appNoWhitespace />
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="25" class="pr-1" *ngIf="getCheckToClient() > 0">
+                        <mat-form-field class="full-width">
+                          <mat-label>Check to Client</mat-label>
+                          <input autocomplete="off" matInput name="client_date_paid_expensevendor"
+                            [matDatepicker]="client_date_paid_expensevendor" placeholder="Check to Client"
+                            [formControl]="
+                              itemForm.controls[
+                                'client_date_paid_expensevendor'
+                              ]
+                            " />
+                          <mat-datepicker-toggle matSuffix
+                            [for]="client_date_paid_expensevendor"></mat-datepicker-toggle>
+                          <mat-datepicker #client_date_paid_expensevendor></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="25" class="pr-1" *ngIf="getCheckToClient() > 0">
+                        <mat-form-field class="full-width">
+                          <mat-label>Check Number</mat-label>
+                          <input autocomplete="off" matInput formControlName="client_check_number_expensevendor"
+                            placeholder="Check Number" appNoWhitespace />
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                      <div fxFlex="25" class="pr-1">
+                        <mat-form-field class="full-width" floatLabel="always">
+                          <mat-label>Invoice Client</mat-label>
+                          <input matInput type="text" disabled class="hiddenInput" />
+                          <span [ngClass]="{ positive: getInvoiceClient() > 0 }">{{ getInvoiceClient() | number: '1.2-2'
+                            }}</span>
+                          <span matPrefix>$&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column" class="pt-5">
+                      <div fxFlex="100" class="pr-1">
+                        <mat-form-field class="full-width">
+                          <mat-label>Notes</mat-label>
+                          <textarea matInput placeholder="Notes" [formControl]="itemForm.controls['notes']"
+                            rows="4"></textarea>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                    <div fxFlex="100" class="mt-1 text-center" *ngxPermissionsExcept="['concierge']">
+                      <button mat-raised-button color="primary" [disabled]="saving || itemForm.pristine">
+                        {{ (isEdit ? 'SAVE' : 'CREATE') | translate }}
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </mat-card-content>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 flex flex-col md:flex-row md:items-start" *ngIf="isEdit">
+          <div class="flex-auto">
+            <div class="card">
+              <div class="px-gutter py-4 border-b flex justify-content-space-between">
+                <h1 class="title m-0">History</h1>
+              </div>
+              <div class="px-gutter">
+                <div class="items-center">
+                  <div class="flex flex-col mt-3 sm:flex-row">
+                    <ul class="log-ul">
+                      <li *ngFor="let history of showHistory; let i = index">
+                        <span *ngIf="history.content !== 'created a quote'">
+                          Version
+                          {{
+                          logPagination.length -
+                          (logPagination.pageSize *
+                          (logPagination.pageIndex + 1) -
+                          logPagination.pageSize +
+                          i)
+                          }}
+                          -
+                          {{ history.portal_user_name }} made updates on
+                          {{ history.created_at | date: 'MM/dd/yy' }} at
+                          {{ history.created_at | date: 'h:mm a' }}
+                        </span>
+                        <span *ngIf="history.content == 'created a quote'">
+                          Version
+                          {{
+                          logPagination.length -
+                          (logPagination.pageSize *
+                          (logPagination.pageIndex + 1) -
+                          logPagination.pageSize +
+                          i)
+                          }}
+                          - {{ history.portal_user_name }} {{ history.content }} on
+                          {{ history.created_at | date: 'MM/dd/yy' }} at
+                          {{ history.created_at | date: 'h:mm a' }}
+                        </span>
+                        <p *ngIf="history.content !== 'created a quote'" [innerHtml]="history.content"></p>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="flex flex-col sm:flex-row justify-content-end">
+                    <mat-paginator #paginator [length]="logPagination.length" [pageSize]="logPagination.pageSize"
+                      [pageIndex]="logPagination.pageIndex" [pageSizeOptions]="[10, 20, 50, 100]"
+                      [showFirstLastButtons]="true" (page)="onLogPaginateChange($event)">
+                    </mat-paginator>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </vex-page-layout-content>
+</vex-page-layout>

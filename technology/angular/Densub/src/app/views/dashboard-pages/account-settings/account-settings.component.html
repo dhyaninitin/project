@@ -1,0 +1,87 @@
+<div class="animated fadeIn container-style-padding-70 registerForm bg-white pb-4">
+  <div class="row container-inner">
+    <div class="col-md-7 mr-auto ml-auto">
+      <div class="card-outer">
+        <!-- First process -->
+        <div class="card m-0">
+          <div class="card-header text-center bg-primary">
+            <h3 class="text-white pt-2">Account Settings</h3>
+          </div>
+          <div class="card-body">
+            <form>
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="buyerFormControlInput1">E-Mail</label>
+                    <input readonly type="email" name="email" [(ngModel)]="userDetails.email" class="form-control"
+                      placeholder="Email" required id="email">
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="buyerFormControlInput1">Name</label>
+                    <div class="row">
+                      <div class="col-sm-6 col-12">
+                        <input type="text" characterOnly name="firstName" class="form-control" placeholder="First Name"
+                          required id="firstName" [(ngModel)]="userDetails.firstName">
+                      </div>
+                      <div class="col-sm-6 col-12 mt-sm-0 mt-3">
+                        <input type="text" characterOnly name="lastName" class="form-control" placeholder="Last Name"
+                          required id="lastName" [(ngModel)]="userDetails.lastName">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="buyerFormControlInput1">Phone</label>
+                    <input type="text" numbersOnly name="phone" class="form-control" placeholder="Phone" required
+                      id="phone" maxlength="10" [(ngModel)]="userDetails.phone">
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 pl-0">
+                <a class="mt-4" href="javascript:void()" (click)="shouldShow = !shouldShow"><strong><u><i>Change
+                        Password</i></u></strong></a>
+              </div>
+              <div [ngClass]="{hide: shouldShow, show: !shouldShow}">
+                <div class="row mt-2">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="buyerFormControlInput1">Password</label>
+                      <input type="password" name="newPassword" [(ngModel)]="userDetails.newPassword"
+                        class="form-control" placeholder="Password" required id="Password" maxlength="15" (keypress)="AvoidSpace($event)">
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="buyerFormControlInput1">Confirm Password</label>
+                      <input type="password" name="confNewPassword" [(ngModel)]="userDetails.confNewPassword"
+                        class="form-control" placeholder="Password" required id="Password" maxlength="15" (keypress)="AvoidSpace($event)">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="row ">
+                <div class="col-sm-12 text-center">
+                  <app-alert></app-alert>
+                  <div class="btn-group mt-4 " role="group" aria-label="Second group">
+                    <button class="btn btn-primary text-white" (click)="updateUser()">Save</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
+</div>

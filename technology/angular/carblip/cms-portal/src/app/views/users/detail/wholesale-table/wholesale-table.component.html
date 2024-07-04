@@ -1,0 +1,121 @@
+<div class="card mt-6">
+	<div class="px-gutter py-4 border-b flex header-with-btn">
+		<h2 class="title m-0">Wholesale Quote</h2> 
+		<div class="flex">
+			<button class="ml-4 flex-none" [matTooltip]="isCollapsedWholesaleQuotesSection ? 'Expand Wholesale Quotes Section' : 'Collapse Wholesale Quotes Section'" (click)="isCollapsedWholesaleQuotesSection = !isCollapsedWholesaleQuotesSection; collapseWholesaleQuotesSection();" type="button">
+				<mat-icon *ngIf="isCollapsedWholesaleQuotesSection" svgIcon="mat:keyboard_arrow_down"></mat-icon>
+				<mat-icon *ngIf="!isCollapsedWholesaleQuotesSection" svgIcon="mat:keyboard_arrow_up"></mat-icon>
+			</button>
+			<button
+			[matMenuTriggerFor]="columnFilterMenu"
+			mat-icon-button
+			class="ml-4 flex-none"
+			color="primary"
+			matTooltip="Column Filters"
+			type="button">
+			<mat-icon svgIcon="mat:settings"></mat-icon>
+		</button>
+		<button class="ml-4 flex-none" *ngxPermissionsExcept="['concierge']" (click)="onAddWholesaleQuote()" color="primary" mat-mini-fab matTooltip="Add New Wholesale Quote" type="button">
+			<mat-icon svgIcon="mat:add"></mat-icon>
+		</button>
+		</div>
+		</div>
+		<div class="px-gutter py-4 border-b pl-0 justify-content-space-between" id="wholesaleQuotesSection">
+			<div class="overflow-auto">
+			<table @stagger [dataSource]="dataSourceWholesale" matSort (matSortChange)="sortData($event)" matSortDisableClear class="w-full" mat-table>
+
+				<ng-container matColumnDef="id">
+					<th *matHeaderCellDef mat-header-cell mat-sort-header>Id #</th>
+					<td *matCellDef="let item" mat-cell>{{ item?.id}}</td>
+				</ng-container>
+
+					<ng-container matColumnDef="wholesale_stock_no">
+					<th *matHeaderCellDef mat-header-cell mat-sort-header>WholeStock #</th>
+					<td *matCellDef="let item" mat-cell>{{ item?.wholesale_stock_no}}</td>
+				</ng-container>
+
+
+					<ng-container matColumnDef="client_name">
+					<th *matHeaderCellDef mat-header-cell mat-sort-header>Name</th>
+					<td *matCellDef="let item" mat-cell>{{ item?.client_name}}</td>
+				</ng-container>
+
+					<ng-container matColumnDef="year">
+					<th *matHeaderCellDef mat-header-cell mat-sort-header>Year</th>
+					<td *matCellDef="let item" mat-cell>{{ item?.year}}</td>
+				</ng-container>
+
+					<ng-container matColumnDef="make">
+					<th *matHeaderCellDef mat-header-cell mat-sort-header>Make</th>
+					<td *matCellDef="let item" mat-cell>{{ item?.make}}</td>
+				</ng-container>
+
+					<ng-container matColumnDef="model">
+					<th *matHeaderCellDef mat-header-cell mat-sort-header>Model</th>
+					<td *matCellDef="let item" mat-cell>{{ item?.model}}</td>
+				</ng-container>
+
+					<ng-container matColumnDef="created_at">
+					<th *matHeaderCellDef mat-header-cell mat-sort-header>Created At</th>
+					<td *matCellDef="let item" mat-cell>{{ item?.created_at | date:'MM/dd/yyy h:mm a' }}</td>
+				</ng-container>
+
+					<ng-container matColumnDef="updated_at">
+					<th *matHeaderCellDef mat-header-cell mat-sort-header>Updated At</th>
+					<td *matCellDef="let item" mat-cell>{{ item?.updated_at | date:'MM/dd/yyy h:mm a' }}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="actions">
+					<th *matHeaderCellDef mat-header-cell></th>
+					<td *matCellDef="let item; let i = index;" class="w-10 text-secondary" mat-cell>
+						<button (click)="$event.stopPropagation();getSelectedRecord(item, i)"
+							[matMenuTriggerData]="{ customer: item }"
+							[matMenuTriggerFor]="actionsMenu"
+							mat-icon-button
+							type="button">
+
+							<mat-icon svgIcon="mat:more_horiz"></mat-icon>
+						</button>
+					</td>
+				</ng-container>
+
+				<tr *matHeaderRowDef="getDisplayedColumns(); sticky: true" mat-header-row></tr>
+				<tr
+					*matRowDef="let item; columns: getDisplayedColumns()"
+						routerLink="/wholesalequote/{{item.id}}/edit"
+						@fadeInUp
+						class="hover:bg-hover trans-ease-out cursor-pointer"
+						mat-row></tr>
+				</table> 
+
+				<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+				<ng-template let-customer="customer" matMenuContent>
+					<button mat-menu-item routerLink="/wholesalequote/{{selectedRecordDetail?.id}}/edit">
+						<mat-icon svgIcon="mat:edit"></mat-icon>
+						<span>Edit</span>
+					</button>
+					<button *ngIf="showDeleteButton(selectedRecordDetail)" (click)="onWholesaleQuoteDelete(selectedRecordDetail, index)" mat-menu-item>
+						<mat-icon svgIcon="mat:delete"></mat-icon>
+						<span>Delete</span>
+					</button>
+				</ng-template>
+				</mat-menu>
+
+				<!-- Column Filters -->
+				<mat-menu #columnFilterMenu="matMenu" xPosition="before" yPosition="below">
+					<button (click)="toggleColumnVisibility(column, $event);$event.stopPropagation()" *ngFor="let column of columnHeadersWholesale"
+							class="checkbox-item mat-menu-item">
+					<mat-checkbox (click)="$event.stopPropagation()" (change)="toggleColumnVisibility(column, $event)" [checked]="column.visible" color="primary">
+						{{ column.label }}
+					</mat-checkbox>
+					</button>
+				</mat-menu>
+
+				<div class="text-center mt-2" *ngIf="(didFetch$ | async) && (wholesaleQuotes && wholesaleQuotes.length === 0)">There are no wholesale quote available. Please enter in a wholesale quote to view them here</div>
+			</div>
+			<mat-paginator #TableWholesalePaginator="matPaginator" [length]="dataSourceWholesale.length" [pageSize]="dataSourceWholesale.pageSize"
+				[pageIndex]="dataSourceWholesale.pageIndex" [pageSizeOptions]="[10,20, 50, 100]"
+				[showFirstLastButtons]="true" (page)="onWholesalePaginateChange($event)">
+				</mat-paginator>
+	</div>
+	</div>

@@ -1,0 +1,1121 @@
+<mat-drawer-container
+  (click)="destroy()"
+  autosize
+  class="right-drawers"
+  [class.drawer-lg]="false"
+>
+  <mat-drawer
+    #drawer
+    mode="over"
+    class="mat-drawer-container"
+    position="end"
+    [autoFocus]="false"
+  >
+    <button
+      mat-icon-button
+      (click)="drawer.toggle(); toggleSideMenu()"
+      class="close-btn"
+    >
+      <span class="icon-mc mc-x"></span>
+    </button>
+
+    <app-view-library
+      *ngIf="viewLibrary"
+      [documentDetail]="selectedDocumentDetail"
+      [isOpen]="drawer.opened"
+    >
+    </app-view-library>
+    <app-add-custom
+      *ngIf="viewCustom"
+      [customFields]="allCustomFieldsList"
+      [isOpen]="drawer.opened"
+    >
+    </app-add-custom>
+    <app-config-dropdown
+      *ngIf="configDropdown"
+      [showLayout]="caseTitle"
+      [showLayout2]="caseTitle2"
+      [masterValues]="masterDropDownValues"
+      (onSave)="getConfigurationValues($event)"
+      [isOpen]="drawer.opened"
+    >
+    </app-config-dropdown>
+
+    <app-config-textbox
+      *ngIf="configText"
+      [showLayout]="caseTitle"
+      [showLayout2]="caseTitle2"
+      [isOpen]="drawer.opened"
+      (onSave)="getConfigurationValues($event)"
+    >
+    </app-config-textbox>
+  </mat-drawer>
+
+  <div class="example-sidenav-content">
+    <tr-page-header [backUrl]="route_conf.OFFER_TEMPLATES">
+      <div page-title class="page-title">
+        <div>
+          <h5 class="mobile-only">
+            {{ ln.TXT_PERMISSIONS | translate | titlecase }}
+          </h5>
+          <h2><span class="offer-hd">Offer / </span>Library</h2>
+        </div>
+      </div>
+      <div page-action></div>
+    </tr-page-header>
+
+    <!-- Desktop view -->
+    <div class="user-management">
+      <div class="center" *ngIf="selected.value === 0">
+        <ngx-file-drop
+          [dropZoneClassName]="'upload-background-image'"
+          dropZoneLabel="Drop files here"
+          (onFileDrop)="dropped($event)"
+          (onFileOver)="fileOver($event)"
+          (onFileLeave)="fileLeave($event)"
+        >
+          <ng-template
+            ngx-file-drop-content-tmp
+            let-openFileSelector="openFileSelector"
+          >
+            <div class="drag-file">
+              <img src="assets/img/cloud_upload.svg" alt="" />
+              <p (click)="openFileSelector()">Drop file here to upload</p>
+            </div>
+          </ng-template>
+        </ngx-file-drop>
+      </div>
+
+      <mat-tab-group
+        (selectedTabChange)="onCustomFieldClick($event)"
+        [selectedIndex]="selected.value"
+        (selectedIndexChange)="selected.setValue($event)"
+      >
+        <div class="component">
+          <mat-tab label="Documents">
+            <div class="sorting">
+              <div class="download">
+                <button mat-flat-button (click)="downloadPlaceholders()">
+                  <p>
+                    Download Placeholders
+                    <img src="assets/img/arrw.png" alt="" />
+                  </p>
+                </button>
+              </div>
+              <div class="sorting-box">
+                <span class="search-image">
+                  <mat-form-field appearance="outline" *ngIf="isShown">
+                    <input
+                      matInput
+                      placeholder="search here"
+                      [(ngModel)]="searchDocument"
+                      (keyup)="searchDocuments()"
+                    />
+                  </mat-form-field>
+                </span>
+                <div class="search-img">
+                  <img
+                    src="assets/img/srch.svg"
+                    alt=""
+                    (click)="toggleShow()"
+                  />
+                </div>
+                <!-- <span class="sorted">
+                  <mat-form-field appearance="outline" class="short-wrapper">
+                    <mat-select
+                      disableOptionCentering
+                      [(ngModel)]="selectedDocTypeSort"
+                      (ngModelChange)="onSelectedDocSort()"
+                    >
+                      <mat-select-trigger>
+                        <div class="sort">
+                          <span class="sort-by font-600"
+                            >{{ ln.TXT_DOCUMENT_TYPE | translate }} :
+                          </span>
+                          <span
+                            *ngIf="selectedDocTypeSort === sorts[0].value"
+                            class="font-500 text-muted"
+                          >
+                            {{ sorts[0].viewValue | translate }}
+                          </span>
+                          <span
+                            *ngIf="selectedDocTypeSort === sorts[1].value"
+                            class="font-500 text-muted"
+                          >
+                            {{ sorts[1].viewValue | translate }}
+                          </span>
+                          <span
+                            *ngIf="selectedDocTypeSort === sorts[2].value"
+                            class="font-500 text-muted"
+                          >
+                            {{ sorts[2].viewValue | translate }}
+                          </span>
+                        </div>
+                      </mat-select-trigger>
+
+                      <ng-container *ngFor="let item of sorts; let last = last">
+                        <mat-option [value]="item.value">
+                          <span class="sort-by font-500"
+                            >{{ ln.TXT_DOCUMENT_TYPE | translate }}
+                          </span>
+                          <span class="font-500">{{
+                            item.viewValue | translate
+                          }}</span>
+                        </mat-option>
+                        <mat-divider *ngIf="!last"></mat-divider>
+                      </ng-container>
+                    </mat-select>
+                  </mat-form-field>
+                </span> -->
+                <mat-form-field appearance="outline" class="short-wrapper">
+                  <mat-select
+                    disableOptionCentering
+                    [(ngModel)]="selectedDocSort"
+                    (ngModelChange)="onSelectedDocSort()"
+                  >
+                    <mat-select-trigger>
+                      <span class="sort-by font-600"
+                        >{{ ln.TXT_SORT_BY | translate }} :
+                      </span>
+                      <span
+                        *ngIf="selectedDocSort === sortByDocs[0].value"
+                        class="font-500 text-muted"
+                      >
+                        {{ sortByDocs[0].viewValue | translate }}
+                      </span>
+                      <span
+                        *ngIf="selectedDocSort === sortByDocs[1].value"
+                        class="font-500 text-muted"
+                      >
+                        {{ sortByDocs[1].viewValue | translate }}
+                      </span>
+                      <span
+                        *ngIf="selectedDocSort === sortByDocs[2].value"
+                        class="font-500 text-muted"
+                      >
+                        {{ sortByDocs[2].viewValue | translate }}
+                      </span>
+                      <span
+                        *ngIf="selectedDocSort === sortByDocs[3].value"
+                        class="font-500 text-muted"
+                      >
+                        {{ sortByDocs[3].viewValue | translate }}
+                      </span>
+                    </mat-select-trigger>
+                    <ng-container
+                      *ngFor="let item of sortByDocs; let last = last"
+                    >
+                      <mat-option [value]="item.value">
+                        <span class="sort-by font-500"
+                          >{{ ln.TXT_SORT_BY | translate }}
+                        </span>
+                        <span class="font-500">{{
+                          item.viewValue | translate
+                        }}</span>
+                      </mat-option>
+                      <mat-divider *ngIf="!last"></mat-divider>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table
+                mat-table
+                [dataSource]="documentsList"
+                matSort
+                multiTemplateDataRows
+                matSortActive="lastupdated"
+                matSortDirection="desc"
+              >
+                <!-- Position Column -->
+                <ng-container matColumnDef="check">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox
+                      *ngIf="dataSource"
+                      color="primary"
+                      (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()"
+                      [aria-label]="checkboxLabel()"
+                    >
+                    </mat-checkbox>
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    <mat-checkbox
+                      color="primary"
+                      (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(element) : null"
+                      [checked]="selection.isSelected(element)"
+                      [aria-label]="checkboxLabel(element)"
+                      [disabled]=""
+                    ></mat-checkbox>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="select">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox
+                      (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()"
+                    >
+                    </mat-checkbox>
+                  </th>
+                  <td mat-cell *matCellDef="let row">
+                    <mat-checkbox
+                      (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)"
+                    >
+                    </mat-checkbox>
+                  </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="document" *ngIf="isEditEnable">
+                  <th mat-header-cell *matHeaderCellDef>Document name</th>
+                  <td mat-cell *matCellDef="let element">
+                    <div class="user-info">
+                      <div>
+                        <span class="tble-data align-items-center">
+                          <img
+                            [src]="
+                              element.extension === 'PDF' ||
+                              element.extension === 'pdf'
+                                ? 'assets/img/pdf-img.jpg'
+                                : element.extension === 'DOCX' ||
+                                  element.extension === 'DOC'
+                                ? 'assets/img/google-docs.png'
+                                : 'assets/img/jpeg-img.svg'
+                            "
+                            alt=""
+                          />
+
+                          <mat-form-field
+                            appearance="outline"
+                            *ngIf="isEditDocName == element"
+                          >
+                            <input
+                              matInput
+                              placeholder="document"
+                              [(ngModel)]="documentNameInput"
+                            />
+                          </mat-form-field>
+
+                          <span
+                            class="title-new"
+                            *ngIf="isEditDocName !== element"
+                            (click)="toggleRow(element)"
+                          >
+                            {{
+                              element.documentoriginalname.split(".")[0]
+                                | titlecase
+                            }}
+                          </span>
+
+                          <span class="type"
+                            ><p>{{ element.extension | titlecase }}</p></span
+                          >
+                          {{ element.size }}
+                        </span>
+                      </div>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <!-- Role Column -->
+
+                <!-- Email Column -->
+                <ng-container matColumnDef="email">
+                  <th mat-header-cell *matHeaderCellDef>Uploaded by</th>
+                  <td mat-cell *matCellDef="let element">
+                    <div class="user-img">
+                      <span class="tble-data align-items-center">
+                        <span
+                          *ngIf="element.userInfo.imageUrl == ''"
+                          class="user-avatar"
+                          >{{
+                            element.userInfo.email.split("")[0].toUpperCase()
+                          }}</span
+                        >
+                        <img
+                          *ngIf="element.userInfo.imageUrl"
+                          src="{{ element.userInfo.imageUrl }}"
+                          alt="{{ element.userInfo.picturename }}"
+                        />
+                        {{ element.userInfo.email }}
+                      </span>
+                    </div>
+                    <div>
+                      {{ element.createdtime | date: "EEE d MMMM y" }}
+                    </div>
+                  </td>
+                </ng-container>
+
+                <!-- Status Column -->
+
+                <!-- Last Updated Column -->
+                <ng-container matColumnDef="lastupdated">
+                  <th mat-header-cell *matHeaderCellDef>Status</th>
+                  <td mat-cell class="font-500" *matCellDef="let element">
+                    <mat-slide-toggle
+                      [checked]="element.status == 1"
+                      (change)="
+                        changeDocumentStatus(
+                          element.offerdocumentid,
+                          element.status
+                        )
+                      "
+                    ></mat-slide-toggle>
+                  </td>
+                </ng-container>
+
+                <!-- Action Column -->
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef></th>
+                  <td mat-cell *matCellDef="let element; let i = index">
+                    <div class="cloud-only align-right actions">
+                      <button
+                        mat-icon-button
+                        (click)="viewTemplate(element)"
+                        *ngIf="isEditDocName !== element"
+                        matTooltip="{{
+                          ln.TXT_VIEW_DETAILS | translate | titlecase
+                        }}"
+                        matTooltipPosition="left"
+                      >
+                        <i class="icon-mc mc-visibility"></i>
+                      </button>
+
+                      <button
+                        mat-icon-button
+                        matTooltip="{{
+                          ln.TXT_EDIT_USER | translate | titlecase
+                        }}"
+                        matTooltipPosition="left"
+                        *ngIf="isEditDocName !== element"
+                        (click)="editDocument(element)"
+                      >
+                        <i class="icon-mc mc-create"></i>
+                      </button>
+                      <button
+                        mat-icon-button
+                        matTooltip="{{
+                          ln.TXT_EDIT_USER | translate | titlecase
+                        }}"
+                        matTooltipPosition="left"
+                        *ngIf="isEditDocName == element"
+                        (click)="onEditConfirmForDoc(element)"
+                      >
+                        <img src="assets/img/checks.svg" alt="" />
+                      </button>
+                      <button
+                        mat-icon-button
+                        [matMenuTriggerFor]="tableMenu"
+                        (click)="hideUserActionMenu = false"
+                        *ngIf="isEditDocName !== element"
+                      >
+                        <span class="icon-mc mc-more_vert"></span>
+                      </button>
+                      <span class="cross">
+                        <img
+                          src="assets/img/cross.svg"
+                          (click)="onEditCancel()"
+                          *ngIf="isEditDocName == element"
+                          alt=""
+                        />
+                      </span>
+                      <mat-menu
+                        #tableMenu="matMenu"
+                        backdropClass="profile-dropdown"
+                      >
+                        <div class="user-dropdown-submenu">
+                          <button
+                            mat-menu-item
+                            (click)="deleteDocument(element.offerdocumentid)"
+                          >
+                            <img src="assets/img/trash.svg" alt="" />
+                            <span><p>Delete</p></span>
+                          </button>
+                          <ng-template #dialogRefs let-mydata>
+                            <delete-popup
+                              [popupInfo]="deleteDocumentText"
+                              (confirm)="removeDocument($event)"
+                            ></delete-popup>
+                          </ng-template>
+                          <button
+                            mat-menu-item
+                            matTooltipPosition="left"
+                            (click)="upload(element.offerdocumentid)"
+                          >
+                            <img src="assets/img/uploads.svg" alt="" />
+                            <span><p>Upload</p></span>
+                          </button>
+                          <ng-template #dialogRef let-mydata>
+                            <div class="dialouge-box">
+                              <h2>Upload Document</h2>
+                              <h5>
+                                Lorem ipsum dolor sit amet, consectetur
+                                adipiscing elit.
+                                <br />Malesuada bibendum ultrices viverra velit.
+                              </h5>
+                              <div class="upload-box">
+                                <ngx-file-drop
+                                  [dropZoneClassName]="
+                                    'upload-background-image'
+                                  "
+                                  dropZoneLabel="Drop files here"
+                                  (onFileDrop)="dropped($event)"
+                                  (onFileOver)="fileOver($event)"
+                                  (onFileLeave)="fileLeave($event)"
+                                >
+                                  <ng-template
+                                    ngx-file-drop-content-tmp
+                                    let-openFileSelector="openFileSelector"
+                                  >
+                                    <div class="drag-file">
+                                      <img
+                                        src="assets/img/cloud_upload.svg"
+                                        alt=""
+                                      />
+
+                                      <p (click)="openFileSelector()">
+                                        Drop file here to upload
+                                      </p>
+                                    </div>
+                                  </ng-template>
+                                </ngx-file-drop>
+                              </div>
+                              <span class="buttons">
+                                <div class="box-button">
+                                  <button
+                                    mat-flat-button
+                                    mat-dialog-close="I am from dialog land..."
+                                  >
+                                    Cancel
+                                  </button>
+                                </div>
+                                <div class="box-button">
+                                  <button
+                                    mat-flat-button
+                                    color="primary"
+                                    [disabled]="offerDocUrl.length == 0"
+                                    (click)="uploadConfirm(element)"
+                                    mat-dialog-close="I am from dialog land..."
+                                  >
+                                    Upload
+                                  </button>
+                                </div>
+                              </span>
+                            </div>
+                          </ng-template>
+                        </div>
+                      </mat-menu>
+                    </div>
+                    <div class="mobile-only">
+                      <button
+                        mat-icon-button
+                        [matMenuTriggerFor]="menu"
+                        (click)="hideUserActionMenu = false"
+                      >
+                        <span class="icon-mc mc-more_vert"></span>
+                      </button>
+                      <mat-menu
+                        #menu="matMenu"
+                        backdropClass="profile-dropdown"
+                      >
+                        <div class="user-dropdown-submenu">
+                          <button mat-menu-item>
+                            <i class="icon-mc mc-visibility"></i>
+                            <span>{{
+                              ln.TXT_VIEW_DETAILS | translate | titlecase
+                            }}</span>
+                          </button>
+                          <button mat-menu-item class="cloud-only">
+                            <i class="icon-mcf mcf-chrome_reader_mode"></i>
+                            <span>{{
+                              ln.TXT_VIEW_PERMISSION | translate | titlecase
+                            }}</span>
+                          </button>
+                          <button mat-menu-item>
+                            <i class="icon-mc mc-create"></i>
+                            <span>{{
+                              ln.TXT_EDIT_USER | translate | titlecase
+                            }}</span>
+                          </button>
+                          <button
+                            mat-menu-item
+                            *ngIf="isEditEnable"
+                            (click)="onEdit()"
+                          >
+                            <i class="icon-mc mc-create"></i>
+                            <span>{{
+                              ln.TXT_EDIT_USER | translate | titlecase
+                            }}</span>
+                          </button>
+                          <button
+                            mat-menu-item
+                            *ngIf="element.status == 0"
+                            (click)="activateUser(element.email)"
+                          >
+                            <i class="icon-mc mc-how_to_reg"></i>
+                            <span>{{
+                              ln.TXT_ACTIVATE_USER | translate | titlecase
+                            }}</span>
+                          </button>
+                          <button
+                            mat-menu-item
+                            *ngIf="
+                              element.status == 1 &&
+                              element.email != loggedinUserEmail
+                            "
+                            (click)="deactivateUser(element.email)"
+                          >
+                            <i class="icon-mc mc-do_not_disturb_on"></i>
+                            <span>{{
+                              ln.TXT_DEACTIVATE_USER | translate
+                            }}</span>
+                          </button>
+                          <button
+                            *ngIf="element.status == 0"
+                            mat-menu-item
+                            (click)="deleteUser(element.email, i)"
+                          >
+                            <i class="icon-mc mc-user-x"></i>
+                            <span>{{
+                              ln.TXT_DELETE_USER | translate | titlecase
+                            }}</span>
+                          </button>
+                        </div>
+                      </mat-menu>
+                    </div>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="expandedDetail">
+                  <td
+                    mat-cell
+                    *matCellDef="let element"
+                    [attr.colspan]="displayedColumns.length"
+                  >
+                    <div
+                      class="example-element-detail"
+                      *ngIf="true"
+                      [@detailExpand]="
+                        element == expandedElement ? 'expanded' : 'collapsed'
+                      "
+                    >
+                      <div
+                        class="inner-table mat-elevation-z8"
+                        *ngIf="expandedElement"
+                      >
+                        <table mat-table [dataSource]="reviseDocs" matSort>
+                          <ng-container matColumnDef="documentname">
+                            <td
+                              mat-cell
+                              *matCellDef="let element; let i = index"
+                            >
+                              <div class="user-info">
+                                <div>
+                                  <span class="tble-data">
+                                    <img
+                                      [src]="
+                                        element.extension === 'PDF' ||
+                                        element.extension === 'pdf'
+                                          ? 'assets/img/pdf-img.jpg'
+                                          : element.extension === 'DOCX' ||
+                                            element.extension === 'DOC'
+                                          ? 'assets/img/google-docs.png'
+                                          : 'assets/img/jpeg-img.svg'
+                                      "
+                                      alt=""
+                                    />
+
+                                    <span class="title-new">
+                                      <h4>
+                                        {{
+                                          element.documentoriginalname.split(
+                                            "."
+                                          )[0] | titlecase
+                                        }}
+                                      </h4>
+                                    </span>
+                                    <span class="img-type"
+                                      ><p>
+                                        {{ element.extension | titlecase }}
+                                      </p></span
+                                    >
+                                    <h4>{{ element.size }}</h4>
+                                  </span>
+                                </div>
+                              </div>
+                            </td>
+                          </ng-container>
+                          <ng-container matColumnDef="mail">
+                            <th mat-header-cell *matHeaderCellDef>
+                              Uploaded by
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                              <div class="user-img">
+                                <span class="tble-data">
+                                  <span
+                                    *ngIf="element.userInfo.imageUrl == ''"
+                                    class="user-avatar"
+                                    >{{
+                                      element.userInfo.email
+                                        .split("")[0]
+                                        .toUpperCase()
+                                    }}</span
+                                  >
+                                  <img
+                                    *ngIf="element.userInfo.imageUrl"
+                                    src="{{ element.userInfo.imageUrl }}"
+                                    alt="{{ element.userInfo.picturename }}"
+                                  />
+                                  <h4>{{ element.userInfo.email }}</h4>
+                                </span>
+                              </div>
+                            </td>
+                          </ng-container>
+                          <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef></th>
+                            <td
+                              mat-cell
+                              *matCellDef="let element; let i = index"
+                            >
+                              <div class="cloud-only align-right actions">
+                                <button
+                                  mat-icon-button
+                                  (click)="viewTemplate(element)"
+                                  matTooltip="{{
+                                    ln.TXT_VIEW_DETAILS | translate | titlecase
+                                  }}"
+                                  matTooltipPosition="left"
+                                >
+                                  <i class="icon-mc mc-visibility"></i>
+                                </button>
+
+                                <button
+                                  mat-icon-button
+                                  matTooltip="{{
+                                    ln.TXT_EDIT_USER | translate | titlecase
+                                  }}"
+                                  matTooltipPosition="left"
+                                  (click)="downloadDocument(element)"
+                                >
+                                  <img src="assets/img/download.svg" alt="" />
+                                </button>
+                              </div>
+                            </td>
+                          </ng-container>
+                          <tr
+                            mat-row
+                            class="offer-library-inner"
+                            *matRowDef="let row; columns: innerDisplayedColumns"
+                          ></tr>
+                        </table>
+                      </div>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="displayedColumns; sticky: true"
+                ></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let element; columns: displayedColumns"
+                  [class.example-element-row]="element.Inner?.length"
+                  [class.example-expanded-row]="expandedElement === element"
+                ></tr>
+                <tr
+                  mat-row
+                  [hidden]="element !== expandedElement"
+                  *matRowDef="let element; columns: ['expandedDetail']"
+                  class="example-detail-row"
+                ></tr>
+              </table>
+            </div>
+            <mat-paginator
+              class="cloud-only"
+              [length]="totalDocuments"
+              [pageSize]="pageSize"
+              [pageSizeOptions]="[5, 10, 20]"
+              (page)="changeDocumentPage($event)"
+              showFirstLastButtons
+              aria-label="Select page of periodic elements"
+            >
+            </mat-paginator>
+          </mat-tab>
+          <mat-tab label="Custom Field">
+            <div class="custom">
+              <div class="custom-box">
+                <div class="search-img">
+                  <span class="srch-custom">
+                    <mat-form-field appearance="outline" *ngIf="isShown">
+                      <input
+                        matInput
+                        placeholder="search here"
+                        [(ngModel)]="searchText"
+                        (keyup)="searchTemplates()"
+                      />
+                    </mat-form-field>
+                    <img
+                      src="assets/img/srch.svg"
+                      alt=""
+                      (click)="toggleShow()"
+                    />
+                  </span>
+                </div>
+                <mat-form-field appearance="outline" class="short-wrapper">
+                  <mat-select
+                    disableOptionCentering
+                    [(ngModel)]="selectedCustomSort"
+                    (ngModelChange)="onHeaderSort()"
+                  >
+                    <mat-select-trigger>
+                      <span class="sort-by font-600"
+                        >{{ ln.TXT_SORT_BY | translate }} :
+                      </span>
+                      <span
+                        *ngIf="selectedCustomSort === sortByCustom[0].value"
+                        class="font-500 text-muted"
+                      >
+                        {{ sortByCustom[0].viewValue | translate }}
+                      </span>
+                      <span
+                        *ngIf="selectedCustomSort === sortByCustom[1].value"
+                        class="font-500 text-muted"
+                      >
+                        {{ sortByCustom[1].viewValue | translate }}
+                      </span>
+                      <span
+                        *ngIf="selectedCustomSort === sortByCustom[2].value"
+                        class="font-500 text-muted"
+                      >
+                        {{ sortByCustom[2].viewValue | translate }}
+                      </span>
+                    </mat-select-trigger>
+                    <ng-container
+                      *ngFor="let item of sortByCustom; let last = last"
+                    >
+                      <mat-option [value]="item.value">
+                        <span class="sort-by font-500"
+                          >{{ ln.TXT_SORT_BY | translate }}
+                        </span>
+                        <span class="font-500">{{
+                          item.viewValue | translate
+                        }}</span>
+                      </mat-option>
+                      <mat-divider *ngIf="!last"></mat-divider>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field>
+                <button
+                  mat-flat-button
+                  color="primary"
+                  (click)="viewCustomTemp()"
+                >
+                  <span class="icon-mc mc-plus"></span>
+                  Add Field
+                </button>
+              </div>
+            </div>
+            <div class="table-container">
+              <table
+                mat-table
+                [dataSource]="customFieldResponse"
+                matSort
+                matSortActive="lastupdated"
+                matSortDirection="desc"
+              >
+                <ng-container matColumnDef="checks">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox
+                      *ngIf="dataSource"
+                      color="primary"
+                      (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()"
+                      [aria-label]="checkboxLabel()"
+                    >
+                    </mat-checkbox>
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    <mat-checkbox
+                      color="primary"
+                      (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(element) : null"
+                      [checked]="selection.isSelected(element)"
+                      [aria-label]="checkboxLabel(element)"
+                      [disabled]=""
+                    ></mat-checkbox>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="select">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox
+                      (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()"
+                    >
+                    </mat-checkbox>
+                  </th>
+                  <td mat-cell *matCellDef="let row">
+                    <mat-checkbox
+                      (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)"
+                    >
+                    </mat-checkbox>
+                  </td>
+                </ng-container>
+
+                <form [formGroup]="customFieldsForm">
+                  <ng-container matColumnDef="fieldName">
+                    <th mat-header-cell *matHeaderCellDef>Field Name</th>
+                    <td mat-cell *matCellDef="let element">
+                      <div class="user-info">
+                        <div>
+                          <span class="tble-data">
+                            <mat-form-field
+                              appearance="outline"
+                              *ngIf="isEditCustomField == element"
+                            >
+                              <input
+                                matInput
+                                placeholder="location"
+                                formControlName="fieldname"
+                              />
+                            </mat-form-field>
+                            <span *ngIf="isEditCustomField !== element">{{
+                              element.fieldname | titlecase
+                            }}</span>
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="inputType">
+                    <th mat-header-cell *matHeaderCellDef>Input Type</th>
+                    <td mat-cell *matCellDef="let element">
+                      <div class="user-img">
+                        <span class="tble-data">
+                          <mat-form-field
+                            appearance="outline"
+                            *ngIf="isEditCustomField == element"
+                          >
+                            <input
+                              matInput
+                              placeholder="Input Type"
+                              formControlName="fieldtype"
+                            />
+                          </mat-form-field>
+                          <h4 *ngIf="isEditCustomField !== element">
+                            {{ element.fieldtype | titlecase }}
+                          </h4>
+                        </span>
+                      </div>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="parentField">
+                    <th mat-header-cell *matHeaderCellDef>Parent Field</th>
+                    <td mat-cell *matCellDef="let element">
+                      <div class="user-img">
+                        <span class="tble-data">
+                          <mat-form-field
+                            appearance="outline"
+                            *ngIf="isEditCustomField == element"
+                          >
+                            <mat-select
+                              placeholder="Template For"
+                              formControlName="parentid"
+                            >
+                              <mat-option
+                                *ngFor="let customField of allCustomFieldsList"
+                                [value]="customField.customfieldid"
+                                >{{ customField.fieldname }}</mat-option
+                              >
+                            </mat-select>
+                          </mat-form-field>
+                          <h4
+                            *ngIf="
+                              isEditCustomField !== element && checkTemplates
+                            "
+                          >
+                            {{
+                              filterCustomFields(element.parentid) | titlecase
+                            }}
+                          </h4>
+                        </span>
+                      </div>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="templateFor">
+                    <th mat-header-cell *matHeaderCellDef>Template For</th>
+                    <td mat-cell *matCellDef="let element">
+                      <div class="user-img">
+                        <span class="tble-data">
+                          <mat-form-field
+                            appearance="outline"
+                            *ngIf="isEditCustomField == element"
+                          >
+                            <mat-select
+                              placeholder="Template For"
+                              formControlName="offertemplateid"
+                              multiple
+                            >
+                              <mat-option
+                                *ngFor="let offerTemplate of templateList"
+                                [value]="offerTemplate.templateid"
+                                >{{ offerTemplate.templatename }}</mat-option
+                              >
+                            </mat-select>
+                          </mat-form-field>
+                          <h4
+                            *ngIf="
+                              isEditCustomField !== element && checkTemplates
+                            "
+                          >
+                            {{
+                              filterTemplates(element.offertemplateid)
+                                | titlecase
+                            }}
+                          </h4>
+                        </span>
+                      </div>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="mandatory">
+                    <th mat-header-cell *matHeaderCellDef>Mandatory</th>
+                    <td mat-cell class="font-500" *matCellDef="let element">
+                      <mat-slide-toggle
+                        [checked]="element.ismandatory == 1"
+                        (change)="
+                          isMandatoryStatus(
+                            element.customfieldid,
+                            element.ismandatory
+                          )
+                        "
+                      ></mat-slide-toggle>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef>Active</th>
+                    <td mat-cell class="font-500" *matCellDef="let element">
+                      <mat-slide-toggle
+                        [checked]="element.isactive == 1"
+                        (change)="
+                          isActiveStatus(
+                            element.customfieldid,
+                            element.isactive
+                          )
+                        "
+                      ></mat-slide-toggle>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element; let i = index">
+                      <div class="cloud-only align-right actions">
+                        <button
+                          mat-icon-button
+                          matTooltip="{{
+                            ln.TXT_EDIT_USER | translate | titlecase
+                          }}"
+                          matTooltipPosition="left"
+                          *ngIf="
+                            element.fieldtype == 'Text-Box' ||
+                            element.fieldtype == 'Drop-Down'
+                          "
+                          (click)="configure(element)"
+                        >
+                          <img src="assets/img/confi-icon.svg" alt="" />
+                        </button>
+                        <!--  <button
+                        mat-icon-button
+                        matTooltip="{{
+                          ln.TXT_EDIT_USER | translate | titlecase
+                        }}"
+                        matTooltipPosition="left"
+                        *ngIf="isEditCustomField !== element"
+                        (click)="onEditCustomField(element)"
+                      >
+                        <i class="icon-mc mc-create"></i>
+                      </button>-->
+                        <button
+                          mat-icon-button
+                          *ngIf="isEditCustomField !== element"
+                          (click)="deleteCustomField(element.customfieldid)"
+                        >
+                          <img src="assets/img/trash.svg" alt="" />
+                        </button>
+                        <ng-template #dialogDocument let-mydata>
+                          <delete-popup
+                            [popupInfo]="deleteCustomFieldText"
+                            (confirm)="removeCustomField($event)"
+                          ></delete-popup>
+                        </ng-template>
+                        <button
+                          mat-icon-button
+                          matTooltip="{{
+                            ln.TXT_EDIT_USER | translate | titlecase
+                          }}"
+                          matTooltipPosition="left"
+                          *ngIf="isEditCustomField == element"
+                          (click)="onEditConfirm(element.customfieldid)"
+                        >
+                          <img src="assets/img/checks.svg" alt="" />
+                        </button>
+                        <button mat-icon-button>
+                          <img
+                            src="assets/img/cross.svg"
+                            (click)="onCross()"
+                            *ngIf="isEditCustomField == element"
+                            alt=""
+                          />
+                        </button>
+                      </div>
+                    </td>
+                  </ng-container>
+                </form>
+
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="displayedColumn; sticky: true"
+                ></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumn"></tr>
+              </table>
+              <mat-paginator
+                class="cloud-only"
+                [length]="totalCustomFields"
+                [pageSize]="pageSize"
+                [pageSizeOptions]="[5, 10, 20]"
+                (page)="changePage($event)"
+                showFirstLastButtons
+                aria-label="Select page of periodic elements"
+              >
+              </mat-paginator>
+            </div>
+          </mat-tab>
+        </div>
+      </mat-tab-group>
+    </div>
+
+    <mat-progress-bar mode="query" *ngIf="isLoadingMore"></mat-progress-bar>
+  </div>
+  <!-- View/Edit user drawer -->
+
+  <mat-drawer #drawer mode="over" class="drawer-containers" [autoFocus]="false">
+    <button
+      mat-icon-button
+      (click)="drawer.toggle(); toggleSideMenu()"
+      class="close-btn"
+    >
+      <span class="icon-mc mc-x"></span>
+    </button>
+  </mat-drawer>
+</mat-drawer-container>

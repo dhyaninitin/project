@@ -1,0 +1,198 @@
+<section class="container-fluid my-request-page">
+  <div class="cb-container container">
+    <div class="row mx-lg-0">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 px-0 pt-3">
+        <div class="row mx-0" *ngIf="request.length">
+          <div
+            class="product-outer"
+            [ngClass]="{ active: selectedId == item.id }"
+            (click)="selectMyRequest(item)"
+            *ngFor="
+              let item of (request
+                | paginate: { itemsPerPage: countPerPage, currentPage: p });
+              let id = index
+            "
+          >
+            <div
+              [ngClass]="{ 'has-application': item.has_credit_application }"
+              class="product-container row preference"
+              *ngIf="item.request_type == 1"
+            >
+              <div class="request-item-overlay" *ngIf="item.has_credit_application">
+                <span
+                  class="has-application-span"
+                  >Application Submitted</span
+                >
+              </div>
+              <span class="year-span">{{ item.Vehicle.Model.year }}</span>
+              <div class="product-img col-12 px-0">
+                <div *ngIf="getImage(id).length === 0" class="product-img__inner-wrapper">
+                  <div class="carousel-vehicle-img" src="{{commingSoonImg}}" appLazyloader draggable="false" [ngStyle]="{'background-image': 'url(' + commingSoonImg + ')'}"></div>
+                </div>
+                <div *ngIf="getImage(id).length === 1" class="product-img__inner-wrapper">
+                  <div class="carousel-vehicle-img" src="{{getImage(id)[0]}}" appLazyloader draggable="false" [ngStyle]="{'background-image': 'url(' + getImage(id)[0] + ')'}"></div>
+                </div>
+                <ui-carousel
+                  *ngIf="getImage(id).length > 1"
+                  #uiCarousel
+                  class="img-carousel"
+                  [autoPlay]="false"
+                  [arrows]="false"
+                  [infinite]="true"
+                  [fade]="false"
+                  [speed]="200"
+                  width="100%"
+                  height="300px"
+                >
+                  <ui-carousel-item>
+                    <div class="carousel-vehicle-img" src="{{getImage(id)[0]}}" appLazyloader draggable="false" [ngStyle]="{'background-image': 'url(' + getImage(id)[0] + ')'}"></div>
+                  </ui-carousel-item>
+                  <ui-carousel-item>
+                    <div class="carousel-vehicle-img" src="{{getImage(id)[1]}}" appLazyloader draggable="false" [ngStyle]="{'background-image': 'url(' + getImage(id)[1] + ')'}"></div>
+                  </ui-carousel-item>
+                  <ui-carousel-item *ngIf="getImage(id).length === 3">
+                    <div class="carousel-vehicle-img" src="{{getImage(id)[2]}}" appLazyloader draggable="false" [ngStyle]="{'background-image': 'url(' + getImage(id)[2] + ')'}"></div>
+                  </ui-carousel-item>
+                </ui-carousel>
+              </div>
+              <div class="product-details col-12 px-0">
+                <div>
+                  <p class="product-model-year">
+                    {{ item?.Vehicle.Brand.name }}
+                  </p>
+                  <h3 class="product-model-name">
+                    {{ item?.Vehicle.Model.name }}
+                  </h3>
+                </div>
+                <div>
+                  <p class="product-model-amt">
+                    {{ getVehiclePrice(item) | currency: 'USD':'symbol':'1.0' }}
+                    <span *ngIf="item?.buying_method != 1">/month</span>
+                  </p>
+                  <p *ngIf="item?.buying_method == 1" class="product-model-amt-label">Starting MSRP</p>
+                  <p *ngIf="item?.buying_method != 1" class="product-model-amt-label">excludes taxes and fees*</p>
+                </div>
+              </div>
+              <div class="product-details-bottom col-12 px-0">
+                <div class="placeholder-content" *ngIf="!isColorLoaded(item)">
+                  <div class="placeholder-content_item"></div>
+                  <div class="placeholder-content_item"></div>
+                </div>
+                <div
+                  class="product-details-bottom__inner-wrapper"
+                  *ngIf="isColorLoaded(item)"
+                >
+                  <div
+                    class="product-details-bottom__inner"
+                    *ngIf="item.exterior_colors && item.exterior_colors.length"
+                  >
+                    <h4>Exterior Color</h4>
+                    <div class="color-item disabled">
+                      <label>
+                        <span
+                          class="background-color-span"
+                          appCircleColor
+                          [hexColor]="getColors(id, 'exterior')?.color_hex_code"
+                        ></span>
+                      </label>
+                      <div class="color-item__detail">
+                        <span class="name">{{
+                          getColors(id, 'exterior')?.color
+                        }}</span>
+                        <span class="price"
+                          >+
+                          {{
+                            getColors(id, 'exterior')?.msrp
+                              | currency: 'USD':'symbol':'1.0'
+                          }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="product-details-bottom__inner"
+                    *ngIf="item.interior_colors && item.interior_colors.length"
+                  >
+                    <h4>Interior Color</h4>
+                    <div class="color-item disabled">
+                      <div class="color-item__detail">
+                        <span class="name">{{
+                          getColors(id, 'interior')?.color
+                        }}</span>
+                        <span class="price"
+                          >+
+                          {{
+                            getColors(id, 'interior')?.msrp
+                              | currency: 'USD':'symbol':'1.0'
+                          }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              [ngClass]="{ 'has-application': item.has_credit_application }"
+              class="product-container row custom"
+              *ngIf="item.request_type == 2"
+            >
+              <div class="request-item-overlay" *ngIf="item.has_credit_application">
+                <span
+                  class="has-application-span"
+                  >Application Submitted</span
+                >
+              </div>
+              <div class="product-img col-12 px-0">
+                <img
+                  [src]="commingSoonImg"
+                  alt=""
+                  draggable="false"
+                  width="100%"
+                  appLazyloader
+                />
+              </div>
+              <div class="product-details col-12 px-0">
+                <div>
+                  <p class="product-model-year">
+                    {{ item?.vehicle_type }}
+                  </p>
+                </div>
+                <div>
+                  <p class="product-model-amt">
+                    {{ getPrice(item)
+                    }}<span *ngIf="item.price_type == 1" class="type"
+                      >/ mo</span
+                    >
+                  </p>
+                </div>
+              </div>
+              <div class="product-details-bottom col-12 px-0">
+                <div class="placeholder-content">
+                  <div class="placeholder-content_item"></div>
+                  <div class="placeholder-content_item"></div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="item.has_credit_application">
+              <span class="span-submitted">You’ve submitted an appliation for this vehicle. Please check with your sales representative for application status.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <pagination-controls
+    class="c-pagination"
+    (pageChange)="p = $event"
+    autoHide="hide"
+    responsive="true"
+    previousLabel="Prev"
+    nextLabel="Next"
+  >
+  </pagination-controls>
+</section>
+
+<div class="custom-request-button" routerLink="/find-my-car">
+  <span>Add Another Car</span>
+</div>

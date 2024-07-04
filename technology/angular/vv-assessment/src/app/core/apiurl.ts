@@ -1,0 +1,17 @@
+export class apiurl {
+    public static API_LOGIN = 'auth/login'
+    public static API_SIGN_UP = 'auth/sign-up'
+    public static API_SUBMIT_FEEDBACK = 'auth/send-feedback'
+    public static API_GET_CANDIDATES = 'auth/get-candidates'
+    public static API_UDPATE_CANDIDATE = 'auth/update-candidate'
+    public static API_DELETE_CANDIDATE = 'auth/delete-candidate'
+    public static API_TOP_CANDIDATES = 'auth/top-candidates'
+    public static API_START_TEST = 'exam/start-test'
+    public static API_SUBMIT_TEST = 'exam/submit-test'
+    public static API_FETCH_ANSWERS = 'exam/fetch-answers'
+    public static API_FETCH_QUESTIONS = 'exam/fetch-questions'
+    public static API_UPLOAD_QUESTIONS = 'exam/upload-questions'
+    public static API_UDPATE_QUESTION = 'exam/update-question'
+    public static API_DELETE_QUESTION = 'exam/delete-question'
+    public static API_COMPARE_SESSION = 'exam/compare-session'
+}

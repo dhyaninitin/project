@@ -1,0 +1,88 @@
+mat-card {
+    box-shadow: 0px 2px 1px -1px #0000001a,
+    0px 1px 1px 0px #0000001a,
+    0px 1px 3px 0px #0000001a !important;
+
+    mat-card-title {
+        border-top: 5px solid #1a75ff;
+        width: fit-content;
+    }
+}
+
+.header-content {
+    display: flex;
+    text-align: right;
+    // align-items: center;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.move-left {
+    padding-left: 16px;
+}
+
+.mt-20 {
+    margin-top: 20px !important;
+}
+
+@media screen and (max-width: 600px) {
+    app-date-filter {
+        display: grid !important;
+    }
+    .pl-0.move-right {
+        padding-left: 16px !important;
+    }
+    .move-left {
+        padding-left: 0px !important;
+    }
+    .m-header {
+        display: block !important;
+        text-align: left;
+    }
+    .header-content div h1 {
+        font-size: 15px;
+    }
+}
+
+@media screen and (min-width:600px) and (max-width: 665px) {
+    app-date-filter {
+        display: grid !important;
+    }
+    .move-left {
+        padding-left: 0px !important;
+    }
+}
+
+@media screen and (min-width:600px) and (max-width: 887px) {
+    .pl-0.move-right {
+        padding-left: 16px !important;
+    }
+}
+
+::ng-deep .ngx-charts g .grid-panel.odd rect {
+    fill: none;
+}
+
+::ng-deep canvas{
+    height: 500px !important;
+}
+
+.btn-position{
+    padding: 0px 30px 0px 0px;
+}
+
+.head-padding {
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+::ng-deep .mat-form-field {
+    width: 100%;
+}
+
+.export-btn {
+    position: relative;
+    top: -5px;
+}

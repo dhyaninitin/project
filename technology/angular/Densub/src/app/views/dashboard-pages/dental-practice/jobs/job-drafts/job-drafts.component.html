@@ -1,0 +1,115 @@
+<div class="row">
+  <div class="col-sm-12">
+    <h4 class="text-primary"> <b>Draft Jobs</b> </h4>
+    <hr />
+  </div>
+</div>
+
+<div class="row pt-3">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-cogs"></i> Listings
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table table-bordered">
+          <thead class="nowrap">
+            <tr>
+              <th>Job ID</th>
+              <th  [class.active]="order === 'jobType'" (click)="setOrder('jobType')">Job Type
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th  [class.active]="order === 'positionType'" (click)="setOrder('positionType')">Position Type
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <!-- <th [class.active]="order === 'createdAt'" (click)="setOrder('createdAt')">
+                Job Posted Date
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th> -->
+              <th [class.active]="order === 'jobTitle'" (click)="setOrder('jobTitle')">
+                Job Title
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <!-- <th>No. of Bids Received</th> -->
+              <!-- <th>Job Status</th> -->
+              <!-- <th>Contract ID</th>
+              <th>Contract Status</th> -->
+              <!-- <th> Status</th> -->
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="jobList?.length">
+            <tr
+              *ngFor="let job of jobList | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index;">
+              <td><a href="/#/job-details/{{job._id}}" data-toggle="tooltip" title="{{job?._id}}" (click)="openJobList()">#{{ job?._id | slice:18:24}}</a></td>
+              <td class="text-capitalize"> {{ jobLabel[job?.jobType] }} </td>
+              <td class="text-capitalize"> {{ job?.positionType }} </td>
+              <!-- <td class="text-capitalize"> {{ job?.createdAt | date: 'mediumDate'}} </td> -->
+              <td class="text-capitalize"> {{ job?.jobTitle }}</td>
+              <!-- <td class="text-capitalize"> 0 </td> -->
+              <!-- <td class="text-capitalize"> Open</td> -->
+              <!-- <td> #contId</td>
+              <td class="text-capitalize"> <i class="fa fa-dot-circle-o" aria-hidden="true"></i> In progress</td> -->
+              <!-- <td>{{ job?.positionType }}</td> -->
+              <!-- <td class="text-capitalize"
+                [ngClass]="{'text-danger': job?.status === 'expired', 'text-warning': job?.status === 'drafts'}">
+                {{ job?.status }}</td>-->
+              <td>
+                <div class="btn-group">
+                  <!-- <button type="button" class="btn btn-sm btn-outline-info"><i class="fa fa-eye"></i></button> -->
+                  <button type="button" class="btn btn-sm btn-outline-primary" (click)="showNewJobModal(job)"><i
+                      class="fa fa-edit"></i></button>
+                  <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal"
+                    (click)="showDeletejobModal(job)"><i class="fas fa-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tr class="text-center" *ngIf="!jobList?.length">
+            <td colspan="12">
+              <h6>No Record Found !</h6>
+            </td>
+          </tr>
+        </table>
+        <ul class="pagination" *ngIf="itemsPerPage < jobList.length">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- End -->
+
+<!-- START JOB DELETE MODAL -->
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #deleteJobModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-white">
+        <h4 class="modal-title text-white"><i class="fa fa-trash"></i> Delete Job</h4>
+        <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure want to delete this job?</p>
+        <p class="text-capitalize">
+          <b>Job Title:</b> {{newJob?.jobTitle}}<br />
+          <b>Position Type :</b> {{newJob?.positionType}}<br />
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+        <button type="button" class="btn btn-danger" (click)="deleteJobs()">Delete</button>
+        <!-- <pre [innerHtml]="newJob | json"> </pre> -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END JOB DELETE MODAL -->

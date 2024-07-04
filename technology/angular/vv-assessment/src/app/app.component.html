@@ -1,0 +1,12 @@
+<router-outlet></router-outlet>
+<div *ngIf="loaderService.loading$ | async" class="loader-overlay">
+    <div class="loader"></div>
+</div>
+<!-- <ngx-spinner *ngIf="loaderService.loading$ | async" type="ball-running-dots" size="medium" color="#f0a400"></ngx-spinner> -->
+<div class="footer" *ngIf="contentLoaded">
+    <p class="mb-0" style="margin-left: 20px;">
+        Copyright © {{ currentYear }}
+        <a href="https://Virtuevise.com" target="_blank" rel="noopener noreferrer">Virtuevise.com</a> |
+        <span href="https://Virtuevise.com/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</span>
+    </p>
+</div>

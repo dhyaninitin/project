@@ -1,0 +1,83 @@
+<table @stagger *ngIf="modelList" [dataSource]="modelList" multiTemplateDataRows matSort class="w-full" mat-table>
+    <ng-container matColumnDef="{{column.key}}" *ngFor="let column of modelColumnHeaders">
+      <ng-container *ngIf="column.key != 'actions'">
+        <th *matHeaderCellDef mat-header-cell>{{column.label}}</th>
+        <td *matCellDef="let item" mat-cell>
+            <span *ngIf="column?.key == 'image_url_640'" class="model-img">
+
+              <mat-checkbox [checked]="item?.is_enable === 1" color="primary" 
+              [matTooltip] = "item?.is_enable === 1 ? 'Disable model' : 'Enable model' " (click)="$event.stopPropagation()" 
+              (change)="changeModelStatus($event.checked, item?.id)"></mat-checkbox>
+                
+              <img [src]="item['image_url_640']" class="logo align-middle">
+            </span>
+
+            <span *ngIf="column?.key == 'name' || column?.key == 'is_new'">
+                {{item[column.key]}}
+                <!-- <span *ngIf="column?.key == 'name' && item.is_new == 1" class="new-addition">New</span> -->
+            </span>
+            <span *ngIf="column?.key == 'msrp'">
+              {{ item[column.key] !== null ? (item[column.key] | currency) : (0 | currency) }}
+            </span>
+            
+            <span *ngIf="column?.key == 'created_at' || column?.key == 'updated_at'">
+              {{item[column.key] | date:'MM/dd/yyy h:mm a'}}
+            </span>
+        </td>
+      </ng-container>
+
+      <ng-container *ngIf="column.key == 'actions'">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>{{column.label}}</th>
+        <td *matCellDef="let item" mat-cell>
+          <button (click)="$event.stopPropagation(); getSelectedRecord(item)"
+          [matMenuTriggerData]="{ model: item }" [matMenuTriggerFor]="actionsMenu" mat-icon-button
+            type="button">
+          <mat-icon svgIcon="mat:more_horiz"></mat-icon>
+          </button>
+        </td>
+      </ng-container>
+        
+    </ng-container>
+
+    <ng-container matColumnDef="expand">
+      <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+      <td mat-cell *matCellDef="let item">
+        <button mat-icon-button aria-label="expand row" (click)="(expandedElement = expandedElement === item ? null : item); $event.stopPropagation(); getTrim(item,expandedElement = expandedElement === item ? null : item)">
+          <mat-icon *ngIf="expandedElement !== item">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="expandedElement === item">keyboard_arrow_up</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="modelColumnsToDisplayWithExpand.length">
+        <div class="example-element-detail"
+           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+          <div class="example-element-description">
+            <mat-progress-bar *ngIf="(trimFetching$ | async)" mode="indeterminate"></mat-progress-bar>
+              <app-trim-table *ngIf="isTrimColumnAvailable && element.id == modelId " class="display-block w-100 list-table"
+              [trimColumnHeaders] = "trimColumnHeaders" [trimParams] = "modelsParams"></app-trim-table>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="modelColumnsToDisplayWithExpand"></tr>
+    <tr mat-row *matRowDef="let element; columns: modelColumnsToDisplayWithExpand;"
+      class="example-element-row cursor-pointer" [class.example-expanded-row]="expandedElement === element"
+      (click)="getTrim(element, expandedElement)">
+    </tr>
+    <tr mat-row *matRowDef="let element; columns: ['expandedDetail']" class="example-detail-row"></tr>
+
+</table>
+
+<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+  <ng-template let-customer="model" matMenuContent>
+    <button mat-menu-item (click)="onModelEdit(selectedRecordDetail)">
+      <mat-icon svgIcon="mat:edit"></mat-icon>
+      <span>Edit</span>
+    </button>
+  </ng-template>
+</mat-menu>
+
+<div class="text-center mt-2" *ngIf="(modelDidFetch$ | async) &&  modelList.length === 0">There are no models available for this brand.</div> 

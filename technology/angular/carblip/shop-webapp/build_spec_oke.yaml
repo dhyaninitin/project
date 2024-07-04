@@ -1,0 +1,24 @@
+version: 0.1
+component: build
+timeoutInSeconds: 6000
+runAs: root
+shell: bash
+env:
+  exportedVariables:
+    - BUILDRUN_HASH
+steps:
+  - type: Command
+    name: "Define unique image tag"
+    timeoutInSeconds: 40
+    command: |
+      export BUILDRUN_HASH=`echo ${OCI_BUILD_RUN_ID: -7}`
+      echo "BUILDRUN_HASH: " $BUILDRUN_HASH
+  - type: Command
+    timeoutInSeconds: 1200
+    name: "Build container image"
+    command: |
+      docker build --build-arg BUILD_ENV=${BUILD_ENV} -t us-phoenix-1.ocir.io/axo7dvhusjw2/shop-app-${ENVIRONMENT}:${BUILDRUN_HASH} .
+outputArtifacts:
+ - name: shop-app
+   type: DOCKER_IMAGE
+   location: us-phoenix-1.ocir.io/axo7dvhusjw2/shop-app-${ENVIRONMENT}:${BUILDRUN_HASH}

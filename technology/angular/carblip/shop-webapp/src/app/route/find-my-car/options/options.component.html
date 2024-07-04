@@ -1,0 +1,300 @@
+<section class="container-fluid px-0">
+  <div class="cb-container container" *ngIf="(didFetch$ | async)">
+    <div class="row">
+      <div class="col-lg-8 col-md-8 col-sm-12 col-12 left-div pb-5">
+        <div class="brand-model-trim-view">
+          <div fxLayoutAlign="space-between center">
+            <div>
+              <p class="brand-model-p">
+                {{ selectedBrand?.name }}
+                {{ selectedTrim?.friendly_model_name }}
+              </p>
+              <p class="trim-p">{{ selectedTrim?.friendly_style_name }}</p>
+            </div>
+            <div>
+              <span class="price-span">{{
+                configuration?.configuredResult?.configuredTotalMsrp
+                  | currency: 'USD':'symbol':'1.0'
+              }}</span>
+              <span class="price-label-span">Starting MSRP</span>
+            </div>
+          </div>
+        </div>
+        <div class="img-carousel-wrapper">
+          <div *ngIf="backgroundImages.length === 0" class="img-wrapper">
+            <div class="carousel-vehicle-img" src="{{selectedTrim?.image_url}}" appLazyloader draggable="false" [ngStyle]="{'background-image': 'url(' + selectedTrim?.image_url + ')'}"></div>
+          </div>
+          <div *ngIf="backgroundImages.length === 1" class="img-wrapper">
+            <div class="carousel-vehicle-img" src="{{backgroundImages[0]}}" appLazyloader draggable="false" [ngStyle]="{'background-image': 'url(' + backgroundImages[0] + ')'}"></div>
+          </div>
+          <ui-carousel
+            *ngIf="backgroundImages.length > 1"
+            #uiCarousel
+            class="img-carousel"
+            [autoPlay]="false"
+            [arrows]="false"
+            [infinite]="true"
+            [fade]="false"
+            [speed]="200"
+            height="530px"
+            width="100%"
+          >
+            <ui-carousel-item>
+              <div class="carousel-vehicle-img" src="{{backgroundImages[0]}}" appLazyloader draggable="false" [ngStyle]="{'background-image': 'url(' + backgroundImages[0] + ')'}"></div>
+            </ui-carousel-item>
+            <ui-carousel-item>
+              <div class="carousel-vehicle-img" src="{{backgroundImages[1]}}" appLazyloader draggable="false" [ngStyle]="{'background-image': 'url(' + backgroundImages[1] + ')'}"></div>
+            </ui-carousel-item>
+            <ui-carousel-item *ngIf="backgroundImages.length === 3">
+              <div class="carousel-vehicle-img" src="{{backgroundImages[2]}}" appLazyloader draggable="false" [ngStyle]="{'background-image': 'url(' + backgroundImages[2] + ')'}"></div>
+            </ui-carousel-item>
+            <div class="left-arrow" (click)="uiCarousel.prev()">
+              <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon>
+            </div>
+            <div class="right-arrow" (click)="uiCarousel.next()">
+              <fa-icon [icon]="['fas', 'chevron-right']"></fa-icon>
+            </div>
+          </ui-carousel>
+        </div>
+        <div class="tech-spec-div detail-block">
+          <h2>Technical Specs</h2>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 tech-item">
+              <div fxLayoutAlign="space-between center" class="py-2">
+                <span class="label"
+                  ><img src="assets/img/icon/ic-gas.svg" /> EPA Estimated</span
+                >
+                <span class="detail">{{
+                  configuration?.vehicle_data.basicInformation.epa
+                }}</span>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 tech-item">
+              <div fxLayoutAlign="space-between center" class="py-2">
+                <span class="label"
+                  ><img src="assets/img/icon/ic-data.svg" /> Warranty</span
+                >
+                <span class="detail">{{
+                  configuration?.vehicle_data.basicInformation.note
+                }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 tech-item">
+              <div fxLayoutAlign="space-between center" class="py-2">
+                <span class="label"
+                  ><img src="assets/img/icon/ic-motor.svg" /> Engine</span
+                >
+                <span class="detail">{{
+                  configuration?.vehicle_data.basicInformation.engine
+                }}</span>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 tech-item">
+              <div fxLayoutAlign="space-between center" class="py-2">
+                <span class="label"
+                  ><img src="assets/img/icon/ic-wheel.svg" /> Drivetrain</span
+                >
+                <span class="detail">{{
+                  configuration?.vehicle_data.basicInformation.wheel
+                }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 tech-item">
+              <div fxLayoutAlign="space-between center" class="py-2">
+                <span class="label"
+                  ><img src="assets/img/icon/ic-manual.svg" />
+                  Transmission</span
+                >
+                <span class="detail">{{
+                  configuration?.vehicle_data.basicInformation.speed_manual
+                }}</span>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 tech-item">
+              <div fxLayoutAlign="space-between center" class="py-2">
+                <span class="label"
+                  ><img src="assets/img/icon/ic-passanger.svg" />
+                  Passengers</span
+                >
+                <span class="detail">{{
+                  configuration?.vehicle_data.basicInformation.passenger
+                }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="btn-div pt-4">
+            <button
+              type="button"
+              class="btn text-capitalize orange-border-btn"
+              (click)="onDetailClick()"
+            >
+              See All Details
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12 col-12 right-div pb-5">
+        <div class="option-selection detail-block" *ngIf="options.wheel.length">
+          <h2>Wheels</h2>
+          <div
+            class="option-block {{ getOptionClass(item) }}"
+            [ngClass]="{
+              opened: openStatusArr[item.chromeOptionCode]
+            }"
+            *ngFor="let item of options.wheel; let i = index"
+            (click)="onOptionSelect(item)"
+          >
+            <div class="option-block__top">
+              <span class="title" [innerHTML]="item.descriptions[0].description"></span>
+              <span
+                class="arrow-icon"
+                *ngIf="item.descriptions.length > 1"
+                (click)="onExpandOptionDetail(item, $event)"
+              ></span>
+            </div>
+            <div
+              class="option-block__desc-group"
+              *ngIf="item.descriptions.length > 1"
+            >
+              <span *ngFor="let desc_item of (item.descriptions | slice: 1)" [innerHTML]="desc_item.description"></span>
+            </div>
+            <span class="price"
+              >+{{ item.msrp | currency: 'USD':'symbol':'1.0' }}</span
+            >
+          </div>
+        </div>
+        <div class="option-selection detail-block" *ngIf="options.additional_equipment.length">
+          <h2>Additional Equipment</h2>
+          <div
+            class="option-block {{ getOptionClass(item) }}"
+            [ngClass]="{
+              opened: openStatusArr[item.chromeOptionCode]
+            }"
+            *ngFor="let item of options.additional_equipment; let i = index"
+            (click)="onOptionSelect(item)"
+          >
+            <div class="option-block__top">
+              <span class="title" [innerHTML]="item.descriptions[0].description"></span>
+              <span
+                class="arrow-icon"
+                *ngIf="item.descriptions.length > 1"
+                (click)="onExpandOptionDetail(item, $event)"
+              ></span>
+            </div>
+            <div
+              class="option-block__desc-group"
+              *ngIf="item.descriptions.length > 1"
+            >
+              <span *ngFor="let desc_item of (item.descriptions | slice: 1)" [innerHTML]="desc_item.description"></span>
+            </div>
+            <span class="price"
+              >+{{ item.msrp | currency: 'USD':'symbol':'1.0'
+              }}<span class="type">{{ getOptionType(item) }}</span></span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- The Modal -->
+<ng-template #detailModal let-modal let-c="close" let-d="dismiss">
+  <div class="detail-modal">
+    <div class="modal-content cb-model">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Your Car’s Details</h4>
+        <a class="close" data-dismiss="modal" (click)="onDismissDetailModal()"
+          ><img src="assets/img/close.png" class="ic_close"
+        /></a>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="spec-detail-group">
+          <h4>General Information</h4>
+          <div class="row">
+            <div
+              class="col-lg-6 col-md-6 col-sm-12 col-12 tech-item"
+              *ngFor="
+                let item of configuration?.vehicle_data
+                  .structuredConsumerInformation;
+                let i = index
+              "
+            >
+              <h5>{{ item.typeName }}</h5>
+              <p *ngFor="let item1 of item.items; let ii = index">
+                <span class="label">{{ item1.name }}:</span>
+                <span class="desc">{{ item1.value }}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="spec-detail-group">
+          <h4>Technical Equipment</h4>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+              <ng-container
+                *ngFor="
+                  let item of technicalSpecifications;
+                  let i = index;
+                  let even = even
+                "
+              >
+                <div class="tech-item" *ngIf="even">
+                  <h5>{{ item.headerName }}</h5>
+                  <p *ngFor="let item1 of item.items; let ii = index">
+                    <span class="label">{{ item1.titleName }}:</span>
+                    <span class="desc">{{ item1.value }}</span>
+                  </p>
+                </div>
+              </ng-container>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+              <ng-container
+                *ngFor="
+                  let item of technicalSpecifications;
+                  let i = index;
+                  let odd = odd
+                "
+              >
+                <div class="tech-item" *ngIf="odd">
+                  <h5>{{ item.headerName }}</h5>
+                  <p *ngFor="let item1 of item.items; let ii = index">
+                    <span class="label">{{ item1.titleName }}:</span>
+                    <span class="desc">{{ item1.value }}</span>
+                  </p>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="spec-detail-group">
+          <h4>Standard Equipment</h4>
+          <div class="row">
+            <div
+              class="col-lg-12 col-md-12 col-sm-12 col-12 tech-item"
+              *ngFor="let item of standardEquipments; let i = index"
+            >
+              <h5>{{ item.consumerFriendlyHeaderName }}</h5>
+              <ul>
+                <li *ngFor="let item1 of item.items; let ii = index">
+                  <span>{{ item1.description }}:</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <a
+          class="btn btn-secondary ml-auto mr-auto d-block next-btn"
+          (click)="onDismissDetailModal()"
+          >Close</a
+        >
+      </div>
+    </div>
+  </div>
+</ng-template>

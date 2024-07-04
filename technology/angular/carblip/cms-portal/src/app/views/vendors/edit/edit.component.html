@@ -1,0 +1,85 @@
+<form [formGroup]="itemForm" (ngSubmit)="submit()" autocomplete="new-portalform">
+	<div class="flex items-center" mat-dialog-title>
+		<h2 class="headline m-0 flex-auto">Add New Vendor</h2>
+
+		<button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+			<mat-icon svgIcon="mat:close"></mat-icon>
+		</button>
+	</div>
+
+	<mat-divider class="-mx-6 text-border"></mat-divider>
+	<mat-dialog-content class="flex flex-col">
+		<div class="flex flex-col sm:flex-row">
+			<mat-form-field class="mt-3 flex-auto">
+				<mat-label>Vendor Name</mat-label>
+				<input matInput autocomplete="new-name" name="new-name" [formControl]="itemForm.controls['name']"
+					placeholder="Vendor Name" appNoWhitespace>
+					<mat-icon class="mr-3" matPrefix svgIcon="mat:business"></mat-icon>
+			</mat-form-field>
+
+
+			<mat-form-field class="sm:mt-3 sm:ml-6 flex-auto">
+				<mat-label>City</mat-label>
+				<input matInput autocomplete="new-city" name="new-city" [formControl]="itemForm.controls['city']"
+					placeholder="City">
+					<mat-icon class="mr-3" matPrefix svgIcon="mat:location_city"></mat-icon>
+			</mat-form-field>
+		</div>
+
+		<div class="flex flex-col sm:flex-row">
+			<mat-form-field class="flex-auto">
+				<mat-label>Street Address</mat-label>
+				<input matInput autocomplete="new-street-address" name="new-street-address"
+					[formControl]="itemForm.controls['street_address']" placeholder="Street Address">
+					<mat-icon class="mr-3" matPrefix svgIcon="mat:edit_location"></mat-icon>
+			</mat-form-field>
+
+			<mat-form-field class="sm:ml-6 flex-auto">
+				<mat-label>State</mat-label>
+				<mat-select [formControl]="itemForm.controls['state']" placeholder="State" #singleSelect>
+					<mat-option>
+						<ngx-mat-select-search *ngIf="true" [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'No matches' "
+							[formControl]="stateFilterCtrl" [preventHomeEndKeyPropagation]="true">
+							<mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+						</ngx-mat-select-search>
+					</mat-option>
+						<mat-option *ngFor="let state of filteredState" [value]="state.value">
+							{{ state?.label }}
+						</mat-option>
+					</mat-select>
+					<mat-icon class="mr-3" matPrefix svgIcon="mat:location_on"></mat-icon>
+				</mat-form-field>
+		</div>
+
+		<div class="flex flex-col sm:flex-row">
+			<mat-form-field class="flex-auto">
+				<mat-label>Zip</mat-label>
+				<input matInput autocomplete="zip" name="zip" [formControl]="itemForm.controls['zip']" placeholder="Zip">
+				<mat-icon class="mr-3" matPrefix svgIcon="mat:my_location"></mat-icon>
+			</mat-form-field>
+			<mat-form-field class="sm:ml-6 flex-auto w-245">
+				<mat-label>Company Phone</mat-label>
+				<input matInput autocomplete="new-comapny-phone" name="new-comapny-phone" pattern="^\d{3}[- ]?\d{3}[- ]?\d{4}$"
+					[formControl]="itemForm.controls['company_phone']" placeholder="Company Phone" appPhoneNumber>
+					<mat-icon class="mr-3" matPrefix svgIcon="mat:phone"></mat-icon>
+					<span matPrefix class="prefix">+1</span>
+			</mat-form-field>
+		</div>
+		<div class="flex flex-col sm:flex-row">
+			<mat-form-field class="flex-auto">
+				<mat-label>Website</mat-label>
+				<input matInput type="website" autocomplete="new-website" name="new-website"
+					[formControl]="itemForm.controls['website']" placeholder="Website" appNoWhitespace>
+					<mat-icon class="mr-3" matPrefix svgIcon="mat:language"></mat-icon>
+			</mat-form-field>
+		</div>
+
+		<mat-dialog-actions align="end">
+			<div>
+			<button mat-button mat-dialog-close type="button" (click)="dialogRef.close(false)">Cancel</button>
+			<app-button-loading loadingText="Processing..." [loading]="saving" [disabled]="itemForm.invalid || itemForm.pristine" color="primary">{{ saveButtonLabel | translate }}</app-button-loading>
+			<span fxFlex></span>
+			</div>
+		</mat-dialog-actions>
+	</mat-dialog-content>
+</form>

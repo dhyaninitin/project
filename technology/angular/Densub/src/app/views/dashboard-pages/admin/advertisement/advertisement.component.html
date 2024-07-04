@@ -1,0 +1,134 @@
+<div class="row">
+  <div class="col-sm-12">
+    <h4 class="text-primary"> <b>Manage: Advertisement</b> </h4>
+    <hr />
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-cogs"></i> Listings
+        <button class="btn btn-primary pull-right btn-sm mr-1" (click)="showSaveAdvertiseModal()"> <i class="fa fa-plus">
+        </i> Add New Advertise</button>
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table table-bordered">
+          <thead class="nowrap">
+            <tr>
+              <th>S.NO</th>
+              <th [class.active]="order === 'adtitle'" (click)="setOrder('adtitle')">
+                Advertise Title
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th> Advertise Link </th>
+              <th> Created On </th>
+              <th> Updated On </th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="advertisementList.length">
+            <tr
+              *ngFor="let advertise of advertisementList | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index;">
+              <td>{{i+1}}</td>
+              <td>{{ advertise?.adtitle }}</td>
+              <td>{{ advertise?.adLink}}</td>
+              <td>{{ advertise?.createdAt | date:'mediumDate' }}</td>
+              <td>{{ advertise?.updatedAt | date:'mediumDate' }}</td>
+              <td>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-primary"
+                    (click)="showSaveAdvertiseModal(advertise)"><i class="fa fa-edit"></i></button>
+                  <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal"
+                    (click)="showDeleteAdvertise(advertise)"><i class="fa fa-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tr class="text-center" *ngIf="!advertisementList.length">
+            <td colspan="15">
+              <h6>No Record Found !</h6>
+            </td>
+          </tr>
+        </table>
+
+        <ul class="pagination" *ngIf="itemsPerPage < advertisementList.length">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #deleteAdvertiseModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white"><i class="fa fa-trash"></i> Delete Advertisement</h4>
+        <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure want to delete this advertise?</p>
+        <p>
+          <b>Advertise Title:</b> {{currentAdvertise?.adtitle}}<br />
+          <b>Advertise Link:</b> {{currentAdvertise?.adLink}}<br />
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+        <button type="button" class="btn btn-danger" (click)="deleteAdvertise()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #addEditAdvertise="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white"> {{currentAdvertise._id ? 'Edit' :'Add'}} Advertisement</h4>
+        <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group row">
+          <div class="col-12">
+            <label><b>Advertise Title
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !currentAdvertise?.adtitle, 'text-primary': currentAdvertise?.adtitle}"></i>
+                </sup>
+              </b></label>
+              <input type="text" id="adtitle" name="adtitle" [(ngModel)]="currentAdvertise.adtitle" class="form-control"
+              placeholder="Please enter advertise title" required>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-12">
+            <label><b>Advertise Link
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !currentAdvertise?.adLink, 'text-primary': currentAdvertise?.adLink}"></i>
+                </sup>
+              </b></label>
+             <input type="text" id="adLink" name="adLink" class="form-control"
+              placeholder="Please enter advertise Link" [(ngModel)]="currentAdvertise.adLink" required (ngModelChange)="ValidURL(currentAdvertise.adLink)">
+              <div class="alert alert-danger" role="alert" *ngIf="!validLinkUrl">
+                Please enter valid Url.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+        <button type="button" class="btn btn-primary" [disabled]="!currentAdvertise.adtitle || !currentAdvertise.adLink || !validLinkUrl"
+          (click)="saveAdvertiseData()">{{currentAdvertise._id ? 'Update' :'Save'}}</button>
+        <!-- <pre [innerHtml]="validLinkUrl | json"> </pre> -->
+      </div>
+    </div>
+  </div>
+</div>

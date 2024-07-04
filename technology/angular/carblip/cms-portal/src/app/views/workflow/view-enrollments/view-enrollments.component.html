@@ -1,0 +1,49 @@
+<div class="flex" *ngIf="enrollment?.total_enrollment">
+    <a class="link text-decoration-underline cursor-pointer flex gap-1" [matMenuTriggerFor]="CopyMenu"
+        matTooltip="Show Contacts" (click)="getContacts(enrollment?.action_uuid)" (menuOpened)="onMenuOpen()">
+        <span>
+            <mat-icon svgIcon="mat:visibility" class="icons ml-2" matTooltipPosition="after"></mat-icon>
+        </span>
+        <span>{{enrollment?.total_enrollment }} contacts</span>
+    </a>
+</div>
+
+<mat-menu #CopyMenu="matMenu" class="rounded-xxl border border-gray-300 max-w-xl" (closed)="onMenuClosed()">
+
+    <div *ngIf="loading">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+    <div class="max-h-96 overflow-y-scroll" (scroll)="onScroll($event)">
+        <!-- <div class="bg-foreground rounded-full px-4 flex-auto flex items-center border max-w-[250px] border-gray-300"
+            (click)="$event.stopPropagation()">
+            <mat-icon class="icon-sm text-secondary search-icon" svgIcon="mat:search"></mat-icon>
+            <input [(ngModel)]="search" class="px-4 py-2 border-0 outline-none w-full bg-transparent"
+                placeholder="Search..." name="searchSource" type="search" #searchInput
+                (ngModelChange)="onClearSearch($event)">
+        </div> -->
+        <table mat-table recycleRows [dataSource]="contacts">
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> #Id </th>
+                <td mat-cell *matCellDef="let element"> <a class="link text-decoration-underline cursor-pointer"
+                    routerLink="/contacts/{{element?.user_id}}" target="_blank">{{element?.user_id}}</a></td>
+            </ng-container>
+            <ng-container matColumnDef="first_name">
+                <th mat-header-cell *matHeaderCellDef> First Name </th>
+                <td mat-cell *matCellDef="let element"> {{element?.first_name }} </td>
+            </ng-container>
+            <ng-container matColumnDef="last_name">
+                <th mat-header-cell *matHeaderCellDef> Last Name </th>
+                <td mat-cell *matCellDef="let element"> {{element?.last_name}} </td>
+            </ng-container>
+            <ng-container matColumnDef="email_address">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let element"> {{element?.email_address}} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="trans-ease-out cursor-pointer"
+                (click)="$event.stopPropagation()"></tr>
+        </table>
+        <div class="text-center m-4" *ngIf="contacts?.length == 0 && isResponse">Contacts does not exist, can't show details.</div>
+    </div>
+
+</mat-menu>

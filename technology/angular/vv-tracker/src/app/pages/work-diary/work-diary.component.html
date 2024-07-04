@@ -1,0 +1,216 @@
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="over" position="end">
+    <vex-daily-diary [userData]="userData" (closeDrawer)="drawer.close()" (deleteItem)="onDeleteItem($event)"></vex-daily-diary>
+  </mat-drawer>
+
+  <div class="example-sidenav-content">
+    <vex-page-layout>
+      <vex-page-layout-header class="flex flex-col items-start justify-center py-4">
+      </vex-page-layout-header>
+
+      <vex-page-layout-content [class.container]="layoutCtrl.value === 'boxed'"
+        [class.px-gutter]="layoutCtrl.value === 'fullwidth'" class="-mt-6">
+        <div class="card overflow-auto -mt-16">
+          <div class="bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
+            <h2
+              class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
+              <span>Work Diary</span>
+            </h2>
+          </div>
+        </div>
+      </vex-page-layout-content>
+
+      <div class="container">
+        <mat-card>
+          <mat-card-content>
+            <div class="content">
+              <div class="calendar">
+                <vex-date-picker-range [formControl]="control" placeholder="DD/MM/YYYY"></vex-date-picker-range>
+              </div>
+              <div class="expansion-panel customScrollar">
+
+                <table 
+                  mat-table 
+                  [dataSource]="dataSource" 
+                  multiTemplateDataRows
+                  matSort
+                  matSortActive="{{ sortKey }}"
+                  [matSortDirection]="sortDirection"
+                  matSortDisableClear
+                  matSort
+                  (matSortChange)="sortData($event)"
+                >
+                  <ng-container matColumnDef="{{ column }}" *ngFor="let column of columnsToDisplay">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.toUpperCase() }}</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{ element[column] }}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="expand">
+                    <th mat-header-cell *matHeaderCellDef aria-label="row actions">
+                      &nbsp;
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                      <button mat-icon-button aria-label="expand row" (click)="
+                          expandedElement = expandedElement === element ? null : element; 
+                          $event.stopPropagation(); onExpandRow(element._id)">
+                        <mat-icon *ngIf="expandedElement !== element" svgIcon="mat:keyboard_arrow_down"></mat-icon>
+                        <mat-icon *ngIf="expandedElement === element" svgIcon="mat:keyboard_arrow_up"></mat-icon>
+                      </button>
+                    </td>
+                  </ng-container>
+
+                  <ng-container>
+                    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+                      <div class="example-element-detail" [@detailExpand]="
+                          element == expandedElement ? 'expanded' : 'collapsed'
+                        ">
+                        <div class="example-element-diagram">
+                          <div class="example-element-position">
+                            {{ element?.empid }}
+                          </div>
+                          <div class="example-element-name">
+                            {{ element?.firstname }}
+                          </div>
+                          <div class="example-element-name">
+                            {{ element?.lastname }}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="expandedDetail">
+                    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+                      <div class="example-element-detail" [@detailExpand]="
+                          element == expandedElement ? 'expanded' : 'collapsed'">
+
+                        <div class="spinner" *ngIf="isSpinnerLoading">
+                          <mat-spinner color="primary" mode="indeterminate"
+                            diameter="40"></mat-spinner>
+                        </div>
+
+                        <div class="user-data-container" *ngIf="!isSpinnerLoading">
+                          <div *ngFor="let data of userDataArray" class="user-data">
+                            <mat-card class="grid grid-cols-12 w-full cursor-pointer"
+                              (click)="onCardClick(data, data[data.length-1]?.createdat)" *ngIf="data?.length * 10 / 60 !== 0">
+                              <div class="days col-span-2">
+                                {{ data[data.length-1]?.createdat | date: 'E, MM/dd' }}
+                              </div>
+
+                              <div class="progress col-span-8">
+                                <div [style]="getProgressWidth((data?.length * 10) / 60)">
+                                  <div class="mt-1 h-3 bg-green-500 rounded-lg"></div>
+                                </div>
+                              </div>
+
+                              <div class="total-hours col-span-2">
+                                {{ convertDecimalToHoursMinutes(data?.length * 10 / 60) }}
+                              </div>
+                            </mat-card>
+                          </div>
+                        </div>
+
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+                  <tr mat-row *matRowDef="
+                      let element;
+                      columns: columnsToDisplayWithExpand
+                    " class="example-element-row cursor-pointer" [class.example-expanded-row]="expandedElement === element" (click)="
+                      expandedElement =
+                        expandedElement === element ? null : element;
+                        onExpandRow(element._id)
+                    "></tr>
+                  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                </table>
+
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <div class="logs-card mt-2">
+          <div class="customScrollarForLogs">
+    
+            <mat-card>
+              <div class="flex items-center mb-4">
+                <div class="flex-grow">
+                  <h1 class="font-semibold">Work Diary Logs</h1>
+                </div>
+                <div class="ml-auto flex items-center space-x-4">
+                  <div class="bg-foreground rounded-full px-4 flex items-center border border-gray-300">
+                    <mat-icon class="icon-sm text-secondary" svgIcon="mat:search"></mat-icon>
+                    <input
+                      [formControl]="searchCtrlOfLogs"
+                      matInput
+                      type="text"
+                      name="searchSource"
+                      class="px-4 py-2 border-0 outline-none bg-transparent"
+                      placeholder="Search..."
+                      #searchInput
+                    />
+                  </div>
+    
+                  <form [formGroup]="filterLogsForm" class="flex items-center space-x-4">
+                    <button mat-icon-button [matMenuTriggerFor]="filterMenu">
+                      <mat-icon svgIcon="mat:filter_list" matTooltip="Filter logs" class="cursor-pointer"></mat-icon>
+                    </button>
+                  
+                    <mat-menu #filterMenu="matMenu">
+                      <mat-form-field appearance="outline" class="custom-date-field">
+                        <mat-label>Enter a date range</mat-label>
+                        <div class="relative">
+                          <mat-date-range-input [rangePicker]="picker">
+                            <input matStartDate placeholder="Start date" formControlName="logsfrom">
+                            <input matEndDate placeholder="End date" formControlName="logsto">
+                          </mat-date-range-input>
+                          <div class="absolute right-2 bottom-0"> 
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                          </div>
+                        </div>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                      </mat-form-field>
+                      
+                      <div class="flex items-center justify-center">
+                        <button mat-icon-button (click)="onFilterLogs()">
+                          <mat-icon svgIcon="mat:done" matTooltip="Apply filter" class="cursor-pointer"></mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="resetLogsFilter()">
+                          <mat-icon svgIcon="mat:refresh" matTooltip="Reset filter" class="cursor-pointer"></mat-icon>
+                        </button>
+                      </div>
+                    </mat-menu>
+                  </form>
+      
+                </div>
+              </div>
+            
+              <div class="logs py-1" *ngFor="let item of history">
+                &#x2022;<span style="word-wrap: break-word; margin-left: 6px;" [innerHTML]="item.message"></span>
+              </div>    
+              
+              <span *ngIf="showNoLogsText" class="flex justify-center">
+                <h2>No log found</h2>
+              </span>
+            </mat-card>
+            
+          </div>
+    
+          <mat-paginator
+            #logsPaginator
+            [pageSize]="logsSize"
+            [length]="logsTotalDataCount"
+            [pageSizeOptions]="[10, 20, 50, 100]"
+            (page)="onPageChangeOfLogs($event)"
+            [showFirstLastButtons]="true"
+          >
+          </mat-paginator>
+        </div>
+      </div>
+    </vex-page-layout>
+  </div>
+</mat-drawer-container>

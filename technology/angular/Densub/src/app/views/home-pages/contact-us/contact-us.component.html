@@ -1,0 +1,110 @@
+<Section class="innerbg-1 position-relative bg-overlay d-flex align-items-center">
+  <div class="container">
+    <div class="row mb-30 align-center">
+      <div class="col-12 text-center">
+        <h1 class="fs-50 clr-white position-relative z-index">Contact Us</h1>
+      </div>
+    </div>
+  </div>
+</Section>
+
+
+<section class="blue-bg contact-2 position-relative clearfix o-hidden">
+  <div class="container-fluid  map-side g-map map-right">
+    <div class="row h-100">
+      <div class="col-12" id="map" data-type='black'>
+        <agm-map #AgmMap [latitude]="latitude" [longitude]="longitude" [scrollwheel]="true" [zoom]="zoom" >
+            <agm-marker [latitude]="latitude" [longitude]="longitude">
+            </agm-marker>
+          </agm-map>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="contact-3-info page-section-ptb text-white">
+          <div class="clearfix">
+            <!-- <h6 class="text-white">Our Offices</h6> -->
+            <h2 class="text-white">Contact Info</h2>
+            <p class="mb-50 text-white">It would be great to hear from you! If you got any questions, please
+              do not hesitate to send us a message. We are looking forward to hearing from you! We reply
+              within <span class="tooltip-content-2" data-original-title="Mon-Fri 10am–7pm (GMT +1)"
+                data-toggle="tooltip" data-placement="top"> 24 hours !</span></p>
+            <ul class="addresss-info list-unstyled">
+              <li><i class="fa fa-map-o"></i>
+                <p>Address: 17504 Carlton Cuevas Rd, Gulfport, MS, 39503</p>
+              </li>
+              <li><i class="fa fa-mobile"></i>Phone: +(000) 000-0000</li>
+              <li><i class="fa fa-envelope-o"></i>Email: demo@demo.com</li>
+            </ul>
+            <div class="social-icons icon-border rounded color-hover mt-50">
+              <ul>
+                <li class="social-linkedin"><a target="_blank" href="#"><i class="fa fa-linkedin"
+                      aria-hidden="true"></i></a></li>
+                <li class="social-facebook"><a target="_blank"
+                    href="https://www.facebook.com/Densub-100635311362505/"><i class="fa fa-facebook"
+                      aria-hidden="true"></i></a></li>
+                <li class="social-twitter"><a target="_blank" href="#"><i class="fa fa-twitter"
+                      aria-hidden="true"></i></a></li>
+                <li class="social-instagram"><a target="_blank" href="https://instagram.com/densub_marketplace/"><i
+                      class="fa fa-instagram" aria-hidden="true"></i></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+     
+    </div>
+  </div>
+</section>
+
+<section class="page-section-ptb contact-2">
+  <div class="container">
+    <div class="row text-center mb-50">
+      <div class="offset-md-2 col-md-8">
+        <div class="section-title">
+          <!-- <h6>let's work together</h6> -->
+          <h2 class="title-effect">Contact Us</h2>
+          <p>It would be great to hear from you! If you got any questions.</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+
+        <form class="form-horizontal" id="contactform" role="form" method="post" action="#">
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <input class="form-control gray-bg" id="firstName" name="firstName" placeholder="Name" type="text">
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+              <div class="form-group">
+                <input class="form-control gray-bg" id="email" name="email" placeholder="Email" type="Email">
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+              <div class="form-group">
+                <input class="form-control gray-bg" id="phone" name="phone" placeholder="Phone" type="text">
+              </div>
+            </div>
+
+            <div class="col-sm-12">
+              <div class="form-group">
+                <textarea class="form-control gray-bg" name="" id="" cols="30" rows="10"></textarea>
+              </div>
+              <div class="form-group">
+                <button class="btn btn-primary pull-left"> Send your message </button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</section>

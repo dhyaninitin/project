@@ -1,0 +1,35 @@
+
+    <div class="row">
+        <div class="row mt-3 pt-4 pb-2">
+            <p class="f-14 fw-500">Template Type</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="template-type-dropdown">
+            <mat-form-field appearance="outline">
+                <mat-select placeholder="Offer Templates" [(ngModel)]="selectedTemplateId">
+                    <mat-option *ngFor="let template of templateList; let i = index;" (click)="selectedTemplate(template)" [value]="template.templateid">{{template.templatename | titlecase}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="row">
+        <app-verify-offer *ngIf="verifyOfferTemplate" [verifyOfferDetails]="verifyOfferDetails" (salaryBreakdown)="salaryBreakdown($event)" (changeCurrencyType)="changeCurrency($event)" >
+        </app-verify-offer>
+    </div>
+
+    <div class="row mx-0 btn" *ngIf="offerService.count == 0">
+        <ul class="justify-content-end custom-ul-button-frames p-0">
+            <li class="order-0 order-md-1">
+                <button type="button" class="btn btn-previous" mat-raised-button (click)="previous()">Previous</button>
+            </li>
+            <li class="order-1 order-md-1">
+                <button type="button" class="btn btn-primary" mat-raised-button color="primary" (click)="next()">Next</button>
+            </li>
+            <li class="order-2 order-md-0">
+                <button type="button" class="btn btn-cancel" mat-raised-button>Cancel</button>
+            </li>
+        </ul>
+    </div>

@@ -1,0 +1,28 @@
+::ng-deep .mat-form-field-prefix {
+    display: flex;
+    align-items: baseline;
+    margin-right: 8px;
+}
+
+.input-mat-spinner {
+    position: absolute;
+    right: 0px;
+    bottom: 7px;
+}
+
+.phone-container {
+    display: flex;
+    width: 37%;
+
+    @media (max-width:600px){
+        width: 100%;
+    }
+}
+
+.w-50 {
+    width: 49%;
+}
+
+.w-100 {
+    width: 100%;
+}

@@ -1,0 +1,132 @@
+@import "~@cloudtalentrecruit/ng-design/assets/styles/0-plugins/plugins-dir";
+@import "~@cloudtalentrecruit/ng-design/assets/styles/1-base/variable";
+.box-container {
+  margin-left: 15px;
+  .upper-sec {
+    display: flex;
+    margin: 10px 0 25px 13px;
+    h4 {
+      font-family: Manrope;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 20px;
+      color: #2e2c34;
+    }
+    img {
+      margin-right: 15px;
+    }
+  }
+}
+
+.buttons {
+  display: flex;
+  margin: 38% 0px 0px 20px;
+  .box-button {
+    margin-right: 14px;
+  }
+}
+mat-drawer-container {
+  background-color: white;
+
+  &[cdk-scrollable],
+  &[cdkScrollable] {
+    .mat-drawer-container {
+      overflow: visible !important;
+      width: 590px;
+      padding: 0;
+      margin: 0px;
+    }
+  }
+  margin: 0 0px 0 0px;
+  height: 100%;
+  width: 100%;
+}
+.right-drawers {
+  .mat-drawer-container {
+    position: absolute;
+    right: 0px;
+    width: 550px;
+    @include media-breakpoint-down(md) {
+      width: 100%;
+    }
+  }
+  .mat-drawer-backdrop.mat-drawer-shown {
+  }
+  &.drawer-lg {
+    mat-drawer {
+      width: 550px;
+      .drawer-btn {
+        .mat-flat-button {
+          transition: all 0.5s ease;
+          // width: calc(500px - 2rem) !important;
+        }
+      }
+    }
+  }
+}
+mat-label {
+  font-family: Manrope;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  padding-bottom: 5px;
+  color: #504f54;
+}
+.Case2 {
+  width: 100;
+  & {
+    mat-form-field {
+      width: 49%;
+    }
+    p {
+      font-family: Manrope;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 20px;
+      color: #84818a;
+      margin-bottom: 2%;
+    }
+  }
+}
+.case4 mat-form-field {
+  width: 45%;
+  margin-left: 18px;
+}
+
+.heading {
+  display: flex !important;
+  width: 100% !important;
+  & {
+    .main {
+      width: 100%;
+      display: flex;
+    }
+    .parent {
+      width: 50%;
+    }
+    .master {
+      width: 50%;
+    }
+    p {
+      font-family: Manrope;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 20px;
+      color: #84818a;
+      margin: 10px 0 5px 18px;
+    }
+  }
+}
+.add-btn {
+  display: flex;
+  h2 {
+    color: blue;
+    font-size: 14px;
+    font-weight: normal;
+    padding-left: 6px;
+  }
+}

@@ -1,0 +1,27 @@
+    <div class="flex items-center">
+    <mat-form-field class="mr-1">
+      <mat-label>{{placeholderText}}</mat-label>
+      <mat-icon *ngIf="currentSelection === 'custom'" matPrefix style="color: yellowgreen; vertical-align: bottom">done</mat-icon>
+      <input matInput readonly
+             [placeholder]="placeholderText"
+             [satDatepicker]="picker"
+             [(ngModel)]="calendarDateRange"
+             (ngModelChange)="onCustomDateRangeChange()">
+      <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
+      <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
+    </mat-form-field>
+    </div>
+    <div class="flex items-center">
+    <mat-form-field class="mr-1">
+      <mat-label>Select predefined range</mat-label>
+      <mat-icon *ngIf="currentSelection !== 'custom'" matPrefix style="color: yellowgreen">done</mat-icon>
+      <mat-select
+          [(value)]="selectedDate"
+          (selectionChange)="onPredefinedDateRangeChange()">
+        <mat-option *ngFor="let date of dates"
+                    [(value)]="date.name">
+          {{date.display}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>

@@ -1,0 +1,27 @@
+::ng-deep .mat-form-field-prefix {
+    display: flex;
+    align-items: baseline;
+    margin-right: 8px;
+}
+
+::ng-deep .vex-style-dark .mat-expansion-panel {
+    background-color: #4f4f4f !important;
+}
+
+::ng-deep .mat-expansion-panel {
+    background-color: #f5f5f5;
+}
+
+::ng-deep .qrcode img {
+    width: 200px !important;
+}
+
+.success-mark {
+    font-size: 60px;
+    height: 59px;
+    width: 200px;
+}
+
+.msg{
+    margin: 1rem 0.5rem 1rem 0.5rem;
+}

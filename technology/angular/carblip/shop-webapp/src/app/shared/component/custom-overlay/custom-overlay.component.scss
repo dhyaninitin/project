@@ -1,0 +1,27 @@
+:host {
+  display: block;
+}
+
+.notification-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  span {
+    padding: 0 15px;
+    display: block;
+    max-width: 1000px;
+    font-size: 32px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 3px;
+    text-align: center;
+    color: #d0021b;
+    @media (max-width: 768px) {
+      & {
+        font-size: 20px;
+      }
+    }
+  }
+}

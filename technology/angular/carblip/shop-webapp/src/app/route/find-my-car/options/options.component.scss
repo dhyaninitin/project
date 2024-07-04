@@ -1,0 +1,94 @@
+@import '../../../../styles/shared/_shared';
+
+.color-image-container {
+  height: calc(100vh - 495px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 330px;
+}
+
+.detail-block {
+  h2 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+    padding: 20px 0;
+  }
+}
+
+.left-div {
+  border-right: solid 1px #e9e9e9;
+  .tech-spec-div {
+    .tech-item {
+      > div {
+        border-bottom: solid 1px #e9e9e9;
+      }
+      .label {
+        opacity: 0.8;
+        font-size: 13px;
+        font-weight: 600;
+        color: #42464c;
+        img {
+          width: 23px;
+          height: 23px;
+        }
+      }
+      .detail {
+        font-size: 13px;
+        text-align: right;
+        color: #0f0f0f;
+      }
+    }
+  }
+}
+
+.brand-model-trim-view {
+  .brand-model-p {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: rem(60);
+    font-weight: 700;
+    color: #f59300;
+    margin-bottom: 0;
+    text-transform: uppercase;
+  }
+
+  .trim-p {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: rem(25);
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0;
+    color: #303a4b;
+    text-transform: uppercase;
+  }
+
+  .price-span {
+    color: #f59300;
+    font-size: 26px;
+  }
+
+  .price-label-span {
+    font-size: 0.9rem;
+    color: #7e7e7e;
+    display: block;
+    text-align: left;
+  }
+}
+
+.img-carousel-wrapper {
+  border-bottom: 1px solid rgba(150, 162, 189, 0.2);
+  padding-bottom: 20px;
+}
+
+.form-radio {
+  padding: 10px 0px;
+}
+
+@media (max-width: 768px) {
+  .brand-model-trim-view {
+    .brand-model-p {
+      font-size: rem(40);
+    }
+  }
+}

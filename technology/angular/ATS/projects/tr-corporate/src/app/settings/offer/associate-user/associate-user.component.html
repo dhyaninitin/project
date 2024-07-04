@@ -1,0 +1,184 @@
+<mat-drawer-container autosize class="right-drawers" [class.drawer-lg]="false">
+  <mat-drawer
+    #drawer
+    mode="over"
+    class="mat-drawer-container"
+    position="end"
+    [autoFocus]="false"
+  >
+    <button
+      mat-icon-button
+      (click)="drawer.toggle(); toggleSideMenu()"
+      class="close-btn"
+    >
+      <span class="icon-mc mc-x"></span>
+    </button>
+    <app-library-upload *ngIf="viewLibrary" (addDocumentFromLib)="addDocumentFromLib($event)" (closeDrwaer)="drawer.close()" [isOpen]="drawer.opened">
+    </app-library-upload>
+    <app-view-library *ngIf="LibraryView" [documentDetail]="selectedDocumentDetail" [isOpen]="drawer.opened">
+    </app-view-library>
+  </mat-drawer>
+  <div class="box-container">
+    <div class="upper-sec">
+      <div>
+        <h4>
+          <img src="assets/img/note_add.svg" alt="" /> Associate a Document
+        </h4>
+      </div>
+      <div></div>
+    </div>
+    <div class="mid-sec" *ngIf="documentInfo">
+      <div class="user-details">
+        <div class="common-div">
+          <div class="d-flex flex-column">
+            <mat-label>
+              <div class="box">
+                <ngx-file-drop
+                  [dropZoneClassName]="'upload-image'"
+                  dropZoneLabel="Drop files here"
+                  (onFileDrop)="dropped($event)"
+                  (onFileOver)="fileOver($event)"
+                  (onFileLeave)="fileLeave($event)"
+                >
+                  <ng-template
+                    ngx-file-drop-content-tmp
+                    let-openFileSelector="openFileSelector"
+                  >
+                    <div class="drag-file">
+                      <img src="assets/img/cloud_upload.svg" alt="" />
+                      <p (click)="openFileSelector()">Drop file</p>
+                    </div>
+                  </ng-template>
+                </ngx-file-drop>
+              </div>
+              <div class="import-box">
+                <ngx-file-drop
+                  [dropZoneClassName]="'upload-image'"
+                  dropZoneLabel="Drop files here"
+                  (onFileDrop)="dropped($event)"
+                  (onFileOver)="fileOver($event)"
+                  (onFileLeave)="fileLeave($event)"
+                >
+                  <ng-template
+                    ngx-file-drop-content-tmp
+                    let-openFileSelector="openFileSelector"
+                  >
+                    <div class="drag-file">
+                      <img
+                        (click)="uploadLibrary()"
+                        src="assets/img/import.svg"
+                        alt=""
+                      />
+                      <p>import from library</p>
+                    </div>
+                  </ng-template>
+                </ngx-file-drop>
+              </div>
+            </mat-label>
+          </div>
+        </div>
+        <div class="common-div" *ngIf="this.documentInfo.extension !== '' && !deletedDoc">
+          <div class="d-flex flex-column">
+            <div class="offer-temp">
+              <mat-label>
+                <img [src]="(documentInfo.extension === 'PDF' || documentInfo.extension === 'pdf')   ? 'assets/img/pdf-img.jpg' : (documentInfo.extension === 'DOCX' || documentInfo.extension === 'DOC') ? 'assets/img/google-docs.png' : 'assets/img/jpeg-img.svg'" alt="" />
+                <h4>{{documentInfo.documentoriginalname.split('.')[0]}}</h4>
+
+                <span class="side-icon">
+                  <img src="assets/img/trash.svg" class="cursor--pointer" alt=""  (click)="deleteDocument()"/>
+
+                  <img
+                    src="assets/img/eye.svg"
+                    (click)="viewDocument(documentInfo)"
+                    alt=""
+                    class="cursor--pointer"
+                  />
+                  <img src="assets/img/download.svg" class="cursor--pointer" alt="" (click)="downloadDocument(documentInfo)"/> 
+                  
+                </span>
+              </mat-label>
+            </div>
+          </div>
+        </div>
+        <div class="common-div" *ngIf="documentInfo.extension !== '' && !deletedDoc">
+          <span class=""></span>
+          <div class="d-flex flex-column">
+            <div class="user-email">
+              <mat-label>
+                <span  *ngIf="documentInfo.userInfo.imageUrl == ''" class="user-avatar" >{{documentInfo.userInfo.email.split('')[0].toUpperCase() }}</span>
+                        <img
+                          *ngIf="documentInfo.userInfo.imageUrl"
+                          src="{{ documentInfo.userInfo.imageUrl }}"
+                          alt="{{documentInfo.userInfo.picturename}}"
+                        />
+                <h5>{{documentInfo.userInfo.email}}</h5>
+              </mat-label>
+              <p>{{documentInfo.createdtime | date : 'EEE d MMMM y'}}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="common-div" *ngIf="this.documentInfo.extension !== '' && !deletedDoc">
+          <span class=""></span>
+          <div class="d-flex flex-column">
+            <div class="table-container">
+              <table mat-table [dataSource]="reviseDocuments">
+                <!-- Name Column -->
+                <ng-container matColumnDef="document">
+                  <th mat-header-cell *matHeaderCellDef>Document Version</th>
+                  <td mat-cell *matCellDef="let element">
+                    <span class="tble-data" *ngIf="element.extension !== ''">
+                      <img [src]="(element.extension === 'PDF' || element.extension === 'pdf')  ? 'assets/img/pdf-img.jpg' : (element.extension === 'DOCX' || element.extension === 'DOC') ? 'assets/img/google-docs.png'  : 'assets/img/jpeg-img.svg'" alt="" />
+                      <h4>{{element.documentoriginalname.split('.')[0]}}</h4>
+                    </span>
+                  </td>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="uploadedBy">
+                  <th mat-header-cell *matHeaderCellDef>Uploaded By</th>
+                  <td mat-cell *matCellDef="let element">
+                    <span class="tble-data">
+                      <span  *ngIf="element.userInfo.imageUrl == ''" class="user-avatar" >{{documentInfo.userInfo.email.split('')[0].toUpperCase() }}</span>
+                      <img
+                        *ngIf="element.userInfo.imageUrl"
+                        src="{{ element.userInfo.imageUrl }}"
+                        alt="{{element.userInfo.picturename}}"
+                      />
+                      <h4>{{element.userInfo.email}}</h4>
+                    </span>
+                    <p>{{element.createdtime | date : 'EEE d MMMM y'}}</p>
+                  </td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="uploadedOn">
+                  <th mat-header-cell *matHeaderCellDef>Uploaded On</th>
+                  <td mat-cell *matCellDef="let element">
+                    <span class="tble-data"> {{element.createdtime | date : 'EEE d MMMM y'}} </span>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumns"
+                ></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="common-div">
+          <span class=""></span>
+          <div class="d-flex flex-column"></div>
+        </div>
+        <div class="common-div">
+          <span class=""></span>
+          <div class="d-flex flex-column"></div>
+        </div>
+        <div class="common-div">
+          <div class="d-flex flex-column"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-drawer-container>

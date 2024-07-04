@@ -1,0 +1,102 @@
+<div class="card-box ">
+  <div class="row">
+    <h4 class="page-title" style="padding-left: 15px;">Manage: Sent Offers</h4>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-sm-2">
+    <div class="form-group">
+      <select class="form-control" name="jobType" [(ngModel)]="dataFilter.jobPostId.jobType">
+        <option value="">All Job Type</option>
+        <option value="{{jobTypes.TEMPORARY}}">Temporary</option>
+        <option value="{{jobTypes.PERMANENTFULLTIME}}">Permanent Full Time</option>
+        <option value="{{jobTypes.PERMANENTPARTTIME}}">Permanent Part Time</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <div class="form-group">
+      <input type="text" class="form-control" name="jobTitle" [(ngModel)]="dataFilter.jobPostId.jobTitle" id="jobTitle" placeholder="Job Title">
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <div class="form-group">
+      <dp-date-picker [(ngModel)]="dataFilter.jobPostId.jobDate" placeholder="Select Job date" [config]="datePickerConfig">
+      </dp-date-picker>
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary btn-sm" (click)="setFilter()">Search</button>
+      <button type="button" class="btn btn-danger btn-sm" (click)="resetFilter()">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="row pt-3">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-cogs"></i> Listings
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table table-bordered">
+          <thead class="nowrap">
+            <tr>
+              <th>Offer ID</th>
+              <th  [class.active]="order === 'jobLabel'" (click)="setOrder('jobLabel')">Job Type
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th  [class.active]="order === 'jobPostId.positionType'" (click)="setOrder('jobPostId.positionType')">Position Type
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'jobPostId.jobTitle'" (click)="setOrder('jobPostId.jobTitle')">
+                Job Title
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'jobPostId.jobDate'" (click)="setOrder('jobPostId.jobDate')">
+                Job Date
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th>Staff Name</th>
+              <th>Status</th>
+              <th [class.active]="order === 'createdAt'" (click)="setOrder('createdAt')">
+                Sent Date
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody *ngIf="offerList?.length">
+            <tr
+              *ngFor="let offer of offerList  | grdFilter: setDataFilter: false: ['jobPostId'] | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index;">
+              <td><a [routerLink]="['/practice/offer-details',offer?._id]" data-toggle="tooltip" title="{{offer?._id}}">#{{ offer?._id | slice:18:24}} <span *ngIf= "offer?.updatedOffer" class ="badge badge-danger">New</span></a></td>
+              <td class="text-capitalize"> {{jobLabel[offer?.jobPostId?.jobType]}} </td>
+              <td class="text-capitalize"> {{ offer?.jobPostId?.positionType }} </td>
+              <td class="text-capitalize"> {{ offer?.jobPostId?.jobTitle?.toLowerCase() }}</td>
+              <td class="text-capitalize"> {{ offer?.jobPostId?.jobDate | date:'mediumDate' }}</td>
+              <td class="text-capitalize"> {{offer?.staffId?.firstName +' '+ offer?.staffId?.lastName}} </td>
+              <td [innerHTML]="getStatus(offer)"> </td>
+              <td> {{ offer?.createdAt | date: 'mediumDate' }} </td>
+            </tr>
+          </tbody>
+          <tr class="text-center" *ngIf="!offerList?.length">
+            <td colspan="8">
+              <h6>No Record Found !</h6>
+            </td>
+          </tr>
+        </table>
+        <ul class="pagination justify-content-end" *ngIf="itemsPerPage < offerList.length" >
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+

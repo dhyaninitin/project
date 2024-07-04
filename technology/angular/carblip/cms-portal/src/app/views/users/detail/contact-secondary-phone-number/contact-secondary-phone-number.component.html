@@ -1,0 +1,52 @@
+<form [formGroup]="secondaryPhoneForm" (click)="$event.stopPropagation();">
+    <div class="flex flex-col md:flex-row md:items-start menu-content">
+        <div class="flex-auto">
+            <h2 class="text-center title">Primary Phone</h2>
+            <div class="flex items-center">
+                <mat-form-field >
+                    <mat-label>Primary Phone</mat-label>
+                    <input matInput autocomplete="new-primaryphone" name="new-primaryphone"
+				    pattern="^\d{3}[- ]?\d{3}[- ]?\d{4}$"
+                    [formControl]="secondaryPhoneForm.controls['primary_phone']"
+                    placeholder="Primary Phone Number" appPhoneNumber>
+                    <mat-icon class="mr-3" matPrefix svgIcon="mat:phone"></mat-icon>
+                    <span matPrefix class="prefix">+1</span>
+                </mat-form-field>
+            </div>
+
+            <div class="flex items-center" class="d-grid">
+                <h2 class="text-center title">Secondary Phone </h2>
+                <div fxLayout="row" fxLayoutGap="3px" *ngFor="let phones of secondaryPhone.controls; let i = index" [formGroup]="phones">
+                    <mat-form-field fxFlex="80%">
+                        <mat-label>Secondary Phone </mat-label>
+                        <input matInput formControlName="additional_phone" 
+                        pattern="^\d{3}[- ]?\d{3}[- ]?\d{4}$"
+                        required placeholder="Secondary Phone Numbers" 
+                        (blur)="checkForDuplicatePhone($event.target.value,i)" appPhoneNumber>
+                        <mat-icon class="mr-3" matPrefix svgIcon="mat:phone"></mat-icon>
+                        <span matPrefix class="prefix">+1</span>
+                        <mat-error *ngIf="phones.get('additional_phone').errors?.duplicate">This phone already exist</mat-error>
+                    </mat-form-field>
+                    
+                    <button mat-icon-button class="mt-2" matTooltip="Make Primary" (click)="makePrimaryPhone(i,phones)" matTooltipPosition="after">
+                        <mat-icon>swap_vert</mat-icon>
+                    </button> 
+
+                    <button mat-icon-button class="mt-2" matTooltip="Remove Email" matTooltipPosition="after" (click)="removePhone(i)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+                
+            </div>
+            <div class="flex mb-4">
+                <button mat-button mat-raised-button  matTooltip="Add Phone Number" matTooltipPosition="after" type="button" color="primary" (click)="addSecondaryPhone()">Add Phone</button>
+            </div>
+
+            <div class="button">
+                <button mat-button type="button" (click)="phoneCloseMenu()">Cancel</button>
+                <button mat-button mat-raised-button type="button" color="primary" 
+                [disabled]="secondaryPhoneForm.invalid || isLoading" (click)="submit()"> Save </button>
+            </div>
+        </div>
+    </div>
+</form>

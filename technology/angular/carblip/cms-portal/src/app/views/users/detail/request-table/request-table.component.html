@@ -1,0 +1,121 @@
+<div class="card mt-6">
+	<div class="px-gutter py-4 border-b flex header-with-btn">
+		<h2 class="title m-0">Deals</h2> 
+		<div class="flex">
+			<button class="ml-4 flex-none" [matTooltip]="isCollapsedDealsSection ? 'Expand Deals Section' : 'Collapse Deals Section'" (click)="isCollapsedDealsSection = !isCollapsedDealsSection; collapseDealsSection();" type="button">
+				<mat-icon *ngIf="isCollapsedDealsSection" svgIcon="mat:keyboard_arrow_down"></mat-icon>
+				<mat-icon *ngIf="!isCollapsedDealsSection" svgIcon="mat:keyboard_arrow_up"></mat-icon>
+			</button>
+			<button
+			[matMenuTriggerFor]="columnFilterMenu"
+			mat-icon-button
+			class="ml-4 flex-none"
+			color="primary"
+			matTooltip="Column Filters"
+			type="button">
+			<mat-icon svgIcon="mat:settings"></mat-icon>
+		</button>
+		<button class="ml-4 flex-none" (click)="onAddRequest()" color="primary" mat-mini-fab matTooltip="Add New Deal" type="button">
+			<mat-icon svgIcon="mat:add"></mat-icon>
+		</button>
+		</div>
+		
+		</div>
+		<div class="px-gutter py-4 border-b pl-0 justify-content-space-between" id="dealsSection">
+			<div class="overflow-auto">
+			<table @stagger [dataSource]="dataSource" matSort #TableRequestSort="matSort"  (matSortChange)="sortData($event)" matSortDisableClear  class="w-full" mat-table>
+				<ng-container matColumnDef="year">
+					<th *matHeaderCellDef mat-header-cell mat-sort-header>Year</th>
+					<td *matCellDef="let item" mat-cell>{{ setNameAsNAForDeals(item, 'year') || item?.year }}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="brand">
+					<th *matHeaderCellDef mat-header-cell mat-sort-header>Brand</th>
+					<td *matCellDef="let item" mat-cell>{{ setNameAsNAForDeals(item, 'brand') || item?.brand | excerpt:30 }}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="model">
+					<th *matHeaderCellDef mat-header-cell mat-sort-header>Model</th>
+					<td *matCellDef="let item" mat-cell>{{ setNameAsNAForDeals(item, 'model') || item?.model | excerpt:30 }}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="trim">
+					<th *matHeaderCellDef mat-header-cell mat-sort-header>Trim</th>
+					<td *matCellDef="let item" mat-cell>{{ setNameAsNAForDeals(item, 'trim') || item?.trim | excerpt:30 }}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="contact_owner">
+					<th *matHeaderCellDef mat-header-cell mat-sort-header>Contact Owner</th>
+					<td *matCellDef="let item" mat-cell>{{ item?.contact_owner }}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="referral_code">
+					<th *matHeaderCellDef mat-header-cell mat-sort-header>Referral Code</th>
+					<td *matCellDef="let item" mat-cell>{{ item?.referral_code }}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="source">
+					<th *matHeaderCellDef mat-header-cell mat-sort-header>Source</th>
+					<td *matCellDef="let item" mat-cell>{{ item?.source_utm }}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="created_at">
+					<th *matHeaderCellDef mat-header-cell mat-sort-header>Created At</th>
+					<td *matCellDef="let item" mat-cell>{{ item?.request_time | date:'MM/dd/yyy h:mm a' }}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="actions">
+					<th *matHeaderCellDef mat-header-cell></th>
+					<td *matCellDef="let item; let i = index;" class="w-10 text-secondary" mat-cell>
+						<button (click)="$event.stopPropagation();getSelectedRecord(item, i)"
+							[matMenuTriggerData]="{ customer: item }"
+							[matMenuTriggerFor]="actionsMenu"
+							mat-icon-button
+							type="button">
+
+							<mat-icon svgIcon="mat:more_horiz"></mat-icon>
+						</button>
+					</td>
+				</ng-container>
+
+				<tr *matHeaderRowDef="getDisplayedColumns(); sticky: true" mat-header-row></tr>
+				<tr
+					*matRowDef="let item; columns: getDisplayedColumns()"
+						routerLink="/deals/{{item.id}}"
+						@fadeInUp
+						class="hover:bg-hover trans-ease-out cursor-pointer"
+						mat-row></tr>
+				</table> 
+
+
+				<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+				<ng-template let-customer="customer" matMenuContent>
+					<button mat-menu-item routerLink="/deals/{{selectedRecordDetail?.id}}">
+						<mat-icon svgIcon="mat:remove_red_eye"></mat-icon>
+						<span>View</span>
+					</button>
+					<button *ngIf="showDeleteButton(selectedRecordDetail)" (click)="onDelete(selectedRecordDetail, index)" mat-menu-item>
+						<mat-icon svgIcon="mat:delete"></mat-icon>
+						<span>Delete</span>
+					</button>
+				</ng-template>
+				</mat-menu>
+
+				<!-- Column Filters -->
+				<mat-menu #columnFilterMenu="matMenu" xPosition="before" yPosition="below">
+					<button (click)="toggleColumnVisibility(column, $event);$event.stopPropagation()" *ngFor="let column of columnHeaders"
+							class="checkbox-item mat-menu-item">
+					<mat-checkbox (click)="$event.stopPropagation()" (change)="toggleColumnVisibility(column, $event)" [checked]="column.visible" color="primary">
+						{{ column.label }}
+					</mat-checkbox>
+					</button>
+				</mat-menu>
+
+			<div class="text-center mt-2" *ngIf="(didFetch$ | async) && dataSource.length === 0">There are no deals available. Please enter in a deal to view them here</div>
+		</div>
+			<mat-paginator #TableRequestPaginator="matPaginator" [length]="dataRequestSource.length" [pageSize]="dataRequestSource.pageSize"
+				[pageIndex]="dataRequestSource.pageIndex" [pageSizeOptions]="[10,20, 50, 100]"
+				[showFirstLastButtons]="true" (page)="onRequestPaginateChange($event)">
+			</mat-paginator>
+	</div>
+	</div>

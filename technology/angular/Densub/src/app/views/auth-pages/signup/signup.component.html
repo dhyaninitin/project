@@ -1,0 +1,250 @@
+<div class="app-body auth-bg">
+  <main class="main form-design-1 d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-5 col-11 col-md-8 mx-auto">
+          <div class="pt-30 pb-70 sm-pb-50">
+            <div class="no-border">
+              <div class="text-center">
+                <a class="navbar-brand mb-60" [routerLink]="['/']"><img alt="" class="max-width-220" src="../../../../assets/img/brand/Densub_Logo.png" width="320"></a>
+                <h1 class="clr-white m-0 text-uppercase title">Join Densub Today</h1>
+                <!-- <p class="text-muted">Access The World of Densub With Your Free Account</p> -->
+              </div>
+              <div class="card-body pr-25 pl-25 pb-25 pt-10 xs-pr-0 xs-pl-0">
+                <div class="form-group mb-10">
+                    <h5 class="clr-white text-center fs-20">Register as</h5>
+                    <!-- <h5 class="clr-blue-1 text-center fs-14">Register as</h5> -->
+                  <ul class="listunstyled row col-12 m-auto justify-content-center">
+                    <li class="pr-15">
+                      <div class="form-group">
+
+                        <div class="custom-control custom-radio radio-design-2">
+                          <input class="custom-control-input ng-valid ng-dirty ng-touched" id="DentalPractice" name="userType" [(ngModel)]="register.userType" value="practice" type="radio">
+                          <label class="custom-control-label clr-white" for="DentalPractice">Job Provider</label>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="pr-15">
+                      <div class="form-group">
+                        <div class="custom-control custom-radio radio-design-2">
+                          <input class="custom-control-input ng-valid ng-dirty ng-touched" id="DentalStaff" name="userType" type="radio" [(ngModel)]="register.userType" value="staff">
+                          <label class="custom-control-label clr-white" for="DentalStaff">Job Seeker
+                          </label>
+                        </div>
+                      </div>
+                    </li>
+
+                  </ul>
+                </div>
+
+                <div class="form-group">
+                  <div class="input-group" [ngClass]="{'text-danger': !register.firstName,'clr-blue': register.firstName}">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <!-- <i class="fa fa-user"></i> -->
+                        <img src="../../../../assets/img/common/email.png" alt="">
+                      </span>
+                    </div>
+                    <input type="email" [(ngModel)]="register.email" class="form-control" placeholder="Email" required
+                    name="email" (ngModelChange)="checkEmailAlreadyExists(register.email)">
+                  </div>
+                </div>
+
+                <p class="alert custom-p alert-danger validation-font-size  text-left" role="alert"
+                  *ngIf="alreadyEmailValidation">
+                  This Email Already Exists, please try another one.
+                </p>
+                <p class="alert custom-p alert-danger validation-font-size  text-left" role="alert" *ngIf="!validEmail">
+                  Your email address is invalid. Please enter a valid address.
+                </p>
+
+                <div class="form-group" *ngIf="register.userType == userTypes.STAFF">
+                  <div class="input-group" [ngClass]="{'text-danger': !register.firstName,'clr-blue': register.firstName}">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="fa fa-user"></i>
+                        <!-- <img src="../../../../assets/img/common/email.png" alt=""> -->
+                      </span>
+                    </div>
+                    <select class="form-control" name="positionType" [(ngModel)]="register.positionType">
+                      <option value="">Select Position Type</option>
+                      <option [value]="positionType._id" *ngFor="let positionType of positionTypeList">{{positionType.name}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- <div class="form-group" *ngIf="register.userType == userTypes.STAFF">
+                  <select class="form-control" name="positionType" [(ngModel)]="register.positionType">
+                    <option value="">Select Position Type</option>
+                    <option [value]="positionType" *ngFor="let positionType of PositionTypeData">{{positionType}}
+                    </option>
+                  </select>
+                </div> -->
+
+                <div class="form-group ">
+                  <div class="input-group" [ngClass]="{'text-danger': !register.password,'clr-blue': register.password}">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <!-- <i class="fa fa-user"></i> -->
+                          <img src="../../../../assets/img/common/lock.png" alt="">
+                        </span>
+                      </div>
+                      <input type="password" [(ngModel)]="register.password" class="form-control" placeholder="Password" required
+                      name="password" maxlength="15" (keypress)="AvoidSpace($event)">
+                  </div>
+                </div>
+
+                <div class="form-group ">
+                  <div class="input-group" [ngClass]="{'text-danger': !register.confPassword,'clr-blue': register.confPassword}">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <!-- <i class="fa fa-user"></i> -->
+                          <img src="../../../../assets/img/common/lock.png" alt="">
+                        </span>
+                      </div>
+                      <input type="password" [(ngModel)]="register.confPassword" class="form-control" placeholder="Confirm Password"
+                      required name="confPassword" maxlength="15" (keypress)="AvoidSpace($event)">
+                  </div>
+                </div>
+
+                <p class="alert custom-p alert-danger text-left" role="alert"
+                  *ngIf="register.password &&  register.confPassword && register.password !=  register.confPassword">
+                  The password and confirmation password do not match !
+                </p>
+
+                <div class="form-group ">
+                  <div class="custom-control custom-checkbox checkbox-design-2">
+                    <input class="custom-control-input" id="termsAccet" type="checkbox"
+                      [(ngModel)]="register.termsConditions" required name="termsConditions">
+                    <label class="custom-control-label clr-white" for="termsAccet"> Agree to
+                      <a style="color: #fff" [routerLink]="['/privacy-policy']" target="_blank">
+                        terms of use and privacy policy.
+                      </a>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12 text-center">
+                    <app-alert></app-alert>
+                    <!--   <button [ngStyle]="{'font-weight': 'bold'}" type="button" class="btn btn-light px-4"> Cancel </button> -->
+                    <button type="button" class="btn btn-secondary w-100 btn-round btn-style-2"
+                      (click)="doSignup()"> SIGN UP </button>
+
+                  </div>
+                  <!-- <pre [innerHtml]="register | json"> </pre> -->
+                </div>
+
+                <div>
+                  <div class="gp-fancy-center login ">
+                    <span class="inner-text clr-orange">OR</span>
+                  </div>
+
+                  <div class="gp-social-wrapper mb-0">
+                    <div class="social login">
+                      <p>
+                        <a (click)="showNewJobModal('facebook')" class="gp-btn btn-gray w-100 text-center gp-social-button btn">
+                          <span class="icon-holder">
+                            <i class="fa fa-facebook"></i>
+                          </span>
+                          <span class="btn-text">Sign Up With Facebook</span>
+                        </a>
+                      </p>
+                      <p>
+                        <a (click)="showNewJobModal('google')" class="gp-btn btn-white w-100 text-center gp-social-button btn">
+                          <span class="icon-holder">
+                            <!-- <i class="fa fa-google-plus"></i> -->
+                            <img src="../../../../assets/img/common/google.png" class="img-fluid" width="20" alt="">
+                          </span>
+                          <span class="btn-text">Sign Up with Google</span>
+                        </a>
+                      </p>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="gp-fancy-center login">
+                    <span class="inner-text clr-orange">OR</span>
+                  </div>
+
+                  <div class="gp-alt-link text-center">
+                    <!-- <p class="clr-white fs-13">You may still be asked to create a password for added security.</p> -->
+                    <p class="clr-white fs-13">Already have a Densub account? <a class="gp-link" id="gptest-signup-link" [routerLink]="['/login']" >Sign in</a></p>
+                  </div>
+
+                </div>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Social SignUp MODAL -->
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #createSocialLoginModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-white">
+        <h4 class="modal-title text-white"><i class="fa fa-sign-in"></i> Register As</h4>
+        <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul class="listunstyled row col-12 m-auto">
+          <li class="pr-15">
+            <div class="form-group">
+
+              <div class="custom-control custom-radio radio-design-1">
+                <input class="custom-control-input ng-valid ng-dirty ng-touched" id="SocialDentalPractice" name="socialUserType" [(ngModel)]="userType" value="practice" type="radio">
+                <label class="custom-control-label clr-black" for="SocialDentalPractice">Dental Practice</label>
+              </div>
+            </div>
+          </li>
+          <li class="pr-15">
+            <div class="form-group">
+              <div class="custom-control custom-radio radio-design-1">
+                <input class="custom-control-input ng-valid ng-dirty ng-touched" id="SocialDentalStaff" name="socialUserType" type="radio" [(ngModel)]="userType" value="staff">
+                <label class="custom-control-label clr-black" for="SocialDentalStaff">Dental Staff
+                </label>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <div class="form-group" *ngIf="userType == userTypes.STAFF">
+          <select class="form-control" name="positionType" [(ngModel)]="positionType">
+            <option value="">Select Position Type</option>
+            <option [value]="positionType._id" *ngFor="let positionType of positionTypeList">{{positionType.name}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+        <button type="button" class="btn btn-primary" [disabled]="userType == userTypes.STAFF && !positionType" (click)="socialSignUp()">Continue</button>
+        <!-- <pre [innerHtml]="newJob | json"> </pre> -->
+      </div>
+    </div>
+  </div>
+</div>
+<!--  Social SignUp MODAL -->
+
+
+<!-- cokie popup -->
+
+<div class="position-fixed bottom-0 left-0 right-0 cookie-popup" *ngIf="!isShow">
+  <div class="position-relative text-center flash-message">
+    <p class="m-0 clr-white fs-11">We use cookies to improve your experience on this site and help us serve relevant
+      advertising to you. To find out more about cookies, please read <a href="">here</a>. By continuing to use this
+      site. you are consenting to our use of cookies</p>
+
+  </div>
+  <button class="btn-transparent cookie-ok" (click)=toggleDisplay()>Ok</button>
+</div>

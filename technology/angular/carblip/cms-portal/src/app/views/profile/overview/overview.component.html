@@ -1,0 +1,118 @@
+<div class="mt-6 flex flex-col md:flex-row md:items-start">
+    <div class="flex-auto">
+      <div class="card">
+        <div class="px-gutter py-4 border-b flex justify-content-space-between">
+          <h2 class="title m-0">About</h2> 
+            <div @scaleIn matTooltip="Edit Profile" (click)="editProfile()"
+                class="w-10 h-10 rounded-full bg-primary/10 text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center cursor-pointer">
+                <mat-icon class="icon-sm" svgIcon="mat:edit"></mat-icon>
+            </div>
+        </div>
+  
+        <div class="px-gutter py-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="py-3 flex items-center">
+            <div @scaleIn
+                 class="w-10 h-10 rounded-full bg-primary/10 text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+              <mat-icon class="icon-sm" svgIcon="mat:phone"></mat-icon>
+            </div>
+  
+            <div @fadeInRight>
+              <p class="m-0 body-1">{{userProfile?.phone | phone: 'US'}}</p>
+              <p class="m-0 caption text-hint">Phone</p>
+            </div>
+          </div>
+
+          <div class="py-3 flex items-center" *ngxPermissionsOnly="['concierge']">
+            <div @scaleIn
+                 class="w-10 h-10 rounded-full bg-primary/10 text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+              <mat-icon class="icon-sm" svgIcon="mat:phone"></mat-icon>
+            </div>
+  
+            <div @fadeInRight>
+              <p class="m-0 body-1">{{carblipAssignedPhone | phone: 'US'}}</p>
+              <p class="m-0 caption text-hint">Carblip Assigned Phone</p>
+            </div>
+          </div>
+  
+          <div class="py-3 flex items-center">
+            <div @scaleIn
+                 class="w-10 h-10 rounded-full bg-primary/10 text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+              <mat-icon class="icon-sm" svgIcon="mat:work"></mat-icon>
+            </div>
+  
+            <div @fadeInRight>
+              <p class="m-0 body-1">{{userProfile?.roles[0]?.name | titlecase}}</p>
+              <p class="m-0 caption text-hint">Role</p>
+            </div>
+          </div>
+  
+          <div class="py-3 flex items-center">
+            <div @scaleIn
+                 class="w-10 h-10 rounded-full bg-primary/10 text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+              <mat-icon class="icon-sm" svgIcon="mat:mail"></mat-icon>
+            </div>
+  
+            <div @fadeInRight>
+              <p class="m-0 body-1">{{userProfile?.email}}</p>
+              <p class="m-0 caption text-hint">Email</p>
+            </div>
+          </div>
+
+          <div class="py-3 flex items-center" *ngIf="userProfile?.personalemail">
+            <div @scaleIn
+                 class="w-10 h-10 rounded-full bg-primary/10 text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+              <mat-icon class="icon-sm" svgIcon="mat:mail"></mat-icon>
+            </div>
+  
+            <div @fadeInRight>
+              <p class="m-0 body-1">{{userProfile?.personalemail}}</p>
+              <p class="m-0 caption text-hint">Personal Email</p>
+            </div>
+          </div>
+
+          <div class="py-3 flex items-center">
+            <div @scaleIn
+                 class="w-10 h-10 rounded-full bg-primary/10 text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+              <mat-icon class="icon-sm" svgIcon="mat:location_on"></mat-icon>
+            </div>
+  
+            <div @fadeInRight>
+              <p class="m-0 body-1">{{ locationName(userProfile?.location) }}</p>
+              <p class="m-0 caption text-hint">Location</p>
+            </div>
+          </div>     
+        </div>
+
+        <mat-divider></mat-divider>
+        <span class="text" *ngIf="userProfile?.two_factor_slider && userProfile?.is_verify">Two Factor Authentication is Enabled</span>
+        
+        <div class="px-gutter py-4 flex justify-center" @fadeInRight>
+            <div @scaleIn *ngIf="userProfile?.discord_url" (click)="openSocialProfile(userProfile.discord_url)" matTooltip="Discord"
+                 class="w-10 h-10 rounded-full cursor-pointer bg-primary/10 text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+                 <mat-icon class="icon-sm" svgIcon="logo:discord"></mat-icon>
+            </div>
+            <div @scaleIn  *ngIf="userProfile?.twitter_url" (click)="openSocialProfile(userProfile.twitter_url)" matTooltip="Twitter"
+                 class="w-10 h-10 rounded-full cursor-pointer bg-primary/10 text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+                <mat-icon class="icon-sm" svgIcon="logo:twitter"></mat-icon>
+            </div>
+            <div @scaleIn  *ngIf="userProfile?.instagram_url" (click)="openSocialProfile(userProfile.instagram_url)" matTooltip="Instagram"
+                 class="w-10 h-10 rounded-full cursor-pointer bg-primary/10 text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+                <mat-icon class="icon-sm" svgIcon="logo:instagram"></mat-icon>
+            </div>
+            <div @scaleIn  *ngIf="userProfile?.tiktok_url" (click)="openSocialProfile(userProfile.tiktok_url)" matTooltip="TikTok"
+                 class="w-10 h-10 rounded-full cursor-pointer bg-primary/10 text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+                 <mat-icon class="icon-sm" svgIcon="logo:tiktok"></mat-icon>
+            </div> 
+            <div @scaleIn  *ngIf="userProfile?.facebook_url" (click)="openSocialProfile(userProfile.facebook_url)" matTooltip="Facebook"
+                 class="w-10 h-10 rounded-full cursor-pointer bg-primary/10 text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+                <mat-icon class="icon-sm" svgIcon="logo:facebook"></mat-icon>
+            </div> 
+            <div @scaleIn  *ngIf="userProfile?.linkedin_url" (click)="openSocialProfile(userProfile.linkedin_url)" matTooltip="LinkedIn"
+                 class="w-10 h-10 rounded-full cursor-pointer bg-primary/10 text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+              <mat-icon class="icon-sm" svgIcon="logo:linkedin"></mat-icon>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

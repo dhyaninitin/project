@@ -1,0 +1,26 @@
+
+<mat-card @fadeInRight>
+    <div class="header-content">
+      <div class="w-100">
+        <h1 class="title text-justify">Purchase Orders</h1>
+      </div>
+      <div class="w-100 btn-position" *ngIf="total">
+          <h3>Total : {{total | number : '1.0'}}</h3>
+      </div>
+  </div>
+       
+  <div class="no-data-found" *ngIf="noDataMessage">
+    <h4>{{noDataMessage}}</h4>
+  </div>
+  
+  <mat-card-content class="mt-4" *ngIf="!noDataMessage">
+      <div style="display: block;">
+        <vex-chart [options]="chartOptions" [series]="barChartData"></vex-chart>
+      </div>
+     </mat-card-content>
+     <mat-card-actions class="px-2 mt-2">
+      <div fxLayout="row wrap" fxLayout.lt-sm="column">
+           <app-date-filter fxFlex (selectedDates)="getSelectedDates($event)" (selectedViewType)="changeViewType($event)"></app-date-filter>
+       </div>
+     </mat-card-actions>
+   </mat-card>

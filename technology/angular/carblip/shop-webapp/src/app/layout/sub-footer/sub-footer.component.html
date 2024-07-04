@@ -1,0 +1,12 @@
+<section class="">
+  <div class="cb-container container mobile-nav-button-wrapper">
+    <div class="mx-0">
+      <div class="w-100 mb-2" *ngIf="showNextButton">
+        <button class="w-100 text-center btn btn-default navigation-btn" (click)="onNextButtonClick()"><span class="label">{{nextLabel}}</span><span class="image-container"><img src="assets/img/icon/right-arrow.svg"></span></button>
+      </div>
+      <div class="w-100 mb-2" *ngIf="showPrevButton">
+        <button class="w-100 text-center btn btn-default navigation-btn-back" (click)="onPrevButtonClick()"><span class="image-container"><img src="assets/img/icon/right-arrow.svg"></span><span class="label">Back</span></button>
+      </div>
+    </div>
+  </div>
+</section>

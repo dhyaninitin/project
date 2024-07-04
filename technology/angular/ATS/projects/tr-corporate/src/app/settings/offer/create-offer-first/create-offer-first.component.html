@@ -1,0 +1,103 @@
+<form autocomplete="off" [formGroup]="createTemplate">
+<div class="form">
+  <div class="common-div">
+    <span class="last-details">
+      <mat-label>Template Name</mat-label>
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Name" formControlName="templatename"/>
+        <mat-error *ngIf="templatename.touched && !templatename.valid">
+          <span *ngIf="templatename.errors?.required">
+            Template Name is required
+          </span>
+          <span
+            *ngIf="!templatename.errors?.required && templatename.errors?.minlength"
+          >
+          Template Name should be atleast 3 letters
+          </span>
+          <span *ngIf="templatename.errors?.maxlength">
+            Template Name should be maximum of 20 letters
+          </span>
+        </mat-error>
+      </mat-form-field>
+    </span>
+  </div>
+  <hr />
+  <div class="common-div">
+    <span class="last-details">
+      <mat-label>Description</mat-label>
+      <mat-form-field appearance="outline">
+        <textarea matInput placeholder="Description" formControlName="description"> </textarea>
+        <mat-error *ngIf="description.touched && !description.valid">
+          <span *ngIf="description.errors?.required">
+            Description is required
+          </span>
+        </mat-error>
+      </mat-form-field>
+    </span>
+  </div>
+  <hr />
+
+  <div class="common-div">
+    <span class="last-details">
+      <mat-label>Send Offer to</mat-label>
+      <mat-radio-group color="primary" class="radio-grp" formControlName="sendoffer">
+        <mat-radio-button value="Candidate" class="radio-btn"
+          >Candidate</mat-radio-button
+        ><br />
+        <mat-radio-button value="Agency" class="radio-btn"
+          >Agency
+        </mat-radio-button>
+      </mat-radio-group>
+    </span>
+  </div>
+  <hr />
+
+  <div class="common-div">
+    <span class="last-details">
+      <mat-label>Template Type</mat-label>
+      <mat-radio-group color="primary" class="radio-grp" formControlName="templatetype">
+        <mat-radio-button value="Based on Offer Component" class="radio-btn"
+          >Based on offer</mat-radio-button
+        >
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br />
+          Viverra mi nullam malesuada risus molestie ac id.
+        </p>
+        <br />
+        <mat-radio-button value="Based on the Total Compensation Value" class="radio-btn"
+          >Based on total compensation
+        </mat-radio-button>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          <br />Viverra mi nullam malesuada risus molestie ac id.
+        </p>
+      </mat-radio-group>
+    </span>
+  </div>
+  <hr />
+
+  <div class="common-div">
+    <span class="last-details">
+      <mat-label>Component type</mat-label>
+      <mat-radio-group color="primary" class="radio-grp" formControlName="componenttype">
+        <mat-radio-button value="Yearly" class="radio-btn"
+          >Yearly </mat-radio-button
+        ><br />
+        <mat-radio-button value="Monthly" class="radio-btn"
+          >Monthly</mat-radio-button
+        ><br />
+
+        <mat-radio-button value="Weekly" class="radio-btn"
+          >Weekly</mat-radio-button
+        ><br />
+        <mat-radio-button value="Daily" class="radio-btn"
+          >Daily </mat-radio-button
+        ><br />
+        <mat-radio-button value="Hourly" class="radio-btn"
+          >Hourly
+        </mat-radio-button>
+      </mat-radio-group>
+    </span>
+  </div>
+</div>
+</form>

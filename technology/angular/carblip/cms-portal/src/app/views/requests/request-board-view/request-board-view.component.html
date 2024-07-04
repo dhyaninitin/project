@@ -1,0 +1,42 @@
+<mat-progress-bar *ngIf="showProgress" mode="indeterminate"></mat-progress-bar>
+<div *ngIf="board$ | async as board "  class="h-full w-full overflow-hidden flex flex-col">
+    <div *ngIf="!showProgress" (cdkDropListDropped)="dropList($event)" @stagger [cdkDropListData]="board.data" cdkDropList
+        cdkDropListOrientation="horizontal" [class.container]="isVerticalLayout$ | async"
+        class="p-gutter min-h-0 overflow-x-auto flex-auto flex items-start gap-6">
+        <div *ngFor="let list of board.data; let i = index; trackBy: trackById" @fadeInUp [cdkDragData]="list" cdkDrag
+            cdkDropListGroup
+            class="rounded bg-app-bar overflow-hidden max-h-full w-full max-w-2xs flex-none flex flex-col">
+            <div cdkDragHandle class="p-4 cursor-pointer flex-none">
+                <h2 class="subheading-2 font-medium m-0 select-none flex-none">
+                    <span [matTooltip]="list?.label" [matTooltipDisabled]="list?.label?.length < 15"> 
+                        {{ textTruncate(list?.label) }} 
+                    </span> 
+                    <span class="flex-1"></span>
+                    <span class="count">{{ list.total_deals }}</span>
+                </h2>
+            </div>
+
+            <vex-scrollbar class="flex-auto board-card" (scroll)="onScroll($event, board.data,i)">
+                <div (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="getConnectedList(board.data)"
+                    [cdkDropListData]="list.deals" cdkDropList class="px-4 pb-4" id="{{ list.id }}">
+                    <div *ngFor="let card of list.deals; trackBy: trackById"
+                        [cdkDragData]="card" cdkDrag
+                        class="scrumboard-card card w-full cursor-pointer overflow-hidden select-none">
+                        <div class="p-4" (click)="openDealDetails(card?.id)">
+                            <h3 class="body-2 m-0 select-none">
+                                <a class="cursor-pointer"
+                                 routerLink="/deals/{{card?.id}}" target="_blank">
+                                    {{ card.first_name }} {{ card.last_name }} 
+                                    <span *ngIf="card.brand_name && card.models_name">
+                                        - {{ card.brand_name }} {{ card.models_name }} {{ card.trim }}
+                                    </span>
+                                </a>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </vex-scrollbar>
+
+        </div>
+    </div>
+</div>

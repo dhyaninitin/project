@@ -1,0 +1,46 @@
+.container {
+  padding: 14px;
+
+  .logo {
+    font-size: 26px;
+    font-weight: 600;
+    color: #efa400;
+    padding: 1em;
+  }
+
+  .main-container {
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.293), 0 1px 2px rgba(0, 0, 0, 0.315);
+  }
+
+  hr {
+    opacity: 0.1;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  p {
+    font-size: 11px;
+  }
+
+  a {
+    font-size: 12px;
+    cursor: pointer;
+    color: blue;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  .links {
+    padding: 6px;
+  }
+}

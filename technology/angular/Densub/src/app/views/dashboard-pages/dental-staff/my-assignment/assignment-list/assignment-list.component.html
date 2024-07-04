@@ -1,0 +1,1654 @@
+
+<div class="col-md-12">
+  <div class="card-box">
+    <div class="row">
+      <h4 class="page-title" style="padding-left: 15px;">My Assignments</h4>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-12">
+  <div class="card-box">
+    <ul class="nav nav-tabs tabs-bordered nav-justified" role="tablist">
+      <li *ngFor="let tab of jobTabs; let first = first;let indexx = index" [ngClass]="{firstItem: first}" role="presentation"
+        class="nav-item">
+        <a (click)="selectATab(tab)" class="nav-link" aria-controls="one" role="tab" data-toggle="tab"
+          [class.active]="selectedJobTab===tab" [ngClass]="indexx == 2 || indexx == 3? 'tab-mobile-view' : ''">{{tab}}</a>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div *ngIf="selectedJobTab === jobTabs[0]" role="tabpanel" class="tab-pane active" id="one">
+        <div class="card-box">
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <div class="input-group m-b-20">
+                <button type="button" class="btn btn-outline-primary btn-option oval-shape " (click)="isCollapsed = !isCollapsed"
+                  [attr.aria-expanded]="!isCollapsed" aria-controls="collapseSearch"
+                  style="height: 35px; padding: 6px 18px;"><i class="fa fa-sliders" aria-hidden="true"></i> Filters
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <hr />
+          </div>
+          <div id="collapseSearch" [ngbCollapse]="isCollapsed">
+            <div class="row pt-2">
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-sm-9" style="padding-right: 0px;">
+                    <i class="mdi mdi-filter-outline">Assignment Date</i>
+                    <dp-date-picker [(ngModel)]="dataFilterForOpen.jobPostId.jobDate" placeholder="Select From"
+                      [config]="datePickerConfig">
+                    </dp-date-picker>
+                    <dp-date-picker class="mt-2" [(ngModel)]="dataFilterForOpen.jobPostId.jobDateTo" placeholder="Select To"
+                    [config]="datePickerConfig">
+                    </dp-date-picker>
+                  </div>
+                  <div class="col-sm-1 mt-4" style="padding-left: 0px;">
+                    <i class="mdi mdi-filter-outline"></i>
+                    <br>
+                    <button type="button" style="border: 1px solid #ffffff; " class="btn btn-outline-primary btn-option"  (click)="setOrder('jobDate')">
+                      <span><i class="fa fa-sort" aria-hidden="true"></i></span>
+                      <!-- <span [hidden]="reverse">▼</span>
+                      <span [hidden]="!reverse">▲</span> -->
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Position Type</i>
+                    <div *ngFor="let positionType of PositionTypeData">
+                      <div class="radio">
+                        <label><input type="checkbox" (change)="selectFilter('position', positionType)"
+                            [value]="positionType"> {{positionType}} </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Assignment Type</i>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.TEMPORARY)"
+                          name="jobTypeOption1" value="{{jobTypes.TEMPORARY}}"> Temporary </label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.PERMANENTFULLTIME)"
+                          name="jobTypeOption2" value="{{jobTypes.PERMANENTFULLTIME}}"> Permanent Full Time </label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.PERMANENTPARTTIME)"
+                          name="jobTypeOption3" value="{{jobTypes.PERMANENTPARTTIME}}"> Permanent Part Time</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                 <div class="col-12">
+                   <i class="mdi mdi-filter-outline">Location</i>
+                   <input type="text" class="form-control oval-shape" placeholder="Location" [(ngModel)]="dataFilterForOpen.jobPostId.location">
+                 </div>
+               </div>
+             </div> -->
+             <!-- <div class="col-md-6 col-lg-2">
+              <div class="form-group row">
+                <div class="col-12">
+                  <i class="mdi mdi-filter-outline">Job Status</i>
+                  <div class="radio">
+                    <label><input type="checkbox" name="upcoming" (change)="selectFilter('status', 'open')" value="upcoming" > Upcoming</label>
+                  </div>
+                  <div class="radio">
+                    <label><input type="checkbox" name="inprogress" (change)="selectFilter('status', 'expired')" value="inprogress"> In Progress</label>
+                  </div>
+                  <div class="radio">
+                    <label><input type="checkbox" name="awaitingapprovalandpay" (change)="selectFilter('status', 'cancelled')" value="awaitingapprovalandpay"> Awaiting Approval & Pay</label>
+                  </div>
+                  <div class="radio">
+                    <label><input type="checkbox" name="completed" (change)="selectFilter('status', 'completed')" value="completed"> Completed</label>
+                  </div>
+                </div>
+              </div>
+             </div> -->
+              <div class="col-md-6 col-lg-3">
+                <div class="form-group row button-center">
+                  <div class="col-12">
+                    <div class="">
+                      <button type="button" class="btn btn-outline-success "
+                        (click)="setFilter('upcoming')">Apply</button>
+                      <button type="button" class="btn btn-outline-danger " (click)="resetFilter()">Reset</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row"
+          *ngFor="let contract of contractList | grdFilter: setDataFilter: false: ['jobPostId'] | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p}; let i = index;">
+          <div class="col-md-12 col-lg-12">
+            <div class="card-box boxes">
+              <div class="row">
+                <div class="col-md-12 custom-cursor-pointer" [routerLink]="['/practice-profile',contract?.practiceId?._id]">
+                  <span *ngIf="contract?.practiceId?.practiceAccount === 'multi'" data-toggle="tooltip" title="Company Name" class="text-capitalize">{{contract?.practiceId?.companyName}} - </span>
+                  <span data-toggle="tooltip" title="Practice Name" class="text-capitalize mb-0">{{contract?.practiceName?.practiceName}} </span>
+                  <span class="ml-2">
+                    <img *ngIf="contract?.practiceId?.accountType === 'private practice'" data-toggle="tooltip" title="Private Practice" src="../../../../../../assets/img/common/Privatepractice_blue.png" alt="private" class="mr-2" style="margin-top: -6px;margin-left:-4px;height: 18px;width: 18px;">
+                    <img *ngIf="contract?.practiceId?.accountType === 'agency'" data-toggle="tooltip" title="Agency" src="../../../../../../assets/img/common/temporary-agency_blue.png" alt="agency" class="mr-2" style="margin-top: -5px;margin-left:-4px;height: 18px;width: 18px;">
+                     <img *ngIf="contract?.practiceId?.accountType === 'dso'" data-toggle="tooltip" title="Corporate" src="../../../../../../assets/img/common/teamwork_blue.png" alt="dso" class="mr-2" style="margin-top: -6px;margin-left:-4px;height: 18px;width: 18px;">
+                    </span>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4" data-toggle="tooltip" title="Job Title">
+                  {{contract?.jobPostId?.jobTitle?.toLowerCase() | titlecase}} <span class="badge badge-danger"
+                  *ngIf="contract?.updatedOffer">New</span>
+                </div>
+                <!-- <div class="col-md-2">
+                 
+                </div> -->
+                <div class="col-md-4 m-padding-l-0 text-c-mv-l" *ngIf="contract?.jobPostId?.status === 'filled'">
+                  <span class="mobileAlignment filledOnMargin" >Filled On :
+                    <span>{{contract?.jobPostId?.updatedAt | date: 'mediumDate' }} </span>
+                  </span>
+                </div>
+                <div class="col-md-4 mv-mt-20">
+                  <div ngbDropdown class="d-inline-block float-right">
+                    <button style="margin: -10px 0 5px 0;" class="btn btn-outline-primary btn-option" id="dropdownBasic1" ngbDropdownToggle><i
+                        class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                      <button ngbDropdownItem [routerLink]="['/staff/assignments/details',contract?._id]"
+                        title="view"><i class="fa fa-eye"></i>View</button>
+                      <!-- <button ngbDropdownItem (click)="showCancelContractModal(contract)" title="cancel"><i
+                          class=""></i>Cancel</button> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                      <!-- enable only if there is no assignment in progress and it is of today's date -->
+                      <!-- <button style="width: 130px;" class="clockIn" (click)="clockInOutAlert(contract, 'inprogress')"
+                        [disabled]="!(isTodaysAssignment(contract) && this.contractInProgress.length === 0)">Clock In
+                        Now</button>
+                      <button style="width: 150px;" class="btn btn-secondary" [disabled]="true">Submit
+                        Timesheet</button> -->
+                </div>
+
+                <div class="col-md-4">
+                  <!-- <p>{{getDescription(contract?.jobPostId?.description)}}</p> -->
+                  <!-- <p>Description
+                    <button type="button" class="btn btn-outline-primary btn-option" style="border-color: #ffffff;"
+                    (click)="contract.isCollapsedMoreInfo = !contract.isCollapsedMoreInfo"
+                    [attr.aria-expanded]="!contract.isCollapsedMoreInfo" aria-controls="collapseMoreInfo"> <i
+                      *ngIf="contract.isCollapsedMoreInfo" class="fa fa-caret-down" aria-hidden="true"></i> <i
+                      *ngIf="!contract.isCollapsedMoreInfo" class="fa fa-caret-up" aria-hidden="true"></i>
+                  </button>
+                  </p> -->
+                </div>
+                <div class="col-md-4">
+                  <!-- <div ngbDropdown class="d-inline-block float-right">
+                    <button class="btn btn-outline-primary btn-option" id="dropdownBasic1" ngbDropdownToggle><i
+                        class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                      <button ngbDropdownItem [routerLink]="['/staff/assignments/details',contract?._id]"
+                        title="view"><i class="fa fa-eye"></i>View</button>
+                      <button ngbDropdownItem (click)="cancelContract(contract)" title="cancel"><i
+                          class=""></i>Cancel</button>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+              <!-- <div class="row">
+                <div class="col-md-12 col-lg-12">
+                  <div style="width: 25%; margin-bottom: 10px;">
+                    <div>Contract has not started yet!</div>
+                    <div style="display: flex;">
+                      <div style="margin-right: 50px;">
+                        <button style="width: 130px;" class="clockIn" (click)="clockInOutAlert(contract, 'inprogress')"
+                          [disabled]="!(isTodaysAssignment(contract) && this.contractInProgress.length === 0)">Clock In
+                          Now</button>
+                      </div>
+                      <div>
+                        <button style="width: 150px;" class="btn btn-secondary" [disabled]="true">Submit
+                          Timesheet</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <p>{{contract?.jobPostId?.jobTitle?.toLowerCase() | titlecase }}</p>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                  <p>{{getDescription(contract?.jobPostId?.description)}}</p>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                  <p align="text-center">
+                    <span style="margin-right: 50px;">Assignment ID: <a
+                        [routerLink]="['/staff/assignments/details',contract?._id]" data-toggle="tooltip"
+                        title="{{contract?._id}}">#{{ contract?._id | slice:18:24}} <span class="badge badge-danger"
+                          *ngIf="contract?.updatedOffer">New</span></a> </span>
+                    <span>Filled On :
+                      <span>{{contract?.jobPostId?.jobDate | date: 'mediumDate' }} </span>
+                    </span>
+                    <span class="pull-right">
+                      <div ngbDropdown class="d-inline-block">
+                        <button class="btn btn-outline-primary btn-option" id="dropdownBasic1" ngbDropdownToggle><i
+                            class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                          <button ngbDropdownItem [routerLink]="['/staff/assignments/details',contract?._id]"
+                            title="view"><i class="fa fa-eye"></i>View</button>
+                          <button ngbDropdownItem (click)="cancelContract(contract)" title="cancel"><i
+                              class=""></i>Cancel</button>
+                        </div>
+                      </div>
+                    </span>
+                  </p>
+                </div>
+              </div> -->
+              <!-- <div class="row">
+                <div class="col-md-11 text-center">
+                  <button type="button" class="btn btn-outline-primary btn-option" style="border-color: #ffffff;"
+                    (click)="contract.isCollapsedMoreInfo = !contract.isCollapsedMoreInfo"
+                    [attr.aria-expanded]="!contract.isCollapsedMoreInfo" aria-controls="collapseMoreInfo"> <i
+                      *ngIf="contract.isCollapsedMoreInfo" class="fa fa-caret-down" aria-hidden="true"></i> <i
+                      *ngIf="!contract.isCollapsedMoreInfo" class="fa fa-caret-up" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div> -->
+              <!-- 2nd Row -->
+              <div id="collapseMoreInfo" [ngbCollapse]="contract.isCollapsedMoreInfo">
+                <div class="row mt-1">
+                  <div class="col" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem">
+                        <h6>{{ contract?.jobPostId?.positionType }} </h6>
+                        <p class="card-text">Position </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem">
+                        <h6>{{contract?.jobPostId?.jobDate | date : 'mediumDate'}}</h6>
+                        <p class="card-text">{{contract?.jobPostId?.jobType === jobTypes.TEMPORARY ?  'Assignment Date' : 'Start Date'}}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem">
+                        <h6 *ngIf="contract?.jobPostId?.jobType === 'temporary'">{{ contract?.jobPostId?.jobType | titlecase}}  </h6>
+                        <h6 *ngIf="contract?.jobPostId?.jobType === 'permanentFullTime'">Permanent Full Time</h6>
+                        <h6 *ngIf="contract?.jobPostId?.jobType === 'permanentPartTime'">Permanent Part Time</h6>
+                        <p class="card-text">Assignment Type </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem" *ngIf="contract?.jobPostId?.jobType === jobTypes.TEMPORARY">                        
+                        <h6>{{contract?.offerSteps[contract.offerStatus]?.startTime | date: 'hh:mm a'}} - {{contract?.offerSteps[contract.offerStatus]?.endTime |
+                          date: 'hh:mm a'}}</h6>
+                        <p class="card-text">Assignment Time</p>
+                      </div>
+                      <div class="card-body" style="padding: 1rem" *ngIf="contract?.jobPostId?.jobType !== jobTypes.TEMPORARY">                        
+                        <h6 *ngIf="contract?.jobPostId?.paymentMethod === 'hourly'">${{contract?.jobPostId?.desiredHourlyRate | number}} / {{contract?.jobPostId?.paymentMethod | titleCase}}</h6>
+                        <h6 *ngIf="contract?.jobPostId?.paymentMethod === 'salary'">${{contract?.jobPostId?.desiredSalaryRate | number}} / Annual</h6>
+                        <p class="card-text">Compensation</p>
+                      </div>
+                    </div>
+                  </div>
+                
+                  <div class="col-12 col-md-2" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem" *ngIf="contract?.jobPostId?.jobType === jobTypes.TEMPORARY">
+                        <h6>$ {{ contract?.offerSteps[contract.offerStatus]?.amount | number }} / hr
+                        </h6>
+                        <p class="card-text">Rate</p>
+                      </div>
+                      <div class="card-body" style="padding: 1rem" *ngIf="contract?.jobPostId?.jobType !== jobTypes.TEMPORARY">                        
+                        <h6>{{contract?.jobPostId?.payCycle | titleCase}}</h6>
+                        <p class="card-text">Pay Cycle</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+                <div class="d-f">
+                  <div class="col-md-6 pl-0">
+                    <div>
+                      <div style="margin-right: 10px;" class="card-text text-capitalize">Location: {{contract?.practiceName?.addressLine_1}} {{contract?.practiceName?.addressLine_2}} {{contract?.practiceName?.city?.city | slice:3:contract?.practiceName?.city?.city.length}}, {{contract?.practiceName?.state?.state}} {{contract?.practiceName?.zipcode?.zipcode}}</div>
+                    </div>
+                  </div>
+                  <div  class="col-md-6 text-r m-padding-l-0">
+                    <span>Assignment ID: <a
+                      [routerLink]="['/staff/assignments/details',contract?._id]" data-toggle="tooltip"
+                      title="">#{{ contract?._id | slice:18:24}}</a> </span>
+                  </div>
+                  
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ul class="pagination justify-content-end" *ngIf="itemsPerPage < contractList.length">
+          <pagination-controls (pageChange)="p =$event"></pagination-controls>
+        </ul>
+      </div>
+
+      <div *ngIf="selectedJobTab === jobTabs[1]" role="tabpanel" class="tab-pane active" id="two">
+        <div class="card-box">
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <div class="input-group m-b-20">
+                <button type="button" class="btn btn-outline-primary btn-option oval-shape" (click)="isCollapsed = !isCollapsed"
+                  [attr.aria-expanded]="!isCollapsed" aria-controls="collapseSearch"
+                  style="height: 35px; padding: 6px 18px;"><i class="fa fa-sliders" aria-hidden="true"></i> Filters
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <hr />
+          </div>
+          <div id="collapseSearch" [ngbCollapse]="isCollapsed">
+            <div class="row pt-2">
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-sm-9" style="padding-right: 0px;">
+                    <i class="mdi mdi-filter-outline">Assignment Date</i>
+                    <dp-date-picker [(ngModel)]="dataFilterForOpen.jobPostId.jobDate" placeholder="Select date"
+                      [config]="datePickerConfig">
+                    </dp-date-picker>
+                    <dp-date-picker class="mt-2" [(ngModel)]="dataFilterForOpen.jobPostId.jobDateTo" placeholder="Select To"
+                    [config]="datePickerConfig">
+                    </dp-date-picker>
+                  </div>
+                  <div class="col-sm-1 mt-4" style="padding-left: 0px;">
+                    <i class="mdi mdi-filter-outline"></i>
+                    <br>
+                    <button type="button" style="border: 1px solid #ffffff;" class="btn btn-outline-primary btn-option"  (click)="setOrder('jobDate')">
+                      <span><i class="fa fa-sort" aria-hidden="true"></i></span>
+                      <!-- <span [hidden]="reverse">▼</span>
+                      <span [hidden]="!reverse">▲</span> -->
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Position Type</i>
+                    <div *ngFor="let positionType of PositionTypeData">
+                      <div class="radio">
+                        <label><input type="checkbox" (change)="selectFilter('position', positionType)"
+                            [value]="positionType"> {{positionType}} </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Assignment Type</i>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.TEMPORARY)"
+                          name="jobTypeOption1" value="{{jobTypes.TEMPORARY}}"> Temporary </label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.PERMANENTFULLTIME)"
+                          name="jobTypeOption2" value="{{jobTypes.PERMANENTFULLTIME}}"> Permanent Full Time </label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.PERMANENTPARTTIME)"
+                          name="jobTypeOption3" value="{{jobTypes.PERMANENTPARTTIME}}"> Permanent Part Time</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                 <div class="col-12">
+                   <i class="mdi mdi-filter-outline">Location</i>
+                   <input type="text" class="form-control oval-shape" placeholder="Location" [(ngModel)]="dataFilterForOpen.jobPostId.location">
+                 </div>
+               </div>
+             </div> -->
+              <div class="col-md-6 col-lg-3">
+                <div class="form-group row button-center">
+                  <div class="col-12">
+                    <div class="">
+                      <button type="button" class="btn btn-outline-success "
+                        (click)="setFilter('inprogress')">Apply</button>
+                      <button type="button" class="btn btn-outline-danger " (click)="resetFilter()">Reset</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row"
+          *ngFor="let contract of contractList | grdFilter: setDataFilter: false: ['jobPostId'] | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p}; let i = index;">
+          <div class="col-md-12 col-lg-12">
+            <div class="card-box boxes">
+              <div class="row">
+                <div class="col-md-12 custom-cursor-pointer" [routerLink]="['/practice-profile',contract?.practiceId?._id]">
+                  <span *ngIf="contract?.practiceId?.practiceAccount === 'multi'" data-toggle="tooltip" title="Company Name" class="text-capitalize">{{contract?.practiceId?.companyName}} - </span>
+                  <span data-toggle="tooltip" title="Practice Name" class="text-capitalize mb-0">{{contract?.practiceName?.practiceName}} </span>
+                  <span class="ml-2">
+                    <img *ngIf="contract?.practiceId?.accountType === 'private practice'" data-toggle="tooltip" title="Private Practice" src="../../../../../../assets/img/common/Privatepractice_blue.png" alt="private" class="mr-2" style="margin-top: -6px;margin-left:-4px;height: 18px;width: 18px;">
+                    <img *ngIf="contract?.practiceId?.accountType === 'agency'" data-toggle="tooltip" title="Agency" src="../../../../../../assets/img/common/temporary-agency_blue.png" alt="agency" class="mr-2" style="margin-top: -5px;margin-left:-4px;height: 18px;width: 18px;">
+                     <img *ngIf="contract?.practiceId?.accountType === 'dso'" data-toggle="tooltip" title="Corporate" src="../../../../../../assets/img/common/teamwork_blue.png" alt="dso" class="mr-2" style="margin-top: -6px;margin-left:-4px;height: 18px;width: 18px;">
+                    </span>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 col-lg-4">
+                  <p data-toggle="tooltip" title="Job Title">{{contract?.jobPostId?.jobTitle?.toLowerCase() | titlecase }} <span class="badge badge-danger"
+                    *ngIf="contract?.updatedOffer">New</span></p>
+                </div>
+             
+                 <!-- <div class="col-md-4 col-lg-4 pull-right mobileAlignment">
+                 
+                </div>  -->
+                <div class="col-md-4 col-lg-4 m-padding-l-0 text-c-mv-l mobileAlignment">
+                  <!-- <p align="text-center"> -->
+                    <span class="filledOnMargin">Filled On :
+                      <span>{{contract?.jobPostId?.updatedAt | date: 'mediumDate' }} </span>
+                    </span>
+                  <!-- </p> -->
+                </div>
+                <div class="col-md-4 col-lg-4 pull-right mv-mt-20">
+                  <!-- <p align="text-center"> -->
+                    <span class="pull-right">
+                      <div ngbDropdown class="d-inline-block">
+                        <button class="btn btn-outline-primary btn-option" id="dropdownBasic1" ngbDropdownToggle><i
+                            class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                          <button ngbDropdownItem [routerLink]="['/staff/assignments/details',contract?._id]"
+                            title="view"><i class="fa fa-eye"></i>View</button>
+                        </div>
+                      </div>
+                    </span>
+                  <!-- </p> -->
+                </div>
+              </div>
+              <div class="row mt-1">
+                <div class="col-md-11 text-center">
+                  <!-- <button type="button" class="btn btn-outline-primary btn-option" style="border-color: #ffffff;"
+                    (click)="contract.isCollapsedMoreInfo = !contract.isCollapsedMoreInfo"
+                    [attr.aria-expanded]="!contract.isCollapsedMoreInfo" aria-controls="collapseMoreInfo"> <i
+                      *ngIf="contract.isCollapsedMoreInfo" class="fa fa-caret-down" aria-hidden="true"></i> <i
+                      *ngIf="!contract.isCollapsedMoreInfo" class="fa fa-caret-up" aria-hidden="true"></i>
+                  </button> -->
+                </div>
+              </div>
+              <!-- 2nd Row -->
+              <div id="collapseMoreInfo" [ngbCollapse]="contract.isCollapsedMoreInfo">
+                <div class="row">
+                  <div class="col" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem">
+                        <h6>{{ contract?.jobPostId?.positionType }} </h6>
+                        <p class="card-text">Position </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem">
+                        <h6>{{contract?.jobPostId?.jobDate | date : 'mediumDate'}}</h6>
+                        <p class="card-text">Assignment Date</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem">
+                        <h6 *ngIf="contract?.jobPostId?.jobType === 'temporary'">{{ contract?.jobPostId?.jobType | titlecase}}  </h6>
+                        <h6 *ngIf="contract?.jobPostId?.jobType === 'permanentFullTime'">Permanent Full Time</h6>
+                        <h6 *ngIf="contract?.jobPostId?.jobType === 'permanentPartTime'">Permanent Part Time</h6>
+                        <p class="card-text">Assignment Type </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem">
+                        <h6>{{contract?.offerSteps[contract.offerStatus]?.startTime | date: 'hh:mm a'}} - {{contract?.offerSteps[contract.offerStatus]?.endTime |
+                          date: 'hh:mm a'}}</h6>
+                        <p class="card-text">Assignment Time</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-2" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem">
+                        <h6>$ {{ contract?.offerSteps[contract.offerStatus]?.amount | number}} / hr
+                        </h6>
+                        <p class="card-text">Rate</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-f">
+                  <div class="col-md-6 pl-0">
+                    <div>
+                      <div style="margin-right: 10px;" class="card-text text-capitalize">Location: {{contract?.practiceName?.addressLine_1}} {{contract?.practiceName?.addressLine_2}} {{contract?.practiceName?.city?.city | slice:3:contract?.practiceName?.city?.city.length}}, {{contract?.practiceName?.state?.state}} {{contract?.practiceName?.zipcode?.zipcode}}</div>
+                    </div>
+                  </div>
+                  <div  class="col-md-6 text-r m-padding-l-0">
+                    <span>Assignment ID: <a
+                      [routerLink]="['/staff/assignments/details',contract?._id]" data-toggle="tooltip"
+                      title="">#{{ contract?._id | slice:18:24}}</a> </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div bsModal [config]="{backdrop: 'static', keyboard: false}" #viewTimesheet="bs-modal" class="modal fade"
+            tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title text-white"><i class="fa fa-eye"></i> View Timesheet details</h4>
+                  <button type="button" class="close text-white" (click)="viewTimesheet.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p> <b>Date :</b> {{workDiary?.date | date:'mediumDate'}} </p>
+                  <p> <b>Start Time :</b> {{workDiary.startTime | date: 'hh:mm a'}} </p>
+                  <p> <b>End Time :</b> {{workDiary.endTime | date:'hh:mm a'}} </p>
+                  <p> <b>Break Time :</b> {{workDiary?.breakTime?.hours}} hours, {{workDiary?.breakTime?.minutes}}
+                    minutes </p>
+                  <p><b>Total Work Hours :</b>{{workDiary?.totalTime?.hours}} hours,
+                    {{workDiary?.totalTime?.minutes}} minutes</p>
+                  <p> <b>Total Work Amount :</b> ${{timesheetAmountCal(workDiary.totalTime,contractDetail.finalRate)}}
+                  </p>
+                  <p> <b>Timesheet Status :</b> {{workDiary?.timeClockStatus}} </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" (click)="viewTimesheet.hide()">Cancel</button>
+                  <button type="button" class="btn btn-secondary" (click)="openEditTimesheetModal()">Edit
+                    Timesheet</button>
+                  <button type="button" class="btn btn-primary"
+                    (click)="submitTimesheet('submit', this.contractInProgress.length === 1 ? contract: contractObj)">Submit
+                    Timesheet</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- add/edit timesheet -->
+          <div bsModal [config]="{backdrop: 'static', keyboard: false}" #addEditTimesheetModal="bs-modal"
+            class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 *ngIf="totalTime" class="modal-title text-white">Edit TimeSheet</h4>
+                  <h4 *ngIf="!totalTime" class="modal-title  text-white">Add TimeSheet</h4>
+                  <button type="button" class="close  text-white" (click)="addEditTimesheetModal.hide()"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <div class="modal-body add-time-modal">
+                  <div class="form-group row">
+                    <div class="col-sm-8 offset-sm-1">
+                      <div class="form-group row align-items-center">
+                        <label class="col-sm-4" for="Date">Date
+                          <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                              [ngClass]="{'text-danger': !workDiary.date,'clr-blue': workDiary.date}"></i>
+                          </sup>
+                        </label>
+                        <div class="col-sm-8">
+                          <dp-date-picker placeholder="Enter Date" name="date" [(ngModel)]="workDiary.date"
+                            [config]="datePickerConfig2"></dp-date-picker>
+                        </div>
+                      </div>
+
+                      <div class="form-group row align-items-center">
+                        <label class="col-sm-4" for="startTime">Start Time
+                          <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                              [ngClass]="{'text-danger': !workDiary.startTime,'clr-blue': workDiary.startTime}"></i>
+                          </sup>
+                        </label>
+                        <div class="col-sm-8 mb-0">
+                          <timepicker name="startTime" [(ngModel)]="workDiary.startTime"
+                            (ngModelChange)="timeValidation('startTime')"></timepicker>
+                        </div>
+                      </div>
+
+                      <div class="form-group row align-items-center">
+                        <label class="col-sm-4" for="endTime">End Time
+                          <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                              [ngClass]="{'text-danger': !workDiary?.endTime,'clr-blue': workDiary?.endTime}"></i>
+                          </sup>
+                        </label>
+                        <div class="col-sm-8 mb-0">
+                          <timepicker name="endTime" [(ngModel)]="workDiary.endTime"
+                            (ngModelChange)="timeValidation('endTime')">
+                          </timepicker>
+                        </div>
+                      </div>
+
+                      <div class="form-group row align-items-center">
+                        <label class="col-sm-4" for="breakTime">Break Time</label>
+                        <div class="col-sm-8 row mb-0">
+                          <div class="col-6">
+                            <label for="hours">Hours</label>
+                            <select name="hour" class="form-control" (change)="workDiaryTotalTime()"
+                              [(ngModel)]="workDiary.breakTime.hours">
+                              <option [value]="(i)" *ngFor="let hour of breakTime.hours; let i = index">{{i}}</option>
+                            </select>
+                          </div>
+                          <div class="col-6">
+                            <label for="minutes">Minutes</label>
+                            <select name="minute" class="form-control" [(ngModel)]="workDiary.breakTime.minutes"
+                              (change)="workDiaryTotalTime()" value="workDiary.breakTime.minutes">
+                              <option [value]="(i)" *ngFor="let min of breakTime.min; let i = index">{{i}}</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group row align-items-center">
+                        <label class="col-sm-4" for="totalWorkHours">Total Work Hours</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" name="totalTime"
+                            value="{{workDiary.totalTime.hours}} hours, {{workDiary.totalTime.minutes}} minutes"
+                            disabled>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <app-alert></app-alert>
+                  <button type="button" class="btn btn-secondary" (click)="addEditTimesheetModal.hide()">Close</button>
+                  <button type="button" class="btn btn-primary" *ngIf="totalTime"
+                    (click)="addEditTimesheetModal.hide()">Update TimeSheet</button>
+                  <button type="button" class="btn btn-primary" *ngIf="!totalTime"
+                    (click)="submitTimesheet('edit', contract)">Submit TimeSheet</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <ul class="pagination justify-content-end" *ngIf="itemsPerPage < contractList.length">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+      </div>
+
+      <div *ngIf="selectedJobTab === jobTabs[2]" role="tabpanel" class="tab-pane active" id="two">
+        <div class="card-box">
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <div class="input-group m-b-20">
+                <button type="button" class="btn btn-outline-primary btn-option oval-shape" (click)="isCollapsed = !isCollapsed"
+                  [attr.aria-expanded]="!isCollapsed" aria-controls="collapseSearch"
+                  style="height: 35px; padding: 6px 18px;"><i class="fa fa-sliders" aria-hidden="true"></i> Filters
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <hr />
+          </div>
+          <div id="collapseSearch" [ngbCollapse]="isCollapsed">
+            <div class="row pt-2">
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-sm-9" style="padding-right: 0px;">
+                    <i class="mdi mdi-filter-outline">Assignment Date</i>
+                    <dp-date-picker [(ngModel)]="dataFilterForOpen.jobPostId.jobDate" placeholder="Select date"
+                      [config]="datePickerConfig">
+                    </dp-date-picker>
+                    <dp-date-picker class="mt-2" [(ngModel)]="dataFilterForOpen.jobPostId.jobDateTo" placeholder="Select To"
+                    [config]="datePickerConfig">
+                    </dp-date-picker>
+                  </div>
+                  <div class="col-sm-1 mt-4" style="padding-left: 0px;">
+                    <i class="mdi mdi-filter-outline"></i>
+                    <br>
+                    <button type="button" style="border: 1px solid #ffffff;" class="btn btn-outline-primary btn-option"  (click)="setOrder('jobDate')">
+                      <span><i class="fa fa-sort" aria-hidden="true"></i></span>
+                      <!-- <span [hidden]="reverse">▼</span>
+                      <span [hidden]="!reverse">▲</span> -->
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Position Type</i>
+                    <div *ngFor="let positionType of PositionTypeData">
+                      <div class="radio">
+                        <label><input type="checkbox" (change)="selectFilter('position', positionType)"
+                            [value]="positionType"> {{positionType}} </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Assignment Type</i>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.TEMPORARY)"
+                          name="jobTypeOption1" value="{{jobTypes.TEMPORARY}}"> Temporary </label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.PERMANENTFULLTIME)"
+                          name="jobTypeOption2" value="{{jobTypes.PERMANENTFULLTIME}}"> Permanent Full Time </label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.PERMANENTPARTTIME)"
+                          name="jobTypeOption3" value="{{jobTypes.PERMANENTPARTTIME}}"> Permanent Part Time</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                 <div class="col-12">
+                   <i class="mdi mdi-filter-outline">Location</i>
+                   <input type="text" class="form-control oval-shape" placeholder="Location" [(ngModel)]="dataFilterForOpen.jobPostId.location">
+                 </div>
+               </div>
+             </div> -->
+              <div class="col-md-6 col-lg-3">
+                <div class="form-group row button-center">
+                  <div class="col-12">
+                    <div class="">
+                      <button type="button" class="btn btn-outline-success "
+                        (click)="setFilter('payToActivate')">Apply</button>
+                      <button type="button" class="btn btn-outline-danger " (click)="resetFilter()">Reset</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row"
+          *ngFor="let contract of contractList | grdFilter: setDataFilter: false: ['jobPostId'] | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p}; let i = index;">
+
+          <div class="col-md-12 col-lg-12">
+            <div class="card-box boxes">
+              <div class="row">
+                <div class="col-md-12 custom-cursor-pointer" [routerLink]="['/practice-profile',contract?.practiceId?._id]">
+                  <span *ngIf="contract?.practiceId?.practiceAccount === 'multi'" data-toggle="tooltip" title="Company Name" class="text-capitalize">{{contract?.practiceId?.companyName}} - </span>
+                  <span data-toggle="tooltip" title="Practice Name" class="text-capitalize mb-0">{{contract?.practiceName?.practiceName}} </span>
+                  <span class="ml-2">
+                    <img *ngIf="contract?.practiceId?.accountType === 'private practice'" data-toggle="tooltip" title="Private Practice" src="../../../../../../assets/img/common/Privatepractice_blue.png" alt="private" class="mr-2" style="margin-top: -6px;margin-left:-4px;height: 18px;width: 18px;">
+                    <img *ngIf="contract?.practiceId?.accountType === 'agency'" data-toggle="tooltip" title="Agency" src="../../../../../../assets/img/common/temporary-agency_blue.png" alt="agency" class="mr-2" style="margin-top: -5px;margin-left:-4px;height: 18px;width: 18px;">
+                     <img *ngIf="contract?.practiceId?.accountType === 'dso'" data-toggle="tooltip" title="Corporate" src="../../../../../../assets/img/common/teamwork_blue.png" alt="dso" class="mr-2" style="margin-top: -6px;margin-left:-4px;height: 18px;width: 18px;">
+                    </span>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 col-lg-4">
+                  <p data-toggle="tooltip" title="Job Title">{{contract?.jobPostId?.jobTitle?.toLowerCase() | titlecase }} <span class="badge badge-danger"
+                    *ngIf="contract?.updatedOffer">New</span></p>
+                </div>
+                <!-- <div class="col-md-6 col-lg-3">
+                  {{getDescription(contract?.jobPostId?.description)}}
+                </div> -->
+                <!-- <div class="col-md-3 col-lg-3 pull-right mobileAlignment">
+                 
+                </div> -->
+                <div class="col-md-3 col-lg-3 m-padding-l-0 text-c-mv-l mobileAlignment">
+                  <!-- <p align="text-center"> -->
+                    <span class="filledOnMargin" *ngIf="contract.timeSheetDetails">Submitted On :
+                      <span>{{contract?.timeSheetDetails?.createdAt | date: 'mediumDate' }} </span>
+                    </span>
+                  <!-- </p> -->
+                </div>
+                <div class="col-md-2 col-lg-2 pull-right mv-mt-20">
+                  <!-- <p align="text-center"> -->
+                    <span class="pull-right">
+                      <div ngbDropdown class="d-inline-block">
+                        <button class="btn btn-outline-primary btn-option" id="dropdownBasic1" ngbDropdownToggle><i
+                            class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                          <button ngbDropdownItem [routerLink]="['/staff/assignments/details',contract?._id]"
+                            title="view"><i class="fa fa-eye"></i>View</button>
+                        </div>
+                      </div>
+                    </span>
+                  <!-- </p> -->
+                </div>
+              </div>
+              <div class="row mt-1">
+                <div class="col-md-11 text-center">
+                  <!-- <button type="button" class="btn btn-outline-primary btn-option" style="border-color: #ffffff;"
+                    (click)="contract.isCollapsedMoreInfo = !contract.isCollapsedMoreInfo"
+                    [attr.aria-expanded]="!contract.isCollapsedMoreInfo" aria-controls="collapseMoreInfo"> <i
+                      *ngIf="contract.isCollapsedMoreInfo" class="fa fa-caret-down" aria-hidden="true"></i> <i
+                      *ngIf="!contract.isCollapsedMoreInfo" class="fa fa-caret-up" aria-hidden="true"></i>
+                  </button> -->
+                </div>
+              </div>
+              <!-- 2nd Row -->
+              <div id="collapseMoreInfo" [ngbCollapse]="contract.isCollapsedMoreInfo">
+                <div class="row">
+                  <div class="col" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem">
+                        <h6>{{ contract?.jobPostId?.positionType }} </h6>
+                        <p class="card-text">Position </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem">
+                        <h6>{{contract?.jobPostId?.jobDate | date : 'mediumDate'}}</h6>
+                        <p class="card-text">Assignment Date</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem">
+                        <h6 *ngIf="contract?.jobPostId?.jobType === 'temporary'">{{ contract?.jobPostId?.jobType | titlecase}}  </h6>
+                        <h6 *ngIf="contract?.jobPostId?.jobType === 'permanentFullTime'">Permanent Full Time</h6>
+                        <h6 *ngIf="contract?.jobPostId?.jobType === 'permanentPartTime'">Permanent Part Time</h6>
+                        <p class="card-text">Assignment Type </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem">
+                        <h6>{{contract?.offerSteps[contract.offerStatus]?.startTime | date: 'hh:mm a'}} - {{contract?.offerSteps[contract.offerStatus]?.endTime |
+                          date: 'hh:mm a'}}</h6>
+                        <p class="card-text">Assignment Time</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-2" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem">
+                        <h6>$ {{ contract?.offerSteps[contract.offerStatus]?.amount | number}} / hr
+                        </h6>
+                        <p class="card-text">Rate</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-f">
+                  <div class="col-md-6 pl-0">
+                    <div>
+                      <div style="margin-right: 10px;" class="card-text text-capitalize">Location: {{contract?.practiceName?.addressLine_1}} {{contract?.practiceName?.addressLine_2}} {{contract?.practiceName?.city?.city | slice:3:contract?.practiceName?.city?.city.length}}, {{contract?.practiceName?.state?.state}} {{contract?.practiceName?.zipcode?.zipcode}}</div>
+                    </div>
+                  </div>
+                  <div  class="col-md-6 text-r m-padding-l-0">
+                    <span>Assignment ID: <a
+                      [routerLink]="['/staff/assignments/details',contract?._id]" data-toggle="tooltip"
+                      title="">#{{ contract?._id | slice:18:24}}</a> </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ul class="pagination justify-content-end" *ngIf="itemsPerPage < contractList.length">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+      </div>
+
+      <div *ngIf="selectedJobTab === jobTabs[3]" role="tabpanel" class="tab-pane active" id="three">
+        <div class="card-box">
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <div class="input-group m-b-20">
+                <button type="button" class="btn btn-outline-primary btn-option oval-shape" (click)="isCollapsed = !isCollapsed"
+                  [attr.aria-expanded]="!isCollapsed" aria-controls="collapseSearch"
+                  style="height: 35px; padding: 6px 18px;"><i class="fa fa-sliders" aria-hidden="true"></i> Filters
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <hr />
+          </div>
+          <div id="collapseSearch" [ngbCollapse]="isCollapsed">
+            <div class="row pt-2">
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-sm-9" style="padding-right: 0px;">
+                    <i class="mdi mdi-filter-outline">Assignment Date</i>
+                    <dp-date-picker [(ngModel)]="dataFilterForOpen.jobPostId.jobDate" placeholder="Select date"
+                      [config]="datePickerConfig">
+                    </dp-date-picker>
+                    <dp-date-picker class="mt-2" [(ngModel)]="dataFilterForOpen.jobPostId.jobDateTo" placeholder="Select To"
+                    [config]="datePickerConfig">
+                    </dp-date-picker>
+                  </div>
+                  <div class="col-sm-1 mt-4" style="padding-left: 0px;">
+                    <i class="mdi mdi-filter-outline"></i>
+                    <br>
+                    <button type="button" style="border: 1px solid #ffffff;" class="btn btn-outline-primary btn-option"  (click)="setOrder('jobDate')">
+                      <span><i class="fa fa-sort" aria-hidden="true"></i></span>
+                      <!-- <span [hidden]="reverse">▼</span>
+                      <span [hidden]="!reverse">▲</span> -->
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Position Type</i>
+                    <div *ngFor="let positionType of PositionTypeData">
+                      <div class="radio">
+                        <label><input type="checkbox" (change)="selectFilter('position', positionType)"
+                            [value]="positionType"> {{positionType}} </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Assignment Type</i>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.TEMPORARY)"
+                          name="jobTypeOption1" value="{{jobTypes.TEMPORARY}}"> Temporary </label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.PERMANENTFULLTIME)"
+                          name="jobTypeOption2" value="{{jobTypes.PERMANENTFULLTIME}}"> Permanent Full Time </label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.PERMANENTPARTTIME)"
+                          name="jobTypeOption3" value="{{jobTypes.PERMANENTPARTTIME}}"> Permanent Part Time</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                 <div class="col-12">
+                   <i class="mdi mdi-filter-outline">Location</i>
+                   <input type="text" class="form-control oval-shape" placeholder="Location" [(ngModel)]="dataFilterForOpen.jobPostId.location">
+                 </div>
+               </div>
+             </div> -->
+              <div class="col-md-6 col-lg-3">
+                <div class="form-group row button-center">
+                  <div class="col-12">
+                    <div class="">
+                      <button type="button" class="btn btn-outline-success "
+                        (click)="setFilter('completed')">Apply</button>
+                      <button type="button" class="btn btn-outline-danger " (click)="resetFilter()">Reset</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row"
+          *ngFor="let contract of contractList | grdFilter: setDataFilter: false: ['jobPostId'] | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p}; let i = index;">
+          <div class="col-md-12 col-lg-12">
+            <div class="card-box boxes">
+              <div class="row">
+                <div class="col-md-12 custom-cursor-pointer" [routerLink]="['/practice-profile',contract?.practiceId?._id]">
+                  <span *ngIf="contract?.practiceId?.practiceAccount === 'multi'" data-toggle="tooltip" title="Company Name" class="text-capitalize">{{contract?.practiceId?.companyName}} - </span>
+                  <span data-toggle="tooltip" title="Practice Name" class="text-capitalize mb-0">{{contract?.practiceName?.practiceName}} </span>
+                  <span class="ml-2">
+                    <img *ngIf="contract?.practiceId?.accountType === 'private practice'" data-toggle="tooltip" title="Private Practice" src="../../../../../../assets/img/common/Privatepractice_blue.png" alt="private" class="mr-2" style="margin-top: -6px;margin-left:-4px;height: 18px;width: 18px;">
+                    <img *ngIf="contract?.practiceId?.accountType === 'agency'" data-toggle="tooltip" title="Agency" src="../../../../../../assets/img/common/temporary-agency_blue.png" alt="agency" class="mr-2" style="margin-top: -5px;margin-left:-4px;height: 18px;width: 18px;">
+                     <img *ngIf="contract?.practiceId?.accountType === 'dso'" data-toggle="tooltip" title="Corporate" src="../../../../../../assets/img/common/teamwork_blue.png" alt="dso" class="mr-2" style="margin-top: -6px;margin-left:-4px;height: 18px;width: 18px;">
+                    </span>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 col-lg-4">
+                  <p data-toggle="tooltip" title="Job Title">{{contract?.jobPostId?.jobTitle?.toLowerCase() | titlecase }} <span class="badge badge-danger"
+                    *ngIf="contract?.updatedOffer">New</span></p>
+                </div>
+                <!-- <div class="col-md-3 col-lg-3 pull-right mobileAlignment">
+                </div> -->
+                <div class="col-md-4 col-lg-4 m-padding-l-0 text-c-mv-l mobileAlignment mv-pr-0">
+                  <!-- <p align="text-center"> -->
+                    <span class="filledOnMargin">Completed On :
+                      <span>{{contract?.jobPostId?.updatedAt | date: 'mediumDate' }} </span>
+                    </span>
+                  <!-- </p> -->
+                </div>
+                <div class="col-md-4 col-lg-4 pull-right mv-mt-20">
+                  <!-- <p align="text-center"> -->
+                    <span class="pull-right">
+                      <div ngbDropdown class="d-inline-block">
+                        <button class="btn btn-outline-primary btn-option" id="dropdownBasic1" ngbDropdownToggle><i
+                            class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                          <button ngbDropdownItem [routerLink]="['/staff/assignments/details',contract?._id]"
+                            title="view"><i class="fa fa-eye"></i>View</button>
+                        </div>
+                      </div>
+                    </span>
+                  <!-- </p> -->
+                </div>
+              </div>
+              <div class="row mt-1">
+                <div class="col-md-11 text-center">
+                  <!-- <button type="button" class="btn btn-outline-primary btn-option" style="border-color: #ffffff;"
+                    (click)="contract.isCollapsedMoreInfo = !contract.isCollapsedMoreInfo"
+                    [attr.aria-expanded]="!contract.isCollapsedMoreInfo" aria-controls="collapseMoreInfo"> <i
+                      *ngIf="contract.isCollapsedMoreInfo" class="fa fa-caret-down" aria-hidden="true"></i> <i
+                      *ngIf="!contract.isCollapsedMoreInfo" class="fa fa-caret-up" aria-hidden="true"></i>
+                  </button> -->
+                </div>
+              </div>
+              <!-- 2nd Row -->
+              <div id="collapseMoreInfo" [ngbCollapse]="contract.isCollapsedMoreInfo">
+                <div class="row">
+                  <div class="col" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem">
+                        <h6>{{ contract?.jobPostId?.positionType }} </h6>
+                        <p class="card-text">Position </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem">
+                        <h6>{{contract?.jobPostId?.jobDate | date : 'mediumDate'}}</h6>
+                        <p class="card-text">{{ contract?.jobPostId?.jobType === jobTypes.TEMPORARY ? 'Assignment Date' : 'Start Date'}}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem">
+                        <h6 *ngIf="contract?.jobPostId?.jobType === 'temporary'">{{ contract?.jobPostId?.jobType | titlecase}}  </h6>
+                        <h6 *ngIf="contract?.jobPostId?.jobType === 'permanentFullTime'">Permanent Full Time</h6>
+                        <h6 *ngIf="contract?.jobPostId?.jobType === 'permanentPartTime'">Permanent Part Time</h6>
+                        <p class="card-text">Assignment Type </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem" *ngIf="contract?.jobPostId?.jobType === jobTypes.TEMPORARY">
+                        <h6>{{contract?.offerSteps[contract.offerStatus]?.startTime | date: 'hh:mm a'}} - {{contract?.offerSteps[contract.offerStatus]?.endTime |
+                          date: 'hh:mm a'}}</h6>
+                        <p class="card-text">Assignment Time</p>
+                      </div>
+                      <div class="card-body" style="padding: 1rem" *ngIf="contract?.jobPostId?.jobType !== jobTypes.TEMPORARY">
+                        <h6 *ngIf="contract?.jobPostId?.paymentMethod === 'hourly'">${{contract?.jobPostId?.desiredHourlyRate | number}} / {{contract?.jobPostId?.paymentMethod | titleCase}}</h6>
+                        <h6 *ngIf="contract?.jobPostId?.paymentMethod === 'salary'">${{contract?.jobPostId?.desiredSalaryRate | number}} / Annual</h6>
+                        <p class="card-text">Compensation</p>
+                      </div>
+                    </div>
+                  </div>
+
+                 
+                  <div class="col-12 col-md-2" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem" *ngIf="contract?.jobPostId?.jobType === jobTypes.TEMPORARY">
+                        <h6>$ {{ contract?.offerSteps[contract.offerStatus]?.amount | number }} / hr
+                        </h6>
+                        <p class="card-text">Rate</p>
+                      </div>
+                      <div class="card-body" style="padding: 1rem" *ngIf="contract?.jobPostId?.jobType !== jobTypes.TEMPORARY">
+                        <h6>{{ contract?.jobPostId.payCycle | titleCase }} 
+                        </h6>
+                        <p class="card-text">Payment Cycle</p>
+                      </div>
+                    </div>
+                  </div>
+                 
+
+                </div>
+                <div class="d-f">
+                  <div class="col-md-6 pl-0">
+                    <div>
+                      <div style="margin-right: 10px;" class="card-text text-capitalize">Location: {{contract?.practiceName?.addressLine_1}} {{contract?.practiceName?.addressLine_2}} {{contract?.practiceName?.city?.city | slice:3:contract?.practiceName?.city?.city.length}}, {{contract?.practiceName?.state?.state}} {{contract?.practiceName?.zipcode?.zipcode}}</div>
+                    </div>
+                  </div>
+                  <div  class="col-md-6 text-r m-padding-l-0">
+                    <span>Assignment ID: <a
+                      [routerLink]="['/staff/assignments/details',contract?._id]" data-toggle="tooltip"
+                      title="">#{{ contract?._id | slice:18:24}}</a> </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ul class="pagination justify-content-end" *ngIf="itemsPerPage < contractList.length">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+      </div>
+
+      <div *ngIf="selectedJobTab === jobTabs[4]" role="tabpanel" class="tab-pane active" id="one">
+        <div class="card-box">
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <div class="input-group m-b-20">
+                <button type="button" class="btn btn-outline-primary btn-option oval-shape" (click)="isCollapsed = !isCollapsed"
+                  [attr.aria-expanded]="!isCollapsed" aria-controls="collapseSearch"
+                  style="height: 35px; padding: 6px 18px;"><i class="fa fa-sliders" aria-hidden="true"></i> Filters
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <hr />
+          </div>
+          <div id="collapseSearch" [ngbCollapse]="isCollapsed">
+            <div class="row pt-2">
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-sm-9" style="padding-right: 0px;">
+                    <i class="mdi mdi-filter-outline">Assignment Date</i>
+                    <dp-date-picker [(ngModel)]="dataFilterForOpen.jobPostId.jobDate" placeholder="Select From"
+                      [config]="datePickerConfig">
+                    </dp-date-picker>
+                    <dp-date-picker class="mt-2" [(ngModel)]="dataFilterForOpen.jobPostId.jobDateTo" placeholder="Select To"
+                    [config]="datePickerConfig">
+                    </dp-date-picker>
+                  </div>
+                  <div class="col-sm-1 mt-4" style="padding-left: 0px;">
+                    <i class="mdi mdi-filter-outline"></i>
+                    <br>
+                    <button type="button" style="border: 1px solid #ffffff;" class="btn btn-outline-primary btn-option"  (click)="setOrder('jobDate')">
+                      <span><i class="fa fa-sort" aria-hidden="true"></i></span>
+                      <!-- <span [hidden]="reverse">▼</span>
+                      <span [hidden]="!reverse">▲</span> -->
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Position Type</i>
+                    <div *ngFor="let positionType of PositionTypeData">
+                      <div class="radio">
+                        <label><input type="checkbox" (change)="selectFilter('position', positionType)"
+                            [value]="positionType"> {{positionType}} </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                  <div class="col-12">
+                    <i class="mdi mdi-filter-outline">Assignment Type</i>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.TEMPORARY)"
+                          name="jobTypeOption1" value="{{jobTypes.TEMPORARY}}"> Temporary </label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.PERMANENTFULLTIME)"
+                          name="jobTypeOption2" value="{{jobTypes.PERMANENTFULLTIME}}"> Permanent Full Time </label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="checkbox" (change)="selectFilter('jobTypes', jobTypes.PERMANENTPARTTIME)"
+                          name="jobTypeOption3" value="{{jobTypes.PERMANENTPARTTIME}}"> Permanent Part Time</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-md-6 col-lg-2">
+                <div class="form-group row">
+                 <div class="col-12">
+                   <i class="mdi mdi-filter-outline">Location</i>
+                   <input type="text" class="form-control oval-shape" placeholder="Location" [(ngModel)]="dataFilterForOpen.jobPostId.location">
+                 </div>
+               </div>
+             </div> -->
+             <div class="col-md-6 col-lg-2">
+              <div class="form-group row">
+                <div class="col-12">
+                  <i class="mdi mdi-filter-outline">Job Statuses</i>
+                  <div class="radio">
+                    <label><input type="checkbox" name="upcoming" (change)="selectFilter('status', 'upcoming')" value="upcoming" > Upcoming</label>
+                  </div>
+                  <div class="radio">
+                    <label><input type="checkbox" name="inprogress" (change)="selectFilter('status', 'inprogress')" value="inprogress"> In Progress</label>
+                  </div>
+                  <div class="radio">
+                    <label><input type="checkbox" name="awaitingapprovalandpay" (change)="selectFilter('status', 'payToActivate')" value="awaitingapprovalandpay">Awaiting Approve & Pay</label>
+                  </div>
+                  <div class="radio">
+                    <label><input type="checkbox" name="completed" (change)="selectFilter('status', 'completed')" value="completed"> Completed</label>
+                  </div>
+                  <div class="radio">
+                    <label><input type="checkbox" name="cancelbypractice" (change)="selectFilter('status', 'cancelled')" value="cancelbypractice"> Cancelled</label>
+                  </div>
+                  <!-- <div class="radio">
+                    <label><input type="checkbox" name="cancelbyprovider" (change)="selectFilter('status', 'cancelled')" value="cancelbyprovider"> Cancelled By Provider</label>
+                  </div> -->
+                </div>
+              </div>
+             </div>
+              <div class="col-md-6 col-lg-2">
+                <div class="form-group row button-center">
+                  <div class="col-12">
+                    <div class="">
+                      <button type="button" class="btn btn-outline-success "
+                        (click)="setFilter('all')">Apply</button>
+                      <button type="button" class="btn btn-outline-danger " (click)="resetFilter()">Reset</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- | orderBy: order:reverse:'case-insensitive'  -->
+        <div class="row"
+          *ngFor="let contract of contractList | grdFilter: setDataFilter: false: ['jobPostId']  | paginate: { itemsPerPage: itemsPerPage, currentPage: p}; let i = index;">
+          <div class="col-md-12 col-lg-12">
+            <div class="card-box boxes">
+              <div class="row">
+                <div class="col-md-12 custom-cursor-pointer" [routerLink]="['/practice-profile',contract?.practiceId?._id]">
+                  <span *ngIf="contract?.practiceId?.practiceAccount === 'multi'" data-toggle="tooltip" title="Company Name" class="text-capitalize">{{contract?.practiceId?.companyName}} - </span>
+                  <span data-toggle="tooltip" title="Practice Name" class="text-capitalize mb-0">{{contract?.practiceName?.practiceName}} </span>
+                  <span class="ml-2">
+                    <img *ngIf="contract?.practiceId?.accountType === 'private practice'" data-toggle="tooltip" title="Private Practice" src="../../../../../../assets/img/common/Privatepractice_blue.png" alt="private" class="mr-2" style="margin-top: -6px;margin-left:-4px;height: 18px;width: 18px;">
+                    <img *ngIf="contract?.practiceId?.accountType === 'agency'" data-toggle="tooltip" title="Agency" src="../../../../../../assets/img/common/temporary-agency_blue.png" alt="agency" class="mr-2" style="margin-top: -5px;margin-left:-4px;height: 18px;width: 18px;">
+                     <img *ngIf="contract?.practiceId?.accountType === 'dso'" data-toggle="tooltip" title="Corporate" src="../../../../../../assets/img/common/teamwork_blue.png" alt="dso" class="mr-2" style="margin-top: -6px;margin-left:-4px;height: 18px;width: 18px;">
+                    </span>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4" *ngIf="contract?.jobPostId.jobType === jobTypes.TEMPORARY">
+                  <p data-toggle="tooltip" title="Job Title">{{contract?.jobPostId?.jobTitle?.toLowerCase() | titlecase }} <span class="badge badge-danger"
+                    *ngIf="contract?.updatedOffer">New</span>
+                    <span [ngClass]="{'badge badge-warning':true, 'JobLabelInProgress':contract.contractStatus == contractStatus.INPROGRESS, 'jobLabelOpen': contract.contractStatus == contractStatus.UPCOMING, 'jobLabelAap':contract.contractStatus == contractStatus.PAYTOACTIVATE, 'jobLabelCompleted':contract.contractStatus == contractStatus.COMPLETED, 'jobLabelCancelled':contract.contractStatus == contractStatus.CANCELLED, 'jobLabelCompletedMarkedAsPaid':contract.contractStatus == contractStatus.MARKASPAIDSTAFF}" >
+                      {{ contract.contractStatus == contractStatus.UPCOMING ? 'Upcoming': contract.contractStatus == contractStatus.INPROGRESS ? 'In progress' : contract.contractStatus == contractStatus.PAYTOACTIVATE ? 'Approve & Pay' : contract.contractStatus == contractStatus.COMPLETED && contract?.autoCompletedBy == 'practice'  ? 'Completed, Pending Approval & Pay' : contract.contractStatus == contractStatus.COMPLETED && contract?.autoCompletedBy == 'staff'  ? 'Completed - Timesheet Not Submitted' : contract.contractStatus == contractStatus.COMPLETED ? 'Completed' : contract.contractStatus == contractStatus.CANCELLED ? contract?.cancelContract?.cancelBy == 'staff'? 'Cancelled By Staff' : 'Cancelled By Practice': contract.contractStatus === 'Completed - Marked As Paid by Staff' ? 'Completed - Marked As Paid by Staff': contract.contractStatus === 'completed - Marked as paid by practice' ? 'completed - Marked as paid by practice' :''}} </span>
+                  </p>
+                </div>
+                <div class="col-md-4" *ngIf="contract?.jobPostId.jobType !== jobTypes.TEMPORARY">
+                  <p data-toggle="tooltip" title="Job Title">{{contract?.jobPostId?.jobTitle?.toLowerCase() | titlecase }} <span class="badge badge-danger"
+                    *ngIf="contract?.updatedOffer">New</span>
+                    <span [ngClass]="{'badge badge-warning':true, 'JobLabelInProgress':contract.contractStatus == contractStatus.INPROGRESS, 'jobLabelOpen': contract.contractStatus == contractStatus.UPCOMING, 'jobLabelAap':contract.contractStatus == contractStatus.PAYTOACTIVATE, 'jobLabelCompleted':contract.contractStatus == contractStatus.COMPLETED, 'jobLabelCancelled':contract.contractStatus == contractStatus.CANCELLED, 'jobLabelCompletedMarkedAsPaid':contract.contractStatus == contractStatus.MARKASPAIDSTAFF}" >
+                      {{ contract.contractStatus == contractStatus.UPCOMING ? 'Upcoming': contract.contractStatus == contractStatus.INPROGRESS ? 'In progress' : contract.contractStatus == contractStatus.PAYTOACTIVATE ? 'Approve & Pay' : contract.contractStatus == contractStatus.COMPLETED && contract?.autoCompletedBy == 'practice'  ? 'Completed, Pending Approval & Pay' : contract.contractStatus == contractStatus.COMPLETED && contract?.autoCompletedBy == 'staff'  ? 'Completed - Timesheet Not Submitted' : contract.contractStatus == contractStatus.COMPLETED ? 'Completed-Hired' : contract.contractStatus == contractStatus.CANCELLED ? contract?.cancelContract?.cancelBy == 'staff'? 'Cancelled By Staff' : 'Cancelled By Practice': contract.contractStatus === 'Completed - Marked As Paid by Staff' ? 'Completed - Marked As Paid by Staff': contract.contractStatus === 'completed - Marked as paid by practice' ? 'completed - Marked as paid by practice' :''}} </span>
+                  </p>
+                </div>
+                <!-- <div class="col-md-3">
+                </div> -->
+                <div class="col-md-4 m-padding-l-0 text-c-mv-l mobileAlignment mv-pr-0">
+                  <span class="mobileAlignment filledOnMargin" *ngIf="contract.contractStatus != contractStatus.PAYTOACTIVATE &&  contract.contractStatus != contractStatus.CANCELLED && contract.contractStatus != contractStatus.COMPLETED">Filled On :
+                    <span>{{contract?.jobPostId?.updatedAt | date: 'mediumDate' }} </span>
+                  </span>
+                  <span class="mobileAlignment filledOnMargin" *ngIf="contract.contractStatus == contractStatus.CANCELLED"> Cancelled On :
+                    <span>{{contract?.cancelContract?.cancelTime | date: 'mediumDate' }} </span>
+                  </span>
+                  <span class="filledOnMargin" *ngIf="contract.contractStatus == contractStatus.COMPLETED">Completed On :
+                    <span>{{contract?.jobPostId?.updatedAt | date: 'mediumDate' }} </span>
+                  </span>                 
+                  <span class="filledOnMargin" *ngIf="contract.contractStatus == contractStatus.PAYTOACTIVATE">Submitted On :
+                    <span>{{contract?.timeSheetDetails?.createdAt | date: 'mediumDate' }} </span>
+                  </span>
+                </div>
+                <div class="col-md-4 mv-mt-20">
+                  <div ngbDropdown class="d-inline-block float-right">
+                    <button class="btn btn-outline-primary btn-option" id="dropdownBasic1" ngbDropdownToggle><i
+                        class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                      <button ngbDropdownItem [routerLink]="['/staff/assignments/details',contract?._id]"
+                        title="view"><i class="fa fa-eye"></i>View</button>
+                      <!-- <button *ngIf="contract.contractStatus != contractStatus.CANCELLED" ngbDropdownItem (click)="showCancelContractModal(contract)" title="cancel"><i
+                          class=""></i>Cancel</button> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                      <!-- enable only if there is no assignment in progress and it is of today's date -->
+                      <!-- <button style="width: 130px;" class="clockIn" (click)="clockInOutAlert(contract, 'inprogress')"
+                        [disabled]="!(isTodaysAssignment(contract) && this.contractInProgress.length === 0)">Clock In
+                        Now</button>
+                      <button style="width: 150px;" class="btn btn-secondary" [disabled]="true">Submit
+                        Timesheet</button> -->
+                </div>
+
+                <div class="col-md-4">
+                  <!-- <p>{{getDescription(contract?.jobPostId?.description)}}</p> -->
+                  <!-- <p>Description
+                    <button type="button" class="btn btn-outline-primary btn-option" style="border-color: #ffffff;"
+                    (click)="contract.isCollapsedMoreInfo = !contract.isCollapsedMoreInfo"
+                    [attr.aria-expanded]="!contract.isCollapsedMoreInfo" aria-controls="collapseMoreInfo"> <i
+                      *ngIf="contract.isCollapsedMoreInfo" class="fa fa-caret-down" aria-hidden="true"></i> <i
+                      *ngIf="!contract.isCollapsedMoreInfo" class="fa fa-caret-up" aria-hidden="true"></i>
+                  </button>
+                  </p> -->
+                </div>
+                <div class="col-md-4">
+                  <!-- <div ngbDropdown class="d-inline-block float-right">
+                    <button class="btn btn-outline-primary btn-option" id="dropdownBasic1" ngbDropdownToggle><i
+                        class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                      <button ngbDropdownItem [routerLink]="['/staff/assignments/details',contract?._id]"
+                        title="view"><i class="fa fa-eye"></i>View</button>
+                      <button ngbDropdownItem (click)="cancelContract(contract)" title="cancel"><i
+                          class=""></i>Cancel</button>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+              <!-- <div class="row">
+                <div class="col-md-12 col-lg-12">
+                  <div style="width: 25%; margin-bottom: 10px;">
+                    <div>Contract has not started yet!</div>
+                    <div style="display: flex;">
+                      <div style="margin-right: 50px;">
+                        <button style="width: 130px;" class="clockIn" (click)="clockInOutAlert(contract, 'inprogress')"
+                          [disabled]="!(isTodaysAssignment(contract) && this.contractInProgress.length === 0)">Clock In
+                          Now</button>
+                      </div>
+                      <div>
+                        <button style="width: 150px;" class="btn btn-secondary" [disabled]="true">Submit
+                          Timesheet</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <p>{{contract?.jobPostId?.jobTitle?.toLowerCase() }}</p>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                  <p>{{getDescription(contract?.jobPostId?.description)}}</p>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                  <p align="text-center">
+                    <span style="margin-right: 50px;">Assignment ID: <a
+                        [routerLink]="['/staff/assignments/details',contract?._id]" data-toggle="tooltip"
+                        title="{{contract?._id}}">#{{ contract?._id | slice:18:24}} <span class="badge badge-danger"
+                          *ngIf="contract?.updatedOffer">New</span></a> </span>
+                    <span>Filled On :
+                      <span>{{contract?.jobPostId?.jobDate | date: 'mediumDate' }} </span>
+                    </span>
+                    <span class="pull-right">
+                      <div ngbDropdown class="d-inline-block">
+                        <button class="btn btn-outline-primary btn-option" id="dropdownBasic1" ngbDropdownToggle><i
+                            class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                          <button ngbDropdownItem [routerLink]="['/staff/assignments/details',contract?._id]"
+                            title="view"><i class="fa fa-eye"></i>View</button>
+                          <button ngbDropdownItem (click)="cancelContract(contract)" title="cancel"><i
+                              class=""></i>Cancel</button>
+                        </div>
+                      </div>
+                    </span>
+                  </p>
+                </div>
+              </div> -->
+              <!-- <div class="row">
+                <div class="col-md-11 text-center">
+                  <button type="button" class="btn btn-outline-primary btn-option" style="border-color: #ffffff;"
+                    (click)="contract.isCollapsedMoreInfo = !contract.isCollapsedMoreInfo"
+                    [attr.aria-expanded]="!contract.isCollapsedMoreInfo" aria-controls="collapseMoreInfo"> <i
+                      *ngIf="contract.isCollapsedMoreInfo" class="fa fa-caret-down" aria-hidden="true"></i> <i
+                      *ngIf="!contract.isCollapsedMoreInfo" class="fa fa-caret-up" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div> -->
+              <!-- 2nd Row -->
+              <div id="collapseMoreInfo" [ngbCollapse]="contract.isCollapsedMoreInfo">
+                <div class="row mt-1">
+                  <div class="col" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem">
+                        <h6>{{ contract?.jobPostId?.positionType }} </h6>
+                        <p class="card-text">Position </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem">
+                        <h6>{{contract?.jobPostId?.jobDate | date : 'mediumDate'}}</h6>
+                        <p class="card-text">{{contract?.jobPostId.jobType === jobTypes.TEMPORARY ?  'Assignment Date' : 'Start Date'}}</p>
+                      </div>
+                    </div>
+                  </div>
+                 
+                  <div class="col" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem">
+                        <h6 *ngIf="contract?.jobPostId?.jobType === 'temporary'">{{ contract?.jobPostId?.jobType | titlecase}}  </h6>
+                        <h6 *ngIf="contract?.jobPostId?.jobType === 'permanentFullTime'">Permanent Full Time</h6>
+                        <h6 *ngIf="contract?.jobPostId?.jobType === 'permanentPartTime'">Permanent Part Time</h6>
+                        <p class="card-text">Assignment Type </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem" *ngIf="contract?.jobPostId?.jobType === jobTypes.TEMPORARY">
+                        <h6>{{contract?.offerSteps[contract.offerStatus]?.startTime | date: 'hh:mm a'}} - {{contract?.offerSteps[contract.offerStatus]?.endTime |
+                          date: 'hh:mm a'}}</h6>
+                        <p class="card-text">Assignment Time</p>
+                      </div>
+                      <div class="card-body" style="padding: 1rem" *ngIf="contract?.jobPostId?.jobType !== jobTypes.TEMPORARY">
+                        <h6 *ngIf="contract?.jobPostId?.paymentMethod === 'hourly'">${{contract?.jobPostId?.desiredHourlyRate | number}} / {{contract?.jobPostId?.paymentMethod | titleCase}}</h6>
+                        <h6 *ngIf="contract?.jobPostId?.paymentMethod === 'salary'">${{contract?.jobPostId?.desiredSalaryRate | number}} / Annual</h6>
+                        <p class="card-text">Compensation</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-2" style="padding-right: 5px; padding-left: 5px;">
+                    <div class="card m-b-30">
+                      <div class="card-body" style="padding: 1rem" *ngIf="contract?.jobPostId?.jobType === jobTypes.TEMPORARY">
+                        <h6>$ {{ contract?.offerSteps[contract.offerStatus]?.amount | number}} / hr
+                        </h6>
+                        <p class="card-text">Rate</p>
+                      </div>
+                      <div class="card-body" style="padding: 1rem" *ngIf="contract?.jobPostId?.jobType !== jobTypes.TEMPORARY">
+                        <h6>{{ contract?.jobPostId.payCycle | titleCase}} 
+                        </h6>
+                        <p class="card-text">Pay Cycle</p>
+                      </div>
+                    </div>
+                  </div>
+                 
+                </div>
+                <div class="d-f">
+                  <div class="col-md-6 pl-0">
+                    <div>
+                      <div style="margin-right: 10px;" class="card-text text-capitalize">Location: {{contract?.practiceName?.addressLine_1}} {{contract?.practiceName?.addressLine_2}} {{contract?.practiceName?.city?.city | slice:3:contract?.practiceName?.city?.city.length}}, {{contract?.practiceName?.state?.state}} {{contract?.practiceName?.zipcode?.zipcode}}</div>
+                    </div>
+                  </div>
+                  <div  class="col-md-6 text-r m-padding-l-0">
+                    <span>Assignment ID: <a
+                      [routerLink]="['/staff/assignments/details',contract?._id]" data-toggle="tooltip"
+                      title="">#{{ contract?._id | slice:18:24}}</a> </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ul class="pagination justify-content-end" *ngIf="itemsPerPage < contractList.length">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="row">
+  <div class="col-sm-2">
+    <div class="form-group">
+      <select class="form-control" name="jobType" [(ngModel)]="dataFilter.jobPostId.jobType">
+        <option value="">All Assignment Type</option>
+        <option value="{{jobTypes.TEMPORARY}}">Temporary</option>
+        <option value="{{jobTypes.PERMANENTFULLTIME}}">Permanent Full Time</option>
+        <option value="{{jobTypes.PERMANENTPARTTIME}}">Permanent Part Time</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <div class="form-group">
+      <input type="text" class="form-control" name="jobTitle" [(ngModel)]="dataFilter.jobPostId.jobTitle" id="jobTitle"
+        placeholder="Job Title">
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <div class="form-group">
+      <dp-date-picker [(ngModel)]="dataFilter.jobPostId.jobDate" placeholder="Select Assignment Date"
+        [config]="datePickerConfig">
+      </dp-date-picker>
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <div class="form-group">
+      <select class="form-control text-capitalize" name="jobType" [(ngModel)]="dataFilter.contractListStatus">
+        <option value="">All Status</option>
+        <option [value]="status" *ngFor="let status of contractListStatusArr">
+          {{(status === contractListStatus.PAYTOACTIVATE) ? 'Waiting For Approval' : status}}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary btn-sm" (click)="setFilter()">Search</button>
+      <button type="button" class="btn btn-danger btn-sm" (click)="resetFilter()">Reset</button>
+    </div>
+  </div>
+</div> -->
+
+<!-- <div class="row pt-3">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-cogs"></i> Listings
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table table-bordered">
+          <thead class="nowrap">
+            <tr>
+              <th>Assignment ID</th>
+              <th [class.active]="order === 'jobPostId.jobTitle'" (click)="setOrder('jobPostId.jobTitle')">
+                Job Title
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'practiceId.firstName'" (click)="setOrder('practiceId.firstName')">
+                Practice Name
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'jobPostId.duration'" (click)="setOrder('jobPostId.duration')">
+                Assignment Duration
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'jobPostId.jobDate'" (click)="setOrder('jobPostId.jobDate')">Date of
+                Assignment
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'finalRate'" (click)="setOrder('finalRate')">
+                Rate
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th [class.active]="order === 'contractListStatus'" (click)="setOrder('contractListStatus')">
+                Status
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody *ngIf="contractList.length">
+            <tr
+              *ngFor="let contract of contractList | grdFilter: setDataFilter: false: ['jobPostId'] | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p}; let i = index;">
+              <td><a [routerLink]="['/staff/assignments/details',contract?._id]" data-toggle="tooltip"
+                  title="{{contract?._id}}">#{{ contract?._id | slice:18:24}}
+                  <span *ngIf="contract?.updatedOffer" class="badge badge-danger">New</span></a></td>
+              <td class="text-capitalize">{{contract?.jobPostId?.jobTitle?.toLowerCase()}}</td>
+              <td class="text-capitalize">{{contract?.practiceId?.firstName +' '+ contract?.practiceId?.lastName}}</td>
+              <td class="text-capitalize"> {{contract?.jobPostId?.duration}} Hours</td>
+              <td class="text-capitalize">{{contract?.jobPostId?.jobDate | date : 'mediumDate'}}</td>
+              <td class="text-capitalize">{{contract?.finalRate}}</td>
+              <td class="text-capitalize"><i [class]="contractListStatusColor[contract?.contractListStatus]"
+                  aria-hidden="true"></i>
+                {{(contract?.contractListStatus === contractListStatus?.PAYTOACTIVATE) ? 'Waiting For Approval' :
+                contract?.contractListStatus}}
+              </td>
+            </tr>
+          </tbody>
+          <tr class="text-center" *ngIf="!contractList.length">
+            <td colspan="7">
+              <h6>No Record Found !</h6>
+            </td>
+          </tr>
+        </table>
+        <ul class="pagination justify-content-end" *ngIf="itemsPerPage < contractList.length">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div> -->
+<div bsModal [config]="{backdrop: 'static', keyboard: false}" #cancelContractModal="bs-modal" class="modal fade"
+  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title  text-white">Cancel Assignment</h4>
+        <button type="button" class="close  text-white" (click)="cancelContractModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+         <div class="form-group row">
+            <div class="col-12">
+              Are you sure you want to cancel the assignment?
+            </div>
+         </div>
+        <div class="form-group row">
+          <div class="col-12">
+            <label class="changeColor"><b>Reason
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-primary': !cancelContractDetail?.reason, 'text-primary': cancelContractDetail?.reason}"></i>
+                </sup>
+              </b></label>
+            <!-- <app-ngx-editor placeholder="State the reason that you are cancelling the contract" [resizer]="false" name="reason"
+            [(ngModel)]="cancelContractDetail.reason" [config]="editorConfig" name="reason">
+          </app-ngx-editor> -->
+            <ckeditor [config]="ckeConfig" placeholder="State the reason that you are cancelling the assignment"
+              name="reason" [(ngModel)]="cancelContractDetail.reason"></ckeditor>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="cancelContractModal.hide()">Close</button>
+        <button type="button" class="btn btn-primary"  (click)="cancelContractByStaff()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,155 @@
+@import "~@cloudtalentrecruit/ng-design/assets/styles/0-plugins/plugins-dir";
+@import "~@cloudtalentrecruit/ng-design/assets/styles/1-base/variable";
+
+.outer-container {
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.62);
+
+  .inner-panel {
+    position: absolute;
+    right: 0px;
+    width: 675px;
+    height: 100%;
+    background-color: #fff;
+    padding: 1.5rem;
+    overflow: auto;
+    
+    .panel-header {
+      display: grid;
+      grid-template-columns: repeat(2, auto);
+      align-items: center;
+      justify-content: space-between;
+
+      .heading-icon-text {
+        display: grid;
+        grid-template-columns: repeat(2, auto);
+        align-items: center;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
+
+        .icon-mc, .icon-mcf {
+          font-size: 24px;
+          margin-right: 0.5rem;
+
+          &:before {
+            color: #1F47F5;
+          }
+        }
+      }
+
+      .mc-x {
+        font-size: 24px;
+        color: #84818A;
+        cursor: pointer;
+      }
+    }
+
+    .data-form {
+      padding: 1rem 0;
+
+      .section {
+        padding-top: 1rem;
+
+        mat-label {
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 20px;
+          color: #504F54;
+        }
+
+        .members-error {
+          font-size: 12px;
+          margin-top: 0.5rem;
+        }
+
+        .member-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr auto;
+          grid-gap: 0.5rem;
+          align-items: center;
+
+          .icon-mc {
+            font-size: 22px;
+            font-weight: 500;
+            color: #E3E1E5;
+            cursor: pointer;
+          }
+        }
+
+        .section-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-gap: 0.5rem;
+            align-items: center;
+
+            &.half {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .add-member-row {
+          font-size: 14px;
+          font-weight: 600;
+          line-height: 20px;
+          color: #1F47F5;
+          cursor: pointer;
+          display: grid;
+          grid-template-columns: repeat(2, auto);
+          grid-gap: 0.25rem;
+          justify-content: start;
+          align-items: center;
+          margin-top: 1rem;
+
+          .icon-mc {
+            font-size: 16px;
+          }
+        }
+
+        
+      }
+    }
+
+    .action-btns {
+        padding-top: 1rem;
+
+        .cancel-btn {
+          color: #25364D;
+          margin-left: 1rem;
+        }
+      }
+  }
+}
+
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.dragdrop-box:last-child {
+  border: none;
+}
+
+.dragdrop-list.cdk-drop-list-dragging .dragdrop-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.dragdrop-custom-placeholder {
+  background: rgb(238, 237, 237);
+  border: dotted 1px rgb(163, 163, 163);
+  min-height: 60px;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

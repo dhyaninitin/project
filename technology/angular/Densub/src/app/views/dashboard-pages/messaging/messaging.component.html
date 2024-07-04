@@ -1,0 +1,138 @@
+<div class="messaging">
+    <div class="inbox_msg" (window:resize)="onResize($event)" [ngClass]="{'mobilemess': mobilesceen < 768, 'activeMess':startedDensub }">
+        <div class="inbox_people">
+            <div class="headind_srch">
+                <div class="srch_bar">
+                    <div class="stylish-input-group">
+                        <input type="text" class="search-bar" [(ngModel)]="searchByName" placeholder="Search by {{userType}} name" (keyPress)=searchMessage()>
+                        <span class="input-group-addon">
+                            <button type="button" (click)="clearSearch()" *ngIf="searchByName.length" class="clear-button"> <i class="fa fa-times-circle" aria-hidden="true"></i> </button>
+                            <button type="button" (click)="searchMessage()"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="inbox_chat" *ngIf="filterUsers && filterUsers.length">
+                <div class="chat_list" *ngFor="let user of filterUsers; let i = index;" (click)="getMessagesThread(user)" [ngClass]="{'active_chat': user?.key == currentThread?.key }" >
+                    <div class="chat_people">
+                        <div class="chat_img"> <img class="img-fluid round-profile" *ngIf="user?.partnerData?.fullName" src="{{ user?.partnerData?.avatar ? user?.partnerData?.avatar : 'assets/img/avatars/avatar.png' }}" alt="">
+                        </div>
+                        <div class="chat_ib">
+                            <h5 class="chat-user-name text-capitalize"> {{ user?.partnerData?.fullName }} <span class="chat_date">{{ user?.message?.created_at | date: 'mediumDate' }}</span> </h5>
+                            <p class="job-title-name text-capitalize text-truncate">{{ user?.group?.title }}</p>
+                            <p [innerHtml]="user?.message?.text" class="text-truncate" *ngIf="!user?.is_attachment"></p>
+                            <p *ngIf="user?.is_attachment"><i class="fa fa-file"></i> Sent a File</p>
+                            <span class="panding_msg" *ngIf="user?.message?.recipients[currentUser._id]['unread'] > 0">{{ user?.message?.recipients[currentUser._id]['unread'] }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mesgs">
+
+            <div class="p-15 mobile-design">
+                <h2 class="m-0 text-capitalize"> <button class="d-md-none"> <i class="fa fa-chevron-left" aria-hidden="true"></i> </button> {{ currentThread?.partnerData?.fullName }}</h2>
+                <div class="d-flex">
+                    <p class="job-title-name text-capitalize">{{ currentThread?.group?.title }}</p>
+                    <p class="ml-3">Job Date: {{currentThread?.created_at | date: 'mediumDate' }}</p>
+                </div>
+            </div>
+            <div class="d-md-none user-info p-15">
+                <div class="d-flex align-items-baseline">
+                    <div class="user-img">
+                        <img src="../../../../assets/img/brand/densub-logo-final.jpg" class="chat-img img-fluid" alt="">
+                    </div>
+                    <div class="user-name">
+                        <h3>Staff Name</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="mesgs_inner" *ngIf="currentThread">
+                <div class="msg_history" #scrollMe>
+                    <div *ngFor="let message of messagesThread; let i = index;">
+                        <div class="incoming_msg" *ngIf="message?.sender !== currentUser?._id">
+                            <div class="incoming_msg_img">
+                                <img alt="" class="img-fluid msg-thread-profile img-circle" src="{{ currentThread?.recipients[partnerID]['avatar'] ? currentThread?.recipients[partnerID]['avatar'] : 'assets/img/avatars/avatar.png' }}">
+                                <span class="time_date"> {{ message?.created_at | date: 'h:mm a' }} </span>
+                            </div>
+                            <div class="received_msg">
+                                <div class="received_withd_msg position-relative" [ngClass]="{'imgSection':message?.is_attachment}">
+                                    <p [innerHtml]="message?.text" *ngIf="!message?.is_attachment"></p>
+                                    <div *ngIf="message?.is_attachment">
+                                        <img alt="" *ngIf="!message?.is_docFile" (click)="openLightBox(message?.text)" class="attachment-file-in-msg" src="{{ message?.text }}" >
+                                        <span *ngIf="message?.is_docFile">
+                                            {{ message?.fileName }}
+                                        </span>
+                                        <a href="{{ message?.text }}" target="_blank" class="btn clss download" download><i class="fa fa-download"> </i> Download</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="outgoing_msg" *ngIf="message?.sender === currentUser?._id">
+                            <div class="sent_msg">
+                                <div class="send_withd_msg position-relative" [ngClass]="{'imgSection':message?.is_attachment}">
+                                    <p [innerHtml]="message?.text"  *ngIf="!message?.is_attachment"></p>
+                                    <div *ngIf="message?.is_attachment">
+                                        <img alt="" *ngIf="!message?.is_docFile" (click)="openLightBox(message?.text)" class="attachment-file-in-msg" src="{{ message?.text }}" >
+                                        <span *ngIf="message?.is_docFile">
+                                            {{ message?.fileName }}
+                                        </span>
+                                        <a href="{{ message?.text }}" target="_blank"  class="btn clss download"  download>
+                                            <i class="fa fa-download mr-5p"> </i> Download</a>
+                                    </div>
+                                    <div class="more-option">
+                                        <i class="fas fa-trash" (click)="deleteMessage(message);"></i>
+                                        <i class="fa fa-edit" (click)="updateMessage(message);" *ngIf="!message?.is_attachment"></i>
+                                        <i class="fa fa-copy" (click)="copyText(message.text);" *ngIf="!message?.is_attachment"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="outgoing_msg_img">
+                                <img alt="" class="img-fluid img-circle msg-thread-profile" src="{{ currentThread?.recipients[currentUser?._id]['avatar'] ? currentThread?.recipients[currentUser?._id]['avatar'] : 'assets/img/avatars/avatar.png' }}">
+                                <span class="time_date"> {{ message?.created_at | date: 'h:mm a' }} </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+           
+            <div class="type_msg" *ngIf="currentThread">
+                <div class="input_msg_write position-relative">
+                    <div class="msg_box">
+                        <div *ngIf="sendFile" class="img-div">
+                            <button type="button" class="clear-img" (click)="clearImage()"> <i class="fa fa-times-circle" aria-hidden="true"></i> </button>
+                        <!-- <img alt="" class="preview-img" src="{{ fileDetails[0] }}" height="90" width="190"> -->
+                        <span>
+                            {{ fileDetails[1] }}
+                        </span>
+                        </div>
+                        <textarea id="messageInInout" class="write_msg" *ngIf='!sendFile' placeholder="Enter Your Message" rows="3" [(ngModel)]="messageInInout" (keyup.enter)="sendMessage()" name="messageInInout" (blur)="getCursorPosition()" (focus)="updateReadStatus()"></textarea>
+                    </div>
+                    <div class="btn_file pl-15">
+                        <span (clickOutside)="onClickedOutside($event)">
+                            <label class="show_emoji" (click)="this.displayEmoji = !(this.displayEmoji);">
+                                <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24m0 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20M8 7a2 2 0 1 0 0 4 2 2 0 0 0 0-4m8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-.8 8c-.7 1.2-1.8 2-3.3 2-1.5 0-2.7-.8-3.4-2H15m3-2H6a6 6 0 1 0 12 0"></path></svg>
+                            </label>
+                            <div class="emoji-div" *ngIf="displayEmoji">
+                                <emoji-mart (emojiClick)="addEmoji($event)" hideObsolete="false" title="Pick your emoji…" emoji="point_up"></emoji-mart>
+                            </div>
+                        </span>
+                        <label for="file_add" class="pin">
+                            <img src="../../../../../assets/img/common/pin.png" alt="">
+                            <!-- <input type="file" id="file_add" accept="image/.gif, .jpg, .png, .jfif" (change)="uploadFile($event)" class="d-none"> -->
+                            <input type="file" id="file_add" (change)="uploadFile($event)" class="d-none">
+                        </label>
+                        <button  class="btn btn-outline-primary btn-option btn-round w-100" type="button" *ngIf='!sendFile' (click)="sendMessage()">Send</button>
+                        <button  class="btn btn-outline-primary btn-option btn-round w-100" type="button" *ngIf='sendFile' (click)="updateFile()">Send file</button>
+                    </div>
+                </div>
+
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <pre [innerHtml]="messagesThread | json"></pre> -->

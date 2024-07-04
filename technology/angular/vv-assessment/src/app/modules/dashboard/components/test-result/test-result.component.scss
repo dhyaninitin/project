@@ -1,0 +1,97 @@
+table {
+  width: 100%;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.example-element-diagram {
+  min-width: 80px;
+  border: 2px solid black;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
+}
+
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.example-element-description {
+  padding: 16px;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+
+
+.exam-container {
+  width: 95%;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+.category {
+  margin-bottom: 20px;
+}
+
+.question {
+  background-color: white;
+  margin-left: 3%;
+  margin-right: 3%;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 1%;
+}
+
+.options {
+  list-style-type: none;
+  padding: 0;
+}
+
+.options li {
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 3px;
+  transition: background-color 0.3s;
+}
+
+.options li:hover {
+  background-color: #f1f1f1;
+}
+
+.options li.correct {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.options li.incorrect {
+  background-color: #f44336;
+  color: white;
+}
+
+.options li.selected {
+  font-weight: bold;
+}

@@ -1,0 +1,105 @@
+<table @stagger *ngIf="portalusers" [dataSource]="portalusers" matSortActive={{sortKey}} matSortDirection={{sortDirection}} matSortDisableClear matSort (matSortChange)="sortData($event)" class="w-full" mat-table>
+	<!-- Image Column -->
+	<ng-container matColumnDef="profile_image">
+		<th *matHeaderCellDef mat-header-cell></th>
+		<td *matCellDef="let item" class="w-8 min-w-8 pr-0" mat-cell>
+			<div *ngIf="item.profile_url == null" class="user-profile">
+				<!-- <img src="assets/images/face-7.jpg" class="avatar h-8 w-8 align-middle"> -->
+				<div class="user-letter-img fix-height h-8 w-8 align-middle"> {{getUserImage(item) }}</div>
+			</div>
+			<div *ngIf="item.profile_url != null" class="user-profile">
+				<img [src]="item['profile_url']" class="profile h-8 w-8 align-middle">
+			</div>
+		</td>
+	</ng-container>
+
+	
+	<ng-container matColumnDef="first_name">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>First Name</th>
+		<td *matCellDef="let item" mat-cell>{{ item?.first_name}}</td>
+	</ng-container>
+
+    <ng-container matColumnDef="last_name">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Last Name</th>
+		<td *matCellDef="let item" mat-cell>{{ item?.last_name}}</td>
+	</ng-container>
+
+    <ng-container matColumnDef="email">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Email</th>
+		<td *matCellDef="let item" mat-cell>{{ item?.email}}</td>
+	</ng-container>
+
+	<ng-container matColumnDef="phone">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Phone</th>
+		<td *matCellDef="let item" mat-cell>{{ item?.phone | phone: 'US'}}</td>
+	</ng-container>
+
+    <ng-container matColumnDef="role">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Role</th>
+		<td *matCellDef="let item" mat-cell>{{ getRoleName(item?.roles[0]?.name) }}</td>
+	</ng-container>
+    
+    <ng-container matColumnDef="location">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Location</th>
+		<td *matCellDef="let item" mat-cell> {{ locationName(item?.location) }}</td>
+	</ng-container>
+
+    <ng-container matColumnDef="roundrobin">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>RoundRobin</th>
+		<td *matCellDef="let item" mat-cell (click)="$event.stopPropagation();">
+            <mat-checkbox color="primary" *ngIf="showRRCheckbox(item)" (click)="onRRApply(item)" [(ngModel)]="item.roundrobin">
+            </mat-checkbox>
+        </td>
+	</ng-container>
+
+    <ng-container matColumnDef="is_active">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Active</th>
+		<td *matCellDef="let item" mat-cell (click)="$event.stopPropagation();">
+            <mat-slide-toggle color="primary" *ngIf="showToggle(item)" [checked]="item.is_active ? true : false"
+                (change)="toggleIsUserActive($event, item)">
+            </mat-slide-toggle>
+        </td>
+	</ng-container>
+
+	<ng-container matColumnDef="actions">
+		<th *matHeaderCellDef mat-header-cell></th>
+		<td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
+			<button *ngIf="edit_delete_permission && showAction(row)" (click)="$event.stopPropagation();getSelectedRecord(row)"
+				[matMenuTriggerData]="{ customer: row }"
+				[matMenuTriggerFor]="actionsMenu"
+				mat-icon-button
+				type="button">
+				<mat-icon svgIcon="mat:more_horiz"></mat-icon>
+			</button>
+		</td>
+	</ng-container>
+
+	<tr *matHeaderRowDef="getDisplayedColumns(); sticky: true" mat-header-row></tr>
+	<tr
+		*matRowDef="let row; columns: getDisplayedColumns();"
+			(click)="openDetailsPage(row)"
+			@fadeInUp
+			class="hover:bg-hover trans-ease-out cursor-pointer"
+			mat-row></tr>
+	</table> 
+
+<div class="text-center mt-2" *ngIf="(didFetch$ | async) && portalusers.length === 0">There are no users available. Please enter in a users to view them here</div> 
+
+<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+<ng-template let-customer="customer" matMenuContent>
+    <!-- <button mat-menu-item routerLink="./{{selectedRecordDetail?.id}}">
+        <mat-icon svgIcon="mat:remove_red_eye"></mat-icon>
+        <span>View</span>
+    </button> -->
+    <ng-container *ngIf="edit_delete_permission">
+    <button *ngIf="showAction(selectedRecordDetail)" routerLink="./{{selectedRecordDetail?.id}}" mat-menu-item>
+        <mat-icon svgIcon="mat:edit"></mat-icon>
+        <span>Edit</span>
+    </button>
+    <button *ngIf="showAction(selectedRecordDetail)" (click)="onDelete(selectedRecordDetail)" mat-menu-item>
+        <mat-icon svgIcon="mat:delete"></mat-icon>
+        <span>Delete</span>
+    </button>
+    </ng-container>
+</ng-template>
+</mat-menu>

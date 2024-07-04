@@ -1,0 +1,5 @@
+@import '../../offer.styles.scss';
+
+::ng-deep app-verify-offer #back-btn-from-verify-offer {
+    display: none;
+}

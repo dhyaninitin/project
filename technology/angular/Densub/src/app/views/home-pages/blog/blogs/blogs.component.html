@@ -1,0 +1,100 @@
+<Section class="innerbg-1 position-relative bg-overlay d-flex align-items-center">
+    <div class="container">
+        <div class="row mb-30 align-center">
+            <div class="col-12 text-center">
+                <h1 class="fs-50 clr-white position-relative z-index">Our Blogs</h1>
+            </div>
+        </div>
+    </div>
+</Section>
+
+<section class="blog-listing pt-50 pb-70 sm-pt-50 sm-pb-50 gray-bg">
+    <div class="container container-standard">
+        <div class="row">
+
+            <div class="col-lg-8">
+                <div class="row" *ngIf="!blogList?.length">
+                    <div class="col-lg-12">
+                        <h3 class="text-truncate anchor mt-30  text-center"><a>No data found!</a></h3>
+                    </div>
+                </div>
+                <div class="row" *ngIf="blogList?.length">
+                    <div class="col-sm-6" *ngFor="let blog of blogList | grdFilter: setDataFilter | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index;">
+                        <div class="blog bg-white box-shadow-1 mb-30">
+                            
+                            <div class="blog-img"
+                                [ngStyle]="{'background-image': 'url(' + blog?.photo + ')'}"
+                                >
+                                <a [routerLink]="['/blogs/single-blog', blog?._id]">
+                                    <div class="blog-date">
+                                        <span>{{ blog?.createdAt | date: 'dd' }}</span>
+                                        <span>{{ blog?.createdAt | date: 'MMM, yyyy' }}</span>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="blog-content p-10">
+                                <h3 class="text-truncate anchor"><a [routerLink]="['/blogs/single-blog', blog?._id]">{{ blog?.title }}</a></h3>
+                                <p [innerHtml]="blog?.description | truncate: 400"></p>
+                                <div class="blog-comment">Comments : <a [routerLink]="['/blogs/single-blog', blog?._id]">{{ blog?.commentCount }}</a></div>
+                                <div class="blog-category">Category : <a *ngFor="let category of blog?.categories; let ci = index;" (click)="setFilter(category?._id)">{{ category?.name }}{{ blog?.categories?.length-1 === ci ? '' : ', ' }}</a></div>
+                                <div class="clearfix"></div>
+                            </div><!-- End blog-content -->
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <ul class="pagination" *ngIf="itemsPerPage < blogList?.length">
+                            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                        </ul>
+                    </div><!-- END pagination -->
+
+                </div>
+            </div>
+
+            <aside class="col-lg-4">
+                <div class="left-sidebar ">
+
+                    <div class="bg-white box-shadow-1 widget widget-list">
+                        <div class="widget-title">
+                            <i class="fa fa-folder-open"></i> Categories
+                        </div>
+                        <ul>
+                            <li class="cat-item"><a (click)="resetFilter()">All Categories</a></li>
+                            <li class="cat-item" *ngFor="let category of categories; let i = index;"><a (click)="setFilter(category?._id)">{{ category?.name }}</a></li>
+                        </ul>
+                    </div><!-- End widget -->
+
+                    <div class="bg-white box-shadow-1 widget widget-recent-post">
+                        <div class="widget-title">
+                            <i class="fa fa-bolt"></i> Recent Posts
+                        </div>
+                        <ul>
+                            <li *ngFor="let blog of recentBlogs; let i = index;" [routerLink]="['/blogs/single-blog', blog?._id]">
+                                <a title="{{ blog?.title }}" class="thumb">
+                                    <img src="{{ blog?.photo }}" class="img-fluid" alt="">
+                                </a>
+                                <div class="recent-post-widget-content">
+                                    <h5 class="text-truncate"><a>{{ blog?.title }}</a></h5>
+                                    <p class="recent-post-date">Posted: {{ blog?.createdAt | dateAgo }}</p>
+                                    <!-- <p class="recent-post-date">Posted: 1 months ago</p> -->
+                                </div>
+                            </li>
+                        </ul>
+                    </div><!-- End widget -->
+
+                    <div class="bg-white box-shadow-1 widget widget-list">
+                        <div class="widget-title">
+                            <i class="fa fa-bolt"></i> Popular Posts
+                        </div>
+                        <ul>
+                            <li *ngFor="let blog of popularBlogs; let i = index;" class="text-truncate" [routerLink]="['/blogs/single-blog', blog?._id]"><a >{{ blog?.title }}</a></li>
+                        </ul>
+                    </div><!-- End widget -->
+
+                </div>
+            </aside>
+
+        </div>
+    </div>
+</section>

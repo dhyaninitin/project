@@ -1,0 +1,29 @@
+<div class="settings-wrap" [@fadeInOut]>
+  <div class="nav-search">
+    <mat-form-field floatLabel="never">
+      <span matPrefix class="icon-mcf mcf-search"></span>
+      <input matInput [autofocus]="autoFocusVal" placeholder="{{ln.TXT_SEARCH | translate}}...">
+    </mat-form-field>
+  </div>
+  <div class="settings__element">
+    <perfect-scrollbar>
+      <mat-accordion>
+        <mat-expansion-panel hideToggle (opened)="panelOpenState = true" (closed)="panelOpenState = false"
+          *ngFor="let parent of parents">
+          <mat-expansion-panel-header>
+            <mat-panel-title [routerLink]="parent.link" routerLinkActive="active"
+              [routerLinkActiveOptions]="{exact: parent.activeOption}" class="font-600 disable">
+              <span [ngClass]="parent.icon" class="icon"></span>
+              <span class="name">{{parent.name | translate | titlecase}}</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-list *ngFor='let item of parent.child'>
+            <mat-list-item [routerLink]="item.link" routerLinkActive="active" (click)="onNavigate()">
+              <span class="name">{{item.name | translate | titlecase}}</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </perfect-scrollbar>
+  </div>
+</div>

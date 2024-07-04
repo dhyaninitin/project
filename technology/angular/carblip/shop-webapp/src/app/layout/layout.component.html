@@ -1,0 +1,11 @@
+<div class="main-wrapper" [ngClass]="{'custom-request-background': showBackground()}" (scroll)="onWindowScroll();">
+	<div class="main-inner-wrapper">
+		<app-header class="header-wrapper"></app-header>
+		<app-sub-header *ngIf="showSubMenu"></app-sub-header>
+		<div class="content-wrapper">
+			<router-outlet></router-outlet>
+			<app-sub-footer class="sub-footer-wrapper"></app-sub-footer>
+		</div>
+	</div>
+	<app-footer class="footer-wrapper"></app-footer>
+</div>

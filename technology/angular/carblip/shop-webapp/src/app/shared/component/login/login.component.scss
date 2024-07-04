@@ -1,0 +1,16 @@
+::ng-deep .captcha re-captcha div{
+    width: auto;
+    height: 43px !important;
+    position: relative;
+    left: 8px;
+}
+
+.disable {
+    pointer-events: none;
+}
+
+.disabled {
+    pointer-events: none;  
+    opacity: 0.5;        
+    cursor: not-allowed;  
+  }

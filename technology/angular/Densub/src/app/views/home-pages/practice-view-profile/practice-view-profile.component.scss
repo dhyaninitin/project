@@ -1,0 +1,328 @@
+.member-profile-list {
+    padding: 15px 0;
+    border-bottom: 1px solid #eaeff5;
+    text-align: left;
+    display: table;
+    width: 100%;
+    .member-profile-thumb {
+        width: 70px;
+        float: left;
+    }
+    .member-profile-detail {
+        margin-left: 80px;
+        margin-top: 7px;
+        h4 {
+            margin: 0 0 2px 0;
+        }
+        span {
+            display: block;
+            line-height: 1.5;
+            font-size: 13px;
+        }
+    }
+    &:last-child {
+        border-bottom: none;
+    }
+
+}
+ul.job_listings {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  .job_listing {
+      border-bottom: 1px solid #ccc;
+      margin: 0;
+      padding: 1em;
+      position: relative;
+      @media (max-width:500px) {
+          flex-wrap: wrap;
+      }
+      .job_listing-clickbox {
+          color: inherit;
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0px;
+          width: 100%;
+          height: 100%;
+          display: block;
+          &:before {
+              content: '';
+              position: absolute;
+              left: 0;
+              top: 0;
+              bottom: 0;
+              background: #d9d9d95e;
+              transition: all 0.4s cubic-bezier(0.55, 0.06, 0.68, 0.19) 0s;
+              right: 0;
+              width: 0;
+          }
+          &:hover:before {
+              width: 100%;
+          }
+          &:hover {
+              border-left: 5px solid #1c4587;
+          }
+      }
+      .job_listing-logo {
+          width: 20%;
+          display: inline-block;
+          vertical-align: top;
+          margin-left: 25px;
+          @media screen and (min-width: 768px) {
+              width: 20%;
+              vertical-align: middle;
+          }
+          @media screen and (min-width: 992px) {
+              width: 10%;
+          }
+          @media screen and (min-width: 1200px) {
+              width: 6%;
+          }
+          @media (max-width:500px) {
+              width: 100%;
+          }
+          img {
+              max-width: 100%;
+              height: auto;
+          }
+      }
+      .job_listing-about {
+          width: 75%;
+          margin-left: 25px;
+          display: inline-block;
+          @media screen and (min-width: 768px) {
+              width: 96%;
+              margin-left: 4%;
+              vertical-align: middle;
+          }
+          @media screen and (min-width: 992px) {
+              width: 97%;
+              margin-left: 3%;
+          }
+          @media screen and (min-width: 1200px) {
+              width: 97%;
+              margin-left: 3%;
+          }
+          @media (max-width:500px) {
+              width: 100%;
+          }
+          .job_listing-position {
+              @media screen and (min-width: 992px) {
+                  width: 25%;
+              }
+              .job_listing-title {
+                  margin-bottom: 0;
+                  @media screen and (min-width: 992px) {
+                      font-size: 18px;
+                  }
+              }
+              .job_listing-company {
+                  font-size: 14px;
+              }
+          }
+          .job_listing-rate {
+              @media screen and (min-width: 992px) {
+                  width: 12%;
+              }
+
+          }
+          .HourlyRate {
+              @media screen and (min-width: 992px) {
+                  width: 10%;
+              }
+          }
+          .job_listing-location {
+              // padding-left: 20px;
+              // position: relative;
+              @media screen and (min-width: 992px) {
+                  width: 22%;
+              }
+              &:before {
+                  content: "\f041";
+                  font-family: 'FontAwesome';
+                  color: #1c4587;
+                  font-size: 22px;
+                  vertical-align: middle;
+                  margin: -1px 4px 0 0;
+                  // position: absolute;
+                  // left: 0;
+                  // top: -5px;
+              }
+          }
+          .job_listing-meta {
+              text-align: left;
+              margin: 0;
+              padding: 0;
+              list-style: none;
+              @media screen and (min-width: 992px) {
+                  text-align: center;
+                  width: 22%;
+              }
+              li {
+                  margin-bottom: .25em;
+                  &:last-child {
+                      margin-bottom: 0;
+                  }
+              }
+              .job-type.part-time {
+                  background-color: #1c4587;
+              }
+              .job-type.full-time {
+                  background-color: #5bbc2e;
+              }
+              .job-type.temporary {
+                  background-color: #ff5a5f;
+              }
+              .job-type, .job_listing-type {
+                  font-size: 12px;
+                  text-transform: uppercase;
+                  text-align: center;
+                  color: #fff;
+                  border-radius: 4px;
+                  display: inline-block;
+                  padding: 3px 10px;
+                  @media screen and (min-width: 992px) {
+                      display: block;
+                  }
+              }
+          }
+          .job_listing__column {
+              vertical-align: top;
+              margin-bottom: .5em;
+              @media screen and (min-width: 992px) {
+                  vertical-align: middle;
+                  display: inline-block;
+                  margin-right: 1%;
+                  margin-bottom: 0;
+              }
+              &:last-child {
+                  @media screen and (min-width: 992px) {
+                      margin-right: 0;
+                  }
+              }
+          }
+
+      }
+  }
+  &:last-child {
+      border-bottom: 0px;
+  }
+  .favorite {
+      position: absolute;
+      z-index: 9;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      // display: flex;
+      // align-items: center;
+      width: 40px;
+      // justify-content: center;
+      button {
+          @media (max-width:991.5px) {
+              margin-top: 10px;
+          }
+      }
+      i {
+          font-size: 17px;
+          vertical-align: text-bottom;
+      }
+  }
+}
+.nav-tabs-2 {
+    padding-bottom: 10px;
+    // border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    li {
+      position: relative;
+      a {
+        font-weight: bold;
+        font-size: 18px;
+
+        &.active {
+          color: #053178;
+          &:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: #053178;
+            bottom: -11px;
+
+          }
+        }
+      }
+      &:first-child {
+        a {
+          padding-left: 0px;
+        }
+      }
+    }
+}
+
+.semicolon-align {
+    table {
+        tbody {
+            float: left;
+            td {
+                span {
+                    float: right;
+                    padding-left: 10px;
+                    padding-right: 10px;
+                }
+                &:first-child {
+                    width: 229px;
+                    max-width: 229px;
+                }
+                &:last-child {
+                    max-width: calc(100% - 229px);
+                }
+            }
+
+            td.all-softwares {
+               span {
+                   padding-left: 0;
+                   padding-right: 5px;
+               }
+            }
+
+            td.all-address {
+                span {
+                    float: none;
+                    padding: 0;
+                }
+             }
+        }
+    }
+}
+.address-list {
+    label {
+        color: #053178;
+        margin: 0;
+        font-weight: 600;
+    }
+    tr {
+        td:first-child {
+            padding-left: 10px;
+        }
+    }
+}
+
+:host ::ng-deep .tab-container .tab-content{
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+}
+
+:host ::ng-deep .tab-content .tab-pane{
+    padding: 12px 0px 10px 2px;
+}
+
+
+:host ::ng-deep .img-fluid{
+    height: 90px !important;
+}

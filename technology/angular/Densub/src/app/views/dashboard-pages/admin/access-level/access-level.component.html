@@ -1,0 +1,152 @@
+<div class="row">
+  <div class="col-sm-12">
+    <h4 class="text-primary"> <b>Manage: Access Level</b> </h4>
+    <hr />
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-cogs"></i> Listings
+        <!-- <button class="btn btn-primary pull-right btn-sm mr-1" (click)="showSaveAccessLevelModal()"> <i
+          class="fa fa-plus">
+        </i> Add New Access Level</button> -->
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table table-bordered">
+          <thead class="nowrap">
+            <tr>
+              <th>S.NO</th>
+              <th [class.active]="order === 'label'" (click)="setOrder('label')">
+               Role
+                <span [hidden]="reverse">▼</span>
+                <span [hidden]="!reverse">▲</span>
+              </th>
+              <th> Created On </th>
+              <th> Updated On </th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="accessLevelList.length">
+            <tr
+              *ngFor="let accessLevel of accessLevelList | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index;">
+              <td>{{i+1}}</td>
+              <td>{{ accessLevel?.role.name }}</td>
+              <td>{{ accessLevel?.createdAt | date:'mediumDate' }}</td>
+              <td>{{ accessLevel?.updatedAt | date:'mediumDate' }}</td>
+              <td>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-primary"
+                    (click)="showSaveAccessLevelModal(accessLevel)"><i class="fa fa-edit"></i></button>
+                  <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal"
+                    (click)="showDeleteAccessLevel(accessLevel)"><i class="fa fa-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tr class="text-center" *ngIf="!accessLevelList.length">
+            <td colspan="15">
+              <h6>No Record Found !</h6>
+            </td>
+          </tr>
+        </table>
+
+        <ul class="pagination" *ngIf="itemsPerPage < accessLevelList.length">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #deleteAccessLevelModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white"><i class="fa fa-trash"></i> Delete Access Level</h4>
+        <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure want to delete this accessLevel?</p>
+        <p>
+          <b>Role:</b> {{currentAccessLevel?.role?.name}}<br />
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+        <button type="button" class="btn btn-danger" (click)="deleteAccessLevel()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #addEditAccessLevelModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white"> {{currentAccessLevel._id ? 'Edit' :'Add'}} Access Level</h4>
+        <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group row">
+          <div class="col-12">
+            <label><b>Role
+                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                    [ngClass]="{'text-danger': !currentAccessLevel?.role, 'text-primary': currentAccessLevel?.role}"></i>
+                </sup>
+              </b></label>
+            <select class="form-control" [compareWith]="selectedRole" name="role" [(ngModel)]="currentAccessLevel.role" (ngModelChange)="checkAlreadyExitLevelType(currentAccessLevel)">
+              <option value="null">Select Role</option>
+              <option *ngFor="let role of roleList" [ngValue]="role">{{role.name}}</option>
+            </select>
+              <div class="alert alert-danger" role="alert" *ngIf="!validCheckAlreadyExitLevel">
+                This Role already Exits. Please
+                Select Another Role.
+            </div>
+          </div>
+          <div class="col-12 pt-3 table-responsive">
+            <table class="table table-bordered">
+              <thead class="nowrap">
+                <tr class="text-uppercase">
+                  <th *ngFor="let level of currentAccessLevel.levelJson">
+                    {{level.menu}}
+                  </th>
+                </tr>
+                <tr>
+                  <td *ngFor="let menu of currentAccessLevel?.levelJson">
+                    <div class="form-check" *ngFor="let labels of menu?.level">
+                      <label class="form-check-label text-capitalize" *ngIf="labels.label == 'view'">
+                        <input class="form-check-input" name="IamAHuman" type="checkbox"
+                          [(ngModel)]="labels[labels.label]">
+                        {{labels.label}}
+                      </label>
+                      <label class="form-check-label text-capitalize" *ngIf="labels.label != 'view'">
+                        <input class="form-check-input" name="IamAHuman" type="checkbox"
+                          [(ngModel)]="labels[labels.label]" [disabled]="menu?.level[0].view == false">
+                        {{labels.label}}
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+        <button type="button" (click)="saveAccessLevelData()" class="btn btn-primary"
+          [disabled]="!currentAccessLevel.role || !validCheckAlreadyExitLevel">{{currentAccessLevel._id ? 'Update' :'Save'}}</button>
+        <!-- <pre [innerHtml]="roleList | json"> </pre> -->
+        <!-- <pre [innerHtml]="currentAccessLevel | json"> </pre> -->
+      </div>
+    </div>
+  </div>
+</div>

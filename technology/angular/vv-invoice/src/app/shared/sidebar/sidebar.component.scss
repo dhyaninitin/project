@@ -1,0 +1,68 @@
+.main-container {
+  margin-top: 2rem;
+}
+
+.profile-info {
+  text-align: center;
+}
+
+.profile-info img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
+.profile-info p {
+  text-align: center;
+  margin-top: 1em;
+  text-transform: capitalize;
+  color: black;
+}
+
+.image {
+  position: relative;
+  left: 18%;
+  right: 0%;
+  top: 0%;
+  bottom: 0%;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
+.edit-icon {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: none;
+
+  i {
+    vertical-align: middle;
+  }
+}
+
+.image:hover .edit-icon {
+  display: block;
+}
+
+mat-icon {
+  color: rgba(44, 42, 42, 0.82) !important;
+  vertical-align: middle;
+}
+
+a {
+  margin-left: 6px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.mat-list-item.is-active {
+  background-color: rgba(128, 128, 128, 0.052);
+}

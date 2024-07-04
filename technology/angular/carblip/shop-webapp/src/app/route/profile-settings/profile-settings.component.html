@@ -1,0 +1,155 @@
+<section class="container-fluid px-sm-0 px-md-3 py-sm-0 py-md-3 profile-page">
+  <div class="cb-container container">
+    <div class="row mx-lg-0">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-content px-lg-0">
+        <div class="row  mx-sm-0 mx-lg-auto">
+          <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 pr-0    order-lg-2 order-md-2 product-desc">
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12 px-0">
+                <img src="../../../assets/img/ic-a-4.png">
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 order-lg-1  order-md-1 product-filters">
+            <form #profileSettings="ngForm" [formGroup]="profileForm" class="profile-setting-form">
+              <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" class="form-control" formControlName="firstName" id="firstName" placeholder="First Name" (blur)="onFirstNameChange($event)" required appNoWhitespace>
+                <span *ngIf="profileForm?.controls['firstName'].touched && !profileForm?.controls['firstName'].valid"
+                  id="first-name-valid" class="validate-message">
+                  <span *ngIf="profileForm.controls['firstName'].hasError('required')">* The First Name is required.</span>
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" formControlName="email" pattern="[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,64}" id="email" (blur)="onEmailChange($event)" placeholder="email" required disabled>
+                <span *ngIf="profileForm?.controls['email'].touched && !profileForm?.controls['email'].valid"
+                  id="email-valid" class="validate-message">
+                  <span *ngIf="profileForm.controls['email'].hasError('required')">* The email address is required.</span>
+                  <span *ngIf="profileForm.controls['email'].hasError('pattern')">* The email address is invalid.</span>
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="validationServerPhone">Phone Number</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupPrepend3"><input type="text" class="form-control" formControlName="countryCode" placeholder="+1" readonly></span>
+                  </div>
+                  <input type="text" class="form-control" (blur)="onPhoneNumberChange($event)" inputmode="numeric" formControlName="phone" pattern="^\d{3}[- ]?\d{3}[- ]?\d{4}$" id="validationServerPhone" placeholder="310-555-1212"
+                    aria-describedby="inputGroupPrepend3" required appNoSpace appPhoneNumber>
+                </div>
+                <span *ngIf="profileForm?.controls['phone'].touched && !profileForm?.controls['phone'].valid"
+                  id="phone-valid" class="validate-message">
+                  <span *ngIf="profileForm.controls['phone'].hasError('required')">* The phone number is required.</span>
+                  <span *ngIf="profileForm.controls['phone'].hasError('pattern')">* The phone number is invalid.</span>
+                </span>
+              </div>
+              <div class="notice-msg">
+                <label class="form-label mb-0" for="exampleFormControlSelect1 form-label">*We will send you a one
+                  time SMS message. Carrier fees may apply.</label>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Sms Verification Modal -->
+<ng-template #smsVerificationModal let-modal let-c="close" let-d="dismiss">
+  <div class="modal-content cb-model">
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <h4 class="modal-title">
+        SMS Verification!
+      </h4>
+      <span class="modal-title-desc"
+        >Please enter 5-digit code texted to <br />
+        {{ phone }}.</span
+      >
+      <a class="close" (click)="onDismissVerificationModal()">
+        <img src="assets/img/close.png" class="ic_close" />
+      </a>
+    </div>
+    <!-- Modal body -->
+    <div class="modal-body">
+      <div class="text-center">
+        <form id="otp-form" class="otp-form" [formGroup]="otpForm">
+          <div class="form-group">
+            <input
+              [class.filledInput]="otpForm.get('otp1').value.length"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]{1}" 
+              class="form-control number"
+              formControlName="otp1"
+              (keyup)="autoFocusInputField($event, 1)"
+              maxlength="1"
+              required
+              appAutofocus
+              appNoWhitespace
+            />
+            <input
+              [class.filledInput]="otpForm.get('otp2').value.length"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]{1}" 
+              class="form-control number"
+              formControlName="otp2"
+              (keyup)="autoFocusInputField($event, 2)"
+              maxlength="1"
+              required
+              appNoWhitespace
+            />
+            <input
+              [class.filledInput]="otpForm.get('otp3').value.length"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]{1}" 
+              class="form-control number"
+              formControlName="otp3"
+              (keyup)="autoFocusInputField($event, 3)"
+              maxlength="1"
+              required
+              appNoWhitespace
+            />
+            <input
+              [class.filledInput]="otpForm.get('otp4').value.length"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]{1}" 
+              class="form-control number"
+              formControlName="otp4"
+              (keyup)="autoFocusInputField($event, 4)"
+              maxlength="1"
+              required
+              appNoWhitespace
+            />
+            <input
+              [class.filledInput]="otpForm.get('otp5').value.length"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]{1}" 
+              class="form-control number"
+              formControlName="otp5"
+              (keyup)="autoFocusInputField($event, 5)"
+              maxlength="1"
+              required
+              appNoWhitespace
+            />
+          </div>
+        </form>
+        <a class="resend-link" (click)="onResendCode()"
+          >Didn't get it? Resend code.</a
+        >
+        <a
+          class="btn btn-secondary ml-auto mr-auto d-block next-btn"
+          (click)="verifyOtp()"
+          >NEXT</a
+        >
+      </div>
+    </div>
+  </div>
+</ng-template>

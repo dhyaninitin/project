@@ -1,0 +1,116 @@
+<!-- <div class="row">
+    <div class="col-sm-12">
+        <h4 class="text-primary"> <b>Manage: Skills</b> </h4>
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+           <div class="card-body table-responsive">
+                <table class="table table-bordered">
+                    <thead class="nowrap">
+                        <tr>
+                            <th>S.NO</th>
+                            <th [class.active]="order === 'skill'" (click)="setOrder('skill')">
+                                Skills
+                                <span [hidden]="reverse">▼</span>
+                                <span [hidden]="!reverse">▲</span>
+                            </th>
+                            <th> Created On </th>
+                            <th> Updated On </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="skillsList.length">
+                        <tr
+                            *ngFor="let skill of skillsList | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index;">
+                            <td>{{i+1}}</td>
+                            <td>{{ skill?.skill }}</td>
+                            <td>{{ skill?.createdAt | date:'d/MM/yy h:mm' }}</td>
+                            <td>{{ skill?.updatedAt | date:'d/MM/yy h:mm' }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary"
+                                        (click)="showSaveSkillsModal(skill)"><i class="fa fa-edit"></i></button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal"
+                                        (click)="showDeleteSkill(skill)"><i class="fa fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tr class="text-center" *ngIf="!skillsList.length">
+                        <td colspan="15">
+                            <h6>No Record Found !</h6>
+                        </td>
+                    </tr>
+                </table>
+
+                <ul class="pagination" *ngIf="itemsPerPage < skillsList.length">
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #deleteSkill="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-white"><i class="fa fa-trash"></i> Delete Skills</h4>
+                <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure want to delete this skill?</p>
+                <p>
+                    <b>Skills :</b> {{currentSkill?.skill}}<br />
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+                <button type="button" class="btn btn-danger" (click)="deletePractice()">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div   bsModal [config]="{backdrop: 'static', keyboard: false}"  #addEditSkill="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-white"> {{currentSkill._id ? 'Edit' :'Add'}} Skill</h4>
+                <button type="button" class="close text-white" (click)="closeModel()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="col-12">
+                        <label><b>Skill
+                                <sup> <i class="fa fa-star star-icon" aria-hidden="true"
+                                        [ngClass]="{'text-danger': !currentSkill?.skill, 'text-primary': currentSkill?.skill}"></i>
+                                </sup>
+                            </b></label>
+                        <input type="text" name="skill" [(ngModel)]="currentSkill.skill" class="form-control"
+                            placeholder="Please enter skill" required
+                            (ngModelChange)="checkAlreadyExitSkill(currentSkill)">
+                        <div class="alert alert-danger" role="alert" *ngIf="!validCheckAlreadyExitSkill">
+                            This Skill already Exits. Please enter Another Skill.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+                <button type="button" class="btn btn-primary"
+                    [disabled]="!currentSkill.skill || !validCheckAlreadyExitSkill"
+                    (click)="savePracticeData()">{{currentSkill._id ? 'Update' :'Save'}}</button>
+            </div>
+        </div>
+    </div>
+</div> -->

@@ -1,0 +1,80 @@
+@import "~@cloudtalentrecruit/ng-design/assets/styles/0-plugins/plugins-dir.scss";
+@import "~@cloudtalentrecruit/ng-design/assets/styles/1-base/variable";
+
+.dashboard-container {
+  width: 100%;
+  height: auto;
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(5, 1fr);
+  padding-bottom: 5rem;
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  @media (min-width: 481px) and (max-width: 666px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (min-width: 667px) and (max-width: 767px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @include media-breakpoint-between(md, xl) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.dashboard-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  margin: 0 1.4rem;
+
+  ::ng-deep mc-brief-card {
+    height: 100%;
+    ::ng-deep .mc-card {
+      height: 100%;
+      &:hover {
+        box-shadow: inset 0px 0px 0px 2px $theme;
+      }
+    }
+  }
+}
+i {
+  // background-color: $theme-secondary;
+  // padding: .4rem;
+  // border-radius: 50%;
+  &::before {
+    color: $theme;
+  }
+}
+
+tr-brief-newline-card {
+  cursor: pointer;
+  i {
+    font-size: $fs-md !important;
+  }
+}
+
+.h-fnts {
+  font-size: $fs-default;
+  @include margin-top(1rem !important);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.6;
+}
+.p-fnts {
+  font-size: $fs-default;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+::ng-deep .mc-card-subtitle {
+  margin-top: 5px;
+}
+.col-sm-3 {
+  @media (min-width: 576px) {
+    flex: 0 0 auto;
+    width: 25% !important;
+  }
+}
+.title {
+  margin: 0 1.5rem;
+}

@@ -1,0 +1,103 @@
+<mat-drawer-container autosize class="right-drawer" [class.drawer-lg]="false">
+  <mat-drawer
+    #drawer
+    mode="over"
+    class="drawer-container"
+    position="end"
+    [autoFocus]="false"
+  >
+    <button
+      mat-icon-button
+      (click)="drawer.toggle(); toggleSideMenu()"
+      class="close-btn"
+    >
+      <span class="icon-mc mc-x"></span>
+    </button>
+
+    <app-add-component *ngIf="addComponent" [isOpen]="drawer.opened">
+    </app-add-component>
+  </mat-drawer>
+  <div class="container">
+    <tr-page-header [backUrl]="route_conf.OFFER_TEMPLATES">
+      <div page-title class="page-title">
+        <h2>Create Offer</h2>
+      </div>
+
+      <div page-action></div>
+    </tr-page-header>
+
+    <div class="stepper">
+      <mc-stepper
+        [stepNames]="stepperPages"
+        [currentStep]="activeStepper"
+        class="auth-step"
+      ></mc-stepper>
+    </div>
+
+    <div class="row">
+      <app-create-offer-first
+        *ngIf="activeStepper == 0"
+        [detectChangeOffer]="createOfferPage"
+        (isValid)="createOfferForm($event)"
+      ></app-create-offer-first>
+      <div class="inner-row">
+        <app-create-offer-second
+          *ngIf="activeStepper == 1"
+        ></app-create-offer-second>
+      </div>
+
+      <app-create-offer-final
+        *ngIf="activeStepper == 2"
+        (docFromLibrary)="uploadFromLibrary($event)"
+      ></app-create-offer-final>
+      <span class="buttons">
+        <div class="box-btn">
+          <button
+            mat-flat-button
+            color="#E5E5E5;"
+            (click)="cancelOfferCreation()"
+          >
+            Cancel
+          </button>
+        </div>
+        <div class="prev-button">
+          <button
+            mat-flat-button
+            *ngIf="activeStepper !== 0"
+            (click)="goToPrev()"
+          >
+            <p>Previous</p>
+          </button>
+        </div>
+        <div class="box-button">
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="goTonext()"
+            *ngIf="activeStepper == 1"
+            [disabled]="!enableSecond"
+          >
+            Next
+          </button>
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="goTonext()"
+            *ngIf="activeStepper == 2"
+            [disabled]="!templateService.enableFinish"
+          >
+            Finish
+          </button>
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="goTonext()"
+            *ngIf="activeStepper == 0"
+          >
+            Next
+          </button>
+        </div>
+      </span>
+    </div>
+  </div>
+</mat-drawer-container>

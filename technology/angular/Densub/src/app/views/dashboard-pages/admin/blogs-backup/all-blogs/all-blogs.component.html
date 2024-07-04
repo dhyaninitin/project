@@ -1,0 +1,354 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h4 class="text-primary">
+            <b>All Blogs</b>
+        </h4>
+        <hr>
+    </div>
+</div>
+
+<div class=" pb-40 pt-20">
+    <div class="card p-20">
+        <div class="card-body p-0">
+
+            <div class=" mb-30">
+                <ul class="nav nav-tabs-2 nav-tabs-1">
+                    <li class="nav-item">
+                        <a class="nav-link" [ngClass]="{'active':activeTab == 'allpost' }"
+                            (click)="activeTab = 'allpost'">Published (10)</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [ngClass]="{'active':activeTab == 'trashPost'}"
+                            (click)="activeTab = 'trashPost'">Trash</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- <div class="row justify-content-end mb-20">
+                <div class="align-items-center d-flex w-auto pl-15 pr-15">
+                    <input type="text" class="form-control w-100 mr-10" placeholder="Search Post">
+                </div>
+            </div> -->
+            <div class="row align-items-center">
+                <div class="align-items-center d-flex w-auto pl-15 pr-15 mb-20">
+                    <select class="form-control w-50 mr-10 w-100" name="action" id="bulk-action-selector-top">
+                        <option>Bulk Actions</option>
+                        <option>Edit</option>
+                        <option>Move to Trash</option>
+                    </select>
+                    <button class="btn btn-primary">Apply</button>
+                </div>
+            
+                <div class="w-auto pl-15 pr-15 mb-20">
+                    <div class="align-items-center d-flex w-100">
+                        <select class="form-control w-50 mr-10 w-100" name="action" id="bulk-action-selector-top">
+                            <option>All Categories</option>
+                            <option>Category 1</option>
+                            <option>Category 2</option>
+                            <option>Category 3</option>
+                            <option>Category 4</option>
+                        </select>
+                        <button class="btn btn-primary">Apply</button>
+                    </div>
+                </div>
+                <div class="w-auto pl-15 pr-15 mb-20">
+                    <div class="align-items-center d-flex w-100">
+                        <select class="form-control w-50 w-100" name="action" id="bulk-action-selector-top">
+                            <option>January 2020</option>
+                            <option>February 2020</option>
+                            <option>March 2020</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="w-auto pl-15 pr-15 mb-20">
+                    <div class="align-items-center d-flex w-100">
+                        <input type="text" class="form-control w-100 mr-10" placeholder="Search Post">
+                    </div>
+                </div>
+            </div>
+
+            <div class="published-post" *ngIf="activeTab ==='allpost'">
+                <div class="tablenav top">
+                
+                    <div class="tablenav-pages one-page text-right">
+                        <span class="displaying-num">14 items</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered-1 table-striped vertical-align-top fixed">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10px;">
+                                        <input id="cb-select-all-1" type="checkbox">
+                                    </th>
+                                    <th style="min-width:300px;width: 50%;">Title</th>
+                                    <th style="width: 37%;">Category</th>
+                                    <th style="width: 20px;">Date</th>
+                                </tr>
+                            </thead>
+                        
+                            <tbody id="the-list" data-wp-lists="list:tag">
+                                <tr id="tag-16" class="level-0">
+                                    <th scope="row" class="check-column">
+                                        <input type="checkbox" class="">
+                                    </th>
+                                    <td>Agency leadership
+                                        <div class="row-actions">
+                                            <span class="edit"><button class="pl-0 pr-0 btn-transparent clr-dark-blue">Edit</button> | </span>
+                                            <span class="delete"><button
+                                                    class=" btn-transparent clr-dark-blue pl-0 pr-0 clr-red">Delete</button> |
+                                            </span>
+                                            <span class="view"><button class="btn-transparent clr-dark-blue pl-0 pr-0">View</button></span>
+                                        </div>
+                                    </td>
+                                    <td class="description column-description" data-colname="Description"><span aria-hidden="true">—</span>
+                                    </td>
+                                    <td class="posts column-posts" data-colname="Count">Published <br>2017/12/23</td>
+                                </tr>
+                        
+                                <tr id="tag-16" class="level-0">
+                                    <th scope="row" class="check-column">
+                                        <input type="checkbox" class="">
+                                    </th>
+                                    <td>Agency leadership
+                                        <div class="row-actions">
+                                            <span class="edit"><button class="pl-0 pr-0 btn-transparent clr-dark-blue">Edit</button> | </span>
+                                            <span class="delete"><button
+                                                    class=" btn-transparent clr-dark-blue pl-0 pr-0 clr-red">Delete</button> |
+                                            </span>
+                                            <span class="view"><button class="btn-transparent clr-dark-blue pl-0 pr-0">View</button></span>
+                                        </div>
+                                    </td>
+                                    <td class="description column-description" data-colname="Description"><span aria-hidden="true">—</span>
+                                    </td>
+                                    <td class="posts column-posts" data-colname="Count">Published <br>2017/12/23</td>
+                                </tr>
+                        
+                                <tr id="tag-16" class="level-0">
+                                    <th scope="row" class="check-column">
+                                        <input type="checkbox" class="">
+                                    </th>
+                                    <td>Agency leadership
+                                        <div class="row-actions">
+                                            <span class="edit"><button class="pl-0 pr-0 btn-transparent clr-dark-blue">Edit</button> | </span>
+                                            <span class="delete"><button
+                                                    class=" btn-transparent clr-dark-blue pl-0 pr-0 clr-red">Delete</button> |
+                                            </span>
+                                            <span class="view"><button class="btn-transparent clr-dark-blue pl-0 pr-0">View</button></span>
+                                        </div>
+                                    </td>
+                                    <td class="description column-description" data-colname="Description"><span aria-hidden="true">—</span>
+                                    </td>
+                                    <td class="posts column-posts" data-colname="Count">Published <br>2017/12/23</td>
+                                </tr>
+                        
+                                <tr id="tag-16" class="level-0">
+                                    <th scope="row" class="check-column">
+                                        <input type="checkbox" class="">
+                                    </th>
+                                    <td>Agency leadership
+                                        <div class="row-actions">
+                                            <span class="edit"><button class="pl-0 pr-0 btn-transparent clr-dark-blue">Edit</button> | </span>
+                                            <span class="delete"><button
+                                                    class=" btn-transparent clr-dark-blue pl-0 pr-0 clr-red">Delete</button> |
+                                            </span>
+                                            <span class="view"><button class="btn-transparent clr-dark-blue pl-0 pr-0">View</button></span>
+                                        </div>
+                                    </td>
+                                    <td class="description column-description" data-colname="Description"><span aria-hidden="true">—</span>
+                                    </td>
+                                    <td class="posts column-posts" data-colname="Count">Published <br>2017/12/23</td>
+                                </tr>
+                        
+                        
+                                <tr id="tag-16" class="level-0">
+                                    <th scope="row" class="check-column">
+                                        <input type="checkbox" class="">
+                                    </th>
+                                    <td>Agency leadership
+                                        <div class="row-actions">
+                                            <span class="edit"><button class="pl-0 pr-0 btn-transparent clr-dark-blue">Edit</button> | </span>
+                                            <span class="delete"><button
+                                                    class=" btn-transparent clr-dark-blue pl-0 pr-0 clr-red">Delete</button> |
+                                            </span>
+                                            <span class="view"><button class="btn-transparent clr-dark-blue pl-0 pr-0">View</button></span>
+                                        </div>
+                                    </td>
+                                    <td class="description column-description" data-colname="Description"><span aria-hidden="true">—</span>
+                                    </td>
+                                    <td class="posts column-posts" data-colname="Count">Published <br>2017/12/23</td>
+                                </tr>
+                        
+                                <tr id="tag-16" class="level-0">
+                                    <th scope="row" class="check-column">
+                                        <input type="checkbox" class="">
+                                    </th>
+                                    <td>Agency leadership
+                                        <div class="row-actions">
+                                            <span class="edit"><button class="pl-0 pr-0 btn-transparent clr-dark-blue">Edit</button> | </span>
+                                            <span class="delete"><button
+                                                    class=" btn-transparent clr-dark-blue pl-0 pr-0 clr-red">Delete</button> |
+                                            </span>
+                                            <span class="view"><button class="btn-transparent clr-dark-blue pl-0 pr-0">View</button></span>
+                                        </div>
+                                    </td>
+                                    <td class="description column-description" data-colname="Description"><span aria-hidden="true">—</span>
+                                    </td>
+                                    <td class="posts column-posts" data-colname="Count">Published <br>2017/12/23</td>
+                                </tr>
+                        
+                                <tr id="tag-16" class="level-0">
+                                    <th scope="row" class="check-column">
+                                        <input type="checkbox" class="">
+                                    </th>
+                                    <td>Agency leadership
+                                        <div class="row-actions">
+                                            <span class="edit"><button class="pl-0 pr-0 btn-transparent clr-dark-blue">Edit</button> | </span>
+                                            <span class="delete"><button
+                                                    class=" btn-transparent clr-dark-blue pl-0 pr-0 clr-red">Delete</button> |
+                                            </span>
+                                            <span class="view"><button class="btn-transparent clr-dark-blue pl-0 pr-0">View</button></span>
+                                        </div>
+                                    </td>
+                                    <td class="description column-description" data-colname="Description"><span aria-hidden="true">—</span>
+                                    </td>
+                                    <td class="posts column-posts" data-colname="Count">Published <br>2017/12/23</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="trash-post" *ngIf="activeTab ==='trashPost'">
+                <div class="tablenav top">
+                
+                    <div class="tablenav-pages one-page text-right">
+                        <span class="displaying-num">14 items</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered-1 table-striped vertical-align-top fixed">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10px;">
+                                        <input id="cb-select-all-1" type="checkbox">
+                                    </th>
+                                    <th style="min-width:300px;width: 50%;">Title</th>
+                                    <th style="width: 37%;">Category</th>
+                                    <th style="width: 20px;">Date</th>
+                                </tr>
+                            </thead>
+                    
+                            <tbody id="the-list" data-wp-lists="list:tag">
+                                <tr id="tag-16" class="level-0">
+                                    <th scope="row" class="check-column">
+                                        <input type="checkbox" class="">
+                                    </th>
+                                    <td>Agency leadership
+                                        <div class="row-actions">
+                                            <span class="edit"><button class="pl-0 pr-0 btn-transparent clr-dark-blue">Restore</button> | </span>
+                                            <span class="delete"><button class=" btn-transparent clr-dark-blue pl-0 pr-0 clr-red">Delete Permanently </button></span>
+                                        </div>
+                                    </td>
+                                    <td class="description column-description" data-colname="Description"><span aria-hidden="true">—</span>
+                                    </td>
+                                    <td class="posts column-posts" data-colname="Count">Last Modified <br>2017/12/23</td>
+                                </tr>
+                    
+                                <tr id="tag-16" class="level-0">
+                                    <th scope="row" class="check-column">
+                                        <input type="checkbox" class="">
+                                    </th>
+                                    <td>Agency leadership
+                                        <div class="row-actions">
+                                            <span class="edit"><button class="pl-0 pr-0 btn-transparent clr-dark-blue">Restore</button> | </span>
+                                            <span class="delete"><button class=" btn-transparent clr-dark-blue pl-0 pr-0 clr-red">Delete Permanently </button></span>
+                                        </div>
+                                    </td>
+                                    <td class="description column-description" data-colname="Description"><span aria-hidden="true">—</span>
+                                    </td>
+                                    <td class="posts column-posts" data-colname="Count">Last Modified <br>2017/12/23</td>
+                                </tr>
+                    
+                                <tr id="tag-16" class="level-0">
+                                    <th scope="row" class="check-column">
+                                        <input type="checkbox" class="">
+                                    </th>
+                                    <td>Agency leadership
+                                        <div class="row-actions">
+                                            <span class="edit"><button class="pl-0 pr-0 btn-transparent clr-dark-blue">Restore</button> | </span>
+                                            <span class="delete"><button class=" btn-transparent clr-dark-blue pl-0 pr-0 clr-red">Delete Permanently </button></span>
+                                        </div>
+                                    </td>
+                                    <td class="description column-description" data-colname="Description"><span aria-hidden="true">—</span>
+                                    </td>
+                                    <td class="posts column-posts" data-colname="Count">Last Modified <br>2017/12/23</td>
+                                </tr>
+                    
+                                <tr id="tag-16" class="level-0">
+                                    <th scope="row" class="check-column">
+                                        <input type="checkbox" class="">
+                                    </th>
+                                    <td>Agency leadership
+                                        <div class="row-actions">
+                                            <span class="edit"><button class="pl-0 pr-0 btn-transparent clr-dark-blue">Restore</button> | </span>
+                                            <span class="delete"><button class=" btn-transparent clr-dark-blue pl-0 pr-0 clr-red">Delete Permanently </button></span>
+                                        </div>
+                                    </td>
+                                    <td class="description column-description" data-colname="Description"><span aria-hidden="true">—</span>
+                                    </td>
+                                    <td class="posts column-posts" data-colname="Count">Last Modified <br>2017/12/23</td>
+                                </tr>
+                    
+                    
+                                <tr id="tag-16" class="level-0">
+                                    <th scope="row" class="check-column">
+                                        <input type="checkbox" class="">
+                                    </th>
+                                    <td>Agency leadership
+                                        <div class="row-actions">
+                                            <span class="edit"><button class="pl-0 pr-0 btn-transparent clr-dark-blue">Restore</button> | </span>
+                                            <span class="delete"><button class=" btn-transparent clr-dark-blue pl-0 pr-0 clr-red">Delete Permanently </button></span>
+                                        </div>
+                                    </td>
+                                    <td class="description column-description" data-colname="Description"><span aria-hidden="true">—</span>
+                                    </td>
+                                    <td class="posts column-posts" data-colname="Count">Last Modified <br>2017/12/23</td>
+                                </tr>
+                    
+                                <tr id="tag-16" class="level-0">
+                                    <th scope="row" class="check-column">
+                                        <input type="checkbox" class="">
+                                    </th>
+                                    <td>Agency leadership
+                                        <div class="row-actions">
+                                            <span class="edit"><button class="pl-0 pr-0 btn-transparent clr-dark-blue">Restore</button> | </span>
+                                            <span class="delete"><button class=" btn-transparent clr-dark-blue pl-0 pr-0 clr-red">Delete Permanently </button></span>
+                                        </div>
+                                    </td>
+                                    <td class="description column-description" data-colname="Description"><span aria-hidden="true">—</span>
+                                    </td>
+                                    <td class="posts column-posts" data-colname="Count">Last Modified <br>2017/12/23</td>
+                                </tr>
+                    
+                                <tr id="tag-16" class="level-0">
+                                    <th scope="row" class="check-column">
+                                        <input type="checkbox" class="">
+                                    </th>
+                                    <td>Agency leadership
+                                        <div class="row-actions">
+                                            <span class="edit"><button class="pl-0 pr-0 btn-transparent clr-dark-blue">Restore</button> | </span>
+                                            <span class="delete"><button class=" btn-transparent clr-dark-blue pl-0 pr-0 clr-red">Delete Permanently </button></span>
+                                        </div>
+                                    </td>
+                                    <td class="description column-description" data-colname="Description"><span aria-hidden="true">—</span>
+                                    </td>
+                                    <td class="posts column-posts" data-colname="Count">Last Modified <br>2017/12/23</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

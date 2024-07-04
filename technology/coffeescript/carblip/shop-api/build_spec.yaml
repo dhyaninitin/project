@@ -1,0 +1,65 @@
+version: 0.1
+component: build
+timeoutInSeconds: 10000
+shell: bash
+failImmediatelyOnError: true
+    
+steps:
+  - type: Command
+    name: "Install NodeJS"
+    timeoutInSeconds: 650
+    failImmediatelyOnError: true
+    command: |
+      cd ${OCI_WORKSPACE_DIR}/${OCI_PRIMARY_SOURCE_NAME}
+      # install nvm
+      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+      export NVM_DIR="$HOME/.nvm"
+      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+      nvm install 10
+      echo "NODE VERSION: $(node -v)"
+      echo "NPM VERSION: $(npm -v)"
+    onFailure:
+      - type: Command
+        command: |
+          echo "Handling Failure"
+          echo "Failure successfully handled"
+        timeoutInSeconds: 40
+        runAs: root
+
+  - type: Command
+    name: "Install Dependencies"
+    timeoutInSeconds: 650
+    failImmediatelyOnError: true
+    command: |
+      npm install -g grunt-cli
+      npm install -g bower
+      npm install
+      bower install bootstrap --allow-root
+    onFailure:
+      - type: Command
+        command: |
+          echo "Install Dependencies Failed..."
+        timeoutInSeconds: 40
+        runAs: root
+
+  - type: Command
+    name: "Build App"
+    timeoutInSeconds: 650
+    failImmediatelyOnError: true
+    command: |
+      echo Build started on `date`
+      echo Compiling the Node.js code
+      grunt build
+      npm --prefix ./dist install
+      zip -rq shop-api.zip ./dist
+    onFailure:
+      - type: Command
+        command: |
+          echo "Build App Failed..."
+        timeoutInSeconds: 40
+        runAs: root
+
+outputArtifacts:
+  - name: shop-api
+    type: BINARY
+    location: ./shop-api.zip

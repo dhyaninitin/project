@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="d-flex justify-content-end">
+    <mat-icon mat-dialog-close>clear</mat-icon>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center" id="templatename">
+      <mat-label>Template Name:</mat-label>
+      <p class="ml-2 align-self-center" id="word-wrap">{{ data?.templateData[0]?.templatename }}</p>
+    </div>
+    <div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center" id="templatetype"> 
+      <mat-label>Template Type:</mat-label>
+      <p class="ml-2 align-self-center" id="word-wrap">{{ data?.templateData[0]?.templatetype }}</p>
+    </div>
+  </div>
+
+  <div class="render-editor-data">
+    <div [innerHTML]="getCode()"></div>
+  </div>
+</div>

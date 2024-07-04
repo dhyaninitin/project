@@ -1,0 +1,59 @@
+.main-container {
+  margin-right: 16px;
+  padding: 22px 18px;
+  .total-hours {
+    padding: 20px;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    border-top: 1px solid rgba(128, 128, 128, 0.433);
+    border-right: 1px solid rgba(128, 128, 128, 0.433);
+    border-left: 1px solid rgba(128, 128, 128, 0.433);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.433);
+
+    h2 {
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    h3 {
+      font-size: 12px;
+      font-weight: 300;
+      margin-top: 3px;
+      margin-left: 6px;
+    }
+
+    .green-ball {
+      width: 10px;
+      height: 10px;
+      background-color: green;
+      border-radius: 50%;
+      display: inline-block;
+      margin-left: 22px;
+      margin-top: 11px;
+    }
+  }
+
+  .screenshots {
+    padding: 12px;
+    border-right: 1px solid rgba(128, 128, 128, 0.433);
+    border-left: 1px solid rgba(128, 128, 128, 0.433);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.433);
+
+    .ss-timing {
+      margin-top: 5px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .green-ball {
+      width: 10px;
+      height: 10px;
+      background-color: green;
+      border-radius: 50%;
+      display: inline-block;
+      margin-left: 14px;
+      margin-top: 5px;
+      margin-right: 10px;
+    }
+  }
+}

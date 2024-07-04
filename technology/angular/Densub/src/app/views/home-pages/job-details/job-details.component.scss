@@ -1,0 +1,393 @@
+// @import "../../../../scss/card";
+.divdisabled{
+  opacity: 0.1;
+}
+.card{
+  position: relative;
+  margin: 20px;
+  // font-family: Merriweather Sans;
+  animation: slidein 1.2s;
+}
+.col-md-4{
+  .card{
+    height: 100%;
+  }
+}
+.bold-text{
+  font-weight:600;
+  .col-md-6{
+    margin-top: 5px;
+  }
+  .head{
+    color: #1b4587;
+  }
+}
+.job-list {
+  padding: 10px 0;
+  border-bottom: 1px solid #eaeff5;
+  text-align: left;
+  display: table;
+  width: 100%;
+  .job-thumb {
+      width: 70px;
+      float: left;
+  }
+  .job-detail {
+      h4 {
+          margin: 0 0 2px 0;
+          font-size: 16px;
+      }
+      span {
+          display: block;
+          line-height: 1.5;
+          font-size: 13px;
+      }
+  }
+  &:last-child {
+      border-bottom: none;
+  }
+}
+.card {
+  border: none;
+  margin-bottom: 24px;
+  -webkit-box-shadow: 0 0 13px 0 rgba(236,236,241,.44);
+  box-shadow: 0 0 13px 0 rgba(236,236,241,.44);
+}
+.job_title {
+    max-width: 70%;
+    @media (max-width:767px) {
+        max-width: 100%;
+    }
+}
+.job-post_detials  {
+    flex-wrap: wrap;
+    li {
+        flex: 0 0 50%;
+        max-width: 50%;
+        margin-bottom: 5px;
+        @media (max-width:767px) {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
+}
+.apply-btn_position {
+    position: absolute;
+    top: 40px;
+    right: 10px;
+
+    @media (max-width:767px) {
+        position: static;
+        margin-bottom: 20px;
+    }
+}
+
+
+.inner-job-type {
+    position: absolute;
+    top: -27px;
+    background: #000;
+    left: -10px;
+    color: #fff;
+    padding: 2px 5px 2px 15px;
+    &:before {
+        content: '';
+        border-width: 7px 7px 7px 7px;
+        position: absolute;
+        left: 3px;
+        bottom: -6px;
+        transform: rotate(45deg);
+        border-style: solid;
+    }
+    &.part-time {
+        background-color: #1c4587;
+        &:before {
+            border-color: transparent transparent #052862 transparent;
+        }
+    }
+    &.full-time {
+        background-color: #5bbc2e;
+        &:before {
+            border-color: transparent transparent #255a0c transparent;
+        }
+    }
+    &.temporary {
+        background-color: #ff5a5f;
+        &:before {
+            border-color: transparent transparent #ae171c transparent;
+        }
+    }
+}
+.make-fav {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: #eeeeee;
+    border-radius: 50%;
+    width: 25px;
+    padding: 0;
+    height: 25px;
+}
+
+.tool-tip [disabled] {
+    pointer-events: none;
+  }
+
+  .gray-btn{
+    color: black;
+    background-color: gray !important;
+    border-color: lightgray !important;
+  }
+
+.list-load{
+    overflow: hidden;
+    height: 100vh;
+}
+
+.list-load:hover{
+    overflow-y : scroll;
+}
+
+
+.job-card{
+    border: 1px solid lightgray;
+    border-radius: 5px;
+}
+
+.job-card:hover{
+    background: #e6e6e6 !important;
+    border-radius: 5px;
+}
+
+.active-card{
+    background: #e6e6e6 !important;
+    border-radius: 5px;
+}
+
+.about-practice{
+    background: darkgrey;
+    padding: 5px;
+    font-weight: 600;
+}
+
+.success{
+    background: none;
+    color: #3a9d5d;
+}
+
+.success:hover{
+    color: #fff;
+    background-color: #3ea662;
+    border-color: #3a9d5d;
+}
+
+.warning{
+    background: none;
+    //color: #c69500;
+    color: orange;
+}
+
+.warning:hover{
+    color:white;
+    //background-color: #d39e00;
+    //border-color: #c69500;
+    background-color: orange;
+    border-color: orange;
+}
+
+.danger{
+    background: none;
+    color: #f5302e;
+}
+
+.danger:hover{
+    color: #fff;
+    background-color: #f63c3a;
+    border-color: #f5302e;
+
+}
+
+.save-icon{
+    width: 40px;
+    height: 35px;
+    background: none;
+}
+
+.f-25{
+    font-size: 25px;
+}
+
+.f-12{
+    font-size: 13px;
+}
+
+.f-14{
+    font-size: 14px;
+}
+
+.f-13{
+    font-size: 13px;
+}
+
+.tag{
+    background: #e0e0e0;
+    padding-top: 3px;
+    border-radius: 20px;
+    padding-bottom: 3px;
+    padding-left: 8px;
+    padding-right: 7px;
+    font-size: 14px;
+    display: inline-block;
+}
+
+
+:host ::ng-deep ngx-copy-to-clipboard button{
+    border: 0;
+    background: none;
+    color: #007bff;
+}
+
+
+:host ::ng-deep ngx-copy-to-clipboard button:hover{
+    color: white;
+}
+
+:host ::ng-deep .job-title{
+    color: #565656;
+}
+
+.breakWord{
+    word-break: break-all;
+}
+
+.icon-position{
+    height: 20px;
+    width: 24px;
+}
+.remote-tag{
+    background: lightgreen;
+    padding: 2px;
+    font-size: 11px;
+    margin-top: 1px;
+    border-radius: 4px;
+}
+
+:host ::ng-deep .list-hide{
+    overflow: hidden !important;
+    height: 100% !important;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+// .w-50{
+//     width: 30% !important;
+// }
+
+@media screen and (max-width:600px) {
+    .mobile-view-text{
+        font-size: 12px;
+    }
+    .textCenter{
+        text-align: center;
+    }
+    .negotiate-model-icon{
+        font-size: 21px;
+        position: absolute;
+        top: 20px;
+    }
+    .w-50{
+        width: 86% !important;
+    }
+    .mobile-pt-5{
+        padding-bottom: 5px !important;
+    }
+}
+
+
+
+.text-orange{
+    color: orange;
+    
+}
+
+:host ::ng-deep .text-orange table tbody tr td .bs-timepicker-field{
+    color: orange !important;
+}
+
+:host ::ng-deep .text-orange table tbody tr td .btn-default{
+    color: orange !important;
+}
+
+.box-shad{
+    box-shadow: 0px 2px 18px -4px #d7d7d7;
+}
+
+.box-card{
+    //padding-left: 45px;
+    //padding-right: 45px;
+    padding-left: 40px;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+
+.btn-circle.btn-xl {
+    width: 60px;
+    height: 60px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    font-size: 24px;
+    line-height: 1.33;
+}
+
+.apply-tag{
+    position: absolute;
+    top: -3px;
+}
+
+:host ::ng-deep .timeselectors table tbody tr:first-child{
+    display: none;
+}
+
+:host ::ng-deep .timeselectors table tbody tr:last-child{
+    display: none;
+}
+
+:host ::ng-deep .timeselectors table tbody .form-group .bs-timepicker-field {
+    width: 65px;
+}
+
+.clr-dark-gray{
+    color: #404040 !important;
+}
+
+.negotiate-model-icon{
+    font-size: 22px;
+    position: absolute;
+    top: 21px;
+}
+
+.pri{
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 11px;
+    padding-right: 11px;
+}
+
+.label{
+    color: black !important;
+}
+
+:host ::ng-deep .img-fluid{
+    height: 90px !important;
+}
+
+.accept-offer-img{
+    height: 83px !important;
+    width: 83px  !important;
+  }
+
+
+.up-down-icons{
+    font-size: 11px;
+    margin-top: auto;
+}  

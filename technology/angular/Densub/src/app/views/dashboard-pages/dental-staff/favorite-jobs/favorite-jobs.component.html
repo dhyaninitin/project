@@ -1,0 +1,84 @@
+<div class="card-box ">
+  <div class="row">
+    <h4 class="page-title" style="padding-left: 15px;">Favorite Jobs</h4>
+  </div>
+</div>
+
+<div class="row pt-3">
+  <div class="col-lg-12">
+      <div class="card">
+          <div class="card-header">
+
+          </div>
+          <div class="card-body table-responsive">
+
+              <ul class="job_listings" *ngIf="favoriteList?.length">
+                <li  class="job_listing d-flex align-items-start align-items-lg-center"
+                *ngFor="let list of favoriteList | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index">
+                  <div class="favorite d-flex align-items-start align-items-lg-center justify-content-center">
+                    <button class="btn yellow p-5p"><i class="fa fa-star" (click)="removeFavorite(list,i)"  [ngClass] = "{'checked' :list?._id}"></i></button>
+                  </div>
+                  <a [routerLink]="['/job-details',list?.favoriteId?._id]" class="job_listing-clickbox"></a>
+                  <!-- <div class="job_listing-logo">
+                     <span [innerHtml]="list._id | slice:18:24">
+                    </span>
+                  </div> -->
+                  <div class="job_listing-about">
+                    <div class="job_listing-position job_listing__column">
+                      <h3 class="job_listing-title text-capitalize d-flex"><span class="text-truncate d-block mr-1">{{list?.favoriteId?.jobTitle}}</span>
+                        <small class="badge badge-primary" *ngIf="list?.favoriteId?.isApplied">{{list?.favoriteId?.isApplied}}</small>
+                      </h3>
+                      <div class="job_listing-company">
+                        <span>{{list?.favoriteId?.positionType}}</span>
+                      </div>
+                      <div class="job_listing-company">
+                        <span>{{list?.favoriteId?.jobDate | date : 'mediumDate'}}</span>
+                      </div>
+                    </div>
+
+                    <div class="job_listing-rate job_listing__column" >
+                      <div class="job_listing-company">
+                        <span>{{list?.favoriteId?.jobDate | date: 'mediumDate'}}</span>
+                      </div>
+                      <div class="job_listing-company job-size-reduce">
+                        <span>{{list?.favoriteId?.startTime | date: 'hh:mm a'}} - {{list?.favoriteId?.endTime | date: 'hh:mm a'}}</span>
+                      </div>
+                      <!-- <div class="job_listing-company">
+                        <span>{{list?.favoriteId?.endTime | date: 'hh:mm a'}}</span>
+                      </div> -->
+                    </div>
+
+                    <div class="job_listing-rate job_listing__column HourlyRate text-center" *ngIf="list?.favoriteId?.paymentMethod == paymentMethod.HOURLY">
+                      <span>${{list?.favoriteId?.desiredHourlyRate}} /hrs</span>
+                    </div>
+
+                    <div class="job_listing-rate job_listing__column HourlyRate text-center" *ngIf="list?.favoriteId?.paymentMethod == paymentMethod.SALARY">
+                      <span>${{list?.favoriteId?.desiredSalaryRate}}</span>
+                    </div>
+
+                    <div class="job_listing-location job_listing__column text-capitalize">
+                      <span>{{list?.favoriteId?.location}}</span>
+                    </div>
+
+                    <ul class="job_listing-meta job_listing__column">
+                      <li  *ngIf="list?.favoriteId?.jobType == jobTypes.PERMANENTPARTTIME"   class="job_listing-type job-type part-time">Permanent Part Time</li>
+                      <li *ngIf="list?.favoriteId?.jobType == jobTypes.PERMANENTFULLTIME" class="job_listing-type job-type full-time">Permanent Full Time</li>
+                      <li *ngIf="list?.favoriteId?.jobType == jobTypes.TEMPORARY" class="job_listing-type job-type temporary">Temporary</li>
+
+                      <li class="job_listing-date">Posted {{ list?.favoriteId?.createdAt| dateAgo}} </li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+              <ul class="job_listings" *ngIf="!favoriteList?.length">
+                <li  class="justify-content-center job_listing d-flex align-items-start align-items-lg-center">
+                  No Record Found
+                </li>
+              </ul>
+              <ul class="pagination justify-content-end mt-20" *ngIf="itemsPerPage < favoriteList.length">
+                  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+              </ul>
+          </div>
+      </div>
+  </div>
+</div>

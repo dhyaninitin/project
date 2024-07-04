@@ -1,0 +1,29 @@
+.main-container {
+  padding: 14px 14px;
+
+  .mat-table {
+    padding: 14px 14px;
+    overflow: auto;
+
+    mat-paginator {
+      margin-top: 1em;
+    }
+  }
+
+  #search_textbox,
+  #shortby_dropdown {
+    width: 100% !important;
+  }
+
+  @media only screen and (max-width: 605px) {
+    .container-fluid {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .col-6 {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+}

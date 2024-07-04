@@ -1,0 +1,85 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-4 col-md-6 col-sm-8 col-12 main-container mt-5">
+      <div class="logo d-flex justify-content-center mb-3">VV - Invoice</div>
+      <hr width="100%" />
+      <form [formGroup]="loginForm">
+        <mat-form-field appearance="outline">
+          <mat-label>Enter your email</mat-label>
+          <input
+            matInput
+            placeholder="johndoe@example.com"
+            formControlName="email"
+            autocomplete="off"
+            required
+          />
+          <mat-error *ngIf="email.touched && !email.valid">
+            <span *ngIf="email.errors?.['required']"> </span>
+            <span *ngIf="email.errors?.['pattern']"> </span>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Enter your password</mat-label>
+          <input
+            matInput
+            [type]="hide ? 'password' : 'text'"
+            formControlName="password"
+            minlength="8"
+            autocomplete="off"
+            required
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+          <mat-error *ngIf="password.touched && !password.valid">
+            <span *ngIf="password.errors?.['required']"> </span>
+            <span *ngIf="password.errors?.['pattern']"> </span>
+          </mat-error>
+        </mat-form-field>
+
+        <p class="mb-3">
+          Min length 8 characters. one uppercase one lowercase one number & one
+          special character
+        </p>
+
+        <div class="links mb-3">
+          <div class="row">
+            <div class="col-md-6 d-flex justify-content-start align-self-center">
+              <a routerLink="/auth/signup">Don't have an account ?</a>
+            </div>
+            <div class="col-md-6 d-flex justify-content-end align-self-center">
+              <a routerLink="/auth/forget-password">Forget Password ?</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="btns">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="login()"
+            [disabled]="!loginForm.valid"
+          >
+            Login
+          </button>
+        </div>
+
+        <span id="or" class="d-flex justify-content-center my-3">OR</span>
+
+        <div class="d-flex justify-content-center signup-with-google mb-3">
+          <span #loginRef
+            ><a><img [src]="googleIcon" />Login with google</a></span
+          >
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,112 @@
+.modal {
+  display: block;
+}
+.modal-footer {
+  justify-content: flex-start;
+}
+.close {
+  cursor: pointer;
+}
+
+.display_none{
+  display: none;
+}
+
+#card-element{
+   width: 100%;
+}
+.ml-15 {
+    margin-left:15px;
+}
+
+/* mv-slider .slider.slider-horizontal {
+  width: 80% !important;
+} */
+
+:host ::ng-deep .btn-link{
+    font-weight: 600;
+    color: #053178;
+    font-size: 15px;
+}
+
+.clr-dark-blue{
+  color: #053178;
+}
+
+:host ::ng-deep .btn-link:hover{
+  color : #053178;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+:host ::ng-deep .btn:disabled{
+    background: lightgray !important;
+    color: black !important;
+}
+
+:host ::ng-deep .ng5-slider .ng5-slider-pointer {
+  background-color: #2768cf;
+}
+
+:host ::ng-deep .ng5-slider .ng5-slider-selection {
+  background: #2768cf;
+}
+
+:host ::ng-deep .disableSlider{
+  pointer-events: none;
+}
+
+:host ::ng-deep .multiselect-dropdown .dropdown-list{
+  position: relative;
+}
+
+:host ::ng-deep label{
+  color: black;
+}
+
+:host ::ng-deep h6{
+  color: black;
+}
+
+:host ::ng-deep .ng-invalid{
+  border-color: red;
+}
+
+
+.fw-600{
+  font-weight: 600;
+}
+
+:host ::ng-deep .text-gray{
+  color:  #333333;
+  font-weight: 600;
+}
+
+@media screen and (max-width:600px) {
+  .mobile-text{
+    font-size: 13px;
+  }
+  .mobile-top-margin{
+    margin-top: 12px;
+  }
+  .mobile-slider-view{
+    margin-top: 12px;
+    padding-left: 0px !important;
+  }
+  .mobile-btn{
+    font-size: 11px !important;
+    padding: 9px !important;
+  }
+}
+
+:host ::ng-deep .multiselect-dropdown .dropdown-btn {
+  border: 1px solid #e4e7ea !important;
+}
+
+:host ::ng-deep .multiselect-dropdown .dropdown-btn:focus{
+  border-color: #8ad4ee !important;
+}
+
+.scroll{
+  overflow-y: scroll;
+}

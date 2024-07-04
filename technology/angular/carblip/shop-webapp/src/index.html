@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name = "pinterest" content = "nopin" description = "Sorry, you can't save from Carblip.com!" />
+  <title>CarBlip – Buy or Lease Your Next Car and Get It Delivered</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,600,600i,700,700i&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+
+    .dot-main {
+      position: absolute;
+      fill: rgb(255, 255, 255);
+      stroke-width: 1px;
+      stroke: none;
+      top: 398px;
+      width: 16px;
+      height: 16px;
+      transform-origin: 7.90492px 7.90492px 0px;
+      left: 180px;
+    }
+
+    .dot-1 {
+      top: 358px;
+    }
+
+    .dot-2 {
+      left: 140px;
+      top: 398px;
+    }
+
+    .dot-3 {
+      left: 0px;
+      top: 0px;
+    }
+
+    .dot-4 {
+      left: 0px;
+      top: 0px;
+    }
+
+    .dot-4-group {
+      position: absolute;
+      width: 15.9986px;
+      height: 15.9986px;
+      transform: translate3d(-40px, 0px, 0px);
+      opacity: 1;
+      left: 40px;
+      top: 39.0757px;
+    }
+
+    .dot-3-group {
+      position: absolute;
+      width: 15.9986px;
+      height: 15.9986px;
+      transform-style: preserve-3d;
+      transform: translate3d(0px, -39px, 0px);
+      opacity: 1;
+      left: 0px;
+      top: 78.0757px;
+    }
+
+    .dot-2-group {
+      position: absolute;
+      width: 15.9986px;
+      height: 15.9986px;
+      transform: translate3d(40px, 0px, 0px);
+      opacity: 1;
+      left: -40px;
+      top: 39.0757px;
+    }
+
+    .dot-2-position {
+      left: 0px;
+      top: 0px;
+    }
+
+    .dot-1-group {
+      position: absolute;
+      width: 15.9986px;
+      height: 15.9986px;
+      transform: translate3d(0px, 40px, 0px);
+      opacity: 1;
+      left: 0px;
+      top: -0.924316px;
+    }
+
+    .dot-1-position {
+      left: 0px;
+      top: 0px;
+    }
+
+    .dot-main-group {
+      position: absolute;
+      width: 15.9986px;
+      height: 15.9986px;
+      opacity: 1;
+      left: 0px;
+      top: 39.0757px;
+    }
+
+    .dot-main-position {
+      top: 0px;
+      left: 0px;
+    }
+
+    @keyframes dot-4-group-animation-keyframes {
+      0% {
+        transform: translate3d(-40px, 0px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      1.6129% {
+        transform: translate3d(-40px, 0px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      9.6774% {
+        transform: translate3d(6px, 1px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      19.3548% {
+        transform: translate3d(-16px, 22px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      29.0323% {
+        transform: translate3d(-40px, 46px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      38.7097% {
+        transform: translate3d(-62px, 25px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      48.3871% {
+        transform: translate3d(-86px, 0px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      58.0645% {
+        transform: translate3d(-65px, -21px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      67.7419% {
+        transform: translate3d(-41px, -45px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      77.4194% {
+        transform: translate3d(-19px, -24px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      87.0968% {
+        transform: translate3d(6px, 0px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      96.7742% {
+        transform: translate3d(-40px, 0px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      100% {
+        transform: translate3d(-40px, 0px, 0px);
+        opacity: 0;
+        animation-timing-function: linear;
+      }
+    }
+
+    #loading-inner-wrapper .dot-4-group-animation {
+      animation: dot-4-group-animation-keyframes 3.1s infinite;
+    }
+
+    @keyframes dot-3-group-animation-keyframes {
+      0% {
+        transform: translate3d(0px, -39px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      1.6129% {
+        transform: translate3d(0px, -39px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      9.6774% {
+        transform: translate3d(0px, 7px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      19.3548% {
+        transform: translate3d(-22px, -14px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      29.0323% {
+        transform: translate3d(-46px, -38px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      38.7097% {
+        transform: translate3d(-24px, -60px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      48.3871% {
+        transform: translate3d(0px, -85px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      58.0645% {
+        transform: translate3d(21px, -63px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      67.7419% {
+        transform: translate3d(46px, -38px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      77.4194% {
+        transform: translate3d(24px, -17px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      87.0968% {
+        transform: translate3d(0px, 8px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      96.7742% {
+        transform: translate3d(0px, -39px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      100% {
+        transform: translate3d(0px, -39px, 0px);
+        opacity: 0;
+        animation-timing-function: linear;
+      }
+    }
+
+    #loading-inner-wrapper .dot-3-group-animation {
+      animation: dot-3-group-animation-keyframes 3.1s infinite;
+    }
+
+    @keyframes dot-2-group-animation-keyframes {
+      0% {
+        transform: translate3d(40px, 0px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      1.6129% {
+        transform: translate3d(40px, 0px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      9.6774% {
+        transform: translate3d(-6px, 0px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      19.3548% {
+        transform: translate3d(15px, -21px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      29.0323% {
+        transform: translate3d(40px, -45px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      38.7097% {
+        transform: translate3d(61px, -24px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      48.3871% {
+        transform: translate3d(86px, 0px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      58.0645% {
+        transform: translate3d(64px, 22px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      67.7419% {
+        transform: translate3d(40px, 46px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      77.4194% {
+        transform: translate3d(18px, 25px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      87.0968% {
+        transform: translate3d(-6px, 0px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      96.7742% {
+        transform: translate3d(40px, 0px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      100% {
+        transform: translate3d(40px, 0px, 0px);
+        opacity: 0;
+        animation-timing-function: linear;
+      }
+    }
+
+    #loading-inner-wrapper .dot-2-group-animation {
+      animation: dot-2-group-animation-keyframes 3.1s infinite;
+    }
+
+    @keyframes dot-1-group-animation-keyframes {
+      0% {
+        transform: translate3d(0px, 40px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      1.6129% {
+        transform: translate3d(0px, 40px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      9.6774% {
+        transform: translate3d(0px, -5px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      19.3548% {
+        transform: translate3d(21px, 16px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      29.0323% {
+        transform: translate3d(46px, 40px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      38.7097% {
+        transform: translate3d(24px, 62px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      48.3871% {
+        transform: translate3d(0px, 87px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      58.0645% {
+        transform: translate3d(-22px, 65px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      67.7419% {
+        transform: translate3d(-46px, 40px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      77.4194% {
+        transform: translate3d(-25px, 19px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      87.0968% {
+        transform: translate3d(0px, -5px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      96.7742% {
+        transform: translate3d(0px, 40px, 0px);
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      100% {
+        transform: translate3d(0px, 40px, 0px);
+        opacity: 0;
+        animation-timing-function: linear;
+      }
+    }
+
+    #loading-inner-wrapper .dot-1-group-animation {
+      animation: dot-1-group-animation-keyframes 3.1s infinite;
+    }
+
+    @keyframes dot-main-group-animation-keyframes {
+      0% {
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      96.7742% {
+        opacity: 1;
+        animation-timing-function: ease-out;
+      }
+
+      100% {
+        opacity: 0;
+        animation-timing-function: linear;
+      }
+    }
+
+    #loading-inner-wrapper .dot-main-group-animation {
+      animation: dot-main-group-animation-keyframes 3.1s infinite;
+    }
+
+    .loading-inner-wrapper {
+      position: absolute;
+      width: 15.9979px;
+      top: 50%;
+      transform-style: preserve-3d;
+      left: 50%;
+      transform: translate3d(-7px, -45px, 0px) scale3d(0.87, 0.87, 0.87);
+    }
+
+    .loading-wrapper {
+      width: 100%;
+      height: 100vh;
+      transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+      perspective: 1400px;
+      transform-style: preserve-3d;
+      background-image: none;
+      /* background-color: rgb(245, 147, 0); */
+      background-color: #2f2f2f;
+    }
+
+  </style>
+</head>
+
+<body>
+  <app-root>
+    <div class="loading-wrapper">
+      <div class="loading-inner-wrapper" id="loading-inner-wrapper">
+        <div class="dot-main-group dot-main-group-animation" id="dot-main-group">
+          <svg data-object-shape="oval" preserveAspectRatio="none" viewBox="0 0 16 16"
+            class="dot-main dot-main-position" id="dot-main">
+            <ellipse cx="50%" cy="50%" rx="7.5" ry="7.5"></ellipse>
+          </svg>
+        </div>
+        <div class="dot-1-group dot-1-group-animation" id="dot-1-group">
+          <svg data-object-shape="oval" preserveAspectRatio="none" viewBox="0 0 16 16"
+            class="dot-main dot-1 dot-1-position" id="dot-1">
+            <ellipse cx="50%" cy="50%" rx="7.5" ry="7.5"></ellipse>
+          </svg>
+        </div>
+        <div class="dot-2-group dot-2-group-animation" id="dot-2-group">
+          <svg data-object-shape="oval" preserveAspectRatio="none" viewBox="0 0 16 16"
+            class="dot-main dot-1 dot-2 dot-2-position" id="dot-2">
+            <ellipse cx="50%" cy="50%" rx="7.5" ry="7.5"></ellipse>
+          </svg>
+        </div>
+        <div class="dot-3-group dot-3-group-animation" id="dot-3-group">
+          <svg data-object-shape="oval" preserveAspectRatio="none" viewBox="0 0 16 16"
+            class="dot-main dot-1 dot-2 dot-3" id="dot-3">
+            <ellipse cx="50%" cy="50%" rx="7.5" ry="7.5"></ellipse>
+          </svg>
+        </div>
+        <div class="dot-4-group dot-4-group-animation" id="dot-4-group">
+          <svg data-object-shape="oval" preserveAspectRatio="none" viewBox="0 0 16 16"
+            class="dot-main dot-1 dot-2 dot-4" id="dot-4">
+            <ellipse cx="50%" cy="50%" rx="7.5" ry="7.5"></ellipse>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </app-root>
+</body>
+
+</html>

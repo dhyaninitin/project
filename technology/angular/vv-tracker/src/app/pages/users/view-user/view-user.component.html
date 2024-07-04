@@ -1,0 +1,18 @@
+<div class="container mx-auto">
+  <div class="flex justify-end close-icon">
+    <mat-icon svgIcon="mat:close" (click)="onClose()"></mat-icon>
+  </div>
+
+  <div class="row">
+    <mat-tab-group
+      #tabRef
+      (selectedTabChange)="tabChanger(tabRef.selectedIndex)"
+      mat-stretch-tabs="false"
+      mat-align-tabs="center"
+    >
+      <mat-tab label="DAILY"> <vex-daily *ngIf="selectedTab === 0" [idOfUser]="id"></vex-daily> </mat-tab>
+      <mat-tab label="WEEKLY"> <vex-weekly *ngIf="selectedTab === 1" [idOfUser]="id"></vex-weekly> </mat-tab>
+      <mat-tab label="MONTHLY"> <vex-monthly *ngIf="selectedTab === 2" [idOfUser]="id"></vex-monthly> </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

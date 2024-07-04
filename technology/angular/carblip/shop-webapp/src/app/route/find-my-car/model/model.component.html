@@ -1,0 +1,59 @@
+<section class="container-fluid px-0 py-3">
+  <div class="cb-container container">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12 px-0 pb-3" *ngIf="modelYearList && modelYearList.length > 1">
+        <div class="model-year">
+          <span
+            class="model-year__item"
+            [ngClass]="{ selected: modelYearSelected == item.id }"
+            *ngFor="let item of modelYearList"
+            (click)="onModelYearSelect(item)"
+          >
+            {{ item.label }}
+          </span>
+        </div>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+        <div id="model" role="tabpanel" class="content" *ngIf="(didFetch$ | async) && isDataReady">
+          <div class="row mx-0">
+            <div class="product-cntnr" *ngFor="let item of models">
+              <div
+                class="model-contianer row"
+                [ngClass]="{ active: (selectedModelId$ | async) == item.id }"
+                (click)="onSelectModel(item.id)"
+              >
+                <div
+                  class="model-img px-0 col-lg-12 col-md-12 col-sm-12 col-12 "
+                >
+                  <img
+                    src="{{ item?.image_url_640 }}"
+                    
+                    class="image-lazy-loading"
+                    appLazyloader
+                  />
+                </div>
+                <div
+                  class="model-desc col-md-12 col-sm-12 col-12"
+                  fxLayoutAlign="space-between end"
+                >
+                  <div class="brand-div">
+                    <span>{{ selectedBrand.name }}</span>
+                    <h2>{{ item.name }}</h2>
+                  </div>
+                  <div class="price-div">
+                    <div>
+                      <p class="amt">
+                        {{ item.msrp | currency: 'USD':'symbol':'1.0' }}
+                      </p>
+                      <p class="amt-label">Starting MSRP</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

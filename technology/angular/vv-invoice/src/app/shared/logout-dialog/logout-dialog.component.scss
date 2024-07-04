@@ -1,0 +1,33 @@
+.container {
+  padding: 14px 14px;
+  mat-icon {
+    float: right !important;
+    cursor: pointer;
+  }
+
+  button {
+    margin-left: 6px !important;
+  }
+
+  #logout-icon {
+    height: 75px;
+    width: 70px;
+    margin-bottom: 10px;
+  }
+
+  #content-span {
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    word-wrap: break-word;
+  }
+
+  @media (max-width: 280px) {
+    #content-span {
+      font-size: 12px !important;
+    }
+  }
+}

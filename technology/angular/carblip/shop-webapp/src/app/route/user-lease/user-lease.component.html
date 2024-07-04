@@ -1,0 +1,319 @@
+<section class="container-fluid px-0 lease-section">
+  <div class="lease-wrapper">
+    <div class="header">
+      <img class="logo" src="../../../assets/img/logo/OW.png"/>
+    </div>
+    <div class="cb-container container">
+      <div class="row mx-0" *ngIf="this.show">
+        <div *ngIf="this.hasInfo" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 px-0">
+          <p class="sub-title">Ready to see if you can get paid for an early lease return?</p>
+          <p class="desc">Fill out the information below.</p>
+          <form class="lease-form" id="lease-form" [formGroup]="leaseForm" appFocusFirstInvalidField>
+            <div class="info-wrapper">
+              <h3>Personal Information</h3>
+              <div class="row mx-0">
+                <div class="form-group col-md-6">
+                  <label for="first_name">First Name</label>
+                  <input type="text" class="form-control" id="first_name" aria-describedby="firstHelp" placeholder="First Name" 
+                    formControlName="firstName" appNoWhitespace appNoSepcialchar required/>
+                  <span *ngIf="leaseForm?.controls['firstName'].touched && !leaseForm?.controls['firstName'].valid" class="validate-message">
+                    <span *ngIf="leaseForm.controls['firstName'].errors.required">* The First name is required.</span>
+                  </span>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="last_name">Last Name</label>
+                  <input type="text" class="form-control" id="last_name" aria-describedby="lastHelp" placeholder="Last Name" formControlName="lastName"
+                    appNoWhitespace appNoSepcialchar required/>
+                  <span *ngIf="leaseForm?.controls['lastName'].touched && !leaseForm?.controls['lastName'].valid"
+                    id="lastname-valid" class="validate-message">
+                    <span *ngIf="leaseForm.controls['lastName'].errors.required">* The Last name is required.</span>
+                  </span>
+                </div>
+              </div>
+              <div class="row mx-0">
+                <div class="form-group col-md-6">
+                  <label for="user_phone">Phone Number</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="phone_number_input">+1</span>
+                    </div>
+                    <input type="text" class="form-control" id="user_phone" aria-describedby="phoneHelp"
+                      pattern="^\d{3}[- ]?\d{3}[- ]?\d{4}$" placeholder="Phone"
+                      formControlName="phone" appNoSpace appNoSepcialchar appPhoneNumber required/>
+                  </div>
+                  <span *ngIf="leaseForm?.controls['phone'].touched && !leaseForm?.controls['phone'].valid"
+                    id="phone-valid" class="validate-message">
+                    <span *ngIf="leaseForm?.controls['phone'].errors.required">* The Phone Number is required.</span>
+                    <span *ngIf="leaseForm?.controls['phone'].errors.pattern">* The Phone Number is invalid.</span>
+                  </span>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="user_email">Email Address</label>
+                  <input type="email" class="form-control" id="user_email" aria-describedby="emailHelp"
+                    placeholder="Email Address" formControlName="email" pattern="[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,64}" appNoWhitespace disabled required/>
+                  <span *ngIf="leaseForm?.controls['email'].touched && !leaseForm?.controls['email'].valid"
+                    id="email-valid" class="validate-message">
+                    <span *ngIf="leaseForm?.controls['email'].errors.required">* The Email address is required.</span>
+                    <span *ngIf="leaseForm?.controls['email'].errors.pattern">* The Email address is invalid.</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="info-wrapper">
+              <h3>Lease Details</h3>
+              <div class="row mx-0">
+                <div class="form-group col-md-4">
+                  <label for="v_year">Year</label>
+                  <input type="number" class="form-control" id="v_year" aria-describedby="yearHelp"
+                    placeholder="Year" formControlName="year" appNoWhitespace required/>
+                  <span *ngIf="leaseForm?.controls['year'].touched && !leaseForm?.controls['year'].valid"
+                    id="year-valid" class="validate-message">
+                    <span *ngIf="leaseForm?.controls['year'].errors.required">* The Year is required.</span>
+                  </span>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="v_make">Make</label>
+                  <input type="text" class="form-control" id="v_make" aria-describedby="makeHelp"
+                    placeholder="Make" formControlName="make" appNoWhitespace required/>
+                  <span *ngIf="leaseForm?.controls['make'].touched && !leaseForm?.controls['make'].valid"
+                    id="make-valid" class="validate-message">
+                    <span *ngIf="leaseForm?.controls['make'].errors.required">* The Make is required.</span>
+                  </span>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="v_model">Model</label>
+                  <input type="text" class="form-control" id="v_model" aria-describedby="modelHelp"
+                    placeholder="Model" formControlName="model" appNoWhitespace required/>
+                  <span *ngIf="leaseForm?.controls['model'].touched && !leaseForm?.controls['model'].valid"
+                    id="model-valid" class="validate-message">
+                    <span *ngIf="leaseForm?.controls['model'].errors.required">* The Model is required.</span>
+                  </span>
+                </div>
+              </div>
+              <div class="row mx-0">
+                <div class="form-group col-md-6">
+                  <label for="v_vin">Vehicle Identification Number (VIN)</label>
+                  <input type="text" class="form-control" id="v_vin" aria-describedby="vinHelp"
+                  placeholder="17-digit VIN" formControlName="vin" appNoWhitespace required/>
+                  <span *ngIf="leaseForm?.controls['vin'].touched && !leaseForm?.controls['vin'].valid"
+                    id="vin-valid" class="validate-message">
+                    <span *ngIf="leaseForm?.controls['vin'].errors.required">* The Vin is required.</span>
+                  </span>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="v_mileage">What is your approximate mileage?</label>
+                  <input 
+                    currencyMask
+                    name="mileage"
+                    class="form-control"
+                    id="v_mileage"
+                    aria-describedby="mileageHelp"
+                    placeholder="Mileage"
+                    formControlName="mileage"
+                    [options]="{
+                      align: 'left',
+                      prefix: '',
+                      thousands: ',',
+                      precision: 0
+                    }"
+                    appNoWhitespace
+                    required/>
+                  <span *ngIf="leaseForm?.controls['mileage'].touched && !leaseForm?.controls['mileage'].valid"
+                    id="mileage-valid" class="validate-message">
+                    <span *ngIf="leaseForm?.controls['mileage'].errors.required">* The Mileage is required.</span>
+                  </span>
+                </div>
+              </div>
+              <div class="row mx-0">
+                <div class="form-group col-md-6">
+                  <label for="v_exterior_color">Exterior Color</label>
+                  <input type="text" class="form-control" id="v_exterior_color" aria-describedby="exteriorColorHelp"
+                    placeholder="Color" formControlName="exterior_color" appNoWhitespace required/>
+                  <span *ngIf="leaseForm?.controls['exterior_color'].touched && !leaseForm?.controls['exterior_color'].valid"
+                    id="exterior_color-valid" class="validate-message">
+                    <span *ngIf="leaseForm?.controls['exterior_color'].errors.required">* The Exterior Color is required.</span>
+                  </span>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="v_interior_color">Interior Color</label>
+                  <input type="text" class="form-control" id="v_interior_color" aria-describedby="interiorColorHelp"
+                    placeholder="Color" formControlName="interior_color" appNoWhitespace required/>
+                  <span *ngIf="leaseForm?.controls['interior_color'].touched && !leaseForm?.controls['interior_color'].valid"
+                    id="interior_color-valid" class="validate-message">
+                    <span *ngIf="leaseForm?.controls['interior_color'].errors.required">* The Interior Color is required.</span>
+                  </span>
+                </div>
+              </div>
+              <div class="row mx-0">
+                <div class="form-group col-md-4">
+                  <label for="v_vehicle_condition">Vehicle Condition?</label>
+                  <ng-select
+                    [items]="vehicleConditionList"
+                    placeholder="Select"
+                    [searchable]="false"
+                    bindLabel="label"
+                    bindValue="id"
+                    formControlName="vehicle_condition"
+                    (change)="onVehicleConditionChange($event)"
+                    required
+                  >
+                  </ng-select>
+                  <span *ngIf="leaseForm?.controls['vehicle_condition'].touched && !leaseForm?.controls['vehicle_condition'].valid"
+                    id="vehicle_condition-valid" class="validate-message">
+                    <span *ngIf="leaseForm?.controls['vehicle_condition'].errors.required">* The Vehicle Condition is required.</span>
+                  </span>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="v_smoke_free">Smoke free?</label>
+                  <ng-select
+                    [items]="smokeFreeList"
+                    placeholder="Select"
+                    [searchable]="false"
+                    bindLabel="label"
+                    bindValue="id"
+                    formControlName="smoke_free"
+                    required
+                  >
+                  </ng-select>
+                  <span *ngIf="leaseForm?.controls['smoke_free'].touched && !leaseForm?.controls['smoke_free'].valid"
+                    id="smoke_free-valid" class="validate-message">
+                    <span *ngIf="leaseForm?.controls['smoke_free'].errors.required">* The Smoke free is required.</span>
+                  </span>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="v_number_keys">Number of keys</label>
+                  <ng-select
+                    [items]="numberKeysList"
+                    placeholder="Select"
+                    [searchable]="false"
+                    bindLabel="label"
+                    bindValue="id"
+                    formControlName="number_keys"
+                    required
+                  >
+                  </ng-select>
+                  <span *ngIf="leaseForm?.controls['number_keys'].touched && !leaseForm?.controls['number_keys'].valid"
+                    id="number_keys-valid" class="validate-message">
+                    <span *ngIf="leaseForm?.controls['number_keys'].errors.required">* The Number of keys is required.</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="info-wrapper">
+              <h3>Vehicle Details</h3>
+              <div class="row mx-0">
+                <div class="form-group col-md-6">
+                  <label for="v_bank_lender">Name of Bank/Lender</label>
+                  <input type="text" class="form-control" id="v_bank_lender" aria-describedby="bank_lenderHelp"
+                    placeholder="Bank or Lender" formControlName="bank_lender" appNoWhitespace required/>
+                  <span *ngIf="leaseForm?.controls['bank_lender'].touched && !leaseForm?.controls['bank_lender'].valid"
+                    id="bank_lender-valid" class="validate-message">
+                    <span *ngIf="leaseForm?.controls['bank_lender'].errors.required">* The Name of Bank/Lender is required.</span>
+                  </span>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="v_account">Account #</label>
+                  <input type="text" class="form-control" id="v_account" aria-describedby="accountHelp"
+                    placeholder="#" formControlName="account" appNoWhitespace required/>
+                  <span *ngIf="leaseForm?.controls['account'].touched && !leaseForm?.controls['account'].valid"
+                    id="account-valid" class="validate-message">
+                    <span *ngIf="leaseForm?.controls['account'].errors.required">* The Account # is required.</span>
+                  </span>
+                </div>
+              </div>
+              <div class="row mx-0">
+                <div class="form-group col-md-6">
+                  <label for="lease_end_date">What is your lease end date?</label>
+                  <input type="text" class="form-control" id="lease_end_date" aria-describedby="leaseEndDateHelp"
+                    placeholder="Lease End Date"
+                    bsDatepicker
+                    [bsConfig]="leaseEndDateConfig"
+                    [minDate]="minDate"
+                    formControlName="leaseEndDate"
+                    appNoWhitespace
+                    readonly
+                    required/>
+                  <span *ngIf="leaseForm?.controls['leaseEndDate'].touched && !leaseForm?.controls['leaseEndDate'].valid"
+                    id="lease_end_date-valid" class="validate-message">
+                    <span *ngIf="leaseForm?.controls['leaseEndDate'].errors.required">* The Lease End Date is required.</span>
+                  </span>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="v_payoff_amount">Payoff Amount</label>
+                  <input 
+                    currencyMask
+                    name="payoff_amount"
+                    class="form-control"
+                    id="v_payoff_amount"
+                    aria-describedby="payoff_amountHelp"
+                    placeholder="$"
+                    formControlName="payoff_amount"
+                    [options]="{
+                      align: 'left',
+                      prefix: '$',
+                      thousands: ',',
+                      precision: 0
+                    }"
+                    appNoWhitespace
+                    required/>
+                  <span *ngIf="leaseForm?.controls['payoff_amount'].touched && !leaseForm?.controls['payoff_amount'].valid"
+                    id="payoff_amount-valid" class="validate-message">
+                    <span *ngIf="leaseForm?.controls['payoff_amount'].errors.required">* The Payoff Amount is required.</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="action-wrapper">
+              <button class="btn btn-default navigation-btn lead-but save-lead" (click)="onSaveButonClick()"><span class="label">Save</span></button>
+              <button class="btn btn-default navigation-btn lead-but apply-lead" (click)="onApplyButonClick()"><span class="label">Apply Now</span></button>
+            </div>
+          </form>
+        </div>
+        <div *ngIf="!this.hasInfo" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 px-0">
+          <p class="sub-title">Ready to see if you can get paid for an early lease return?</p>
+          <p class="desc">Submit your eamil and we will send link for new lead.</p>
+          <form class="lease-form" id="new-form" [formGroup]="newForm" appFocusFirstInvalidField>
+            <div class="info-wrapper">
+              <div class="row mx-0">
+                <div class="form-group col-md-6 offset-md-3">
+                  <input type="email" class="form-control" id="user_email" aria-describedby="emailHelp"
+                    placeholder="Email Address" formControlName="email" pattern="[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,64}" appNoWhitespace required/>
+                  <span *ngIf="newForm?.controls['email'].touched && !newForm?.controls['email'].valid"
+                    id="email-valid" class="validate-message">
+                    <span *ngIf="newForm?.controls['email'].errors.required">* The Email address is required.</span>
+                    <span *ngIf="newForm?.controls['email'].errors.pattern">* The Email address is invalid.</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="action-wrapper">
+              <button class="btn btn-default navigation-btn lead-but submit-but" (click)="onEmailSubmitClick()"><span class="label">Submit</span></button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="desc-wrapper">
+    <div class="row mx-0">
+      <div class="col-md-6">
+        <h3>How It Works</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      </div>
+      <div class="col-md-6">
+        <h3>Will CarBlip Pay Me Directly?</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      </div>
+    </div>
+    <div class="row mx-0">
+      <div class="col-md-6">
+        <h3>Is this safe?</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      </div>
+      <div class="col-md-6">
+        <h3>Is there a catch?</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      </div>
+    </div>
+  </div>
+</section>

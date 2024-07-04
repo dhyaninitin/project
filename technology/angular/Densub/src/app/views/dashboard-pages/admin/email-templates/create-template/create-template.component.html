@@ -1,0 +1,105 @@
+<div class="row">
+  <div class="col-sm-12">
+    <h4 class="text-primary">
+      <b>Create Template</b>
+      <button class="btn btn-primary pull-right" (click)="preview()">Preview</button>
+    </h4>
+    <hr>
+  </div>
+</div>
+
+<div class="animated fadeIn  pb-40 pt-20 add-blog">
+  <div class="card p-20">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="">Template Name</label>
+          <select class="form-control" name="templateFor" [(ngModel)]="template.type" (change)="getTemplates(true)">
+            <option value="">Select Template Name</option>
+            <option value="forgot-password">Forgot Password</option>
+            <option value="add-new-user">Add New User</option>
+            <option value="email-verification">Email Verification</option>
+            <!-- <option value="practice-profile-verification">Practice Profile Verification</option> -->
+            <option value="expired-license">Expired License</option>
+            <option value="warning-expire-license">Expire License Warning</option>
+            <option value="profile-approved">Profile Approved</option>
+            <option value="profile-rejected">Profile Rejected</option>
+            <option value="profile-active">Profile Active</option>
+            <option value="profile-inactive">Profile Inactive</option>
+            <option value="promo-code">Promo Code</option>
+            <option value="accept-offer">Accept Offer</option>
+            <option value="decline-offer">Decline Offer</option>
+            <option value="counter-offer">Counter Offer</option>
+            <option value="send-offer">Send Offer</option>
+            <option value="payment-received">Payment Received</option>
+            <option value="payment-sent">Payment Sent</option>
+            <option value="payment-received-admin">Payment Received Admin</option>
+            <option value="expired-jobs">Expired Jobs Alert</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="">Subject:</label>
+          <input type="text" name="subject" [(ngModel)]="template.subject" class="form-control" placeholder="Please Enter Subject">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <p class="notes" *ngIf="template?.type">NOTE: Please use this tags {{ notes[template?.type] }} for template creation.</p>
+          <label for="">Content:</label>
+          <!-- <angular-editor [(ngModel)]="template.content" id="contentBox" name="contentBox" [config]="editorConfig"></angular-editor> -->
+
+          <ckeditor
+            [(ngModel)]="template.content"
+            #myckeditor="ngModel"
+            name="myckeditor"
+            required
+            [config]="ckeConfig"
+            debounce="500">
+	        </ckeditor>
+
+        </div>
+      </div>
+      <!-- <div class="col-md-2">
+        <div class="form-group">
+          <label for="">Select Hash Tags:</label>
+          <ul class="hash-tag-list">
+            <li><p (click)="getCursorPosition('##FIRSTNAME##')">FirstName</p></li>
+          </ul>
+        </div>
+      </div> -->
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <button class="btn btn-primary pull-right ml-10" (click)="createTemplate()">{{ template?._id ? 'Update' : 'Create'}}</button>
+        <button class="btn btn-primary pull-right ml-10" (click)="preview()">Preview</button>
+        <button class="btn btn-primary pull-right" [routerLink]="['/email-templates/list']">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div bsModal  #previewModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white"> <i class="fa fa-eye"> </i> Template Preview</h4>
+        <button type="button" class="close text-white" (click)="previewModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div [innerHtml]="previewHtml"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="previewModal.hide()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

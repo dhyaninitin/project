@@ -1,0 +1,165 @@
+<div class="container">
+  <form [formGroup]="genericSetting">
+    <div class="form">
+      <div class="upper-section">
+        <tr-page-header [backUrl]="route_conf.SETTINGS_DASHBOARD">
+          <span page-title class="page-title">
+            <h2>Generic Setting</h2>
+          </span>
+          <div page-action></div>
+        </tr-page-header>
+      </div>
+
+
+      <div class="common-div">
+        <span class="last-details">
+          <mat-label>Job Type *</mat-label>
+          <div class="check-box">
+            <h5 *ngFor="let job of jobtype">
+              <mat-checkbox type="checkbox" class="example-margin" (change)="markAsTouch($event)" [formControlName]="job.value">
+              </mat-checkbox>
+              {{job.name}}
+            </h5>
+          </div>
+        </span>
+      </div>
+      <hr />
+      <div class="common-div">
+        <span class="last-details">
+          <mat-label>Job Code *</mat-label>
+          <div class="code">
+            <p>TR /</p>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="01 or 001" ngDefaultControl formControlName="jobcodeTR" />
+              <mat-error *ngIf="jobcodeTR.touched && !jobcodeTR.valid">
+                <span *ngIf="jobcodeTR.errors?.required">
+                  This field is required
+                </span>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="DD/MM/YYYY" ngDefaultControl formControlName="jobcodedate" />
+              <mat-error *ngIf="jobcodedate.touched && !jobcodedate.valid">
+                <span *ngIf="jobcodedate.errors?.required">
+                  This field is required
+                </span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </span>
+      </div>
+      <hr />
+
+      <div class="common-div">
+        <span class="last-details">
+          <mat-label>Offer Salary Convention *</mat-label>
+          <mat-radio-group color="primary" class="radio-grp" formControlName="offersalaryconvention">
+            <mat-radio-button class="radio-btn" value="Million">
+              Million (eg. 9,999,999) </mat-radio-button><br />
+            <mat-radio-button class="radio-btn" value="Lacks">Lacks
+              (eg. 99,99,999)
+            </mat-radio-button><br>
+            <mat-radio-button class="radio-btn" value="None">None
+            </mat-radio-button><br />
+          </mat-radio-group>
+        </span>
+      </div>
+      <hr />
+
+      <div class="common-div">
+        <span class="last-details">
+          <mat-label>Display Values in *</mat-label>
+          <mat-radio-group color="primary" class="radio-grp" formControlName="displayvaluesin">
+            <mat-radio-button value="WholeNumber" class="radio-btn">
+              Whole number</mat-radio-button>
+            <br />
+            <mat-radio-button value="Decimal" class="radio-btn">
+              Decimals
+            </mat-radio-button>
+          </mat-radio-group>
+        </span>
+      </div>
+      <hr />
+      <div class="common-div">
+        <span class="last-details">
+          <mat-label>Internal Approval </mat-label>
+          <mat-radio-group color="primary" class="radio-grp" formControlName="internalapproval">
+            <mat-radio-button value="Yes" class="radio-btn">yes
+            </mat-radio-button>
+            <br />
+            <mat-radio-button value="No">No
+            </mat-radio-button>
+          </mat-radio-group>
+        </span>
+      </div>
+      <hr />
+      <div class="common-div">
+        <span class="last-details">
+          <mat-label>Offer Release</mat-label>
+
+          <div class="check-box">
+            <mat-slide-toggle ngDefaultControl [checked]="isOfferRelaseenable"
+              (change)="changeOfferIsRelease()"></mat-slide-toggle>
+            <div class="candidate" *ngIf="isOfferRelaseenable" ngDefaultControl>
+              <h3>- Candidate</h3>
+                <mat-radio-group color="primary" class="radio-grp" [(ngModel)]="candidate"  [ngModelOptions]="{standalone: true}">
+              <h6>
+                <mat-radio-button class="radio-btn" name="candidate" [checked]="candidateMan" (change)="changeOfferRelease($event,0)" class="example-margin" value='manually'> </mat-radio-button>Manually
+              </h6>
+              <h6>
+                <mat-radio-button class="radio-btn" name="candidate" [checked]="candidateAuto" (change)="changeOfferRelease($event,1)" class="example-margin" value='auto'></mat-radio-button>Auto
+              </h6>
+            </mat-radio-group>
+              <h3>- Agency</h3>
+              <mat-radio-group color="primary" class="radio-grp" [(ngModel)]="agency"  [ngModelOptions]="{standalone: true}">
+              <h6>
+                <mat-radio-button class="radio-btn" name="agency" [checked]="agencyManually" (change)="changeOfferRelease($event,2)" class="example-margin" value='manually'> </mat-radio-button>Manually
+              </h6>
+              <h6>
+                <mat-radio-button class="radio-btn" name="agency" [checked]="agencyAuto" (change)="changeOfferRelease($event,3)" class="example-margin" value='auto'> </mat-radio-button>Auto
+              </h6>
+            </mat-radio-group>
+            </div>
+          </div>
+        </span>
+      </div>
+      <hr />
+
+      <div class="common-div">
+        <span class="last-details">
+          <mat-label>Allow user to add CC in offer mail</mat-label>
+
+          <div class="input-box">
+            <mat-slide-toggle [checked]="allowToAddCC" (change)="allowToAddCC = !allowToAddCC"></mat-slide-toggle>
+            <h3 *ngIf="allowToAddCC">
+              <mat-form-field appearance="outline">
+                <input matInput placeholder="000" formControlName="allowedccmails" />
+              </mat-form-field>
+            </h3>
+          </div>
+        </span>
+      </div>
+      <hr />
+      <div class="common-div">
+        <span class="last-details">
+          <mat-label>offer valid till</mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="000" formControlName="offervalidity" />
+          </mat-form-field>
+        </span>
+      </div>
+    </div>
+  </form>
+  <span class="buttons">
+    <div class="box-button">
+      <button mat-flat-button color="primary" [disabled]="!(genericSetting.touched)" (click)="updateGenericSetting()">
+        Save
+      </button>
+    </div>
+    <div class="box-btn">
+      <button mat-flat-button [routerLink]="['/dashboard/settings/offer/template']">
+        Back
+      </button>
+    </div>
+  </span>
+</div>

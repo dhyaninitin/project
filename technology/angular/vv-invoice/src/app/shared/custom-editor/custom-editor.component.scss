@@ -1,0 +1,130 @@
+.main-container {
+  width: 100%;
+  display: flex;
+}
+
+.editor-box {
+  width: 50%;
+}
+
+#editor[contenteditable="true"]::before {
+  color: black;
+  content: attr(placeholder);
+}
+
+#editor[contenteditable="true"]:focus:before,
+#editor:not(:empty):before {
+  display: none;
+}
+
+#editor[contenteditable="true"] {
+  min-height: 0;
+  min-width: 0;
+  border: 1px solid rgba(128, 128, 128, 0.334);
+  padding: 10px;
+  height: 550px;
+  word-wrap: break-word;
+  outline: none;
+  overflow: auto;
+}
+
+#editor[contenteditable="true"]:focus {
+  box-shadow: 0 0 0 1px #3779eb;
+}
+
+#underlineButton {
+  border-right: 1px solid rgba(128, 128, 128, 0.334);
+  margin-right: 2px;
+}
+
+#decreaseText {
+  border-right: 1px solid rgba(128, 128, 128, 0.334);
+}
+
+#redoButton {
+  border-right: 1px solid rgba(128, 128, 128, 0.334);
+}
+
+#preview {
+  width: 50%;
+  height: 595px;
+  word-wrap: break-word;
+  border: 1px solid rgba(128, 128, 128, 0.334);
+  padding: 10px;
+  margin-left: 6px;
+  cursor: default;
+  overflow: auto;
+}
+
+.toolbar {
+  display: flex;
+  padding: 10px;
+  background-color: #f8f8f8;
+  border-top: 1px solid rgba(128, 128, 128, 0.334);
+  border-left: 1px solid rgba(128, 128, 128, 0.334);
+  border-right: 1px solid rgba(128, 128, 128, 0.334);
+}
+
+table[data-draggable="true"] {
+  cursor: move;
+  display: table;
+}
+
+button {
+  margin-right: 5px;
+}
+
+mat-icon {
+  margin-left: 6px;
+}
+
+/* For screens 1200px and above */
+@media only screen and (min-width: 1200px) {
+  .main-container {
+    display: flex;
+  }
+  .editor-box {
+    width: 50%;
+  }
+  #preview {
+    width: 50%;
+    margin-left: 6px;
+  }
+}
+
+/* For screens 768px and above */
+@media only screen and (min-width: 768px) and (max-width: 1199px) {
+  .main-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .editor-box,
+  #preview {
+    width: 100%;
+  }
+  #preview {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+}
+
+/* For screens 0px to 767px */
+@media only screen and (max-width: 767px) {
+  .main-container {
+    display: block;
+  }
+  .editor-box,
+  #preview {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+@media only screen and (max-width: 415px) {
+  .toolbar button {
+    font-size: 12px;
+  }
+  .toolbar mat-icon {
+    font-size: 16px;
+  }
+}

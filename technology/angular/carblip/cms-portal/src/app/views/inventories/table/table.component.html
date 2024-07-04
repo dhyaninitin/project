@@ -1,0 +1,78 @@
+<table @stagger *ngIf="inventories" [dataSource]="inventories" matSortActive={{sortKey}} matSortDirection={{sortDirection}} matSortDisableClear matSort (matSortChange)="sortData($event)" class="w-full" mat-table>
+	<ng-container matColumnDef="dealer">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Dealer</th>
+		<td *matCellDef="let item" mat-cell>{{ item.dealer }}</td>
+	</ng-container>
+	<ng-container matColumnDef="stock_no">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Stock #</th>
+		<td *matCellDef="let item" mat-cell>{{ item.stock_no }}</td>
+	</ng-container>
+	<ng-container matColumnDef="year">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Year</th>
+		<td *matCellDef="let item" mat-cell>{{ item.year }}</td>
+	</ng-container>
+	<ng-container matColumnDef="make">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Make</th>
+		<td *matCellDef="let item" mat-cell>{{ item.make }}</td>
+	</ng-container>
+	<ng-container matColumnDef="model">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Model</th>
+		<td *matCellDef="let item" mat-cell>{{ item.model }}</td>
+	</ng-container>
+	<ng-container matColumnDef="desc">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Description</th>
+		<td *matCellDef="let item" mat-cell>{{ item.desc }}</td>
+	</ng-container>
+	<ng-container matColumnDef="exterior_color">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Exterior Color</th>
+		<td *matCellDef="let item" mat-cell>{{ item.exterior_color }}</td>
+	</ng-container>
+	<ng-container matColumnDef="interior_color">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Interior Color</th>
+		<td *matCellDef="let item" mat-cell>{{ item.interior_color }}</td>
+	</ng-container>
+	<ng-container matColumnDef="model_number">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Model #</th>
+		<td *matCellDef="let item" mat-cell>{{ item.model_number }}</td>
+	</ng-container>
+	<ng-container matColumnDef="invoice">
+		<th *matHeaderCellDef mat-header-cell mat-sort-header>Cost</th>
+		<td *matCellDef="let item" mat-cell>{{ item.invoice | currency }}</td>
+	</ng-container>
+
+	<ng-container matColumnDef="actions">
+		<th *matHeaderCellDef mat-header-cell></th>
+		<td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
+			<button (click)="$event.stopPropagation();getSelectedRecord(row)"
+				[matMenuTriggerData]="{ customer: row }"
+				[matMenuTriggerFor]="actionsMenu"
+				mat-icon-button
+				type="button">
+
+				<mat-icon svgIcon="mat:more_horiz"></mat-icon>
+			</button>
+		</td>
+	</ng-container>
+
+	<tr *matHeaderRowDef="getDisplayedColumns(); sticky: true" mat-header-row></tr>
+	<tr
+		*matRowDef="let row; columns: getDisplayedColumns();"
+			routerLink="./{{row.id}}"
+			@fadeInUp
+			class="hover:bg-hover trans-ease-out cursor-pointer"
+			mat-row></tr>
+</table> 
+
+	<div class="text-center mt-2" *ngIf="(didFetch$ | async) && inventories.length === 0">There are no inventories available. Please enter in a inventory to view them here</div> 
+
+	<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+	<ng-template let-customer="customer" matMenuContent>
+		<button mat-menu-item routerLink="./{{selectedRecordDetail?.id}}">
+			<mat-icon svgIcon="mat:remove_red_eye"></mat-icon>
+			<span>View</span>
+		</button>
+	</ng-template>
+	</mat-menu>
+
+
+

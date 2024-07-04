@@ -1,0 +1,221 @@
+.member-profile-list {
+    padding: 15px 0;
+    border-bottom: 1px solid #eaeff5;
+    text-align: left;
+    display: table;
+    width: 100%;
+    .member-profile-thumb {
+        width: 70px;
+        float: left;
+    }
+    .member-profile-detail {
+        margin-left: 80px;
+        margin-top: 7px;
+        h4 {
+            margin: 0 0 2px 0;
+        }
+        span {
+            display: block;
+            line-height: 1.5;
+            font-size: 13px;
+        }
+    }
+    &:last-child {
+        border-bottom: none;
+    }
+
+}
+.cssClass{
+    background-color: red !important;
+}
+pre {
+  background-color: #f5f5f5;
+  padding: 15px;
+}
+.additional-details {
+    td.text-primary {
+      span {
+        float: right;
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+    }
+}
+
+.expiredLicense {
+  background: red;
+  color: white;
+}
+
+.job-highlight {
+  // padding-left: 20px;
+  li {
+      position: relative;
+      padding-left: 15px;
+      margin-bottom: 10px;
+      &:before {
+          content: '';
+          padding: 5px;
+
+          position: absolute;
+          left: 0;
+          top: 4px;
+      }
+      &.orange::before {
+        background-color: orange;
+        border: 1px solid orange;
+      }
+      &.green::before{
+          background-color: #1A9900;
+          border: 1px solid #1A9900;
+      }
+      &.white::before{
+          background-color: #fff;
+          border: 1px solid #dcdcdc;
+      }
+      &.gray::before{
+        background-color: #f2f2f2;
+        border: 1px solid #dcdbdb;
+      }
+      &.blue::before{
+          background-color: #2768d0;
+          border: 1px solid #2768d0;
+      }
+      &.lightBlue::before{
+          background-color: #2cb7df;
+          border: 1px solid #2cb7df;
+      }
+      &.lightRed::before{
+        background-color: #f86c6b;
+        border:1px solid #f86c6b;
+      } 
+      &.densubBlue::before{
+        background-color: #053178;
+        border: 1px solid #053178;
+      } 
+      &.red::before{
+        background-color: red;
+        border: 1px solid red;
+      }
+
+  }
+  .fontSize-40 {
+    font-size: 40 px;
+  }
+}
+
+h1,h2,h3,h4,h5,h6{
+  //color: black;
+}
+
+.text-primary{
+  color: black !important;
+
+  th{
+    color: black !important;
+  }
+}
+
+p{
+  margin-bottom: 15px;
+}
+
+.cal-day-available {
+  color: #1A9900!important;
+}
+.day-partial-available {
+  color: #053178;
+}
+.day-unavailable{
+  color: #f86c6b;
+}
+.day-booked {
+  color: green;
+}
+.day-openjob{
+  color: green;
+}
+.day-upcoming {
+  color: #2cb7df;
+}
+
+.vaccineTag{
+  position: absolute;
+  background: lightgreen;
+  padding: 2px;
+  font-size: 11px;
+  margin-top: 1px;
+  color: black;
+}
+.custom-month-btn .btn-group h3{
+  color: #053178 !important;
+}
+
+
+.mt--3{
+  margin-top: -3px;
+}
+:host ::ng-deep .img-fluid{
+  height: 90px !important;
+}
+
+.m-l-r-auto{
+  margin-left: 0px;
+  margin-right: 0px;
+}
+@media screen and (max-width:600px){
+
+  .mobile-view-btn{
+    height: 30px;
+    padding: 6px;
+  }
+  .mobile-view-image{
+    width: 50px;
+  }
+  .mobile-view-stars{
+    font-size: 10px !important;
+    margin-left: 0px !important;
+  }
+  .mobile-view-text{
+    font-size: 11px;
+    padding-left: 0px !important;
+  }
+  .mr--15{
+    margin-right: 8px !important;
+  }
+  .mr--0{
+    margin-right: 0px !important;
+  }
+  .mobile-display-flex{
+    display: block !important;
+  }
+  .vaccineTag{
+    font-size: 7px;
+  }
+  .mt--3{
+    margin-top: 0px;
+  }
+  .mobile-btn{
+    font-size: 12px !important;
+    padding: 8px !important;
+  }
+  :host ::ng-deep .img-fluid{
+    height: 52px !important;
+  }
+  .m-l-r-auto{
+    margin-left: -22px;
+    margin-right: -22px;
+  }
+}
+.modal-height{
+  margin-top: 78px;
+}
+
+.f-14{
+  font-size: 14px;
+}
+
+:host ::ng-deep .invite-image{
+  height: 60px !important;
+}
+
