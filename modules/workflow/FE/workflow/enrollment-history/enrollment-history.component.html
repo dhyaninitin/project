@@ -1,0 +1,46 @@
+
+<table @stagger *ngIf="enrollmentHistory" [dataSource]="enrollmentHistory" class="w-full" mat-table>
+	<ng-container matColumnDef="contact">
+		<th *matHeaderCellDef mat-header-cell>Contact</th>
+		<td *matCellDef="let item" mat-cell>
+            <a href="#" target="_blank" routerLink="/contacts/{{item.user_id}}">{{ formatText(item)}} </a></td>
+	</ng-container>
+
+	<ng-container matColumnDef="deal">
+		<th *matHeaderCellDef mat-header-cell>Deal</th>
+		<td *matCellDef="let item" mat-cell>
+            <a href="#" target="_blank" routerLink="/deals/{{item.deal_id}}">{{ formatDeal(item)}} </a></td>
+	</ng-container>
+
+	<ng-container matColumnDef="event">
+		<th *matHeaderCellDef mat-header-cell>Event</th>
+		<td *matCellDef="let item" mat-cell>
+            <p>{{ formatText(item, 'event') }}</p></td>
+	</ng-container>
+
+	<ng-container matColumnDef="action_title">
+		<th *matHeaderCellDef mat-header-cell>Title</th>
+		<td *matCellDef="let item" mat-cell>
+            <p [matTooltip]="item?.action_title" >{{ textTruncate(item?.action_title) }}</p></td>
+	</ng-container>
+
+	<ng-container matColumnDef="status">
+		<th *matHeaderCellDef mat-header-cell>Status</th>
+		<td *matCellDef="let item" mat-cell>
+            <p> 
+				<span class="dot" [ngClass]="item?.is_open == 0 ? 'orange' : (item?.is_open == 2 || item?.is_open == 3 ? 'red' : 'green')"></span> {{ENROLLMENTACTIONSTATUS[item?.is_open]}}
+			</p>
+	</ng-container>
+
+	<ng-container matColumnDef="time">
+		<th *matHeaderCellDef mat-header-cell>Date</th>
+		<td *matCellDef="let item" mat-cell>{{ item?.created_at | date:'MM/dd/yyy h:mm a' }}</td>
+	</ng-container>
+
+    <tr *matHeaderRowDef="getDisplayedColumns(); sticky: true" mat-header-row></tr>
+	<tr *matRowDef="let row; columns: getDisplayedColumns();" @fadeInUp
+		class="hover:bg-hover trans-ease-out cursor-pointer" mat-row></tr>
+</table>
+
+<div class="text-center mt-2" *ngIf="(didFetch$ | async) && enrollmentHistory.length === 0">There are no enrollment history available.
+	Please enter in a workflows to view them here</div>

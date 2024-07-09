@@ -1,0 +1,27 @@
+<span class="header-icons" *ngIf="!actionName">
+<mat-icon  svgIcon="mat:filter_none" matTooltip="Clone Action" [matMenuTriggerFor]="cloneMenu" matTooltipPosition="after" class="icons clone-icon"></mat-icon>              
+<mat-icon svgIcon="mat:content_paste" matTooltip="Copy Action"  [matMenuTriggerFor]="CopyMenu" 
+(click)="$event.stopPropagation();getSelectedActionData(actionDetails)" matTooltipPosition="after" class="icons"></mat-icon>
+</span>
+
+<button *ngIf="actionName">
+    <mat-icon svgIcon="mat:content_paste" matTooltip="Paste action from clipboard after trigger"
+    (click)="$event.stopPropagation();copyAfterAction(actionDetails)" matTooltipPosition="after" class="icons"></mat-icon>
+</button>
+
+<mat-menu #cloneMenu="matMenu" class="action-mat-menu">
+    <button mat-menu-item (click)="cloneActions(actionDetails,true)"> <span>Clone this action only</span></button>
+    <button mat-menu-item (click)="cloneActions(actionDetails,false)"><span>Clone this action and all following action</span></button>
+</mat-menu>
+
+<mat-menu #CopyMenu="matMenu" class="action-mat-menu">
+    <button mat-menu-item (click)="copyAction(selectedActionDetail)" *ngIf="!actionName" >
+         <span>Copy action to clipboard</span>
+    </button>
+    <button mat-menu-item (click)="copyBeforeAction(selectedActionDetail)">
+        <span>Paste action from clipboard <b>Before</b> this action</span>
+    </button>
+    <button mat-menu-item (click)="copyAfterAction(selectedActionDetail)">
+        <span>Paste action from clipboard <b>After</b> this action</span>
+    </button>
+</mat-menu>

@@ -1,0 +1,94 @@
+mat-card {
+    border: 3px solid #f2f2f2;
+    margin-top: -2px;
+
+    button {
+        float: right;
+    }
+
+    .trigger-l {
+        width: -webkit-fill-available;
+    }
+
+}
+
+.box {
+    text-align: -webkit-center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    mat-card {
+        width: fit-content;
+        padding: 10px 20px 10px 20px;
+        border: 3px solid #f2f2f2;
+    }
+
+    .btn-d {
+        display: flow-root;
+    }
+
+    .box-h {
+        font-size: 16px;
+        border: 4px solid #f2f2f2;
+        padding: 10px 20px 10px 20px;
+        width: 53%;
+        height: auto;
+    }
+
+    .box-t {
+        font-size: 16px;
+        border: 4px solid #f2f2f2;
+        padding: 10px 20px 10px 20px;
+        margin-bottom: 15px;
+    }
+
+    .box-mt {
+        font-size: 16px;
+        padding: 10px 20px 10px 20px;
+        height: auto;
+        width: 70%;
+    }
+
+}
+
+h2 { 
+    display: flex; 
+    flex-direction: row; 
+    width: 68%;
+    margin-top: 25px;
+    margin-bottom: -17px;
+} 
+  
+h2:before, 
+h2:after { 
+    content: ""; 
+    flex: 1 1; 
+    border-bottom: 2px solid #000; 
+    margin: auto;
+    margin-left: 8px;
+    margin-right: 8px; 
+} 
+
+h4{
+    margin: auto;
+}
+
+
+app-trigger-master{
+    text-align: -webkit-center;
+}
+
+::ng-deep .group{
+    float: none !important;
+}
+
+.group-box {
+    display:flow-root !important
+}
+
+.main-card {
+    max-width: 40% !important;
+}
+.copy-action {
+    position: absolute;
+}

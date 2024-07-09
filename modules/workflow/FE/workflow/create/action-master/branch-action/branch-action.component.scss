@@ -1,0 +1,58 @@
+.b-box {
+    .l-box{
+        background-color: #14A44D !important;
+        color: white !important;
+        font-weight: 500;
+        width: fit-content;
+    }
+
+    .r-box{
+        background-color: #f44336 !important;
+        color: white !important;
+        font-weight: 500;
+        width: fit-content;
+    }
+}
+
+
+.hr {
+    height: 60px;
+    border-top: 3px solid;
+    border-left: 3px solid;
+    border-color: #b0a8ba;
+    border-right: 3px solid;
+    border-right-color: #b0a8ba;
+    width: 50vw;
+}
+
+.tree {
+    display: flex;
+    width: 50vw; 
+    justify-content: space-between;
+}
+
+.branch-container{
+    display: flex;
+    width: 100vw;
+}
+.right-branch{
+    width: 100vw;
+    margin-left: -25vw;
+}
+.left-branch{
+    width: 50vw;
+    margin-left: -25vw;
+}
+
+
+::ng-deep .group{
+    float: none !important;
+}
+
+.group-box {
+    display:flow-root !important
+}
+
+.main-card {
+    max-width: 30% !important;
+}

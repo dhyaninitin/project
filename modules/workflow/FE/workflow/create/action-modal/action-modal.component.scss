@@ -1,0 +1,43 @@
+button{
+    float: right;
+}
+.input-mat-spinner {
+    position: absolute;
+    right: 10px;
+    bottom: 7px;
+}
+
+.input-mat-spinner-loader {
+    position: absolute;
+    right: 50%;
+    bottom: 7px;
+}
+
+.d-grid {
+    display: grid !important;
+}
+
+.input-width {
+    width: 300px !important;
+}
+
+.webhook-auth {
+    width: 100%;
+    button {
+        float: left;
+    }
+    div {
+        float: right;
+    }
+}
+
+.webhook-status {
+    font-weight: 700;
+    font-size: 18px;
+    .auth {
+        color: #14A44D;
+    }
+    .unauth {
+        color: #f44336;
+    }  
+}
