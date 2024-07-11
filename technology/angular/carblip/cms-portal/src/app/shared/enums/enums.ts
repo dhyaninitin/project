@@ -23,10 +23,10 @@ export const CONDITION = {
 }
 
 export const EMAILTEMPLATE =  {
-    1: 'Carblip Email',
-    2: 'Carblip Notification',
-    3: 'Carblip success email',
-    4: 'Carblip reject email'
+    1: 'Email',
+    2: 'Notification',
+    3: 'success email',
+    4: 'reject email'
 }
 
 export const PROPERTY =  {
@@ -42,7 +42,7 @@ export const TYPE =  {
 }
 
 export const EMAILLIST =  {
-    1: 'Carblip',
+    1: '',
     2: 'Notification'
 }
 
@@ -71,7 +71,7 @@ export const ENROLLEDTYPE = {
 }
 
 export const FROMEMAILTEMPLATE = {
-    1001: 'Carblip',
+    1001: '',
     1002: 'Contact owner',
 }
 

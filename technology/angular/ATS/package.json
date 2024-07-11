@@ -24,8 +24,6 @@
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
     "@angular/service-worker": "~12.2.0",
-    "@cloudtalentrecruit/ng-core": "1.0.7",
-    "@cloudtalentrecruit/ng-design": "1.0.8",
     "@ngrx/store": "^13.0.2",
     "@ngrx/store-devtools": "^13.0.2",
     "axios": "^0.25.0",

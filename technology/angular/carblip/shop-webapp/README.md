@@ -1,6 +1,6 @@
-# Carblip web app
+# web app
 
-Carblip web portal built with Angular 5.2 ( Ngrx/Rxjs)
+web portal built with Angular 5.2 ( Ngrx/Rxjs)
 
 **This setup has the following modules already installed and configured :**  
 - Ngx Translate  
