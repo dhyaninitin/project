@@ -50,8 +50,8 @@ class ContactExportJob implements ShouldQueue
                 'Messages' => [
                     [
                         'From' => [
-                            'Email' => "support@carblip.com",
-                            'Name' => "CarBlip"
+                            'Email' => "support@Automotive.com",
+                            'Name' => "Automotive"
                         ],
                         'To' => [
                             [

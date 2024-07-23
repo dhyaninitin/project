@@ -468,7 +468,7 @@ class UserService extends AbstractService
         //     // $note = "{$data['first_name']}"." {$data['last_name']}". " was transferred to "."{$new_contact_owner[0]['first_name']} {$new_contact_owner[0]['last_name']}";
         //     if(sizeof($previous_contact_owner) > 0) {
         //         // if($data['type'] == 1) {
-        //         //     $data['contact_owner_email'] = "brynn@carblip.com";
+        //         //     $data['contact_owner_email'] = "brynn@Automotive.com";
         //         // }
         //         if($previous_contact_owner[0]->hasRole(Roles::Concierge) && $new_contact_owner[0]->hasRole(Roles::Concierge)) {
 

@@ -18,7 +18,7 @@ class PortalUserTableSeeder extends Seeder
         $superadmin = PortalUser::create([
             'first_name' => 'admin',
             'last_name' => 'admin',
-            'email' => 'admin@carblip.com',
+            'email' => 'admin@Automotive.com',
             'password' => bcrypt('testuser'),
             'created_at' => $now,
             'updated_at' => $now

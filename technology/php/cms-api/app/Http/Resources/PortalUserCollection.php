@@ -38,7 +38,7 @@ class PortalUserCollection extends ResourceCollection
             if(!empty($item->profile_name) && !empty($item->profile_path)){
                 $profile_url = $this->getProfileUrl($item->profile_name,$item->profile_path);
             }
-            $carblipAssignedPhone = $this->getCarblipAssignedNumber($item->id);
+            $AutomotiveAssignedPhone = $this->getAutomotiveAssignedNumber($item->id);
             return [
                 'id'                => $item->id,
                 'first_name'        => $item->first_name,
@@ -47,7 +47,7 @@ class PortalUserCollection extends ResourceCollection
                 'location_id'       => json_decode($item->locations),
                 'location'          => $this->getLocation(json_decode($item->locations)),
                 'email'             => $item->email,
-                'phone'             => $carblipAssignedPhone == "" ? $item->phone : $carblipAssignedPhone,
+                'phone'             => $AutomotiveAssignedPhone == "" ? $item->phone : $AutomotiveAssignedPhone,
                 'profile_url'       => $profile_url,
                 'roles'             => $roles,
                 'permissions'       => $permissions,

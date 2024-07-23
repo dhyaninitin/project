@@ -47,7 +47,7 @@ class WorkflowTest extends TestCase
         PortalUser::create([
             'first_name' => 'Test',
             'last_name' => 'Test',
-            'email' => 'test123@m.carblip.com',
+            'email' => 'test123@m.Automotive.com',
             'password' => bcrypt('testuser')
         ]);
 
@@ -201,7 +201,7 @@ class WorkflowTest extends TestCase
             'last_name' => 'Test',
             'email_address' => 'xyztestemail@mailinator.com',
             'phone' => '+11752628728',
-            'contact_owner_email' => 'test123@m.carblip.com',
+            'contact_owner_email' => 'test123@m.Automotive.com',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         ]);
 

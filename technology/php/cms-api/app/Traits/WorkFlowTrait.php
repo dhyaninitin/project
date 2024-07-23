@@ -337,7 +337,7 @@ trait WorkFlowTrait
                      }else{
                         $fromPhoneNumber = config('services.twilio.twilio_number');
                      }
-                }else if($sentFrom == SendSmsAction::Carblip){
+                }else if($sentFrom == SendSmsAction::Automotive){
                     $fromPhoneNumber = config('services.twilio.twilio_number');
                 }
                 if(!empty($fromPhoneNumber)){
@@ -382,7 +382,7 @@ trait WorkFlowTrait
     protected function checkSentSmsFrom($value){
         switch ($value) {
             case '1001':
-                $result = 'Carblip';
+                $result = 'Automotive';
                 break;
             case '1002':
                 $result = 'Contact owner';

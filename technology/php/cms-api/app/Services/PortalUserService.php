@@ -215,7 +215,7 @@ class PortalUserService extends AbstractService
 
             if ($roles && count($roles)) {
                 $query = $query->whereHas('roles', function (Builder $in_query) use ($roles) {
-                    $in_query->whereIn('id', $roles)->orWhere('email', "brynn@carblip.com");
+                    $in_query->whereIn('id', $roles)->orWhere('email', "brynn@Automotive.com");
                 });
             }
         }

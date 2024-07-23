@@ -77,7 +77,7 @@ class ClientFilesService extends AbstractService
                 'last_name'            => $data['last_name'],
                 'phone'                => $data['phone'],
                 'email_address'        => $data['email_address'],
-                'contact_owner_email'  => "chang@carblip.com", 
+                'contact_owner_email'  => "chang@Automotive.com", 
                 'source'               => 7
             );
  
@@ -224,7 +224,7 @@ class ClientFilesService extends AbstractService
                     "full_name" => $rawRequest->q9_customerFull,
                     "phone" => $rawRequest->q14_customerPhone->full,
                     "email" => $rawRequest->q15_customerEmail,
-                    "contact_owner" => $rawRequest->q7_carblipEmail,
+                    "contact_owner" => $rawRequest->q7_AutomotiveEmail,
                     "email_preferred_contact" => 0,
                     "address" => array(
                         "street" => $rawRequest->q16_customerAddress->addr_line1,

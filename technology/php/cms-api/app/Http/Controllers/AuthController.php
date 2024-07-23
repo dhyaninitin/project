@@ -104,7 +104,7 @@ class AuthController extends Controller
                 // SMS Authantication
                 if($portal_user->phone){
                     $otp =  $this->generateRandomNumber();
-                    $msg = 'CarBlip Two Factor Authentication code is '.$otp;
+                    $msg = 'Automotive Two Factor Authentication code is '.$otp;
                     $client = new Client(config('services.twilio.twilio_account_sid'), config('services.twilio.twilio_auth_token'));
                     $message = $client->messages->create(
                         $portal_user->phone,

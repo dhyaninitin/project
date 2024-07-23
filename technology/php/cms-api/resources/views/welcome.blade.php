@@ -67,7 +67,7 @@
         <div class="flex-center position-ref full-height">
             <div class="content">
                 <div class="title m-b-md">
-                    Carblip Portal Api
+                    Automotive Portal Api
                 </div>
             </div>
         </div>

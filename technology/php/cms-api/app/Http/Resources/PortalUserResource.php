@@ -54,7 +54,7 @@ class PortalUserResource extends JsonResource
             'email'             => $this->email,
             'personalemail'     => $this->personalemail,
             'phone'             => $this->phone,
-            'carblip_assigned_phone' => $this->getCarblipAssignedNumber($this->id),
+            'Automotive_assigned_phone' => $this->getAutomotiveAssignedNumber($this->id),
             'roles'             => $roles,
             'permissions'       => $permissions,
             'roundrobin'        => $this->round_robin,

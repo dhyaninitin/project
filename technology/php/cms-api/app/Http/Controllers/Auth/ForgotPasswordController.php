@@ -90,7 +90,7 @@ class ForgotPasswordController extends Controller
                $message .= '<p style="color:#333;font-size:14px;">This password reset link will expire in 60 minutes.</p>';
                $message .= '<p style="color:#333;font-size:14px;">If you did not request a password reset, no further action is required.</p>';
                $message .= '<p style="color:#333;font-size:14px;">Regards,</p>';
-               $message .= '<p style="color:#333;font-size:14px;">Carblip</p>';
+               $message .= '<p style="color:#333;font-size:14px;">Automotive</p>';
                $message .= '</body></html>';
 
                $mailjet = new \Mailjet\Client(config('services.mailjet.key'), config('services.mailjet.secret'), true, ['version' => 'v3.1']);
@@ -98,8 +98,8 @@ class ForgotPasswordController extends Controller
                     'Messages' => [
                         [
                             'From' => [
-                                'Email' => "support@carblip.com",
-                                'Name' => "Carblip"
+                                'Email' => "support@Automotive.com",
+                                'Name' => "Automotive"
                             ],
                             'To' => [
                                 [

@@ -213,7 +213,7 @@ class ExportController extends Controller
                 }
 
                 $quote['customersWholeSale'] = array_map(function($item) {
-                    $item['paid_to'] = $item['paid_to'] == 1 ? 'Paid To Dealer': 'Paid To Carblip';
+                    $item['paid_to'] = $item['paid_to'] == 1 ? 'Paid To Dealer': 'Paid To Automotive';
                     $item['date'] = $item['date'] ? Carbon::parse($item['date'])->format('m/d/Y'): '';
                     return $item;
                 }, $quote['customersWholeSale']);

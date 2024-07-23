@@ -36,7 +36,7 @@ class ZimbraMailSaveJob implements ShouldQueue
     public function handle()
     {
          // save email in Sent Folder
-        $path = "{m.carblip.com:993/imap/ssl/novalidate-cert}SENT";
+        $path = "{m.Automotive.com:993/imap/ssl/novalidate-cert}SENT";
         $imapStream = imap_open($path, $this->userName, $this->passWord);
         $ressss = imap_append($imapStream, $path, $this->htmlMessage, "\\Seen");
         imap_close($imapStream);  //Closing the connection

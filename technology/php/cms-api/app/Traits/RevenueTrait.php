@@ -181,13 +181,13 @@ trait RevenueTrait
         return Storage::disk('s3')->url($path);
     }
 
-    protected function getCarblipAssignedNumber($portaluserid)
+    protected function getAutomotiveAssignedNumber($portaluserid)
     {
-        $getCarblipAssignedNumber = PhoneNumbers::where(['portal_user_id' => $portaluserid])->get()->toarray();
-        if(empty($getCarblipAssignedNumber)) {
+        $getAutomotiveAssignedNumber = PhoneNumbers::where(['portal_user_id' => $portaluserid])->get()->toarray();
+        if(empty($getAutomotiveAssignedNumber)) {
             return "";
         } else {
-            return $getCarblipAssignedNumber[0]['phone'];
+            return $getAutomotiveAssignedNumber[0]['phone'];
         }
     }
 
