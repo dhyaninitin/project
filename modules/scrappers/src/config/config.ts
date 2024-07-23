@@ -25,11 +25,11 @@ const chromeConfig = {
             primaryPaint: 68,
             seatTrim: 72
         },
-        baseUrl: "https://services.chromedata.com/AutomotiveConfigCompareService/AutomotiveConfigCompareService4h?WSDL",
-        baseMediaUrl: "https://media.chromedata.com/MediaGallery/service/style/"
+        baseUrl: "",
+        baseMediaUrl: ""
     },
-    modelsBlocked: [31262, 32213, 31566, 32557, 31447, 31448, 31320, 33008, 31321, 33009, 31134, 32562, 31234, 31235, 31203, 31200, 32810, 32848, 32854, 31230, 32827, 32809, 31509, 32814, 31510, 32815, 31582, 32558, 31264, 32209, 31880, 32759, 31858, 32186, 32926, 32190, 32987, 32183, 32928, 31427, 32455, 31428, 32454],
-    brandsBlocked: ["Karma", "Lucid", "Polestar", "Rivian", "Tesla"],
+    modelsBlocked: [31262, 32213, 31566, 32557, 31428, 32454],
+    brandsBlocked: ["Karma", "Lucid", "Tesla"],
     yearEnabled: 2024
 }
 
@@ -44,11 +44,11 @@ const ociConfig = {
 }
 
 const placeHolder = {
-    image_placeholder: "https://axo7dvhusjw2.compat.objectstorage.us-phoenix-1.oraclecloud.com/carblip-configurator/assets/image-coming-soon.png",
-    image_placeholder_320: "https://axo7dvhusjw2.compat.objectstorage.us-phoenix-1.oraclecloud.com/carblip-configurator/assets/image-coming-soon-320.png",
-    image_placeholder_640: "https://axo7dvhusjw2.compat.objectstorage.us-phoenix-1.oraclecloud.com/carblip-configurator/assets/image-coming-soon-640.png",
-    image_placeholder_1280: "https://axo7dvhusjw2.compat.objectstorage.us-phoenix-1.oraclecloud.com/carblip-configurator/assets/image-coming-soon-1280.png",
-    image_placeholder_2100: "https://axo7dvhusjw2.compat.objectstorage.us-phoenix-1.oraclecloud.com/carblip-configurator/assets/image-coming-soon-2100.png",
+    image_placeholder: "https://axo7dvhusjw2.compat.objectstorage.us-phoenix-1.oraclecloud.com/Automotive/image-coming-soon.png",
+    image_placeholder_320: "https://axo7dvhusjw2.compat.objectstorage.us-phoenix-1.oraclecloud.com/Automotive/image-coming-soon-320.png",
+    image_placeholder_640: "https://axo7dvhusjw2.compat.objectstorage.us-phoenix-1.oraclecloud.com/Automotive/image-coming-soon-640.png",
+    image_placeholder_1280: "https://axo7dvhusjw2.compat.objectstorage.us-phoenix-1.oraclecloud.com/Automotive/image-coming-soon-1280.png",
+    image_placeholder_2100: "https://axo7dvhusjw2.compat.objectstorage.us-phoenix-1.oraclecloud.com/Automotive/image-coming-soon-2100.png",
     image_resolution: "1280",
 }
 
@@ -59,7 +59,7 @@ const slackConfig = {
     icon_emoji: 'https://a.slack-edge.com/80588/img/icons/app-57.png',
     newVehicleNotifier:process.env.NEW_VEHICLE_NOTIFIER,
     vehicleAdditionUsername:'Vehicle additions',
-    additionChannel:'#vehicle-additions'
+    additionChannel:'#additions'
 }
 
 const Sentry = {
