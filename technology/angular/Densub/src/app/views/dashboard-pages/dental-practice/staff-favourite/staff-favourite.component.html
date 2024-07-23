@@ -40,7 +40,7 @@
                         <tr *ngFor="let favStaff of favoriteList | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index;">
                             <td class="text-capitalize">
 
-                                <img *ngIf="!favStaff?.favoriteId?.profilePhoto?.length" class="img-circle" src="../../../../../assets/img/brand/densub-logo-final.jpg" width="50" height="50" alt=">{{favStaff?.favoriteId?.firstName}} {{favStaff?.favoriteId?.lastName}}">
+                                <img *ngIf="!favStaff?.favoriteId?.profilePhoto?.length" class="img-circle" src="../../../../../assets/img/brand/marketplace-logo-final.jpg" width="50" height="50" alt=">{{favStaff?.favoriteId?.firstName}} {{favStaff?.favoriteId?.lastName}}">
                                 <img *ngIf="favStaff?.favoriteId?.profilePhoto?.length" class="img-circle" [src]="favStaff?.favoriteId?.profilePhoto[0]" width="50" height="50" style="height: 50px;" alt=">{{favStaff?.favoriteId?.firstName}} {{favStaff?.favoriteId?.lastName}}">
                                 <a class="ml-7 text-primary" (click)="showStaffProfile(favStaff?.favoriteId?._id)"><strong>{{favStaff?.favoriteId?.firstName}} {{favStaff?.favoriteId?.lastName}}</strong></a>
                             </td>
@@ -109,7 +109,7 @@
                   <div>
                   <div class="usr-avtar img-circle overflow-hidden text-center">
                     <img *ngIf="!staffDetails?.profilePhoto?.length"
-                      src="../../../../../assets/img/brand/densub-logo-final.jpg" width="60" class="img-fluid img-circle invite-image" alt="">
+                      src="../../../../../assets/img/brand/marketplace-logo-final.jpg" width="60" class="img-fluid img-circle invite-image" alt="">
                     <img *ngIf="staffDetails?.profilePhoto?.length" src="{{staffDetails?.profilePhoto[0]}}"
                       width="60" style="height: 60px !important;" class="img-circle invite-image" alt="{{staffDetails.firstName}}">
                     </div>

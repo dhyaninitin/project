@@ -100,6 +100,14 @@ app.set 'view engine', 'ejs'
 app.use bodyParser.json(limit: '50mb')
 app.use bodyParser.urlencoded(extended: false,limit: '50mb')
 app.use bodyParser.text()
+# app.use(bodyParser.xml({
+#     xmlParseOptions: {
+#         ignoreAttrs:false,
+#         normalize: true,     
+#         normalizeTags: true, 
+#         explicitArray: false
+#     }
+# }));
 app.use (req, res, next) ->
   res.set 'Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0'
   next()
@@ -108,13 +116,14 @@ app.use (req, res, next) ->
 # app.use forceSSL(wagner)
 app.use cookieParser()
 app.use cookieSession(
-    name: "carblip"
+    name: "Automotive"
     keys: ['key1','key2'])
 
 assetPath = path.join(__dirname, 'public')
 app.use('/public', express.static(assetPath));
 app.use(assets('/public', assetPath));
 app.use '/docs', express.static( __dirname + '/swagger' )
+#app.use express.static(path.join(__dirname, 'public'))
 app.use passport.initialize()
 app.use passport.session()
 app.use flash()

@@ -573,13 +573,13 @@
             <a href="{{viewProfileLink}}/{{offer._id}}">
             <div class="text-center">
               <div class="">
-              <span class="badge badge-densub-blue mb-2 ml-3 mr-3" *ngIf="offer?.jobType == jobTypes.TEMPORARY">Temporary</span>
+              <span class="badge badge-Marketplace-blue mb-2 ml-3 mr-3" *ngIf="offer?.jobType == jobTypes.TEMPORARY">Temporary</span>
               <span class="badge badge-success mb-2" *ngIf="offer?.jobType == jobTypes.PERMANENTPARTTIME">Permanent Part Time</span>
               <span class="badge badge-success mb-2" *ngIf="offer?.jobType == jobTypes.PERMANENTFULLTIME">Permanent Full Time</span>
             </div>
             <div class="usr-avtar img-circle overflow-hidden">
               <img *ngIf="!offer?.createdBy?.profilePhoto?.length"
-                src="../../../../assets/img/brand/densub-logo-final.jpg" width="73" height="73px" class="img-fluid img-circle" alt="">
+                src="../../../../assets/img/brand/Marketplace-logo-final.jpg" width="73" height="73px" class="img-fluid img-circle" alt="">
               <img *ngIf="offer?.createdBy?.profilePhoto?.length" src="{{offer?.createdBy?.profilePhoto[0]}}"
                 width="73" height="73" class="img-fluid img-circle" alt="{{offer?.createdBy?.firstName}}">
             </div>

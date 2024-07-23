@@ -29,7 +29,7 @@ Raven.config(process.env.NODE_ENV != 'localhost' && config.SENTRY.dsn, {
 }).install();
 
 Slack = require 'node-slackr'
-slack = new Slack('https://hooks.slack.com/services/T5UG82JKS/H453fsfsD4JGCMD0/Frewrwerewrwerwerw',
+slack = new Slack('https://hooks.slack.com/services/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',
     channel: '#cron'
     username: 'Cron Notification'
     icon_emoji: 'https://a.slack-edge.com/80588/img/icons/app-57.png'

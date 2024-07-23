@@ -28,18 +28,18 @@ export class UserMessageRecipient {
       }
     },
     sender: "5e42758573a9266f468990c9",
-    text: "Let's Start Chat on Densub!",
+    text: "Let's Start Chat on marketplace!",
     updated_at: ''
   };
   recipients: {
     "5e427adc73a9266f468990cb": {
-      avatar: "https://densub.s3.amazonaws.com/1581415530098-28.jpg",
+      avatar: "https://marketplace.s3.amazonaws.com/1581415530098-28.jpg",
       id: "5e427adc73a9266f468990cb",
       status: "read",
       unread: 0
     },
     "5e42758573a9266f468990c9": {
-      avatar: "https://densub.s3.amazonaws.com/1584622308668-47.jpg",
+      avatar: "https://marketplace.s3.amazonaws.com/1584622308668-47.jpg",
       id: "5e42758573a9266f468990c9",
       status: "unread",
       unread: 0
@@ -62,6 +62,6 @@ export class UserMessage {
     }
   };
   sender: "5e42758573a9266f468990c9";
-  text: "Let's Start Chat on Densub!";
+  text: "Let's Start Chat on marketplace!";
   updated_at: ""
 }

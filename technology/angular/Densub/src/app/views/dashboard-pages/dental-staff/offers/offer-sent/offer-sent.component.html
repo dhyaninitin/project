@@ -108,7 +108,7 @@
                     <div class="col-md-6 pl-0 my-auto" style="text-align: center;">
                       <img *ngIf="offer?.practiceId?.profilePhoto[0] !== '' && offer?.practiceId?.profilePhoto[0] !== null && offer?.practiceId?.profilePhoto[0] !== undefined" src="{{offer?.practiceId?.profilePhoto[0]}}" width="86" class="img-responsive profile-pic">
                       <img *ngIf="offer?.practiceId?.profilePhoto[0] == '' || offer?.practiceId?.profilePhoto[0] == null || offer?.practiceId?.profilePhoto[0] ==undefined"
-                      src="../../../../../../assets/img/brand/densub-logo-final.jpg" class="img-responsive profile-pic" width="86">
+                      src="../../../../../../assets/img/brand/marketplace-logo-final.jpg" class="img-responsive profile-pic" width="86">
 
                       <div  class="mt-1">
                         <i *ngIf="offer?.practiceId?.avgRating > 0 && offer?.practiceId?.avgRating != null && offer?.practiceId?.avgRating != undefined;"
@@ -502,7 +502,7 @@
           <div>
         <div class="usr-avtar img-circle overflow-hidden text-center custom-cursor-pointer" [routerLink]="['/practice-profile',offerDetails?.practiceId?._id]" target="_blank">
           <img *ngIf="!offerDetails?.practiceId?.profilePhoto?.length"
-            src="../../../../assets/img/brand/densub-logo-final.jpg" width="90" height="90" class="img-fluid img-circle accept-offer-img" alt="">
+            src="../../../../assets/img/brand/marketplace-logo-final.jpg" width="90" height="90" class="img-fluid img-circle accept-offer-img" alt="">
           <img *ngIf="offerDetails?.practiceId?.profilePhoto?.length" src="{{offerDetails?.practiceId?.profilePhoto[0]}}"
             width="90" height="90" class="img-fluid img-circle accept-offer-img" alt="{{offerDetails?.practiceId?.firstName}}">
         </div>

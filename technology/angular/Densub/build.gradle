@@ -6,13 +6,13 @@ plugins {
 def distDir = "./dist"
 def configuration = "dev1"
 def target = [
-    server: "dev1.densub.com",
-    user: "densub",
-    keyFile: "../keys/lightsail-densub.pem",
+    server: "dev1.marketplace.com",
+    user: "Marketplace",
+    keyFile: "../keys/lightsail-marketplace.pem",
     archiveDir: "./archives",
 ]
 
-//def archiveBaseName = "densub"
+//def archiveBaseName = "marketplace"
 
 target.archiveLocation = "$target.user@$target.server:$target.archiveDir"
 
@@ -56,19 +56,10 @@ task buildAngular(type:Exec) {
       throw new Exception()
     }
   }
-//  doLast {
-//    log.info standardOutput
-//  }
-//  commandLine "ng", "build", "--output-path=$distDir", "-c", "dev1" "--deleteOutputPath=true" "--sourceMap=false"
+
 }
 
 task archive(type: Zip) {
     from distDir
 }
-
-//task publish(dependsOn: archive, type:Exec) {
-//    doLast {
-//        scp "-i", target.keyFile, archive, target.archiveLocation
-//    }
-//}
 

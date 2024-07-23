@@ -59,7 +59,7 @@ export class HomeComponent implements OnInit {
       }
     );
   }
-  getStartedDensub() {
+  getStartedmarketplace() {
     // this.router.navigate(['/signup/' + type]);
     this.getStarted.show();
   }

@@ -876,7 +876,7 @@ export class ContractDetailsComponent implements OnInit {
                                                         }
                               },
                   sender: this.currentUser._id,
-                  text: 'Let\'s Start Chat on Densub!',
+                  text: 'Let\'s Start Chat on marketplace!',
                   updated_at: new Date().getTime()
                 },
       recipients: {
@@ -913,7 +913,7 @@ export class ContractDetailsComponent implements OnInit {
                                                                 }
                                       },
                           sender: this.currentUser._id,
-                          text: 'Let\'s Start Chat on Densub!',
+                          text: 'Let\'s Start Chat on marketplace!',
                           updated_at: new Date().getTime()
     };
 

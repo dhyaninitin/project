@@ -557,7 +557,7 @@ export class OfferSentComponent implements OnInit {
                                 //this.openJobList();
                                 //this.router.navigate(['job-details',this.offerDetails.jobPostId._id]);
                               }else if(data['status'] === 500){
-                                this.toastr.warning('Sorry, We apologize for any inconvenience, Densub was not able to process this transaction due to practice’s account status. We have notified the practice of the issue. Once the practice has corrected the issue, this position may be reposted.','warning');
+                                this.toastr.warning('Sorry, We apologize for any inconvenience, marketplace was not able to process this transaction due to practice’s account status. We have notified the practice of the issue. Once the practice has corrected the issue, this position may be reposted.','warning');
                                 const fullName = this.currentUser.firstName + ' ' + this.currentUser.lastName;
                                 const title = this.globalService.titleCase(this.offerDetails.jobPostId.jobTitle.toString());
                                 const message = '';

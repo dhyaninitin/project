@@ -26,7 +26,7 @@ wagner.get('BrandsManager').fetchAllBrands().then (brands) ->
     if brands.length < 0
         process.exit()
     else
-        wagner.get('EmailTransport').serverDownEmail('changl@gmail.com','hardik.thinktank@gmail.com')
+        wagner.get('EmailTransport').serverDownEmail('testl@gmail.com','hardik.thinktank@gmail.com')
         console.log 'Mail successfully sent'
 .catch (error)=>
     console.log error

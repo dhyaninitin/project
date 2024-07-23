@@ -90,7 +90,7 @@ export class LoginComponent implements OnInit {
               this.userId = loggedUser._id;
               // this.emailLink = data.emailLink;
               this.toastr.warning(
-                'In order to log in to your profile you must first complete the sign up process by verifying your email address. An email verification link was sent to the email address entered at the time of sign up. If you did not receive an email confirmation from Densub please sign up again and ensure that you enter the correct email address.',
+                'In order to log in to your profile you must first complete the sign up process by verifying your email address. An email verification link was sent to the email address entered at the time of sign up. If you did not receive an email confirmation from marketplace please sign up again and ensure that you enter the correct email address.',
                 'Alert' ,{timeOut:600000});
               /* this.toastr.warning(
                 'You will have to complete your email Verification. please check your email.',

@@ -633,7 +633,7 @@ export class PracticeProfileComponent implements OnInit {
   removePaymentCardAlert(index) {
     let message = { show: true, message: 'Are you sure that you want to delete your card?' };
     if (this.paymentCards.length === 1) {
-      message = { show: true, message: "A valid credit card must be provided in order to post a job on Densub's marketplace. Are you sure that you want to delete your card?" }
+      message = { show: true, message: "A valid credit card must be provided in order to post a job on marketplace's marketplace. Are you sure that you want to delete your card?" }
     }
     this.alertDetails = {
       title: 'Alert',
@@ -1300,7 +1300,7 @@ export class PracticeProfileComponent implements OnInit {
     if(this.practiceProfileInfo.profileVerificationStatus !== this.profileStatus.NEW){
     this.alertDetails = {
       title: 'Alert',
-      message: { show: true, message: "You must be 18 years and older to create a profile and join Densub's marketplace." },
+      message: { show: true, message: "You must be 18 years and older to create a profile and join marketplace's marketplace." },
       cancelButton: { show: false, name: 'Close' },
       confirmButton: { show: true, name: 'Confirm' },
     };

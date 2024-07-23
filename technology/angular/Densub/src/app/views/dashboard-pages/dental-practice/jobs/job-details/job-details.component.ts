@@ -1587,7 +1587,7 @@ export class JobDetailsComponent implements OnInit, OnDestroy {
           }
         },
         sender: this.currentUser._id,
-        text: (this.sendMessage) ? this.sendMessage : 'Let\'s Start Chat on Densub!',
+        text: (this.sendMessage) ? this.sendMessage : 'Let\'s Start Chat on marketplace!',
         updated_at: new Date().getTime()
       },
       recipients: {
@@ -1623,7 +1623,7 @@ export class JobDetailsComponent implements OnInit, OnDestroy {
         }
       },
       sender: this.currentUser._id,
-      text: (this.sendMessage) ? this.sendMessage : 'Let\'s Start Chat on Densub!',
+      text: (this.sendMessage) ? this.sendMessage : 'Let\'s Start Chat on marketplace!',
       updated_at: new Date().getTime()
     };
 
@@ -3787,7 +3787,7 @@ export class JobDetailsComponent implements OnInit, OnDestroy {
   showNegotiateMsfg(){
     if(this.jobDetail.jobType === this.jobTypes.TEMPORARY){
       this.msgDisplayed = true;
-      this.toastr.success('To submit an application with counter offer, you must at least change one of the following parameters: start time, end time and / or the rate. Please review and accept Densub’s terms and conditions','Alert',{timeOut:10000})
+      this.toastr.success('To submit an application with counter offer, you must at least change one of the following parameters: start time, end time and / or the rate. Please review and accept marketplace’s terms and conditions','Alert',{timeOut:10000})
     }else{
     this.toastr.success('To submit an application with counter offer, you must change the pay rate','Alert',{timeOut:10000})
     }

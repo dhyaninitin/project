@@ -6,7 +6,7 @@
          <div class="page-title-box">
             <!-- <h4 class="page-title float-left">Jobs Individual Page</h4> -->
             <ol class="breadcrumb float-right" style="border-bottom: none;">
-               <!-- <li class="breadcrumb-item"><a [routerLink]="['/practice/dashboard']">Densub</a></li> -->
+               <!-- <li class="breadcrumb-item"><a [routerLink]="['/practice/dashboard']">marketplace</a></li> -->
                <li class="breadcrumb-item"><a [routerLink]="['/practice/job-posts']">My Job Postings</a></li>
                <li class="breadcrumb-item active">{{ jobDetail?.jobTitle}}</li>
             </ol>
@@ -284,7 +284,7 @@
                                           <img *ngIf="offer?.staffId?.profilePhoto?.length"
                                                 src="{{offer?.staffId.profilePhoto[0]}}" class="img-fluid w-100 img-circle" alt="">
                                           <img *ngIf="!offer?.staffId?.profilePhoto?.length"
-                                             src="../../../../../../assets/img/brand/densub-logo-final.jpg"
+                                             src="../../../../../../assets/img/brand/marketplace-logo-final.jpg"
                                              class="img-fluid w-100 img-circle" alt="">
                                           <div style="text-align: center;">
                                             <h5 class="heading">
@@ -459,7 +459,7 @@
                                  <div *ngIf=" offer.status === offerStatus.OFFER && !hireFlag">
                                     <button *ngIf="setButtonConditionForOffer(offer,'acceptOffer')"  class="btn btn-outline-success mt-2" (click)="acceptOffer(offer,index)">Hire</button><br>
                                     <button *ngIf="setButtonConditionForOffer(offer,'declineOffer')"  class="btn btn-outline-danger mt-2" (click)="showModal(offer,'declineJobModal', index);">Decline</button><br>
-                                    <button *ngIf="setButtonConditionForOffer(offer,'recounteroffer') && offer?.jobPostId?.jobType === jobTypes.TEMPORARY" class="btn btn-densub-blue mt-2" (click)="showModal(offer,'counterOfferJobModal', index, offerType.RECOUNTER);">Send Final Offer</button><br>
+                                    <button *ngIf="setButtonConditionForOffer(offer,'recounteroffer') && offer?.jobPostId?.jobType === jobTypes.TEMPORARY" class="btn btn-marketplace-blue mt-2" (click)="showModal(offer,'counterOfferJobModal', index, offerType.RECOUNTER);">Send Final Offer</button><br>
                                     <div *ngIf="!offer.practiceId.profileVerificationStatus.isActivated">
                                     <button class="btn btn-outline-secondary mt-2"  *ngIf="setButtonConditionForOffer(offer,'counterOffer')"
                                         (click)="showModal(offer,'payToActivate', index);">Pay to activate account</button><br>
@@ -807,7 +807,7 @@
                                        <img *ngIf="offer?.staffId?.profilePhoto?.length"
                                              src="{{offer?.staffId.profilePhoto[0]}}" class="img-fluid w-100 img-circle" alt="">
                                        <img *ngIf="!offer?.staffId?.profilePhoto?.length"
-                                          src="../../../../../../assets/img/brand/densub-logo-final.jpg"
+                                          src="../../../../../../assets/img/brand/marketplace-logo-final.jpg"
                                           class="img-fluid w-100 img-circle" alt="">
                                        <div style="text-align: center;">
                                          <h5 class="heading">
@@ -972,7 +972,7 @@
                               <div *ngIf=" offer.status === offerStatus.OFFER && !hireFlag">
                                 <button *ngIf="setButtonConditionForOffer(offer,'acceptOffer')"  class="btn btn-outline-success mt-2"  (click)="acceptOffer(offer,index)">Hire</button> <br>
                                 <button *ngIf="setButtonConditionForOffer(offer,'declineOffer')" class="btn btn-outline-danger mt-2" (click)="showModal(offer,'declineJobModal', index);">Decline</button>
-                                <button *ngIf="setButtonConditionForOffer(offer,'recounteroffer') && offer?.jobPostId?.jobType === jobTypes.TEMPORARY"  class="btn btn-densub-blue mt-2" (click)="showModal(offer,'counterOfferJobModal', index, offerType.RECOUNTER);">Send Final Offer</button><br>
+                                <button *ngIf="setButtonConditionForOffer(offer,'recounteroffer') && offer?.jobPostId?.jobType === jobTypes.TEMPORARY"  class="btn btn-marketplace-blue mt-2" (click)="showModal(offer,'counterOfferJobModal', index, offerType.RECOUNTER);">Send Final Offer</button><br>
                                 <div *ngIf="!offer.practiceId.profileVerificationStatus.isActivated">
                                   <button class="btn btn-outline-secondary mt-2" *ngIf="setButtonConditionForOffer(offer,'counterOffer')"
                                       (click)="showModal(offer,'payToActivate', index);">Pay to activate account</button><br>
@@ -1034,7 +1034,7 @@
                                          <img *ngIf="offer?.staffId?.profilePhoto?.length" style="max-width: 110px;"
                                           src="{{offer?.staffId.profilePhoto[0]}}" class="img-fluid w-100 img-circle" alt="">
                                          <img *ngIf="!offer?.staffId?.profilePhoto?.length"
-                                             src="../../../../../../assets/img/brand/densub-logo-final.jpg"
+                                             src="../../../../../../assets/img/brand/marketplace-logo-final.jpg"
                                              class="img-fluid w-100 img-circle" alt="">
                                          <div style="text-align: center;">
                                            <h5 class="heading">
@@ -1204,7 +1204,7 @@
                                  <div *ngIf=" offer.status === offerStatus.OFFER && !hireFlag">
                                    <button class="btn btn-outline-success mt-2" *ngIf="setButtonConditionForOffer(offer,'acceptOffer')"  (click)="acceptOffer(offer,index)">Hire</button>
                                    <button class="btn btn-outline-danger mt-2" *ngIf="setButtonConditionForOffer(offer,'declineOffer')"  (click)="showModal(offer,'declineJobModal', index);">Decline</button>
-                                   <button class="btn btn-densub-blue mt-2" *ngIf="setButtonConditionForOffer(offer,'recounteroffer') && offer?.jobPostId?.jobType === jobTypes.TEMPORARY"  (click)="showModal(offer,'counterOfferJobModal', index, offerType.RECOUNTER);">Send Final Offer</button>
+                                   <button class="btn btn-marketplace-blue mt-2" *ngIf="setButtonConditionForOffer(offer,'recounteroffer') && offer?.jobPostId?.jobType === jobTypes.TEMPORARY"  (click)="showModal(offer,'counterOfferJobModal', index, offerType.RECOUNTER);">Send Final Offer</button>
                                    <div *ngIf="!offer.practiceId.profileVerificationStatus.isActivated">
                                      <button class="btn btn-outline-secondary mt-2" *ngIf="setButtonConditionForOffer(offer,'counterOffer')"
                                          (click)="showModal(offer,'payToActivate', index);">Pay to activate account</button>
@@ -1268,7 +1268,7 @@
                                              <img *ngIf="offer?.staffId?.profilePhoto?.length"
                                                  src="{{offer?.staffId.profilePhoto[0]}}" class="img-fluid w-100 img-circle" alt="">
                                              <img *ngIf="!offer?.staffId?.profilePhoto?.length"
-                                                 src="../../../../../../assets/img/brand/densub-logo-final.jpg"
+                                                 src="../../../../../../assets/img/brand/marketplace-logo-final.jpg"
                                                  class="img-fluid w-100 img-circle" alt="">
                                              <div style="text-align: center;">
                                              <h5 class="heading">
@@ -1432,7 +1432,7 @@
                                        <div *ngIf=" offer.status === offerStatus.OFFER && !hireFlag">
                                          <button class="btn btn-outline-success mt-2" *ngIf="setButtonConditionForOffer(offer,'acceptOffer')"  (click)="acceptOffer(offer,index)">Hire</button><br>
                                          <button class="btn btn-outline-dangermt-2" *ngIf="setButtonConditionForOffer(offer,'declineOffer')"  (click)="showModal(offer,'declineJobModal', index);">Decline</button><br>
-                                         <button class="btn btn-densub-blue mt-2" *ngIf="setButtonConditionForOffer(offer,'recounteroffer') && offer?.jobPostId?.jobType === jobTypes.TEMPORARY"  (click)="showModal(offer,'counterOfferJobModal', index, offerType.RECOUNTER);">Send Final Offer</button><br>
+                                         <button class="btn btn-marketplace-blue mt-2" *ngIf="setButtonConditionForOffer(offer,'recounteroffer') && offer?.jobPostId?.jobType === jobTypes.TEMPORARY"  (click)="showModal(offer,'counterOfferJobModal', index, offerType.RECOUNTER);">Send Final Offer</button><br>
                                          <div *ngIf="!offer.practiceId.profileVerificationStatus.isActivated">
                                            <button  class="btn btn-outline-secondary mt-2" *ngIf="setButtonConditionForOffer(offer,'counterOffer')"
                                                (click)="showModal(offer,'payToActivate', index);">Pay to activate account</button><br>
@@ -1941,16 +1941,16 @@
                         <a *ngIf="rejectRevisionMessageFlag" style="color:#007bff" class="pull-right mr-20" (click)="viewRejectRevision.show();assignArrayOfObject();">View revision requests history</a>
                    </div>
                    <!-- <div class="col-md-12" *ngIf="rejectRevisionMessageFlag ||((newTimesheet[0]?.timeClockStatus).toLowerCase() == (timeSheetStatus.SPA).toLowerCase() || newTimesheet[0]?.timeClockStatus == timeSheetStatus.REJECTED)">
-                      <p class="warning-msg-timesheet">Densub’s timesheet review and approval process is available up to 30 days from the job’s date</p>  
+                      <p class="warning-msg-timesheet">marketplace’s timesheet review and approval process is available up to 30 days from the job’s date</p>  
                    </div> -->
                    <div class="col-md-12" *ngIf="!newTimesheet[0]?.contractId?._id">                  
-                     <p class="warning-msg-timesheet">Densub’ timesheet submission process is available up to 14 days from the job’s date period</p>
+                     <p class="warning-msg-timesheet">marketplace’ timesheet submission process is available up to 14 days from the job’s date period</p>
                   </div>
                   <div class="col-md-12" *ngIf="newTimesheet[0]?.contractId?._id">                  
-                     <p class="warning-msg-timesheet">Densub’ timesheet review and approval process is available up to 30 days from the job’s date period</p>
+                     <p class="warning-msg-timesheet">marketplace’ timesheet review and approval process is available up to 30 days from the job’s date period</p>
                   </div>
                   <div class="col-md-12" *ngIf="jobDetail.status === 'Completed - Marked As Paid by Staff'">
-                     <p class="warning-msg-timesheet">As a courtesy to both the staff and practice, Densub generates a proforma timesheet when a completed assignment has been marked as paid by the staff. The purpose of this proforma timesheet is only informational, as it will assist in improving the accuracy and completeness of the reports and analytics available on Densub.</p>   
+                     <p class="warning-msg-timesheet">As a courtesy to both the staff and practice, marketplace generates a proforma timesheet when a completed assignment has been marked as paid by the staff. The purpose of this proforma timesheet is only informational, as it will assist in improving the accuracy and completeness of the reports and analytics available on marketplace.</p>   
                   </div>
                  </div>
                 
@@ -2111,21 +2111,21 @@
                   <div *ngIf='timesheetNotSubmitted && jobDetail?.jobType === jobTypes.TEMPORARY'>
                      <div class="form-group row">
                         <div class="col-12">
-                           <p class="warning-msg-timesheet">To process an e-pay via Stripe or to record an offline payment, please request the staff to submit their timesheet via Densub’s platform</p>  
+                           <p class="warning-msg-timesheet">To process an e-pay via Stripe or to record an offline payment, please request the staff to submit their timesheet via marketplace’s platform</p>  
                         </div>
                      </div>
                   </div>
                   <div *ngIf="jobDetail?.jobType !== jobTypes.TEMPORARY">
                      <div class="form-group row">
                         <div class="col-12" *ngIf="jobDetail?.status !== 'completed'">
-                           <p class="warning-msg-timesheet">To process an e-pay via Stripe or to record an offline payment, please request the staff to submit their timesheet via Densub’s platform</p>  
+                           <p class="warning-msg-timesheet">To process an e-pay via Stripe or to record an offline payment, please request the staff to submit their timesheet via marketplace’s platform</p>  
                         </div>
                         <div class="col-12" *ngIf="jobDetail?.status === 'completed'">
                            <!-- <div class="col-md-12" style="text-align: left;">
                               <a href="{{paymentDetailsStaff?.receiptURL}}" target="_blank">View payment receipt to Staff</a>
                             </div> -->
                             <div class="col-md-12" style="text-align: left;">
-                              <a href="{{paymentDetailss?.receiptURL}}" target="_blank">View payment receipt for service fee to Densub</a>
+                              <a href="{{paymentDetailss?.receiptURL}}" target="_blank">View payment receipt for service fee to marketplace</a>
                             </div>
                         </div>
                      </div>
@@ -2139,7 +2139,7 @@
                         <div *ngIf="!showOfflineMode">
                            <div class="form-group row">
                               <div class="col-12">
-                                 <p>With Densub’s e-pay option you can conveniently make online payments to the staff who have a Stripe account. Alternatively, you can select one of the offline payment methods to document and communicate to the staff how their payment was made.</p>
+                                 <p>With marketplace’s e-pay option you can conveniently make online payments to the staff who have a Stripe account. Alternatively, you can select one of the offline payment methods to document and communicate to the staff how their payment was made.</p>
                                  <p class="warning-msg-timesheet" style="text-align: left;"> Regardless of which option you choose to pay the wages, please consult a Tax accountant or financial professional for proper guidance.</p>
                                 <label><b>Mode of Payment</b></label>
                                 <div class="form-group">
@@ -2214,7 +2214,7 @@
                   <div *ngIf="showApprove || showPaymentFlag && jobDetail.status == 'payToActivate' || !jobDetail?.autoCompletedBy && ((newTimesheet[0]?.timeClockStatus).toLowerCase() == (timeSheetStatus.ANP).toLowerCase() ||newTimesheet[0]?.timeClockStatus == timeSheetStatus.ANP)">
                   <div class="form-group row">
                      <div class="col-12">
-                        <p>With Densub’s e-pay option you can conveniently make online payments to the staff who have a Stripe account. Alternatively, you can select one of the offline payment methods to document and communicate to the staff how their payment was made.</p>
+                        <p>With marketplace’s e-pay option you can conveniently make online payments to the staff who have a Stripe account. Alternatively, you can select one of the offline payment methods to document and communicate to the staff how their payment was made.</p>
                         <p class="warning-msg-timesheet" style="text-align: left;"> Regardless of which option you choose to pay the wages, please consult a Tax accountant or financial professional for proper guidance.</p>
                        <label><b>Mode of Payment</b></label>
                        {{selectedWork.paymentDetails.paymentType}}
@@ -2301,7 +2301,7 @@
                   <p class="warning-msg-timesheet">Timesheet submission process has concluded. If in order to make a payment you require the number of hours worked for this job, please contact the staff directly.</p>
                  </div>
                   <div class="text-center" *ngIf="jobDetail?.autoCompletedBy=='practice'">
-                     <p class="warning-msg-timesheet">Densub’ timesheet review and approval process has concluded and is no longer available.</p>
+                     <p class="warning-msg-timesheet">marketplace’ timesheet review and approval process has concluded and is no longer available.</p>
                   </div>
                   <div class="row ml-3" *ngIf="newTimesheet[0]?.contractId?._id">
                     
@@ -2363,7 +2363,7 @@
                            <a href="{{paymentDetailsStaff?.receiptURL}}" target="_blank">View payment receipt to Staff</a>
                          </div>
                          <div class="col-md-12" style="text-align: left;">
-                           <a href="{{paymentDetailss?.receiptURL}}" target="_blank">View payment receipt for service fee to Densub</a>
+                           <a href="{{paymentDetailss?.receiptURL}}" target="_blank">View payment receipt for service fee to marketplace</a>
                          </div>
                         
                        </div>
@@ -2451,7 +2451,7 @@
                            </div>
                         </div> -->
                         <div class="col-md-12" style="text-align: left;">
-                           <a href="{{paymentDetailss?.receiptURL}}" target="_blank">View payment receipt for service fee to Densub</a>
+                           <a href="{{paymentDetailss?.receiptURL}}" target="_blank">View payment receipt for service fee to marketplace</a>
                          </div>
                        </div>
                     </div>
@@ -2517,7 +2517,7 @@
                         <img *ngIf="offer?.staffId?.profilePhoto?.length" src="{{offer?.staffId.profilePhoto[0]}}"
                            class="img-fluid w-100 img-circle" alt="">
                         <img *ngIf="!offer?.staffId?.profilePhoto?.length"
-                           src="../../../../../../assets/img/brand/densub-logo-final.jpg" class="img-fluid w-100 img-circle"
+                           src="../../../../../../assets/img/brand/marketplace-logo-final.jpg" class="img-fluid w-100 img-circle"
                            alt="">
                      </div>
                   </div>
@@ -2623,7 +2623,7 @@
                 <div>
               <div class="usr-avtar overflow-hidden mr-15 custom-cursor-pointer" [routerLink]="['/staff-profile',offerDetails?.staffId?._id]" target="_blank">
                 <img *ngIf="!offerDetails?.staffId?.profilePhoto?.length"
-                  src="../../../../assets/img/brand/densub-logo-final.jpg" width="90" height="90" class="img-fluid final-offer-img" alt="">
+                  src="../../../../assets/img/brand/marketplace-logo-final.jpg" width="90" height="90" class="img-fluid final-offer-img" alt="">
                 <img *ngIf="offerDetails?.staffId?.profilePhoto?.length" src="{{offerDetails?.staffId?.profilePhoto[0]}}"
                   width="90" height="90" class="img-fluid final-offer-img" alt="{{offerDetails?.staffId?.firstName}}">
               </div>
@@ -2638,7 +2638,7 @@
                 <div class="pl-2 mobile-view-text">
                   <p class="text-capitalize mb-0"  data-toggle="tooltip" title="Position Type">
                     {{offerDetails?.staffId?.positionType?.name}}
-                    <span class="badge badge-densub-blue mr-3" *ngIf="jobDetail?.jobType == jobTypes.TEMPORARY">Temporary</span>
+                    <span class="badge badge-marketplace-blue mr-3" *ngIf="jobDetail?.jobType == jobTypes.TEMPORARY">Temporary</span>
                     <span class="badge badge-success " *ngIf="jobDetail?.jobType == jobTypes.PERMANENTPARTTIME">Permanent Part Time</span>
                     <span class="badge badge-success" *ngIf="jobDetail?.jobType == jobTypes.PERMANENTFULLTIME">Permanent Full Time</span>
                   </p>
@@ -2664,7 +2664,7 @@
             </div>
             <div class="row py-2 box-shad  white-bg mx-0">
             <div class="col-md-12">
-            <label for="" class="label">Densub’s negotiation process allows job providers to send one final counteroffer 
+            <label for="" class="label">marketplace’s negotiation process allows job providers to send one final counteroffer 
                for each negotiated application that has been received.</label> 
             </div>  
              <div class="col-md-12 row box-card">
@@ -2712,8 +2712,8 @@
             </div>
              <div class="row">
              <div class="col-12 pull-right">
-                 <p>When the applicant accepts your final offer, your job will be filled and closed to new applications. Final offer to another staff will be cancelled and Densub’s service fee will be automatically deducted from your account’s primary credit card. Please note, if your credit card is expired, the applicant will not be able to accept your offer and the transaction will not be completed. Our records indicate that your credit card will expire on {{cards?.exp_month}}/{{cards?.exp_year}}. </p>
-                 <input type="checkbox" (click)="changeMsgColor()" [checked]="!termsAndConditions" (change)="termsAndConditions = !termsAndConditions"> <a href="/#/terms-of-use" target="_blank" [ngClass]="(termsAndConditions && msgDisplayed) ? 'terms-and-condition-color' : ''">I accept Densub's terms and conditions</a>
+                 <p>When the applicant accepts your final offer, your job will be filled and closed to new applications. Final offer to another staff will be cancelled and marketplace’s service fee will be automatically deducted from your account’s primary credit card. Please note, if your credit card is expired, the applicant will not be able to accept your offer and the transaction will not be completed. Our records indicate that your credit card will expire on {{cards?.exp_month}}/{{cards?.exp_year}}. </p>
+                 <input type="checkbox" (click)="changeMsgColor()" [checked]="!termsAndConditions" (change)="termsAndConditions = !termsAndConditions"> <a href="/#/terms-of-use" target="_blank" [ngClass]="(termsAndConditions && msgDisplayed) ? 'terms-and-condition-color' : ''">I accept marketplace's terms and conditions</a>
              </div>
 
           </div>
@@ -2871,7 +2871,7 @@
                               src="{{invited?.staffId.profilePhoto[0]}}" class="img-fluid img-circle invite-list-image"
                               style="max-width: 100%;" alt="">
                            <img *ngIf="!invited?.staffId?.profilePhoto?.length"
-                              src="../../../../../../assets/img/brand/densub-logo-final.jpg" class="img-fluid img-circle invite-list-image"
+                              src="../../../../../../assets/img/brand/marketplace-logo-final.jpg" class="img-fluid img-circle invite-list-image"
                               style="max-width: 100%;" alt="">
                         </div>
                      </div>
@@ -2942,7 +2942,7 @@
       <div class="modal-body">
          <div class="form-group row">
             <div class="col-12">
-               Are you sure that you want to cancel this contract? Cancellations may negatively impact your profile on Densub’s marketplace.
+               Are you sure that you want to cancel this contract? Cancellations may negatively impact your profile on marketplace’s marketplace.
             </div>
          </div>
         <div class="form-group row">
@@ -3029,7 +3029,7 @@
       <div class="modal-body">
         <div class="form-group row">
           <div class="col-12">
-             <p>With Densub’s e-pay option you can conveniently make online payments to the staff who have a Stripe account. Alternatively, you can select one of the offline payment methods to document and communicate to the staff how their payment was made</p>
+             <p>With marketplace’s e-pay option you can conveniently make online payments to the staff who have a Stripe account. Alternatively, you can select one of the offline payment methods to document and communicate to the staff how their payment was made</p>
              <p class="warning-msg-timesheet" style="text-align: left;"> Regardless of which option you choose to pay the wages, please consult a Tax accountant or financial professional for proper guidance</p>
             <label><b>Mode of Payment</b></label>
             {{selectedWork.paymentDetails.paymentType}}

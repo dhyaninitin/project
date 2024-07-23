@@ -206,8 +206,8 @@ class EmailTransport extends EventEmitter
             } ]
             from_email: config.mandrill.fromEmail
             from_name: config.mandrill.formName
-            subject: 'Welcome to carblip'
-            text: 'Welcome to carblip' }, (error, response) ->
+            subject: 'Welcome to Automotive'
+            text: 'Welcome to Automotive' }, (error, response) ->
             #uh oh, there was an error
             if error
               console.log('email error : ' + JSON.stringify(error))
@@ -220,9 +220,9 @@ class EmailTransport extends EventEmitter
           name = 'FollowUp'
           from_email = config.mandrill.fromEmail
           from_name = config.mandrill.formName
-          subject = 'Carblip'
-          code = "<p>Awesome <strong mc:edit='firstname'>firstname</strong><strong mc:edit='lastname'>lastname</strong>! Thank you for your interest. We are currently building out the rest of the CarBlip platform. But don't worry... Someone near <strong mc:edit='location'>location</strong> is on the hunt for your new <strong mc:edit='brand'>brand</strong> <strong mc:edit='model'>model</strong> and will be in touch with your shortly.</p>"
-          text = 'Carblip'
+          subject = 'Automotive'
+          code = "<p>Awesome <strong mc:edit='firstname'>firstname</strong><strong mc:edit='lastname'>lastname</strong>! Thank you for your interest. We are currently building out the rest of the Automotive platform. But don't worry... Someone near <strong mc:edit='location'>location</strong> is on the hunt for your new <strong mc:edit='brand'>brand</strong> <strong mc:edit='model'>model</strong> and will be in touch with your shortly.</p>"
+          text = 'Automotive'
           publish = false
           labels = [ 'example-label' ]
           mandrill_client.templates.add {
@@ -245,14 +245,14 @@ class EmailTransport extends EventEmitter
 
     # Not in use
     welcomeEmail:(options,token,host) =>
-      subject = 'Welcome To carblip'
+      subject = 'Welcome To Automotive'
       console.log("INN 180")
       return new Promise ( resolve, reject ) =>
         if config.EmailTransporter.transport == 'mandrill'
             params =
               'template_name': 'Welcome Template'
               'template_content': [ {
-                'name': 'Carblip'
+                'name': 'Automotive'
                 'content': 'Car Company'
               } ]
               'message':
@@ -273,12 +273,12 @@ class EmailTransport extends EventEmitter
     # Only Mandrill template in use in 10/14/2022 that we are moving in to sendinblue
     # welcomeUserEmail:(options) =>
     #   return new Promise ( resolve, reject ) =>
-    #     subject = 'Welcome To carblip'
+    #     subject = 'Welcome To Automotive'
     #     device_type = options.device_type
     #     if device_type == 'iOS'
-    #       letsgoUrl = 'https://carblip.app.link/'
+    #       letsgoUrl = 'https://Automotive.app.link/'
     #     else
-    #       letsgoUrl = 'https://shop.carblip.com/'
+    #       letsgoUrl = 'https://shop.Automotive.com/'
     #     d = new Date();
     #     currentYear = d.getFullYear();
 
@@ -339,7 +339,7 @@ class EmailTransport extends EventEmitter
           from_email: config.mandrill.fromEmail
           from_name: config.mandrill.formName
           subject: 'Verify Account'
-          text: 'You are receiving this because you (or someone else) have register with carblip.\n\n' + 'Please click on the following link, or paste this into your browser to verify your account complete the process:\n\n' + 'http://' + host + '/verifyEmail/' + token + '\n\n' + 'If you did not request this, please ignore this email .\n' }, ((result) ->
+          text: 'You are receiving this because you (or someone else) have register with Automotive.\n\n' + 'Please click on the following link, or paste this into your browser to verify your account complete the process:\n\n' + 'http://' + host + '/verifyEmail/' + token + '\n\n' + 'If you did not request this, please ignore this email .\n' }, ((result) ->
 
           ), (error) ->
           #uh oh, there was an error
@@ -358,7 +358,7 @@ class EmailTransport extends EventEmitter
     #       from_email: config.mandrill.fromEmail
     #       from_name: config.mandrill.formName
     #       subject: 'Forgot Password'
-    #       text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' + 'Please click on the following link, or paste this into your browser to complete the process:\n\n' + 'http://' + host + '/resetPassword/' + token + '\n\n' + 'If you did not request this, please ignore this email and your password will remain unchanged.\n' }, ((result) ->
+    #       text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' + 'Please click on the following link, or paste this into your browser to complete the process:\n\n' + 'http://' + host + '/resetPassword/' + token + '\n\n' + 'If you did not request this, please ignore this email and your password will remain untested.\n' }, ((result) ->
 
     #       ), (error) ->
     #       #uh oh, there was an error
@@ -378,7 +378,7 @@ class EmailTransport extends EventEmitter
             Name: name
           } ]
           Subject: 'Forgot Password'
-          TextPart: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' + 'Please click on the following link, or paste this into your browser to complete the process:\n\n' + 'http://' + host + '/resetPassword/' + token + '\n\n' + 'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+          TextPart: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' + 'Please click on the following link, or paste this into your browser to complete the process:\n\n' + 'http://' + host + '/resetPassword/' + token + '\n\n' + 'If you did not request this, please ignore this email and your password will remain untested.\n'
         } ])
 
         request.then((result) ->
@@ -438,7 +438,7 @@ class EmailTransport extends EventEmitter
           from_email: config.mandrill.fromEmail
           from_name: config.mandrill.formName
           subject: 'Login Confirmation Mail'
-          text: 'Click on following link for Login Verification:\n\n' + link + '\n\n' + ' Your Passcode for Carblip login is: ' +options.login_verify_code+'\n\n If you did not request this, please ignore this email .\n' }, ((result) ->
+          text: 'Click on following link for Login Verification:\n\n' + link + '\n\n' + ' Your Passcode for Automotive login is: ' +options.login_verify_code+'\n\n If you did not request this, please ignore this email .\n' }, ((result) ->
           ), (error) ->
           #uh oh, there was an error
           if error
@@ -446,7 +446,7 @@ class EmailTransport extends EventEmitter
       else
 
     ###
-      Send Lead details to sales@carblip.com
+      Send Lead details to sales@Automotive.com
       Details will consist of dealer, buyer info
     ###
 
@@ -464,7 +464,7 @@ class EmailTransport extends EventEmitter
     #     mandrill_client.messages.send {
     #       message:
     #         to: [ {
-    #             email: 'sales@carblip.com'
+    #             email: 'sales@Automotive.com'
     #         } ]
     #         from_email: config.mandrill.fromEmail
     #         from_name: config.mandrill.formName
@@ -491,7 +491,7 @@ class EmailTransport extends EventEmitter
             Email: config.mailjet.fromEmail
             Name: config.mailjet.fromName
           To: [ {
-            Email: 'sales@carblip.com'
+            Email: 'sales@Automotive.com'
             Name: ''
           } ]
           Subject: 'Lead Details'
@@ -505,7 +505,7 @@ class EmailTransport extends EventEmitter
 
 
     ###
-      Send Lead details to sales@carblip.com
+      Send Lead details to sales@Automotive.com
       Details will consist of dealer, buyer info
     ###
     # Migrated from mandrill to sendinblue
@@ -529,7 +529,7 @@ class EmailTransport extends EventEmitter
     #     mandrill_client.messages.send {
     #       message:
     #         to: [ {
-    #             email: owner_email || 'sales@carblip.com'
+    #             email: owner_email || 'sales@Automotive.com'
     #         } ]
     #         from_email: config.mandrill.fromEmail
     #         from_name: config.mandrill.formName
@@ -564,7 +564,7 @@ class EmailTransport extends EventEmitter
             Email: config.mailjet.fromEmail
             Name: config.mailjet.fromName
           To: [ {
-            Email: owner_email || 'sales@carblip.com'
+            Email: owner_email || 'sales@Automotive.com'
             Name: ''
           } ]
           Subject: 'Lead Details'
@@ -617,7 +617,7 @@ class EmailTransport extends EventEmitter
           console.log('Error while sending email to the dealer : ' + err)
 
     ###
-      Send Lead details to sales@carblip.com
+      Send Lead details to sales@Automotive.com
       Details will consist of dealer, buyer info
     ###
     # Not in use
@@ -628,7 +628,7 @@ class EmailTransport extends EventEmitter
             'template_name': 'Accept Request confirmation'
             'template_content': [{
               'name': 'name',
-              'content': 'Carblip'
+              'content': 'Automotive'
             }, {
               'name': 'year',
               'content': data.year
@@ -680,9 +680,9 @@ class EmailTransport extends EventEmitter
       return new Promise ( resolve, reject ) =>
         device_type = data.device_type
         if device_type == 'iOS'
-          linkUrl = 'https://carblip.app.link/'
+          linkUrl = 'https://Automotive.app.link/'
         else
-          linkUrl = 'https://shop.carblip.com/'
+          linkUrl = 'https://shop.Automotive.com/'
 
         d = new Date();
         currentYear = d.getFullYear();
@@ -741,7 +741,7 @@ class EmailTransport extends EventEmitter
               reject err
 
     ###
-      Send Lead details to sales@carblip.com
+      Send Lead details to sales@Automotive.com
       Details will consist of dealer, buyer info
     ###
     # Not in use
@@ -752,7 +752,7 @@ class EmailTransport extends EventEmitter
             'template_name': 'Accept Offer confirmation'
             'template_content': [{
               'name': 'name',
-              'content': 'Carblip'
+              'content': 'Automotive'
             }, {
               'name': 'year',
               'content': data.year
@@ -828,7 +828,7 @@ class EmailTransport extends EventEmitter
     #     mandrill_client.messages.send {
     #       message:
     #         to: [ {
-    #             email: 'chang@carblip.com'
+    #             email: 'test@Automotive.com'
     #         } ]
     #         from_email: config.mandrill.fromEmail
     #         from_name: config.mandrill.formName
@@ -871,7 +871,7 @@ class EmailTransport extends EventEmitter
             Email: config.mailjet.fromEmail
             Name: config.mailjet.fromName
           To: [ {
-            Email: 'chang@carblip.com'
+            Email: 'test@Automotive.com'
             Name: ''
           } ]
           Subject: 'Fb Lead Details'
@@ -1041,11 +1041,11 @@ class EmailTransport extends EventEmitter
     #   if config.EmailTransporter.transport == 'mandrill'
     #     mandrill_client.messages.send { message:
     #       to: [ {
-    #             email: 'chang@carblip.com',
+    #             email: 'test@Automotive.com',
     #             type:"to"
     #             },
     #             {
-    #             email:"a.dobhal@carblip.com",
+    #             email:"a.dobhal@Automotive.com",
     #             type:"cc"
     #             },
     #           ]
@@ -1067,11 +1067,11 @@ class EmailTransport extends EventEmitter
             Email: config.mailjet.fromEmail
             Name: config.mailjet.fromName
           To: [ {
-            Email: 'chang@carblip.com'
-            Name: 'Chang'
+            Email: 'test@Automotive.com'
+            Name: 'test'
           } ]
           Cc: [ {
-            Email: 'm.ibrahim@carblip.com'
+            Email: 'm.ibrahim@Automotive.com'
             Name: 'Muhammad'
           } ]
           Subject: 'ADF Lead Request Failed'
@@ -1090,7 +1090,7 @@ class EmailTransport extends EventEmitter
     #           email: options.email_address
     #           name: options.first_name
     #       } ]
-    #       from_email: 'adfleads@carblip.com'
+    #       from_email: 'adfleads@Automotive.com'
     #       from_name: 'ADF LEADS'
     #       subject: options.subject || ''
     #       text: options.description + '\n\n' + options.message + '\n\n ' + options.lead }, ((result) ->
@@ -1105,7 +1105,7 @@ class EmailTransport extends EventEmitter
       return new Promise ( resolve, reject ) =>
         request = mailjet.post('send', version: 'v3.1').request(Messages: [ {
           From:
-            Email: 'support@carblip.com'
+            Email: 'support@Automotive.com'
             Name: 'ADF LEADS'
           To: [ {
             Email: options.email_address
@@ -1125,9 +1125,9 @@ class EmailTransport extends EventEmitter
       currentYear = d.getFullYear();
       deviceType = options.device_type
       if deviceType == 'iOS'
-        letsgoUrl = 'https://carblip.app.link/'
+        letsgoUrl = 'https://Automotive.app.link/'
       else
-        letsgoUrl = 'https://shop.carblip.com/'
+        letsgoUrl = 'https://shop.Automotive.com/'
       welcomeEmailTemplateId = 5292831
 
       response = mailjet.post('send', version: 'v3.1').request(Messages: [ {
@@ -1137,9 +1137,9 @@ class EmailTransport extends EventEmitter
         } ]
         TemplateID: welcomeEmailTemplateId
         TemplateLanguage: true
-        Subject: 'Welcome to Carblip'
+        Subject: 'Welcome to Automotive'
         Variables: {
-          SUBJECT: 'Welcome to Carblip',
+          SUBJECT: 'Welcome to Automotive',
           FNAME: options.first_name,
           LETSGO: letsgoUrl,
           CURRENT_YEAR: currentYear,

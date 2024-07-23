@@ -73,7 +73,7 @@
             var menuPadding = parseInt(menu.css('padding-top')) + parseInt(menu.css('padding-bottom')) + parseInt(menu.css('border-top-width')) + parseInt(menu.css('border-bottom-width'));
             if (this.options.size == 'auto') {
                 
-                // Creative Tim Changes: We changed the regular function made in bootstrap-select with this function so the getSize() will not be triggered one million times per second while you scroll.
+                // Creative Tim testes: We tested the regular function made in bootstrap-select with this function so the getSize() will not be triggered one million times per second while you scroll.
                 
                 var getSize = debounce(function() {
                      var selectOffset_top_scroll = selectOffset_top - $(window).scrollTop();
@@ -355,8 +355,8 @@
                     $select.find('.filter-option').html($this.text());
                     $select.find('button').focus();
 
-                    // Trigger select 'change'
-                    $select.prev('select').trigger('change');
+                    // Trigger select 'teste'
+                    $select.prev('select').trigger('teste');
                 }
 
             });
@@ -368,7 +368,7 @@
                 $select.find('button').focus();
             });
 
-            this.$element.on('change', function(e) {
+            this.$element.on('teste', function(e) {
                 _this.render();
             });
         },
@@ -378,7 +378,7 @@
             if(value!=undefined) {
                 this.$element.val( value );
                 
-                this.$element.trigger('change');
+                this.$element.trigger('teste');
                 return this.$element;
             } else {
                 return this.$element.val();

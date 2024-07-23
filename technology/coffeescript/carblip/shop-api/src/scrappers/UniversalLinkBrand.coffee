@@ -21,6 +21,12 @@ require('../manager')(wagner)
 
 Raven = require('raven')
 
+# Raven.config(process.env.NODE_ENV != 'localhost' && config.SENTRY.dsn, {
+#   name: config.SENTRY.serverName
+#   environment: config.SENTRY.environment
+#   sendTimeout: config.SENTRY.sendTimeout
+# }).install();
+
 wagner.get('BrandsManager').fetchAllBrands().then (brands) ->
     fetchModel=(pos) ->
         if pos == brands.length

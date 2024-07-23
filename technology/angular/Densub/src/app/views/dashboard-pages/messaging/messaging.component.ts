@@ -25,7 +25,7 @@ export class MessagingComponent implements OnInit ,AfterViewChecked{
   users: any;
   filterUsers:any;
   messagesThread: any;
-  startedDensub = false;
+  startedmarketplace = false;
   currentUser: currentUser = new currentUser;
   currentThread: any;
   messageInInout: String = '';
@@ -142,7 +142,7 @@ export class MessagingComponent implements OnInit ,AfterViewChecked{
     var keys = Object.keys(this.currentThread.recipients);
     keys.splice(keys.indexOf(this.currentUser._id), 1);
     this.partnerID = keys[0];
-    this.startedDensub = !(this.startedDensub);
+    this.startedmarketplace = !(this.startedmarketplace);
     let s = this.firebaseService.GetData('UserMessage', thread.$key)
     s.snapshotChanges().subscribe(data => {
       this.messagesThread = [];
@@ -441,7 +441,7 @@ export class MessagingComponent implements OnInit ,AfterViewChecked{
     let getScreenSize = 767.89;
     // console.log(window.screen.width)
     if (window.screen.width < getScreenSize) { // 768px portrait
-      // this.getStartedDensub();
+      // this.getStartedmarketplace();
           // console.log('1')
       this.mobilesceen = window.screen.width;
     } else {
@@ -449,9 +449,9 @@ export class MessagingComponent implements OnInit ,AfterViewChecked{
     }
   }
 
-  getStartedDensub(){
+  getStartedmarketplace(){
     // console.log('2')
-    this.startedDensub = !(this.startedDensub);
+    this.startedmarketplace = !(this.startedmarketplace);
   }
 
 

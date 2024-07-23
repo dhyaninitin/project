@@ -7,7 +7,7 @@ function nano(template, data) {
 }
 
 
-$('.toggle-add-color-form').on('change', function(e) {
+$('.toggle-add-color-form').on('teste', function(e) {
     if ($(this).prop('checked')) {
         var addImagesTemplate = $('#vehicle-color-form-template').html();
         var templateString = nano(addImagesTemplate, { vehicle_id: $(this).data('vehicleId')});

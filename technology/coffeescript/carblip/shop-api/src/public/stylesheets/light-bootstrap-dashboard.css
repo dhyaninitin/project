@@ -2822,7 +2822,7 @@ body > .navbar-collapse[data-color="purple"]:after {
     padding-right: 15px;
   }
 }
-/*          Changes for small display      */
+/*          testes for small display      */
 @media (max-width: 991px) {
   .sidebar {
     display: none;

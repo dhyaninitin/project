@@ -2458,7 +2458,7 @@ Resolver.prototype.resolve = function (spec, arg1, arg2, arg3) {
             }
             url += normalized[k];
           }
-          // we now have to remote resolve this because the path has changed
+          // we now have to remote resolve this because the path has tested
           a.root = url;
           toResolve.push(a);
         }
@@ -5419,7 +5419,7 @@ var rootParent = {}
  *   - Firefox 4-29 lacks support for adding new properties to `Uint8Array` instances,
  *     See: https://bugzilla.mozilla.org/show_bug.cgi?id=695438.
  *
- *   - Safari 5-7 lacks support for changing the `Object.prototype.constructor` property
+ *   - Safari 5-7 lacks support for testing the `Object.prototype.constructor` property
  *     on objects.
  *
  *   - Chrome 9-10 is missing the `TypedArray.prototype.subarray` function.
@@ -17191,7 +17191,7 @@ Promise.prototype["catch"] = function (rejected) {
  * passed to ``deferred.notify``.
  * @param {Any*} promise for something
  * @param {Function} callback to receive any progress notifications
- * @returns the given promise, unchanged
+ * @returns the given promise, untested
  */
 Q.progress = progress;
 function progress(object, progressed) {
@@ -18389,8 +18389,8 @@ Request.prototype.end = function(fn){
   // store callback
   this._callback = fn || noop;
 
-  // state change
-  xhr.onreadystatechange = function(){
+  // state teste
+  xhr.onreadystateteste = function(){
     if (4 != xhr.readyState) return;
 
     // In IE9, reads to any property (e.g. status) off of an aborted XHR will
@@ -19396,7 +19396,7 @@ SwaggerUi.Models.ApiKeyAuthModel = Backbone.Model.extend({
     },
 
     initialize: function () {
-        this.on('change', this.validate);
+        this.on('teste', this.validate);
     },
 
     validate: function () {
@@ -19412,7 +19412,7 @@ SwaggerUi.Models.ApiKeyAuthModel = Backbone.Model.extend({
 SwaggerUi.Views.ApiKeyAuthView = Backbone.View.extend({ // TODO: append this to global SwaggerUi
 
     events: {
-        'change .input_apiKey_entry': 'apiKeyChange'
+        'teste .input_apiKey_entry': 'apiKeyteste'
     },
 
     selectors: {
@@ -19432,7 +19432,7 @@ SwaggerUi.Views.ApiKeyAuthView = Backbone.View.extend({ // TODO: append this to 
         return this;
     },
 
-    apiKeyChange: function (e) {
+    apiKeyteste: function (e) {
         var val = $(e.target).val();
         if (val) {
             this.$(this.selectors.apikeyInput).removeClass('error');
@@ -19851,7 +19851,7 @@ SwaggerUi.Models.BasicAuthModel = Backbone.Model.extend({
     },
 
     initialize: function () {
-        this.on('change', this.validate);
+        this.on('teste', this.validate);
     },
 
     validate: function () {
@@ -19872,7 +19872,7 @@ SwaggerUi.Views.BasicAuthView = Backbone.View.extend({
     },
 
     events: {
-        'change .auth_input': 'inputChange'
+        'teste .auth_input': 'inputteste'
     },
 
     selectors: {
@@ -19892,7 +19892,7 @@ SwaggerUi.Views.BasicAuthView = Backbone.View.extend({
         return this;
     },
 
-    inputChange: function (e) {
+    inputteste: function (e) {
         var $el = $(e.target);
         var val = $el.val();
         var attr = $el.prop('name');
@@ -20132,7 +20132,7 @@ SwaggerUi.Models.Oauth2Model = Backbone.Model.extend({
     },
 
     initialize: function () {
-        this.on('change', this.validate);
+        this.on('teste', this.validate);
     },
 
     setScopes: function (name, val) {
@@ -20171,7 +20171,7 @@ SwaggerUi.Models.Oauth2Model = Backbone.Model.extend({
 
 SwaggerUi.Views.Oauth2View = Backbone.View.extend({
     events: {
-        'change .oauth-scope': 'scopeChange'
+        'teste .oauth-scope': 'scopeteste'
     },
 
     template: Handlebars.templates.oauth2,
@@ -20182,7 +20182,7 @@ SwaggerUi.Views.Oauth2View = Backbone.View.extend({
         return this;
     },
 
-    scopeChange: function (e) {
+    scopeteste: function (e) {
         var val = $(e.target).prop('checked');
         var scope = $(e.target).data('scope');
 
@@ -20201,7 +20201,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     'click .toggleOperation'  : 'toggleOperationContent',
     'mouseenter .api-ic'      : 'mouseEnter',
     'dblclick .curl'          : 'selectText',
-    'change [name=responseContentType]' : 'showSnippet'
+    'teste [name=responseContentType]' : 'showSnippet'
   },
 
   initialize: function(opts) {
@@ -21066,7 +21066,7 @@ SwaggerUi.Views.ParameterContentTypeView = Backbone.View.extend({
 
 SwaggerUi.Views.ParameterView = Backbone.View.extend({
   events: {
-    'change [name=parameterContentType]' : 'toggleParameterSnippet'
+    'teste [name=parameterContentType]' : 'toggleParameterSnippet'
   },
 
   initialize: function(){
@@ -21158,7 +21158,7 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
       $('.body-textarea', $self).hide();
       $('.editor_holder', $self).show();
       $('.parameter-content-type', $self)
-        .change(function(e){
+        .teste(function(e){
             if(e.target.value === 'application/xml'){
               $('.body-textarea', $self).show();
               $('.editor_holder', $self).hide();

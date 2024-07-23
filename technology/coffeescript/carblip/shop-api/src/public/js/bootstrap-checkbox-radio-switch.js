@@ -36,7 +36,7 @@
       
       if ($el.prop('disabled') == false) {
         $parent.toggleClass(ch) && checked ? $el.removeAttr(ch) : $el.prop(ch, ch);
-        $el.trigger(e).trigger('change'); 
+        $el.trigger(e).trigger('teste'); 
       }
     }  
     
@@ -49,7 +49,7 @@
         , e = $.Event(option)
       
       $parent[checkAction ? 'addClass' : 'removeClass' ](ch) && checkAction ? $el.prop(ch, ch) : $el.removeAttr(ch);
-      $el.trigger(e).trigger('change');       
+      $el.trigger(e).trigger('teste');       
     }  
       
   }
@@ -158,7 +158,7 @@
                 , $parent = $(this).closest('.radio');
                 
                 if ($el.prop(d) == false) {
-                  $parent.removeClass(ch) && $el.removeAttr(ch).trigger('change');
+                  $parent.removeClass(ch) && $el.removeAttr(ch).trigger('teste');
                 } 
             });
             
@@ -166,7 +166,7 @@
             $el.trigger(e);
           
             if (checked !== $el.prop(ch)) {
-                $el.trigger('change'); 
+                $el.trigger('teste'); 
             }
         }               
     } 
@@ -192,7 +192,7 @@
       $el.trigger(e);  
           
       if (checked !== $el.prop(ch)) {
-        $el.trigger('change'); 
+        $el.trigger('teste'); 
       }
     }  
      
@@ -340,7 +340,7 @@
             if ($element.find('input').is(':disabled'))
               $(this).addClass('deactivate');
 
-            var changeStatus = function ($this) {
+            var testeStatus = function ($this) {
               $this.siblings('label').trigger('mousedown').trigger('mouseup').trigger('click');
             };
 
@@ -348,19 +348,19 @@
               if (e.keyCode === 32) {
                 e.stopImmediatePropagation();
                 e.preventDefault();
-                changeStatus($(e.target).find('span:first'));
+                testeStatus($(e.target).find('span:first'));
               }
             });
 
             $switchLeft.on('click', function (e) {
-              changeStatus($(this));
+              testeStatus($(this));
             });
 
             $switchRight.on('click', function (e) {
-              changeStatus($(this));
+              testeStatus($(this));
             });
 
-            $element.find('input').on('change', function (e) {
+            $element.find('input').on('teste', function (e) {
               var $this = $(this)
                 , $element = $this.parent()
                 , thisState = $this.is(':checked')
@@ -379,7 +379,7 @@
                 if ($element.data('animated') !== false)
                   $element.addClass("switch-animate");
 
-                $element.parent().trigger('switch-change', {'el': $this, 'value': thisState})
+                $element.parent().trigger('switch-teste', {'el': $this, 'value': thisState})
               }
             });
 
@@ -427,7 +427,7 @@
                   else $myCheckBox.prop("checked", !$myCheckBox.is(":checked"));
 
                   moving = false;
-                  $myCheckBox.trigger('change');
+                  $myCheckBox.trigger('teste');
                 });
 
                 $this.on('mouseleave', function (e) {
@@ -440,7 +440,7 @@
                   $this.unbind('mouseleave');
                   $this.trigger('mouseup');
 
-                  $myCheckBox.prop('checked', !(parseInt($this.parent().css('left')) < -25)).trigger('change');
+                  $myCheckBox.prop('checked', !(parseInt($this.parent().css('left')) < -25)).trigger('teste');
                 });
 
                 $this.on('mouseup', function (e) {
@@ -465,12 +465,12 @@
           $(this).removeClass('deactivate');
         else $(this).addClass('deactivate');
       },
-      toggleState: function (skipOnChange) {
+      toggleState: function (skipOnteste) {
         var $input = $(this).find('input:checkbox');
-        $input.prop('checked', !$input.is(':checked')).trigger('change', skipOnChange);
+        $input.prop('checked', !$input.is(':checked')).trigger('teste', skipOnteste);
       },
-      setState: function (value, skipOnChange) {
-        $(this).find('input:checkbox').prop('checked', value).trigger('change', skipOnChange);
+      setState: function (value, skipOnteste) {
+        $(this).find('input:checkbox').prop('checked', value).trigger('teste', skipOnteste);
       },
       status: function () {
         return $(this).find('input:checkbox').is(':checked');
@@ -484,7 +484,7 @@
         $checkbox = $div.children();
         $checkbox.unwrap().unwrap();
 
-        $checkbox.unbind('change');
+        $checkbox.unbind('teste');
 
         return $checkbox;
       }

@@ -7,7 +7,7 @@
     <header id="header">
       <div class="header-main">
         <nav class="navbar navbar-expand-lg bg-black navbar-dark">
-          <a *ngIf="!staffMarketPlace && !practiceMarketPlace" class="navbar-brand full-logo" href="#"><img src="../../../assets/img/brand/Densub_Logo.png" width="150" alt=""></a>
+          <a *ngIf="!staffMarketPlace && !practiceMarketPlace" class="navbar-brand full-logo" href="#"><img src="../../../assets/img/brand/Marketplace_Logo.png" width="150" alt=""></a>
           <a *ngIf="staffMarketPlace || practiceMarketPlace" class="navbar-brand ml-3 p-0 half-logo" href="#"><img src="../../../assets/img/brand/markteplaceLogo1.png" width="42" height="42" alt="" class="p-0"></a>
           <ul class="navbar-nav margin-both colla ml-3" *ngIf="staffMarketPlace">
             <li class="nav-item">
@@ -142,7 +142,7 @@
                   <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
                     aria-expanded="false" dropdownToggle (click)="false">
                     <img *ngIf="currentUser?.profilePhoto?.length" src="{{currentUser.profilePhoto[0]}}" class="img-avatar" alt="{{currentUser?.firstName +' '+ currentUser?.lastName}}" width="25" style="height: 25px !important;"/>
-                    <img *ngIf="!currentUser?.profilePhoto?.length" src="../../../assets/img/brand/densub-logo-final.jpg" width="25" class="img-avatar" alt="{{currentUser?.firstName +' '+ currentUser?.lastName}}"/>
+                    <img *ngIf="!currentUser?.profilePhoto?.length" src="../../../assets/img/brand/Marketplace-logo-final.jpg" width="25" class="img-avatar" alt="{{currentUser?.firstName +' '+ currentUser?.lastName}}"/>
                     <!-- <img src="assets/img/avatars/" class="img-avatar" alt="admin@gmail.com" width="25" /> -->
                     {{currentUser?.firstName}} ({{currentUser?.userType}})
                     <i class="fa fa-angle-down"> </i>
@@ -237,8 +237,8 @@
           <ul class="footer-social-media list-unstyled d-flex social-icons rounded noEffect flex-wrap">
             <!-- <li class="linkedin"><a target="_blank" href="#"><i class="fa fa-linkedin"
                   aria-hidden="true"></i></a></li> -->
-            <li class="instagram"><a target="_blank" href="https://instagram.com/densub_marketplace/"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-            <li class="facebook"><a target="_blank" href="https://www.facebook.com/Densub-100635311362505/"><i
+            <li class="instagram"><a target="_blank" href="https://instagram.com/Marketplace_marketplace/"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+            <li class="facebook"><a target="_blank" href="https://www.facebook.com/Marketplace-100635311362505/"><i
                   class="fa fa-facebook-official" aria-hidden="true"></i></a></li>
             <li class="twitter"><a target="_blank" href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
             </li>
@@ -253,7 +253,7 @@
           </ul>
         </div>
         <div class="col-12 text-center">
-          <p>&copy; {{fullYear}} All Rights Reserved. Densub</p>
+          <p>&copy; {{fullYear}} All Rights Reserved. Marketplace</p>
         </div>
       </div>
     </div>
@@ -267,7 +267,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title text-white">Join Densub Today!</h4>
+        <h4 class="modal-title text-white">Join Marketplace Today!</h4>
         <button type="button" class="close text-white" (click)="signUpDen.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

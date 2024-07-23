@@ -1,6 +1,6 @@
 <!-- <app-header [fixed]="true" -->
 <app-header [navbarBrandRouterLink]="['/home']" [fixed]="true"
-  [navbarBrandFull]="{src: 'assets/img/brand/Densub White.svg', width: 100, height: 50, alt: 'CoreUI Logo'}"
+  [navbarBrandFull]="{src: 'assets/img/brand/Marketplace White.svg', width: 100, height: 50, alt: 'CoreUI Logo'}"
   [sidebarToggler]="'lg'" [asideMenuToggler]="false" [mobileAsideMenuToggler]="false">
   <!-- [navbarBrandMinimized]="{src: 'assets/img/brand/sygnet.svg', width: 30, height: 30, alt: 'CoreUI Logo'}" -->
   <ul class="nav navbar-nav ml-auto">
@@ -34,7 +34,7 @@
       <a class="nav-link text-white text-capitalize" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
         dropdownToggle (click)="false">
         <img *ngIf="currentUser?.profilePhoto?.length" src="{{currentUser.profilePhoto[0]}}" class="img-avatar img-profile" alt="{{currentUser?.firstName +' '+ currentUser?.lastName}}" />
-        <img *ngIf="!currentUser?.profilePhoto?.length" src="../../../assets/img/brand/densub-logo-final.jpg" class="img-avatar" alt="{{currentUser?.firstName +' '+ currentUser?.lastName}}" />
+        <img *ngIf="!currentUser?.profilePhoto?.length" src="../../../assets/img/brand/Marketplace-logo-final.jpg" class="img-avatar" alt="{{currentUser?.firstName +' '+ currentUser?.lastName}}" />
         {{currentUser?.firstName}} ({{currentUser?.userType}})
         <i class="fa fa-angle-down"> </i> &nbsp;&nbsp;
       </a>
@@ -78,6 +78,6 @@
 
 </div>
 <app-footer>
-  <span><a href="">DENSUB</a> &copy; {{ fullYear }}</span>
+  <span><a href="">Marketplace</a> &copy; {{ fullYear }}</span>
   <!-- <span class="ml-auto">Powered by <a href="http://www.amwebtech.com/" target="_blank">AM Webtech</a></span> -->
 </app-footer>

@@ -59,10 +59,10 @@ export class PaymentListComponent implements OnInit {
             this.paymentList = this.paymentList.map(payment => {
                 if(payment.actionStatus === environment.PAYMENT_STATUS_TYPE.POSTJOB){
                   payment['actionStatus_New'] = 'Post Job';
-                  payment['paidTo'] = 'Densub';
+                  payment['paidTo'] = 'marketplace';
                 } else if(payment.actionStatus === environment.PAYMENT_STATUS_TYPE.CONTRACT){
-                  payment['actionStatus_New'] = 'Densub';
-                  payment['paidTo'] = 'Densub';
+                  payment['actionStatus_New'] = 'marketplace';
+                  payment['paidTo'] = 'marketplace';
                 } else if(payment.actionStatus === environment.PAYMENT_STATUS_TYPE.WORKDIARY){
                   payment['actionStatus_New'] = payment['actionStatus'];
                   payment['paidTo'] = (!payment.receiverUserId) ? '' :

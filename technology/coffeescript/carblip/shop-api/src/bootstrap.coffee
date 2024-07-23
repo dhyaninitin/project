@@ -7,7 +7,7 @@ maxMemory = process.env.WEB_MEMORY or 512
 pm2.connect ->
   pm2.start {
     script: 'app.js'
-    name: 'carblip-' + process.env.NODE_ENV
+    name: 'Automotive-' + process.env.NODE_ENV
     exec_mode: 'cluster'
     instances: instances
     max_memory_restart: maxMemory + 'M'

@@ -25,7 +25,7 @@ wagner.get('CPortaluserManager').userPortalLiveLogin().then (result) ->
     if result && result.access_token 
          process.exit()
     else
-    wagner.get('EmailTransport').serverDownEmail('changl@gmail.com','hardik.thinktank@gmail.com')
+    wagner.get('EmailTransport').serverDownEmail('testl@gmail.com','hardik.thinktank@gmail.com')
     console.log 'Mail successfully sent'
 .catch (error)=>
     console.log error

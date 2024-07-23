@@ -163,7 +163,7 @@
                   class="img-responsive profile-pic">
                 <img
                   *ngIf="contractDetail?.practiceId?.profilePhoto[0] == '' || contractDetail?.practiceId?.profilePhoto[0] == null || contractDetail?.practiceId?.profilePhoto[0] ==undefined"
-                  src="../../../../../../assets/img/brand/densub-logo-final.jpg" class="img-responsive profile-pic">
+                  src="../../../../../../assets/img/brand/marketplace-logo-final.jpg" class="img-responsive profile-pic">
                 <!-- <div class="mt-1 ml-2" align="center" class="custom-cursor-pointer" [routerLink]="['/practice-profile',contractDetail?.practiceId?._id]">{{contractDetail?.practiceId?.firstName
                   +' '+ contractDetail?.practiceId?.lastName}}</div> -->
                   <div class="mt-1 ml-2" align="center">
@@ -266,10 +266,10 @@
                 </div>
                
                  <div class="col-md-12" *ngIf="contractDetail?._id && timesheet.length < 1">                  
-                    <p class="warning-msg-timesheet">Densub’ timesheet submission process is available up to 14 days from the job’s date</p>
+                    <p class="warning-msg-timesheet">marketplace’ timesheet submission process is available up to 14 days from the job’s date</p>
                  </div>
                  <div class="col-md-12" *ngIf="contractDetail?._id && timesheet.length > 0">                  
-                  <p class="warning-msg-timesheet">Densub’ timesheet review and approval process is available up to 30 days from the job’s date</p>
+                  <p class="warning-msg-timesheet">marketplace’ timesheet review and approval process is available up to 30 days from the job’s date</p>
                </div>
               </div>
               <div class="card mt-2">
@@ -593,7 +593,7 @@
                   <p class="warning-msg-timesheet">Timesheet submission process has concluded. If you still need to submit your hours for this assignment please contact the practice directly.</p>
                 </div>
                 <div class="text-center" *ngIf="contractDetail?.autoCompletedBy=='practice'">
-                  <p class="warning-msg-timesheet">Densub’s timesheet review and approval process has concluded and is no longer available. If you have not received compensation for the time you have worked for this assignment, please contact the practice directly.</p>
+                  <p class="warning-msg-timesheet">marketplace’s timesheet review and approval process has concluded and is no longer available. If you have not received compensation for the time you have worked for this assignment, please contact the practice directly.</p>
                 </div>
                 
 
@@ -1286,7 +1286,7 @@
         <div class="modal-body">
           <div class="form-group row">
             <div class="col-md-12">
-              Are you sure that you want to cancel this assignment? Cancellations may negatively impact your profile on Densub’s marketplace.
+              Are you sure that you want to cancel this assignment? Cancellations may negatively impact your profile on marketplace’s marketplace.
             </div>
          </div>
           <div class="form-group row">
@@ -1488,7 +1488,7 @@
       </div>
       <div class="modal-body">
          <div>
-        <p>By selecting this you are indicating that this assignment has been completed and paid. To mark an assignment as paid and move it to the completed assignments you must submit a Pro forma Timesheet first. The purpose of submitting a Pro forma Timesheet is only informational, as it will assist in improving the accuracy and completeness of the reports and analytics available on Densub. The practice will also receive a copy of your Pro forma Timesheet.</p>
+        <p>By selecting this you are indicating that this assignment has been completed and paid. To mark an assignment as paid and move it to the completed assignments you must submit a Pro forma Timesheet first. The purpose of submitting a Pro forma Timesheet is only informational, as it will assist in improving the accuracy and completeness of the reports and analytics available on marketplace. The practice will also receive a copy of your Pro forma Timesheet.</p>
             </div>
             <div *ngIf="timesheet?.length > 0">
                <p>Total hours worked: {{(timesheet[0]?.totalTime?.hours) ? timesheet[0]?.totalTime.hours : 0 }} hours, {{(timesheet[0]?.totalTime?.minutes) ? timesheet[0]?.totalTime.minutes : 0 }} minutes</p>

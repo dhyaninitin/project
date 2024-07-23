@@ -246,8 +246,8 @@ export class StaffProfileComponent implements OnInit {
   warningMessages: any = {
     any: 'Select this if you are available All Day.',
     specify: 'Select this to specify the hours of your general Availability.',
-    connectWithStripe: "Your profile will be automatically saved and submitted to the admin for review and approval. By selecting “Ok” you will be redirected to Stripe's website to set up and connect your Stripe account to Densub’s platform",
-    changeStripe : "You are about to leave Densub and connect to Stripe’s platform"
+    connectWithStripe: "Your profile will be automatically saved and submitted to the admin for review and approval. By selecting “Ok” you will be redirected to Stripe's website to set up and connect your Stripe account to marketplace’s platform",
+    changeStripe : "You are about to leave marketplace and connect to Stripe’s platform"
   }
   defaultTime = '00:00';
   isConnectToStripe: Boolean = false;
@@ -1338,7 +1338,7 @@ export class StaffProfileComponent implements OnInit {
       title: 'Alert',
       message: {
         show: true, message:
-          "You must be 18 years and older to create a profile and join Densub's marketplace."
+          "You must be 18 years and older to create a profile and join marketplace's marketplace."
       },
       cancelButton: { show: false, name: 'Close' },
       confirmButton: { show: true, name: 'Okay' },

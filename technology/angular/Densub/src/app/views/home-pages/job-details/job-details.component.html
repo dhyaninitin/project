@@ -161,13 +161,13 @@
                     <div class="col-md-4 px-0">
                       <div class="text-center">
                       <div class="pr-3">
-                      <span class="badge badge-densub-blue mb-2" *ngIf="offer?.jobType == jobTypes.TEMPORARY">Temporary</span>
+                      <span class="badge badge-marketplace-blue mb-2" *ngIf="offer?.jobType == jobTypes.TEMPORARY">Temporary</span>
                       <span class="badge badge-success mb-2" *ngIf="offer?.jobType == jobTypes.PERMANENTPARTTIME">Permanent Part Time</span>
                       <span class="badge badge-success mb-2" *ngIf="offer?.jobType == jobTypes.PERMANENTFULLTIME">Permanent Full Time</span>
                     </div>
                     <div class="usr-avtar img-circle overflow-hidden mr-15">
                       <img *ngIf="!offer?.createdBy?.profilePhoto?.length"
-                        src="../../../../assets/img/brand/densub-logo-final.jpg" width="90" height="90" class="img-fluid img-circle" alt="">
+                        src="../../../../assets/img/brand/marketplace-logo-final.jpg" width="90" height="90" class="img-fluid img-circle" alt="">
                       <img *ngIf="offer?.createdBy?.profilePhoto?.length" src="{{offer?.createdBy?.profilePhoto[0]}}"
                         width="90" height="90" class="img-fluid img-circle" alt="{{offer?.createdBy?.firstName}}">
                     </div>
@@ -297,13 +297,13 @@
                   <div class="text-center">
                     <div>
                       <div class="">
-                        <span class="badge badge-densub-blue mb-2 mr-3" *ngIf="jobDetail?.jobType == jobTypes.TEMPORARY">Temporary</span>
+                        <span class="badge badge-marketplace-blue mb-2 mr-3" *ngIf="jobDetail?.jobType == jobTypes.TEMPORARY">Temporary</span>
                         <span class="badge badge-success mb-2" *ngIf="jobDetail?.jobType == jobTypes.PERMANENTPARTTIME">Permanent Part Time</span>
                         <span class="badge badge-success mb-2" *ngIf="jobDetail?.jobType == jobTypes.PERMANENTFULLTIME">Permanent Full Time</span>
                       </div>
                   <div class="usr-avtar img-circle overflow-hidden mr-15 custom-cursor-pointer" [routerLink]="['/practice-profile',jobDetail?.createdBy?._id]" (click)="navigateBackToCurrentPage()" target="_blank">
                     <img *ngIf="!jobDetail?.createdBy?.profilePhoto?.length"
-                      src="../../../../assets/img/brand/densub-logo-final.jpg" width="90" height="90" class="img-fluid img-circle" alt="">
+                      src="../../../../assets/img/brand/marketplace-logo-final.jpg" width="90" height="90" class="img-fluid img-circle" alt="">
                     <img *ngIf="jobDetail?.createdBy?.profilePhoto?.length" src="{{jobDetail?.createdBy.profilePhoto[0]}}"
                       width="90" height="90" class="img-fluid img-circle" alt="{{jobDetail?.createdBy?.firstName}}">
                   </div>
@@ -860,7 +860,7 @@
             <div>
           <div class="usr-avtar img-circle overflow-hidden text-center custom-cursor-pointer">
             <img *ngIf="!jobDetail?.createdBy?.profilePhoto?.length"
-              src="../../../../assets/img/brand/densub-logo-final.jpg" width="90" height="90" class="img-fluid img-circle accept-offer-img" alt="">
+              src="../../../../assets/img/brand/marketplace-logo-final.jpg" width="90" height="90" class="img-fluid img-circle accept-offer-img" alt="">
             <img *ngIf="jobDetail?.createdBy?.profilePhoto?.length" src="{{jobDetail?.createdBy.profilePhoto[0]}}"
               width="90" height="90" class="img-fluid img-circle accept-offer-img" alt="{{jobDetail?.createdBy?.firstName}}">
           </div>
@@ -875,7 +875,7 @@
             <div class="pl-2 mobile-view-text">
               <p class="text-capitalize mb-0" *ngIf="jobDetail?.positionType" data-toggle="tooltip" title="Position Type">
                 {{jobDetail?.positionType}}
-                <span class="badge badge-densub-blue mr-3" *ngIf="jobDetail?.jobType == jobTypes.TEMPORARY">Temporary</span>
+                <span class="badge badge-marketplace-blue mr-3" *ngIf="jobDetail?.jobType == jobTypes.TEMPORARY">Temporary</span>
                 <span class="badge badge-success " *ngIf="jobDetail?.jobType == jobTypes.PERMANENTPARTTIME">Permanent Part Time</span>
                 <span class="badge badge-success" *ngIf="jobDetail?.jobType == jobTypes.PERMANENTFULLTIME">Permanent Full Time</span>
               </p> 
@@ -959,7 +959,7 @@
             <div>
           <div class="usr-avtar img-circle overflow-hidden text-center custom-cursor-pointer">
             <img *ngIf="!jobDetail?.createdBy?.profilePhoto?.length"
-              src="../../../../assets/img/brand/densub-logo-final.jpg" width="90" height="90" class="accept-offer-img img-fluid img-circle" alt="">
+              src="../../../../assets/img/brand/marketplace-logo-final.jpg" width="90" height="90" class="accept-offer-img img-fluid img-circle" alt="">
             <img *ngIf="jobDetail?.createdBy?.profilePhoto?.length" src="{{jobDetail?.createdBy.profilePhoto[0]}}"
               width="90" height="90" class="img-fluid img-circle accept-offer-img" alt="{{jobDetail?.createdBy?.firstName}}">
           </div>
@@ -974,7 +974,7 @@
             <div class="pl-2 mobile-view-text">
               <p class="text-capitalize mb-0" *ngIf="jobDetail?.positionType" data-toggle="tooltip" title="Position Type">
                 {{jobDetail?.positionType}}
-                <span class="badge badge-densub-blue mr-3" *ngIf="jobDetail?.jobType == jobTypes.TEMPORARY">Temporary</span>
+                <span class="badge badge-marketplace-blue mr-3" *ngIf="jobDetail?.jobType == jobTypes.TEMPORARY">Temporary</span>
                 <span class="badge badge-success " *ngIf="jobDetail?.jobType == jobTypes.PERMANENTPARTTIME">Permanent Part Time</span>
                 <span class="badge badge-success" *ngIf="jobDetail?.jobType == jobTypes.PERMANENTFULLTIME">Permanent Full Time</span>
               </p> 
@@ -1004,8 +1004,8 @@
         <div class="row py-2 box-shad  white-bg mx-0">
         <div class="col-md-12">
         <label *ngIf="jobDetail?.jobType === jobTypes.TEMPORARY" for="" class="label">Do you want to work but the hours or rate does not work for you? 
-          Densub allows you to negotiate the hours and/or rate directly with the job provider!</label>
-          <label *ngIf="jobDetail?.jobType !== jobTypes.TEMPORARY" for="" class="label">Are you interested in applying for this job, but the pay rate is not exactly what you are looking for? Densub’s negotiation process allows job seekers to directly negotiate the pay rate with the job provider.</label>
+          marketplace allows you to negotiate the hours and/or rate directly with the job provider!</label>
+          <label *ngIf="jobDetail?.jobType !== jobTypes.TEMPORARY" for="" class="label">Are you interested in applying for this job, but the pay rate is not exactly what you are looking for? marketplace’s negotiation process allows job seekers to directly negotiate the pay rate with the job provider.</label>
         </div>  
         <div class="col-md-12 row box-card">
         <div class="col-sm-4 mb-1">
@@ -1118,7 +1118,7 @@
             <div>
           <div class="usr-avtar img-circle overflow-hidden mr-15 custom-cursor-pointer">
             <img *ngIf="!jobDetail?.createdBy?.profilePhoto?.length"
-              src="../../../../assets/img/brand/densub-logo-final.jpg" width="90" height="90" class="img-fluid img-circle" alt="">
+              src="../../../../assets/img/brand/marketplace-logo-final.jpg" width="90" height="90" class="img-fluid img-circle" alt="">
             <img *ngIf="jobDetail?.createdBy?.profilePhoto?.length" src="{{jobDetail?.createdBy.profilePhoto[0]}}"
               width="90" height="90" class="img-fluid img-circle" alt="{{jobDetail?.createdBy?.firstName}}">
           </div>
@@ -1133,7 +1133,7 @@
             <div class="pl-2 mobile-view-text">
               <p class="text-capitalize mb-0" *ngIf="jobDetail?.positionType" data-toggle="tooltip" title="Position Type">
                 {{jobDetail?.positionType}}
-                <span class="badge badge-densub-blue mr-3" *ngIf="jobDetail?.jobType == jobTypes.TEMPORARY">Temporary</span>
+                <span class="badge badge-marketplace-blue mr-3" *ngIf="jobDetail?.jobType == jobTypes.TEMPORARY">Temporary</span>
                 <span class="badge badge-success " *ngIf="jobDetail?.jobType == jobTypes.PERMANENTPARTTIME">Permanent Part Time</span>
                 <span class="badge badge-success" *ngIf="jobDetail?.jobType == jobTypes.PERMANENTFULLTIME">Permanent Full Time</span>
               </p> 
@@ -1235,7 +1235,7 @@
             <div>
           <div class="usr-avtar img-circle overflow-hidden text-center custom-cursor-pointer">
             <img *ngIf="!jobDetail?.createdBy?.profilePhoto?.length"
-              src="../../../../assets/img/brand/densub-logo-final.jpg" width="90" height="90" class="img-fluid img-circle accept-offer-img" alt="">
+              src="../../../../assets/img/brand/marketplace-logo-final.jpg" width="90" height="90" class="img-fluid img-circle accept-offer-img" alt="">
             <img *ngIf="jobDetail?.createdBy?.profilePhoto?.length" src="{{jobDetail?.createdBy.profilePhoto[0]}}"
               width="90" height="90" class="img-fluid img-circle accept-offer-img" alt="{{jobDetail?.createdBy?.firstName}}">
           </div>
@@ -1250,7 +1250,7 @@
             <div class="pl-2 mobile-view-text">
               <p class="text-capitalize mb-0" *ngIf="jobDetail?.positionType" data-toggle="tooltip" title="Position Type">
                 {{jobDetail?.positionType}}
-                <span class="badge badge-densub-blue mr-3" *ngIf="jobDetail?.jobType == jobTypes.TEMPORARY">Temporary</span>
+                <span class="badge badge-marketplace-blue mr-3" *ngIf="jobDetail?.jobType == jobTypes.TEMPORARY">Temporary</span>
                 <span class="badge badge-success " *ngIf="jobDetail?.jobType == jobTypes.PERMANENTPARTTIME">Permanent Part Time</span>
                 <span class="badge badge-success" *ngIf="jobDetail?.jobType == jobTypes.PERMANENTFULLTIME">Permanent Full Time</span>
               </p> 

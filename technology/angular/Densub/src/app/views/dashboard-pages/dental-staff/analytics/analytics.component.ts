@@ -283,6 +283,6 @@ export class AnalyticsComponent implements OnInit {
   }
 
   exportAsXLSX() {
-    this.excelService.exportAsExcelFile(this.excelExportSheet, 'Densub Analytics');
+    this.excelService.exportAsExcelFile(this.excelExportSheet, 'marketplace Analytics');
   }
 }

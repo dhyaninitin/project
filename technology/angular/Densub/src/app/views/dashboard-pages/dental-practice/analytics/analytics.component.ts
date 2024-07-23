@@ -274,7 +274,7 @@ export class AnalyticsComponent implements OnInit {
     return (totalTime.hours + mintues);
   }
   exportAsXLSX() {
-     this.excelService.exportAsExcelFile(this.excelExportSheet, 'Densub Analytics');
+     this.excelService.exportAsExcelFile(this.excelExportSheet, 'marketplace Analytics');
 
   }
 }

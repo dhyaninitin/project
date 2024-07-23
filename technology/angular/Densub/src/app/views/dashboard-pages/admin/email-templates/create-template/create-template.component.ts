@@ -234,8 +234,8 @@ export class CreateTemplateComponent implements OnInit {
         PRACTICETYPE: 'practice',
         PROMOCODE: 'AD60L8',
         POSITIONTYPE: 'staff',
-        websiteUrl: 'https://dev.densub.com/#/',
-        logo: 'https://dev.densub.com/assets/img/brand/Densub_Logo.png',
+        websiteUrl: 'https://dev.marketplace.com/#/',
+        logo: 'https://dev.marketplace.com/assets/img/brand/marketplace_Logo.png',
         RECOVERPASSWORDBUTTON: `<a href="##RECOVERPASSWORDLINK##" Click target="_blank"> <button style="background: #1c4587 !important;color:white;padding: 5px"> Reset Your Password </button> </a>`,
         CONFIRMEMAILBUTTON: `<a href="##VERIFICATIONLINK##" Click target="_blank">
           <button style="margin: 20px 0px;background: #1c4587 !important;color:white;padding: 20px 30px;border: 0;border-radius: 30px;font-weight: 600;">

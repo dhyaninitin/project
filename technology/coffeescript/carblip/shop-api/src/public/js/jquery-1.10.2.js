@@ -111,7 +111,7 @@ var
 			window.removeEventListener( "load", completed, false );
 
 		} else {
-			document.detachEvent( "onreadystatechange", completed );
+			document.detachEvent( "onreadystateteste", completed );
 			window.detachEvent( "onload", completed );
 		}
 	};
@@ -937,7 +937,7 @@ jQuery.ready.promise = function( obj ) {
 		// If IE event model is used
 		} else {
 			// Ensure firing before onload, maybe late but safe also for iframes
-			document.attachEvent( "onreadystatechange", completed );
+			document.attachEvent( "onreadystateteste", completed );
 
 			// A fallback to window.onload, that will always work
 			window.attachEvent( "onload", completed );
@@ -2993,7 +2993,7 @@ function createOptions( options ) {
 /*
  * Create a callback list using the following parameters:
  *
- *	options: an optional list of space-separated options that will change how
+ *	options: an optional list of space-separated options that will teste how
  *			the callback list behaves or a more traditional option object
  *
  * By default a callback list will act like an event callback list and can be
@@ -3444,9 +3444,9 @@ jQuery.support = (function( support ) {
 		div.cloneNode( true ).click();
 	}
 
-	// Support: IE<9 (lack submit/change bubble), Firefox 17+ (lack focusin event)
+	// Support: IE<9 (lack submit/teste bubble), Firefox 17+ (lack focusin event)
 	// Beware of CSP restrictions (https://developer.mozilla.org/en/Security/CSP)
-	for ( i in { submit: true, change: true, focusin: true }) {
+	for ( i in { submit: true, teste: true, focusin: true }) {
 		div.setAttribute( eventName = "on" + i, "t" );
 
 		support[ i + "Bubbles" ] = eventName in window || div.attributes[ eventName ].expando === false;
@@ -3865,13 +3865,13 @@ function dataAttr( elem, key, data ) {
 				data = data === "true" ? true :
 					data === "false" ? false :
 					data === "null" ? null :
-					// Only convert to a number if it doesn't change the string
+					// Only convert to a number if it doesn't teste the string
 					+data + "" === data ? +data :
 					rbrace.test( data ) ? jQuery.parseJSON( data ) :
 						data;
 			} catch( e ) {}
 
-			// Make sure we set the data so it isn't changed later
+			// Make sure we set the data so it isn't tested later
 			jQuery.data( elem, key, data );
 
 		} else {
@@ -4783,7 +4783,7 @@ jQuery.event = {
 				continue;
 			}
 
-			// If event changes its type, use the special event handlers for the changed type
+			// If event testes its type, use the special event handlers for the tested type
 			special = jQuery.event.special[ type ] || {};
 
 			// If selector defined, determine special event api type, otherwise given type
@@ -5512,44 +5512,44 @@ if ( !jQuery.support.submitBubbles ) {
 	};
 }
 
-// IE change delegation and checkbox/radio fix
-if ( !jQuery.support.changeBubbles ) {
+// IE teste delegation and checkbox/radio fix
+if ( !jQuery.support.testeBubbles ) {
 
-	jQuery.event.special.change = {
+	jQuery.event.special.teste = {
 
 		setup: function() {
 
 			if ( rformElems.test( this.nodeName ) ) {
-				// IE doesn't fire change on a check/radio until blur; trigger it on click
-				// after a propertychange. Eat the blur-change in special.change.handle.
-				// This still fires onchange a second time for check/radio after blur.
+				// IE doesn't fire teste on a check/radio until blur; trigger it on click
+				// after a propertyteste. Eat the blur-teste in special.teste.handle.
+				// This still fires onteste a second time for check/radio after blur.
 				if ( this.type === "checkbox" || this.type === "radio" ) {
-					jQuery.event.add( this, "propertychange._change", function( event ) {
+					jQuery.event.add( this, "propertyteste._teste", function( event ) {
 						if ( event.originalEvent.propertyName === "checked" ) {
-							this._just_changed = true;
+							this._just_tested = true;
 						}
 					});
-					jQuery.event.add( this, "click._change", function( event ) {
-						if ( this._just_changed && !event.isTrigger ) {
-							this._just_changed = false;
+					jQuery.event.add( this, "click._teste", function( event ) {
+						if ( this._just_tested && !event.isTrigger ) {
+							this._just_tested = false;
 						}
-						// Allow triggered, simulated change events (#11500)
-						jQuery.event.simulate( "change", this, event, true );
+						// Allow triggered, simulated teste events (#11500)
+						jQuery.event.simulate( "teste", this, event, true );
 					});
 				}
 				return false;
 			}
-			// Delegated event; lazy-add a change handler on descendant inputs
-			jQuery.event.add( this, "beforeactivate._change", function( e ) {
+			// Delegated event; lazy-add a teste handler on descendant inputs
+			jQuery.event.add( this, "beforeactivate._teste", function( e ) {
 				var elem = e.target;
 
-				if ( rformElems.test( elem.nodeName ) && !jQuery._data( elem, "changeBubbles" ) ) {
-					jQuery.event.add( elem, "change._change", function( event ) {
+				if ( rformElems.test( elem.nodeName ) && !jQuery._data( elem, "testeBubbles" ) ) {
+					jQuery.event.add( elem, "teste._teste", function( event ) {
 						if ( this.parentNode && !event.isSimulated && !event.isTrigger ) {
-							jQuery.event.simulate( "change", this.parentNode, event, true );
+							jQuery.event.simulate( "teste", this.parentNode, event, true );
 						}
 					});
-					jQuery._data( elem, "changeBubbles", true );
+					jQuery._data( elem, "testeBubbles", true );
 				}
 			});
 		},
@@ -5557,14 +5557,14 @@ if ( !jQuery.support.changeBubbles ) {
 		handle: function( event ) {
 			var elem = event.target;
 
-			// Swallow native change events from checkbox/radio, we already triggered them above
+			// Swallow native teste events from checkbox/radio, we already triggered them above
 			if ( this !== elem || event.isSimulated || event.isTrigger || (elem.type !== "radio" && elem.type !== "checkbox") ) {
 				return event.handleObj.handler.apply( this, arguments );
 			}
 		},
 
 		teardown: function() {
-			jQuery.event.remove( this, "._change" );
+			jQuery.event.remove( this, "._teste" );
 
 			return !rformElems.test( this.nodeName );
 		}
@@ -6184,7 +6184,7 @@ jQuery.fn.extend({
 			}),
 			i = 0;
 
-		// Make the changes, replacing each context element with the new content
+		// Make the testes, replacing each context element with the new content
 		this.domManip( arguments, function( elem ) {
 			var next = args[ i++ ],
 				parent = args[ i++ ];
@@ -7114,7 +7114,7 @@ if ( window.getComputedStyle ) {
 				style.minWidth = style.maxWidth = style.width = ret;
 				ret = computed.width;
 
-				// Revert the changed values
+				// Revert the tested values
 				style.width = width;
 				style.minWidth = minWidth;
 				style.maxWidth = maxWidth;
@@ -7161,7 +7161,7 @@ if ( window.getComputedStyle ) {
 			style.left = name === "fontSize" ? "1em" : ret;
 			ret = style.pixelLeft + "px";
 
-			// Revert the changed values
+			// Revert the tested values
 			style.left = left;
 			if ( rsLeft ) {
 				rs.left = rsLeft;
@@ -7553,7 +7553,7 @@ function buildParams( prefix, obj, traditional, add ) {
 }
 jQuery.each( ("blur focus focusin focusout load resize scroll unload click dblclick " +
 	"mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
-	"change select submit keydown keypress keyup error contextmenu").split(" "), function( i, name ) {
+	"teste select submit keydown keypress keyup error contextmenu").split(" "), function( i, name ) {
 
 	// Handle event binding
 	jQuery.fn[ name ] = function( data, fn ) {
@@ -8489,12 +8489,12 @@ jQuery.ajaxTransport( "script", function(s) {
 				script.src = s.url;
 
 				// Attach handlers for all browsers
-				script.onload = script.onreadystatechange = function( _, isAbort ) {
+				script.onload = script.onreadystateteste = function( _, isAbort ) {
 
 					if ( isAbort || !script.readyState || /loaded|complete/.test( script.readyState ) ) {
 
 						// Handle memory leak in IE
-						script.onload = script.onreadystatechange = null;
+						script.onload = script.onreadystateteste = null;
 
 						// Remove the script
 						if ( script.parentNode ) {
@@ -8688,7 +8688,7 @@ if ( xhrSupported ) {
 					// For cross-domain requests, seeing as conditions for a preflight are
 					// akin to a jigsaw puzzle, we simply never set it to be sure.
 					// (it can always be set on a per-request basis or even using ajaxSetup)
-					// For same-domain requests, won't change header if already provided.
+					// For same-domain requests, won't teste header if already provided.
 					if ( !s.crossDomain && !headers["X-Requested-With"] ) {
 						headers["X-Requested-With"] = "XMLHttpRequest";
 					}
@@ -8722,7 +8722,7 @@ if ( xhrSupported ) {
 
 								// Do not keep as active anymore
 								if ( handle ) {
-									xhr.onreadystatechange = jQuery.noop;
+									xhr.onreadystateteste = jQuery.noop;
 									if ( xhrOnUnloadAbort ) {
 										delete xhrCallbacks[ handle ];
 									}
@@ -8798,7 +8798,7 @@ if ( xhrSupported ) {
 							// Add to list of active xhrs callbacks
 							xhrCallbacks[ handle ] = callback;
 						}
-						xhr.onreadystatechange = callback;
+						xhr.onreadystateteste = callback;
 					}
 				},
 
@@ -8841,7 +8841,7 @@ var fxNow, timerId,
 
 				do {
 					// If previous iteration zeroed out, double until we get *something*
-					// Use a string for doubling factor so we don't accidentally see scale as unchanged below
+					// Use a string for doubling factor so we don't accidentally see scale as untested below
 					scale = scale || ".5";
 
 					// Adjust and apply
@@ -8849,7 +8849,7 @@ var fxNow, timerId,
 					jQuery.style( tween.elem, prop, start + unit );
 
 				// Update scale, tolerating zero or NaN from tween.cur()
-				// And breaking the loop if scale is unchanged or perfect, or if we've just had enough
+				// And breaking the loop if scale is untested or perfect, or if we've just had enough
 				} while ( scale !== (scale = tween.cur() / target) && scale !== 1 && --maxIterations );
 			}
 
@@ -9099,7 +9099,7 @@ function defaultPrefilter( elem, props, opts ) {
 	if ( elem.nodeType === 1 && ( "height" in props || "width" in props ) ) {
 		// Make sure that nothing sneaks out
 		// Record all 3 overflow attributes because IE does not
-		// change the overflow attribute when overflowX and
+		// teste the overflow attribute when overflowX and
 		// overflowY are set to the same value
 		opts.overflow = [ style.overflow, style.overflowX, style.overflowY ];
 

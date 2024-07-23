@@ -131,7 +131,7 @@ module.exports = (app, wagner, checkAuthenticated) ->
         success:'0'
         message: e.stack
 
-  app.post '/apis/onChangeDealStatusHubspot', checkAuthenticated.isWebhook, [
+  app.post '/apis/ontesteDealStatusHubspot', checkAuthenticated.isWebhook, [
     check('objectId')
       .isLength({min:1})
       .withMessage('objectId is required'),
@@ -334,252 +334,6 @@ module.exports = (app, wagner, checkAuthenticated) ->
           success:'0'
           message: constants.error_messages['Default']
 
-  # app.get '/apis/applyFilters', checkAuthenticated.isLoggedIn, (req, res) ->
-  #   wagner.get('VehicleManager').applySearchFilters(req.query).then((vehicles) ->
-  #     res.status(HTTPStatus.OK).json
-  #       success:'1'
-  #       message: "success"
-  #       data: vehicles
-  #   ).catch (e) ->
-  #     res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #       success:'0'
-  #       message: constants.error_messages['Default']
-
-  # app.get '/apis/user_preferences', (req, res) ->
-  #   res.sendFile( __dirname + '/user_pref.json')
-
-  # app.post '/apis/search_results/', (req, res) ->
-  #   if req.body.models.length>0
-  #     payload=
-  #         models:req.body.models
-  #         zip:req.body.zip
-  #         min_price:req.body.min_price
-  #         max_price:req.body.max_price
-  #         user_id:req.body.user_id
-  #     color_codes=new Array
-  #     if req.body.color_codes
-  #       color_codes=
-  #         req.body.color_codes
-  #     year=new Array
-  #     if req.body.year
-  #       year=
-  #         req.body.year
-  #     page=1
-  #     if req.body.page
-  #       page= req.body.page
-  #     itemsPerPage=config.search_params.records_per_page
-  #     offset = (page - 1) * itemsPerPage
-  #     wagner.get('VehicleManager').searchResults(payload,color_codes,year,offset,itemsPerPage).then (result)=>
-  #         totalPages = ceil(result.length/itemsPerPage)
-  #         res.status(HTTPStatus.OK).json
-  #            success:'1'
-  #            message: "success"
-  #            totalPages: totalPages
-  #            data:result
-  #     .catch (error) =>
-  #         console.log error
-  #         res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #            success:'0'
-  #            message: constants.error_messages['Default']
-  #   else
-  #     res.status(HTTPStatus.OK).json
-  #        success:'1'
-  #        message: "success"
-  #        totalPages: 0
-  #        data: new Array
-
-  # app.post '/apis/inventory_search', (req, res) ->
-  #   if req.body.models.length>0
-  #     # user_id is passed to know if an inventory is added as favorite by a user
-  #     payload=
-  #         models: req.body.models
-  #         zip: req.body.zip
-  #         min_price: req.body.min_price
-  #         max_price: req.body.max_price
-  #         user_id: req.body.user_id
-  #         unique: req.body.unique
-  #         sold: 0
-  #     year=new Array
-  #     if req.body.year
-  #       year=
-  #         req.body.year
-  #     page=1
-  #     if req.body.page
-  #       page= req.body.page
-  #     itemsPerPage=config.search_params.records_per_page
-  #     offset = (page - 1) * itemsPerPage
-  #     # search inventory according to the parameters passed
-  #     wagner.get('VehicleManager').inventorySearch(payload,year,offset,itemsPerPage).then (result)=>
-  #         totalPages = ceil(result.length/itemsPerPage)
-  #         res.status(HTTPStatus.OK).json
-  #            success:'1'
-  #            message: "success"
-  #            totalPages: totalPages
-  #            data:result
-  #     .catch (error) =>
-  #         res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #            success:'0'
-  #            message: constants.error_messages['Default']
-  #   else
-  #     res.status(HTTPStatus.OK).json
-  #        success:'1'
-  #        message: "success"
-  #        totalPages: 0
-  #        data: new Array
-
-  # app.get '/apis/getRecommendedCars/:cat_id', (req, res) ->
-  #   options=
-  #     min_price: req.query.min_price
-  #     max_price: req.query.max_price
-  #     zip: req.query.zip
-
-  #   if options.zip
-  #     wagner.get('ModelManager').fetchCategoryModels(req.params.cat_id,options).then((models) ->
-  #       res.status(HTTPStatus.OK).json
-  #         success: '1'
-  #         message: 'success'
-  #         data: models
-  #     ).catch (e) ->
-  #       res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #         success: '0'
-  #         message: constants.error_messages['Default']
-  #   else
-  #     wagner.get('ModelManager').fetchRecommended(req.params.cat_id,options).then((models) ->
-  #       res.status(HTTPStatus.OK).json
-  #         success: '1'
-  #         message: 'success'
-  #         data: models
-  #     ).catch (e) ->
-  #       res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #         success: '0'
-  #         message: constants.error_messages['Default']
-
-  # app.get '/apis/getCategoryList', (req, res) ->
-  #   wagner.get('ModelManager')
-  #     .fetchCategories()
-  #     .then (categories) ->
-  #       brandCategory =
-  #         "id": 0
-  #         "name": "By Brand"
-  #         "description": "Shop by your preferred brand and then select your model."
-  #         "image_url": "/public/images/categories/brand.png"
-  #         "image_url2": "/public/images/categories/brand2.png"
-  #       categories.unshift brandCategory
-  #       res.status(HTTPStatus.OK).json
-  #         success: '1'
-  #         message: "success"
-  #         data: categories
-  #     .catch (e) ->
-  #       res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #         success: '0'
-  #         message: constants.error_messages['Default']
-  #         error: e.stack
-
-  # app.get '/apis/getCategories', (req, res) ->
-  #   # exclude zip code
-  #   brandOptions =
-  #     min_price: req.query.min_price
-  #     max_price: req.query.max_price
-  #   # fetch total inventory count
-  #   wagner.get('VehicleInventoryManager').getInventoryCount(brandOptions).then((vehicle_count) ->
-  #     # fetch vehicles in categories
-  #     wagner.get('ModelManager').fetchCategoriesVehicles(req.query).then((categories) ->
-  #       options=
-  #         "id": 0
-  #         "name": "By Brand"
-  #         "description": "Shop by your preferred brand and then select your model."
-  #         "image_url": "/public/images/categories/brand.png"
-  #         "vehicle_count": vehicle_count
-  #       # inserting options into start of categories array
-  #       categories.unshift options
-  #       res.status(HTTPStatus.OK).json
-  #         success:'1'
-  #         message: "success"
-  #         data: categories
-  #     ).catch (e) ->
-  #       res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #         success:'0'
-  #         message: constants.error_messages['Default']
-  #         error: e
-  #   ).catch (e) ->
-  #     res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #       success:'0'
-  #       message: constants.error_messages['Default']
-  #       error: e
-
-  # app.post '/apis/saveUserAction/', checkAuthenticated.isLoggedIn, (req, res) ->
-  #   payload=
-  #       vehicle_inventory_id:req.body.vehicle_inventory_id
-  #       user_id:req.body.user_id
-  #       favorite:req.body.favorite
-  #   # save inventory as favorite or remove inventory from favorites
-  #   wagner.get('ModelManager').saveUserAction(payload).then (result)=>
-  #     res.status(HTTPStatus.OK).json
-  #        success:'1'
-  #        message: "success"
-  #   .catch (error) =>
-  #     res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #        success:'0'
-  #        message: constants.error_messages['Default']
-  #        error: error
-
-  # app.post '/apis/saveUserLease', checkAuthenticated.isLoggedIn, (req, res) ->
-  #   payload= req.body
-  #   payload.token = req.header('token')
-  #   wagner.get('VehicleInventoryManager').saveUserLease(payload).then (result)=>
-  #     res.status(HTTPStatus.OK).json
-  #        success:'1'
-  #        message: "success"
-  #   .catch (error) =>
-  #     res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #        success:'0'
-  #        message: constants.error_messages['Default']
-  #        error: error
-
-  # app.get '/apis/getUserFavorites/:user_id', (req, res) ->
-  #   page=1
-  #   if req.query.page
-  #     page= req.query.page
-  #   itemsPerPage=config.search_params.records_per_page
-  #   offset = (page - 1) * itemsPerPage
-  #   # fetch favorites of a user
-  #   wagner.get('ModelManager').fetchUserFavorites(req.params.user_id,offset,itemsPerPage).then((favorites) ->
-  #     totalPages = ceil(favorites.length/itemsPerPage)
-  #     res.status(HTTPStatus.OK).json
-  #       success:'1'
-  #       message: "success"
-  #       totalPages: totalPages
-  #       data: favorites
-  #   ).catch (e) ->
-  #     res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #       success:'0'
-  #       message: constants.error_messages['Default']
-  #       error: e
-
-  # app.get '/apis/search', (req, res) ->
-  #   # Throw exception if api-key is not passed
-  #   if !req.header('api-key')
-  #     return res.status(401).json(message: 'Please make sure your request has an api-key header')
-  #   if req.header('api-key') != config.searchapi.apikey
-  #     return res.status(401).json(message: 'Invalid apikey')
-  #   if req.query.search.length
-  #     wagner.get('ModelManager').fetchModelsFromSearch(req.query.search).then (models)=>
-  #       results = _.uniqBy models, 'id'
-  #       res.status(HTTPStatus.OK).json
-  #         success: '1'
-  #         message: 'success'
-  #         data: results
-  #     .catch (error)=>
-  #       res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #         success: '0'
-  #         message: constants.error_messages['Default']
-  #         error: error.stack
-  #   else
-  #     res.status(HTTPStatus.OK).json
-  #       success: '1'
-  #       message: 'success'
-  #       data: new Array
-
   app.get '/apis/emailExists/:email', (req, res) ->
     # check if email exists
     wagner.get('UserManager').emailExists({"email_address": req.params.email}).then((user) ->
@@ -631,224 +385,11 @@ module.exports = (app, wagner, checkAuthenticated) ->
         success:'0'
         message: constants.error_messages['Default']
 
-  # app.post '/apis/fbLogin/', (req, res) ->
-  #   payload=
-  #     first_name: req.body.first_name
-  #     last_name: req.body.last_name
-  #     email_address: req.body.email_address
-  #     phone: req.body.phone
-  #     device_token: req.body.device_token
-  #     device_type: req.body.device_type
-  #     facebook_id: req.body.facebook_id
-  #     status: 1
-  #   # upsert user
-  #   wagner.get('UserManager').upsertUser(payload).then (user)=>
-  #     # create user session
-  #     wagner.get('UserManager').createSession(user).then (result)=>
-  #       res.status(HTTPStatus.OK).json
-  #          success:'1'
-  #          message: "success"
-  #          result: result.user_session
-  #   .catch (error) =>
-  #     res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #        success:'0'
-  #        message: constants.error_messages['Default']
-  #        error: error
-
-  # app.post '/apis/login', wagner.get('passport').authenticate('apiLogin', session: false), (req, res) ->
-  #   wagner.get('UserManager').updateDeviceToken(req.user.user_id, req.body.device_token).then (up_user)=>
-  #     res.status(HTTPStatus.OK).json
-  #         success:'1'
-  #         message: "success"
-  #         data: req.user
-
   app.post '/apis/updateDeviceToken', (req, res) ->
     wagner.get('UserManager').updateDeviceToken(req.body.user_id, req.body.device_token).then (up_user)=>
       res.status(HTTPStatus.OK).json
           success:'1'
           message: "success"
-
-  # app.post '/apis/emailLogin', (req, res) ->
-  #   verify_code = randomstring.generate(4).toLowerCase()
-  #   options=
-  #     email_address: req.body.email
-  #     login_verify_code: verify_code
-  #   # check if user exists
-  #   wagner.get('UserManager').checkUserExists(options.email_address).then (user)=>
-  #     fallbackUrl = 'http://'+req.headers.host+'/loginVerification/'+base64.encode(verify_code)
-  #     # get deep link code for redirecting link to open in app
-  #     wagner.get('Deeplinker').getDeepLink(options.email_address,fallbackUrl,verify_code).then (link)=>
-  #       # send email with login confirmation code
-  #       wagner.get('EmailTransport').loginConfirmationEmail(req.headers.host,options,link.url)
-  #       # update verification code
-  #       wagner.get('UserManager').updateVerifyCode(options).then (result)=>
-  #         if result
-  #           res.status(HTTPStatus.OK).json
-  #               success:'1'
-  #               message: "Passcode for login sent on email address"
-  #       .catch (error) =>
-  #         res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #             success:'0'
-  #             message: constants.error_messages['Default']
-  #             error: error
-
-  # app.post '/apis/register', wagner.get('passport').authenticate('apiRegister', session: false), (req, res) ->
-  #   res.status(HTTPStatus.OK).json
-  #       success:'1'
-  #       message: "success"
-  #       data: req.user
-
-  # app.post '/apis/forgotPassword/', (req, res) ->
-  #   # check if user exists
-  #   wagner.get('UserManager').userExits(req.body.email,req.headers.host).then (result)=>
-  #     res.status(HTTPStatus.OK).json
-  #        success:'1'
-  #        message: "success"
-  #        result: result
-  #   .catch (error) =>
-  #     res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #        success:'0'
-  #        message: constants.error_messages['Default']
-  #        error: error
-
-  # app.post '/apis/submitOffer/', (req, res) ->
-  #   options=
-  #     vehicle_inventory_id: req.body.vehicle_inventory_id
-  #     user_id: req.body.user_id
-  #     last_offered_price: req.body.price
-  #     last_offer_made_at: moment().tz('America/Los_Angeles').format('YYYY-MM-DD HH:mm:ss')
-  #     status: 0
-  #   query=
-  #     where:
-  #       vehicle_inventory_id: req.body.vehicle_inventory_id
-  #       user_id: req.body.user_id
-  #       is_deleted: 0
-  #     defaults: options
-  #   # create offer
-  #   wagner.get('VehicleInventoryManager').createOffer(query).then (result)=>
-  #     options.vehicle_offer_id= result.id
-  #     # get last conversation of an offer
-  #     wagner.get('VehicleInventoryManager').getLastOfferConversation(options).then (offer)=>
-  #       if offer
-  #         if offer.offered_by != 'user'
-  #           options.price = req.body.price
-  #           options.offered_by = req.body.type
-  #         else
-  #           res.status(HTTPStatus.OK).json
-  #             success:'0'
-  #             message: "Please wait for response"
-  #           return false;
-  #       else
-  #         options.status = 0
-  #         options.price = req.body.price
-  #         options.offered_by = req.body.type
-  #       # create offer conversation
-  #       wagner.get('VehicleInventoryManager').createOfferConversation(options).then (record)=>
-  #         options.last_offer_made_at = moment(record.created_at).tz('America/Los_Angeles').format('YYYY-MM-DD HH:mm:ss')
-  #         inventoryObj=
-  #           offerId: result.id
-
-  #         # send data to sqs
-  #         wagner.get('SQSTransport').sendMessage JSON.stringify(inventoryObj), 'counter_offer_processor', 300,(error,msg)=>
-  #           wagner.get('VehicleInventoryManager').updateOfferStatus(options).then (updated)=>
-  #             res.status(HTTPStatus.OK).json
-  #               success:'1'
-  #               message: "success"
-  #               result: result
-  #           .catch (error) =>
-  #             res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #               success:'0'
-  #               message: constants.error_messages['Default']
-  #               error: error
-
-  # app.post '/apis/getMultipleOffers', (req, res) ->
-  #   options=
-  #     vehicle_inventory_id: req.body.vehicle_inventory_id
-  #     user_id: req.body.user_id
-  #     last_offered_price: req.body.price
-  #     last_offer_made_at: moment().tz('America/Los_Angeles').format('YYYY-MM-DD HH:mm:ss')
-  #     status: 0
-  #   query=
-  #     where:
-  #       vehicle_inventory_id: req.body.vehicle_inventory_id
-  #       user_id: req.body.user_id
-  #       is_deleted: 0
-  #     defaults: options
-  #   # create offer
-  #   wagner.get('VehicleInventoryManager').createOffer(query).then (result)=>
-  #     options.vehicle_offer_id = result.id
-  #     # get last conversation of an offer
-  #     wagner.get('VehicleInventoryManager').getLastOfferConversation(options).then (offer)=>
-  #       if offer
-  #         if offer.offered_by != 'user'
-  #           options.price = req.body.price
-  #           options.offered_by = req.body.type
-  #         else
-  #           res.status(HTTPStatus.OK).json
-  #             success:'0'
-  #             message: "Please wait for response"
-  #           return false;
-  #       else
-  #         options.status = 0
-  #         options.price = req.body.price
-  #         options.offered_by = req.body.type
-  #       # create offer conversation
-  #       wagner.get('VehicleInventoryManager').createOfferConversation(options).then (record)=>
-  #         options.last_offer_made_at = moment(record.created_at).tz('America/Los_Angeles').format('YYYY-MM-DD HH:mm:ss')
-  #         inventoryObj=
-  #           offerId: result.id
-
-  #         # send data to sqs
-  #         wagner.get('SQSTransport').sendMessage JSON.stringify(inventoryObj), 'counter_offer_processor', 300,(error,msg)=>
-  #           wagner.get('VehicleInventoryManager').updateOfferStatus(options).then (updated)=>
-  #             res.status(HTTPStatus.OK).json
-  #               success:'1'
-  #               message: "success"
-  #               result: result
-  #           .catch (error) =>
-  #             res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #               success:'0'
-  #               message: constants.error_messages['Default']
-  #               error: error
-
-  # app.post '/apis/getMultipleOffers', (req, res) ->
-  #   options=
-  #     vehicle_inventory_id: req.body.vehicle_inventory_id
-  #     zip: req.body.zip
-  #   delay = 0
-  #   wagner.get('VehicleInventoryManager').getSimilarInventories(options).then (inventories)=>
-  #     async.each inventories, ((inventory, callback) =>
-  #       wagner.get('VehicleInventoryManager').submitOfferOnInventory(inventory, req.body, ++delay).then (offer) =>
-  #         callback null, offer
-  #       .catch (error) =>
-  #         callback error
-  #     ),(err, offers) ->
-  #       if err
-  #           console.log 'Error: ', err
-  #           reject(err)
-  #       else
-  #         res.status(HTTPStatus.OK).json
-  #           success: '1'
-  #           message: 'success'
-  #           result: offers
-  #   .catch (error) =>
-  #     res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #        success: '0'
-  #        message: constants.error_messages['Default']
-  #        error: error
-
-  # app.get '/apis/getOffers',checkAuthenticated.isLoggedIn, (req, res) ->
-  #   page=1
-  #   if req.query.page
-  #     page= req.query.page
-  #   itemsPerPage=config.search_params.records_per_page
-  #   offset = (page - 1) * itemsPerPage
-  #   # get user offers
-  #   wagner.get('VehicleInventoryManager').getUserOffers(req.query,offset,itemsPerPage).then (offers)=>
-  #     res.status(HTTPStatus.OK).json
-  #       success:'1'
-  #       message: "success"
-  #       result: offers
 
   app.get '/apis/userProfile',checkAuthenticated.isLoggedIn, (req, res) ->
     # get user profile by token
@@ -914,17 +455,6 @@ module.exports = (app, wagner, checkAuthenticated) ->
           first_name: req.body.first_name
         # update user profile
         wagner.get('UserManager').updateProfile(user.id, options).then (result)=>
-          # if !sendOtp
-          #   contact_info = 
-          #     email: user.email_address
-          #     name: options.first_name
-          #     lastname: user.last_name
-          #     phone: user.phone
-          #     city: user.city
-          #     state: user.state
-          #     zip: user.zip
-          #   update hubspot contact
-          #   wagner.get('HubspotManager').createContactInHubspot(contact_info, false)
           
           # send a email to contact
             
@@ -1185,21 +715,6 @@ module.exports = (app, wagner, checkAuthenticated) ->
                 console.log 'Mail successfully sent'
               .catch (error) =>
                 console.log error 
-
-            # contact_info = 
-            #   email: user.email_address
-            #   name: updates.first_name
-            #   lastname: user.last_name
-            #   phone: phone
-            #   city: user.city
-            #   state: user.state
-            #   zip: user.zip
-            #   source: source_utm
-            # create hubspot contact
-            # wagner.get('HubspotManager').createContactInHubspot(contact_info, false).then (contactId) =>
-            #   console.log 'Hubspot contact successfully created: id: ' + contactId
-            # .catch (error) =>
-            #   console.log error
             
             res.status(HTTPStatus.OK).json
               success: '1'
@@ -1299,18 +814,6 @@ module.exports = (app, wagner, checkAuthenticated) ->
       success:'1'
       message: "success"
 
-  ###verifyPhoneLimiter = rateLimit({
-    windowMs: 30 * 60 * 1000, # 30 min window
-    max: 3, # start blocking after 3 requests
-    message:
-      "Too many requests from this Phone, Please try again after 30 mins."
-    keyGenerator: (req) =>
-      return helpers.formatPhoneNumber(req.body.phone)
-    onLimitReached: (req, res, options) =>
-      ip = req.ip
-      wagner.get('ApiLimitManager').increaseCount(ip)
-  });###
-
   app.post '/apis/verifyPhone', checkAuthenticated.isUserActive,[
     check('phone')
       .isLength({min:1})
@@ -1354,7 +857,7 @@ module.exports = (app, wagner, checkAuthenticated) ->
       # signin
       if (user)
         wagner.get('UserManager').sendSMS(user.id, user.phone).then (result)=>
-          # wagner.get('PhoneLimitManager').createOrUpdateWithChangesInUpdatedAt(object).then (data) =>
+          # wagner.get('PhoneLimitManager').createOrUpdateWithtestesInUpdatedAt(object).then (data) =>
           res.status(HTTPStatus.OK).json
             success:'1'
             message: "OTP sent on the phone number"
@@ -1383,7 +886,7 @@ module.exports = (app, wagner, checkAuthenticated) ->
       # register
         wagner.get('UserManager').createPhoneOtp(payload).then (otp_result)=>
           wagner.get('UserManager').sendSMSOtp(phone, otp_result.otp).then (result)=>
-            # wagner.get('PhoneLimitManager').createOrUpdateWithChangesInUpdatedAt(object).then (data) =>
+            # wagner.get('PhoneLimitManager').createOrUpdateWithtestesInUpdatedAt(object).then (data) =>
             res.status(HTTPStatus.OK).json
                 success:'1'
                 message: "OTP sent on the phone number"
@@ -1512,21 +1015,6 @@ module.exports = (app, wagner, checkAuthenticated) ->
             
             wagner.get('UserManager').createSession(user).then (result)=>
               user_session = result.user_session
-
-              # contact_info = 
-              #   email: user.email_address
-              #   name: user.first_name
-              #   lastname: user.last_name
-              #   phone: phone
-              #   city: user.city
-              #   state: user.state
-              #   zip: user.zip
-              #   source: source_utm
-              # # create hubspot contact
-              # wagner.get('HubspotManager').createContactInHubspot(contact_info).then (contactId) =>
-              #   console.log 'Hubspot contact successfully created: id: ' + contactId
-              # .catch (error) =>
-              #   console.log error
               
               ## reset counter for time limit check
               wagner.get('PhoneLimitManager').resetCounter({ "phoneNumber": req.body.phone, "count" : 0 });
@@ -1628,21 +1116,6 @@ module.exports = (app, wagner, checkAuthenticated) ->
 
               user_session = result.user_session
 
-              # contact_info = 
-              #   email: user.email_address
-              #   name: user.first_name
-              #   lastname: user.last_name
-              #   phone: phone
-              #   city: user.city
-              #   state: user.state
-              #   zip: user.zip
-              #   source: source_utm
-              # # create hubspot contact
-              # wagner.get('HubspotManager').createContactInHubspot(contact_info).then (contactId) =>
-              #   console.log 'Hubspot contact successfully created: id: ' + contactId
-              # .catch (error) =>
-              #   wagner.get('Raven').captureException(error)
-              #   console.error error
               
               res.status(HTTPStatus.OK).json
                 success: '1'
@@ -1709,237 +1182,6 @@ module.exports = (app, wagner, checkAuthenticated) ->
         message: constants.error_messages['Default']
         error: error.message
 
-  ###
-  Create lead and send email to sales@carblip.com
-  Also add not with lead
-  ###
-  # createLeadAndSendEmail = (companyId, contactId, user, inventory, offer) ->
-  #   return new Promise (resolve, reject) =>
-  #     wagner.get('HubspotManager').createDeal(companyId, contactId, user, inventory, offer).then (result)=>
-  #       if result
-  #         console.log "Lead Id: #{result.dealId}"
-  #         wagner.get('HubspotManager').createNote(companyId, contactId, result.dealId, user, inventory, offer).then (dealNote)=>
-  #           if dealNote
-  #             wagner.get('EmailTransport').sendConfirmDealEmail(user, inventory, offer)
-  #             resolve "resolve"
-  #           else
-  #             reject "unable to create deal note"
-  #       else
-  #         reject "unable to create deal"
-
-  ###
-  Create Company and Contact
-  ###
-  # createCompanyAndContact = (user, inventory, offer) ->
-  #   return new Promise (resolve, reject) =>
-  #     wagner.get('HubspotManager').createContact(user, inventory, offer).then (contact)=>
-  #       if contact
-  #         wagner.get('HubspotManager').createCompany(user, inventory, offer).then (company)=>
-  #           if company
-  #             contactId = contact.vid || contact.identityProfile.vid
-  #             wagner.get('HubspotManager').connectCompanyWithContact(company.companyId, contactId).then (AddContactToCompany)=>
-  #               if AddContactToCompany
-  #                 result = {}
-  #                 result.contactId = contactId
-  #                 result.companyId = company.companyId
-  #                 resolve result
-  #               else
-  #                 reject "unable to connect company with contact"
-  #           else
-  #             reject "unable to create company"
-  #       else
-  #         reject "Unable to create contact"
-
-  # app.post '/apis/createHubspotLead', (req, res) ->
-  #   options =
-  #     companyName: req.body.companyName
-  #     companyId: req.body.companyId
-  #     offerId: req.body.offerId
-
-  #   wagner.get('HubspotManager').createLead(options).then (leadCreated)=>
-  #       res.status(HTTPStatus.OK).json
-  #         success:'1'
-  #         message: leadCreated
-  #     .catch (error) =>
-  #       wagner.get('Raven').captureException(error)
-  #       res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #         success:'0'
-  #         message: constants.error_messages['Default']
-  #         error: error.stack
-
-  ###
-  Receive response from zapier via hubspot
-  If contact find, create Lead else create contact and lead
-  ###
-  # app.post '/apis/getCompanyDetailsFromHubspot', (req, res) ->
-  #   if _.isEmpty(DealUser) && _.isEmpty(DealInventory) && _.isEmpty(DealOffer)
-  #     return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #       success:'0'
-  #       message: 'Can not find deal user, inventory and dealOffer'
-
-  #   if req.body['companyId'] and req.body['companyName']
-  #     companyName = req.body['companyName']
-  #     companyId = req.body['companyId']
-  #     wagner.get('HubspotManager').findCompanyContacts(companyId).then (result)=>
-  #       contactFound = _.find result.contacts, (contact) -> contact.identities[0].identity[0].value == DealInventory['Dealer']['email']
-  #       if !contactFound
-  #         wagner.get('HubspotManager').createContact(DealUser, DealInventory, DealOffer).then (contact) =>
-  #           contactId = contact.vid
-  #           if contact.identityProfile.vid
-  #             contactId = contact.identityProfile.vid
-
-  #           wagner.get('HubspotManager').connectCompanyWithContact(companyId, contactId).then (connectedContact) =>
-  #             createLeadAndSendEmail(companyId, contactId, DealUser, DealInventory, DealOffer).then ()=>
-  #               console.log 'Lead created with existing company and new contact'
-  #               res.status(HTTPStatus.OK).json
-  #                 success:'1'
-  #                 message: 'Lead created with existing company and new contact'
-  #             .catch (error) ->
-  #               console.log 'Unable to create lead in hubspot' + error.message
-  #               res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #                 success:'0'
-  #                 message: constants.error_messages['Default']
-  #                 error: error.stack
-  #         .catch (error) ->
-  #           console.log 'Unable to create contact in hubspot' + error.message
-  #           res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #             success:'0'
-  #             message: constants.error_messages['Default']
-  #             error: error.stack
-  #       else if contactFound
-  #         createLeadAndSendEmail(companyId, contactFound.identities[0].vid, DealUser, DealInventory, DealOffer).then ()=>
-  #           console.log 'Lead created'
-  #           res.status(HTTPStatus.OK).json
-  #             success:'1'
-  #             message: 'Lead created with existing company and contact'
-  #         .catch (error) ->
-  #           console.log 'Unable to create lead in hubspot' + error.message
-  #           res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #             success:'0'
-  #             message: constants.error_messages['Default']
-  #             error: error.stack
-  #     .catch (error) ->
-  #       console.log 'Error while finding company contact' + error
-  #       res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #         success:'0'
-  #         message: constants.error_messages['Default']
-  #         error: error.stack
-  #   else
-  #     createCompanyAndContact(DealUser, DealInventory, DealOffer).then (result)=>
-  #       createLeadAndSendEmail(result.companyId, result.contactId, DealUser, DealInventory, DealOffer).then ()=>
-  #         console.log 'lead created and email sent'
-  #         res.status(HTTPStatus.OK).json
-  #           success:'1'
-  #           message: 'Lead created with new company and contact'
-  #       .catch (error) ->
-  #         console.error 'Unable to create lead', error
-  #         res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #           success:'0'
-  #           message: constants.error_messages['Default']
-  #           error: error.stack
-  #     .catch (error) ->
-  #       console.log 'Unable to create contact and new company' + error
-  #       res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #         success:'0'
-  #         message: constants.error_messages['Default']
-  #         error: error.stack
-
-  ###
-  Buyer accepts the offer and creating Lead
-  Offer added in Carblip database
-  Offer sent to Google sheet via Zapier
-  ###
-  # app.post '/apis/acceptOffer', (req, res) ->
-  #   query=
-  #     vehicle_inventory_id: req.body.vehicle_inventory_id
-  #     user_id: req.body.user_id
-  #     last_offered_price: req.body.price
-  #     premium: req.body.premium
-  #     status: 1
-
-  #   wagner.get('VehicleInventoryManager').acceptOffer(query).then (offer)=>
-  #     offer.last_offered_price = req.body.price
-  #     # Adding offer to Google sheet via Zapier
-  #     wagner.get('UserManager').findById(req.body.user_id).then (user)=>
-  #       wagner.get('VehicleInventoryManager').findById(req.body.vehicle_inventory_id).then (inventory)=>
-  #         checkAndFindPrimaryDealer(inventory.Dealer).then (dealer)=>
-  #           inventory.Dealer = dealer
-  #           image_url = ''
-  #           if inventory.VehicleColor.VehicleColorsMedia[0]
-  #             image_url = inventory.VehicleColor.VehicleColorsMedia[0].image_url
-
-  #           bidInfo =
-  #             first_name: user.first_name
-  #             last_name: user.last_name
-  #             email_address: user.email_address
-  #             phone: user.phone
-  #             zip: user.zipcode
-  #             brand: inventory['Brand']['name']
-  #             model: inventory['Model']['name']
-  #             year: inventory.year
-  #             trim: inventory.trim
-  #             msrp: inventory.msrp
-  #             vin: inventory.vin
-  #             image_url: image_url
-  #             dealer_name: inventory['Dealer']['name']
-  #             dealer_contact: inventory['Dealer']['contact']
-  #             dealer_contact_name: inventory['Dealer']['contact_name']
-  #             dealer_email: inventory['Dealer']['email']
-  #             dealer_address: inventory['Dealer']['address']
-  #             dealer_city: inventory['Dealer']['city']
-  #             dealer_state: inventory['Dealer']['state']
-  #             dealer_zip: inventory['Dealer']['zip']
-  #             last_offered_price: req.body.price
-  #             last_offer_made_at: offer.last_offer_made_at
-  #             exterior_color: inventory.exterior_color
-  #             interior_color: inventory.interior_color
-  #             premium: offer.premium
-  #             order_number: offer.order_number
-
-  #           if inventory['VehicleColor']
-  #             bidInfo.simple_color=inventory['VehicleColor']['simple_color']
-  #           else
-  #             bidInfo.simple_color= ""
-  #           DealUser = user
-  #           DealInventory = inventory
-  #           DealOffer = offer
-  #           wagner.get('EmailTransport').sendAcceptOfferConfirmationEmail(bidInfo).then (result)=>
-  #               wagner.get('ZapierManager').sendData(bidInfo)
-  #               wagner.get('ZapierManager').findOrCreateCompany(inventory['Dealer']['name'], offer.id).then ()=>
-  #                   res.status(HTTPStatus.OK).json
-  #                     success:'1'
-  #                     message: "success"
-  #               .catch (error) =>
-  #                   res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #                     success:'0'
-  #                     message: "Unable to get company details from zapier"
-  #                     error: error.stack
-  #           .catch (error) =>
-  #             res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #                 success:'0'
-  #                 message: "Error while sending confirmation email"
-  #                 error: error.stack
-  #         .catch (error) =>
-  #           res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #              success:'0'
-  #              message: "Unable to find primary dealer contact"
-  #              error: error.stack
-  #       .catch (error) =>
-  #         res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #            success:'0'
-  #            message: "Unable to find vehicle from inventory"
-  #            error: error.stack
-  #     .catch (error) =>
-  #       res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #          success:'0'
-  #          message: "Unable to find user from db"
-  #          error: error.stack
-  #   .catch (error) =>
-  #     res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #        success:'0'
-  #        message: constants.error_messages['Default']
-  #        error: error.stack
-
   app.post '/apis/verifyEmail', (req, res) ->
     query=
       where:
@@ -1964,94 +1206,6 @@ module.exports = (app, wagner, checkAuthenticated) ->
          success:'0'
          message: constants.error_messages['Default']
          error: error
-
-  # app.post '/apis/deleteOffer', (req, res) ->
-  #   options=
-  #     offer_id: req.body.offer_id
-
-  #   wagner.get('VehicleInventoryManager').deleteOffer(options).then (result)=>
-  #     res.status(HTTPStatus.OK).json
-  #        success:'1'
-  #        message: "success"
-  #   .catch (error) =>
-  #     res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #        success:'0'
-  #        message: constants.error_messages['Default']
-  #        error: error
-
-  # app.post '/apis/acceptGroupOffer', (req, res) =>
-  #   wagner.get('VehicleInventoryManager').acceptOfferMutliple(req.body).then (result) =>
-  #     res.status(HTTPStatus.OK).json
-  #       success: '1'
-  #       message: 'success'
-  #   .catch (error) =>
-  #     res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #       success: '0'
-  #       message: constants.error_messages['Default']
-  #       error: error.stack
-
-  # app.post '/apis/notification', (req, res) =>
-  #   options =
-  #     device_token: req.body.device_token
-
-  #   message = if req.body.message then req.body.message else 'Test notification message';
-
-  #   console.log(config.UrbanAirship)
-  #   ua = new UA(config.UrbanAirship.appKey, config.UrbanAirship.appSecret, config.UrbanAirship.appMasterSecret)
-  #   ua.registerDevice options.device_token, (error) ->
-  #     if error
-  #       res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #         success: '0'
-  #         message: constants.error_messages['Default']
-  #         error: error.stack
-  #     else
-  #       payload0 =
-  #         'audience': 'device_token': options.device_token
-  #         'notification':
-  #           'alert': message
-  #           'ios':
-  #               'sound': 'default'
-  #               'badge': '+1'
-  #         'device_types': [ 'ios' ]
-  #       # sending push
-  #       ua.pushNotification '/api/push', payload0, (error) ->
-  #         if error
-  #           res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #             success: '0'
-  #             message: constants.error_messages['Default']
-  #             error: error.stack
-  #         else
-  #           res.status(HTTPStatus.OK).json
-  #             success: '1'
-  #             message: 'success'
-
-  # app.post '/apis/zip_lookup', (req, res) =>
-  #   options=
-  #     zip: req.body.zip
-  #     radius: req.body.radius or 150
-
-  #   CB_SERVICE_AREA_ZIP = '90401';
-  #   codes = zipcodes.radius(CB_SERVICE_AREA_ZIP, options.radius);
-
-  #   res.status(HTTPStatus.OK).json
-  #      success: '1'
-  #      message: 'success'
-  #      result: codes.indexOf(req.body.zip) > 0
-
-  # app.post '/apis/user_interest', (req, res) =>
-  #   options=
-  #     zip: req.body.zip
-  #     email_address: req.body.email_address
-
-  #   wagner.get('UserManager').trackUserInterest(options).then (response) =>
-  #     res.status(HTTPStatus.OK).json
-  #        success: '1'
-  #        message: 'success'
-  #   .catch (error) =>
-  #     res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #       success: '0'
-  #       message: constants.error_messages['Default']
-  #       error: error.stack
 
   app.post '/apis/getStyles', (req, res) =>
     payload=
@@ -2272,7 +1426,7 @@ module.exports = (app, wagner, checkAuthenticated) ->
           buying_method: req.body.buying_method
           referral_code: req.body.referral_code
           user_id: user_session.user_id
-          # change this to not complete
+          # teste this to not complete
           is_complete: if req.body.is_not_complete then 0 else 1
 
         payload = _.extend payload, req.body
@@ -2322,7 +1476,7 @@ module.exports = (app, wagner, checkAuthenticated) ->
           referral_code: req.body.referral_code
           user_id: user_session.user_id
           user_car_information: req.body.user_car_information
-          # change this to not complete
+          # teste this to not complete
           is_complete: if req.body.is_not_complete then 0 else 1
           configuration_state_id: req.body.configuration_state_id
 
@@ -2819,37 +1973,6 @@ module.exports = (app, wagner, checkAuthenticated) ->
     .catch (error)=>
         console.log error
 
-
-  # app.post '/apis/removeTestLeads', (req, res) =>
-  #   payload=
-  #     email_addresses: req.body.email_addresses || []
-  #   wagner.get('HubspotManager').removeTestDeals(payload).then (result) =>
-  #     res.status(HTTPStatus.OK).json
-  #       success: '1'
-  #       message: 'success'
-  #       data: result
-  #   .catch (error)=>
-  #       res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #         success: '0'
-  #         error: error
-  #         message: constants.error_messages['Default']
-
-  # app.post '/apis/removeTestContacts', (req, res) =>
-  #   payload=
-  #     email_addresses: req.body.email_addresses || []
-
-  #   wagner.get('HubspotManager').removeTestContacts(payload).then (result) =>
-  #     res.status(HTTPStatus.OK).json
-  #       success: '1'
-  #       message: 'success'
-  #       data: result
-  #   .catch (error)=>
-  #       res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-  #         success: '0'
-  #         error: error
-  #         message: constants.error_messages['Default']
-
-
   ###
   # v1 api namespace
   ###
@@ -3256,45 +2379,6 @@ module.exports = (app, wagner, checkAuthenticated) ->
           data.lastname = data.lastname.substr(0,3)
 
         generatedReferralURL = config.webUrl + "/" + (data.firstname + data.lastname + randomNumber).toLowerCase()
-
-        # wagner.get('HubspotManager').updateHubspotContactReferral(generatedReferralURL,contactId).then (result) =>
-        #   res.status(HTTPStatus.OK).json
-        #     success: '1'
-        #     message: 'success'
-        #     data: result
-        # .catch (error)=>
-        #     res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-        #       success: '0'
-        #       error: error
-        #       message: constants.error_messages['Default']
-
-    
-    # app.post '/apis/createHBContactNotes', (req, res) =>
-    #   info = req.body
-    #   if info
-    #     contact_email = info.contact_email
-    #     notes = info.notes
-    #   @wagner.get('HubspotManager').getHubspotContact(contact_email).then (contact) =>
-    #     # contact_id = contact.vid
-    #     contact_id = contact.id
-    #     @wagner.get('HubspotManager').createContactNote(contact_id, notes).then (result) =>
-    #       res.status(HTTPStatus.OK).json
-    #         success: '1'
-    #         message: 'success'
-    #         data: "Suceess"
-    #     .catch (error) =>
-    #         console.log error
-    #         res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-    #           success:'0'
-    #           message: constants.error_messages['Default']
-    #           error: error
-    #   .catch (error) =>
-    #       console.log error
-    #       res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json
-    #       success:'0'
-    #       message: constants.error_messages['Default']
-    #       error: error 
-
 
     app.post '/apis/getFileFromDrive', [
       # checkAuthenticated.isPortalRequest
